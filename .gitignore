@@ -1,0 +1,14 @@
+# <- Komentarze
+
+# Foldery
+Library
+Packages
+Logs
+ProjectSettings
+Temp
+
+# Rozszerzenia
+*meta
+**csproj**
+**vscode**
+**.sln**
