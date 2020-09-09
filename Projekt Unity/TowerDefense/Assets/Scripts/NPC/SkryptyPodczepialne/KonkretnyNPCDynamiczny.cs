@@ -66,6 +66,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
             if(SpawnerHord.actualHPBars > 0)
                 SpawnerHord.actualHPBars --;
             this.rysujPasekŻycia = false;
+            ManagerGryScript.iloscAktywnychWrogów --;
             StartCoroutine(SkasujObject(5.0f));
         }
     }

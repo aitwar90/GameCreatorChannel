@@ -9,6 +9,7 @@ public class KonkretnyNPCStatyczny : NPCClass
 {
     #region Zmienne publiczne
     public bool pozwalamNaBudowe = true;
+    public TypBudynku typBudynku;
     #endregion
 
     #region Zmienny prywatne

@@ -8,6 +8,9 @@ public class SpawnBudynki : MonoBehaviour
     public GameObject[] wszystkieBudynki;
     public short wybranyBudynek = -1;
     public Transform rodzicBudynkow = null;
+
+    //UI _ Canvas
+    public UnityEngine.UI.Dropdown dropdawn;
     #endregion
     #region Zmienne prywatne
     private Vector3 ostatniaPozycjaKursora = Vector3.zero;
@@ -26,6 +29,13 @@ public class SpawnBudynki : MonoBehaviour
             go.transform.rotation = Quaternion.identity;
             rodzicBudynkow = go.transform;
         }
+        List<string> wszystkieBudynkiList = new List<string>();
+        wszystkieBudynkiList.Add("None");
+        for (byte i = 0; i < wszystkieBudynki.Length; i++)
+        {
+            wszystkieBudynkiList.Add(wszystkieBudynki[i].name);
+        }
+        this.dropdawn.AddOptions(wszystkieBudynkiList);
     }
     void Update()
     {
@@ -52,18 +62,18 @@ public class SpawnBudynki : MonoBehaviour
                 ostatniaPozycjaKursora = posClick;
             }
         }
-        if (wybranyBudynek == -1 || (wybranyBudynek != -1 && CzyMogęPostawićBudynek()))
+        if (wybranyBudynek != -1 && CzyMogęPostawićBudynek())   //Jeśli chcesz postawić dany budynek to
         {
 #if UNITY_STANDALONE
             if (Input.GetMouseButtonDown(0))
             {
-                LogikaIZatwierdzenieBudynku();
+                ZatwierdzenieBudynku();
             }
 #endif
 #if UNITY_ANDROID
             if(Input.touchCout > 0 && wybranyBudynek != null)
             {
-                LogikaIZatwierdzenieBudynku();
+                ZatwierdzenieBudynku();
             }
 #endif
         }
@@ -81,30 +91,38 @@ public class SpawnBudynki : MonoBehaviour
         kolider = obiektDoRespawnu.GetComponent<Collider>();
         kolider.isTrigger = true;
     }
-    private void LogikaIZatwierdzenieBudynku()
+    private void ZatwierdzenieBudynku()
     {
         Vector3 posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora);
         if (wybranyBudynek != -1)
         {
-            if (wybranyBudynek != -1)
+            //Sprawdź czy można postawić budynek
+            if(TypBudynku.Mur == knpcs.typBudynku)
             {
-                //Sprawdź czy można postawić budynek
-                wszystkieBudynki[wybranyBudynek].transform.position = posClick;
-                kolider.isTrigger = false;
-                kolider = null;
-                materialWybranegoBudynku.color = kolorOrginału;
-                materialWybranegoBudynku = null;
-                knpcs = null;
-                wszystkieBudynki[wybranyBudynek].transform.SetParent(rodzicBudynkow);
-                wybranyBudynek = -1;
+                posClick = WyrównajSpawn(posClick);
             }
+            wszystkieBudynki[wybranyBudynek].transform.position = posClick;
+            kolider.isTrigger = false;
+            kolider = null;
+            materialWybranegoBudynku.color = kolorOrginału;
+            materialWybranegoBudynku = null;
+            knpcs = null;
+            wszystkieBudynki[wybranyBudynek].transform.SetParent(rodzicBudynkow);
+            wybranyBudynek = -1;
         }
-        else
+    }
+    public void WybierzBudynekDoPostawienia()  //Wybór obiektu budynku do postawienia
+    {
+        short index = (short)(this.dropdawn.value - 1);
+        dropdawn.value = 0;
+        if (index > -1 && wybranyBudynek == -1)
         {
-            wybranyBudynek = 0;
+            Vector3 posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora);
+
+            wybranyBudynek = index;
             PostawBudynek(ref wszystkieBudynki[wybranyBudynek], posClick, Quaternion.identity);
+            ostatniaPozycjaKursora = posClick;
         }
-        ostatniaPozycjaKursora = posClick;
     }
     private bool CzyMogęPostawićBudynek()
     {
@@ -124,5 +142,11 @@ public class SpawnBudynki : MonoBehaviour
         knpcs = null;
         DestroyImmediate(wszystkieBudynki[wybranyBudynek]);
         wybranyBudynek = -1;
+    }
+    private Vector3 WyrównajSpawn(Vector3 sugerowanePolozenie)
+    {
+        sugerowanePolozenie.x = Mathf.RoundToInt(sugerowanePolozenie.x);
+        sugerowanePolozenie.z = Mathf.RoundToInt(sugerowanePolozenie.z);
+        return sugerowanePolozenie;
     }
 }

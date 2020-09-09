@@ -22,5 +22,10 @@ public enum NastawienieNPC
     Przyjazne = 0,  //Należy do gracza
     Wrogie = 1      //Nalezy do hordy
 }
-
+public enum TypBudynku
+{
+    Mur,
+    Wieża,
+    Reszta
+}
 

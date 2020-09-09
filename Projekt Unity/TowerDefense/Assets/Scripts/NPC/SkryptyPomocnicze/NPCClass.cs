@@ -11,6 +11,8 @@ public abstract class NPCClass : MonoBehaviour
     public TypNPC typNPC;
     [Tooltip("Epoka z której jednostka pochodzi")]
     public Epoki epokaNPC;
+    [Tooltip("Koszt danej jednostki")]
+    public ushort kosztJednostki = 1;
     [Tooltip("Obrażenia jakie jednostka zadaje w walce")]
     public byte zadawaneObrażenia = 10;
     [Tooltip("Zasięg ataku jednostki")]

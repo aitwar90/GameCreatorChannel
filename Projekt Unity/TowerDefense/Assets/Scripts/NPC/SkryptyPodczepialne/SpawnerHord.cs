@@ -86,6 +86,7 @@ public class SpawnerHord : MonoBehaviour
         {
             ushort npcIdx = (ushort)Random.Range(0, możliwiNPC.Count-1);
             GameObject go = Instantiate(możliwiNPC[npcIdx].gameObject, OkreślPozucjeZOffsetem(spawnPunkty[j-1].position, 2.0f), Quaternion.identity);
+            ManagerGryScript.iloscAktywnychWrogów++;
             go.transform.SetParent(rodzicNPC);
             j++;
             if(j > iloscPunktówSpawnu)
@@ -107,7 +108,6 @@ public class SpawnerHord : MonoBehaviour
             go.transform.rotation = Quaternion.identity;
             rodzicNPC = go.transform;
         }
-        GenerujSpawn(Epoki.EpokaKamienia);
     }
     void Update()
     {
