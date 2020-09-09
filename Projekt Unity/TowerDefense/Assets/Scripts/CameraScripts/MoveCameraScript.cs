@@ -3,7 +3,7 @@
 public class MoveCameraScript : MonoBehaviour
 {
     #region Zmienne publiczne
-    [Range(1, 50)]
+    [Range(1, 50), Tooltip("Promień odległości dla przeunięcia kamery od środka sceny")]
     public byte maxPrzesuniecieKamery = 25;
 
     #endregion
@@ -12,11 +12,24 @@ public class MoveCameraScript : MonoBehaviour
     private float prędkoscPrzesunięciaKamery = 0.005f;
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
     private Vector3 pierwotnePołożenieKamery = Vector3.zero;
+    private byte granica = 50;
 #if UNITY_STANDALONE
     int szerokośćObrazu;
     int wysokśćObrazu;
-    byte granica = 50;
 #endif
+    #endregion
+    #region Getery i setery
+    public float PrędkośćPrzesunięciaKamery
+    {
+        get
+        {
+            return prędkoscPrzesunięciaKamery;
+        }
+        set
+        {
+            prędkoscPrzesunięciaKamery = value;
+        }
+    }
     #endregion
     // Start is called before the first frame update
     void Start()
@@ -84,7 +97,7 @@ public class MoveCameraScript : MonoBehaviour
             if (dotyk.phase == TouchPhase.Moved) //Jeśli wykrywa przesunięcie palcem po ekranie
             {
                 Vector3 przesuniecie = ((ostatniaPozycjaKamery - posDotyk) * prędkoscPrzesunięciaKamery);
-                if(SprawdźCzyMogęPrzesunąćKamerę(ostatniaPozycjaKamery+przesuniecie))
+                if (SprawdźCzyMogęPrzesunąćKamerę(ostatniaPozycjaKamery + przesuniecie))
                 {
                     this.transform.Translate(przesuniecie);
                     ostatniaPozycjaKamery = posDotyk;
@@ -110,7 +123,7 @@ public class MoveCameraScript : MonoBehaviour
     private bool SprawdźCzyMogęPrzesunąćKamerę(Vector3 newPos)
     {
         float actDist = Vector3.Distance(newPos, pierwotnePołożenieKamery);
-        float lastDist = Vector3.Distance(ostatniaPozycjaKamery,pierwotnePołożenieKamery);
+        float lastDist = Vector3.Distance(ostatniaPozycjaKamery, pierwotnePołożenieKamery);
         if (actDist >= maxPrzesuniecieKamery && actDist > lastDist)
         {
             return false;
