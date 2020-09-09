@@ -7,7 +7,8 @@ Klasa obsługuje statyczne NPC
 */
 public class KonkretnyNPCStatyczny : NPCClass
 {
-     #region Zmienne publiczne
+    #region Zmienne publiczne
+    public bool pozwalamNaBudowe = true;
     #endregion
 
     #region Zmienny prywatne
@@ -45,6 +46,20 @@ public class KonkretnyNPCStatyczny : NPCClass
         else    //Jeśli nastawienie jest przyjazne
         {
             //Podmień obiekt na zgruzowany
+        }
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Budynek")
+        {
+            pozwalamNaBudowe = false;
+        }
+    }
+    void OnTriggerExit(Collider other)
+    {
+        if(other.tag == "Budynek")
+        {
+            pozwalamNaBudowe = true;
         }
     }
 }

@@ -51,4 +51,5 @@ public abstract class NPCClass : MonoBehaviour
         yield return new WaitForSeconds(time);
         Destroy(this.gameObject);
     }
+    
 }
