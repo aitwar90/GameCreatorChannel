@@ -45,7 +45,7 @@ public class ManagerGryScript : MonoBehaviour
     }
     private IEnumerator WyzwólKolejnąFalę()
     {
-        yield return new WaitForSeconds(czasWMinutachMiędzyFalami * 60);
+        yield return new WaitForSeconds(czasWMinutachMiędzyFalami * 15);
         SpawnerHord sh = FindObjectOfType<SpawnerHord>() as SpawnerHord;
         aktualnaIlośćFal++;
         sh.GenerujSpawn(aktualnaEpoka);

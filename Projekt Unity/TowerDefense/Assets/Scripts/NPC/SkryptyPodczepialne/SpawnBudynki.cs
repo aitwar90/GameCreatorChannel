@@ -101,6 +101,7 @@ public class SpawnBudynki : MonoBehaviour
             {
                 posClick = WyrównajSpawn(posClick);
             }
+            knpcs.NastawienieNonPlayerCharacter = NastawienieNPC.Przyjazne;
             wszystkieBudynki[wybranyBudynek].transform.position = posClick;
             kolider.isTrigger = false;
             kolider = null;

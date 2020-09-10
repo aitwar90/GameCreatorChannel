@@ -18,6 +18,7 @@ public class SpawnerHord : MonoBehaviour
     public static byte actualHPBars = 0;
     public byte aktualnaIloscHPBarów = 0;
     public Transform rodzicNPC = null;
+    public Transform cel;
 
     public void GenerujSpawn(Epoki e)
     {
@@ -87,6 +88,7 @@ public class SpawnerHord : MonoBehaviour
             ushort npcIdx = (ushort)Random.Range(0, możliwiNPC.Count-1);
             GameObject go = Instantiate(możliwiNPC[npcIdx].gameObject, OkreślPozucjeZOffsetem(spawnPunkty[j-1].position, 2.0f), Quaternion.identity);
             ManagerGryScript.iloscAktywnychWrogów++;
+            UstawWroga(możliwiNPC[npcIdx].GetComponent<KonkretnyNPCDynamiczny>());
             go.transform.SetParent(rodzicNPC);
             j++;
             if(j > iloscPunktówSpawnu)
@@ -114,5 +116,9 @@ public class SpawnerHord : MonoBehaviour
         if(SpawnerHord.actualHPBars != 0)
             SpawnerHord.actualHPBars = 0;
     }
-
+    private void UstawWroga(KonkretnyNPCDynamiczny knpcd)
+    {
+        knpcd.cel = cel;
+        knpcd.NastawienieNonPlayerCharacter = NastawienieNPC.Wrogie;
+    }
 }

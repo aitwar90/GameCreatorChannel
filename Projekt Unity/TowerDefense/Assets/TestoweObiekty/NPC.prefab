@@ -109,8 +109,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84924a88a4276bf45be43c34b5e44ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  "naksymalne\u017Bycie": 100
+  "maksymalne\u017Bycie": 100
   typNPC: 1
   epokaNPC: 1
+  kosztJednostki: 1
   "zadawaneObra\u017Cenia": 10
   "zasi\u0119gAtaku": 0
+  cel: {fileID: 0}
+  akcjaNavMesh: 0

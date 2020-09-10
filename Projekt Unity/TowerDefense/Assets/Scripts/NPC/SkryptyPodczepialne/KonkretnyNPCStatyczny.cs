@@ -24,9 +24,12 @@ public class KonkretnyNPCStatyczny : NPCClass
     #endregion
     void Start()
     {
-        
+        InicjacjaBudynku();
     }
-
+    private void InicjacjaBudynku()
+    {
+        this.gameObject.AddComponent<UnityEngine.AI.NavMeshObstacle>();
+    }
     // Update is called once per frame
     protected override void RysujHPBar()
     {
@@ -47,7 +50,19 @@ public class KonkretnyNPCStatyczny : NPCClass
         else    //Jeśli nastawienie jest przyjazne
         {
             //Podmień obiekt na zgruzowany
+            
+            Collider[] tablicaKoliderow = this.GetComponents<Collider>();
+            for(byte i = 0; i < tablicaKoliderow.Length; i++)
+            {
+                tablicaKoliderow[i].enabled = false;
+            }
+            UnityEngine.AI.NavMeshObstacle tNVO = this.GetComponent<UnityEngine.AI.NavMeshObstacle>();
+            tNVO.enabled = false;
         }
+    }
+    public void AtakujeMnie(KonkretnyNPCDynamiczny knpcd)
+    {
+
     }
     void OnTriggerEnter(Collider other)
     {

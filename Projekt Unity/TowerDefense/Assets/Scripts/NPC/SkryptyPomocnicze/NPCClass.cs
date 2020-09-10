@@ -20,20 +20,32 @@ public abstract class NPCClass : MonoBehaviour
     #endregion
 
     #region Zmienny prywatne
-    
+
     #endregion
 
     #region Zmienne chronione
     protected ushort aktualneŻycie = 0;
-    protected NastawienieNPC nastawienieNPC;
+    public NastawienieNPC nastawienieNPC;
     protected Renderer mainRenderer;
     #endregion
 
     #region Getery i setery
+    public NastawienieNPC NastawienieNonPlayerCharacter
+    {
+        get
+        {
+            return nastawienieNPC;
+        }
+        set
+        {
+            this.nastawienieNPC = value;
+        }
+    }
     #endregion
     void Awake()
     {
         mainRenderer = this.transform.GetComponent<Renderer>();
+        this.aktualneŻycie = this.maksymalneŻycie;
     }
     void OnGUI()
     {
@@ -41,7 +53,7 @@ public abstract class NPCClass : MonoBehaviour
     }
     void Update()
     {
-        if(aktualneŻycie <= 0)
+        if (aktualneŻycie <= 0)
         {
             UsuńJednostkę();
         }
@@ -53,5 +65,9 @@ public abstract class NPCClass : MonoBehaviour
         yield return new WaitForSeconds(time);
         Destroy(this.gameObject);
     }
-    
+    public virtual void OtrzymujeObrażenia(short ilosćObrażeń)
+    {
+        
+    }
+
 }
