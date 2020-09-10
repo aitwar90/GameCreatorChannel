@@ -8,7 +8,7 @@ ProjectSettings
 Temp
 
 # Rozszerzenia
-*meta
+#*meta
 **csproj**
 **vscode**
 **.sln**
