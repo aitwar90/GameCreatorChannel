@@ -10,9 +10,12 @@ public class KonkretnyNPCStatyczny : NPCClass
     #region Zmienne publiczne
     public bool pozwalamNaBudowe = true;
     public TypBudynku typBudynku;
+    [Range(0, 20)]
+    public byte odbiteObrażenia = 1;
     #endregion
 
     #region Zmienny prywatne
+    private byte indeksWejscia = 0;
 
     #endregion
 
@@ -60,22 +63,25 @@ public class KonkretnyNPCStatyczny : NPCClass
             tNVO.enabled = false;
         }
     }
-    public void AtakujeMnie(KonkretnyNPCDynamiczny knpcd)
-    {
-
-    }
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Budynek")
+        if(other.tag == "Budynek" || other.tag == "NPC")
         {
+            indeksWejscia++;
             pozwalamNaBudowe = false;
         }
     }
     void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Budynek")
+        if(other.tag == "Budynek" || other.tag == "NPC")
         {
-            pozwalamNaBudowe = true;
+            indeksWejscia--;
+            if(indeksWejscia == 0)
+                pozwalamNaBudowe = true;
         }
+    }
+    public override byte ZwrócOdbiteObrażenia()
+    {
+        return (byte)Mathf.CeilToInt(odbiteObrażenia * this.modyfikatorZadawanychObrażeń);
     }
 }

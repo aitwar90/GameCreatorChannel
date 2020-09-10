@@ -103,6 +103,10 @@ public class SpawnBudynki : MonoBehaviour
             }
             knpcs.NastawienieNonPlayerCharacter = NastawienieNPC.Przyjazne;
             wszystkieBudynki[wybranyBudynek].transform.position = posClick;
+            Rigidbody rb = wszystkieBudynki[wybranyBudynek].GetComponent<Rigidbody>();
+            rb.isKinematic = true;
+            rb.Sleep();
+            wszystkieBudynki[wybranyBudynek].isStatic = true;
             kolider.isTrigger = false;
             kolider = null;
             materialWybranegoBudynku.color = kolorOrginału;

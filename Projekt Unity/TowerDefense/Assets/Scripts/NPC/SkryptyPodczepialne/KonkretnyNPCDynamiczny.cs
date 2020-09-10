@@ -18,6 +18,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private NavMeshPath ścieżka = null;
     private NPCClass aktualnyCelAtaku;  //Indeks aktualnej akcji navmesha (0 - idź, 1 - stój itp)
     private byte akcjaNavMesh = 0;
+    private byte głównyIndex = 0;
     #endregion
 
     #region Zmienne chronione
@@ -44,9 +45,12 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             DodajNavMeshAgent();
         }
-        SphereCollider sc = this.gameObject.AddComponent<SphereCollider>();
-        sc.isTrigger = true;
-        sc.radius = 2.5f;
+        if (this.typNPC != TypNPC.WalczyNaDystans)
+        {
+            SphereCollider sc = this.gameObject.AddComponent<SphereCollider>();
+            sc.isTrigger = true;
+            sc.radius = 2.5f;
+        }
     }
 
     // Update is called once per frame
@@ -55,14 +59,22 @@ public class KonkretnyNPCDynamiczny : NPCClass
         if (aktualneŻycie <= 0)
         {
             UsuńJednostkę();
+            return;
         }
-        else
+        switch (głównyIndex)
         {
-            ObsłużNavMeshAgent(cel.position);
-            if(kolejkaAtaku != null && akcjaNavMesh == 1)
-            {
-                AtakujCel();
-            }
+            case 0:
+
+                ObsłużNavMeshAgent(cel.position);
+                głównyIndex++;
+                break;
+            case 1:
+                if (kolejkaAtaku != null && akcjaNavMesh == 1)
+                {
+                    AtakujCel();
+                }
+                głównyIndex = 0;
+                break;
         }
     }
     protected override void RysujHPBar()
@@ -88,7 +100,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 SpawnerHord.actualHPBars--;
             this.rysujPasekŻycia = false;
             ManagerGryScript.iloscAktywnychWrogów--;
-            StartCoroutine(SkasujObject(5.0f));
+            StartCoroutine(SkasujObject(3.0f));
         }
     }
     private void ObsłużNavMeshAgent(Vector3 docelowaPozycja)
@@ -101,19 +113,19 @@ public class KonkretnyNPCDynamiczny : NPCClass
             bool czyOdnalzazłemŚcieżkę = agent.CalculatePath(docelowaPozycja, ścieżka);
             if (ścieżka.status == NavMeshPathStatus.PathComplete)
             {
-                Debug.Log("Agent potrafi dojść do końca ścieżki");
                 agent.SetPath(ścieżka);
                 StartCoroutine(WyliczŚciezkęPonownie(Random.Range(5.5f, 10.5f)));
             }
             else if (ścieżka.status == NavMeshPathStatus.PathPartial)
             {
-                Debug.Log("Agent potrafi dojść prawie do celu");
                 agent.SetPath(ścieżka);
                 StartCoroutine(WyliczŚciezkęPonownie(Random.Range(5.5f, 10.5f)));
             }
             else if (ścieżka.status == NavMeshPathStatus.PathInvalid)
             {
                 Debug.Log("Agent nie potrafi dojść do celu, ścieżka nie została znaleziona");
+                //Tu należy odnaleźć najbliższy obiekt do niszczenia
+                
             }
         }
         else
@@ -145,7 +157,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private void DodajNavMeshAgent()
     {
         agent = this.gameObject.AddComponent<NavMeshAgent>();
-        agent.stoppingDistance = 1.5f;
+        agent.stoppingDistance = (zasięgAtaku == 0) ? 1.5f : zasięgAtaku;
     }
     void OnTriggerEnter(Collider other)
     {
@@ -156,7 +168,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
             {
                 DodajNPCDoKolejkiAtaku(ref knpcs);
                 //Atakuj wroga
-                Debug.Log("Wyczuwam budynek");
                 akcjaNavMesh = 1;
             }
         }
@@ -170,14 +181,13 @@ public class KonkretnyNPCDynamiczny : NPCClass
             {
                 OdepnijOdKolejkiAtaku(ref knpcs);
                 //Atakuj wroga
-                Debug.Log("Odchodzę od budynku");
                 akcjaNavMesh = 0;
             }
         }
     }
     private void AtakujCel()
     {
-        if(aktualnyReuseAtaku < szybkośćAtaku)
+        if (aktualnyReuseAtaku < szybkośćAtaku)
         {
             aktualnyReuseAtaku += Time.deltaTime;
             return;
@@ -208,7 +218,9 @@ public class KonkretnyNPCDynamiczny : NPCClass
         }
         else
         {
-            npcKlas.ZmianaHP((short)(zadawaneObrażenia*(-1)));
+            npcKlas.ZmianaHP((short)Mathf.FloorToInt((zadawaneObrażenia * this.modyfikatorZadawanychObrażeń)));
+            if (akcjaNavMesh == 1)
+                this.ZmianaHP(npcKlas.ZwrócOdbiteObrażenia());
         }
     }
 }

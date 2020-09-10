@@ -28,4 +28,25 @@ public enum TypBudynku
     Wieża,
     Reszta
 }
+public class StrukturaDrzewa
+{
+    public StrukturaDrzewa lewaGałąź;
+    public StrukturaDrzewa prawaGałąź;
+    public Component komponentGałęzi;
+    public Vector3 pozycjaGałęzi;
+    public float odległośćOdPunktu;
+    public StrukturaDrzewa()
+    {
+
+    }
+    public StrukturaDrzewa(Component _komponent, Vector3 _pozycja, float _odległośćOdPunktu)
+    {
+        lewaGałąź = null;
+        prawaGałąź = null;
+        komponentGałęzi = _komponent;
+        pozycjaGałęzi = _pozycja;
+        odległośćOdPunktu = _odległośćOdPunktu;
+    }
+}
+
 

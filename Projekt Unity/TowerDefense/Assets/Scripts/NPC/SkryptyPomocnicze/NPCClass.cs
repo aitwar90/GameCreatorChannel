@@ -18,7 +18,11 @@ public abstract class NPCClass : MonoBehaviour
     [Tooltip("Zasięg ataku jednostki")]
     public byte zasięgAtaku = 0;
     [Tooltip("Czas między kolejnymi tikami ataku npc")]
-    public float szybkośćAtaku = 3.0f;
+    public float szybkośćAtaku = 1.0f;
+    [Tooltip("Mnożnik otrzymywanych obrażeń przez jednostkę")]
+    public float modyfikatorOtrzymywanychObrażeń = 1.0f;
+    [Tooltip("Mnożnik zadawanych obrażeń przez jednostkę")]
+    public float modyfikatorZadawanychObrażeń = 1.0f;
     #endregion
 
     #region Zmienny prywatne
@@ -82,7 +86,11 @@ public abstract class NPCClass : MonoBehaviour
     }
     public virtual void ZmianaHP(short deltaHP)
     {
-        this.aktualneŻycie += deltaHP;
+        if(deltaHP < 0)
+        {
+            deltaHP = (short)Mathf.CeilToInt(deltaHP*modyfikatorOtrzymywanychObrażeń);
+        }
+        this.aktualneŻycie -= deltaHP;
         if (aktualneŻycie > maksymalneŻycie)
             aktualneŻycie = maksymalneŻycie;
         else if (aktualneŻycie < 0)
@@ -112,5 +120,9 @@ public abstract class NPCClass : MonoBehaviour
             }
             i++;
         }
+    }
+    public virtual byte ZwrócOdbiteObrażenia()
+    {
+        return 0;
     }
 }
