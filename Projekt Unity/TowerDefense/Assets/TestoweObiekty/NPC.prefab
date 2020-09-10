@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 4927091530509395094}
   - component: {fileID: 2000923145000779978}
   - component: {fileID: 62081523889469384}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: NPC
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -115,6 +115,7 @@ MonoBehaviour:
   kosztJednostki: 1
   "zadawaneObra\u017Cenia": 10
   "zasi\u0119gAtaku": 0
+  "szybko\u015B\u0107Ataku": 3
+  "aktualne\u017Bycie": 0
   nastawienieNPC: 1
   cel: {fileID: 0}
-  akcjaNavMesh: 0

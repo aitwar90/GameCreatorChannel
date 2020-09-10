@@ -6,7 +6,7 @@ public abstract class NPCClass : MonoBehaviour
 {
     #region Zmienne publiczne
     [Tooltip("Maksymalne życie jednostki")]
-    public ushort maksymalneŻycie = 100;
+    public short maksymalneŻycie = 100;
     [Tooltip("Informacja o tym, czy jednostka walczy w zwarciu czy na odległość, jeśli w ogóle")]
     public TypNPC typNPC;
     [Tooltip("Epoka z której jednostka pochodzi")]
@@ -17,6 +17,8 @@ public abstract class NPCClass : MonoBehaviour
     public byte zadawaneObrażenia = 10;
     [Tooltip("Zasięg ataku jednostki")]
     public byte zasięgAtaku = 0;
+    [Tooltip("Czas między kolejnymi tikami ataku npc")]
+    public float szybkośćAtaku = 3.0f;
     #endregion
 
     #region Zmienny prywatne
@@ -24,9 +26,11 @@ public abstract class NPCClass : MonoBehaviour
     #endregion
 
     #region Zmienne chronione
-    protected ushort aktualneŻycie = 0;
+    public short aktualneŻycie = 0;
     public NastawienieNPC nastawienieNPC;
     protected Renderer mainRenderer;
+    protected float aktualnyReuseAtaku = 0.0f;
+    protected Queue<NPCClass> kolejkaAtaku = null;
     #endregion
 
     #region Getery i setery
@@ -39,6 +43,17 @@ public abstract class NPCClass : MonoBehaviour
         set
         {
             this.nastawienieNPC = value;
+        }
+    }
+    public short AktualneŻycie
+    {
+        get 
+        {
+            return aktualneŻycie;
+        }
+        set
+        {
+            aktualneŻycie = value;
         }
     }
     #endregion
@@ -65,9 +80,37 @@ public abstract class NPCClass : MonoBehaviour
         yield return new WaitForSeconds(time);
         Destroy(this.gameObject);
     }
-    public virtual void OtrzymujeObrażenia(short ilosćObrażeń)
+    public virtual void ZmianaHP(short deltaHP)
     {
-        
+        this.aktualneŻycie += deltaHP;
+        if (aktualneŻycie > maksymalneŻycie)
+            aktualneŻycie = maksymalneŻycie;
+        else if (aktualneŻycie < 0)
+            aktualneŻycie = 0;
     }
-
+    protected void DodajNPCDoKolejkiAtaku(ref NPCClass knpcs)
+    {
+        if (kolejkaAtaku == null)
+        {
+            kolejkaAtaku = new Queue<NPCClass>();
+        }
+        kolejkaAtaku.Enqueue(knpcs);
+    }
+    protected void OdepnijOdKolejkiAtaku(ref NPCClass knpcs)
+    {
+        if(kolejkaAtaku == null)
+        {
+            return;
+        }
+        ushort i = 0;
+        while(kolejkaAtaku.Count > i)
+        {
+            NPCClass temp = kolejkaAtaku.Dequeue() as NPCClass;
+            if(temp != knpcs)
+            {
+                kolejkaAtaku.Enqueue(temp);
+            }
+            i++;
+        }
+    }
 }

@@ -16,8 +16,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private bool rysujPasekŻycia = false;
     private NavMeshAgent agent = null;
     private NavMeshPath ścieżka = null;
-    private NPCClass aktualnyCelAtaku;
-    public byte akcjaNavMesh = 0;
+    private NPCClass aktualnyCelAtaku;  //Indeks aktualnej akcji navmesha (0 - idź, 1 - stój itp)
+    private byte akcjaNavMesh = 0;
     #endregion
 
     #region Zmienne chronione
@@ -56,10 +56,14 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             UsuńJednostkę();
         }
-        //else
-        //{
-        ObsłużNavMeshAgent();
-        // }
+        else
+        {
+            ObsłużNavMeshAgent(cel.position);
+            if(kolejkaAtaku != null && akcjaNavMesh == 1)
+            {
+                AtakujCel();
+            }
+        }
     }
     protected override void RysujHPBar()
     {
@@ -87,29 +91,30 @@ public class KonkretnyNPCDynamiczny : NPCClass
             StartCoroutine(SkasujObject(5.0f));
         }
     }
-    private void ObsłużNavMeshAgent()
+    private void ObsłużNavMeshAgent(Vector3 docelowaPozycja)
     {
         //https://www.binpress.com/unity-3d-ai-navmesh-navigation/
         //Logika nav mesha
         if (!agent.hasPath)
         {
             ścieżka = new NavMeshPath();
-            bool czyOdnalzazłemŚcieżkę = agent.CalculatePath(cel.position, ścieżka);
+            bool czyOdnalzazłemŚcieżkę = agent.CalculatePath(docelowaPozycja, ścieżka);
             if (ścieżka.status == NavMeshPathStatus.PathComplete)
             {
                 Debug.Log("Agent potrafi dojść do końca ścieżki");
                 agent.SetPath(ścieżka);
+                StartCoroutine(WyliczŚciezkęPonownie(Random.Range(5.5f, 10.5f)));
             }
             else if (ścieżka.status == NavMeshPathStatus.PathPartial)
             {
                 Debug.Log("Agent potrafi dojść prawie do celu");
                 agent.SetPath(ścieżka);
+                StartCoroutine(WyliczŚciezkęPonownie(Random.Range(5.5f, 10.5f)));
             }
             else if (ścieżka.status == NavMeshPathStatus.PathInvalid)
             {
                 Debug.Log("Agent nie potrafi dojść do celu, ścieżka nie została znaleziona");
             }
-            StartCoroutine(WyliczŚciezkęPonownie(Random.Range(5.5f, 10.5f)));
         }
         else
         {
@@ -135,7 +140,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         yield return new WaitForSeconds(f);
         agent.ResetPath();
-        ObsłużNavMeshAgent();
+        ObsłużNavMeshAgent(cel.position);
     }
     private void DodajNavMeshAgent()
     {
@@ -144,33 +149,66 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Budynek")
+        if (other.tag == "Budynek" || other.tag == "NPC")
         {
-            KonkretnyNPCStatyczny knpcs = other.GetComponent<KonkretnyNPCStatyczny>();
+            NPCClass knpcs = other.GetComponent<NPCClass>();
             if (knpcs.NastawienieNonPlayerCharacter != this.nastawienieNPC)
             {
+                DodajNPCDoKolejkiAtaku(ref knpcs);
                 //Atakuj wroga
                 Debug.Log("Wyczuwam budynek");
                 akcjaNavMesh = 1;
-                knpcs.AtakujeMnie(this);
             }
         }
     }
     void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Budynek")
+        if (other.tag == "Budynek" || other.tag == "NPC")
         {
-            KonkretnyNPCStatyczny knpcs = other.GetComponent<KonkretnyNPCStatyczny>();
+            NPCClass knpcs = other.GetComponent<NPCClass>();
             if (knpcs.NastawienieNonPlayerCharacter != this.nastawienieNPC)
             {
+                OdepnijOdKolejkiAtaku(ref knpcs);
                 //Atakuj wroga
                 Debug.Log("Odchodzę od budynku");
                 akcjaNavMesh = 0;
             }
         }
     }
-    private void AtakujCel(NPCClass _cel)
+    private void AtakujCel()
     {
-        
+        if(aktualnyReuseAtaku < szybkośćAtaku)
+        {
+            aktualnyReuseAtaku += Time.deltaTime;
+            return;
+        }
+        NPCClass npcKlas = null;
+        while (true)
+        {
+            if (kolejkaAtaku.Count == 0)
+            {
+                break;
+            }
+            npcKlas = kolejkaAtaku.Peek();
+            if (npcKlas.AktualneŻycie > 0)
+            {
+                break;
+            }
+            else
+            {
+                kolejkaAtaku.Dequeue();
+            }
+        }
+        aktualnyReuseAtaku = 0.0f;
+        if (npcKlas == null)
+        {
+            //Koniec ataku zmień na ruch
+            kolejkaAtaku = null;
+            akcjaNavMesh = 0;
+        }
+        else
+        {
+            npcKlas.ZmianaHP((short)(zadawaneObrażenia*(-1)));
+        }
     }
 }

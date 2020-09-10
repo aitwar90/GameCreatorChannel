@@ -85,13 +85,9 @@ public class SpawnerHord : MonoBehaviour
 
         for (ushort i = 0, j = 1; i < ostatniaIlośćWFali; i++)
         {
-            ushort npcIdx = (ushort)Random.Range(0, możliwiNPC.Count-1);
-            GameObject go = Instantiate(możliwiNPC[npcIdx].gameObject, OkreślPozucjeZOffsetem(spawnPunkty[j-1].position, 2.0f), Quaternion.identity);
-            ManagerGryScript.iloscAktywnychWrogów++;
-            UstawWroga(możliwiNPC[npcIdx].GetComponent<KonkretnyNPCDynamiczny>());
-            go.transform.SetParent(rodzicNPC);
+            StartCoroutine(SpawnujMnie(możliwiNPC, j, Random.Range(0, 0.5f)));
             j++;
-            if(j > iloscPunktówSpawnu)
+            if (j > iloscPunktówSpawnu)
                 j = 1;
         }
     }
@@ -103,7 +99,7 @@ public class SpawnerHord : MonoBehaviour
     }
     void Awake()
     {
-        if(rodzicNPC == null)
+        if (rodzicNPC == null)
         {
             GameObject go = new GameObject("rodzicNPC");
             go.transform.position = Vector3.zero;
@@ -113,12 +109,21 @@ public class SpawnerHord : MonoBehaviour
     }
     void Update()
     {
-        if(SpawnerHord.actualHPBars != 0)
+        if (SpawnerHord.actualHPBars != 0)
             SpawnerHord.actualHPBars = 0;
     }
     private void UstawWroga(KonkretnyNPCDynamiczny knpcd)
     {
         knpcd.cel = cel;
         knpcd.NastawienieNonPlayerCharacter = NastawienieNPC.Wrogie;
+    }
+    private IEnumerator SpawnujMnie(List<GameObject> możliwiNPC, ushort j, float _time)
+    {
+        yield return new WaitForSeconds(_time);
+        ushort npcIdx = (ushort)Random.Range(0, możliwiNPC.Count - 1);
+        GameObject go = Instantiate(możliwiNPC[npcIdx].gameObject, OkreślPozucjeZOffsetem(spawnPunkty[j - 1].position, 2.0f), Quaternion.identity);
+        ManagerGryScript.iloscAktywnychWrogów++;
+        UstawWroga(możliwiNPC[npcIdx].GetComponent<KonkretnyNPCDynamiczny>());
+        go.transform.SetParent(rodzicNPC);
     }
 }

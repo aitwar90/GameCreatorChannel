@@ -14,7 +14,9 @@ public static class PomocniczeFunkcje
         ray = Camera.main.ScreenPointToRay(Input.GetTouch(0));
         #endif
         RaycastHit hit;
-        if(Physics.Raycast(ray, out hit))
+        int layerMask = 1 << 8;
+        layerMask = ~layerMask;
+        if(Physics.Raycast(ray, out hit, 100f, layerMask))
         {
             if(hit.collider.GetType() == typeof(TerrainCollider))
             {
