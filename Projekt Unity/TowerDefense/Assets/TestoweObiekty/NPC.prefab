@@ -106,7 +106,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3990510782661752006}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84924a88a4276bf45be43c34b5e44ca6, type: 3}
+  m_Script: {fileID: 11500000, guid: 8c1e031c25657c54cabe56499a962b7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   "maksymalne\u017Bycie": 100
@@ -115,5 +115,6 @@ MonoBehaviour:
   kosztJednostki: 1
   "zadawaneObra\u017Cenia": 10
   "zasi\u0119gAtaku": 0
+  nastawienieNPC: 1
   cel: {fileID: 0}
   akcjaNavMesh: 0

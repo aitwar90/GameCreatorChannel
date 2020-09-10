@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 87eb4a57a7806ae419971ac9135d5b3c, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,15 +106,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 2611418302129751045}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aec2c199d3cd3724a96fd49bafd09e8f, type: 3}
+  m_Script: {fileID: 11500000, guid: b5c2eb51455cdc24e82c69256f63eba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   "maksymalne\u017Bycie": 100
   typNPC: 0
   epokaNPC: 1
+  kosztJednostki: 1
   "zadawaneObra\u017Cenia": 1
   "zasi\u0119gAtaku": 0
+  nastawienieNPC: 0
   pozwalamNaBudowe: 1
+  typBudynku: 0
 --- !u!54 &381913152603510029
 Rigidbody:
   m_ObjectHideFlags: 0
