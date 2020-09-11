@@ -26,15 +26,16 @@ public static class PomocniczeFunkcje
         }
         return lastPos;
     }
-    public static Component WyszukajWDrzewiePozycji(StrukturaDrzewa korzeń)
+    //public static Component WyszukiwanieWDrzewiePoOdległości
+    public static Component WyszukajWDrzewiePozycjiPoOdległościWDrzewie(StrukturaDrzewa korzeń)
     {
-        if(korzeń == null)
+        if (korzeń == null)
             return null;
-        
+
         StrukturaDrzewa aktualnieSprawdzanyLiść = korzeń;
-        while(true)
+        while (true)
         {
-            if(aktualnieSprawdzanyLiść.lewaGałąź != null)
+            if (aktualnieSprawdzanyLiść.lewaGałąź != null)
             {
                 aktualnieSprawdzanyLiść = aktualnieSprawdzanyLiść.lewaGałąź;
             }
@@ -44,6 +45,81 @@ public static class PomocniczeFunkcje
             }
         }
         return aktualnieSprawdzanyLiść.komponentGałęzi;
+    }
+    public static Component WyszukajWDrzewiePozycjiPoX(StrukturaDrzewa korzeń, Vector3 komponentOPozycji)
+    {
+        if(korzeń == null)
+        {
+            return null;
+        }
+        StrukturaDrzewa aktualnieSprawdzanaGałąź = korzeń;
+        while(true)
+        {
+            if(aktualnieSprawdzanaGałąź.pozycjaGałęzi.x - 0.05f < komponentOPozycji.x &&
+            aktualnieSprawdzanaGałąź.pozycjaGałęzi.x + 0.05f > komponentOPozycji.x
+            && aktualnieSprawdzanaGałąź.pozycjaGałęzi.z - 0.05f < komponentOPozycji.z &&
+            aktualnieSprawdzanaGałąź.pozycjaGałęzi.z + 0.05f > komponentOPozycji.z)
+            {
+                return aktualnieSprawdzanaGałąź.komponentGałęzi;
+            }
+            else if(aktualnieSprawdzanaGałąź.pozycjaGałęzi.x < komponentOPozycji.x)
+            {
+                if(aktualnieSprawdzanaGałąź.lewaPos != null)
+                {
+                    aktualnieSprawdzanaGałąź = aktualnieSprawdzanaGałąź.lewaPos;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                if(aktualnieSprawdzanaGałąź.prawaPos != null)
+                {
+                    aktualnieSprawdzanaGałąź = aktualnieSprawdzanaGałąź.prawaPos;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+    }
+    private static void DodajDoDrzewaPozycji(StrukturaDrzewa _dodawanyKomponentDrzewaPozycji, StrukturaDrzewa korzeń = null)
+    {
+        if (korzeń == null)
+        {
+            return;
+        }
+        StrukturaDrzewa aktualnyNode = korzeń;
+        while (true)
+        {
+            if (aktualnyNode.pozycjaGałęzi.x < _dodawanyKomponentDrzewaPozycji.pozycjaGałęzi.x)
+            {
+                if (aktualnyNode.lewaPos != null)
+                {
+                    aktualnyNode = aktualnyNode.lewaPos;
+                }
+                else
+                {
+                    aktualnyNode.lewaPos = _dodawanyKomponentDrzewaPozycji;
+                    break;
+                }
+            }
+            else
+            {
+                if (aktualnyNode.prawaPos != null)
+                {
+                    aktualnyNode = aktualnyNode.prawaPos;
+                }
+                else
+                {
+                    aktualnyNode.prawaPos = _dodawanyKomponentDrzewaPozycji;
+                    break;
+                }
+            }
+        }
     }
     public static void DodajDoDrzewaPozycji(Component dodawanyKomponent, Vector3 pozycjaObiektuZKomponentem, Vector3 pozycjaOdKtorejLiczonaJestOdległość, StrukturaDrzewa korzeń = null)
     {
@@ -88,43 +164,43 @@ public static class PomocniczeFunkcje
     }
     public static void DodajDoDrzewaPozycji(StrukturaDrzewa _dodawanaGałąź, float _odległośćOdPunktuDodawanego, StrukturaDrzewa korzeń = null)
     {
-        if(korzeń == null)
+        if (korzeń == null)
         {
             return;
         }
         StrukturaDrzewa aktualnieSprawdzanaGałąź = korzeń;
-        while(true)
+        while (true)
         {
             if (_odległośćOdPunktuDodawanego < aktualnieSprawdzanaGałąź.odległośćOdPunktu)
+            {
+                if (aktualnieSprawdzanaGałąź.lewaGałąź != null)
                 {
-                    if (aktualnieSprawdzanaGałąź.lewaGałąź != null)
-                    {
-                        aktualnieSprawdzanaGałąź = aktualnieSprawdzanaGałąź.lewaGałąź;
-                    }
-                    else
-                    {
-                        aktualnieSprawdzanaGałąź.lewaGałąź = _dodawanaGałąź;
-                        break;
-                    }
+                    aktualnieSprawdzanaGałąź = aktualnieSprawdzanaGałąź.lewaGałąź;
                 }
                 else
                 {
-                    if (aktualnieSprawdzanaGałąź.prawaGałąź != null)
-                    {
-                        aktualnieSprawdzanaGałąź = aktualnieSprawdzanaGałąź.prawaGałąź;
-                    }
-                    else
-                    {
-                        aktualnieSprawdzanaGałąź.prawaGałąź = _dodawanaGałąź;
-
-                        break;
-                    }
+                    aktualnieSprawdzanaGałąź.lewaGałąź = _dodawanaGałąź;
+                    break;
                 }
+            }
+            else
+            {
+                if (aktualnieSprawdzanaGałąź.prawaGałąź != null)
+                {
+                    aktualnieSprawdzanaGałąź = aktualnieSprawdzanaGałąź.prawaGałąź;
+                }
+                else
+                {
+                    aktualnieSprawdzanaGałąź.prawaGałąź = _dodawanaGałąź;
+
+                    break;
+                }
+            }
         }
     }
-    public static void SkasujKorzeń(Component _komponent, Vector3 _pozycjaKomponentu, Vector3 pozycjaOdKtorejLiczonaJestOdległość, StrukturaDrzewa korzeń)
+    public static void SkasujNode(Component _komponent, Vector3 _pozycjaKomponentu, Vector3 pozycjaOdKtorejLiczonaJestOdległość, StrukturaDrzewa korzeń)
     {
-        if (korzeń == null)
+        if (korzeń == null || korzeń.pozycjaGałęzi == _pozycjaKomponentu)
             return;
         else
         {
@@ -147,12 +223,16 @@ public static class PomocniczeFunkcje
                     posGałęzi.z + 0.05f > _pozycjaKomponentu.x && posGałęzi.z - 0.05f < _pozycjaKomponentu.z)
                     {
                         //Znalazłem szukany liść
-                        StrukturaDrzewa[] tempSD = SkasujZDrzewaPozycji(ref aktualnieSprawdzanyLiść);
+                        StrukturaDrzewa[,] tempSD = SkasujZDrzewaPozycji(ref aktualnieSprawdzanyLiść);
                         for (byte i = 0; i < 2; i++)
                         {
-                            if (tempSD[i] != null)
+                            if (tempSD[0, i] != null)
                             {
-                                DodajDoDrzewaPozycji(tempSD[i], tempSD[i].odległośćOdPunktu, korzeń);
+                                DodajDoDrzewaPozycji(tempSD[0, i], tempSD[0, i].odległośćOdPunktu, korzeń);
+                            }
+                            if(tempSD[1, i] != null)
+                            {
+                                DodajDoDrzewaPozycji(tempSD[1, i], korzeń);
                             }
                         }
                     }
@@ -161,20 +241,28 @@ public static class PomocniczeFunkcje
 
         }
     }
-    private static StrukturaDrzewa[] SkasujZDrzewaPozycji(ref StrukturaDrzewa kasowanyLiść)
+    private static StrukturaDrzewa[,] SkasujZDrzewaPozycji(ref StrukturaDrzewa kasowanyLiść)
     {
         if (kasowanyLiść == null)
             return null;
         else
         {
-            StrukturaDrzewa[] strDrzewa = new StrukturaDrzewa[2];
+            StrukturaDrzewa[,] strDrzewa = new StrukturaDrzewa[2, 2];
             if (kasowanyLiść.lewaGałąź != null)
             {
-                strDrzewa[0] = kasowanyLiść.lewaGałąź;
+                strDrzewa[0, 0] = kasowanyLiść.lewaGałąź;
             }
             if (kasowanyLiść.prawaGałąź != null)
             {
-                strDrzewa[1] = kasowanyLiść.prawaGałąź;
+                strDrzewa[0, 1] = kasowanyLiść.prawaGałąź;
+            }
+            if (kasowanyLiść.lewaPos != null)
+            {
+                strDrzewa[1, 0] = kasowanyLiść.lewaPos;
+            }
+            if (kasowanyLiść.prawaPos != null)
+            {
+                strDrzewa[1, 1] = kasowanyLiść.prawaPos;
             }
             kasowanyLiść = null;
             return strDrzewa;

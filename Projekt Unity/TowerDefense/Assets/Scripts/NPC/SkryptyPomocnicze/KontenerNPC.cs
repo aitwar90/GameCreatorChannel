@@ -32,6 +32,8 @@ public class StrukturaDrzewa
 {
     public StrukturaDrzewa lewaGałąź;
     public StrukturaDrzewa prawaGałąź;
+    public StrukturaDrzewa lewaPos;
+    public StrukturaDrzewa prawaPos;
     public Component komponentGałęzi;
     public Vector3 pozycjaGałęzi;
     public float odległośćOdPunktu;
