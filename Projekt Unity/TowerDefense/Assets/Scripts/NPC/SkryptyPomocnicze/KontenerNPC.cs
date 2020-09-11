@@ -30,24 +30,24 @@ public enum TypBudynku
 }
 public class StrukturaDrzewa
 {
-    public StrukturaDrzewa lewaGałąź;
-    public StrukturaDrzewa prawaGałąź;
-    public StrukturaDrzewa lewaPos;
-    public StrukturaDrzewa prawaPos;
+    public StrukturaDrzewa lewaGałąźX;
+    public StrukturaDrzewa prawaGałąźX;
+    public StrukturaDrzewa lewaGałąźZ;
+    public StrukturaDrzewa prawaGałąźZ;
     public Component komponentGałęzi;
     public Vector3 pozycjaGałęzi;
-    public float odległośćOdPunktu;
     public StrukturaDrzewa()
     {
 
     }
-    public StrukturaDrzewa(Component _komponent, Vector3 _pozycja, float _odległośćOdPunktu)
+    public StrukturaDrzewa(Component _komponent)
     {
-        lewaGałąź = null;
-        prawaGałąź = null;
+        lewaGałąźX = null;
+        prawaGałąźX = null;
+        lewaGałąźZ = null;
+        prawaGałąźZ = null;
         komponentGałęzi = _komponent;
-        pozycjaGałęzi = _pozycja;
-        odległośćOdPunktu = _odległośćOdPunktu;
+        pozycjaGałęzi = _komponent.transform.position;
     }
 }
 
