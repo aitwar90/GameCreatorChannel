@@ -17,7 +17,6 @@ public class ManagerGryScript : MonoBehaviour
     [Tooltip("Czas pomięczy kolejnymi falami hordy")]
     public byte czasWMinutachMiędzyFalami = 1;
     public static short iloscAktywnychWrogów = 0;
-    public bool generujFale = true;
 
     #endregion
 
@@ -31,7 +30,7 @@ public class ManagerGryScript : MonoBehaviour
     }
     void Start()
     {
-        if (aktualnaEpoka != Epoki.None && generujFale)
+        if (aktualnaEpoka != Epoki.None)
         {
             StartCoroutine("WyzwólKolejnąFalę");
         }

@@ -65,13 +65,13 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             case 0:
 
-                //ObsłużNavMeshAgent(cel.position);
+                ObsłużNavMeshAgent(cel.position);
                 głównyIndex++;
                 break;
             case 1:
                 if (kolejkaAtaku != null && akcjaNavMesh == 1)
                 {
-                    //AtakujCel();
+                    AtakujCel();
                 }
                 głównyIndex = 0;
                 break;
