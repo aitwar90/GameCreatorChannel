@@ -49,6 +49,10 @@ public class StrukturaDrzewa
         komponentGałęzi = _komponent;
         pozycjaGałęzi = _komponent.transform.position;
     }
+    ~StrukturaDrzewa()
+    {
+
+    }
 }
 
 

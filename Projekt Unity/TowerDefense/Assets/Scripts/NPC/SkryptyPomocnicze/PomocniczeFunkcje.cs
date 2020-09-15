@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public static class PomocniczeFunkcje
 {
     public static StrukturaDrzewa korzeńDrzewaPozycji = null;
     public static Transform celWrogów = null;
+    private static string test = "Assets/Resources/Debug.txt";
     public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos)
     {
         Ray ray;
@@ -122,7 +124,6 @@ public static class PomocniczeFunkcje
             {
                 if (ponownieUstaw[i, j] != null)
                 {
-                    Debug.Log("Ponownie ustawiam "+ponownieUstaw[i,j].pozycjaGałęzi);
                     DodajDoDrzewaPozycji(ref korzeń, ponownieUstaw[i, j]);
                 }
             }
@@ -132,6 +133,8 @@ public static class PomocniczeFunkcje
     {
         StrukturaDrzewa aktualnyElement = korzeń;
         Vector3 pos = _com.transform.position;
+        StrukturaDrzewa prev = null;
+        sbyte idx = -1; //0 +X+Z, 1 - +X-Z, 2 - -X+Z, 3 - -X-Z
         while (true)
         {
             if (_com == aktualnyElement.komponentGałęzi)
@@ -154,7 +157,25 @@ public static class PomocniczeFunkcje
                 {
                     tabToReturn[1, 1] = aktualnyElement.MxMz;
                 }
-                aktualnyElement = null;
+                if (prev != null && idx > -1)
+                {
+                    switch (idx)
+                    {
+                        case 0:
+                            prev.PxPz = null;
+                            break;
+                        case 1:
+                            prev.PxMz = null;
+                            break;
+                        case 2:
+                            prev.MxPz = null;
+                            break;
+                        case 3:
+                            prev.MxMz = null;
+                            break;
+
+                    }
+                }
                 return tabToReturn;
             }
             if (pos.x < aktualnyElement.pozycjaGałęzi.x)
@@ -163,6 +184,8 @@ public static class PomocniczeFunkcje
                 {
                     if (aktualnyElement.MxMz != null)
                     {
+                        idx = 3;
+                        prev = aktualnyElement;
                         aktualnyElement = aktualnyElement.MxMz;
                     }
                     else
@@ -174,6 +197,8 @@ public static class PomocniczeFunkcje
                 {
                     if (aktualnyElement.MxPz != null)
                     {
+                        idx = 2;
+                        prev = aktualnyElement;
                         aktualnyElement = aktualnyElement.MxPz;
                     }
                     else
@@ -188,6 +213,8 @@ public static class PomocniczeFunkcje
                 {
                     if (aktualnyElement.PxMz != null)
                     {
+                        idx = 1;
+                        prev = aktualnyElement;
                         aktualnyElement = aktualnyElement.PxMz;
                     }
                     else
@@ -199,6 +226,8 @@ public static class PomocniczeFunkcje
                 {
                     if (aktualnyElement.PxPz != null)
                     {
+                        idx = 0;
+                        prev = aktualnyElement;
                         aktualnyElement = aktualnyElement.PxPz;
                     }
                     else
@@ -218,6 +247,7 @@ public static class PomocniczeFunkcje
         {
             if (posKom.x < aktualnieSprawdzanyNode.pozycjaGałęzi.x && posKom.z < aktualnieSprawdzanyNode.pozycjaGałęzi.z)
             {
+                //SaveInformationInDebug("If1 dla obiektu o pozycji " + aktualnieSprawdzanyNode.pozycjaGałęzi.ToString() + " gdzie dodawany obiekt ma pozycję " + elementDodawany.pozycjaGałęzi);
                 if (aktualnieSprawdzanyNode.MxMz != null)
                 {
                     aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.MxMz;
@@ -230,6 +260,7 @@ public static class PomocniczeFunkcje
             }
             else if (posKom.x >= aktualnieSprawdzanyNode.pozycjaGałęzi.x && posKom.z < aktualnieSprawdzanyNode.pozycjaGałęzi.z)
             {
+                //SaveInformationInDebug("If2 dla obiektu o pozycji " + aktualnieSprawdzanyNode.pozycjaGałęzi.ToString() + " gdzie dodawany obiekt ma pozycję " + elementDodawany.pozycjaGałęzi);
                 if (aktualnieSprawdzanyNode.PxMz != null)
                 {
                     aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.PxMz;
@@ -242,6 +273,7 @@ public static class PomocniczeFunkcje
             }
             else if (posKom.x >= aktualnieSprawdzanyNode.pozycjaGałęzi.x && posKom.z >= aktualnieSprawdzanyNode.pozycjaGałęzi.z)
             {
+               //SaveInformationInDebug("If3 dla obiektu o pozycji " + aktualnieSprawdzanyNode.pozycjaGałęzi.ToString() + " gdzie dodawany obiekt ma pozycję " + elementDodawany.pozycjaGałęzi);
                 if (aktualnieSprawdzanyNode.PxPz != null)
                 {
                     aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.PxPz;
@@ -252,20 +284,19 @@ public static class PomocniczeFunkcje
                     break;
                 }
             }
-            else if(posKom.x < aktualnieSprawdzanyNode.pozycjaGałęzi.x && posKom.z >= aktualnieSprawdzanyNode.pozycjaGałęzi.z)
+            else
             {
+                //SaveInformationInDebug("If4 dla obiektu o pozycji " + aktualnieSprawdzanyNode.pozycjaGałęzi.ToString() + " gdzie dodawany obiekt ma pozycję " + elementDodawany.pozycjaGałęzi);
                 if (aktualnieSprawdzanyNode.MxPz != null)
                 {
                     aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.MxPz;
                 }
-                else
+                else    //
                 {
                     aktualnieSprawdzanyNode.MxPz = elementDodawany;
                     break;
                 }
             }
-            else
-                break;
         }
     }
     public static void DodajDoDrzewaPozycji(Component _component, ref StrukturaDrzewa korzeń)
@@ -330,6 +361,12 @@ public static class PomocniczeFunkcje
                 }
             }
         }
+    }
+    public static void SaveInformationInDebug(string s)
+    {
+        StreamWriter writer = new StreamWriter(test, true);
+        writer.WriteLine(s);
+        writer.Close();
     }
 
 }
