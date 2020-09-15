@@ -31,7 +31,11 @@ public class KonkretnyNPCStatyczny : NPCClass
     }
     private void InicjacjaBudynku()
     {
-        this.gameObject.AddComponent<UnityEngine.AI.NavMeshObstacle>();
+        UnityEngine.AI.NavMeshObstacle tmp = null;
+        if (!this.gameObject.TryGetComponent<UnityEngine.AI.NavMeshObstacle>(out tmp))
+        {
+            this.gameObject.AddComponent<UnityEngine.AI.NavMeshObstacle>();
+        }
     }
     // Update is called once per frame
     protected override void RysujHPBar()
@@ -44,28 +48,31 @@ public class KonkretnyNPCStatyczny : NPCClass
             GUI.Box(new Rect(pozycjaPostaci.x - 40, Screen.height - pozycjaPostaci.y - 30, 80, 20), aktualneŻycie + " / " + maksymalneŻycie);
         }
     }
-     protected override void UsuńJednostkę()
+    protected override void UsuńJednostkę()
     {
-        if(this.nastawienieNPC == NastawienieNPC.Wrogie)
+        this.aktualneŻycie = -1;
+        if (this.nastawienieNPC == NastawienieNPC.Wrogie)
         {
             StartCoroutine(SkasujObject(5.0f));
         }
         else    //Jeśli nastawienie jest przyjazne
         {
             //Podmień obiekt na zgruzowany
+            Debug.Log("Rozpoczynam kasowanie jednostki");
             PomocniczeFunkcje.SkasujElementDrzewa(ref PomocniczeFunkcje.korzeńDrzewaPozycji, this);
             Collider[] tablicaKoliderow = this.GetComponents<Collider>();
-            for(byte i = 0; i < tablicaKoliderow.Length; i++)
+            for (byte i = 0; i < tablicaKoliderow.Length; i++)
             {
                 tablicaKoliderow[i].enabled = false;
             }
             UnityEngine.AI.NavMeshObstacle tNVO = this.GetComponent<UnityEngine.AI.NavMeshObstacle>();
             tNVO.enabled = false;
+            Debug.Log("Jednostka skasowana");
         }
     }
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Budynek" || other.tag == "NPC")
+        if (other.tag == "Budynek" || other.tag == "NPC")
         {
             indeksWejscia++;
             pozwalamNaBudowe = false;
@@ -73,10 +80,10 @@ public class KonkretnyNPCStatyczny : NPCClass
     }
     void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Budynek" || other.tag == "NPC")
+        if (other.tag == "Budynek" || other.tag == "NPC")
         {
             indeksWejscia--;
-            if(indeksWejscia == 0)
+            if (indeksWejscia == 0)
                 pozwalamNaBudowe = true;
         }
     }

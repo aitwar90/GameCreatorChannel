@@ -51,7 +51,7 @@ public abstract class NPCClass : MonoBehaviour
     }
     public short AktualneŻycie
     {
-        get 
+        get
         {
             return aktualneŻycie;
         }
@@ -72,7 +72,7 @@ public abstract class NPCClass : MonoBehaviour
     }
     void Update()
     {
-        if (aktualneŻycie <= 0)
+        if (aktualneŻycie == 0)
         {
             UsuńJednostkę();
         }
@@ -86,15 +86,15 @@ public abstract class NPCClass : MonoBehaviour
     }
     public virtual void ZmianaHP(short deltaHP)
     {
-        if(deltaHP < 0)
+        if (deltaHP < 0)
         {
-            deltaHP = (short)Mathf.CeilToInt(deltaHP*modyfikatorOtrzymywanychObrażeń);
+            deltaHP = (short)Mathf.CeilToInt(deltaHP * modyfikatorOtrzymywanychObrażeń);
         }
         this.aktualneŻycie -= deltaHP;
         if (aktualneŻycie > maksymalneŻycie)
             aktualneŻycie = maksymalneŻycie;
-        else if (aktualneŻycie < 0)
-            aktualneŻycie = 0;
+        if (aktualneŻycie < -1)
+            aktualneŻycie = -1;
     }
     protected void DodajNPCDoKolejkiAtaku(ref NPCClass knpcs)
     {
@@ -106,15 +106,15 @@ public abstract class NPCClass : MonoBehaviour
     }
     protected void OdepnijOdKolejkiAtaku(ref NPCClass knpcs)
     {
-        if(kolejkaAtaku == null)
+        if (kolejkaAtaku == null)
         {
             return;
         }
         ushort i = 0;
-        while(kolejkaAtaku.Count > i)
+        while (kolejkaAtaku.Count > i)
         {
             NPCClass temp = kolejkaAtaku.Dequeue() as NPCClass;
-            if(temp != knpcs)
+            if (temp != knpcs)
             {
                 kolejkaAtaku.Enqueue(temp);
             }

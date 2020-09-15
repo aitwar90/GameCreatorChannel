@@ -5,6 +5,7 @@ using UnityEngine;
 public static class PomocniczeFunkcje
 {
     public static StrukturaDrzewa korzeńDrzewaPozycji = null;
+    public static Transform celWrogów = null;
     public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos)
     {
         Ray ray;
@@ -105,14 +106,23 @@ public static class PomocniczeFunkcje
     public static void SkasujElementDrzewa(ref StrukturaDrzewa korzeń, Component _komponentDoSkasowania)
     {
         if (korzeń == null)
+        {
+            Debug.Log("Korzeń jest null");
             return;
+        }
         StrukturaDrzewa[,] ponownieUstaw = ZnajdźElementPoKomponencie(ref korzeń, _komponentDoSkasowania);
+        if (ponownieUstaw == null)
+        {
+            Debug.Log("Nie odnalazłem elemenu drzewa do skasowania");
+            return;
+        }
         for (byte i = 0; i < 2; i++)
         {
             for (byte j = 0; j < 2; j++)
             {
                 if (ponownieUstaw[i, j] != null)
                 {
+                    Debug.Log("Ponownie ustawiam "+ponownieUstaw[i,j].pozycjaGałęzi);
                     DodajDoDrzewaPozycji(ref korzeń, ponownieUstaw[i, j]);
                 }
             }
@@ -144,6 +154,7 @@ public static class PomocniczeFunkcje
                 {
                     tabToReturn[1, 1] = aktualnyElement.MxMz;
                 }
+                aktualnyElement = null;
                 return tabToReturn;
             }
             if (pos.x < aktualnyElement.pozycjaGałęzi.x)
@@ -241,7 +252,7 @@ public static class PomocniczeFunkcje
                     break;
                 }
             }
-            else
+            else if(posKom.x < aktualnieSprawdzanyNode.pozycjaGałęzi.x && posKom.z >= aktualnieSprawdzanyNode.pozycjaGałęzi.z)
             {
                 if (aktualnieSprawdzanyNode.MxPz != null)
                 {
@@ -253,6 +264,8 @@ public static class PomocniczeFunkcje
                     break;
                 }
             }
+            else
+                break;
         }
     }
     public static void DodajDoDrzewaPozycji(Component _component, ref StrukturaDrzewa korzeń)

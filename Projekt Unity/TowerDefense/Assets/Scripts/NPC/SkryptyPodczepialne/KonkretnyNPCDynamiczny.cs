@@ -56,20 +56,20 @@ public class KonkretnyNPCDynamiczny : NPCClass
     // Update is called once per frame
     void Update()
     {
-        if (aktualneŻycie <= 0)
-        {
-            UsuńJednostkę();
-            return;
-        }
         switch (głównyIndex)
         {
             case 0:
-
+                if (cel == null)
+                {
+                    cel = PomocniczeFunkcje.celWrogów;
+                    if (cel == null)
+                        break;
+                }
                 ObsłużNavMeshAgent(cel.position);
                 głównyIndex++;
                 break;
             case 1:
-                if (kolejkaAtaku != null && akcjaNavMesh == 1)
+                if (kolejkaAtaku != null)
                 {
                     AtakujCel();
                 }
@@ -98,21 +98,15 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             if (SpawnerHord.actualHPBars > 0)
                 SpawnerHord.actualHPBars--;
-            this.rysujPasekŻycia = false;
-            ManagerGryScript.iloscAktywnychWrogów--;
-            StartCoroutine(SkasujObject(3.0f));
         }
+        this.rysujPasekŻycia = false;
+        ManagerGryScript.iloscAktywnychWrogów--;
+        StartCoroutine(SkasujObject(3.0f));
     }
     private void ObsłużNavMeshAgent(Vector3 docelowaPozycja)
     {
         //https://www.binpress.com/unity-3d-ai-navmesh-navigation/
         //Logika nav mesha
-        if (cel == null)
-        {
-            cel = WyszukajNajbliższyObiekt().transform;
-            if (cel == null)
-                return;
-        }
         if (!agent.hasPath)
         {
             ścieżka = new NavMeshPath();
@@ -195,7 +189,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         if (aktualnyReuseAtaku < szybkośćAtaku)
         {
-            aktualnyReuseAtaku += Time.deltaTime;
+            aktualnyReuseAtaku += Time.deltaTime*2f;
             return;
         }
         NPCClass npcKlas = null;
@@ -231,6 +225,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     public KonkretnyNPCStatyczny WyszukajNajbliższyObiekt()
     {
+        Debug.Log("Rozpoczynam wyszukiwanie najbliższego obiektu");
         Component knpcs = PomocniczeFunkcje.WyszukajWDrzewie(ref PomocniczeFunkcje.korzeńDrzewaPozycji, this.transform.position);
         if (knpcs == null)
         {

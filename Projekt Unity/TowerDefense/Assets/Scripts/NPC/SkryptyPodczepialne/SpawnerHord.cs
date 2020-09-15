@@ -22,6 +22,8 @@ public class SpawnerHord : MonoBehaviour
 
     public void GenerujSpawn(Epoki e)
     {
+        if(cel != PomocniczeFunkcje.celWrogów)
+            PomocniczeFunkcje.celWrogów = cel;
         List<GameObject> możliwiNPC = new List<GameObject>();
         for (byte i = 0; i < wszystkieRodzajeWrogichJednostek.Length; i++)
         {
