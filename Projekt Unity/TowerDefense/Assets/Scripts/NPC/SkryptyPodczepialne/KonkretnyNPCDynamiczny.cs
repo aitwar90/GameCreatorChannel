@@ -107,6 +107,12 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         //https://www.binpress.com/unity-3d-ai-navmesh-navigation/
         //Logika nav mesha
+        if (cel == null)
+        {
+            cel = WyszukajNajbliższyObiekt().transform;
+            if (cel == null)
+                return;
+        }
         if (!agent.hasPath)
         {
             ścieżka = new NavMeshPath();
@@ -124,8 +130,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
             else if (ścieżka.status == NavMeshPathStatus.PathInvalid)
             {
                 Debug.Log("Agent nie potrafi dojść do celu, ścieżka nie została znaleziona");
-                //Tu należy odnaleźć najbliższy obiekt do niszczenia
-
+                //Tu należy odnaleźć najbliższy obiekt do niszczenie
+                cel = WyszukajNajbliższyObiekt().transform;
             }
         }
         else
@@ -233,7 +239,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         }
         else
         {
-            Debug.Log("Znaleziony obiekt ma nazwę "+knpcs.transform.name);
+            Debug.Log("Znaleziony obiekt ma nazwę " + knpcs.transform.name);
             return (KonkretnyNPCStatyczny)knpcs;
         }
     }
