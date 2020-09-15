@@ -28,146 +28,97 @@ public static class PomocniczeFunkcje
     }
 
     //Wyszukuje najbliższy budynek w drzewie dla punktu wysłanego w parametrze pozycjaWyszukiwujacego
-    public static Component WyszukajWDrzewie(StrukturaDrzewa korzeń, Vector3 pozycjaWyszukiwującego)
+    public static Component WyszukajWDrzewie(ref StrukturaDrzewa korzeń, Vector3 pozycjaWyszukiwującego)
     {
         if (korzeń == null)
+        {
+            Debug.Log("Korzeń jest null");
             return null;
+        }
         StrukturaDrzewa aktualnieSprawdzanyNode = korzeń;
+        float minDistance = 10000f;
+        Component compDoZwrotu = korzeń.komponentGałęzi;
         while (true)
         {
-            if (pozycjaWyszukiwującego.x < aktualnieSprawdzanyNode.pozycjaGałęzi.x)
+            float deltaX = aktualnieSprawdzanyNode.pozycjaGałęzi.x - pozycjaWyszukiwującego.x;
+            float deltaZ = aktualnieSprawdzanyNode.pozycjaGałęzi.z - pozycjaWyszukiwującego.z;
+            float d = Vector3.Distance(aktualnieSprawdzanyNode.pozycjaGałęzi, pozycjaWyszukiwującego);
+            if (d < minDistance)
             {
-                if (aktualnieSprawdzanyNode.lewaGałąźX != null)
+                minDistance = d;
+                compDoZwrotu = aktualnieSprawdzanyNode.komponentGałęzi;
+            }
+            if (deltaX > 0)  //Lewa strona drzewa
+            {
+                if (deltaZ > 0)  //Dolna strona drzewa
                 {
-                    if (Mathf.Abs(aktualnieSprawdzanyNode.pozycjaGałęzi.x - pozycjaWyszukiwującego.x) <
-                    Mathf.Abs(aktualnieSprawdzanyNode.lewaGałąźX.pozycjaGałęzi.x - pozycjaWyszukiwującego.x))
-                    {   //Lewe odnóże drzewa
-                        if (pozycjaWyszukiwującego.z < aktualnieSprawdzanyNode.pozycjaGałęzi.z)
-                        {
-                            if (aktualnieSprawdzanyNode.lewaGałąźZ != null)
-                            {
-                                if (Mathf.Abs(aktualnieSprawdzanyNode.pozycjaGałęzi.z - pozycjaWyszukiwującego.z) <
-                                    Mathf.Abs(aktualnieSprawdzanyNode.lewaGałąźZ.pozycjaGałęzi.z - pozycjaWyszukiwującego.z))
-                                {
-                                    //Wychodzi na to że ten jest najbliższy
-                                    return aktualnieSprawdzanyNode.komponentGałęzi;
-                                }
-                                else
-                                {
-                                    aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.lewaGałąźZ;
-                                }
-                            }
-                            else
-                            {
-                                return aktualnieSprawdzanyNode.komponentGałęzi;
-                            }
-                        }
-                        else
-                        {
-                            if (aktualnieSprawdzanyNode.prawaGałąźZ != null)
-                            {
-                                if (Mathf.Abs(aktualnieSprawdzanyNode.pozycjaGałęzi.z - pozycjaWyszukiwującego.z) <
-                                Mathf.Abs(aktualnieSprawdzanyNode.prawaGałąźZ.pozycjaGałęzi.z - pozycjaWyszukiwującego.z))
-                                {
-                                    return aktualnieSprawdzanyNode.komponentGałęzi;
-                                }
-                                else
-                                {
-                                    aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.prawaGałąźZ;
-                                }
-                            }
-                            else
-                            {
-                                return aktualnieSprawdzanyNode.komponentGałęzi;
-                            }
-                        }
+                    if (aktualnieSprawdzanyNode.MxMz != null)
+                    {
+                        aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.MxMz;
                     }
                     else
                     {
-                        aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.lewaGałąźX;
+                        break;
                     }
                 }
-                else
+                else    //Górna strona drzewa
                 {
-                    return aktualnieSprawdzanyNode.komponentGałęzi;
+                    if (aktualnieSprawdzanyNode.MxPz != null)
+                    {
+                        aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.MxPz;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
-            else    //Jeśli jednak ma szukać w prawym odnóżu drzewa
+            else    //Prawa strona drzewa
             {
-                if (aktualnieSprawdzanyNode.prawaGałąźX != null)
+                if (deltaZ > 0)
                 {
-                    if (Mathf.Abs(aktualnieSprawdzanyNode.pozycjaGałęzi.x - pozycjaWyszukiwującego.x) <
-                    Mathf.Abs(aktualnieSprawdzanyNode.prawaGałąźX.pozycjaGałęzi.x - pozycjaWyszukiwującego.x))
-                    {   //Lewe odnóże drzewa
-                        if (pozycjaWyszukiwującego.z < aktualnieSprawdzanyNode.pozycjaGałęzi.z)
-                        {
-                            if (aktualnieSprawdzanyNode.prawaGałąźZ != null)
-                            {
-                                if (Mathf.Abs(aktualnieSprawdzanyNode.pozycjaGałęzi.z - pozycjaWyszukiwującego.z) <
-                                    Mathf.Abs(aktualnieSprawdzanyNode.lewaGałąźZ.pozycjaGałęzi.z - pozycjaWyszukiwującego.z))
-                                {
-                                    //Wychodzi na to że ten jest najbliższy
-                                    return aktualnieSprawdzanyNode.komponentGałęzi;
-                                }
-                                else
-                                {
-                                    aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.lewaGałąźZ;
-                                }
-                            }
-                            else
-                            {
-                                return aktualnieSprawdzanyNode.komponentGałęzi;
-                            }
-                        }
-                        else
-                        {
-                            if (aktualnieSprawdzanyNode.prawaGałąźZ != null)
-                            {
-                                if (Mathf.Abs(aktualnieSprawdzanyNode.pozycjaGałęzi.z - pozycjaWyszukiwującego.z) <
-                                Mathf.Abs(aktualnieSprawdzanyNode.prawaGałąźZ.pozycjaGałęzi.z - pozycjaWyszukiwującego.z))
-                                {
-                                    return aktualnieSprawdzanyNode.komponentGałęzi;
-                                }
-                                else
-                                {
-                                    aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.prawaGałąźZ;
-                                }
-                            }
-                            else
-                            {
-                                return aktualnieSprawdzanyNode.komponentGałęzi;
-                            }
-                        }
+                    if (aktualnieSprawdzanyNode.PxMz != null)
+                    {
+                        aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.PxMz;
                     }
                     else
                     {
-                        aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.prawaGałąźX;
+                        break;
                     }
                 }
                 else
                 {
-                    return aktualnieSprawdzanyNode.komponentGałęzi;
+                    if (aktualnieSprawdzanyNode.PxPz != null)
+                    {
+                        aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.PxPz;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
         }
+        return compDoZwrotu;
     }
-    public static void SkasujElementDrzewa(StrukturaDrzewa korzeń, Component _komponentDoSkasowania)
+
+    public static void SkasujElementDrzewa(ref StrukturaDrzewa korzeń, Component _komponentDoSkasowania)
     {
         if (korzeń == null)
             return;
-        StrukturaDrzewa[,] ponownieUstaw = ZnajdźElementPoKomponencie(korzeń, _komponentDoSkasowania);
-        for(byte i = 0; i < 2; i++)
+        StrukturaDrzewa[,] ponownieUstaw = ZnajdźElementPoKomponencie(ref korzeń, _komponentDoSkasowania);
+        for (byte i = 0; i < 2; i++)
         {
-            for(byte j = 0; j < 2; j++)
+            for (byte j = 0; j < 2; j++)
             {
-                if(ponownieUstaw[i,j] != null)
+                if (ponownieUstaw[i, j] != null)
                 {
-                    DodajDoDrzewaPozycji(korzeń, ponownieUstaw[i,j]);
+                    DodajDoDrzewaPozycji(ref korzeń, ponownieUstaw[i, j]);
                 }
             }
         }
     }
-    private static StrukturaDrzewa[,] ZnajdźElementPoKomponencie(StrukturaDrzewa korzeń, Component _com)
+    private static StrukturaDrzewa[,] ZnajdźElementPoKomponencie(ref StrukturaDrzewa korzeń, Component _com)
     {
         StrukturaDrzewa aktualnyElement = korzeń;
         Vector3 pos = _com.transform.position;
@@ -176,194 +127,135 @@ public static class PomocniczeFunkcje
             if (_com == aktualnyElement.komponentGałęzi)
             {
                 //Znalazłem :)
-                StrukturaDrzewa [,] tabToReturn = {{null, null}, {null, null}};
-                if(aktualnyElement.lewaGałąźX != null)
+                StrukturaDrzewa[,] tabToReturn = { { null, null }, { null, null } };
+                if (aktualnyElement.PxPz != null)
                 {
-                    tabToReturn[0,0] = aktualnyElement.lewaGałąźX;
+                    tabToReturn[0, 0] = aktualnyElement.PxPz;
                 }
-                if(aktualnyElement.prawaGałąźX != null)
+                if (aktualnyElement.PxMz != null)
                 {
-                    tabToReturn[0,1] = aktualnyElement.prawaGałąźX;
+                    tabToReturn[0, 1] = aktualnyElement.PxMz;
                 }
-                if(aktualnyElement.lewaGałąźZ != null)
+                if (aktualnyElement.MxPz != null)
                 {
-                    tabToReturn[1,0] = aktualnyElement.lewaGałąźZ;
+                    tabToReturn[1, 0] = aktualnyElement.MxPz;
                 }
-                if(aktualnyElement.prawaGałąźZ != null)
+                if (aktualnyElement.MxMz != null)
                 {
-                    tabToReturn[1,1] = aktualnyElement.prawaGałąźZ;
+                    tabToReturn[1, 1] = aktualnyElement.MxMz;
                 }
                 return tabToReturn;
-
             }
             if (pos.x < aktualnyElement.pozycjaGałęzi.x)
             {
-                if (aktualnyElement.lewaGałąźX == null)
+                if (pos.z < aktualnyElement.pozycjaGałęzi.z)
                 {
-                    Debug.Log("Nie odnalazłem elementu drzewa");
-                    break;
-                }
-                else if (pos.x + 10f > aktualnyElement.pozycjaGałęzi.x &&
-                    pos.x - 10f < aktualnyElement.pozycjaGałęzi.x)
-                {
-                    if (pos.z < aktualnyElement.pozycjaGałęzi.z)
+                    if (aktualnyElement.MxMz != null)
                     {
-                        if (aktualnyElement.lewaGałąźZ == null)
-                        {
-                            Debug.Log("Nie odnalazłem elementu drzewa");
-                            break;
-                        }
-                        else
-                        {
-                            aktualnyElement = aktualnyElement.lewaGałąźZ;
-                        }
+                        aktualnyElement = aktualnyElement.MxMz;
                     }
                     else
                     {
-                        if (aktualnyElement.prawaGałąźZ == null)
-                        {
-                            Debug.Log("Nie odnalazłem elementu drzewa");
-                            break;
-                        }
-                        else
-                        {
-                            aktualnyElement = aktualnyElement.prawaGałąźZ;
-                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    if (aktualnyElement.MxPz != null)
+                    {
+                        aktualnyElement = aktualnyElement.MxPz;
+                    }
+                    else
+                    {
+                        break;
                     }
                 }
             }
             else
             {
-                if (aktualnyElement.prawaGałąźX == null)
+                if (pos.z < aktualnyElement.pozycjaGałęzi.z)
                 {
-                    Debug.Log("Nie odnalazłem elementu drzewa");
-                    break;
-                }
-                else if (pos.x + 10f > aktualnyElement.pozycjaGałęzi.x &&
-                pos.x - 10f < aktualnyElement.pozycjaGałęzi.x)
-                {
-                    if (pos.z < aktualnyElement.pozycjaGałęzi.z)
+                    if (aktualnyElement.PxMz != null)
                     {
-                        if (aktualnyElement.lewaGałąźZ == null)
-                        {
-                            Debug.Log("Nie odnalazłem elementu drzewa");
-                            break;
-                        }
-                        else
-                        {
-                            aktualnyElement = aktualnyElement.lewaGałąźZ;
-                        }
+                        aktualnyElement = aktualnyElement.PxMz;
                     }
                     else
                     {
-                        if (aktualnyElement.prawaGałąźZ == null)
-                        {
-                            Debug.Log("Nie odnalazłem elementu drzewa");
-                            break;
-                        }
-                        else
-                        {
-                            aktualnyElement = aktualnyElement.prawaGałąźZ;
-                        }
+                        break;
                     }
                 }
                 else
                 {
-                    aktualnyElement = aktualnyElement.prawaGałąźX;
+                    if (aktualnyElement.PxPz != null)
+                    {
+                        aktualnyElement = aktualnyElement.PxPz;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
         }
         return null;
     }
-    private static void DodajDoDrzewaPozycji(StrukturaDrzewa korzeń, StrukturaDrzewa elementDodawany)
+    private static void DodajDoDrzewaPozycji(ref StrukturaDrzewa korzeń, StrukturaDrzewa elementDodawany)
     {
         StrukturaDrzewa aktualnieSprawdzanyNode = korzeń;
-            Vector3 posKom = elementDodawany.pozycjaGałęzi;
-            while (true)
+        Vector3 posKom = elementDodawany.pozycjaGałęzi;
+        while (true)
+        {
+            if (posKom.x < aktualnieSprawdzanyNode.pozycjaGałęzi.x && posKom.z < aktualnieSprawdzanyNode.pozycjaGałęzi.z)
             {
-                if (posKom.x < aktualnieSprawdzanyNode.pozycjaGałęzi.x) //Lewe odnóże drzewa
+                if (aktualnieSprawdzanyNode.MxMz != null)
                 {
-                    if (aktualnieSprawdzanyNode.lewaGałąźX == null)
-                    {
-                        aktualnieSprawdzanyNode.lewaGałąźX = elementDodawany;
-                        break;
-                    }
-                    else if (posKom.x + 10f > aktualnieSprawdzanyNode.pozycjaGałęzi.x &&
-                    posKom.x - 10f < aktualnieSprawdzanyNode.pozycjaGałęzi.x)
-                    {
-                        if (posKom.z < aktualnieSprawdzanyNode.pozycjaGałęzi.z)
-                        {
-                            if (aktualnieSprawdzanyNode.lewaGałąźZ == null)
-                            {
-                                aktualnieSprawdzanyNode.lewaGałąźZ = elementDodawany;
-                                break;
-                            }
-                            else
-                            {
-                                aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.lewaGałąźZ;
-                            }
-                        }
-                        else
-                        {
-                            if (aktualnieSprawdzanyNode.prawaGałąźZ == null)
-                            {
-                                aktualnieSprawdzanyNode.prawaGałąźZ = elementDodawany;
-                                break;
-                            }
-                            else
-                            {
-                                aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.prawaGałąźZ;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.lewaGałąźX;
-                    }
+                    aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.MxMz;
                 }
-                else    //Prawe odnóże drzewa
+                else
                 {
-                    if (aktualnieSprawdzanyNode.prawaGałąźX == null)
-                    {
-                        aktualnieSprawdzanyNode.prawaGałąźX = elementDodawany;
-                        break;
-                    }
-                    else if (posKom.x + 10f > aktualnieSprawdzanyNode.pozycjaGałęzi.x &&
-                    posKom.x - 10f < aktualnieSprawdzanyNode.pozycjaGałęzi.x)
-                    {
-                        if (posKom.z < aktualnieSprawdzanyNode.pozycjaGałęzi.z)
-                        {
-                            if (aktualnieSprawdzanyNode.lewaGałąźZ == null)
-                            {
-                                aktualnieSprawdzanyNode.lewaGałąźZ = elementDodawany;
-                                break;
-                            }
-                            else
-                            {
-                                aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.lewaGałąźZ;
-                            }
-                        }
-                        else
-                        {
-                            if (aktualnieSprawdzanyNode.prawaGałąźZ == null)
-                            {
-                                aktualnieSprawdzanyNode.prawaGałąźZ = elementDodawany;
-                                break;
-                            }
-                            else
-                            {
-                                aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.prawaGałąźZ;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.prawaGałąźX;
-                    }
+                    aktualnieSprawdzanyNode.MxMz = elementDodawany;
+                    break;
                 }
             }
+            else if (posKom.x >= aktualnieSprawdzanyNode.pozycjaGałęzi.x && posKom.z < aktualnieSprawdzanyNode.pozycjaGałęzi.z)
+            {
+                if (aktualnieSprawdzanyNode.PxMz != null)
+                {
+                    aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.PxMz;
+                }
+                else
+                {
+                    aktualnieSprawdzanyNode.PxMz = elementDodawany;
+                    break;
+                }
+            }
+            else if (posKom.x >= aktualnieSprawdzanyNode.pozycjaGałęzi.x && posKom.z >= aktualnieSprawdzanyNode.pozycjaGałęzi.z)
+            {
+                if (aktualnieSprawdzanyNode.PxPz != null)
+                {
+                    aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.PxPz;
+                }
+                else
+                {
+                    aktualnieSprawdzanyNode.PxPz = elementDodawany;
+                    break;
+                }
+            }
+            else
+            {
+                if (aktualnieSprawdzanyNode.MxPz != null)
+                {
+                    aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.MxPz;
+                }
+                else
+                {
+                    aktualnieSprawdzanyNode.MxPz = elementDodawany;
+                    break;
+                }
+            }
+        }
     }
-    public static void DodajDoDrzewaPozycji(Component _component, StrukturaDrzewa korzeń = null)
+    public static void DodajDoDrzewaPozycji(Component _component, ref StrukturaDrzewa korzeń)
     {
         if (korzeń == null)
         {
@@ -375,84 +267,52 @@ public static class PomocniczeFunkcje
             Vector3 posKom = _component.transform.position;
             while (true)
             {
-                if (posKom.x < aktualnieSprawdzanyNode.pozycjaGałęzi.x) //Lewe odnóże drzewa
+                if (posKom.x < aktualnieSprawdzanyNode.pozycjaGałęzi.x && posKom.z < aktualnieSprawdzanyNode.pozycjaGałęzi.z)
                 {
-                    if (aktualnieSprawdzanyNode.lewaGałąźX == null)
+                    if (aktualnieSprawdzanyNode.MxMz != null)
                     {
-                        aktualnieSprawdzanyNode.lewaGałąźX = new StrukturaDrzewa(_component);
-                        break;
-                    }
-                    else if (posKom.x + 10f > aktualnieSprawdzanyNode.pozycjaGałęzi.x &&
-                    posKom.x - 10f < aktualnieSprawdzanyNode.pozycjaGałęzi.x)
-                    {
-                        if (posKom.z < aktualnieSprawdzanyNode.pozycjaGałęzi.z)
-                        {
-                            if (aktualnieSprawdzanyNode.lewaGałąźZ == null)
-                            {
-                                aktualnieSprawdzanyNode.lewaGałąźZ = new StrukturaDrzewa(_component);
-                                break;
-                            }
-                            else
-                            {
-                                aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.lewaGałąźZ;
-                            }
-                        }
-                        else
-                        {
-                            if (aktualnieSprawdzanyNode.prawaGałąźZ == null)
-                            {
-                                aktualnieSprawdzanyNode.prawaGałąźZ = new StrukturaDrzewa(_component);
-                                break;
-                            }
-                            else
-                            {
-                                aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.prawaGałąźZ;
-                            }
-                        }
+                        aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.MxMz;
                     }
                     else
                     {
-                        aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.lewaGałąźX;
+                        aktualnieSprawdzanyNode.MxMz = new StrukturaDrzewa(_component);
+                        break;
                     }
                 }
-                else    //Prawe odnóże drzewa
+                else if (posKom.x >= aktualnieSprawdzanyNode.pozycjaGałęzi.x && posKom.z < aktualnieSprawdzanyNode.pozycjaGałęzi.z)
                 {
-                    if (aktualnieSprawdzanyNode.prawaGałąźX == null)
+                    if (aktualnieSprawdzanyNode.PxMz != null)
                     {
-                        aktualnieSprawdzanyNode.prawaGałąźX = new StrukturaDrzewa(_component);
-                        break;
-                    }
-                    else if (posKom.x + 10f > aktualnieSprawdzanyNode.pozycjaGałęzi.x &&
-                    posKom.x - 10f < aktualnieSprawdzanyNode.pozycjaGałęzi.x)
-                    {
-                        if (posKom.z < aktualnieSprawdzanyNode.pozycjaGałęzi.z)
-                        {
-                            if (aktualnieSprawdzanyNode.lewaGałąźZ == null)
-                            {
-                                aktualnieSprawdzanyNode.lewaGałąźZ = new StrukturaDrzewa(_component);
-                                break;
-                            }
-                            else
-                            {
-                                aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.lewaGałąźZ;
-                            }
-                        }
-                        else
-                        {
-                            if (aktualnieSprawdzanyNode.prawaGałąźZ == null)
-                            {
-                                aktualnieSprawdzanyNode.prawaGałąźZ = new StrukturaDrzewa(_component);
-                                break;
-                            }
-                            else
-                            {
-                                aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.prawaGałąźZ;
-                            }
-                        }
+                        aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.PxMz;
                     }
                     else
                     {
-                        aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.prawaGałąźX;
+                        aktualnieSprawdzanyNode.PxMz = new StrukturaDrzewa(_component);
+                        break;
+                    }
+                }
+                else if (posKom.x >= aktualnieSprawdzanyNode.pozycjaGałęzi.x && posKom.z >= aktualnieSprawdzanyNode.pozycjaGałęzi.z)
+                {
+                    if (aktualnieSprawdzanyNode.PxPz != null)
+                    {
+                        aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.PxPz;
+                    }
+                    else
+                    {
+                        aktualnieSprawdzanyNode.PxPz = new StrukturaDrzewa(_component);
+                        break;
+                    }
+                }
+                else
+                {
+                    if (aktualnieSprawdzanyNode.MxPz != null)
+                    {
+                        aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.MxPz;
+                    }
+                    else
+                    {
+                        aktualnieSprawdzanyNode.MxPz = new StrukturaDrzewa(_component);
+                        break;
                     }
                 }
             }

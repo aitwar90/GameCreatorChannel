@@ -111,7 +111,7 @@ public class SpawnBudynki : MonoBehaviour
             kolider = null;
             materialWybranegoBudynku.color = kolorOrginału;
             materialWybranegoBudynku = null;
-            PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcs, PomocniczeFunkcje.korzeńDrzewaPozycji);
+            PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcs, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
             knpcs = null;
             wszystkieBudynki[wybranyBudynek].transform.SetParent(rodzicBudynkow);
             wybranyBudynek = -1;

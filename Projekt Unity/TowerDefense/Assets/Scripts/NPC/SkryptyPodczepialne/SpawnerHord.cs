@@ -106,6 +106,10 @@ public class SpawnerHord : MonoBehaviour
             go.transform.rotation = Quaternion.identity;
             rodzicNPC = go.transform;
         }
+        if(cel != null)
+        {
+            PomocniczeFunkcje.DodajDoDrzewaPozycji(cel.GetComponent<KonkretnyNPCStatyczny>(), ref PomocniczeFunkcje.korzeńDrzewaPozycji);
+        }
     }
     void Update()
     {

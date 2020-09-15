@@ -30,10 +30,10 @@ public enum TypBudynku
 }
 public class StrukturaDrzewa
 {
-    public StrukturaDrzewa lewaGałąźX;
-    public StrukturaDrzewa prawaGałąźX;
-    public StrukturaDrzewa lewaGałąźZ;
-    public StrukturaDrzewa prawaGałąźZ;
+    public StrukturaDrzewa PxPz;
+    public StrukturaDrzewa PxMz;
+    public StrukturaDrzewa MxPz;
+    public StrukturaDrzewa MxMz;
     public Component komponentGałęzi;
     public Vector3 pozycjaGałęzi;
     public StrukturaDrzewa()
@@ -42,10 +42,10 @@ public class StrukturaDrzewa
     }
     public StrukturaDrzewa(Component _komponent)
     {
-        lewaGałąźX = null;
-        prawaGałąźX = null;
-        lewaGałąźZ = null;
-        prawaGałąźZ = null;
+        PxPz = null;
+        PxMz = null;
+        MxPz = null;
+        MxMz = null;
         komponentGałęzi = _komponent;
         pozycjaGałęzi = _komponent.transform.position;
     }

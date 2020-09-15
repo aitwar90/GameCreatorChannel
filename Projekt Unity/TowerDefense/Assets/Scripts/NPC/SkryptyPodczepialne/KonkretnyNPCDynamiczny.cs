@@ -65,13 +65,13 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             case 0:
 
-                ObsłużNavMeshAgent(cel.position);
+                //ObsłużNavMeshAgent(cel.position);
                 głównyIndex++;
                 break;
             case 1:
                 if (kolejkaAtaku != null && akcjaNavMesh == 1)
                 {
-                    AtakujCel();
+                    //AtakujCel();
                 }
                 głównyIndex = 0;
                 break;
@@ -125,7 +125,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
             {
                 Debug.Log("Agent nie potrafi dojść do celu, ścieżka nie została znaleziona");
                 //Tu należy odnaleźć najbliższy obiekt do niszczenia
-                
+
             }
         }
         else
@@ -221,6 +221,20 @@ public class KonkretnyNPCDynamiczny : NPCClass
             npcKlas.ZmianaHP((short)Mathf.FloorToInt((zadawaneObrażenia * this.modyfikatorZadawanychObrażeń)));
             if (akcjaNavMesh == 1)
                 this.ZmianaHP(npcKlas.ZwrócOdbiteObrażenia());
+        }
+    }
+    public KonkretnyNPCStatyczny WyszukajNajbliższyObiekt()
+    {
+        Component knpcs = PomocniczeFunkcje.WyszukajWDrzewie(ref PomocniczeFunkcje.korzeńDrzewaPozycji, this.transform.position);
+        if (knpcs == null)
+        {
+            Debug.Log("Nie odnaleziono najbliższego obiektu");
+            return null;
+        }
+        else
+        {
+            Debug.Log("Znaleziony obiekt ma nazwę "+knpcs.transform.name);
+            return (KonkretnyNPCStatyczny)knpcs;
         }
     }
 }

@@ -53,7 +53,7 @@ public class KonkretnyNPCStatyczny : NPCClass
         else    //Jeśli nastawienie jest przyjazne
         {
             //Podmień obiekt na zgruzowany
-            PomocniczeFunkcje.SkasujElementDrzewa(PomocniczeFunkcje.korzeńDrzewaPozycji, this);
+            PomocniczeFunkcje.SkasujElementDrzewa(ref PomocniczeFunkcje.korzeńDrzewaPozycji, this);
             Collider[] tablicaKoliderow = this.GetComponents<Collider>();
             for(byte i = 0; i < tablicaKoliderow.Length; i++)
             {
