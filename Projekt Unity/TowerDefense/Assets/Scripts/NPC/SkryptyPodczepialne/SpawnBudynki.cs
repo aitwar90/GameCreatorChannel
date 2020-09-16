@@ -6,7 +6,6 @@ public class SpawnBudynki : MonoBehaviour
 {
     #region Zmienne publiczne
     public GameObject[] wszystkieBudynki;
-    public short wybranyBudynek = -1;
     public Transform rodzicBudynkow = null;
 
     //UI _ Canvas
@@ -18,6 +17,7 @@ public class SpawnBudynki : MonoBehaviour
     private Color kolorOrginału;
     private Collider kolider = null;
     private KonkretnyNPCStatyczny knpcs = null;
+    private GameObject aktualnyObiekt = null;
     #endregion
 
     void Awake()
@@ -39,7 +39,7 @@ public class SpawnBudynki : MonoBehaviour
     }
     void Update()
     {
-        if (wybranyBudynek != -1)
+        if (aktualnyObiekt != null)
         {
             if (Input.GetMouseButtonDown(2))
             {
@@ -48,21 +48,21 @@ public class SpawnBudynki : MonoBehaviour
             else
             {
                 Vector3 posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora);
-                wszystkieBudynki[wybranyBudynek].transform.position = posClick;
+                aktualnyObiekt.transform.position = posClick;
 #if UNITY_STANDALONE
                 float numer = Input.GetAxisRaw("Mouse ScrollWheel");
                 if (numer != 0)
                 {
                     numer = (numer < 0) ? -1 : 1;
-                    Vector3 vet = wszystkieBudynki[wybranyBudynek].transform.rotation.eulerAngles;
+                    Vector3 vet = aktualnyObiekt.transform.rotation.eulerAngles;
                     vet.y += numer * 45;
-                    wszystkieBudynki[wybranyBudynek].transform.rotation = Quaternion.Euler(vet);
+                    aktualnyObiekt.transform.rotation = Quaternion.Euler(vet);
                 }
 #endif
                 ostatniaPozycjaKursora = posClick;
             }
         }
-        if (wybranyBudynek != -1 && CzyMogęPostawićBudynek())   //Jeśli chcesz postawić dany budynek to
+        if (aktualnyObiekt != null && CzyMogęPostawićBudynek())   //Jeśli chcesz postawić dany budynek to
         {
 #if UNITY_STANDALONE
             if (Input.GetMouseButtonDown(0))
@@ -80,55 +80,64 @@ public class SpawnBudynki : MonoBehaviour
     }
     public void PostawBudynek(ref GameObject obiektDoRespawnu, Vector3 pos, Quaternion rotation)
     {
-        obiektDoRespawnu = Instantiate(obiektDoRespawnu, pos, rotation);
-        materialWybranegoBudynku = obiektDoRespawnu.GetComponent<Renderer>().material;
+        aktualnyObiekt = Instantiate(obiektDoRespawnu, pos, rotation);
+        materialWybranegoBudynku = aktualnyObiekt.GetComponent<Renderer>().material;
         if (materialWybranegoBudynku != null)
         {
             kolorOrginału = materialWybranegoBudynku.color;
             materialWybranegoBudynku.color = Color.red;
         }
-        knpcs = obiektDoRespawnu.GetComponent<KonkretnyNPCStatyczny>();
-        kolider = obiektDoRespawnu.GetComponent<Collider>();
+        knpcs = aktualnyObiekt.GetComponent<KonkretnyNPCStatyczny>();
+        kolider = aktualnyObiekt.GetComponent<Collider>();
         kolider.isTrigger = true;
     }
     private void ZatwierdzenieBudynku()
     {
         Vector3 posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora);
-        if (wybranyBudynek != -1)
+        if (aktualnyObiekt != null)
         {
-            //Sprawdź czy można postawić budynek
-            if(TypBudynku.Mur == knpcs.typBudynku)
+            if (TypBudynku.Mur == knpcs.typBudynku)
             {
                 posClick = WyrównajSpawn(posClick);
             }
+            // Pobieranie niezbędnych danych
+            Rigidbody rb = aktualnyObiekt.GetComponent<Rigidbody>();
+            // Ustawienie wszystkich danych po postawieniu budynku
+                //Ustawienia obiektu
             knpcs.NastawienieNonPlayerCharacter = NastawienieNPC.Przyjazne;
-            wszystkieBudynki[wybranyBudynek].transform.position = posClick;
-            Rigidbody rb = wszystkieBudynki[wybranyBudynek].GetComponent<Rigidbody>();
+            aktualnyObiekt.transform.position = posClick;
+            aktualnyObiekt.tag = "Budynek";
+            aktualnyObiekt.isStatic = true;
+            aktualnyObiekt.transform.SetParent(rodzicBudynkow);
+                //Ustawienie skryptu KonkretnyNPCStatyuczny
+            knpcs.InicjacjaBudynku();
+            PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcs, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
+                //Ustawienie Rigid Body
             rb.isKinematic = true;
             rb.Sleep();
-            wszystkieBudynki[wybranyBudynek].isStatic = true;
+                //Ustawienie kolidera
             kolider.isTrigger = false;
-            kolider = null;
+                //Ustawienie materiału
             materialWybranegoBudynku.color = kolorOrginału;
+            
+            // Kasowanie ustawień potrzebnych do postawienia budynku
+            kolider = null;
             materialWybranegoBudynku = null;
-            PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcs, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
             knpcs = null;
-            wszystkieBudynki[wybranyBudynek].transform.SetParent(rodzicBudynkow);
-            wybranyBudynek = -1;
+            aktualnyObiekt = null;
         }
     }
     public void WybierzBudynekDoPostawienia()  //Wybór obiektu budynku do postawienia
     {
         short index = (short)(this.dropdawn.value - 1);
-        dropdawn.value = 0;
-        if (index > -1 && wybranyBudynek == -1)
+        if (index > -1 && aktualnyObiekt == null)
         {
             Vector3 posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora);
 
-            wybranyBudynek = index;
-            PostawBudynek(ref wszystkieBudynki[wybranyBudynek], posClick, Quaternion.identity);
+            PostawBudynek(ref wszystkieBudynki[index], posClick, Quaternion.identity);
             ostatniaPozycjaKursora = posClick;
         }
+        dropdawn.value = 0;
     }
     private bool CzyMogęPostawićBudynek()
     {
@@ -146,8 +155,8 @@ public class SpawnBudynki : MonoBehaviour
         materialWybranegoBudynku = null;
         kolider = null;
         knpcs = null;
-        DestroyImmediate(wszystkieBudynki[wybranyBudynek]);
-        wybranyBudynek = -1;
+        aktualnyObiekt = null;
+        Destroy(aktualnyObiekt);
     }
     private Vector3 WyrównajSpawn(Vector3 sugerowanePolozenie)
     {

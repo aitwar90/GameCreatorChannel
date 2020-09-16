@@ -30,7 +30,7 @@ public abstract class NPCClass : MonoBehaviour
     #endregion
 
     #region Zmienne chronione
-    public short aktualneŻycie = 0;
+    public short aktualneŻycie = -1;
     public NastawienieNPC nastawienieNPC;
     protected Renderer mainRenderer;
     protected float aktualnyReuseAtaku = 0.0f;
@@ -64,11 +64,11 @@ public abstract class NPCClass : MonoBehaviour
     void Awake()
     {
         mainRenderer = this.transform.GetComponent<Renderer>();
-        this.aktualneŻycie = this.maksymalneŻycie;
     }
     void OnGUI()
     {
-        RysujHPBar();
+        if(aktualneŻycie <= maksymalneŻycie & aktualneŻycie > -1)
+            RysujHPBar();
     }
     void Update()
     {

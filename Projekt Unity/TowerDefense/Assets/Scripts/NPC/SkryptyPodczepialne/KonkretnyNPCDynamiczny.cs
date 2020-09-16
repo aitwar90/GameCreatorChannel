@@ -45,12 +45,13 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             DodajNavMeshAgent();
         }
-        if (this.typNPC != TypNPC.WalczyNaDystans)
+        if (this.typNPC != TypNPC.WalczyNaDystans && this.typNPC != TypNPC.NieWalczy)
         {
             SphereCollider sc = this.gameObject.AddComponent<SphereCollider>();
             sc.isTrigger = true;
             sc.radius = 2.5f;
         }
+        this.aktualneŻycie = this.maksymalneŻycie;
     }
 
     // Update is called once per frame

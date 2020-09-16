@@ -25,17 +25,14 @@ public class KonkretnyNPCStatyczny : NPCClass
     #region Getery i setery
 
     #endregion
-    void Start()
-    {
-        InicjacjaBudynku();
-    }
-    private void InicjacjaBudynku()
+    public void InicjacjaBudynku()
     {
         UnityEngine.AI.NavMeshObstacle tmp = null;
         if (!this.gameObject.TryGetComponent<UnityEngine.AI.NavMeshObstacle>(out tmp))
         {
             this.gameObject.AddComponent<UnityEngine.AI.NavMeshObstacle>();
         }
+        this.aktualneŻycie = this.maksymalneŻycie;
     }
     // Update is called once per frame
     protected override void RysujHPBar()
@@ -58,7 +55,6 @@ public class KonkretnyNPCStatyczny : NPCClass
         else    //Jeśli nastawienie jest przyjazne
         {
             //Podmień obiekt na zgruzowany
-            Debug.Log("Rozpoczynam kasowanie jednostki");
             PomocniczeFunkcje.SkasujElementDrzewa(ref PomocniczeFunkcje.korzeńDrzewaPozycji, this);
             Collider[] tablicaKoliderow = this.GetComponents<Collider>();
             for (byte i = 0; i < tablicaKoliderow.Length; i++)
@@ -66,8 +62,8 @@ public class KonkretnyNPCStatyczny : NPCClass
                 tablicaKoliderow[i].enabled = false;
             }
             UnityEngine.AI.NavMeshObstacle tNVO = this.GetComponent<UnityEngine.AI.NavMeshObstacle>();
-            tNVO.enabled = false;
-            Debug.Log("Jednostka skasowana");
+            if(tNVO != null)
+                tNVO.enabled = false;
         }
     }
     void OnTriggerEnter(Collider other)
