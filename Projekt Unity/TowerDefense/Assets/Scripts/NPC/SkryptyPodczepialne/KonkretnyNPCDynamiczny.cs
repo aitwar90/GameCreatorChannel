@@ -9,16 +9,14 @@ Klasa obsługuje dynamiczne NPC
 public class KonkretnyNPCDynamiczny : NPCClass
 {
     #region Zmienne publiczne
-    public Transform cel;
+
     #endregion
 
     #region Zmienny prywatne
     private bool rysujPasekŻycia = false;
     private NavMeshAgent agent = null;
     private NavMeshPath ścieżka = null;
-    private NPCClass aktualnyCelAtaku;  //Indeks aktualnej akcji navmesha (0 - idź, 1 - stój itp)
-    private byte akcjaNavMesh = 0;
-    private byte głównyIndex = 0;
+    private sbyte głównyIndex = -1;
     #endregion
 
     #region Zmienne chronione
@@ -45,12 +43,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             DodajNavMeshAgent();
         }
-        if (this.typNPC != TypNPC.WalczyNaDystans && this.typNPC != TypNPC.NieWalczy)
-        {
-            SphereCollider sc = this.gameObject.AddComponent<SphereCollider>();
-            sc.isTrigger = true;
-            sc.radius = 2.5f;
-        }
         this.aktualneŻycie = this.maksymalneŻycie;
     }
 
@@ -59,21 +51,19 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         switch (głównyIndex)
         {
-            case 0:
+            case -1:
                 if (cel == null)
                 {
-                    cel = PomocniczeFunkcje.celWrogów;
-                    if (cel == null)
-                        break;
+                    PomocniczeFunkcje.ZwykłeAI(this);
                 }
-                ObsłużNavMeshAgent(cel.position);
+                ObsłużNavMeshAgent(cel.transform.position);
+                głównyIndex++;
+                break;
+            case 0:
+                PomocniczeFunkcje.ZwykłeAI(this);
                 głównyIndex++;
                 break;
             case 1:
-                if (kolejkaAtaku != null)
-                {
-                    AtakujCel();
-                }
                 głównyIndex = 0;
                 break;
         }
@@ -126,103 +116,33 @@ public class KonkretnyNPCDynamiczny : NPCClass
             {
                 Debug.Log("Agent nie potrafi dojść do celu, ścieżka nie została znaleziona");
                 //Tu należy odnaleźć najbliższy obiekt do niszczenie
-                cel = WyszukajNajbliższyObiekt().transform;
+                cel = WyszukajNajbliższyObiekt() as KonkretnyNPCStatyczny;
+                StartCoroutine(WyliczŚciezkęPonownie(Random.Range(5.5f, 10.5f)));
             }
-        }
-        else
-        {
-            if (Vector3.Distance(agent.destination, this.transform.position) <= agent.stoppingDistance)
-            {
-                akcjaNavMesh = 1;
-            }
-        }
-        //Akcje navMeshAgenta
-        switch (akcjaNavMesh)
-        {
-            case 0: //Nav Mesh idzie
-                if (agent.isStopped)
-                    agent.isStopped = false;
-                break;
-            case 1:
-                if (!agent.isStopped)
-                    agent.isStopped = true;
-                break;
         }
     }
     private IEnumerator WyliczŚciezkęPonownie(float f)
     {
         yield return new WaitForSeconds(f);
         agent.ResetPath();
-        ObsłużNavMeshAgent(cel.position);
+        ObsłużNavMeshAgent(cel.transform.position);
     }
     private void DodajNavMeshAgent()
     {
         agent = this.gameObject.AddComponent<NavMeshAgent>();
         agent.stoppingDistance = (zasięgAtaku == 0) ? 1.5f : zasięgAtaku;
     }
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Budynek" || other.tag == "NPC")
-        {
-            NPCClass knpcs = other.GetComponent<NPCClass>();
-            if (knpcs.NastawienieNonPlayerCharacter != this.nastawienieNPC)
-            {
-                DodajNPCDoKolejkiAtaku(ref knpcs);
-                //Atakuj wroga
-                akcjaNavMesh = 1;
-            }
-        }
-    }
-    void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Budynek" || other.tag == "NPC")
-        {
-            NPCClass knpcs = other.GetComponent<NPCClass>();
-            if (knpcs.NastawienieNonPlayerCharacter != this.nastawienieNPC)
-            {
-                OdepnijOdKolejkiAtaku(ref knpcs);
-                //Atakuj wroga
-                akcjaNavMesh = 0;
-            }
-        }
-    }
-    private void AtakujCel()
+    private void AtakujCel(bool czyWZwarciu)
     {
         if (aktualnyReuseAtaku < szybkośćAtaku)
         {
-            aktualnyReuseAtaku += Time.deltaTime*2f;
+            aktualnyReuseAtaku += Time.deltaTime * 4f;
             return;
         }
-        NPCClass npcKlas = null;
-        while (true)
-        {
-            if (kolejkaAtaku.Count == 0)
-            {
-                break;
-            }
-            npcKlas = kolejkaAtaku.Peek();
-            if (npcKlas.AktualneŻycie > 0)
-            {
-                break;
-            }
-            else
-            {
-                kolejkaAtaku.Dequeue();
-            }
-        }
         aktualnyReuseAtaku = 0.0f;
-        if (npcKlas == null)
-        {
-            //Koniec ataku zmień na ruch
-            kolejkaAtaku = null;
-            akcjaNavMesh = 0;
-        }
-        else
-        {
-            npcKlas.ZmianaHP((short)Mathf.FloorToInt((zadawaneObrażenia * this.modyfikatorZadawanychObrażeń)));
-            if (akcjaNavMesh == 1)
-                this.ZmianaHP(npcKlas.ZwrócOdbiteObrażenia());
-        }
+        cel.ZmianaHP((short)Mathf.FloorToInt((zadawaneObrażenia * this.modyfikatorZadawanychObrażeń)));
+        if (czyWZwarciu)
+            this.ZmianaHP(cel.ZwrócOdbiteObrażenia());
     }
     public KonkretnyNPCStatyczny WyszukajNajbliższyObiekt()
     {
@@ -238,5 +158,13 @@ public class KonkretnyNPCDynamiczny : NPCClass
             Debug.Log("Znaleziony obiekt ma nazwę " + knpcs.transform.name);
             return (KonkretnyNPCStatyczny)knpcs;
         }
+    }
+    public override void Atakuj(bool wZwarciu)
+    {
+        AtakujCel(wZwarciu);
+    }
+    public override void WłWyłNavMeshAgent(bool value)
+    {
+        //this.agent.isStopped = value;
     }
 }

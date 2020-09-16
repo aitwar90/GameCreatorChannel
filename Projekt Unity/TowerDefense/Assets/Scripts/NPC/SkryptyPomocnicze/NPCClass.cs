@@ -23,6 +23,7 @@ public abstract class NPCClass : MonoBehaviour
     public float modyfikatorOtrzymywanychObrażeń = 1.0f;
     [Tooltip("Mnożnik zadawanych obrażeń przez jednostkę")]
     public float modyfikatorZadawanychObrażeń = 1.0f;
+    public NPCClass cel = null;
     #endregion
 
     #region Zmienny prywatne
@@ -34,7 +35,6 @@ public abstract class NPCClass : MonoBehaviour
     public NastawienieNPC nastawienieNPC;
     protected Renderer mainRenderer;
     protected float aktualnyReuseAtaku = 0.0f;
-    protected Queue<NPCClass> kolejkaAtaku = null;
     #endregion
 
     #region Getery i setery
@@ -96,33 +96,19 @@ public abstract class NPCClass : MonoBehaviour
         if (aktualneŻycie < -1)
             aktualneŻycie = -1;
     }
-    protected void DodajNPCDoKolejkiAtaku(ref NPCClass knpcs)
-    {
-        if (kolejkaAtaku == null)
-        {
-            kolejkaAtaku = new Queue<NPCClass>();
-        }
-        kolejkaAtaku.Enqueue(knpcs);
-    }
-    protected void OdepnijOdKolejkiAtaku(ref NPCClass knpcs)
-    {
-        if (kolejkaAtaku == null)
-        {
-            return;
-        }
-        ushort i = 0;
-        while (kolejkaAtaku.Count > i)
-        {
-            NPCClass temp = kolejkaAtaku.Dequeue() as NPCClass;
-            if (temp != knpcs)
-            {
-                kolejkaAtaku.Enqueue(temp);
-            }
-            i++;
-        }
-    }
+    public abstract void Atakuj(bool wZwarciu);
+
     public virtual byte ZwrócOdbiteObrażenia()
     {
         return 0;
     }
+    public virtual float PobierzGranice()
+    {
+        return 0.2f;
+    }
+    public virtual void WłWyłNavMeshAgent(bool value)
+    {
+
+    }
+    
 }

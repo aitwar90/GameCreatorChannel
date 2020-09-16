@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class ManagerGryScript : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class ManagerGryScript : MonoBehaviour
     [Tooltip("Czas pomięczy kolejnymi falami hordy")]
     public byte czasWMinutachMiędzyFalami = 1;
     public static short iloscAktywnychWrogów = 0;
+
+    [Tooltip("Zaznaczony NPC")]
+    public NPCClass zaznaczonyObiekt = null;
 
     #endregion
 
@@ -42,6 +46,20 @@ public class ManagerGryScript : MonoBehaviour
             //Lvl skończony wszystkie fale zostały pokonane
             KoniecPoziomuZakończony(true);
         }
+        /*
+        Fragment kodu, który ma za zadanie zaznaczyć obiekt
+        */
+        #if UNITY_STANDALONE
+            if (Input.GetMouseButtonDown(0))
+            {
+                zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
+                if(zaznaczonyObiekt != null)
+                {
+                    //Zaznacz obiekt
+                    Debug.Log("Zaznaczam obiekt "+zaznaczonyObiekt.name);
+                }
+            }
+#endif
     }
     private IEnumerator WyzwólKolejnąFalę()
     {
@@ -53,6 +71,10 @@ public class ManagerGryScript : MonoBehaviour
         {
             StartCoroutine("WyzwólKolejnąFalę");
         }
+    }
+    void OnGUI()
+    {
+        EditorGUI.TextField(new Rect(10, 20, 300, 20), "Zaznaczony obiekt: "+ ((zaznaczonyObiekt == null) ? "null" : zaznaczonyObiekt.name));
     }
     private void KoniecPoziomuZakończony(bool sukces = true)
     {

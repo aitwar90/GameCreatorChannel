@@ -8,14 +8,16 @@ Klasa obsługuje statyczne NPC
 public class KonkretnyNPCStatyczny : NPCClass
 {
     #region Zmienne publiczne
-    public bool pozwalamNaBudowe = true;
     public TypBudynku typBudynku;
     [Range(0, 20)]
     public byte odbiteObrażenia = 1;
+    [Header("Granice obiektu względem środka obiektu"), Tooltip("Granica obiektu po osi X")]
+    public float granicaX = 0.5f;
+    [Tooltip("Granica obiektu po osi Z")]
+    public float granicaZ = 0.5f;
     #endregion
 
     #region Zmienny prywatne
-    private byte indeksWejscia = 0;
 
     #endregion
 
@@ -66,25 +68,16 @@ public class KonkretnyNPCStatyczny : NPCClass
                 tNVO.enabled = false;
         }
     }
-    void OnTriggerEnter(Collider other)
+    public override void Atakuj(bool wZwarciu)
     {
-        if (other.tag == "Budynek" || other.tag == "NPC")
-        {
-            indeksWejscia++;
-            pozwalamNaBudowe = false;
-        }
-    }
-    void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Budynek" || other.tag == "NPC")
-        {
-            indeksWejscia--;
-            if (indeksWejscia == 0)
-                pozwalamNaBudowe = true;
-        }
+
     }
     public override byte ZwrócOdbiteObrażenia()
     {
         return (byte)Mathf.CeilToInt(odbiteObrażenia * this.modyfikatorZadawanychObrażeń);
+    }
+    public override float PobierzGranice()
+    {
+        return (granicaX + granicaZ) / 2f;
     }
 }

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3814377073162507945}
   - component: {fileID: 3112918714836755541}
   - component: {fileID: 4064905299740655653}
-  - component: {fileID: 381913152603510029}
   m_Layer: 8
   m_Name: Budynek
   m_TagString: Untagged
@@ -123,19 +122,3 @@ MonoBehaviour:
   pozwalamNaBudowe: 1
   typBudynku: 0
   "odbiteObra\u017Cenia": 1
---- !u!54 &381913152603510029
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2611418302129751045}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0

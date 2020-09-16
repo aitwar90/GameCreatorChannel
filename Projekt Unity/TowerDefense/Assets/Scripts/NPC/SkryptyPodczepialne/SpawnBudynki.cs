@@ -12,12 +12,11 @@ public class SpawnBudynki : MonoBehaviour
     public UnityEngine.UI.Dropdown dropdawn;
     #endregion
     #region Zmienne prywatne
-    private Vector3 ostatniaPozycjaKursora = Vector3.zero;
     private Material materialWybranegoBudynku = null;
     private Color kolorOrginału;
-    private Collider kolider = null;
     private KonkretnyNPCStatyczny knpcs = null;
     private GameObject aktualnyObiekt = null;
+    private Vector3 ostatniaPozycjaKursora = Vector3.zero;
     #endregion
 
     void Awake()
@@ -37,7 +36,7 @@ public class SpawnBudynki : MonoBehaviour
         }
         this.dropdawn.AddOptions(wszystkieBudynkiList);
     }
-    void Update()
+    void LateUpdate()
     {
         if (aktualnyObiekt != null)
         {
@@ -62,7 +61,7 @@ public class SpawnBudynki : MonoBehaviour
                 ostatniaPozycjaKursora = posClick;
             }
         }
-        if (aktualnyObiekt != null && CzyMogęPostawićBudynek())   //Jeśli chcesz postawić dany budynek to
+        if (aktualnyObiekt != null && CzyMogęPostawićBudynek(aktualnyObiekt.transform.position))   //Jeśli chcesz postawić dany budynek to
         {
 #if UNITY_STANDALONE
             if (Input.GetMouseButtonDown(0))
@@ -88,8 +87,6 @@ public class SpawnBudynki : MonoBehaviour
             materialWybranegoBudynku.color = Color.red;
         }
         knpcs = aktualnyObiekt.GetComponent<KonkretnyNPCStatyczny>();
-        kolider = aktualnyObiekt.GetComponent<Collider>();
-        kolider.isTrigger = true;
     }
     private void ZatwierdzenieBudynku()
     {
@@ -101,7 +98,6 @@ public class SpawnBudynki : MonoBehaviour
                 posClick = WyrównajSpawn(posClick);
             }
             // Pobieranie niezbędnych danych
-            Rigidbody rb = aktualnyObiekt.GetComponent<Rigidbody>();
             // Ustawienie wszystkich danych po postawieniu budynku
                 //Ustawienia obiektu
             knpcs.NastawienieNonPlayerCharacter = NastawienieNPC.Przyjazne;
@@ -112,16 +108,10 @@ public class SpawnBudynki : MonoBehaviour
                 //Ustawienie skryptu KonkretnyNPCStatyuczny
             knpcs.InicjacjaBudynku();
             PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcs, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
-                //Ustawienie Rigid Body
-            rb.isKinematic = true;
-            rb.Sleep();
-                //Ustawienie kolidera
-            kolider.isTrigger = false;
                 //Ustawienie materiału
             materialWybranegoBudynku.color = kolorOrginału;
             
             // Kasowanie ustawień potrzebnych do postawienia budynku
-            kolider = null;
             materialWybranegoBudynku = null;
             knpcs = null;
             aktualnyObiekt = null;
@@ -139,9 +129,11 @@ public class SpawnBudynki : MonoBehaviour
         }
         dropdawn.value = 0;
     }
-    private bool CzyMogęPostawićBudynek()
+    private bool CzyMogęPostawićBudynek(Vector3 sugerowanaPozycja)
     {
-        if (!knpcs.pozwalamNaBudowe)
+        KonkretnyNPCStatyczny najbliższyBudynek = PomocniczeFunkcje.WyszukajWDrzewie(ref PomocniczeFunkcje.korzeńDrzewaPozycji, sugerowanaPozycja) as KonkretnyNPCStatyczny;
+        if(Mathf.Abs(sugerowanaPozycja.x - najbliższyBudynek.transform.position.x) < najbliższyBudynek.granicaX + knpcs.granicaX &&
+        Mathf.Abs(sugerowanaPozycja.z - najbliższyBudynek.transform.position.z) < najbliższyBudynek.granicaZ + knpcs.granicaZ)
         {
             materialWybranegoBudynku.color = Color.red;
             return false;
@@ -153,7 +145,6 @@ public class SpawnBudynki : MonoBehaviour
     private void ResetWybranegoObiektu()    //Resetuje ustawienie wybranego budynku
     {
         materialWybranegoBudynku = null;
-        kolider = null;
         knpcs = null;
         aktualnyObiekt = null;
         Destroy(aktualnyObiekt);

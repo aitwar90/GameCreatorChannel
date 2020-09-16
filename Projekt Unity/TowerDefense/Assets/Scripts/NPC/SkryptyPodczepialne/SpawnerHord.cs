@@ -13,12 +13,13 @@ public class SpawnerHord : MonoBehaviour
     public NPCClass[] wszystkieRodzajeWrogichJednostek;
     [Tooltip("Ilość przeciwników w ostatnio wygenerowanej fali")]
     public ushort ostatniaIlośćWFali = 0;
-    public ushort maxIlośćNaFalę = 30;
+    public ushort maxIlośćNaFalę = 1;
     public byte iloscPunktówSpawnu = 1;
     public static byte actualHPBars = 0;
     public byte aktualnaIloscHPBarów = 0;
-    public Transform rodzicNPC = null;
-    public Transform cel;
+    public NPCClass cel;
+
+    private Transform rodzicNPC = null;
 
     public void GenerujSpawn(Epoki e)
     {
@@ -42,7 +43,7 @@ public class SpawnerHord : MonoBehaviour
             switch (e)
             {
                 case Epoki.EpokaKamienia:
-                    ostatniaIlośćWFali += 3;
+                    ostatniaIlośćWFali += 1;
                     break;
                 case Epoki.EpokaStarożytna:
                     ostatniaIlośćWFali += 4;
@@ -110,7 +111,7 @@ public class SpawnerHord : MonoBehaviour
         }
         if(cel != null)
         {
-            PomocniczeFunkcje.DodajDoDrzewaPozycji(cel.GetComponent<KonkretnyNPCStatyczny>(), ref PomocniczeFunkcje.korzeńDrzewaPozycji);
+            PomocniczeFunkcje.DodajDoDrzewaPozycji(cel, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
         }
     }
     void Update()
@@ -120,7 +121,6 @@ public class SpawnerHord : MonoBehaviour
     }
     private void UstawWroga(KonkretnyNPCDynamiczny knpcd)
     {
-        knpcd.cel = cel;
         knpcd.NastawienieNonPlayerCharacter = NastawienieNPC.Wrogie;
     }
     private IEnumerator SpawnujMnie(List<GameObject> możliwiNPC, ushort j, float _time)

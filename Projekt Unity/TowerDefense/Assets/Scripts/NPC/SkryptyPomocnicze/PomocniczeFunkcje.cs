@@ -6,8 +6,9 @@ using System.IO;
 public static class PomocniczeFunkcje
 {
     public static StrukturaDrzewa korzeńDrzewaPozycji = null;
-    public static Transform celWrogów = null;
+    public static NPCClass celWrogów = null;
     private static string test = "Assets/Resources/Debug.txt";
+    #region Obsługa położenia myszy względem ekranu
     public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos)
     {
         Ray ray;
@@ -18,8 +19,7 @@ public static class PomocniczeFunkcje
         ray = Camera.main.ScreenPointToRay(Input.GetTouch(0));
 #endif
         RaycastHit hit;
-        int layerMask = 1 << 8;
-        layerMask = ~layerMask;
+        int layerMask = ~(0 << 8);
         if (Physics.Raycast(ray, out hit, 100f, layerMask))
         {
             if (hit.collider.GetType() == typeof(TerrainCollider))
@@ -29,7 +29,32 @@ public static class PomocniczeFunkcje
         }
         return lastPos;
     }
-
+    public static NPCClass OkreślKlikniętyNPC(ref NPCClass lastNPCCLass)
+    {
+        Ray ray;
+#if UNITY_STANDALONE
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+#endif
+#if UNITY_ANDROID
+        ray = Camera.main.ScreenPointToRay(Input.GetTouch(0));
+#endif
+        RaycastHit hit;
+        int layerMask = (1 << 8) | (1 << 0);
+        if (Physics.Raycast(ray, out hit, 100f, layerMask))
+        {
+            if (hit.collider.tag == "Budynek" || hit.collider.tag == "NPC")
+            {
+                return hit.collider.GetComponent<NPCClass>();
+            }
+            else if (hit.collider.GetType() == typeof(TerrainCollider))
+            {
+                return null;
+            }
+        }
+        return lastNPCCLass;
+    }
+    #endregion
+    #region Drzewo pozycji
     //Wyszukuje najbliższy budynek w drzewie dla punktu wysłanego w parametrze pozycjaWyszukiwujacego
     public static Component WyszukajWDrzewie(ref StrukturaDrzewa korzeń, Vector3 pozycjaWyszukiwującego)
     {
@@ -273,7 +298,7 @@ public static class PomocniczeFunkcje
             }
             else if (posKom.x >= aktualnieSprawdzanyNode.pozycjaGałęzi.x && posKom.z >= aktualnieSprawdzanyNode.pozycjaGałęzi.z)
             {
-               //SaveInformationInDebug("If3 dla obiektu o pozycji " + aktualnieSprawdzanyNode.pozycjaGałęzi.ToString() + " gdzie dodawany obiekt ma pozycję " + elementDodawany.pozycjaGałęzi);
+                //SaveInformationInDebug("If3 dla obiektu o pozycji " + aktualnieSprawdzanyNode.pozycjaGałęzi.ToString() + " gdzie dodawany obiekt ma pozycję " + elementDodawany.pozycjaGałęzi);
                 if (aktualnieSprawdzanyNode.PxPz != null)
                 {
                     aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.PxPz;
@@ -362,6 +387,51 @@ public static class PomocniczeFunkcje
             }
         }
     }
+    #endregion
+    #region AI
+    public static void ZwykłeAI(NPCClass pObiekt)
+    {
+        if (pObiekt == null)
+            return;
+        if (pObiekt.cel == null)
+        {
+            //Wyszukaj cel
+            pObiekt.cel = WyszukajWDrzewie(ref korzeńDrzewaPozycji, pObiekt.transform.position) as NPCClass;
+        }
+        else
+        {
+            NPCClass cObiekt = pObiekt.cel.GetComponent<NPCClass>();
+            if (cObiekt == null)
+                return;
+            if (cObiekt.AktualneŻycie <= 0)
+            {
+                if (pObiekt.cel != celWrogów)
+                {
+                    pObiekt.cel = WyszukajWDrzewie(ref korzeńDrzewaPozycji, cObiekt.transform.position) as NPCClass;
+                }
+                else
+                {
+                    pObiekt.WłWyłNavMeshAgent(false);
+                }
+            }
+            else
+            {
+                float d = Vector3.Distance(pObiekt.transform.position, cObiekt.transform.position);
+                if (d <= pObiekt.zasięgAtaku)
+                {
+                    //Atakuj
+                    pObiekt.WłWyłNavMeshAgent(false);
+                    pObiekt.Atakuj((d <= 3f + cObiekt.PobierzGranice()) ? true : false);
+                }
+                else
+                {
+                    //Podążaj za celem
+                    pObiekt.WłWyłNavMeshAgent(true);
+                }
+            }
+        }
+    }
+    #endregion
     public static void SaveInformationInDebug(string s)
     {
         StreamWriter writer = new StreamWriter(test, true);
