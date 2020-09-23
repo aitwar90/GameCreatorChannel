@@ -28,6 +28,11 @@ public enum TypBudynku
     Wieża,
     Reszta
 }
+public struct StrukturaDoPoolowania
+{
+    public string nazwa;
+    public System.Collections.Generic.List<KonkretnyNPCDynamiczny> listaObiektówPoolingu;
+}
 public class StrukturaDrzewa
 {
     public StrukturaDrzewa PxPz;

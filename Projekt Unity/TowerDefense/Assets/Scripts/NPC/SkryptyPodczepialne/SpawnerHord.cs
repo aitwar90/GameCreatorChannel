@@ -18,19 +18,18 @@ public class SpawnerHord : MonoBehaviour
     public static byte actualHPBars = 0;
     public byte aktualnaIloscHPBarów = 0;
     public NPCClass cel;
-
     private Transform rodzicNPC = null;
 
     public void GenerujSpawn(Epoki e)
     {
-        if(cel != PomocniczeFunkcje.celWrogów)
+        if (cel != PomocniczeFunkcje.celWrogów)
             PomocniczeFunkcje.celWrogów = cel;
-        List<GameObject> możliwiNPC = new List<GameObject>();
+        List<KonkretnyNPCDynamiczny> możliwiNPC = new List<KonkretnyNPCDynamiczny>();
         for (byte i = 0; i < wszystkieRodzajeWrogichJednostek.Length; i++)
         {
             if (wszystkieRodzajeWrogichJednostek[i].epokaNPC == e)
             {
-                możliwiNPC.Add(wszystkieRodzajeWrogichJednostek[i].gameObject);
+                możliwiNPC.Add((KonkretnyNPCDynamiczny)wszystkieRodzajeWrogichJednostek[i]);
             }
         }
         if (możliwiNPC.Count < 1)
@@ -43,7 +42,7 @@ public class SpawnerHord : MonoBehaviour
             switch (e)
             {
                 case Epoki.EpokaKamienia:
-                    ostatniaIlośćWFali += 1;
+                    ostatniaIlośćWFali += 0;
                     break;
                 case Epoki.EpokaStarożytna:
                     ostatniaIlośćWFali += 4;
@@ -109,7 +108,7 @@ public class SpawnerHord : MonoBehaviour
             go.transform.rotation = Quaternion.identity;
             rodzicNPC = go.transform;
         }
-        if(cel != null)
+        if (cel != null)
         {
             PomocniczeFunkcje.DodajDoDrzewaPozycji(cel, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
         }
@@ -119,17 +118,46 @@ public class SpawnerHord : MonoBehaviour
         if (SpawnerHord.actualHPBars != 0)
             SpawnerHord.actualHPBars = 0;
     }
-    private void UstawWroga(KonkretnyNPCDynamiczny knpcd)
+    private void UstawWroga(KonkretnyNPCDynamiczny knpcd, bool czyPullowany = false)
     {
         knpcd.NastawienieNonPlayerCharacter = NastawienieNPC.Wrogie;
+        PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek += knpcd.ResetujŚcieżki;
+        if (czyPullowany)
+        {
+            knpcd.AktualneŻycie = knpcd.maksymalneŻycie;
+            knpcd.RysujPasekŻycia = true;
+            knpcd.SetGłównyIndex = -1;
+            knpcd.WłWyłObj(true);
+        }
     }
-    private IEnumerator SpawnujMnie(List<GameObject> możliwiNPC, ushort j, float _time)
+    private IEnumerator SpawnujMnie(List<KonkretnyNPCDynamiczny> możliwiNPC, ushort j, float _time)
     {
         yield return new WaitForSeconds(_time);
+        bool czyPool = true;
         ushort npcIdx = (ushort)Random.Range(0, możliwiNPC.Count - 1);
-        GameObject go = Instantiate(możliwiNPC[npcIdx].gameObject, OkreślPozucjeZOffsetem(spawnPunkty[j - 1].position, 2.0f), Quaternion.identity);
+        GameObject go = PomocniczeFunkcje.ZwróćOBiektPoolowany(możliwiNPC[npcIdx].nazwa);
+        if (go == null)
+        {
+            czyPool = false;
+            go = Instantiate(możliwiNPC[npcIdx].gameObject);
+        }
+        else
+            go.SetActive(true);
+        go.transform.position = OkreślPozucjeZOffsetem(spawnPunkty[j - 1].position, 3.0f);
         ManagerGryScript.iloscAktywnychWrogów++;
-        UstawWroga(możliwiNPC[npcIdx].GetComponent<KonkretnyNPCDynamiczny>());
+        KonkretnyNPCDynamiczny knpcd = go.GetComponent<KonkretnyNPCDynamiczny>();
+        UstawWroga(knpcd, czyPool);
         go.transform.SetParent(rodzicNPC);
+    }
+    public void WywołajResetujŚcieżki()
+    {
+        if (PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek != null)
+        {
+            PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek();
+        }
+        else
+        {
+            Debug.Log("Delegatura jest null");
+        }
     }
 }

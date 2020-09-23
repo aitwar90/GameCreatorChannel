@@ -5,6 +5,8 @@ using UnityEngine;
 public abstract class NPCClass : MonoBehaviour
 {
     #region Zmienne publiczne
+    [Tooltip("Nazwa jednostki")]
+    public string nazwa = "";
     [Tooltip("Maksymalne życie jednostki")]
     public short maksymalneŻycie = 100;
     [Tooltip("Informacja o tym, czy jednostka walczy w zwarciu czy na odległość, jeśli w ogóle")]
@@ -31,7 +33,7 @@ public abstract class NPCClass : MonoBehaviour
     #endregion
 
     #region Zmienne chronione
-    public short aktualneŻycie = -1;
+    [SerializeField]private short aktualneŻycie = -1;
     public NastawienieNPC nastawienieNPC;
     protected Renderer mainRenderer;
     protected float aktualnyReuseAtaku = 0.0f;
@@ -61,13 +63,14 @@ public abstract class NPCClass : MonoBehaviour
         }
     }
     #endregion
-    void Awake()
+    protected virtual void Awake()
     {
-        mainRenderer = this.transform.GetComponent<Renderer>();
+        if(mainRenderer == null)
+            mainRenderer = this.transform.GetComponent<Renderer>();
     }
     void OnGUI()
     {
-        if(aktualneŻycie <= maksymalneŻycie & aktualneŻycie > -1)
+        if(aktualneŻycie <= maksymalneŻycie && aktualneŻycie > -1)
             RysujHPBar();
     }
     void Update()
@@ -76,10 +79,14 @@ public abstract class NPCClass : MonoBehaviour
         {
             UsuńJednostkę();
         }
+        else
+        {
+            UpdateMe();
+        }
     }
     protected abstract void RysujHPBar();
     protected abstract void UsuńJednostkę();
-    protected IEnumerator SkasujObject(float time)
+    protected virtual IEnumerator SkasujObject(float time)
     {
         yield return new WaitForSeconds(time);
         Destroy(this.gameObject);
@@ -106,9 +113,8 @@ public abstract class NPCClass : MonoBehaviour
     {
         return 0.2f;
     }
-    public virtual void WłWyłNavMeshAgent(bool value)
+    protected virtual void UpdateMe()
     {
 
     }
-    
 }

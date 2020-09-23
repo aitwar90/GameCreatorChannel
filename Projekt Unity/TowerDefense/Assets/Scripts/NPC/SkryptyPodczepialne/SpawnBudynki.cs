@@ -36,6 +36,17 @@ public class SpawnBudynki : MonoBehaviour
         }
         this.dropdawn.AddOptions(wszystkieBudynkiList);
     }
+    void Start()
+    {
+        //Postaw Target
+        aktualnyObiekt = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        aktualnyObiekt.AddComponent<BoxCollider>();
+        aktualnyObiekt.name = "Target";
+        aktualnyObiekt.AddComponent<KonkretnyNPCStatyczny>();
+        knpcs = aktualnyObiekt.GetComponent<KonkretnyNPCStatyczny>();
+        PomocniczeFunkcje.celWrogów = knpcs;
+        ZatwierdzenieBudynku(true);
+    }
     void LateUpdate()
     {
         if (aktualnyObiekt != null)
@@ -88,10 +99,10 @@ public class SpawnBudynki : MonoBehaviour
         }
         knpcs = aktualnyObiekt.GetComponent<KonkretnyNPCStatyczny>();
     }
-    private void ZatwierdzenieBudynku()
+    private void ZatwierdzenieBudynku(bool czyTarget = false)
     {
-        Vector3 posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora);
-        if (aktualnyObiekt != null)
+        Vector3 posClick = (czyTarget) ? new Vector3(349.5f, 0.5f, 293f) : PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora);
+        if (aktualnyObiekt != null || czyTarget)
         {
             if (TypBudynku.Mur == knpcs.typBudynku)
             {
@@ -109,12 +120,15 @@ public class SpawnBudynki : MonoBehaviour
             knpcs.InicjacjaBudynku();
             PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcs, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
                 //Ustawienie materiału
-            materialWybranegoBudynku.color = kolorOrginału;
+            if(!czyTarget)
+                materialWybranegoBudynku.color = kolorOrginału;
             
             // Kasowanie ustawień potrzebnych do postawienia budynku
             materialWybranegoBudynku = null;
             knpcs = null;
             aktualnyObiekt = null;
+            if(PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek != null)
+                PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek();
         }
     }
     public void WybierzBudynekDoPostawienia()  //Wybór obiektu budynku do postawienia

@@ -17,6 +17,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private NavMeshAgent agent = null;
     private NavMeshPath ścieżka = null;
     private sbyte głównyIndex = -1;
+    private Vector3 ostatniTargetPozycja = Vector3.zero;
     #endregion
 
     #region Zmienne chronione
@@ -34,6 +35,20 @@ public class KonkretnyNPCDynamiczny : NPCClass
             rysujPasekŻycia = value;
         }
     }
+    public sbyte SetGłównyIndex
+    {
+        set
+        {
+            głównyIndex = value;
+        }
+    }
+    public bool GetIsOnnavmesh
+    {
+        get
+        {
+            return agent.isOnNavMesh;
+        }
+    }
     #endregion
     // Start is called before the first frame update
     void Start()
@@ -43,11 +58,11 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             DodajNavMeshAgent();
         }
-        this.aktualneŻycie = this.maksymalneŻycie;
+        this.AktualneŻycie = this.maksymalneŻycie;
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void UpdateMe()
     {
         switch (głównyIndex)
         {
@@ -66,6 +81,9 @@ public class KonkretnyNPCDynamiczny : NPCClass
             case 1:
                 głównyIndex = 0;
                 break;
+            default:
+                głównyIndex++;
+                break;
         }
     }
     protected override void RysujHPBar()
@@ -79,53 +97,56 @@ public class KonkretnyNPCDynamiczny : NPCClass
             Vector3 tempPos = this.transform.position;
             tempPos.y += 1.6f;
             Vector2 pozycjaPostaci = Camera.main.WorldToScreenPoint(tempPos);
-            GUI.Box(new Rect(pozycjaPostaci.x - 30, Screen.height - pozycjaPostaci.y - 30, 60, 20), aktualneŻycie + " / " + maksymalneŻycie);
+            GUI.Box(new Rect(pozycjaPostaci.x - 30, Screen.height - pozycjaPostaci.y - 30, 60, 20), this.AktualneŻycie + " / " + maksymalneŻycie);
             SpawnerHord.actualHPBars++;
         }
     }
     protected override void UsuńJednostkę()
     {
+        this.AktualneŻycie = -1;
         if (this.rysujPasekŻycia)
         {
             if (SpawnerHord.actualHPBars > 0)
                 SpawnerHord.actualHPBars--;
         }
         this.rysujPasekŻycia = false;
+        PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek -= ResetujŚcieżki;
         ManagerGryScript.iloscAktywnychWrogów--;
-        StartCoroutine(SkasujObject(3.0f));
+        WłWyłObj(false);
+        if (this.nastawienieNPC == NastawienieNPC.Wrogie)
+        {
+            PomocniczeFunkcje.DodajDoStosuTrupów(this);
+        }
+        else
+        {
+            StartCoroutine(SkasujObject(3.0f));
+        }
     }
     private void ObsłużNavMeshAgent(Vector3 docelowaPozycja)
     {
         //https://www.binpress.com/unity-3d-ai-navmesh-navigation/
         //Logika nav mesha
-        if (!agent.hasPath)
+        if (!agent.hasPath || this.ostatniTargetPozycja != agent.destination)
         {
-            ścieżka = new NavMeshPath();
-            bool czyOdnalzazłemŚcieżkę = agent.CalculatePath(docelowaPozycja, ścieżka);
-            if (ścieżka.status == NavMeshPathStatus.PathComplete)
-            {
-                agent.SetPath(ścieżka);
-                StartCoroutine(WyliczŚciezkęPonownie(Random.Range(5.5f, 10.5f)));
-            }
-            else if (ścieżka.status == NavMeshPathStatus.PathPartial)
-            {
-                agent.SetPath(ścieżka);
-                StartCoroutine(WyliczŚciezkęPonownie(Random.Range(5.5f, 10.5f)));
-            }
-            else if (ścieżka.status == NavMeshPathStatus.PathInvalid)
-            {
-                Debug.Log("Agent nie potrafi dojść do celu, ścieżka nie została znaleziona");
-                //Tu należy odnaleźć najbliższy obiekt do niszczenie
-                cel = WyszukajNajbliższyObiekt() as KonkretnyNPCStatyczny;
-                StartCoroutine(WyliczŚciezkęPonownie(Random.Range(5.5f, 10.5f)));
-            }
+            if (agent.hasPath)
+                agent.ResetPath();
+            StartCoroutine(WyliczŚciezkę(UnityEngine.Random.Range(0f, 0.5f), docelowaPozycja));
         }
     }
-    private IEnumerator WyliczŚciezkęPonownie(float f)
+    private IEnumerator WyliczŚciezkę(float f, Vector3 docelowaPozycja)
     {
         yield return new WaitForSeconds(f);
-        agent.ResetPath();
-        ObsłużNavMeshAgent(cel.transform.position);
+        ścieżka = new NavMeshPath();
+        bool czyOdnalzazłemŚcieżkę = agent.CalculatePath(docelowaPozycja, ścieżka);
+        if (ścieżka.status == NavMeshPathStatus.PathComplete)
+        {
+            agent.SetPath(ścieżka);
+        }
+        else
+        {
+            cel = WyszukajNajbliższyObiekt() as KonkretnyNPCStatyczny;
+            ObsłużNavMeshAgent(cel.transform.position);
+        }
     }
     private void DodajNavMeshAgent()
     {
@@ -163,8 +184,16 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         AtakujCel(wZwarciu);
     }
-    public override void WłWyłNavMeshAgent(bool value)
+    public void ResetujŚcieżki()
     {
-        //this.agent.isStopped = value;
+        this.agent.ResetPath();
+    }
+    public void WłWyłObj(bool enab = false)
+    {
+        if(enab)
+            this.gameObject.SetActive(true);
+        agent.enabled = enab;
+        if(!enab)
+            this.gameObject.SetActive(false);
     }
 }

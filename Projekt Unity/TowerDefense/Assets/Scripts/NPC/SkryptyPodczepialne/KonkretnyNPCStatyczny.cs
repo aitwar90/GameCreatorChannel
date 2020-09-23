@@ -15,6 +15,7 @@ public class KonkretnyNPCStatyczny : NPCClass
     public float granicaX = 0.5f;
     [Tooltip("Granica obiektu po osi Z")]
     public float granicaZ = 0.5f;
+    public bool wymusInicjacje = false;
     #endregion
 
     #region Zmienny prywatne
@@ -34,7 +35,7 @@ public class KonkretnyNPCStatyczny : NPCClass
         {
             this.gameObject.AddComponent<UnityEngine.AI.NavMeshObstacle>();
         }
-        this.aktualneŻycie = this.maksymalneŻycie;
+        this.AktualneŻycie = this.maksymalneŻycie;
     }
     // Update is called once per frame
     protected override void RysujHPBar()
@@ -44,12 +45,12 @@ public class KonkretnyNPCStatyczny : NPCClass
             Vector3 tempPos = this.transform.position;
             tempPos.y += 1.6f;
             Vector2 pozycjaPostaci = Camera.main.WorldToScreenPoint(tempPos);
-            GUI.Box(new Rect(pozycjaPostaci.x - 40, Screen.height - pozycjaPostaci.y - 30, 80, 20), aktualneŻycie + " / " + maksymalneŻycie);
+            GUI.Box(new Rect(pozycjaPostaci.x - 40, Screen.height - pozycjaPostaci.y - 30, 80, 20), this.AktualneŻycie + " / " + maksymalneŻycie);
         }
     }
     protected override void UsuńJednostkę()
     {
-        this.aktualneŻycie = -1;
+        this.AktualneŻycie = -1;
         if (this.nastawienieNPC == NastawienieNPC.Wrogie)
         {
             StartCoroutine(SkasujObject(5.0f));

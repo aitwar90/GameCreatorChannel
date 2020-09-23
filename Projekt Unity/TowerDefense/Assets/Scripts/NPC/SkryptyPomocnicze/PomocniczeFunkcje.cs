@@ -8,6 +8,10 @@ public static class PomocniczeFunkcje
     public static StrukturaDrzewa korzeńDrzewaPozycji = null;
     public static NPCClass celWrogów = null;
     private static string test = "Assets/Resources/Debug.txt";
+    public static Dictionary<string, StrukturaDoPoolowania> stosTrupów = null;
+    public static SpawnerHord spawnerHord = null;
+    public static ManagerGryScript managerGryScript = null;
+    public static SpawnBudynki spawnBudynki = null;
     #region Obsługa położenia myszy względem ekranu
     public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos)
     {
@@ -140,7 +144,7 @@ public static class PomocniczeFunkcje
         StrukturaDrzewa[,] ponownieUstaw = ZnajdźElementPoKomponencie(ref korzeń, _komponentDoSkasowania);
         if (ponownieUstaw == null)
         {
-            Debug.Log("Nie odnalazłem elemenu drzewa do skasowania");
+            //Debug.Log("Nie odnalazłem elemenu drzewa do skasowania");
             return;
         }
         for (byte i = 0; i < 2; i++)
@@ -409,10 +413,6 @@ public static class PomocniczeFunkcje
                 {
                     pObiekt.cel = WyszukajWDrzewie(ref korzeńDrzewaPozycji, cObiekt.transform.position) as NPCClass;
                 }
-                else
-                {
-                    pObiekt.WłWyłNavMeshAgent(false);
-                }
             }
             else
             {
@@ -420,16 +420,48 @@ public static class PomocniczeFunkcje
                 if (d <= pObiekt.zasięgAtaku)
                 {
                     //Atakuj
-                    pObiekt.WłWyłNavMeshAgent(false);
                     pObiekt.Atakuj((d <= 3f + cObiekt.PobierzGranice()) ? true : false);
-                }
-                else
-                {
-                    //Podążaj za celem
-                    pObiekt.WłWyłNavMeshAgent(true);
                 }
             }
         }
+    }
+    public static void DodajDoStosuTrupów(KonkretnyNPCDynamiczny dodajDoTrupów)
+    {
+        if (stosTrupów == null)
+            stosTrupów = new Dictionary<string, StrukturaDoPoolowania>();
+
+        if (!stosTrupów.ContainsKey(dodajDoTrupów.nazwa))
+        {
+            StrukturaDoPoolowania sdp = new StrukturaDoPoolowania();
+            sdp.nazwa = dodajDoTrupów.nazwa;
+            sdp.listaObiektówPoolingu = new List<KonkretnyNPCDynamiczny>();
+            sdp.listaObiektówPoolingu.Add(dodajDoTrupów);
+            stosTrupów.Add(dodajDoTrupów.nazwa, sdp);
+        }
+        else
+        {
+            stosTrupów[dodajDoTrupów.nazwa].listaObiektówPoolingu.Add(dodajDoTrupów);
+        }
+        dodajDoTrupów.transform.position = new Vector3(0, -20f, 0);
+    }
+    public static GameObject ZwróćOBiektPoolowany(string nazwaZpoolera)
+    {
+        try
+        {
+            if (stosTrupów[nazwaZpoolera].listaObiektówPoolingu != null && stosTrupów[nazwaZpoolera].listaObiektówPoolingu.Count > 0)
+            {
+                int t = stosTrupów[nazwaZpoolera].listaObiektówPoolingu.Count - 1;
+                GameObject objToReturn = stosTrupów[nazwaZpoolera].listaObiektówPoolingu[t].gameObject;
+                stosTrupów[nazwaZpoolera].listaObiektówPoolingu.RemoveAt(t);
+                return objToReturn;
+            }
+        }
+        catch
+        {
+            //Debug.Log(nazwaZpoolera);
+        }
+
+        return null;
     }
     #endregion
     public static void SaveInformationInDebug(string s)
@@ -438,5 +470,11 @@ public static class PomocniczeFunkcje
         writer.WriteLine(s);
         writer.Close();
     }
-
+    public static void ResetujWszystko()
+    {
+        korzeńDrzewaPozycji = null;
+        celWrogów = null;
+        stosTrupów.Clear();
+        stosTrupów = null;
+    }
 }

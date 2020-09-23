@@ -16,21 +16,23 @@ public class ManagerGryScript : MonoBehaviour
     [Tooltip("Ilość fal w hordzie")]
     public byte iloscFalWHordzie = 5;
     [Tooltip("Czas pomięczy kolejnymi falami hordy")]
-    public byte czasWMinutachMiędzyFalami = 1;
+    public byte czasWMinutachMiędzyFalami = 10;
     public static short iloscAktywnychWrogów = 0;
 
     [Tooltip("Zaznaczony NPC")]
     public NPCClass zaznaczonyObiekt = null;
-
+    public delegate void WywołajResetujŚcieżki();
+    public WywołajResetujŚcieżki wywołajResetŚcieżek;
     #endregion
 
     #region Prywatne zmienne
-    public byte aktualnaIlośćFal = 0;
+    private byte aktualnaIlośćFal = 0;
     #endregion  
-
     void Awake()
     {
-
+        PomocniczeFunkcje.managerGryScript = this;
+        PomocniczeFunkcje.spawnBudynki = FindObjectOfType(typeof(SpawnBudynki)) as SpawnBudynki;
+        PomocniczeFunkcje.spawnerHord = FindObjectOfType(typeof(SpawnerHord)) as SpawnerHord;
     }
     void Start()
     {
@@ -57,16 +59,16 @@ public class ManagerGryScript : MonoBehaviour
                 {
                     //Zaznacz obiekt
                     Debug.Log("Zaznaczam obiekt "+zaznaczonyObiekt.name);
+                    zaznaczonyObiekt.AktualneŻycie = 0;
                 }
             }
-#endif
+        #endif
     }
     private IEnumerator WyzwólKolejnąFalę()
     {
         yield return new WaitForSeconds(czasWMinutachMiędzyFalami * 15);
-        SpawnerHord sh = FindObjectOfType<SpawnerHord>() as SpawnerHord;
         aktualnaIlośćFal++;
-        sh.GenerujSpawn(aktualnaEpoka);
+        PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
         if (aktualnaIlośćFal < iloscFalWHordzie)
         {
             StartCoroutine("WyzwólKolejnąFalę");

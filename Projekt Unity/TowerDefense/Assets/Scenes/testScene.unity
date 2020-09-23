@@ -1049,7 +1049,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &719716619
 GameObject:
@@ -1331,12 +1331,11 @@ MonoBehaviour:
   - {fileID: 1553939948}
   wszystkieRodzajeWrogichJednostek:
   - {fileID: 62081523889469384, guid: 83fc012387a61b74080e5048ba7a0dbb, type: 3}
-  "ostatniaIlo\u015B\u0107WFali": 5
+  "ostatniaIlo\u015B\u0107WFali": 0
   "maxIlo\u015B\u0107NaFal\u0119": 30
   "iloscPunkt\xF3wSpawnu": 1
   "aktualnaIloscHPBar\xF3w": 0
-  rodzicNPC: {fileID: 0}
-  cel: {fileID: 2035450307}
+  cel: {fileID: 0}
 --- !u!4 &827588708
 Transform:
   m_ObjectHideFlags: 0
@@ -1863,9 +1862,8 @@ MonoBehaviour:
   "iloscCoin\xF3w": 10
   aktualnaEpoka: 1
   iloscFalWHordzie: 5
-  "czasWMinutachMi\u0119dzyFalami": 1
+  "czasWMinutachMi\u0119dzyFalami": 100
   zaznaczonyObiekt: {fileID: 0}
-  "aktualnaIlo\u015B\u0107Fal": 0
 --- !u!4 &1406282209
 Transform:
   m_ObjectHideFlags: 0
@@ -2419,130 +2417,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2016642901}
   m_CullTransparentMesh: 0
---- !u!1 &2035450302
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2035450306}
-  - component: {fileID: 2035450305}
-  - component: {fileID: 2035450304}
-  - component: {fileID: 2035450303}
-  - component: {fileID: 2035450307}
-  m_Layer: 0
-  m_Name: Target
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!65 &2035450303
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2035450302}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &2035450304
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2035450302}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &2035450305
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2035450302}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &2035450306
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2035450302}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 349.5, y: 0.5, z: 293}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2035450307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2035450302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb97c6dfecba79b40acc907f00e51742, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  "maksymalne\u017Bycie": 32767
-  typNPC: 0
-  epokaNPC: 1
-  kosztJednostki: 1
-  "zadawaneObra\u017Cenia": 10
-  "zasi\u0119gAtaku": 0
-  "szybko\u015B\u0107Ataku": 1
-  "modyfikatorOtrzymywanychObra\u017Ce\u0144": 1
-  "modyfikatorZadawanychObra\u017Ce\u0144": 1
-  cel: {fileID: 0}
-  "aktualne\u017Bycie": 0
-  nastawienieNPC: 0
-  typBudynku: 2
-  "odbiteObra\u017Cenia": 0
-  granicaX: 0.6
-  granicaZ: 0.6
 --- !u!1 &2036440540
 GameObject:
   m_ObjectHideFlags: 0
@@ -2593,13 +2467,27 @@ GameObject:
   - component: {fileID: 2295227901273176765}
   - component: {fileID: 3814377073292258385}
   - component: {fileID: 4064905299887225565}
+  - component: {fileID: 2611418302284676862}
   m_Layer: 8
   m_Name: Budynek (1)
-  m_TagString: Untagged
+  m_TagString: Budynek
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!135 &2611418302284676862
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2611418302284676861}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &2837128478066028976
 Transform:
   m_ObjectHideFlags: 0
@@ -2608,7 +2496,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2611418302284676861}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1492855084}
@@ -2667,6 +2555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb97c6dfecba79b40acc907f00e51742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nazwa: 
   "maksymalne\u017Bycie": 100
   typNPC: 0
   epokaNPC: 1
@@ -2683,6 +2572,7 @@ MonoBehaviour:
   "odbiteObra\u017Cenia": 1
   granicaX: 0.6
   granicaZ: 0.6
+  wymusInicjacje: 0
 --- !u!33 &6848499196997338057
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2703,13 +2593,27 @@ GameObject:
   - component: {fileID: 6848499196997338057}
   - component: {fileID: 8376672889605870885}
   - component: {fileID: 8699258985116697513}
+  - component: {fileID: 7272494526848124810}
   m_Layer: 8
   m_Name: Budynek
-  m_TagString: Untagged
+  m_TagString: Budynek
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!135 &7272494526848124810
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7272494526848124809}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &7462193484773312708
 Transform:
   m_ObjectHideFlags: 0
@@ -2718,7 +2622,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7272494526848124809}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1492855084}
@@ -2777,6 +2681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb97c6dfecba79b40acc907f00e51742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nazwa: 
   "maksymalne\u017Bycie": 100
   typNPC: 0
   epokaNPC: 1
@@ -2793,3 +2698,4 @@ MonoBehaviour:
   "odbiteObra\u017Cenia": 1
   granicaX: 0.6
   granicaZ: 0.6
+  wymusInicjacje: 0

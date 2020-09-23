@@ -14,5 +14,9 @@ public class SpawnerHordEditor : Editor
         {
             myTarget.GenerujSpawn(Epoki.EpokaKamienia);
         }
+        if(GUILayout.Button("Odpal resetuj ścieżki"))
+        {
+            myTarget.WywołajResetujŚcieżki();
+        }
     }
 }
