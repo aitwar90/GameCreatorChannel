@@ -117,4 +117,8 @@ public abstract class NPCClass : MonoBehaviour
     {
 
     }
+    public virtual void ResetujŚciezkę()
+    {
+        
+    }
 }

@@ -858,7 +858,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 430984243}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 345, y: 0.5, z: 287.7134}
+  m_LocalPosition: {x: 345, y: 0, z: 287.7134}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 827588708}
@@ -1331,7 +1331,7 @@ MonoBehaviour:
   - {fileID: 1553939948}
   wszystkieRodzajeWrogichJednostek:
   - {fileID: 62081523889469384, guid: 83fc012387a61b74080e5048ba7a0dbb, type: 3}
-  "ostatniaIlo\u015B\u0107WFali": 0
+  "ostatniaIlo\u015B\u0107WFali": 1
   "maxIlo\u015B\u0107NaFal\u0119": 30
   "iloscPunkt\xF3wSpawnu": 1
   "aktualnaIloscHPBar\xF3w": 0
@@ -1344,7 +1344,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 827588706}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 430984244}

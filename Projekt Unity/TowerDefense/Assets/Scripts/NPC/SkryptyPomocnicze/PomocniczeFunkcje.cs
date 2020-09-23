@@ -412,11 +412,12 @@ public static class PomocniczeFunkcje
                 if (pObiekt.cel != celWrogów)
                 {
                     pObiekt.cel = WyszukajWDrzewie(ref korzeńDrzewaPozycji, cObiekt.transform.position) as NPCClass;
+                    pObiekt.ResetujŚciezkę();
                 }
             }
             else
             {
-                float d = Vector3.Distance(pObiekt.transform.position, cObiekt.transform.position);
+                float d = Vector3.Distance(pObiekt.transform.position, cObiekt.transform.position) - 0.25f;
                 if (d <= pObiekt.zasięgAtaku)
                 {
                     //Atakuj

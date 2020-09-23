@@ -17,7 +17,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private NavMeshAgent agent = null;
     private NavMeshPath ścieżka = null;
     private sbyte głównyIndex = -1;
-    private Vector3 ostatniTargetPozycja = Vector3.zero;
     #endregion
 
     #region Zmienne chronione
@@ -79,6 +78,10 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 głównyIndex++;
                 break;
             case 1:
+                if (cel != null)
+                {
+                    ObsłużNavMeshAgent(cel.transform.position);
+                }
                 głównyIndex = 0;
                 break;
             default:
@@ -126,10 +129,17 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         //https://www.binpress.com/unity-3d-ai-navmesh-navigation/
         //Logika nav mesha
-        if (!agent.hasPath || this.ostatniTargetPozycja != agent.destination)
+        if (!agent.hasPath /*|| this.ostatniTargetPozycja != docelowaPozycja*/)
         {
+            /*
             if (agent.hasPath)
+            {
                 agent.ResetPath();
+                //Debug.Log("Resetuję ścieżkę");
+            }
+            */
+            //Debug.Log("Has Path = " + agent.hasPath + " ostatni target pozycja " + ostatniTargetPozycja + " agent.destination = " + agent.destination);
+
             StartCoroutine(WyliczŚciezkę(UnityEngine.Random.Range(0f, 0.5f), docelowaPozycja));
         }
     }
@@ -141,6 +151,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
         if (ścieżka.status == NavMeshPathStatus.PathComplete)
         {
             agent.SetPath(ścieżka);
+            //if (ostatniTargetPozycja != docelowaPozycja)
+            //    ostatniTargetPozycja = docelowaPozycja;
         }
         else
         {
@@ -148,10 +160,30 @@ public class KonkretnyNPCDynamiczny : NPCClass
             ObsłużNavMeshAgent(cel.transform.position);
         }
     }
+    public void ResetujŚcieżki()
+    {
+        this.agent.ResetPath();
+    }
+    public void WłWyłObj(bool enab = false)
+    {
+        if (enab)
+            this.gameObject.SetActive(true);
+        agent.enabled = enab;
+        if (!enab)
+            this.gameObject.SetActive(false);
+    }
+    public override void ResetujŚciezkę()
+    {
+        ResetujŚcieżki();
+    }
     private void DodajNavMeshAgent()
     {
         agent = this.gameObject.AddComponent<NavMeshAgent>();
         agent.stoppingDistance = (zasięgAtaku == 0) ? 1.5f : zasięgAtaku;
+    }
+    public override void Atakuj(bool wZwarciu)
+    {
+        AtakujCel(wZwarciu);
     }
     private void AtakujCel(bool czyWZwarciu)
     {
@@ -179,21 +211,5 @@ public class KonkretnyNPCDynamiczny : NPCClass
             Debug.Log("Znaleziony obiekt ma nazwę " + knpcs.transform.name);
             return (KonkretnyNPCStatyczny)knpcs;
         }
-    }
-    public override void Atakuj(bool wZwarciu)
-    {
-        AtakujCel(wZwarciu);
-    }
-    public void ResetujŚcieżki()
-    {
-        this.agent.ResetPath();
-    }
-    public void WłWyłObj(bool enab = false)
-    {
-        if(enab)
-            this.gameObject.SetActive(true);
-        agent.enabled = enab;
-        if(!enab)
-            this.gameObject.SetActive(false);
     }
 }
