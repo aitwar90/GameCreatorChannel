@@ -12,6 +12,9 @@ public static class PomocniczeFunkcje
     public static SpawnerHord spawnerHord = null;
     public static ManagerGryScript managerGryScript = null;
     public static SpawnBudynki spawnBudynki = null;
+    public static List<KonkretnyNPCStatyczny>[,] tablicaWież = null;
+    public static byte distXZ = 5;
+    public static ushort aktualneGranicaTab = 0;
     #region Obsługa położenia myszy względem ekranu
     public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos)
     {
@@ -22,13 +25,14 @@ public static class PomocniczeFunkcje
 #if UNITY_ANDROID
         ray = Camera.main.ScreenPointToRay(Input.GetTouch(0));
 #endif
-        RaycastHit hit;
+        RaycastHit[] hit = new RaycastHit[1];
         int layerMask = ~(0 << 8);
-        if (Physics.Raycast(ray, out hit, 100f, layerMask))
+        int hits = Physics.RaycastNonAlloc(ray, hit, 50f, layerMask, QueryTriggerInteraction.Collide);
+        if (hits > 0)
         {
-            if (hit.collider.GetType() == typeof(TerrainCollider))
+            if (hit[hits - 1].collider.GetType() == typeof(TerrainCollider))
             {
-                return hit.point;
+                return hit[hits - 1].point;
             }
         }
         return lastPos;
@@ -42,15 +46,16 @@ public static class PomocniczeFunkcje
 #if UNITY_ANDROID
         ray = Camera.main.ScreenPointToRay(Input.GetTouch(0));
 #endif
-        RaycastHit hit;
         int layerMask = (1 << 8) | (1 << 0);
-        if (Physics.Raycast(ray, out hit, 100f, layerMask))
+        RaycastHit[] hit = new RaycastHit[1];
+        int hits = Physics.RaycastNonAlloc(ray, hit, 50f, layerMask, QueryTriggerInteraction.Collide);
+        if (hits > 0)
         {
-            if (hit.collider.tag == "Budynek" || hit.collider.tag == "NPC")
+            if (hit[hits - 1].collider.CompareTag("Budynek") || hit[hits - 1].collider.CompareTag("NPC"))
             {
-                return hit.collider.GetComponent<NPCClass>();
+                return hit[hits - 1].collider.GetComponent<NPCClass>();
             }
-            else if (hit.collider.GetType() == typeof(TerrainCollider))
+            else if (hit[hits - 1].collider.GetType() == typeof(TerrainCollider))
             {
                 return null;
             }
@@ -477,5 +482,12 @@ public static class PomocniczeFunkcje
         celWrogów = null;
         stosTrupów.Clear();
         stosTrupów = null;
+        tablicaWież = null;
+    }
+    public static byte[] ZwrócIndeksyWTablicy(Vector3 pozycja)
+    {
+        byte x = (byte)(Mathf.FloorToInt((pozycja.x-aktualneGranicaTab)/distXZ));
+        byte z = (byte)(Mathf.FloorToInt((pozycja.z-aktualneGranicaTab)/distXZ));
+        return new byte[] {x, z};
     }
 }

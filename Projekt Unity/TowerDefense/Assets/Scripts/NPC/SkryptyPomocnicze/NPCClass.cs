@@ -20,7 +20,7 @@ public abstract class NPCClass : MonoBehaviour
     [Tooltip("Zasięg ataku jednostki")]
     public byte zasięgAtaku = 0;
     [Tooltip("Czas między kolejnymi tikami ataku npc")]
-    public float szybkośćAtaku = 1.0f;
+    public float szybkośćAtaku = 0.5f;
     [Tooltip("Mnożnik otrzymywanych obrażeń przez jednostkę")]
     public float modyfikatorOtrzymywanychObrażeń = 1.0f;
     [Tooltip("Mnożnik zadawanych obrażeń przez jednostkę")]

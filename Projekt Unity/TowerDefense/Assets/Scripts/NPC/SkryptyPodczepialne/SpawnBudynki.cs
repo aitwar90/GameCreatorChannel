@@ -17,6 +17,7 @@ public class SpawnBudynki : MonoBehaviour
     private KonkretnyNPCStatyczny knpcs = null;
     private GameObject aktualnyObiekt = null;
     private Vector3 ostatniaPozycjaKursora = Vector3.zero;
+    private Vector3 posClick = Vector3.zero;
     #endregion
 
     void Awake()
@@ -43,9 +44,17 @@ public class SpawnBudynki : MonoBehaviour
         aktualnyObiekt.AddComponent<BoxCollider>();
         aktualnyObiekt.name = "Target";
         aktualnyObiekt.AddComponent<KonkretnyNPCStatyczny>();
+        aktualnyObiekt.layer = 8;
         knpcs = aktualnyObiekt.GetComponent<KonkretnyNPCStatyczny>();
         PomocniczeFunkcje.celWrogów = knpcs;
         ZatwierdzenieBudynku(true);
+    }
+    void FixedUpdate()
+    {
+        if (aktualnyObiekt != null)
+        {
+            posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora);
+        }
     }
     void LateUpdate()
     {
@@ -57,8 +66,11 @@ public class SpawnBudynki : MonoBehaviour
             }
             else
             {
-                Vector3 posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora);
-                aktualnyObiekt.transform.position = posClick;
+                if (aktualnyObiekt.transform.position != posClick)
+                {
+                    aktualnyObiekt.transform.position = posClick;
+                    ostatniaPozycjaKursora = posClick;
+                }
 #if UNITY_STANDALONE
                 float numer = Input.GetAxisRaw("Mouse ScrollWheel");
                 if (numer != 0)
@@ -69,7 +81,6 @@ public class SpawnBudynki : MonoBehaviour
                     aktualnyObiekt.transform.rotation = Quaternion.Euler(vet);
                 }
 #endif
-                ostatniaPozycjaKursora = posClick;
             }
         }
         if (aktualnyObiekt != null && CzyMogęPostawićBudynek(aktualnyObiekt.transform.position))   //Jeśli chcesz postawić dany budynek to
@@ -101,7 +112,8 @@ public class SpawnBudynki : MonoBehaviour
     }
     private void ZatwierdzenieBudynku(bool czyTarget = false)
     {
-        Vector3 posClick = (czyTarget) ? new Vector3(349.5f, 0.5f, 293f) : PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora);
+        if (czyTarget)
+            posClick = new Vector3(250f, 0.5f, 250f);
         if (aktualnyObiekt != null || czyTarget)
         {
             if (TypBudynku.Mur == knpcs.typBudynku)
@@ -110,25 +122,47 @@ public class SpawnBudynki : MonoBehaviour
             }
             // Pobieranie niezbędnych danych
             // Ustawienie wszystkich danych po postawieniu budynku
-                //Ustawienia obiektu
+            //Ustawienia obiektu
             knpcs.NastawienieNonPlayerCharacter = NastawienieNPC.Przyjazne;
             aktualnyObiekt.transform.position = posClick;
             aktualnyObiekt.tag = "Budynek";
-            aktualnyObiekt.isStatic = true;
             aktualnyObiekt.transform.SetParent(rodzicBudynkow);
-                //Ustawienie skryptu KonkretnyNPCStatyuczny
+            //Ustawienie skryptu KonkretnyNPCStatyuczny
             knpcs.InicjacjaBudynku();
             PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcs, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
-                //Ustawienie materiału
-            if(!czyTarget)
+            //Ustawienie materiału
+            if (!czyTarget)
                 materialWybranegoBudynku.color = kolorOrginału;
-            
+
+            if (PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek != null)
+                PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek();
+            //Teraz nalezy umieścić budynek w odpowiednim miejscu tablicy PomocniczeFunkcje.tablicaWież
+            byte[] temp = PomocniczeFunkcje.ZwrócIndeksyWTablicy(posClick);
+            byte s = (byte)(knpcs.zasięgAtaku / 5);
+            if (s > 1)  //Ustawienie budynku na planszy aby wieża mogła stwierdzić że może atakować
+            {
+                for (sbyte i = (sbyte)(temp[0] - s); i < (sbyte)(temp[0] + s); i++)
+                {
+                    if (i > -1 && i < 20)
+                    {
+                        for (sbyte j = (sbyte)(temp[1] - s); j < (sbyte)(temp[0] + s); j++)
+                        {
+                            if (j > -1 && j < 20)
+                            {
+                                if (PomocniczeFunkcje.tablicaWież[i, j] == null)
+                                {
+                                    PomocniczeFunkcje.tablicaWież[i, j] = new List<KonkretnyNPCStatyczny>();
+                                }
+                                PomocniczeFunkcje.tablicaWież[i, j].Add(knpcs);
+                            }
+                        }
+                    }
+                }
+            }
             // Kasowanie ustawień potrzebnych do postawienia budynku
             materialWybranegoBudynku = null;
             knpcs = null;
             aktualnyObiekt = null;
-            if(PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek != null)
-                PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek();
         }
     }
     public void WybierzBudynekDoPostawienia()  //Wybór obiektu budynku do postawienia
@@ -136,8 +170,6 @@ public class SpawnBudynki : MonoBehaviour
         short index = (short)(this.dropdawn.value - 1);
         if (index > -1 && aktualnyObiekt == null)
         {
-            Vector3 posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora);
-
             PostawBudynek(ref wszystkieBudynki[index], posClick, Quaternion.identity);
             ostatniaPozycjaKursora = posClick;
         }
@@ -146,7 +178,7 @@ public class SpawnBudynki : MonoBehaviour
     private bool CzyMogęPostawićBudynek(Vector3 sugerowanaPozycja)
     {
         KonkretnyNPCStatyczny najbliższyBudynek = PomocniczeFunkcje.WyszukajWDrzewie(ref PomocniczeFunkcje.korzeńDrzewaPozycji, sugerowanaPozycja) as KonkretnyNPCStatyczny;
-        if(Mathf.Abs(sugerowanaPozycja.x - najbliższyBudynek.transform.position.x) < najbliższyBudynek.granicaX + knpcs.granicaX &&
+        if (Mathf.Abs(sugerowanaPozycja.x - najbliższyBudynek.transform.position.x) < najbliższyBudynek.granicaX + knpcs.granicaX &&
         Mathf.Abs(sugerowanaPozycja.z - najbliższyBudynek.transform.position.z) < najbliższyBudynek.granicaZ + knpcs.granicaZ)
         {
             materialWybranegoBudynku.color = Color.red;

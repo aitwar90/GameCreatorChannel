@@ -28,6 +28,18 @@ public enum TypBudynku
     Wieża,
     Reszta
 }
+public enum TypAtakuWieży
+{
+    None = 0,
+    jedenTarget = 1,
+    wybuch = 2,
+    wszyscyWZasiegu = 3
+}
+public enum DodatkoweWłaściwościWieży
+{
+    None = 0,
+    Spowolnienie = 1
+}
 public struct StrukturaDoPoolowania
 {
     public string nazwa;

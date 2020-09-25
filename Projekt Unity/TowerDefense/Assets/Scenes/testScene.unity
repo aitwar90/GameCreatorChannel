@@ -1129,7 +1129,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 719716619}
   m_LocalRotation: {x: 0.52420884, y: 0, z: 0, w: 0.8515898}
-  m_LocalPosition: {x: 345, y: 19.1, z: 277.46}
+  m_LocalPosition: {x: 250, y: 4.73, z: 247.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2573,6 +2573,7 @@ MonoBehaviour:
   granicaX: 0.6
   granicaZ: 0.6
   wymusInicjacje: 0
+  "typAtakuWie\u017Cy": 0
 --- !u!33 &6848499196997338057
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2683,19 +2684,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nazwa: 
   "maksymalne\u017Bycie": 100
-  typNPC: 0
+  typNPC: 2
   epokaNPC: 1
   kosztJednostki: 1
   "zadawaneObra\u017Cenia": 10
-  "zasi\u0119gAtaku": 0
+  "zasi\u0119gAtaku": 10
   "szybko\u015B\u0107Ataku": 3
   "modyfikatorOtrzymywanychObra\u017Ce\u0144": 1
   "modyfikatorZadawanychObra\u017Ce\u0144": 1
   cel: {fileID: 0}
   "aktualne\u017Bycie": -1
   nastawienieNPC: 0
-  typBudynku: 0
+  typBudynku: 1
   "odbiteObra\u017Cenia": 1
   granicaX: 0.6
   granicaZ: 0.6
   wymusInicjacje: 0
+  "typAtakuWie\u017Cy": 0

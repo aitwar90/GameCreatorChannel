@@ -17,6 +17,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private NavMeshAgent agent = null;
     private NavMeshPath ścieżka = null;
     private sbyte głównyIndex = -1;
+    private byte actXIdx = 255;
+    private byte actZIdx = 255;
     #endregion
 
     #region Zmienne chronione
@@ -82,8 +84,19 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 {
                     ObsłużNavMeshAgent(cel.transform.position);
                 }
-                głównyIndex = 0;
+                głównyIndex++;
                 break;
+            case 2: //Ustaw index tablicy dla npc
+                byte[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
+                if(actXIdx != t[0] || actZIdx != t[1])
+                {
+                    if(actXIdx < t[0])  //NPC idzie +X
+                    {
+                        
+                    }
+                }
+                głównyIndex = 0;
+            break;
             default:
                 głównyIndex++;
                 break;
@@ -189,7 +202,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         if (aktualnyReuseAtaku < szybkośćAtaku)
         {
-            aktualnyReuseAtaku += Time.deltaTime * 4f;
+            aktualnyReuseAtaku += Time.deltaTime;
             return;
         }
         aktualnyReuseAtaku = 0.0f;

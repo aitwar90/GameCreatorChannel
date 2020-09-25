@@ -33,6 +33,9 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.managerGryScript = this;
         PomocniczeFunkcje.spawnBudynki = FindObjectOfType(typeof(SpawnBudynki)) as SpawnBudynki;
         PomocniczeFunkcje.spawnerHord = FindObjectOfType(typeof(SpawnerHord)) as SpawnerHord;
+        Terrain terr = FindObjectOfType(typeof(Terrain)) as Terrain;
+        PomocniczeFunkcje.tablicaWież = new List<KonkretnyNPCStatyczny>[20, 20];
+        PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 100) / 2);
     }
     void Start()
     {
@@ -41,6 +44,24 @@ public class ManagerGryScript : MonoBehaviour
             StartCoroutine("WyzwólKolejnąFalę");
         }
     }
+    void FixedUpdate()
+    {
+        /*
+        Fragment kodu, który ma za zadanie zaznaczyć obiekt
+        */
+#if UNITY_STANDALONE
+        if (Input.GetMouseButtonDown(0))
+        {
+            zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
+        }
+#endif
+#if UNITY_ANDROID
+        if (Input.GetTouch(0) && Input.touchCout > 0)
+            {
+                zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
+            }
+#endif
+    }
     void Update()
     {
         if (aktualnaIlośćFal >= iloscFalWHordzie && iloscAktywnychWrogów <= 0)
@@ -48,21 +69,6 @@ public class ManagerGryScript : MonoBehaviour
             //Lvl skończony wszystkie fale zostały pokonane
             KoniecPoziomuZakończony(true);
         }
-        /*
-        Fragment kodu, który ma za zadanie zaznaczyć obiekt
-        */
-        #if UNITY_STANDALONE
-            if (Input.GetMouseButtonDown(0))
-            {
-                zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
-                if(zaznaczonyObiekt != null)
-                {
-                    //Zaznacz obiekt
-                    Debug.Log("Zaznaczam obiekt "+zaznaczonyObiekt.name);
-                    zaznaczonyObiekt.AktualneŻycie = 0;
-                }
-            }
-        #endif
     }
     private IEnumerator WyzwólKolejnąFalę()
     {
@@ -76,7 +82,7 @@ public class ManagerGryScript : MonoBehaviour
     }
     void OnGUI()
     {
-        EditorGUI.TextField(new Rect(10, 20, 300, 20), "Zaznaczony obiekt: "+ ((zaznaczonyObiekt == null) ? "null" : zaznaczonyObiekt.name));
+        EditorGUI.TextField(new Rect(10, 20, 300, 20), "Zaznaczony obiekt: " + ((zaznaczonyObiekt == null) ? "null" : zaznaczonyObiekt.name));
     }
     private void KoniecPoziomuZakończony(bool sukces = true)
     {

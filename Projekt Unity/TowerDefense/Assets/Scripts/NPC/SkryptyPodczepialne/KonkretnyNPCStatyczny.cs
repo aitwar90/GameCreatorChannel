@@ -16,10 +16,11 @@ public class KonkretnyNPCStatyczny : NPCClass
     [Tooltip("Granica obiektu po osi Z")]
     public float granicaZ = 0.5f;
     public bool wymusInicjacje = false;
+    public TypAtakuWieży typAtakuWieży;
     #endregion
 
     #region Zmienny prywatne
-
+    private List<NPCClass> wrogowieWZasiegu = null;
     #endregion
 
     #region Zmienne chronione
@@ -65,13 +66,68 @@ public class KonkretnyNPCStatyczny : NPCClass
                 tablicaKoliderow[i].enabled = false;
             }
             UnityEngine.AI.NavMeshObstacle tNVO = this.GetComponent<UnityEngine.AI.NavMeshObstacle>();
+            byte[] temp = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
+            byte s = (byte)(this.zasięgAtaku / 5);
+            if (s > 1)  //Ustawienie budynku na planszy aby wieża mogła stwierdzić że może atakować
+            {
+                for (sbyte i = (sbyte)(temp[0] - s); i < (sbyte)(temp[0] + s); i++)
+                {
+                    if (i > -1 && i < 20)
+                    {
+                        for (sbyte j = (sbyte)(temp[1] - s); j < (sbyte)(temp[0] + s); j++)
+                        {
+                            if (j > -1 && j < 20)
+                            {
+                                PomocniczeFunkcje.tablicaWież[temp[i], temp[j]].Remove(this);
+                            }
+                        }
+                    }
+                }
+            }
             if(tNVO != null)
                 tNVO.enabled = false;
+            cel = null;
+            wrogowieWZasiegu = null;
         }
     }
     public override void Atakuj(bool wZwarciu)
     {
+        if(this.aktualnyReuseAtaku < szybkośćAtaku)
+        {
+            aktualnyReuseAtaku += Time.deltaTime;
+        }
+        else
+        {
+            this.aktualnyReuseAtaku = 0;
+            switch((byte)typAtakuWieży)
+            {
+                case 0: //Jeden Target
+                cel.ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia*modyfikatorZadawanychObrażeń)));
+                if(cel.AktualneŻycie <= 0)
+                {
+                    //Znajdź nowy target
+                    wrogowieWZasiegu.Remove(cel);
+                    ZnajdźNowyCel();
+                }
+                break;
+                case 1: //Wybuch
+                Collider[] tabZasięgu = new Collider[4];
+                int iloscCol = Physics.OverlapSphereNonAlloc(cel.transform.position, 1.0f, tabZasięgu, (1 << 8), QueryTriggerInteraction.Collide);
+                for(byte i = 0; i < iloscCol; i++)
+                {
+                    NPCClass klasa = tabZasięgu[i].GetComponent<NPCClass>();
+                    klasa.ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia*modyfikatorZadawanychObrażeń)));
+                }
+                break;
+                case 2: //Wszystkie cele
+                for(byte i = 0; i < wrogowieWZasiegu.Count; i++)
+                {
+                    wrogowieWZasiegu[i].ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia*modyfikatorZadawanychObrażeń)));
+                }
+                break;
 
+            }
+        }
     }
     public override byte ZwrócOdbiteObrażenia()
     {
@@ -80,5 +136,17 @@ public class KonkretnyNPCStatyczny : NPCClass
     public override float PobierzGranice()
     {
         return (granicaX + granicaZ) / 2f;
+    }
+    public void ZnajdźNowyCel()
+    {
+        if(wrogowieWZasiegu != null)
+        {
+            if(wrogowieWZasiegu.Count > 0)
+            {
+                cel = wrogowieWZasiegu[0];
+                return;
+            }
+        }
+        cel = null;
     }
 }
