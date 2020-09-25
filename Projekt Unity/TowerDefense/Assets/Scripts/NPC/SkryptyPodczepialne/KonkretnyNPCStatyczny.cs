@@ -68,7 +68,7 @@ public class KonkretnyNPCStatyczny : NPCClass
             UnityEngine.AI.NavMeshObstacle tNVO = this.GetComponent<UnityEngine.AI.NavMeshObstacle>();
             byte[] temp = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
             byte s = (byte)(this.zasięgAtaku / 5);
-            if (s > 1)  //Ustawienie budynku na planszy aby wieża mogła stwierdzić że może atakować
+            if (s > 1) 
             {
                 for (sbyte i = (sbyte)(temp[0] - s); i < (sbyte)(temp[0] + s); i++)
                 {
@@ -78,53 +78,70 @@ public class KonkretnyNPCStatyczny : NPCClass
                         {
                             if (j > -1 && j < 20)
                             {
-                                PomocniczeFunkcje.tablicaWież[temp[i], temp[j]].Remove(this);
+                                UsuńMnieZListy((byte)i, (byte)j);
                             }
                         }
                     }
                 }
             }
-            if(tNVO != null)
+            if (tNVO != null)
                 tNVO.enabled = false;
             cel = null;
             wrogowieWZasiegu = null;
         }
     }
+    private void UsuńMnieZListy(byte x, byte z)
+    {
+        List<InformacjeDlaPolWież> tInf = new List<InformacjeDlaPolWież>();
+        byte dlListy = (byte)PomocniczeFunkcje.tablicaWież[x,z].Count;
+        for(short i = 0; i < dlListy; i++)
+        {
+            if(PomocniczeFunkcje.tablicaWież[x,z][i].wieża == this)
+            {
+                continue;
+            }
+            else
+            {
+                tInf.Add(PomocniczeFunkcje.tablicaWież[x,z][i]);
+            }
+        }
+        PomocniczeFunkcje.tablicaWież[x,z] = tInf;
+    }
     public override void Atakuj(bool wZwarciu)
     {
-        if(this.aktualnyReuseAtaku < szybkośćAtaku)
+        if (this.aktualnyReuseAtaku < szybkośćAtaku)
         {
             aktualnyReuseAtaku += Time.deltaTime;
         }
         else
         {
             this.aktualnyReuseAtaku = 0;
-            switch((byte)typAtakuWieży)
+            switch ((byte)typAtakuWieży)
             {
                 case 0: //Jeden Target
-                cel.ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia*modyfikatorZadawanychObrażeń)));
-                if(cel.AktualneŻycie <= 0)
-                {
-                    //Znajdź nowy target
-                    wrogowieWZasiegu.Remove(cel);
-                    ZnajdźNowyCel();
-                }
-                break;
+                    cel.ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń)));
+                    if (cel.AktualneŻycie <= 0)
+                    {
+                        //Znajdź nowy target
+                        wrogowieWZasiegu.Remove(cel);
+                        ZnajdźNowyCel();
+                    }
+                    break;
                 case 1: //Wybuch
-                Collider[] tabZasięgu = new Collider[4];
-                int iloscCol = Physics.OverlapSphereNonAlloc(cel.transform.position, 1.0f, tabZasięgu, (1 << 8), QueryTriggerInteraction.Collide);
-                for(byte i = 0; i < iloscCol; i++)
-                {
-                    NPCClass klasa = tabZasięgu[i].GetComponent<NPCClass>();
-                    klasa.ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia*modyfikatorZadawanychObrażeń)));
-                }
-                break;
+                    Collider[] tabZasięgu = new Collider[4];
+                    int iloscCol = Physics.OverlapSphereNonAlloc(cel.transform.position, 1.0f, tabZasięgu, (1 << 8), QueryTriggerInteraction.Collide);
+                    for (byte i = 0; i < iloscCol; i++)
+                    {
+                        NPCClass klasa = tabZasięgu[i].GetComponent<NPCClass>();
+                        klasa.ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń)));
+                    }
+                    break;
                 case 2: //Wszystkie cele
-                for(byte i = 0; i < wrogowieWZasiegu.Count; i++)
-                {
-                    wrogowieWZasiegu[i].ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia*modyfikatorZadawanychObrażeń)));
-                }
-                break;
+                    for (byte i = 0; i < wrogowieWZasiegu.Count; i++)
+                    {
+                        wrogowieWZasiegu[i].ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń)));
+                    }
+                    break;
 
             }
         }
@@ -139,9 +156,9 @@ public class KonkretnyNPCStatyczny : NPCClass
     }
     public void ZnajdźNowyCel()
     {
-        if(wrogowieWZasiegu != null)
+        if (wrogowieWZasiegu != null)
         {
-            if(wrogowieWZasiegu.Count > 0)
+            if (wrogowieWZasiegu.Count > 0)
             {
                 cel = wrogowieWZasiegu[0];
                 return;

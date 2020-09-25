@@ -40,6 +40,24 @@ public enum DodatkoweWłaściwościWieży
     None = 0,
     Spowolnienie = 1
 }
+public class InformacjeDlaPolWież
+{
+    public KonkretnyNPCStatyczny wieża;
+    public byte odlOdGranicy;
+    public InformacjeDlaPolWież()
+    {
+
+    }
+    public InformacjeDlaPolWież(byte _odlOdGranicy, KonkretnyNPCStatyczny _wieża)
+    {
+        this.odlOdGranicy = _odlOdGranicy;
+        this.wieża = _wieża;
+    }
+    ~InformacjeDlaPolWież()
+    {
+        
+    }
+}
 public struct StrukturaDoPoolowania
 {
     public string nazwa;

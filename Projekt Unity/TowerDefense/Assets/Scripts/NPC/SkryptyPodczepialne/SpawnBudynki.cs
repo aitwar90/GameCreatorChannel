@@ -139,25 +139,26 @@ public class SpawnBudynki : MonoBehaviour
             //Teraz nalezy umieścić budynek w odpowiednim miejscu tablicy PomocniczeFunkcje.tablicaWież
             byte[] temp = PomocniczeFunkcje.ZwrócIndeksyWTablicy(posClick);
             byte s = (byte)(knpcs.zasięgAtaku / 5);
-            if (s > 1)  //Ustawienie budynku na planszy aby wieża mogła stwierdzić że może atakować
+            int k = 0;
+            while (s > 0)  //Ustawienie budynku na planszy aby wieża mogła stwierdzić że może atakować
             {
-                for (sbyte i = (sbyte)(temp[0] - s); i < (sbyte)(temp[0] + s); i++)
+                for (int x = temp[0] - k; x <= temp[0] + k; x++)
                 {
-                    if (i > -1 && i < 20)
+                    for (int z = temp[1] - k; z <= temp[1] + k; z++)
                     {
-                        for (sbyte j = (sbyte)(temp[1] - s); j < (sbyte)(temp[0] + s); j++)
+                        if (x == temp[0] - k || x == temp[0] + k || 
+                        z == temp[1] - k || z == temp[1] + k)
                         {
-                            if (j > -1 && j < 20)
+                            if (PomocniczeFunkcje.tablicaWież[x, z] == null)
                             {
-                                if (PomocniczeFunkcje.tablicaWież[i, j] == null)
-                                {
-                                    PomocniczeFunkcje.tablicaWież[i, j] = new List<KonkretnyNPCStatyczny>();
-                                }
-                                PomocniczeFunkcje.tablicaWież[i, j].Add(knpcs);
+                                PomocniczeFunkcje.tablicaWież[x, z] = new List<InformacjeDlaPolWież>();
                             }
+                            PomocniczeFunkcje.tablicaWież[x, z].Add(new InformacjeDlaPolWież(s, knpcs));
                         }
                     }
                 }
+                k++;
+                s--;
             }
             // Kasowanie ustawień potrzebnych do postawienia budynku
             materialWybranegoBudynku = null;

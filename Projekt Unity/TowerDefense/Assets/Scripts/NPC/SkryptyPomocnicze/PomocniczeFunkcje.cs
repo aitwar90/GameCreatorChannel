@@ -12,7 +12,7 @@ public static class PomocniczeFunkcje
     public static SpawnerHord spawnerHord = null;
     public static ManagerGryScript managerGryScript = null;
     public static SpawnBudynki spawnBudynki = null;
-    public static List<KonkretnyNPCStatyczny>[,] tablicaWież = null;
+    public static List<InformacjeDlaPolWież>[,] tablicaWież = null;
     public static byte distXZ = 5;
     public static ushort aktualneGranicaTab = 0;
     #region Obsługa położenia myszy względem ekranu
