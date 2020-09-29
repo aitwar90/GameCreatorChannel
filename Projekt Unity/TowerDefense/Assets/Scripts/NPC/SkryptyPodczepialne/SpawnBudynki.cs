@@ -113,7 +113,7 @@ public class SpawnBudynki : MonoBehaviour
     private void ZatwierdzenieBudynku(bool czyTarget = false)
     {
         if (czyTarget)
-            posClick = new Vector3(250f, 0.5f, 250f);
+            posClick = new Vector3(50f, 0.5f, 50f);
         if (aktualnyObiekt != null || czyTarget)
         {
             if (TypBudynku.Mur == knpcs.typBudynku)
@@ -138,7 +138,7 @@ public class SpawnBudynki : MonoBehaviour
                 PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek();
             //Teraz nalezy umieścić budynek w odpowiednim miejscu tablicy PomocniczeFunkcje.tablicaWież
             byte[] temp = PomocniczeFunkcje.ZwrócIndeksyWTablicy(posClick);
-            byte s = (byte)(knpcs.zasięgAtaku / 5);
+            byte s = (byte)Mathf.CeilToInt(knpcs.zasięgAtaku / PomocniczeFunkcje.distXZ);
             int k = 0;
             while (s > 0)  //Ustawienie budynku na planszy aby wieża mogła stwierdzić że może atakować
             {
@@ -146,14 +146,17 @@ public class SpawnBudynki : MonoBehaviour
                 {
                     for (int z = temp[1] - k; z <= temp[1] + k; z++)
                     {
-                        if (x == temp[0] - k || x == temp[0] + k || 
-                        z == temp[1] - k || z == temp[1] + k)
+                        if (x > -1 && x < 19 && z > -1 && z < 19)
                         {
-                            if (PomocniczeFunkcje.tablicaWież[x, z] == null)
+                            if (x == temp[0] - k || x == temp[0] + k ||
+                            z == temp[1] - k || z == temp[1] + k)
                             {
-                                PomocniczeFunkcje.tablicaWież[x, z] = new List<InformacjeDlaPolWież>();
+                                if (PomocniczeFunkcje.tablicaWież[x, z] == null)
+                                {
+                                    PomocniczeFunkcje.tablicaWież[x, z] = new List<InformacjeDlaPolWież>();
+                                }
+                                PomocniczeFunkcje.tablicaWież[x, z].Add(new InformacjeDlaPolWież(s, knpcs));
                             }
-                            PomocniczeFunkcje.tablicaWież[x, z].Add(new InformacjeDlaPolWież(s, knpcs));
                         }
                     }
                 }

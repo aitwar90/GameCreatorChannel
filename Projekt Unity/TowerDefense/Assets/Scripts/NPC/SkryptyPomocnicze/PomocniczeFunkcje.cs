@@ -13,7 +13,7 @@ public static class PomocniczeFunkcje
     public static ManagerGryScript managerGryScript = null;
     public static SpawnBudynki spawnBudynki = null;
     public static List<InformacjeDlaPolWież>[,] tablicaWież = null;
-    public static byte distXZ = 5;
+    public static float distXZ = 5;
     public static ushort aktualneGranicaTab = 0;
     #region Obsługa położenia myszy względem ekranu
     public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos)

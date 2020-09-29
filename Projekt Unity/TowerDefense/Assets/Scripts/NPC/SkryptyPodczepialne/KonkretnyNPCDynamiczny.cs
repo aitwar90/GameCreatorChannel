@@ -19,6 +19,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private sbyte głównyIndex = -1;
     private byte actXIdx = 255;
     private byte actZIdx = 255;
+    private bool czyDodawac = false;
     #endregion
 
     #region Zmienne chronione
@@ -60,6 +61,10 @@ public class KonkretnyNPCDynamiczny : NPCClass
             DodajNavMeshAgent();
         }
         this.AktualneŻycie = this.maksymalneŻycie;
+        byte[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
+        this.DodajMnieDoListyWrogowWiezy(t[0], t[1], true);
+        actXIdx = t[0];
+        actZIdx = t[1];
     }
 
     // Update is called once per frame
@@ -88,15 +93,25 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 break;
             case 2: //Ustaw index tablicy dla npc
                 byte[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
-                if(actXIdx != t[0] || actZIdx != t[1])
+                if (actXIdx != t[0] || actZIdx != t[1])
                 {
-                    if(actXIdx < t[0])  //NPC idzie +X
-                    {
-                        
-                    }
+                    //Usunięcie starych wież
+                    UsuńMnieZTablicyWież();
+                    czyDodawac = true;
+                    //Dodanie do nowych wież
+                    actXIdx = t[0];
+                    actZIdx = t[1];
+                }
+                głównyIndex++;
+                break;
+            case 4:
+                if (czyDodawac)
+                {
+                    DodajMnieDoListyWrogowWiezy(actXIdx, actZIdx);
+                    czyDodawac = false;
                 }
                 głównyIndex = 0;
-            break;
+                break;
             default:
                 głównyIndex++;
                 break;
@@ -202,7 +217,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         if (aktualnyReuseAtaku < szybkośćAtaku)
         {
-            aktualnyReuseAtaku += Time.deltaTime;
+            aktualnyReuseAtaku += Time.deltaTime*4f;
             return;
         }
         aktualnyReuseAtaku = 0.0f;
@@ -223,6 +238,38 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             Debug.Log("Znaleziony obiekt ma nazwę " + knpcs.transform.name);
             return (KonkretnyNPCStatyczny)knpcs;
+        }
+    }
+    private void DodajMnieDoListyWrogowWiezy(byte x, byte z, bool pierwszyRaz = false)
+    {
+        if (PomocniczeFunkcje.tablicaWież[x, z] == null)
+        {
+            PomocniczeFunkcje.tablicaWież[x, z] = new List<InformacjeDlaPolWież>();
+        }
+        for (byte i = 0; i < PomocniczeFunkcje.tablicaWież[x, z].Count; i++)
+        {
+            if (PomocniczeFunkcje.tablicaWież[x, z][i].odlOdGranicy == 1 && !pierwszyRaz)
+            {
+                PomocniczeFunkcje.tablicaWież[x, z][i].wieża.DodajDoWrogów(this);
+            }
+            else if (pierwszyRaz)
+            {
+                PomocniczeFunkcje.tablicaWież[x, z][i].wieża.DodajDoWrogów(this);
+            }
+        }
+    }
+    private void UsuńMnieZTablicyWież()
+    {
+        if (PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx] == null || PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx].Count == 0)
+            return;
+        List<InformacjeDlaPolWież> temp = new List<InformacjeDlaPolWież>();
+        for (ushort i = 0; i < PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx].Count; i++)
+        {
+            if (PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx][i].odlOdGranicy == 1)
+            {
+                //Usunięcie tego npc 
+                PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx][i].wieża.UsuńZWrogów(this);
+            }
         }
     }
 }

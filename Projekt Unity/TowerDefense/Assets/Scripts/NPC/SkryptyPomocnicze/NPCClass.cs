@@ -33,7 +33,7 @@ public abstract class NPCClass : MonoBehaviour
     #endregion
 
     #region Zmienne chronione
-    [SerializeField]private short aktualneŻycie = -1;
+    [SerializeField] private short aktualneŻycie = -1;
     public NastawienieNPC nastawienieNPC;
     protected Renderer mainRenderer;
     protected float aktualnyReuseAtaku = 0.0f;
@@ -65,12 +65,12 @@ public abstract class NPCClass : MonoBehaviour
     #endregion
     protected virtual void Awake()
     {
-        if(mainRenderer == null)
+        if (mainRenderer == null)
             mainRenderer = this.transform.GetComponent<Renderer>();
     }
     void OnGUI()
     {
-        if(aktualneŻycie <= maksymalneŻycie && aktualneŻycie > -1)
+        if (aktualneŻycie <= maksymalneŻycie && aktualneŻycie > -1)
             RysujHPBar();
     }
     void Update()
@@ -119,6 +119,6 @@ public abstract class NPCClass : MonoBehaviour
     }
     public virtual void ResetujŚciezkę()
     {
-        
+
     }
 }

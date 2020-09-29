@@ -35,7 +35,8 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.spawnerHord = FindObjectOfType(typeof(SpawnerHord)) as SpawnerHord;
         Terrain terr = FindObjectOfType(typeof(Terrain)) as Terrain;
         PomocniczeFunkcje.tablicaWież = new List<InformacjeDlaPolWież>[20, 20];
-        PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 100) / 2);
+        PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 80) / 2);
+        PomocniczeFunkcje.distXZ = (byte)Mathf.FloorToInt((terr.terrainData.size.x - PomocniczeFunkcje.aktualneGranicaTab) / 20f);
     }
     void Start()
     {
