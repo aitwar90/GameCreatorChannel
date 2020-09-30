@@ -156,6 +156,12 @@ public class SpawnBudynki : MonoBehaviour
                                     PomocniczeFunkcje.tablicaWież[x, z] = new List<InformacjeDlaPolWież>();
                                 }
                                 PomocniczeFunkcje.tablicaWież[x, z].Add(new InformacjeDlaPolWież(s, knpcs));
+                                /*
+                                GameObject go = new GameObject(s.ToString());
+                                float fx = PomocniczeFunkcje.aktualneGranicaTab + (x*PomocniczeFunkcje.distXZ);
+                                float fz = PomocniczeFunkcje.aktualneGranicaTab + (z*PomocniczeFunkcje.distXZ);
+                                go.transform.position = new Vector3(fx, 0.0f, fz);
+                                */
                             }
                         }
                     }

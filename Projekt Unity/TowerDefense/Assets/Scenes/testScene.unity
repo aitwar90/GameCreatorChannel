@@ -2454,7 +2454,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2611418302284676861}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4744780281993371032, guid: 80922d920c5b062389ccb12dbefa46af, type: 3}
 --- !u!1 &2611418302284676861
 GameObject:
   m_ObjectHideFlags: 0
@@ -2486,8 +2486,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.2
+  m_Center: {x: 0, y: 0.18, z: 0}
 --- !u!4 &2837128478066028976
 Transform:
   m_ObjectHideFlags: 0
@@ -2496,7 +2496,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2611418302284676861}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1492855084}
@@ -2570,11 +2570,10 @@ MonoBehaviour:
   nastawienieNPC: 0
   typBudynku: 0
   "odbiteObra\u017Cenia": 1
-  granicaX: 0.6
-  granicaZ: 0.6
+  granicaX: 0.35
+  granicaZ: 0.35
   wymusInicjacje: 0
   "typAtakuWie\u017Cy": 0
-  wrogowieWZasiegu: []
 --- !u!33 &6848499196997338057
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2582,7 +2581,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7272494526848124809}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 1170753669466918040, guid: 81520cf3481598fca8fee8a0e5836a15, type: 3}
 --- !u!1 &7272494526848124809
 GameObject:
   m_ObjectHideFlags: 0
@@ -2615,7 +2614,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.18, z: 0}
 --- !u!4 &7462193484773312708
 Transform:
   m_ObjectHideFlags: 0
@@ -2624,7 +2623,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7272494526848124809}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1492855084}
@@ -2649,7 +2648,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4b2c5a8edb620d5438081d23cdfcf106, type: 2}
+  - {fileID: 2100000, guid: e2f346597efdd683598ea8d929772fba, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2688,9 +2687,9 @@ MonoBehaviour:
   typNPC: 2
   epokaNPC: 1
   kosztJednostki: 1
-  "zadawaneObra\u017Cenia": 10
-  "zasi\u0119gAtaku": 20
-  "szybko\u015B\u0107Ataku": 3
+  "zadawaneObra\u017Cenia": 40
+  "zasi\u0119gAtaku": 5
+  "szybko\u015B\u0107Ataku": 1
   "modyfikatorOtrzymywanychObra\u017Ce\u0144": 1
   "modyfikatorZadawanychObra\u017Ce\u0144": 1
   cel: {fileID: 0}
@@ -2702,4 +2701,3 @@ MonoBehaviour:
   granicaZ: 0.6
   wymusInicjacje: 0
   "typAtakuWie\u017Cy": 1
-  wrogowieWZasiegu: []

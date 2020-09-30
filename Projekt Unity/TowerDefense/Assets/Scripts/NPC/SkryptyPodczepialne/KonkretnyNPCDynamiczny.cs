@@ -11,7 +11,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
     #region Zmienne publiczne
 
     #endregion
-
     #region Zmienny prywatne
     private bool rysujPasekŻycia = false;
     private NavMeshAgent agent = null;
@@ -135,6 +134,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     protected override void UsuńJednostkę()
     {
         this.AktualneŻycie = -1;
+        UsuńMnieZTablicyWież(true);
         if (this.rysujPasekŻycia)
         {
             if (SpawnerHord.actualHPBars > 0)
@@ -217,7 +217,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         if (aktualnyReuseAtaku < szybkośćAtaku)
         {
-            aktualnyReuseAtaku += Time.deltaTime*4f;
+            aktualnyReuseAtaku += Time.deltaTime * 4f;
             return;
         }
         aktualnyReuseAtaku = 0.0f;
@@ -227,16 +227,13 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     public KonkretnyNPCStatyczny WyszukajNajbliższyObiekt()
     {
-        Debug.Log("Rozpoczynam wyszukiwanie najbliższego obiektu");
         Component knpcs = PomocniczeFunkcje.WyszukajWDrzewie(ref PomocniczeFunkcje.korzeńDrzewaPozycji, this.transform.position);
         if (knpcs == null)
         {
-            Debug.Log("Nie odnaleziono najbliższego obiektu");
             return null;
         }
         else
         {
-            Debug.Log("Znaleziony obiekt ma nazwę " + knpcs.transform.name);
             return (KonkretnyNPCStatyczny)knpcs;
         }
     }
@@ -248,27 +245,31 @@ public class KonkretnyNPCDynamiczny : NPCClass
         }
         for (byte i = 0; i < PomocniczeFunkcje.tablicaWież[x, z].Count; i++)
         {
-            if (PomocniczeFunkcje.tablicaWież[x, z][i].odlOdGranicy == 1 && !pierwszyRaz)
-            {
-                PomocniczeFunkcje.tablicaWież[x, z][i].wieża.DodajDoWrogów(this);
-            }
-            else if (pierwszyRaz)
+            if (pierwszyRaz || (!pierwszyRaz && PomocniczeFunkcje.tablicaWież[x, z][i].odlOdGranicy == 1))
             {
                 PomocniczeFunkcje.tablicaWież[x, z][i].wieża.DodajDoWrogów(this);
             }
         }
     }
-    private void UsuńMnieZTablicyWież()
+    private void UsuńMnieZTablicyWież(bool czyCalkowicie = false)
     {
         if (PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx] == null || PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx].Count == 0)
             return;
-        List<InformacjeDlaPolWież> temp = new List<InformacjeDlaPolWież>();
+
         for (ushort i = 0; i < PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx].Count; i++)
         {
-            if (PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx][i].odlOdGranicy == 1)
+            if (czyCalkowicie)
             {
                 //Usunięcie tego npc 
                 PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx][i].wieża.UsuńZWrogów(this);
+            }
+            else
+            {
+                if (PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx][i].odlOdGranicy == 1)
+                {
+                    //Usunięcie tego npc 
+                    PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx][i].wieża.UsuńZWrogów(this);
+                }
             }
         }
     }

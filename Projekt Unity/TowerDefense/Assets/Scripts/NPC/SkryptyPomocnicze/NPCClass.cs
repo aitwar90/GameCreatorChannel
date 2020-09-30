@@ -37,6 +37,7 @@ public abstract class NPCClass : MonoBehaviour
     public NastawienieNPC nastawienieNPC;
     protected Renderer mainRenderer;
     protected float aktualnyReuseAtaku = 0.0f;
+    protected bool nieŻyję = false;
     #endregion
 
     #region Getery i setery
@@ -100,8 +101,8 @@ public abstract class NPCClass : MonoBehaviour
         this.aktualneŻycie -= deltaHP;
         if (aktualneŻycie > maksymalneŻycie)
             aktualneŻycie = maksymalneŻycie;
-        if (aktualneŻycie < -1)
-            aktualneŻycie = -1;
+        if (aktualneŻycie < 0 && aktualneŻycie != -1)
+            aktualneŻycie = 0;
     }
     public abstract void Atakuj(bool wZwarciu);
 

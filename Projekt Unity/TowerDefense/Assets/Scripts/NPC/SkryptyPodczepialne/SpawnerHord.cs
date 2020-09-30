@@ -42,7 +42,7 @@ public class SpawnerHord : MonoBehaviour
             switch (e)
             {
                 case Epoki.EpokaKamienia:
-                    ostatniaIlośćWFali = 1;
+                    ostatniaIlośćWFali += 3;
                     break;
                 case Epoki.EpokaStarożytna:
                     ostatniaIlośćWFali += 4;

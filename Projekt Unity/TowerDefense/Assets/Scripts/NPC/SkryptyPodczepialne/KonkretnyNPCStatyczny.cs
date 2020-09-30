@@ -20,7 +20,7 @@ public class KonkretnyNPCStatyczny : NPCClass
     #endregion
 
     #region Zmienny prywatne
-    public List<NPCClass> wrogowieWZasiegu = null;
+    private List<NPCClass> wrogowieWZasiegu = null;
     private byte idxAct = 0;
     #endregion
 
@@ -139,18 +139,20 @@ public class KonkretnyNPCStatyczny : NPCClass
         else
         {
             this.aktualnyReuseAtaku = 0;
-            switch ((byte)typAtakuWieży)
+            switch (typAtakuWieży)
             {
-                case 0: //Jeden Target
+                case TypAtakuWieży.jedenTarget: //Jeden Target
                     cel.ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń)));
+                    Debug.Log("Cel.AktualneŻycie "+cel.AktualneŻycie);
                     if (cel.AktualneŻycie <= 0)
                     {
+                        Debug.Log("No to jedziemy");
                         //Znajdź nowy target
-                        wrogowieWZasiegu.Remove(cel);
+                        UsuńZWrogów(cel);
                         ZnajdźNowyCel();
                     }
                     break;
-                case 1: //Wybuch
+                case TypAtakuWieży.wybuch: //Wybuch
                     Collider[] tabZasięgu = new Collider[4];
                     int iloscCol = Physics.OverlapSphereNonAlloc(cel.transform.position, 1.0f, tabZasięgu, (1 << 8), QueryTriggerInteraction.Collide);
                     for (byte i = 0; i < iloscCol; i++)
@@ -159,7 +161,7 @@ public class KonkretnyNPCStatyczny : NPCClass
                         klasa.ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń)));
                     }
                     break;
-                case 2: //Wszystkie cele
+                case TypAtakuWieży.wszyscyWZasiegu: //Wszystkie cele
                     for (byte i = 0; i < wrogowieWZasiegu.Count; i++)
                     {
                         wrogowieWZasiegu[i].ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń)));
@@ -204,10 +206,12 @@ public class KonkretnyNPCStatyczny : NPCClass
         }
         wrogowieWZasiegu.Add(knpcd);
     }
-    public void UsuńZWrogów(KonkretnyNPCDynamiczny knpcd)
+    public void UsuńZWrogów(NPCClass knpcd)
     {
         if (wrogowieWZasiegu == null || wrogowieWZasiegu.Count == 0)
+        {
             return;
+        }
         List<NPCClass> temp = new List<NPCClass>();
         for (ushort i = 0; i < wrogowieWZasiegu.Count; i++)
         {
