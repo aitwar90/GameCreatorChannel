@@ -143,10 +143,10 @@ public class KonkretnyNPCStatyczny : NPCClass
             {
                 case TypAtakuWieży.jedenTarget: //Jeden Target
                     cel.ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń)));
-                    Debug.Log("Cel.AktualneŻycie "+cel.AktualneŻycie);
+                    //Debug.Log("Cel.AktualneŻycie "+cel.AktualneŻycie);
                     if (cel.AktualneŻycie <= 0)
                     {
-                        Debug.Log("No to jedziemy");
+                        //Debug.Log("No to jedziemy");
                         //Znajdź nowy target
                         UsuńZWrogów(cel);
                         ZnajdźNowyCel();
