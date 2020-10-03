@@ -44,24 +44,59 @@ public class InformacjeDlaPolWież
 {
     public KonkretnyNPCStatyczny wieża;
     public byte odlOdGranicy;
+    private byte[] strona;    //-1 nie jest graniczny, 0 - -X, 1 - +X, 2 - -Z, 3 - +Z
     public InformacjeDlaPolWież()
     {
 
     }
-    public InformacjeDlaPolWież(byte _odlOdGranicy, KonkretnyNPCStatyczny _wieża)
+    public InformacjeDlaPolWież(byte _odlOdGranicy, KonkretnyNPCStatyczny _wieża,
+    byte[] _strona = null)
     {
         this.odlOdGranicy = _odlOdGranicy;
         this.wieża = _wieża;
+        this.strona = _strona;
     }
     ~InformacjeDlaPolWież()
     {
-        
+
+    }
+    public bool ZwrócCzyWieżaPosiadaStrone(byte szukanaStrona)
+    {
+        if (strona != null)
+        {
+            for (byte i = 0; i < strona.Length; i++)
+            {
+                if (strona[i] == szukanaStrona)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
-public struct StrukturaDoPoolowania
+public class StrukturaDoPoolowania
 {
     public string nazwa;
     public System.Collections.Generic.List<KonkretnyNPCDynamiczny> listaObiektówPoolingu;
+
+    public StrukturaDoPoolowania()
+    {
+
+    }
+    ~StrukturaDoPoolowania()
+    {
+
+    }
+    public StrukturaDoPoolowania(string _nazwa)
+    {
+        this.nazwa = _nazwa;
+    }
+    public StrukturaDoPoolowania(string _nazwa, System.Collections.Generic.List<KonkretnyNPCDynamiczny> _listaObiektówPoolingu)
+    {
+        this.nazwa = _nazwa;
+        this.listaObiektówPoolingu = _listaObiektówPoolingu;
+    }
 }
 public class StrukturaDrzewa
 {

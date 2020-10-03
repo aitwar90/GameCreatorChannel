@@ -33,7 +33,7 @@ public abstract class NPCClass : MonoBehaviour
     #endregion
 
     #region Zmienne chronione
-    [SerializeField] private short aktualneŻycie = -1;
+    [SerializeField] private short aktualneŻycie = 32767;
     public NastawienieNPC nastawienieNPC;
     protected Renderer mainRenderer;
     protected float aktualnyReuseAtaku = 0.0f;
@@ -63,6 +63,17 @@ public abstract class NPCClass : MonoBehaviour
             aktualneŻycie = value;
         }
     }
+    public bool NieŻyję
+    {
+        get
+        {
+            return nieŻyję;
+        }
+        set
+        {
+            nieŻyję = value;
+        }
+    }
     #endregion
     protected virtual void Awake()
     {
@@ -76,7 +87,7 @@ public abstract class NPCClass : MonoBehaviour
     }
     void Update()
     {
-        if (aktualneŻycie == 0)
+        if (aktualneŻycie == 0 && nieŻyję)
         {
             UsuńJednostkę();
         }
@@ -94,15 +105,21 @@ public abstract class NPCClass : MonoBehaviour
     }
     public virtual void ZmianaHP(short deltaHP)
     {
-        if (deltaHP < 0)
+        if (!nieŻyję)
         {
-            deltaHP = (short)Mathf.CeilToInt(deltaHP * modyfikatorOtrzymywanychObrażeń);
+            if (deltaHP < 0)
+            {
+                deltaHP = (short)Mathf.CeilToInt(deltaHP * modyfikatorOtrzymywanychObrażeń);
+            }
+            this.aktualneŻycie -= deltaHP;
+            if (aktualneŻycie > maksymalneŻycie)
+                aktualneŻycie = maksymalneŻycie;
+            if (aktualneŻycie < 0)
+            {
+                nieŻyję = true;
+                aktualneŻycie = 0;
+            }
         }
-        this.aktualneŻycie -= deltaHP;
-        if (aktualneŻycie > maksymalneŻycie)
-            aktualneŻycie = maksymalneŻycie;
-        if (aktualneŻycie < 0 && aktualneŻycie != -1)
-            aktualneŻycie = 0;
     }
     public abstract void Atakuj(bool wZwarciu);
 
@@ -118,7 +135,7 @@ public abstract class NPCClass : MonoBehaviour
     {
 
     }
-    public virtual void ResetujŚciezkę()
+    public virtual void ResetujŚciezkę(KonkretnyNPCStatyczny taWiezaPierwszyRaz = null)
     {
 
     }

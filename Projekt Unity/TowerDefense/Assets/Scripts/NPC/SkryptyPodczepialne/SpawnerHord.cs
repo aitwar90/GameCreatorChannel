@@ -121,11 +121,12 @@ public class SpawnerHord : MonoBehaviour
     private void UstawWroga(KonkretnyNPCDynamiczny knpcd, bool czyPullowany = false)
     {
         knpcd.NastawienieNonPlayerCharacter = NastawienieNPC.Wrogie;
-        PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek += knpcd.ResetujŚcieżki;
+        PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek += knpcd.ResetujŚciezkę;
         if (czyPullowany)
         {
             knpcd.AktualneŻycie = knpcd.maksymalneŻycie;
             knpcd.RysujPasekŻycia = true;
+            knpcd.NieŻyję = false;
             knpcd.SetGłównyIndex = -1;
             knpcd.WłWyłObj(true);
         }

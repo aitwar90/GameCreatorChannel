@@ -21,7 +21,7 @@ public class ManagerGryScript : MonoBehaviour
 
     [Tooltip("Zaznaczony NPC")]
     public NPCClass zaznaczonyObiekt = null;
-    public delegate void WywołajResetujŚcieżki();
+    public delegate void WywołajResetujŚcieżki(KonkretnyNPCStatyczny knpcs = null);
     public WywołajResetujŚcieżki wywołajResetŚcieżek;
     #endregion
 
@@ -35,8 +35,23 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.spawnerHord = FindObjectOfType(typeof(SpawnerHord)) as SpawnerHord;
         Terrain terr = FindObjectOfType(typeof(Terrain)) as Terrain;
         PomocniczeFunkcje.tablicaWież = new List<InformacjeDlaPolWież>[20, 20];
-        PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 80) / 2);
-        PomocniczeFunkcje.distXZ = (byte)Mathf.FloorToInt((terr.terrainData.size.x - PomocniczeFunkcje.aktualneGranicaTab) / 20f);
+        PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 40)/2.0f);
+        PomocniczeFunkcje.distXZ = (terr.terrainData.size.x - (PomocniczeFunkcje.aktualneGranicaTab*2)) / 20f;
+        //Debug.Log("DistXZ = "+PomocniczeFunkcje.distXZ+" aktualnaGranicaTab = "+PomocniczeFunkcje.aktualneGranicaTab);
+        /*
+        GameObject go = new GameObject("Rodzic Punktów");
+        for(byte x = 0; x < 20; x++)
+        {
+            float fx = PomocniczeFunkcje.aktualneGranicaTab+ x*PomocniczeFunkcje.distXZ;
+            for(byte z = 0; z < 20; z++)
+            {
+                float fz = PomocniczeFunkcje.aktualneGranicaTab+ z*PomocniczeFunkcje.distXZ;
+                GameObject gos = new GameObject("X="+x+" Z="+z);
+                gos.transform.position = new Vector3(fx, 0.1f, fz);
+                gos.transform.SetParent(go.transform);
+            }
+        }
+        */
     }
     void Start()
     {

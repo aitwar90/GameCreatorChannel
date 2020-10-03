@@ -20,7 +20,7 @@ public class KonkretnyNPCStatyczny : NPCClass
     #endregion
 
     #region Zmienny prywatne
-    private List<NPCClass> wrogowieWZasiegu = null;
+    public List<NPCClass> wrogowieWZasiegu = null;
     private byte idxAct = 0;
     #endregion
 
@@ -38,6 +38,7 @@ public class KonkretnyNPCStatyczny : NPCClass
             this.gameObject.AddComponent<UnityEngine.AI.NavMeshObstacle>();
         }
         this.AktualneŻycie = this.maksymalneŻycie;
+
     }
     // Update is called once per frame
     protected override void RysujHPBar()
@@ -72,7 +73,6 @@ public class KonkretnyNPCStatyczny : NPCClass
     }
     protected override void UsuńJednostkę()
     {
-        this.AktualneŻycie = -1;
         if (this.nastawienieNPC == NastawienieNPC.Wrogie)
         {
             StartCoroutine(SkasujObject(5.0f));
@@ -87,19 +87,19 @@ public class KonkretnyNPCStatyczny : NPCClass
                 tablicaKoliderow[i].enabled = false;
             }
             UnityEngine.AI.NavMeshObstacle tNVO = this.GetComponent<UnityEngine.AI.NavMeshObstacle>();
-            byte[] temp = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
+            short[] temp = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
             byte s = (byte)Mathf.CeilToInt(this.zasięgAtaku / PomocniczeFunkcje.distXZ);
             if (s > 1)
             {
-                for (sbyte i = (sbyte)(temp[0] - s); i < (sbyte)(temp[0] + s); i++)
+                for (short i = (short)(temp[0] - s); i < (short)(temp[0] + s); i++)
                 {
                     if (i > -1 && i < 20)
                     {
-                        for (sbyte j = (sbyte)(temp[1] - s); j < (sbyte)(temp[0] + s); j++)
+                        for (short j = (short)(temp[1] - s); j < (short)(temp[0] + s); j++)
                         {
                             if (j > -1 && j < 20)
                             {
-                                UsuńMnieZListy((byte)i, (byte)j);
+                                UsuńMnieZListy((short)i, (short)j);
                             }
                         }
                     }
@@ -111,12 +111,12 @@ public class KonkretnyNPCStatyczny : NPCClass
             wrogowieWZasiegu = null;
         }
     }
-    private void UsuńMnieZListy(byte x, byte z)
+    private void UsuńMnieZListy(short x, short z)
     {
         if(PomocniczeFunkcje.tablicaWież[x, z] == null)
             return;
         List<InformacjeDlaPolWież> tInf = new List<InformacjeDlaPolWież>();
-        byte dlListy = (byte)PomocniczeFunkcje.tablicaWież[x, z].Count;
+        short dlListy = (short)PomocniczeFunkcje.tablicaWież[x, z].Count;
         for (short i = 0; i < dlListy; i++)
         {
             if (PomocniczeFunkcje.tablicaWież[x, z][i].wieża == this)

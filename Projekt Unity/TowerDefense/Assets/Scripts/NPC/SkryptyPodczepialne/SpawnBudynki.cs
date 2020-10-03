@@ -134,17 +134,15 @@ public class SpawnBudynki : MonoBehaviour
             if (!czyTarget)
                 materialWybranegoBudynku.color = kolorOrginału;
 
-            if (PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek != null)
-                PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek();
             //Teraz nalezy umieścić budynek w odpowiednim miejscu tablicy PomocniczeFunkcje.tablicaWież
-            byte[] temp = PomocniczeFunkcje.ZwrócIndeksyWTablicy(posClick);
+            short[] temp = PomocniczeFunkcje.ZwrócIndeksyWTablicy(posClick);
             byte s = (byte)Mathf.CeilToInt(knpcs.zasięgAtaku / PomocniczeFunkcje.distXZ);
             int k = 0;
             while (s > 0)  //Ustawienie budynku na planszy aby wieża mogła stwierdzić że może atakować
             {
-                for (int x = temp[0] - k; x <= temp[0] + k; x++)
+                for (short x = (short)(temp[0] - k); x <= temp[0] + k; x++)
                 {
-                    for (int z = temp[1] - k; z <= temp[1] + k; z++)
+                    for (short z = (short)(temp[1] - k); z <= temp[1] + k; z++)
                     {
                         if (x > -1 && x < 19 && z > -1 && z < 19)
                         {
@@ -155,9 +153,35 @@ public class SpawnBudynki : MonoBehaviour
                                 {
                                     PomocniczeFunkcje.tablicaWież[x, z] = new List<InformacjeDlaPolWież>();
                                 }
-                                PomocniczeFunkcje.tablicaWież[x, z].Add(new InformacjeDlaPolWież(s, knpcs));
+                                List<byte> tmp = new List<byte>();
+                                //string ss = "("+s.ToString()+")";
+                                if (s == 1)
+                                {
+                                    if (x == temp[0] - k)       //-X
+                                    {
+                                        //ss = ss+" 0";
+                                        tmp.Add(0);
+                                    }
+                                    else if (x == temp[0] + k)  //+X
+                                    {
+                                        //ss = ss+" 1";
+                                        tmp.Add(1);
+                                    }
+                                    if (z == temp[1] - k)       //-Z
+                                    {
+                                        //ss = ss+" 2";
+                                        tmp.Add(2);
+                                    }
+                                    else if (z == temp[1] + k)  //+Z
+                                    {
+                                        //ss = ss+" 3";
+                                        tmp.Add(3);
+                                    }
+                                }
+                                PomocniczeFunkcje.tablicaWież[x, z].Add(new InformacjeDlaPolWież(s, knpcs, 
+                                (tmp.Count == 0) ? null : tmp.ToArray()));
                                 /*
-                                GameObject go = new GameObject(s.ToString());
+                                GameObject go = new GameObject(ss);
                                 float fx = PomocniczeFunkcje.aktualneGranicaTab + (x*PomocniczeFunkcje.distXZ);
                                 float fz = PomocniczeFunkcje.aktualneGranicaTab + (z*PomocniczeFunkcje.distXZ);
                                 go.transform.position = new Vector3(fx, 0.0f, fz);
@@ -169,6 +193,8 @@ public class SpawnBudynki : MonoBehaviour
                 k++;
                 s--;
             }
+            if (PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek != null)
+                PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek(knpcs);
             // Kasowanie ustawień potrzebnych do postawienia budynku
             materialWybranegoBudynku = null;
             knpcs = null;
@@ -202,8 +228,8 @@ public class SpawnBudynki : MonoBehaviour
     {
         materialWybranegoBudynku = null;
         knpcs = null;
-        aktualnyObiekt = null;
         Destroy(aktualnyObiekt);
+        aktualnyObiekt = null;
     }
     private Vector3 WyrównajSpawn(Vector3 sugerowanePolozenie)
     {

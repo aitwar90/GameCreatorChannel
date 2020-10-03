@@ -16,9 +16,10 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private NavMeshAgent agent = null;
     private NavMeshPath ścieżka = null;
     private sbyte głównyIndex = -1;
-    private byte actXIdx = 255;
-    private byte actZIdx = 255;
+    private short actXIdx = 32767;
+    private short actZIdx = 32767;
     private bool czyDodawac = false;
+    private byte[] ostatnieStrony = null;
     #endregion
 
     #region Zmienne chronione
@@ -60,7 +61,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
             DodajNavMeshAgent();
         }
         this.AktualneŻycie = this.maksymalneŻycie;
-        byte[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
+        short[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
         this.DodajMnieDoListyWrogowWiezy(t[0], t[1], true);
         actXIdx = t[0];
         actZIdx = t[1];
@@ -90,20 +91,43 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 }
                 głównyIndex++;
                 break;
-            case 2: //Ustaw index tablicy dla npc
-                byte[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
-                if (actXIdx != t[0] || actZIdx != t[1])
+            case 2: //Ustaw index tablicy dla npc i usuń stare wieże
+                short[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
+                List<byte> sQ = new List<byte>();
+                bool c = false;
+                if (actXIdx < t[0])
+                {
+                    sQ.Add(0);
+                    c = true;
+                }
+                else if (actXIdx > t[0])
+                {
+                    sQ.Add(1);
+                    c = true;
+                }
+                if (actZIdx < t[1])
+                {
+                    sQ.Add(2);
+                    c = true;
+                }
+                else if (actZIdx > t[1])
+                {
+                    sQ.Add(3);
+                    c = true;
+                }
+                if (c)
                 {
                     //Usunięcie starych wież
-                    UsuńMnieZTablicyWież();
+                    ostatnieStrony = sQ.ToArray();
+                    UsuńMnieZTablicyWież(false, ostatnieStrony);
                     czyDodawac = true;
-                    //Dodanie do nowych wież
                     actXIdx = t[0];
                     actZIdx = t[1];
+                    //Debug.Log("Nowe ustawienie X = "+actXIdx+" Z = "+actZIdx);
                 }
                 głównyIndex++;
                 break;
-            case 4:
+            case 4: //Dodanie do nowych wież
                 if (czyDodawac)
                 {
                     DodajMnieDoListyWrogowWiezy(actXIdx, actZIdx);
@@ -141,7 +165,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 SpawnerHord.actualHPBars--;
         }
         this.rysujPasekŻycia = false;
-        PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek -= ResetujŚcieżki;
+        PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek -= ResetujŚciezkę;
         ManagerGryScript.iloscAktywnychWrogów--;
         WłWyłObj(false);
         if (this.nastawienieNPC == NastawienieNPC.Wrogie)
@@ -200,8 +224,10 @@ public class KonkretnyNPCDynamiczny : NPCClass
         if (!enab)
             this.gameObject.SetActive(false);
     }
-    public override void ResetujŚciezkę()
+    public override void ResetujŚciezkę(KonkretnyNPCStatyczny taWiezaPierwszyRaz = null)
     {
+        if (taWiezaPierwszyRaz != null)
+            DodajMnieDoListyWrogowWiezy(actXIdx, actZIdx, false, taWiezaPierwszyRaz);
         ResetujŚcieżki();
     }
     private void DodajNavMeshAgent()
@@ -237,38 +263,100 @@ public class KonkretnyNPCDynamiczny : NPCClass
             return (KonkretnyNPCStatyczny)knpcs;
         }
     }
-    private void DodajMnieDoListyWrogowWiezy(byte x, byte z, bool pierwszyRaz = false)
+    private void DodajMnieDoListyWrogowWiezy(short x, short z, bool pierwszyRaz = false, KonkretnyNPCStatyczny taWiezaPierwszyRaz = null)
     {
+        if (PomocniczeFunkcje.SprawdźCzyWykraczaPozaZakresTablicy(x, z))
+        {
+            return;
+        }
+
         if (PomocniczeFunkcje.tablicaWież[x, z] == null)
         {
             PomocniczeFunkcje.tablicaWież[x, z] = new List<InformacjeDlaPolWież>();
         }
-        for (byte i = 0; i < PomocniczeFunkcje.tablicaWież[x, z].Count; i++)
+        if (pierwszyRaz)
         {
-            if (pierwszyRaz || (!pierwszyRaz && PomocniczeFunkcje.tablicaWież[x, z][i].odlOdGranicy == 1))
+            for (byte i = 0; i < PomocniczeFunkcje.tablicaWież[x, z].Count; i++)
             {
                 PomocniczeFunkcje.tablicaWież[x, z][i].wieża.DodajDoWrogów(this);
             }
         }
+        else if (taWiezaPierwszyRaz != null)
+        {
+            for (byte i = 0; i < PomocniczeFunkcje.tablicaWież[x, z].Count; i++)
+            {
+                if (PomocniczeFunkcje.tablicaWież[x, z][i].wieża == taWiezaPierwszyRaz)
+                {
+                    PomocniczeFunkcje.tablicaWież[x, z][i].wieża.DodajDoWrogów(this);
+                }
+            }
+        }
+        else
+        {
+            for (byte sq = 0; sq < ostatnieStrony.Length; sq++)
+            {
+                /*
+                if (ostatnieStrony[sq] == 0)
+                    ostatnieStrony[sq] = 1;
+                else if (ostatnieStrony[sq] == 1)
+                    ostatnieStrony[sq] = 0;
+                else if (ostatnieStrony[sq] == 3)
+                    ostatnieStrony[sq] = 2;
+                else if (ostatnieStrony[sq] == 2)
+                    ostatnieStrony[sq] = 3;
+                */
+                for (byte i = 0; i < PomocniczeFunkcje.tablicaWież[x, z].Count; i++)
+                {
+                    if (PomocniczeFunkcje.tablicaWież[x, z][i].ZwrócCzyWieżaPosiadaStrone(ostatnieStrony[sq]))
+                    {
+                        if (PomocniczeFunkcje.tablicaWież[x, z][i].odlOdGranicy == 1)
+                        {
+                            PomocniczeFunkcje.tablicaWież[x, z][i].wieża.DodajDoWrogów(this);
+                        }
+                    }
+                }
+            }
+        }
+        ostatnieStrony = null;
     }
-    private void UsuńMnieZTablicyWież(bool czyCalkowicie = false)
+    private void UsuńMnieZTablicyWież(bool czyCalkowicie = false, byte[] sQ = null)
     {
-        if (PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx] == null || PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx].Count == 0)
+        if (PomocniczeFunkcje.SprawdźCzyWykraczaPozaZakresTablicy(actXIdx, actZIdx) || PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx] == null
+            || PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx].Count == 0)
             return;
 
-        for (ushort i = 0; i < PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx].Count; i++)
+        if (czyCalkowicie)
         {
-            if (czyCalkowicie)
+            for (ushort i = 0; i < PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx].Count; i++)
             {
                 //Usunięcie tego npc 
                 PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx][i].wieża.UsuńZWrogów(this);
             }
-            else
+        }
+        else
+        {
+            if (sQ != null && sQ.Length > 0)
             {
-                if (PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx][i].odlOdGranicy == 1)
+                for (ushort i = 0; i < PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx].Count; i++)
                 {
-                    //Usunięcie tego npc 
-                    PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx][i].wieża.UsuńZWrogów(this);
+                    for (byte sq = 0; sq < sQ.Length; sq++)
+                    {
+                        if(sQ[sq] == 0)
+                            sQ[sq] = 1;
+                        else if(sQ[sq] == 1)
+                            sQ[sq] = 0;
+                        else if(sQ[sq] == 2)
+                            sQ[sq] = 3;
+                        else if(sQ[sq] == 3)
+                            sQ[sq] = 2;
+                        if (PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx][i].odlOdGranicy == 1)
+                        {
+                            if (PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx][i].ZwrócCzyWieżaPosiadaStrone(sQ[sq]))
+                            {
+                                PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx][i].wieża.UsuńZWrogów(this);
+                            }
+                        }
+                    }
                 }
             }
         }

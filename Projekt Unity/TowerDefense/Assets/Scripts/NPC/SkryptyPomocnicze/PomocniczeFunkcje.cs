@@ -484,10 +484,21 @@ public static class PomocniczeFunkcje
         stosTrupów = null;
         tablicaWież = null;
     }
-    public static byte[] ZwrócIndeksyWTablicy(Vector3 pozycja)
+    public static short[] ZwrócIndeksyWTablicy(Vector3 pozycja)
     {
-        byte x = (byte)(Mathf.FloorToInt((pozycja.x-aktualneGranicaTab)/distXZ));
-        byte z = (byte)(Mathf.FloorToInt((pozycja.z-aktualneGranicaTab)/distXZ));
-        return new byte[] {x, z};
+        short x = (short)(Mathf.FloorToInt((pozycja.x-aktualneGranicaTab)/distXZ));
+        short z = (short)(Mathf.FloorToInt((pozycja.z-aktualneGranicaTab)/distXZ));
+        return new short[] {x, z};
+    }
+    public static bool SprawdźCzyWykraczaPozaZakresTablicy(short x, short z)
+    {
+        if(x < 0 || x > 19 || z < 0 || z > 19)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
