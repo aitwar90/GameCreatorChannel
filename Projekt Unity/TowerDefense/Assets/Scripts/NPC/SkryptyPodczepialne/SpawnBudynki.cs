@@ -92,7 +92,7 @@ public class SpawnBudynki : MonoBehaviour
             }
 #endif
 #if UNITY_ANDROID
-            if(Input.touchCout > 0 && wybranyBudynek != null)
+            if(Input.touchCount > 0 && aktualnyObiekt != null)
             {
                 ZatwierdzenieBudynku();
             }

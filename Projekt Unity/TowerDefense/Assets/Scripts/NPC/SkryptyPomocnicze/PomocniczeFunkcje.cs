@@ -15,15 +15,20 @@ public static class PomocniczeFunkcje
     public static List<InformacjeDlaPolWież>[,] tablicaWież = null;
     public static float distXZ = 5;
     public static ushort aktualneGranicaTab = 0;
+    private static Camera oCam = null;
     #region Obsługa położenia myszy względem ekranu
     public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos)
     {
+        if(oCam == null)
+        {
+            oCam = Camera.main;
+        }
         Ray ray;
 #if UNITY_STANDALONE
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        ray = oCam.ScreenPointToRay(Input.mousePosition);
 #endif
 #if UNITY_ANDROID
-        ray = Camera.main.ScreenPointToRay(Input.GetTouch(0));
+        ray = oCam.ScreenPointToRay(Input.GetTouch(0).position);
 #endif
         RaycastHit[] hit = new RaycastHit[1];
         int layerMask = ~(0 << 8);
@@ -39,12 +44,16 @@ public static class PomocniczeFunkcje
     }
     public static NPCClass OkreślKlikniętyNPC(ref NPCClass lastNPCCLass)
     {
+        if(oCam == null)
+        {
+            oCam = Camera.main;
+        }
         Ray ray;
 #if UNITY_STANDALONE
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        ray = oCam.ScreenPointToRay(Input.mousePosition);
 #endif
 #if UNITY_ANDROID
-        ray = Camera.main.ScreenPointToRay(Input.GetTouch(0));
+        ray = oCam.ScreenPointToRay(Input.GetTouch(0).position);
 #endif
         int layerMask = (1 << 8) | (1 << 0);
         RaycastHit[] hit = new RaycastHit[1];

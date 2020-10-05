@@ -12,8 +12,8 @@ public class MoveCameraScript : MonoBehaviour
     private float prędkoscPrzesunięciaKamery = 0.005f;
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
     private Vector3 pierwotnePołożenieKamery = Vector3.zero;
+    #if UNITY_STANDALONE
     private byte granica = 50;
-#if UNITY_STANDALONE
     int szerokośćObrazu;
     int wysokśćObrazu;
 #endif
@@ -55,6 +55,7 @@ public class MoveCameraScript : MonoBehaviour
     #region Metody i funkcje obsługujące przemieszczanie kamery
     void ObsłużMysz()       //Przesuwanie kamery przez najechanie kursorem myszy do krawędzi aplikacji
     {
+        #if UNITY_STANDALONE
         if (Input.mousePosition.x > szerokośćObrazu - granica)
         {
             Vector3 newPos = new Vector3(this.transform.position.x + prędkoscPrzesunięciaKamery * Time.deltaTime, this.transform.position.y, this.transform.position.z);
@@ -87,6 +88,7 @@ public class MoveCameraScript : MonoBehaviour
                 this.transform.position = newPos;
             }
         }
+        #endif
     }
     void ObsłużTouchPad()
     {

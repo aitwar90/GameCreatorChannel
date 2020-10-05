@@ -72,7 +72,7 @@ public class ManagerGryScript : MonoBehaviour
         }
 #endif
 #if UNITY_ANDROID
-        if (Input.GetTouch(0) && Input.touchCout > 0)
+        if (Input.GetTouch(0).phase == TouchPhase.Began && Input.touchCount > 0)
             {
                 zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
             }
