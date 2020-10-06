@@ -15,7 +15,7 @@ public static class PomocniczeFunkcje
     public static List<InformacjeDlaPolWież>[,] tablicaWież = null;
     public static float distXZ = 5;
     public static ushort aktualneGranicaTab = 0;
-    private static Camera oCam = null;
+    public static Camera oCam = null;
     #region Obsługa położenia myszy względem ekranu
     public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos)
     {
@@ -28,7 +28,8 @@ public static class PomocniczeFunkcje
         ray = oCam.ScreenPointToRay(Input.mousePosition);
 #endif
 #if UNITY_ANDROID
-        ray = oCam.ScreenPointToRay(Input.GetTouch(0).position);
+//        ray = oCam.ScreenPointToRay(Input.GetTouch(0).position);
+ray = oCam.ScreenPointToRay(Input.mousePosition);
 #endif
         RaycastHit[] hit = new RaycastHit[1];
         int layerMask = ~(0 << 8);

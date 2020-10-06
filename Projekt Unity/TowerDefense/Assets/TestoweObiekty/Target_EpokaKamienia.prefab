@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8240789140282401236
+--- !u!1 &5806775561652400943
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8160298508856422041}
-  - component: {fileID: 5312836397273425300}
-  - component: {fileID: 7102131182484517752}
-  - component: {fileID: 7929084977028605428}
-  - component: {fileID: 8240789140282401239}
-  m_Layer: 8
-  m_Name: Budynek
-  m_TagString: Budynek
+  - component: {fileID: 8231968071773723863}
+  - component: {fileID: 5654819459280951869}
+  - component: {fileID: 8058030567810908562}
+  - component: {fileID: 3369056954068059428}
+  - component: {fileID: 8028420526115157696}
+  m_Layer: 0
+  m_Name: Target
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8160298508856422041
+--- !u!4 &8231968071773723863
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8240789140282401236}
+  m_GameObject: {fileID: 5806775561652400943}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5312836397273425300
+--- !u!33 &5654819459280951869
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8240789140282401236}
-  m_Mesh: {fileID: 1170753669466918040, guid: 81520cf3481598fca8fee8a0e5836a15, type: 3}
---- !u!23 &7102131182484517752
+  m_GameObject: {fileID: 5806775561652400943}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &8058030567810908562
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8240789140282401236}
+  m_GameObject: {fileID: 5806775561652400943}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e2f346597efdd683598ea8d929772fba, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,13 +83,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7929084977028605428
+--- !u!65 &3369056954068059428
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5806775561652400943}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8028420526115157696
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8240789140282401236}
+  m_GameObject: {fileID: 5806775561652400943}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb97c6dfecba79b40acc907f00e51742, type: 3}
@@ -97,34 +110,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nazwa: 
   "maksymalne\u017Bycie": 100
-  typNPC: 2
+  typNPC: 0
   epokaNPC: 1
   kosztJednostki: 1
-  "zadawaneObra\u017Cenia": 40
-  "zasi\u0119gAtaku": 5
-  "szybko\u015B\u0107Ataku": 1
+  "zadawaneObra\u017Cenia": 10
+  "zasi\u0119gAtaku": 0
+  "szybko\u015B\u0107Ataku": 0.5
   "modyfikatorOtrzymywanychObra\u017Ce\u0144": 1
   "modyfikatorZadawanychObra\u017Ce\u0144": 1
   cel: {fileID: 0}
-  "aktualne\u017Bycie": -1
+  "aktualne\u017Bycie": 32767
   nastawienieNPC: 0
-  typBudynku: 1
+  typBudynku: 2
   "odbiteObra\u017Cenia": 1
-  granicaX: 0.6
-  granicaZ: 0.6
+  granicaX: 1.8
+  granicaZ: 1.8
   wymusInicjacje: 0
-  "typAtakuWie\u017Cy": 1
+  "typAtakuWie\u017Cy": 0
   wrogowieWZasiegu: []
---- !u!135 &8240789140282401239
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8240789140282401236}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0.18, z: 0}

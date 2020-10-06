@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class ManagerGryScript : MonoBehaviour
 {
@@ -23,20 +23,25 @@ public class ManagerGryScript : MonoBehaviour
     public NPCClass zaznaczonyObiekt = null;
     public delegate void WywołajResetujŚcieżki(KonkretnyNPCStatyczny knpcs = null);
     public WywołajResetujŚcieżki wywołajResetŚcieżek;
+    public GameObject[] bazy = new GameObject[1];
     #endregion
 
     #region Prywatne zmienne
+    private bool czyScenaZostałaZaładowana = false;
     private byte aktualnaIlośćFal = 0;
     #endregion  
     void Awake()
     {
         PomocniczeFunkcje.managerGryScript = this;
         PomocniczeFunkcje.spawnBudynki = FindObjectOfType(typeof(SpawnBudynki)) as SpawnBudynki;
+    }
+    private void ŁadowanieDanych()
+    {
         PomocniczeFunkcje.spawnerHord = FindObjectOfType(typeof(SpawnerHord)) as SpawnerHord;
         Terrain terr = FindObjectOfType(typeof(Terrain)) as Terrain;
         PomocniczeFunkcje.tablicaWież = new List<InformacjeDlaPolWież>[20, 20];
-        PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 40)/2.0f);
-        PomocniczeFunkcje.distXZ = (terr.terrainData.size.x - (PomocniczeFunkcje.aktualneGranicaTab*2)) / 20f;
+        PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 40) / 2.0f);
+        PomocniczeFunkcje.distXZ = (terr.terrainData.size.x - (PomocniczeFunkcje.aktualneGranicaTab * 2)) / 20f;
         //Debug.Log("DistXZ = "+PomocniczeFunkcje.distXZ+" aktualnaGranicaTab = "+PomocniczeFunkcje.aktualneGranicaTab);
         /*
         GameObject go = new GameObject("Rodzic Punktów");
@@ -53,10 +58,19 @@ public class ManagerGryScript : MonoBehaviour
         }
         */
     }
-    void Start()
+    public void GenerujBaze()
     {
-        if (aktualnaEpoka != Epoki.None)
+        sbyte idxEpokiBazyWTablicy = (sbyte)((byte)aktualnaEpoka - 1);
+        if (idxEpokiBazyWTablicy < 0 || idxEpokiBazyWTablicy >= bazy.Length)
         {
+            return;
+        }
+        else
+        {
+            //Debug.Log("Generuję bazę");
+            ŁadowanieDanych();
+            GameObject baza = GameObject.Instantiate(bazy[idxEpokiBazyWTablicy], new Vector3(50.0f, 2.5f, 50.0f), Quaternion.identity);
+            PomocniczeFunkcje.DodajDoDrzewaPozycji(baza.GetComponent<KonkretnyNPCStatyczny>(), ref PomocniczeFunkcje.korzeńDrzewaPozycji);
             StartCoroutine("WyzwólKolejnąFalę");
         }
     }
@@ -72,18 +86,37 @@ public class ManagerGryScript : MonoBehaviour
         }
 #endif
 #if UNITY_ANDROID
+/*
         if (Input.GetTouch(0).phase == TouchPhase.Began && Input.touchCount > 0)
-            {
-                zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
-            }
+        {
+            zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
+            Debug.Log("Zaznaczony obiekt " + zaznaczonyObiekt.nazwa);
+        }
+        */
 #endif
     }
     void Update()
     {
-        if (aktualnaIlośćFal >= iloscFalWHordzie && iloscAktywnychWrogów <= 0)
+        if (czyScenaZostałaZaładowana)
         {
-            //Lvl skończony wszystkie fale zostały pokonane
-            KoniecPoziomuZakończony(true);
+            if (aktualnaIlośćFal >= iloscFalWHordzie && iloscAktywnychWrogów <= 0)
+            {
+                //Lvl skończony wszystkie fale zostały pokonane
+                KoniecPoziomuZakończony(true);
+            }
+        }
+        else
+        {
+            SprawdźCzyScenaZostałaZaładowana();
+        }
+    }
+    private void SprawdźCzyScenaZostałaZaładowana()
+    {
+        Scene s = SceneManager.GetSceneByBuildIndex((byte)aktualnaEpoka);
+        if (s.isLoaded)
+        {
+            czyScenaZostałaZaładowana = true;
+            GenerujBaze();
         }
     }
     private IEnumerator WyzwólKolejnąFalę()
@@ -96,10 +129,12 @@ public class ManagerGryScript : MonoBehaviour
             StartCoroutine("WyzwólKolejnąFalę");
         }
     }
+#if UNITY_STANDALONE
     void OnGUI()
     {
         EditorGUI.TextField(new Rect(10, 20, 300, 20), "Zaznaczony obiekt: " + ((zaznaczonyObiekt == null) ? "null" : zaznaczonyObiekt.name));
     }
+#endif
     private void KoniecPoziomuZakończony(bool sukces = true)
     {
         if (sukces)

@@ -9,10 +9,11 @@ public class MoveCameraScript : MonoBehaviour
     #endregion
 
     #region Zmienne prywatne
-    private float prędkoscPrzesunięciaKamery = 0.005f;
+    private float prędkoscPrzesunięciaKamery = 0.5f;
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
     private Vector3 pierwotnePołożenieKamery = Vector3.zero;
-    #if UNITY_STANDALONE
+    private MainMenu mm = null;
+#if UNITY_STANDALONE
     private byte granica = 50;
     int szerokośćObrazu;
     int wysokśćObrazu;
@@ -31,6 +32,10 @@ public class MoveCameraScript : MonoBehaviour
         }
     }
     #endregion
+    void Awake()
+    {
+        mm = FindObjectOfType(typeof(MainMenu)) as MainMenu;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -45,17 +50,20 @@ public class MoveCameraScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!mm.czyMenuEnable)
+        {
 #if UNITY_STANDALONE
         ObsłużMysz();
 #endif
 #if UNITY_ANDROID
-        ObsłużTouchPad();
+            ObsłużTouchPad();
+        }
 #endif
     }
     #region Metody i funkcje obsługujące przemieszczanie kamery
     void ObsłużMysz()       //Przesuwanie kamery przez najechanie kursorem myszy do krawędzi aplikacji
     {
-        #if UNITY_STANDALONE
+#if UNITY_STANDALONE
         if (Input.mousePosition.x > szerokośćObrazu - granica)
         {
             Vector3 newPos = new Vector3(this.transform.position.x + prędkoscPrzesunięciaKamery * Time.deltaTime, this.transform.position.y, this.transform.position.z);
@@ -88,21 +96,33 @@ public class MoveCameraScript : MonoBehaviour
                 this.transform.position = newPos;
             }
         }
-        #endif
+#endif
     }
     void ObsłużTouchPad()
     {
-        if (Input.touchCount > 0)    //Przesuniecie kamery
+        if (Input.touchCount == 1)    //Przesuniecie kamery
         {
             Touch dotyk = Input.GetTouch(0);    //Pobierz informację o pierwszym dotknięciu
-            Vector3 posDotyk = new Vector3(dotyk.position.x, dotyk.position.y, 0f);
+            Vector3 posDotyk = dotyk.position;
             if (dotyk.phase == TouchPhase.Moved) //Jeśli wykrywa przesunięcie palcem po ekranie
             {
-                Vector3 przesuniecie = ((ostatniaPozycjaKamery - posDotyk) * prędkoscPrzesunięciaKamery);
+                Vector3 przesuniecie = ((ostatniaPozycjaKamery - posDotyk));
                 if (SprawdźCzyMogęPrzesunąćKamerę(ostatniaPozycjaKamery + przesuniecie))
                 {
                     this.transform.Translate(przesuniecie);
                     ostatniaPozycjaKamery = posDotyk;
+                }
+            }
+        }
+        else if (Input.mousePresent)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                Vector3 przesuniecie = ((ostatniaPozycjaKamery - Input.mousePosition) * prędkoscPrzesunięciaKamery);
+                if (SprawdźCzyMogęPrzesunąćKamerę(ostatniaPozycjaKamery + przesuniecie))
+                {
+                    this.transform.Translate(przesuniecie);
+                    ostatniaPozycjaKamery = Input.mousePosition;
                 }
             }
         }
@@ -117,9 +137,9 @@ public class MoveCameraScript : MonoBehaviour
             float prevTouchDeltaMag = (przyb1Prev - przyb2Prev).magnitude;
             float touchDeltaMag = (przybliżenie1.position - przybliżenie2.position).magnitude;
 
-            float różnicaPrzybliżenia = (prevTouchDeltaMag - touchDeltaMag) * -1;
-
-            transform.Translate(0, 0, różnicaPrzybliżenia);
+            float różnicaPrzybliżenia = ((prevTouchDeltaMag - touchDeltaMag) * -1)*prędkoscPrzesunięciaKamery;
+            if(Mathf.Abs(różnicaPrzybliżenia - 5.0f) < 2)
+                transform.Translate(0, 0, różnicaPrzybliżenia);
         }
     }
     private bool SprawdźCzyMogęPrzesunąćKamerę(Vector3 newPos)
