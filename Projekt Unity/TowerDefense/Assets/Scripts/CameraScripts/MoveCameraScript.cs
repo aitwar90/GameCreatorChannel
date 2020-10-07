@@ -103,14 +103,12 @@ public class MoveCameraScript : MonoBehaviour
         if (Input.touchCount == 1)    //Przesuniecie kamery
         {
             Touch dotyk = Input.GetTouch(0);    //Pobierz informację o pierwszym dotknięciu
-            Vector3 posDotyk = dotyk.position;
+            Vector3 posDotyk = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKamery);
             if (dotyk.phase == TouchPhase.Moved) //Jeśli wykrywa przesunięcie palcem po ekranie
             {
-                Vector3 przesuniecie = ((ostatniaPozycjaKamery - posDotyk));
-                if (SprawdźCzyMogęPrzesunąćKamerę(ostatniaPozycjaKamery + przesuniecie))
+                if (SprawdźCzyMogęPrzesunąćKamerę(posDotyk))
                 {
-                    this.transform.Translate(przesuniecie);
-                    ostatniaPozycjaKamery = posDotyk;
+                    this.transform.position = posDotyk;
                 }
             }
         }

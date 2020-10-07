@@ -18,7 +18,7 @@ public class SpawnerHord : MonoBehaviour
     public static byte actualHPBars = 0;
     public byte aktualnaIloscHPBarów = 0;
     public NPCClass cel;
-    private Transform rodzicNPC = null;
+    public Transform rodzicNPC = null;
 
     public void GenerujSpawn(Epoki e)
     {
@@ -159,6 +159,13 @@ public class SpawnerHord : MonoBehaviour
         else
         {
             Debug.Log("Delegatura jest null");
+        }
+    }
+    public void UsunWszystkieJednostki()
+    {
+        for(int i = rodzicNPC.childCount - 1; i >= 0; i--)
+        {
+            Destroy(rodzicNPC.GetChild(i).gameObject);
         }
     }
 }

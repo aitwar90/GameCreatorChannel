@@ -28,8 +28,8 @@ public static class PomocniczeFunkcje
         ray = oCam.ScreenPointToRay(Input.mousePosition);
 #endif
 #if UNITY_ANDROID
-//        ray = oCam.ScreenPointToRay(Input.GetTouch(0).position);
-ray = oCam.ScreenPointToRay(Input.mousePosition);
+        ray = oCam.ScreenPointToRay(Input.GetTouch(0).position);
+//ray = oCam.ScreenPointToRay(Input.mousePosition);
 #endif
         RaycastHit[] hit = new RaycastHit[1];
         int layerMask = ~(0 << 8);
@@ -490,9 +490,15 @@ ray = oCam.ScreenPointToRay(Input.mousePosition);
     {
         korzeńDrzewaPozycji = null;
         celWrogów = null;
-        stosTrupów.Clear();
+        stosTrupów = null;
         stosTrupów = null;
         tablicaWież = null;
+        spawnBudynki.DestroyBuildings();
+        if(spawnerHord != null)
+        {
+            spawnerHord.UsunWszystkieJednostki();
+            spawnerHord = null;
+        }
     }
     public static short[] ZwrócIndeksyWTablicy(Vector3 pozycja)
     {

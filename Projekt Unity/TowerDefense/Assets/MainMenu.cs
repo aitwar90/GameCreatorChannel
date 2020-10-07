@@ -26,10 +26,21 @@ public class MainMenu : MonoBehaviour
     }
     public void PlayGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1, LoadSceneMode.Additive);
-        PomocniczeFunkcje.oCam.transform.position = new Vector3(50.0f, 5.0f, 45.0f);
-        menu.SetActive(false);
-        uiGry.SetActive(true);
+        if(SceneManager.sceneCount == 1)
+        {
+            SceneManager.LoadScene((byte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka, LoadSceneMode.Additive);
+        }
+        else
+        {
+            //Reset scene
+            PomocniczeFunkcje.ResetujWszystko();
+            SceneManager.UnloadSceneAsync(1);
+            SceneManager.LoadScene((byte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka, LoadSceneMode.Additive);
+
+        }
+            PomocniczeFunkcje.oCam.transform.position = new Vector3(50.0f, 5.0f, 45.0f);
+            menu.SetActive(false);
+            uiGry.SetActive(true);
     }
     public void OptionsMenu(bool actButton)
     {
@@ -38,7 +49,7 @@ public class MainMenu : MonoBehaviour
     }
     public void QuitGame()
     {
-        Debug.Log("Quit");
+        Debug.Log("MainMenu 55: Quit");
         Application.Quit();
     }
     public void PrzełączUI(bool aktywujeMenu)
@@ -47,7 +58,7 @@ public class MainMenu : MonoBehaviour
         czyMenuEnable = aktywujeMenu;
         menu.SetActive(aktywujeMenu);
         uiGry.SetActive(!aktywujeMenu);
-        if(aktywujeMenu)
+        if (aktywujeMenu)
         {
             Time.timeScale = 0.0f;
             lastPosCam = PomocniczeFunkcje.oCam.transform.position;

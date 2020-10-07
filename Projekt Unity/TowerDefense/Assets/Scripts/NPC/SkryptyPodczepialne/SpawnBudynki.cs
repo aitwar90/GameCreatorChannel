@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SpawnBudynki : MonoBehaviour
 {
     #region Zmienne publiczne
     public GameObject[] wszystkieBudynki;
     public Transform rodzicBudynkow = null;
-
+    public Text teksAktualnegoObiektu;
     //UI _ Canvas
     public UnityEngine.UI.Dropdown dropdawn;
     #endregion
@@ -31,9 +32,21 @@ public class SpawnBudynki : MonoBehaviour
         }
         List<string> wszystkieBudynkiList = new List<string>();
         wszystkieBudynkiList.Add("None");
-        for (byte i = 0; i < wszystkieBudynki.Length; i++)
+        byte idxActEpoki = (byte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka;
+        if (idxActEpoki > 0)
         {
-            wszystkieBudynkiList.Add(wszystkieBudynki[i].name);
+            for (byte i = 0; i < wszystkieBudynki.Length; i++)
+            {
+                byte budynekEpoki = (byte)wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>().epokaNPC;
+                if (budynekEpoki == idxActEpoki || budynekEpoki == idxActEpoki - 1)
+                {
+                    wszystkieBudynkiList.Add(wszystkieBudynki[i].name);
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("SpawnBudynki 48: Nie ustalono epoki");
         }
         this.dropdawn.AddOptions(wszystkieBudynkiList);
     }
@@ -80,21 +93,18 @@ public class SpawnBudynki : MonoBehaviour
             }
 #endif
 #if UNITY_ANDROID
-            if (aktualnyObiekt != null)
+            if (Input.mousePresent)
             {
-                if (Input.mousePresent)
+                if (Input.GetMouseButtonDown(0))
                 {
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        ZatwierdzenieBudynku();
-                    }
+                    ZatwierdzenieBudynku();
                 }
-                else
+            }
+            else
+            {
+                if (Input.touchCount > 0)
                 {
-                    if (Input.touchCount > 0)
-                    {
-                        ZatwierdzenieBudynku();
-                    }
+                    ZatwierdzenieBudynku();
                 }
             }
 
@@ -111,6 +121,7 @@ public class SpawnBudynki : MonoBehaviour
             materialWybranegoBudynku.color = Color.red;
         }
         knpcs = aktualnyObiekt.GetComponent<KonkretnyNPCStatyczny>();
+        teksAktualnegoObiektu.text = "Aktualny obiekt = "+aktualnyObiekt.name;
     }
     private void ZatwierdzenieBudynku()
     {
@@ -195,6 +206,7 @@ public class SpawnBudynki : MonoBehaviour
         materialWybranegoBudynku = null;
         knpcs = null;
         aktualnyObiekt = null;
+        teksAktualnegoObiektu.text = "Aktualny obiekt = ";
     }
     public void WybierzBudynekDoPostawienia()  //Wybór obiektu budynku do postawienia
     {
@@ -209,6 +221,11 @@ public class SpawnBudynki : MonoBehaviour
     private bool CzyMogęPostawićBudynek(Vector3 sugerowanaPozycja)
     {
         KonkretnyNPCStatyczny najbliższyBudynek = PomocniczeFunkcje.WyszukajWDrzewie(ref PomocniczeFunkcje.korzeńDrzewaPozycji, sugerowanaPozycja) as KonkretnyNPCStatyczny;
+        if (najbliższyBudynek == null)
+        {
+            ResetWybranegoObiektu();
+            return false;
+        }
         if (Mathf.Abs(sugerowanaPozycja.x - najbliższyBudynek.transform.position.x) < najbliższyBudynek.granicaX + knpcs.granicaX &&
         Mathf.Abs(sugerowanaPozycja.z - najbliższyBudynek.transform.position.z) < najbliższyBudynek.granicaZ + knpcs.granicaZ)
         {
@@ -231,5 +248,16 @@ public class SpawnBudynki : MonoBehaviour
         sugerowanePolozenie.x = Mathf.RoundToInt(sugerowanePolozenie.x);
         sugerowanePolozenie.z = Mathf.RoundToInt(sugerowanePolozenie.z);
         return sugerowanePolozenie;
+    }
+    public void DestroyBuildings()
+    {
+        if (aktualnyObiekt != null)
+        {
+            ResetWybranegoObiektu();
+        }
+        for (int i = rodzicBudynkow.childCount - 1; i >= 0; i--)
+        {
+            Destroy(rodzicBudynkow.GetChild(i).gameObject);
+        }
     }
 }

@@ -29,6 +29,17 @@ public class ManagerGryScript : MonoBehaviour
     #region Prywatne zmienne
     private bool czyScenaZostałaZaładowana = false;
     private byte aktualnaIlośćFal = 0;
+    public bool CzyScenaZostałaZaładowana
+    {
+        get
+        {
+            return czyScenaZostałaZaładowana;
+        }
+        set
+        {
+            czyScenaZostałaZaładowana = value;
+        }
+    }
     #endregion  
     void Awake()
     {
@@ -60,17 +71,19 @@ public class ManagerGryScript : MonoBehaviour
     }
     public void GenerujBaze()
     {
-        sbyte idxEpokiBazyWTablicy = (sbyte)((byte)aktualnaEpoka - 1);
+        sbyte idxEpokiBazyWTablicy = (sbyte)((sbyte)aktualnaEpoka - 1);
         if (idxEpokiBazyWTablicy < 0 || idxEpokiBazyWTablicy >= bazy.Length)
         {
+            Debug.Log("idxEpokaBazyWTablicy = "+idxEpokiBazyWTablicy);
             return;
         }
         else
         {
-            //Debug.Log("Generuję bazę");
+            Debug.Log("Generuję bazę");
             ŁadowanieDanych();
-            GameObject baza = GameObject.Instantiate(bazy[idxEpokiBazyWTablicy], new Vector3(50.0f, 2.5f, 50.0f), Quaternion.identity);
+            GameObject baza = GameObject.Instantiate(bazy[idxEpokiBazyWTablicy], new Vector3(50.0f, 1.5f, 50.0f), Quaternion.identity);
             PomocniczeFunkcje.DodajDoDrzewaPozycji(baza.GetComponent<KonkretnyNPCStatyczny>(), ref PomocniczeFunkcje.korzeńDrzewaPozycji);
+            baza.transform.SetParent(PomocniczeFunkcje.spawnBudynki.rodzicBudynkow);
             StartCoroutine("WyzwólKolejnąFalę");
         }
     }

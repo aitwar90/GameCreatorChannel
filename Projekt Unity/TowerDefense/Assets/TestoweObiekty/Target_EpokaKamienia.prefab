@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3369056954068059428}
   - component: {fileID: 8028420526115157696}
   m_Layer: 0
-  m_Name: Target
+  m_Name: Target_EpokaKamienia
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb97c6dfecba79b40acc907f00e51742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nazwa: 
+  nazwa: "BudynekG\u0142\xF3wny"
   "maksymalne\u017Bycie": 100
   typNPC: 0
   epokaNPC: 1
