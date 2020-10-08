@@ -79,7 +79,6 @@ public class ManagerGryScript : MonoBehaviour
         }
         else
         {
-            Debug.Log("Generuję bazę");
             ŁadowanieDanych();
             GameObject baza = GameObject.Instantiate(bazy[idxEpokiBazyWTablicy], new Vector3(50.0f, 1.5f, 50.0f), Quaternion.identity);
             PomocniczeFunkcje.DodajDoDrzewaPozycji(baza.GetComponent<KonkretnyNPCStatyczny>(), ref PomocniczeFunkcje.korzeńDrzewaPozycji);

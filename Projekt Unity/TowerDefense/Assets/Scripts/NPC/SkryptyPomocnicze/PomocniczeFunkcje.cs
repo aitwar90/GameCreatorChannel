@@ -28,8 +28,14 @@ public static class PomocniczeFunkcje
         ray = oCam.ScreenPointToRay(Input.mousePosition);
 #endif
 #if UNITY_ANDROID
-        ray = oCam.ScreenPointToRay(Input.GetTouch(0).position);
-//ray = oCam.ScreenPointToRay(Input.mousePosition);
+        if(Input.mousePresent)
+        {
+            ray = oCam.ScreenPointToRay(Input.mousePosition);
+        }
+        else
+        {
+            ray = oCam.ScreenPointToRay(Input.GetTouch(0).position);
+        }
 #endif
         RaycastHit[] hit = new RaycastHit[1];
         int layerMask = ~(0 << 8);
@@ -79,7 +85,9 @@ public static class PomocniczeFunkcje
     {
         if (korzeń == null)
         {
+            #if UNITY_STANDALONE
             Debug.Log("Korzeń jest null");
+            #endif
             return null;
         }
         StrukturaDrzewa aktualnieSprawdzanyNode = korzeń;
@@ -153,7 +161,9 @@ public static class PomocniczeFunkcje
     {
         if (korzeń == null)
         {
+            #if UNITY_STANDALONE
             Debug.Log("Korzeń jest null");
+            #endif
             return;
         }
         StrukturaDrzewa[,] ponownieUstaw = ZnajdźElementPoKomponencie(ref korzeń, _komponentDoSkasowania);

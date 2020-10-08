@@ -16,9 +16,12 @@ public class SpawnBudynki : MonoBehaviour
     private Material materialWybranegoBudynku = null;
     private Color kolorOrginału;
     private KonkretnyNPCStatyczny knpcs = null;
-    private GameObject aktualnyObiekt = null;
+    public GameObject aktualnyObiekt = null;
     private Vector3 ostatniaPozycjaKursora = Vector3.zero;
     private Vector3 posClick = Vector3.zero;
+#if UNITY_ANDROID
+    private byte aktualnyIndexBudowy = 0;
+#endif
     #endregion
 
     void Awake()
@@ -61,54 +64,64 @@ public class SpawnBudynki : MonoBehaviour
     {
         if (aktualnyObiekt != null)
         {
-            if (Input.GetMouseButtonDown(2))
+            if (Input.GetMouseButton(2))
             {
                 ResetWybranegoObiektu();
             }
-            else
+            if (posClick != aktualnyObiekt.transform.position)
             {
-                if (aktualnyObiekt.transform.position != posClick)
-                {
-                    aktualnyObiekt.transform.position = posClick;
-                    ostatniaPozycjaKursora = posClick;
-                }
+                aktualnyObiekt.transform.position = posClick;
+            }
+            if (CzyMogęPostawićBudynek(posClick))
+            {
 #if UNITY_STANDALONE
-                float numer = Input.GetAxisRaw("Mouse ScrollWheel");
-                if (numer != 0)
+            ObsluzMysz();
+#endif
+#if UNITY_ANDROID
+                if (Input.mousePresent)
                 {
-                    numer = (numer < 0) ? -1 : 1;
-                    Vector3 vet = aktualnyObiekt.transform.rotation.eulerAngles;
-                    vet.y += numer * 45;
-                    aktualnyObiekt.transform.rotation = Quaternion.Euler(vet);
+                    ObsluzMysz();
+                }
+                else
+                {
+                    ObsluzTouchPad();
                 }
 #endif
             }
         }
-        if (aktualnyObiekt != null && CzyMogęPostawićBudynek(aktualnyObiekt.transform.position))   //Jeśli chcesz postawić dany budynek to
+    }
+    private void ObsluzMysz()
+    {
+        if (Input.GetMouseButtonDown(0))
         {
-#if UNITY_STANDALONE
-            if (Input.GetMouseButtonDown(0) && aktualnyObiekt != null)
+            ZatwierdźBudynekWindows();
+        }
+        float numer = Input.GetAxisRaw("Mouse ScrollWheel");
+        if (numer != 0)
+        {
+            numer = (numer < 0) ? -1 : 1;
+            Vector3 vet = aktualnyObiekt.transform.rotation.eulerAngles;
+            vet.y += numer * 45;
+            aktualnyObiekt.transform.rotation = Quaternion.Euler(vet);
+        }
+    }
+    private void ObsluzTouchPad()
+    {
+        if (Input.touchCount == 1)
+        {
+            Touch t = Input.GetTouch(0);
+            if ((t.phase == TouchPhase.Began || t.phase == TouchPhase.Moved) && aktualnyIndexBudowy == 1 && CzyMogęPostawićBudynek(aktualnyObiekt.transform.position))
             {
-                ZatwierdzenieBudynku();
+                PrzesuwanieAktualnegoObiektu();
             }
-#endif
-#if UNITY_ANDROID
-            if (Input.mousePresent)
+            else if (t.phase == TouchPhase.Ended && aktualnyIndexBudowy == 1 && CzyMogęPostawićBudynek(aktualnyObiekt.transform.position))
             {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    ZatwierdzenieBudynku();
-                }
+                aktualnyIndexBudowy = 2;
             }
-            else
+            else if (aktualnyIndexBudowy == 2 && t.phase == TouchPhase.Began)
             {
-                if (Input.touchCount > 0)
-                {
-                    ZatwierdzenieBudynku();
-                }
+                ZatwierdźBudynekAndroid();
             }
-
-#endif
         }
     }
     public void PostawBudynek(ref GameObject obiektDoRespawnu, Vector3 pos, Quaternion rotation)
@@ -121,19 +134,35 @@ public class SpawnBudynki : MonoBehaviour
             materialWybranegoBudynku.color = Color.red;
         }
         knpcs = aktualnyObiekt.GetComponent<KonkretnyNPCStatyczny>();
-        teksAktualnegoObiektu.text = "Aktualny obiekt = "+aktualnyObiekt.name;
+#if UNITY_ANDROID
+        aktualnyIndexBudowy = 1;
+#endif
+        teksAktualnegoObiektu.text = "Aktualny obiekt = " + aktualnyObiekt.name;
     }
-    private void ZatwierdzenieBudynku()
+    private void ZatwierdźBudynekWindows()
     {
         if (TypBudynku.Mur == knpcs.typBudynku)
         {
             posClick = WyrównajSpawn(posClick);
         }
-        // Pobieranie niezbędnych danych
-        // Ustawienie wszystkich danych po postawieniu budynku
-        //Ustawienia obiektu
-        knpcs.NastawienieNonPlayerCharacter = NastawienieNPC.Przyjazne;
         aktualnyObiekt.transform.position = posClick;
+        HelperZatwierdzenieBudynku();
+    }
+    private void ZatwierdźBudynekAndroid()
+    {
+        HelperZatwierdzenieBudynku();
+        aktualnyIndexBudowy = 0;
+    }
+    private void PrzesuwanieAktualnegoObiektu()
+    {
+        if (TypBudynku.Mur == knpcs.typBudynku)
+        {
+            posClick = WyrównajSpawn(posClick);
+        }
+        aktualnyObiekt.transform.position = posClick;
+    }
+    private void HelperZatwierdzenieBudynku()
+    {
         aktualnyObiekt.tag = "Budynek";
         aktualnyObiekt.transform.SetParent(rodzicBudynkow);
         //Ustawienie skryptu KonkretnyNPCStatyuczny

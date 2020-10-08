@@ -38,7 +38,7 @@ public class KonkretnyNPCStatyczny : NPCClass
             this.gameObject.AddComponent<UnityEngine.AI.NavMeshObstacle>();
         }
         this.AktualneŻycie = this.maksymalneŻycie;
-
+        this.nastawienieNPC = NastawienieNPC.Przyjazne;
     }
     // Update is called once per frame
     protected override void RysujHPBar()

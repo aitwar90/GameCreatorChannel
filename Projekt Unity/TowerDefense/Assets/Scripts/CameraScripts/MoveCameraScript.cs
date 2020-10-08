@@ -9,15 +9,14 @@ public class MoveCameraScript : MonoBehaviour
     #endregion
 
     #region Zmienne prywatne
-    private float prędkoscPrzesunięciaKamery = 0.5f;
+    private float prędkoscPrzesunięciaKamery = 0.05f;
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
     private Vector3 pierwotnePołożenieKamery = Vector3.zero;
     private MainMenu mm = null;
-#if UNITY_STANDALONE
     private byte granica = 50;
-    int szerokośćObrazu;
-    int wysokśćObrazu;
-#endif
+    private int szerokośćObrazu;
+    private int wysokśćObrazu;
+    private Vector3 offs = Vector3.zero;
     #endregion
     #region Getery i setery
     public float PrędkośćPrzesunięciaKamery
@@ -39,12 +38,10 @@ public class MoveCameraScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pierwotnePołożenieKamery = this.transform.position;
-#if UNITY_STANDALONE
-        prędkoscPrzesunięciaKamery = 1.5f;
+        pierwotnePołożenieKamery = new Vector3(50.0f, 5.0f, 45.0f);
+        ostatniaPozycjaKamery = pierwotnePołożenieKamery;
         szerokośćObrazu = Screen.width;
         wysokśćObrazu = Screen.height;
-#endif
     }
 
     // Update is called once per frame
@@ -56,14 +53,20 @@ public class MoveCameraScript : MonoBehaviour
         ObsłużMysz();
 #endif
 #if UNITY_ANDROID
-            ObsłużTouchPad();
+            if (Input.mousePresent)
+            {
+                ObsłużMysz();
+            }
+            else
+            {
+                ObsłużTouchPad();
+            }
         }
 #endif
     }
     #region Metody i funkcje obsługujące przemieszczanie kamery
     void ObsłużMysz()       //Przesuwanie kamery przez najechanie kursorem myszy do krawędzi aplikacji
     {
-#if UNITY_STANDALONE
         if (Input.mousePosition.x > szerokośćObrazu - granica)
         {
             Vector3 newPos = new Vector3(this.transform.position.x + prędkoscPrzesunięciaKamery * Time.deltaTime, this.transform.position.y, this.transform.position.z);
@@ -96,7 +99,6 @@ public class MoveCameraScript : MonoBehaviour
                 this.transform.position = newPos;
             }
         }
-#endif
     }
     void ObsłużTouchPad()
     {
@@ -104,26 +106,25 @@ public class MoveCameraScript : MonoBehaviour
         {
             Touch dotyk = Input.GetTouch(0);    //Pobierz informację o pierwszym dotknięciu
             Vector3 posDotyk = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKamery);
-            if (dotyk.phase == TouchPhase.Moved) //Jeśli wykrywa przesunięcie palcem po ekranie
+            if(dotyk.phase == TouchPhase.Began)
             {
-                if (SprawdźCzyMogęPrzesunąćKamerę(posDotyk))
+                Debug.Log("1) Ustawiam offs na "+posDotyk);
+                offs = posDotyk;
+            }
+            else if (dotyk.phase == TouchPhase.Moved) //Jeśli wykrywa przesunięcie palcem po ekranie
+            {
+                Vector3 tmpOfs = (posDotyk-offs)*prędkoscPrzesunięciaKamery;
+                Vector3 tmp = ostatniaPozycjaKamery + tmpOfs;
+                if (SprawdźCzyMogęPrzesunąćKamerę(tmp))
                 {
-                    this.transform.position = posDotyk;
+                    Debug.Log("2) Zmieniam pozycję kamery o "+(tmpOfs)+" TMP = "+tmp);
+                    tmp.y = 5.0f;
+                    this.transform.position = tmp;
+                    offs = posDotyk;
                 }
             }
         }
-        else if (Input.mousePresent)
-        {
-            if (Input.GetMouseButton(0))
-            {
-                Vector3 przesuniecie = ((ostatniaPozycjaKamery - Input.mousePosition) * prędkoscPrzesunięciaKamery);
-                if (SprawdźCzyMogęPrzesunąćKamerę(ostatniaPozycjaKamery + przesuniecie))
-                {
-                    this.transform.Translate(przesuniecie);
-                    ostatniaPozycjaKamery = Input.mousePosition;
-                }
-            }
-        }
+        /*
         if (Input.touchCount == 2)   //Oddalenie i przybliżenie kamery
         {
             Touch przybliżenie1 = Input.GetTouch(0);
@@ -135,10 +136,11 @@ public class MoveCameraScript : MonoBehaviour
             float prevTouchDeltaMag = (przyb1Prev - przyb2Prev).magnitude;
             float touchDeltaMag = (przybliżenie1.position - przybliżenie2.position).magnitude;
 
-            float różnicaPrzybliżenia = ((prevTouchDeltaMag - touchDeltaMag) * -1)*prędkoscPrzesunięciaKamery;
-            if(Mathf.Abs(różnicaPrzybliżenia - 5.0f) < 2)
+            float różnicaPrzybliżenia = ((prevTouchDeltaMag - touchDeltaMag) * -1) * prędkoscPrzesunięciaKamery;
+            if (Mathf.Abs(różnicaPrzybliżenia - 5.0f) < 2)
                 transform.Translate(0, 0, różnicaPrzybliżenia);
         }
+        */
     }
     private bool SprawdźCzyMogęPrzesunąćKamerę(Vector3 newPos)
     {
