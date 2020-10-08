@@ -8,7 +8,7 @@ public class ManagerGryScript : MonoBehaviour
     [Header("Podstawowe informacje dla gracza")]
     #region Zmienne publiczne
     [Tooltip("Aktualna ilość monet")]
-    public ushort iloscCoinów = 10;
+    public static ushort iloscCoinów = 10;
     [Tooltip("Aktualna epoka w której gra gracz")]
     public Epoki aktualnaEpoka;
 
@@ -24,6 +24,7 @@ public class ManagerGryScript : MonoBehaviour
     public delegate void WywołajResetujŚcieżki(KonkretnyNPCStatyczny knpcs = null);
     public WywołajResetujŚcieżki wywołajResetŚcieżek;
     public GameObject[] bazy = new GameObject[1];
+    private KonkretnyNPCStatyczny knpcsBazy = null;
     #endregion
 
     #region Prywatne zmienne
@@ -74,7 +75,7 @@ public class ManagerGryScript : MonoBehaviour
         sbyte idxEpokiBazyWTablicy = (sbyte)((sbyte)aktualnaEpoka - 1);
         if (idxEpokiBazyWTablicy < 0 || idxEpokiBazyWTablicy >= bazy.Length)
         {
-            Debug.Log("idxEpokaBazyWTablicy = "+idxEpokiBazyWTablicy);
+            Debug.Log("idxEpokaBazyWTablicy = " + idxEpokiBazyWTablicy);
             return;
         }
         else
@@ -83,6 +84,7 @@ public class ManagerGryScript : MonoBehaviour
             GameObject baza = GameObject.Instantiate(bazy[idxEpokiBazyWTablicy], new Vector3(50.0f, 1.5f, 50.0f), Quaternion.identity);
             PomocniczeFunkcje.DodajDoDrzewaPozycji(baza.GetComponent<KonkretnyNPCStatyczny>(), ref PomocniczeFunkcje.korzeńDrzewaPozycji);
             baza.transform.SetParent(PomocniczeFunkcje.spawnBudynki.rodzicBudynkow);
+            knpcsBazy = baza.GetComponent<KonkretnyNPCStatyczny>();
             StartCoroutine("WyzwólKolejnąFalę");
         }
     }
@@ -98,14 +100,28 @@ public class ManagerGryScript : MonoBehaviour
         }
 #endif
 #if UNITY_ANDROID
-/*
-        if (Input.GetTouch(0).phase == TouchPhase.Began && Input.touchCount > 0)
+        if (Input.mousePresent)
         {
-            zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
-            Debug.Log("Zaznaczony obiekt " + zaznaczonyObiekt.nazwa);
+            if (Input.GetMouseButtonDown(0))
+            {
+                zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
+            }
         }
-        */
+        else
+        {
+
+            if (Input.GetTouch(0).phase == TouchPhase.Began && Input.touchCount > 0)
+            {
+                zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
+                if (zaznaczonyObiekt != null)
+                    Debug.Log("Zaznaczony obiekt " + zaznaczonyObiekt.nazwa);
+            }
+        }
 #endif
+        if (zaznaczonyObiekt != null)
+        {
+            PomocniczeFunkcje.spawnBudynki.teksAktualnegoObiektu.text = "Altualnie zaznaczony obiekt: " + zaznaczonyObiekt.nazwa;
+        }
     }
     void Update()
     {
@@ -115,6 +131,10 @@ public class ManagerGryScript : MonoBehaviour
             {
                 //Lvl skończony wszystkie fale zostały pokonane
                 KoniecPoziomuZakończony(true);
+            }
+            else if (knpcsBazy.AktualneŻycie <= 0)
+            {
+                KoniecPoziomuZakończony(false);
             }
         }
         else
@@ -133,9 +153,9 @@ public class ManagerGryScript : MonoBehaviour
     }
     private IEnumerator WyzwólKolejnąFalę()
     {
-        yield return new WaitForSeconds(czasWMinutachMiędzyFalami * 15);
-        aktualnaIlośćFal++;
+        yield return new WaitForSeconds(czasWMinutachMiędzyFalami * 60);
         PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
+        aktualnaIlośćFal++;
         if (aktualnaIlośćFal < iloscFalWHordzie)
         {
             StartCoroutine("WyzwólKolejnąFalę");
@@ -151,7 +171,11 @@ public class ManagerGryScript : MonoBehaviour
     {
         if (sukces)
         {
-            Debug.Log("Wszyscy przeciwnicy zostali pokonani");
+            Debug.Log("Maksi Kaz rusza na łowy");
+        }
+        else
+        {
+            Debug.Log("Porażka, dwa kieliszki i flaszka");
         }
     }
 }

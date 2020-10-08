@@ -3066,8 +3066,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   "iloscCoin\xF3w": 10
   aktualnaEpoka: 1
-  iloscFalWHordzie: 5
-  "czasWMinutachMi\u0119dzyFalami": 10
+  iloscFalWHordzie: 2
+  "czasWMinutachMi\u0119dzyFalami": 1
   zaznaczonyObiekt: {fileID: 0}
   bazy:
   - {fileID: 5806775561652400943, guid: 89d920babba091d59abc812965ea24e6, type: 3}

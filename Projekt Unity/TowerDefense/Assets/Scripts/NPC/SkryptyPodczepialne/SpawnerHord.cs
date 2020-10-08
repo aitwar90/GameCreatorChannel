@@ -84,10 +84,10 @@ public class SpawnerHord : MonoBehaviour
             iloscPunktówSpawnu = 7;
         else
             iloscPunktówSpawnu = 8;
-
-        for (ushort i = 0, j = 1; i < ostatniaIlośćWFali; i++)
+        SpawnujMnie(ref możliwiNPC, 1);
+        for (ushort i = 1, j = 1; i < ostatniaIlośćWFali; i++)
         {
-            StartCoroutine(SpawnujMnie(możliwiNPC, j, Random.Range(0, 0.5f)));
+            StartCoroutine(SpawnujMnieCorutine(możliwiNPC, j, Random.Range(0, 0.5f)));
             j++;
             if (j > iloscPunktówSpawnu)
                 j = 1;
@@ -131,9 +131,13 @@ public class SpawnerHord : MonoBehaviour
             knpcd.WłWyłObj(true);
         }
     }
-    private IEnumerator SpawnujMnie(List<KonkretnyNPCDynamiczny> możliwiNPC, ushort j, float _time)
+    private IEnumerator SpawnujMnieCorutine(List<KonkretnyNPCDynamiczny> możliwiNPC, ushort j, float _time)
     {
         yield return new WaitForSeconds(_time);
+        SpawnujMnie(ref możliwiNPC, j);
+    }
+    private void SpawnujMnie(ref List<KonkretnyNPCDynamiczny> możliwiNPC, ushort j)
+    {
         bool czyPool = true;
         ushort npcIdx = (ushort)Random.Range(0, możliwiNPC.Count - 1);
         GameObject go = PomocniczeFunkcje.ZwróćOBiektPoolowany(możliwiNPC[npcIdx].nazwa);

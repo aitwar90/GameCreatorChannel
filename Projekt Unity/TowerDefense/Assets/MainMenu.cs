@@ -68,7 +68,7 @@ public class MainMenu : MonoBehaviour
     {
         //FPS
         idxFPS++;
-        posCam.text = "PosCam.pos = "+PomocniczeFunkcje.oCam.transform.position;
+        posCam.text = "Ilość wrogów na mapie = "+ManagerGryScript.iloscAktywnychWrogów;
     }
     public void PrzełączUI(bool aktywujeMenu)
     {

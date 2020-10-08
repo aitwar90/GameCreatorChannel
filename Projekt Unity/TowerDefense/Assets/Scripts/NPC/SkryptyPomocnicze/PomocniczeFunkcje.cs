@@ -60,7 +60,14 @@ public static class PomocniczeFunkcje
         ray = oCam.ScreenPointToRay(Input.mousePosition);
 #endif
 #if UNITY_ANDROID
-        ray = oCam.ScreenPointToRay(Input.GetTouch(0).position);
+        if(Input.mousePresent)
+        {
+            ray = oCam.ScreenPointToRay(Input.mousePosition);
+        }
+        else
+        {
+            ray = oCam.ScreenPointToRay(Input.GetTouch(0).position);
+        }
 #endif
         int layerMask = (1 << 8) | (1 << 0);
         RaycastHit[] hit = new RaycastHit[1];

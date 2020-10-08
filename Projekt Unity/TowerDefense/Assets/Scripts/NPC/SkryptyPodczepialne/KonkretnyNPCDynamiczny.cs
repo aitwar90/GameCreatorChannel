@@ -20,6 +20,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private short actZIdx = 32767;
     private bool czyDodawac = false;
     private byte[] ostatnieStrony = null;
+    public byte ileCoinówZaZabicie = 1;
     #endregion
 
     #region Zmienne chronione
@@ -167,6 +168,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         this.rysujPasekŻycia = false;
         PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek -= ResetujŚciezkę;
         ManagerGryScript.iloscAktywnychWrogów--;
+        ManagerGryScript.iloscCoinów += this.ileCoinówZaZabicie;
         WłWyłObj(false);
         if (this.nastawienieNPC == NastawienieNPC.Wrogie)
         {

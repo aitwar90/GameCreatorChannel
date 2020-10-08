@@ -35,7 +35,7 @@ public class SpawnBudynki : MonoBehaviour
         }
         List<string> wszystkieBudynkiList = new List<string>();
         wszystkieBudynkiList.Add("None");
-        byte idxActEpoki = (byte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka;
+        sbyte idxActEpoki = (sbyte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka;
         if (idxActEpoki > 0)
         {
             for (byte i = 0; i < wszystkieBudynki.Length; i++)
@@ -67,6 +67,7 @@ public class SpawnBudynki : MonoBehaviour
             if (Input.GetMouseButton(2))
             {
                 ResetWybranegoObiektu();
+                return;
             }
             if (posClick != aktualnyObiekt.transform.position)
             {
@@ -134,6 +135,10 @@ public class SpawnBudynki : MonoBehaviour
             materialWybranegoBudynku.color = Color.red;
         }
         knpcs = aktualnyObiekt.GetComponent<KonkretnyNPCStatyczny>();
+        if(knpcs.kosztJednostki > ManagerGryScript.iloscCoinów)
+        {
+            Debug.Log("Nie stać Ciebie na dany budynek");
+        }
 #if UNITY_ANDROID
         aktualnyIndexBudowy = 1;
 #endif
@@ -231,11 +236,13 @@ public class SpawnBudynki : MonoBehaviour
         }
         if (PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek != null)
             PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek(knpcs);
+        //Pobranie coinów za postawiony budynek
+        ManagerGryScript.iloscCoinów -= knpcs.kosztJednostki;
         // Kasowanie ustawień potrzebnych do postawienia budynku
         materialWybranegoBudynku = null;
         knpcs = null;
         aktualnyObiekt = null;
-        teksAktualnegoObiektu.text = "Aktualny obiekt = ";
+        teksAktualnegoObiektu.text = "Ilość coinów = "+ManagerGryScript.iloscCoinów;
     }
     public void WybierzBudynekDoPostawienia()  //Wybór obiektu budynku do postawienia
     {
@@ -249,6 +256,10 @@ public class SpawnBudynki : MonoBehaviour
     }
     private bool CzyMogęPostawićBudynek(Vector3 sugerowanaPozycja)
     {
+        if(knpcs.kosztJednostki > ManagerGryScript.iloscCoinów)
+        {
+            return false;
+        }
         KonkretnyNPCStatyczny najbliższyBudynek = PomocniczeFunkcje.WyszukajWDrzewie(ref PomocniczeFunkcje.korzeńDrzewaPozycji, sugerowanaPozycja) as KonkretnyNPCStatyczny;
         if (najbliższyBudynek == null)
         {
