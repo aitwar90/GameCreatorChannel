@@ -19,7 +19,7 @@ public static class PomocniczeFunkcje
     #region Obsługa położenia myszy względem ekranu
     public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos)
     {
-        if(oCam == null)
+        if (oCam == null)
         {
             oCam = Camera.main;
         }
@@ -28,13 +28,20 @@ public static class PomocniczeFunkcje
         ray = oCam.ScreenPointToRay(Input.mousePosition);
 #endif
 #if UNITY_ANDROID
-        if(Input.mousePresent)
+        if (Input.mousePresent)
         {
             ray = oCam.ScreenPointToRay(Input.mousePosition);
         }
         else
         {
-            ray = oCam.ScreenPointToRay(Input.GetTouch(0).position);
+            if (Input.touchCount > 0)
+            {
+                ray = oCam.ScreenPointToRay(Input.GetTouch(0).position);
+            }
+            else
+            {
+                return lastPos;
+            }
         }
 #endif
         RaycastHit[] hit = new RaycastHit[1];
@@ -51,7 +58,7 @@ public static class PomocniczeFunkcje
     }
     public static NPCClass OkreślKlikniętyNPC(ref NPCClass lastNPCCLass)
     {
-        if(oCam == null)
+        if (oCam == null)
         {
             oCam = Camera.main;
         }
@@ -60,13 +67,20 @@ public static class PomocniczeFunkcje
         ray = oCam.ScreenPointToRay(Input.mousePosition);
 #endif
 #if UNITY_ANDROID
-        if(Input.mousePresent)
+        if (Input.mousePresent)
         {
             ray = oCam.ScreenPointToRay(Input.mousePosition);
         }
         else
         {
-            ray = oCam.ScreenPointToRay(Input.GetTouch(0).position);
+            if (Input.touchCount > 0)
+            {
+                ray = oCam.ScreenPointToRay(Input.GetTouch(0).position);
+            }
+            else
+            {
+                return lastNPCCLass;
+            }
         }
 #endif
         int layerMask = (1 << 8) | (1 << 0);
@@ -92,9 +106,9 @@ public static class PomocniczeFunkcje
     {
         if (korzeń == null)
         {
-            #if UNITY_STANDALONE
+#if UNITY_STANDALONE
             Debug.Log("Korzeń jest null");
-            #endif
+#endif
             return null;
         }
         StrukturaDrzewa aktualnieSprawdzanyNode = korzeń;
@@ -168,9 +182,9 @@ public static class PomocniczeFunkcje
     {
         if (korzeń == null)
         {
-            #if UNITY_STANDALONE
+#if UNITY_STANDALONE
             Debug.Log("Korzeń jest null");
-            #endif
+#endif
             return;
         }
         StrukturaDrzewa[,] ponownieUstaw = ZnajdźElementPoKomponencie(ref korzeń, _komponentDoSkasowania);
@@ -511,7 +525,7 @@ public static class PomocniczeFunkcje
         stosTrupów = null;
         tablicaWież = null;
         spawnBudynki.DestroyBuildings();
-        if(spawnerHord != null)
+        if (spawnerHord != null)
         {
             spawnerHord.UsunWszystkieJednostki();
             spawnerHord = null;
@@ -519,13 +533,13 @@ public static class PomocniczeFunkcje
     }
     public static short[] ZwrócIndeksyWTablicy(Vector3 pozycja)
     {
-        short x = (short)(Mathf.FloorToInt((pozycja.x-aktualneGranicaTab)/distXZ));
-        short z = (short)(Mathf.FloorToInt((pozycja.z-aktualneGranicaTab)/distXZ));
-        return new short[] {x, z};
+        short x = (short)(Mathf.FloorToInt((pozycja.x - aktualneGranicaTab) / distXZ));
+        short z = (short)(Mathf.FloorToInt((pozycja.z - aktualneGranicaTab) / distXZ));
+        return new short[] { x, z };
     }
     public static bool SprawdźCzyWykraczaPozaZakresTablicy(short x, short z)
     {
-        if(x < 0 || x > 19 || z < 0 || z > 19)
+        if (x < 0 || x > 19 || z < 0 || z > 19)
         {
             return true;
         }

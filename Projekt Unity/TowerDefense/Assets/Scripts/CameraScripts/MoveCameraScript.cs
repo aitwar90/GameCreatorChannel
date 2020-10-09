@@ -12,7 +12,6 @@ public class MoveCameraScript : MonoBehaviour
     private float prędkoscPrzesunięciaKamery = 0.05f;
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
     private Vector3 pierwotnePołożenieKamery = Vector3.zero;
-    private MainMenu mm = null;
     private byte granica = 50;
     private int szerokośćObrazu;
     private int wysokśćObrazu;
@@ -31,10 +30,6 @@ public class MoveCameraScript : MonoBehaviour
         }
     }
     #endregion
-    void Awake()
-    {
-        mm = FindObjectOfType(typeof(MainMenu)) as MainMenu;
-    }
     // Start is called before the first frame update
     void Start()
     {
@@ -47,7 +42,7 @@ public class MoveCameraScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!mm.czyMenuEnable)
+        if (!MainMenu.czyMenuEnable)
         {
 #if UNITY_STANDALONE
         ObsłużMysz();

@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour
 {
     public Text FPS;
     public Text posCam;
-    public bool czyMenuEnable = true;
+    public static bool czyMenuEnable = true;
     private GameObject menu;
     private GameObject uiGry;
     private GameObject optionsMenu;

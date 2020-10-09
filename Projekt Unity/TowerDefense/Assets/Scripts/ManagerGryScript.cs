@@ -109,12 +109,9 @@ public class ManagerGryScript : MonoBehaviour
         }
         else
         {
-
-            if (Input.GetTouch(0).phase == TouchPhase.Began && Input.touchCount > 0)
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
-                if (zaznaczonyObiekt != null)
-                    Debug.Log("Zaznaczony obiekt " + zaznaczonyObiekt.nazwa);
             }
         }
 #endif

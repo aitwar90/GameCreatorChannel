@@ -55,23 +55,24 @@ public class SpawnBudynki : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (aktualnyObiekt != null)
+        if (aktualnyObiekt != null && !MainMenu.czyMenuEnable)
         {
             posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora);
         }
     }
     void LateUpdate()
     {
-        if (aktualnyObiekt != null)
+        if (aktualnyObiekt != null && !MainMenu.czyMenuEnable)
         {
             if (Input.GetMouseButton(2))
             {
                 ResetWybranegoObiektu();
                 return;
             }
-            if (posClick != aktualnyObiekt.transform.position)
+            if (posClick != ostatniaPozycjaKursora)
             {
                 aktualnyObiekt.transform.position = posClick;
+                ostatniaPozycjaKursora = posClick;
             }
             if (CzyMogęPostawićBudynek(posClick))
             {
@@ -81,6 +82,10 @@ public class SpawnBudynki : MonoBehaviour
 #if UNITY_ANDROID
                 if (Input.mousePresent)
                 {
+                    Debug.Log("MousePresent true");
+                    {
+                        
+                    }
                     ObsluzMysz();
                 }
                 else
@@ -108,21 +113,21 @@ public class SpawnBudynki : MonoBehaviour
     }
     private void ObsluzTouchPad()
     {
-        if (Input.touchCount == 1)
+        if (Input.touchCount == 1 && CzyMogęPostawićBudynek(aktualnyObiekt.transform.position))
         {
+            Debug.Log("SpawnBudynki cs111: Jestem w ObsłużTouchPad() 1");
             Touch t = Input.GetTouch(0);
-            if ((t.phase == TouchPhase.Began || t.phase == TouchPhase.Moved) && aktualnyIndexBudowy == 1 && CzyMogęPostawićBudynek(aktualnyObiekt.transform.position))
+            Debug.Log("t.phase = "+t.phase.ToString());
+            if ((t.phase == TouchPhase.Began || t.phase == TouchPhase.Moved) && t.tapCount == 1)
             {
+                Debug.Log("SpawnBudynki cs111: Jestem w ObsłużTouchPad() 2");
                 PrzesuwanieAktualnegoObiektu();
             }
-            else if (t.phase == TouchPhase.Ended && aktualnyIndexBudowy == 1 && CzyMogęPostawićBudynek(aktualnyObiekt.transform.position))
+            else if (t.tapCount == 2)
             {
-                aktualnyIndexBudowy = 2;
-            }
-            else if (aktualnyIndexBudowy == 2 && t.phase == TouchPhase.Began)
-            {
+                Debug.Log("SpawnBudynki cs111: Jestem w ObsłużTouchPad() 3");
                 ZatwierdźBudynekAndroid();
-            }
+            }   
         }
     }
     public void PostawBudynek(ref GameObject obiektDoRespawnu, Vector3 pos, Quaternion rotation)
@@ -164,7 +169,6 @@ public class SpawnBudynki : MonoBehaviour
         {
             posClick = WyrównajSpawn(posClick);
         }
-        aktualnyObiekt.transform.position = posClick;
     }
     private void HelperZatwierdzenieBudynku()
     {
