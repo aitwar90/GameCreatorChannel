@@ -11,12 +11,12 @@ namespace GoogleMobileAds.Editor
 
     internal class GoogleMobileAdsSettings : ScriptableObject
     {
-        private const string MobileAdsSettingsDir = "Assets/GoogleMobileAds";
+        private const string MobileAdsSettingsDir = "Assets/Scripts/Reklamy/ReklamyGoogle/GoogleMobileAds";
 
-        private const string MobileAdsSettingsResDir = "Assets/GoogleMobileAds/Resources";
+        private const string MobileAdsSettingsResDir = "Assets/Scripts/Reklamy/ReklamyGoogle/GoogleMobileAds/Resources";
 
         private const string MobileAdsSettingsFile =
-            "Assets/GoogleMobileAds/Resources/GoogleMobileAdsSettings.asset";
+            "Assets/Scripts/Reklamy/ReklamyGoogle/GoogleMobileAds/Resources/GoogleMobileAdsSettings.asset";
 
         private static GoogleMobileAdsSettings instance;
 
