@@ -3,7 +3,7 @@
  public class ConsoleToGUI : MonoBehaviour
  {
      string myLog = "*begin log";
-     string filename = "";
+     //string filename = "";
      bool doShow = true;
      int kChars = 700;
      void OnEnable() { Application.logMessageReceived += Log; }

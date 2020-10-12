@@ -11,8 +11,18 @@ public class ObsługaReklam : MonoBehaviour
     private RewardBasedVideoAd bazowaReklama;
     string reklamID = "";
     public RodzajReklamy rodzajReklamy;
+    private BannerView bannerView;
     void Start()
     {
+        /*
+        List<string> deviceIds = new List<string>();
+        deviceIds.Add("");
+        RequestConfiguration requestConfiguration = new RequestConfiguration
+            .Builder()
+            .SetTestDeviceIds(deviceIds)
+            .build();
+        MobileAds.SetRequestConfiguration(requestConfiguration);
+        */
         MobileAds.Initialize(initStatus => { });
         this.bazowaReklama = RewardBasedVideoAd.Instance;
 
@@ -39,16 +49,22 @@ public class ObsługaReklam : MonoBehaviour
     {
         
         #if UNITY_ANDROID
+        AdRequest żądanie;
         switch(rodzajReklamy)
         {
             case RodzajReklamy.Baner:
             reklamID = "ca-app-pub-3940256099942544/6300978111";    //Testowy banner
+            bannerView = new BannerView(reklamID, AdSize.Banner, AdPosition.Bottom);
+            żądanie = new AdRequest.Builder().Build();
+            bannerView.LoadAd(żądanie);
             break;
             case RodzajReklamy.Interstitial:
             reklamID = "ca-app-pub-3940256099942544/1033173712";    //Testowy banner
             break;
             case RodzajReklamy.RewardedVideo:
             reklamID = "ca-app-pub-3940256099942544/5224354917";    //Testowe wideo
+            żądanie = new AdRequest.Builder().Build();
+            this.bazowaReklama.LoadAd(żądanie, reklamID);
             break;
             case RodzajReklamy.NativeAdvanced:
             reklamID = "ca-app-pub-3940256099942544/2247696110";    //Testowe wideo
@@ -62,16 +78,30 @@ public class ObsługaReklam : MonoBehaviour
         #endif
 
         // Create an empty ad request.
-        AdRequest żądanie = new AdRequest.Builder().Build();
+        
         // Load the rewarded video ad with the request.
-        this.bazowaReklama.LoadAd(żądanie, reklamID);
     }
     private void ObejrzyjAD()
     {
         if(bazowaReklama.IsLoaded())
         {
+            Debug.Log("Wyświetlam reklame");
             bazowaReklama.Show();
         }
+        else
+        {
+            Debug.Log("Reklama nie została załadowana");
+            StartCoroutine(CzekajNaZaladowanieReklamy());
+        }
+    }
+    private IEnumerator CzekajNaZaladowanieReklamy()
+    {
+        while(!bazowaReklama.IsLoaded())
+        {
+            yield return null;
+        }
+        ObejrzyjAD();
+
     }
     public void HandleRewardBasedVideoLoaded(object sender, EventArgs args)
     {

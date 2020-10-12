@@ -103,7 +103,6 @@ public class MoveCameraScript : MonoBehaviour
             Vector3 posDotyk = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKamery);
             if(dotyk.phase == TouchPhase.Began)
             {
-                Debug.Log("1) Ustawiam offs na "+posDotyk);
                 offs = posDotyk;
             }
             else if (dotyk.phase == TouchPhase.Moved) //Jeśli wykrywa przesunięcie palcem po ekranie
@@ -112,7 +111,6 @@ public class MoveCameraScript : MonoBehaviour
                 Vector3 tmp = ostatniaPozycjaKamery + tmpOfs;
                 if (SprawdźCzyMogęPrzesunąćKamerę(tmp))
                 {
-                    Debug.Log("2) Zmieniam pozycję kamery o "+(tmpOfs)+" TMP = "+tmp);
                     tmp.y = 5.0f;
                     this.transform.position = tmp;
                     offs = posDotyk;

@@ -19,9 +19,6 @@ public class SpawnBudynki : MonoBehaviour
     public GameObject aktualnyObiekt = null;
     private Vector3 ostatniaPozycjaKursora = Vector3.zero;
     private Vector3 posClick = Vector3.zero;
-#if UNITY_ANDROID
-    private byte aktualnyIndexBudowy = 0;
-#endif
     #endregion
 
     void Awake()
@@ -115,17 +112,13 @@ public class SpawnBudynki : MonoBehaviour
     {
         if (Input.touchCount == 1 && CzyMogęPostawićBudynek(aktualnyObiekt.transform.position))
         {
-            Debug.Log("SpawnBudynki cs111: Jestem w ObsłużTouchPad() 1");
             Touch t = Input.GetTouch(0);
-            Debug.Log("t.phase = "+t.phase.ToString());
             if ((t.phase == TouchPhase.Began || t.phase == TouchPhase.Moved) && t.tapCount == 1)
             {
-                Debug.Log("SpawnBudynki cs111: Jestem w ObsłużTouchPad() 2");
                 PrzesuwanieAktualnegoObiektu();
             }
             else if (t.tapCount == 2)
             {
-                Debug.Log("SpawnBudynki cs111: Jestem w ObsłużTouchPad() 3");
                 ZatwierdźBudynekAndroid();
             }   
         }
@@ -144,9 +137,6 @@ public class SpawnBudynki : MonoBehaviour
         {
             Debug.Log("Nie stać Ciebie na dany budynek");
         }
-#if UNITY_ANDROID
-        aktualnyIndexBudowy = 1;
-#endif
         teksAktualnegoObiektu.text = "Aktualny obiekt = " + aktualnyObiekt.name;
     }
     private void ZatwierdźBudynekWindows()
@@ -161,7 +151,6 @@ public class SpawnBudynki : MonoBehaviour
     private void ZatwierdźBudynekAndroid()
     {
         HelperZatwierdzenieBudynku();
-        aktualnyIndexBudowy = 0;
     }
     private void PrzesuwanieAktualnegoObiektu()
     {
