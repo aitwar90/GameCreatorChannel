@@ -3045,6 +3045,7 @@ GameObject:
   - component: {fileID: 1420112164}
   - component: {fileID: 1420112163}
   - component: {fileID: 1420112166}
+  - component: {fileID: 1420112167}
   m_Layer: 0
   m_Name: NiezbedneSkrypty
   m_TagString: Untagged
@@ -3064,7 +3065,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ab19e0cfff9904dae065988a956972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  "iloscCoin\xF3w": 10
   aktualnaEpoka: 1
   iloscFalWHordzie: 2
   "czasWMinutachMi\u0119dzyFalami": 1
@@ -3114,6 +3114,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2c2205e656d0e4b6ac7517893f69fd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1420112167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420112162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f833196302ee4549485653e5fb785e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1545995479
@@ -3297,7 +3309,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FPS: {fileID: 58692100}
   posCam: {fileID: 34934307}
-  czyMenuEnable: 1
 --- !u!1 &1607235905
 GameObject:
   m_ObjectHideFlags: 0
@@ -3350,7 +3361,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FPS: {fileID: 0}
   posCam: {fileID: 0}
-  czyMenuEnable: 1
 --- !u!1 &1652672896
 GameObject:
   m_ObjectHideFlags: 0
