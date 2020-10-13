@@ -24,6 +24,8 @@ public class ManagerGryScript : MonoBehaviour
     public delegate void WywołajResetujŚcieżki(KonkretnyNPCStatyczny knpcs = null);
     public WywołajResetujŚcieżki wywołajResetŚcieżek;
     public GameObject[] bazy = new GameObject[1];
+    [Tooltip("Lista nagrod ze skrzynek dla gracza")]
+    public List<EkwipunekScript> ekwipunekGracza = new List<EkwipunekScript>();
     private KonkretnyNPCStatyczny knpcsBazy = null;
     #endregion
 

@@ -79,10 +79,6 @@ public class SpawnBudynki : MonoBehaviour
 #if UNITY_ANDROID
                 if (Input.mousePresent)
                 {
-                    Debug.Log("MousePresent true");
-                    {
-                        
-                    }
                     ObsluzMysz();
                 }
                 else
