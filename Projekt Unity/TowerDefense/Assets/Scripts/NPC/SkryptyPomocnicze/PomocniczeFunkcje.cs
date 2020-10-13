@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 public static class PomocniczeFunkcje
 {
@@ -550,4 +551,62 @@ public static class PomocniczeFunkcje
             return false;
         }
     }
+    public static void ZapiszDane()
+    {
+        DataSave ds = new DataSave();
+
+        ds.ilośćMonet = ManagerGryScript.iloscCoinów;
+        ds._odblokowanieEpoki = odblokowaneEpoki;
+        ds._odblokowanyPoziomEpoki = odblokowanyPoziomEpoki;
+        ds._skrzynki = managerGryScript.skrzynki;
+        ds._zablokowaneBudynki = spawnBudynki.TablicaBudynkowZablokowanych;
+
+        string ścieżka = Application.persistentDataPath+"/dataBaseTDv1.asc";
+
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream fs;
+        if(!File.Exists(ścieżka))
+        {
+            fs = File.Create(ścieżka);
+        }
+        else
+        {
+            File.Delete(ścieżka);
+            fs = File.Create(ścieżka);
+        }
+        bf.Serialize(fs, ds);
+        fs.Close();
+
+    }
+    public static void ŁadujDane()
+    {
+        string ścieżka = Application.persistentDataPath+"/dataBaseTDv1.asc";
+        if(File.Exists(ścieżka))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream fs = File.Open(ścieżka, FileMode.Open);
+            DataSave ds = (DataSave)bf.Deserialize(fs);
+
+            ManagerGryScript.iloscCoinów = ds.ilośćMonet;
+            odblokowaneEpoki = ds._odblokowanieEpoki;
+            odblokowanyPoziomEpoki = ds._odblokowanyPoziomEpoki;
+            managerGryScript.skrzynki = ds._skrzynki;
+            spawnBudynki.TablicaBudynkowZablokowanych = ds._zablokowaneBudynki;
+
+            fs.Close();
+        }
+        else
+        {
+            Debug.Log("Nie odnalazłem zapisu");
+        }
+    }
+}
+[System.Serializable]
+public struct DataSave
+{
+    [SerializeField]public ushort ilośćMonet;
+    [SerializeField]public byte _odblokowanyPoziomEpoki;
+    [SerializeField]public byte _odblokowanieEpoki;
+    [SerializeField]public Skrzynka[] _skrzynki;
+    [SerializeField]public bool[] _zablokowaneBudynki;
 }
