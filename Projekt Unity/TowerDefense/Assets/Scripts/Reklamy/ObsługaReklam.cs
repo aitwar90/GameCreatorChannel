@@ -12,6 +12,7 @@ public class ObsługaReklam : MonoBehaviour
     string reklamID = "";
     public RodzajReklamy rodzajReklamy;
     private BannerView bannerView;
+    private InterstitialAd inter;
     void Start()
     {
         /*
@@ -60,13 +61,16 @@ public class ObsługaReklam : MonoBehaviour
             break;
             case RodzajReklamy.Interstitial:
             reklamID = "ca-app-pub-3940256099942544/1033173712";    //Testowy banner
+            this.inter = new InterstitialAd(reklamID);
+            żądanie = new AdRequest.Builder().Build();
+            this.inter.LoadAd(żądanie);
             break;
             case RodzajReklamy.RewardedVideo:
             reklamID = "ca-app-pub-3940256099942544/5224354917";    //Testowe wideo
             żądanie = new AdRequest.Builder().Build();
             this.bazowaReklama.LoadAd(żądanie, reklamID);
             break;
-            case RodzajReklamy.NativeAdvanced:
+            case RodzajReklamy.NativeAdvanced:  //Native nie jest wspierane przez unity
             reklamID = "ca-app-pub-3940256099942544/2247696110";    //Testowe wideo
             break;
         }
