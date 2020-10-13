@@ -15,12 +15,18 @@ public class KonkretnyNPCStatyczny : NPCClass
     public float granicaX = 0.5f;
     [Tooltip("Granica obiektu po osi Z")]
     public float granicaZ = 0.5f;
-    public bool wymusInicjacje = false;
+    [Tooltip("Poziom na którym budynek może zostać odblokowany")]
+    public byte poziomBudynku = 1;
+    [Tooltip("Koszt badania odblokowania budynku")]
+    public ushort kosztBadania = 0;
+    [Tooltip("Typ ataku wieży")]
     public TypAtakuWieży typAtakuWieży;
+    [Tooltip("Czy budynek jest zablokowany (jeśli tak to znaczy że nie zostały spełnione wymagania, lub nie został wynaleziony")]
+    [SerializeField]public bool zablokowany = true;
     #endregion
 
     #region Zmienny prywatne
-    public List<NPCClass> wrogowieWZasiegu = null;
+    private List<NPCClass> wrogowieWZasiegu = null;
     private byte idxAct = 0;
     #endregion
 

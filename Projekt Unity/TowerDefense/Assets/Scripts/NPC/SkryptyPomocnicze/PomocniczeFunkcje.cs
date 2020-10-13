@@ -14,6 +14,8 @@ public static class PomocniczeFunkcje
     public static SpawnBudynki spawnBudynki = null;
     public static List<InformacjeDlaPolWież>[,] tablicaWież = null;
     public static float distXZ = 5;
+    public static byte odblokowanyPoziomEpoki = 100;
+    public static byte odblokowaneEpoki = 6;
     public static ushort aktualneGranicaTab = 0;
     public static Camera oCam = null;
     #region Obsługa położenia myszy względem ekranu

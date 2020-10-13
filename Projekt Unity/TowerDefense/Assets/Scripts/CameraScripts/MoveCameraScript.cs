@@ -60,6 +60,17 @@ public class MoveCameraScript : MonoBehaviour
 #endif
     }
     #region Metody i funkcje obsługujące przemieszczanie kamery
+    private bool SprawdźCzyMogęPrzesunąćKamerę(Vector3 newPos)
+    {
+        float actDist = Vector3.Distance(newPos, pierwotnePołożenieKamery);
+        float lastDist = Vector3.Distance(ostatniaPozycjaKamery, pierwotnePołożenieKamery);
+        if (actDist >= maxPrzesuniecieKamery && actDist > lastDist)
+        {
+            return false;
+        }
+        ostatniaPozycjaKamery = newPos;
+        return true;
+    }
     void ObsłużMysz()       //Przesuwanie kamery przez najechanie kursorem myszy do krawędzi aplikacji
     {
         if (Input.mousePosition.x > szerokośćObrazu - granica)
@@ -134,17 +145,6 @@ public class MoveCameraScript : MonoBehaviour
                 transform.Translate(0, 0, różnicaPrzybliżenia);
         }
         */
-    }
-    private bool SprawdźCzyMogęPrzesunąćKamerę(Vector3 newPos)
-    {
-        float actDist = Vector3.Distance(newPos, pierwotnePołożenieKamery);
-        float lastDist = Vector3.Distance(ostatniaPozycjaKamery, pierwotnePołożenieKamery);
-        if (actDist >= maxPrzesuniecieKamery && actDist > lastDist)
-        {
-            return false;
-        }
-        ostatniaPozycjaKamery = newPos;
-        return true;
     }
     #endregion
 }

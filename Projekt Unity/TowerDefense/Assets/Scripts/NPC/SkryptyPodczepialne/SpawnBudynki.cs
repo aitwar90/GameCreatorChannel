@@ -19,6 +19,7 @@ public class SpawnBudynki : MonoBehaviour
     public GameObject aktualnyObiekt = null;
     private Vector3 ostatniaPozycjaKursora = Vector3.zero;
     private Vector3 posClick = Vector3.zero;
+    private bool[] czyBudynekZablokowany = null;
     #endregion
 
     void Awake()
@@ -47,6 +48,11 @@ public class SpawnBudynki : MonoBehaviour
         else
         {
             Debug.Log("SpawnBudynki 48: Nie ustalono epoki");
+        }
+        czyBudynekZablokowany = new bool[wszystkieBudynki.Length];
+        for (ushort i = 0; i < czyBudynekZablokowany.Length; i++)
+        {
+            czyBudynekZablokowany[i] = wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>().zablokowany;
         }
         this.dropdawn.AddOptions(wszystkieBudynkiList);
     }
@@ -89,6 +95,11 @@ public class SpawnBudynki : MonoBehaviour
             }
         }
     }
+    public void DodajBudynekDoListyBudynków(ushort idxToUnlock)
+    {
+        wszystkieBudynki[idxToUnlock].GetComponent<KonkretnyNPCStatyczny>().zablokowany = false;
+        czyBudynekZablokowany[idxToUnlock] = false;
+    }
     private void ObsluzMysz()
     {
         if (Input.GetMouseButtonDown(0))
@@ -116,7 +127,7 @@ public class SpawnBudynki : MonoBehaviour
             else if (t.tapCount == 2)
             {
                 ZatwierdźBudynekAndroid();
-            }   
+            }
         }
     }
     public void PostawBudynek(ref GameObject obiektDoRespawnu, Vector3 pos, Quaternion rotation)
@@ -129,8 +140,9 @@ public class SpawnBudynki : MonoBehaviour
             materialWybranegoBudynku.color = Color.red;
         }
         knpcs = aktualnyObiekt.GetComponent<KonkretnyNPCStatyczny>();
-        if(knpcs.kosztJednostki > ManagerGryScript.iloscCoinów)
+        if (knpcs.kosztJednostki > ManagerGryScript.iloscCoinów || knpcs.zablokowany)
         {
+            ResetWybranegoObiektu();
             Debug.Log("Nie stać Ciebie na dany budynek");
         }
         teksAktualnegoObiektu.text = "Aktualny obiekt = " + aktualnyObiekt.name;
@@ -231,21 +243,28 @@ public class SpawnBudynki : MonoBehaviour
         materialWybranegoBudynku = null;
         knpcs = null;
         aktualnyObiekt = null;
-        teksAktualnegoObiektu.text = "Ilość coinów = "+ManagerGryScript.iloscCoinów;
+        teksAktualnegoObiektu.text = "Ilość coinów = " + ManagerGryScript.iloscCoinów;
     }
     public void WybierzBudynekDoPostawienia()  //Wybór obiektu budynku do postawienia
     {
         short index = (short)(this.dropdawn.value - 1);
         if (index > -1 && aktualnyObiekt == null)
         {
-            PostawBudynek(ref wszystkieBudynki[index], posClick, Quaternion.identity);
-            ostatniaPozycjaKursora = posClick;
+            if (!czyBudynekZablokowany[index])
+            {
+                PostawBudynek(ref wszystkieBudynki[index], posClick, Quaternion.identity);
+                ostatniaPozycjaKursora = posClick;
+            }
+            else
+            {
+                Debug.Log("Dany budynek należy kupić");
+            }
         }
         dropdawn.value = 0;
     }
     private bool CzyMogęPostawićBudynek(Vector3 sugerowanaPozycja)
     {
-        if(knpcs.kosztJednostki > ManagerGryScript.iloscCoinów)
+        if (knpcs.kosztJednostki > ManagerGryScript.iloscCoinów)
         {
             return false;
         }

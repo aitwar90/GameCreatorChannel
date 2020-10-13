@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class ManagerGryScript : MonoBehaviour
@@ -11,6 +12,7 @@ public class ManagerGryScript : MonoBehaviour
     public static ushort iloscCoinów = 10;
     [Tooltip("Aktualna epoka w której gra gracz")]
     public Epoki aktualnaEpoka;
+    public byte aktualnyPoziomEpoki = 1;
 
     [Header("Informacje o graczu")]
     [Tooltip("Ilość fal w hordzie")]
@@ -25,8 +27,10 @@ public class ManagerGryScript : MonoBehaviour
     public WywołajResetujŚcieżki wywołajResetŚcieżek;
     public GameObject[] bazy = new GameObject[1];
     [Tooltip("Lista nagrod ze skrzynek dla gracza")]
-    public List<EkwipunekScript> ekwipunekGracza = new List<EkwipunekScript>();
+    //    public List<EkwipunekScript> ekwipunekGracza = new List<EkwipunekScript>();
+    public Skrzynka[] skrzynki = new Skrzynka[4];
     private KonkretnyNPCStatyczny knpcsBazy = null;
+    private byte idxOfManagerGryScript = 0;
     #endregion
 
     #region Prywatne zmienne
@@ -56,24 +60,19 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.tablicaWież = new List<InformacjeDlaPolWież>[20, 20];
         PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 40) / 2.0f);
         PomocniczeFunkcje.distXZ = (terr.terrainData.size.x - (PomocniczeFunkcje.aktualneGranicaTab * 2)) / 20f;
-        //Debug.Log("DistXZ = "+PomocniczeFunkcje.distXZ+" aktualnaGranicaTab = "+PomocniczeFunkcje.aktualneGranicaTab);
-        /*
-        GameObject go = new GameObject("Rodzic Punktów");
-        for(byte x = 0; x < 20; x++)
-        {
-            float fx = PomocniczeFunkcje.aktualneGranicaTab+ x*PomocniczeFunkcje.distXZ;
-            for(byte z = 0; z < 20; z++)
-            {
-                float fz = PomocniczeFunkcje.aktualneGranicaTab+ z*PomocniczeFunkcje.distXZ;
-                GameObject gos = new GameObject("X="+x+" Z="+z);
-                gos.transform.position = new Vector3(fx, 0.1f, fz);
-                gos.transform.SetParent(go.transform);
-            }
-        }
-        */
     }
     public void GenerujBaze()
     {
+        if (aktualnyPoziomEpoki > PomocniczeFunkcje.odblokowanyPoziomEpoki)
+        {
+            Debug.Log("Poziom epoki nie został odblokowany");
+            return;
+        }
+        else if ((byte)aktualnaEpoka > PomocniczeFunkcje.odblokowanyPoziomEpoki)
+        {
+            Debug.Log("Epoka nie została odblokowana");
+            return;
+        }
         sbyte idxEpokiBazyWTablicy = (sbyte)((sbyte)aktualnaEpoka - 1);
         if (idxEpokiBazyWTablicy < 0 || idxEpokiBazyWTablicy >= bazy.Length)
         {
@@ -124,6 +123,27 @@ public class ManagerGryScript : MonoBehaviour
     }
     void Update()
     {
+        switch (idxOfManagerGryScript)
+        {
+            case 255:
+                for (byte i = 0; i < 4; i++)
+                {
+                    skrzynki[i].SprawdźCzyReuseMinęło();
+                }
+                idxOfManagerGryScript++;
+                break;
+            default:
+                idxOfManagerGryScript++;
+                break;
+
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            for (byte i = 0; i < 4; i++)
+            {
+                skrzynki[i].OdejmnijCzas();
+            }
+        }
         if (czyScenaZostałaZaładowana)
         {
             if (aktualnaIlośćFal >= iloscFalWHordzie && iloscAktywnychWrogów <= 0)
@@ -170,6 +190,22 @@ public class ManagerGryScript : MonoBehaviour
     {
         if (sukces)
         {
+            if (aktualnyPoziomEpoki == PomocniczeFunkcje.odblokowanyPoziomEpoki)
+            {
+                if (aktualnyPoziomEpoki == 100 && (byte)aktualnaEpoka < PomocniczeFunkcje.odblokowanyPoziomEpoki)
+                {
+                    PomocniczeFunkcje.odblokowanyPoziomEpoki++;
+                }
+                PomocniczeFunkcje.odblokowanyPoziomEpoki++;
+            }
+            for (byte i = 0; i < 4; i++)
+            {
+                if (!skrzynki[i].button.enabled && !skrzynki[i].ReuseTImer)
+                {
+                    skrzynki[i].RozpocznijOdliczanie();
+                    break;
+                }
+            }
             Debug.Log("Maksi Kaz rusza na łowy");
         }
         else

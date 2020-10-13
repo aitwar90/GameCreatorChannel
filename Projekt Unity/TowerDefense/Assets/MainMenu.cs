@@ -48,7 +48,6 @@ public class MainMenu : MonoBehaviour
             SceneManager.UnloadSceneAsync(1);
             PomocniczeFunkcje.managerGryScript.CzyScenaZostałaZaładowana = false;
             SceneManager.LoadScene((byte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka, LoadSceneMode.Additive);
-
         }
             PomocniczeFunkcje.oCam.transform.position = new Vector3(50.0f, 5.0f, 45.0f);
             lastPosCam = new Vector3(50.0f, 5.0f, 45.0f);
