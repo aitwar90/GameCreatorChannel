@@ -42,7 +42,7 @@ public class MoveCameraScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!MainMenu.czyMenuEnable)
+        if (!MainMenu.czyMenuEnable && PomocniczeFunkcje.spawnBudynki.aktualnyObiekt == null)
         {
 #if UNITY_STANDALONE
         ObsłużMysz();

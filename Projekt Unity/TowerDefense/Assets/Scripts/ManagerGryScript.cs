@@ -153,13 +153,6 @@ public class ManagerGryScript : MonoBehaviour
                 break;
 
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            for (byte i = 0; i < 4; i++)
-            {
-                skrzynki[i].OdejmnijCzas();
-            }
-        }
         if (czyScenaZostałaZaładowana)
         {
             if (aktualnaIlośćFal >= iloscFalWHordzie && iloscAktywnychWrogów <= 0)
@@ -196,12 +189,6 @@ public class ManagerGryScript : MonoBehaviour
             StartCoroutine("WyzwólKolejnąFalę");
         }
     }
-#if UNITY_STANDALONE
-    void OnGUI()
-    {
-        EditorGUI.TextField(new Rect(10, 20, 300, 20), "Zaznaczony obiekt: " + ((zaznaczonyObiekt == null) ? "null" : zaznaczonyObiekt.name));
-    }
-#endif
     private void KoniecPoziomuZakończony(bool sukces = true)
     {
         if (sukces)
