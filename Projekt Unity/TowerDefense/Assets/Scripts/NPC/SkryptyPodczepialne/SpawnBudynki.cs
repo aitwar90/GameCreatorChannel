@@ -10,7 +10,9 @@ public class SpawnBudynki : MonoBehaviour
     public Transform rodzicBudynkow = null;
     public Text teksAktualnegoObiektu;
     //UI _ Canvas
-    public UnityEngine.UI.Dropdown dropdawn;
+    public Dropdown dropdawn;
+    public Sprite lockDropdownImage;
+    public Sprite enableLockDropdownImage;
     #endregion
     #region Zmienne prywatne
     private Material materialWybranegoBudynku = null;
@@ -19,7 +21,7 @@ public class SpawnBudynki : MonoBehaviour
     public GameObject aktualnyObiekt = null;
     private Vector3 ostatniaPozycjaKursora = Vector3.zero;
     private Vector3 posClick = Vector3.zero;
-    private bool[] czyBudynekZablokowany = null;
+    private StrukturaBudynkuWTab[] czyBudynekZablokowany = null;
     #endregion
     void Start()
     {
@@ -31,16 +33,20 @@ public class SpawnBudynki : MonoBehaviour
             rodzicBudynkow = go.transform;
         }
         List<string> wszystkieBudynkiList = new List<string>();
+        List<StrukturaBudynkuWTab> sbwt = new List<StrukturaBudynkuWTab>();
         wszystkieBudynkiList.Add("None");
         sbyte idxActEpoki = (sbyte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka;
         if (idxActEpoki > 0)
         {
             for (byte i = 0; i < wszystkieBudynki.Length; i++)
             {
-                byte budynekEpoki = (byte)wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>().epokaNPC;
+                KonkretnyNPCStatyczny knpcs = wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
+                byte budynekEpoki = (byte)knpcs.epokaNPC;
                 if (budynekEpoki == idxActEpoki || budynekEpoki == idxActEpoki - 1)
                 {
-                    wszystkieBudynkiList.Add(wszystkieBudynki[i].name);
+                    StrukturaBudynkuWTab tt = new StrukturaBudynkuWTab(knpcs.zablokowany, i);
+                    sbwt.Add(tt);
+                    wszystkieBudynkiList.Add(knpcs.nazwa);
                 }
             }
         }
@@ -48,12 +54,16 @@ public class SpawnBudynki : MonoBehaviour
         {
             Debug.Log("SpawnBudynki 48: Nie ustalono epoki");
         }
-        czyBudynekZablokowany = new bool[wszystkieBudynki.Length];
-        for (ushort i = 0; i < czyBudynekZablokowany.Length; i++)
-        {
-            czyBudynekZablokowany[i] = wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>().zablokowany;
-        }
+        czyBudynekZablokowany = sbwt.ToArray();
         this.dropdawn.AddOptions(wszystkieBudynkiList);
+        for (ushort i = 0; i < czyBudynekZablokowany.Length; i++)
+        { 
+            if(czyBudynekZablokowany[i].czyZablokowany)
+            {
+                this.dropdawn.options[i+1].image = lockDropdownImage;
+                this.dropdawn.options[i+1].text = this.dropdawn.options[i].text + " LOCK";
+            }
+        }
     }
     void FixedUpdate()
     {
@@ -94,10 +104,13 @@ public class SpawnBudynki : MonoBehaviour
             }
         }
     }
-    public void DodajBudynekDoListyBudynków(ushort idxToUnlock)
+    public void OdblokujBudynek(ushort idxToUnlock)
     {
-        wszystkieBudynki[idxToUnlock].GetComponent<KonkretnyNPCStatyczny>().zablokowany = false;
-        czyBudynekZablokowany[idxToUnlock] = false;
+        KonkretnyNPCStatyczny statycznyBudynekDoOdbl = wszystkieBudynki[czyBudynekZablokowany[idxToUnlock].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
+        statycznyBudynekDoOdbl.zablokowany = false;
+        czyBudynekZablokowany[idxToUnlock].czyZablokowany = false;
+        this.dropdawn.options[idxToUnlock+1].image = enableLockDropdownImage;
+        this.dropdawn.options[idxToUnlock+1].text = statycznyBudynekDoOdbl.nazwa;
     }
     private void ObsluzMysz()
     {
@@ -238,6 +251,7 @@ public class SpawnBudynki : MonoBehaviour
             PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek(knpcs);
         //Pobranie coinów za postawiony budynek
         ManagerGryScript.iloscCoinów -= knpcs.kosztJednostki;
+        Debug.Log("Postawiłem budynek na X = "+temp[0]+" Z = "+temp[1]);
         // Kasowanie ustawień potrzebnych do postawienia budynku
         materialWybranegoBudynku = null;
         knpcs = null;
@@ -249,9 +263,9 @@ public class SpawnBudynki : MonoBehaviour
         short index = (short)(this.dropdawn.value - 1);
         if (index > -1 && aktualnyObiekt == null)
         {
-            if (!czyBudynekZablokowany[index])
+            if (!czyBudynekZablokowany[index].czyZablokowany)
             {
-                PostawBudynek(ref wszystkieBudynki[index], posClick, Quaternion.identity);
+                PostawBudynek(ref wszystkieBudynki[czyBudynekZablokowany[index].indexBudynku], posClick, Quaternion.identity);
                 ostatniaPozycjaKursora = posClick;
             }
             else

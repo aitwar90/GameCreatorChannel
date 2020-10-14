@@ -124,5 +124,15 @@ public class StrukturaDrzewa
 
     }
 }
+public class StrukturaBudynkuWTab
+{
+    public bool czyZablokowany;
+    public ushort indexBudynku;
+    public StrukturaBudynkuWTab(bool _czyZablokowany, ushort _idxBudunkuWTablicyBudynków)
+    {
+        this.czyZablokowany = _czyZablokowany;
+        this.indexBudynku = _idxBudunkuWTablicyBudynków;
+    }
+}
 
 

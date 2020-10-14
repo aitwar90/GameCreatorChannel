@@ -22,12 +22,13 @@ public class KonkretnyNPCStatyczny : NPCClass
     [Tooltip("Typ ataku wieży")]
     public TypAtakuWieży typAtakuWieży;
     [Tooltip("Czy budynek jest zablokowany (jeśli tak to znaczy że nie zostały spełnione wymagania, lub nie został wynaleziony")]
-    [SerializeField]public bool zablokowany = true;
+    [SerializeField] public bool zablokowany = true;
     #endregion
 
     #region Zmienny prywatne
-    private List<NPCClass> wrogowieWZasiegu = null;
+    public List<NPCClass> wrogowieWZasiegu = null;
     private byte idxAct = 0;
+    public Transform sprite = null;
     #endregion
 
     #region Zmienne chronione
@@ -45,16 +46,23 @@ public class KonkretnyNPCStatyczny : NPCClass
         }
         this.AktualneŻycie = this.maksymalneŻycie;
         this.nastawienieNPC = NastawienieNPC.Przyjazne;
+        if(sprite == null)
+            sprite = this.transform.Find("HpGreen");
+        RysujHPBar();
     }
     // Update is called once per frame
     protected override void RysujHPBar()
     {
         if (mainRenderer.isVisible)
         {
+            float actScaleX = (float)this.AktualneŻycie / this.maksymalneŻycie;
+            sprite.localScale = new Vector3(actScaleX, 1, 1);
+            /*
             Vector3 tempPos = this.transform.position;
             tempPos.y += 1.6f;
             Vector2 pozycjaPostaci = Camera.main.WorldToScreenPoint(tempPos);
             GUI.Box(new Rect(pozycjaPostaci.x - 40, Screen.height - pozycjaPostaci.y - 30, 80, 20), this.AktualneŻycie + " / " + maksymalneŻycie);
+        */
         }
     }
     protected override void UpdateMe()
@@ -73,6 +81,11 @@ public class KonkretnyNPCStatyczny : NPCClass
                 {
                     Atakuj(false);
                 }
+                idxAct++;
+                break;
+            case 2:
+                if (sprite != null)
+                    sprite.parent.forward = -PomocniczeFunkcje.oCam.transform.forward;
                 idxAct = 0;
                 break;
         }
@@ -117,9 +130,30 @@ public class KonkretnyNPCStatyczny : NPCClass
             wrogowieWZasiegu = null;
         }
     }
+    /*
+    void OnDrawGizmosSelected()
+    {
+        if(this.AktualneŻycie > 0)
+        {
+            short[] tmp = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
+            byte s = (byte)Mathf.CeilToInt(this.zasięgAtaku / PomocniczeFunkcje.distXZ);
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(new Vector3(tmp[0]*PomocniczeFunkcje.distXZ + PomocniczeFunkcje.aktualneGranicaTab, 1.0f, tmp[1]*PomocniczeFunkcje.distXZ+PomocniczeFunkcje.aktualneGranicaTab), 
+            new Vector3(s*PomocniczeFunkcje.distXZ, 1.0f, s*PomocniczeFunkcje.distXZ));
+        }
+    }
+    */
+    void OnDrawGizmos()
+    {
+        if(cel != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(this.transform.position, cel.transform.position);
+        }
+    }
     private void UsuńMnieZListy(short x, short z)
     {
-        if(PomocniczeFunkcje.tablicaWież[x, z] == null)
+        if (PomocniczeFunkcje.tablicaWież[x, z] == null)
             return;
         List<InformacjeDlaPolWież> tInf = new List<InformacjeDlaPolWież>();
         short dlListy = (short)PomocniczeFunkcje.tablicaWież[x, z].Count;
@@ -140,7 +174,7 @@ public class KonkretnyNPCStatyczny : NPCClass
     {
         if (this.aktualnyReuseAtaku < szybkośćAtaku)
         {
-            aktualnyReuseAtaku += Time.deltaTime*2;
+            aktualnyReuseAtaku += Time.deltaTime * 2;
         }
         else
         {

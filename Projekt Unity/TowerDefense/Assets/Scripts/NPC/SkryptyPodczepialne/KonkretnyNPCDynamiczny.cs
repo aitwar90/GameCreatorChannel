@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 /*
 Klasa obsługuje dynamiczne NPC
@@ -9,6 +10,7 @@ Klasa obsługuje dynamiczne NPC
 public class KonkretnyNPCDynamiczny : NPCClass
 {
     #region Zmienne publiczne
+    public byte ileCoinówZaZabicie = 1;
 
     #endregion
     #region Zmienny prywatne
@@ -20,7 +22,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private short actZIdx = 32767;
     private bool czyDodawac = false;
     private byte[] ostatnieStrony = null;
-    public byte ileCoinówZaZabicie = 1;
+    public Transform sprite = null;
     #endregion
 
     #region Zmienne chronione
@@ -66,6 +68,13 @@ public class KonkretnyNPCDynamiczny : NPCClass
         this.DodajMnieDoListyWrogowWiezy(t[0], t[1], true);
         actXIdx = t[0];
         actZIdx = t[1];
+        if(sprite == null)
+            sprite = this.transform.Find("HpGreen");
+        if(!rysujPasekŻycia)
+        {
+            sprite.parent.gameObject.SetActive(false);
+        }
+        RysujHPBar();
     }
 
     // Update is called once per frame
@@ -134,6 +143,12 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     DodajMnieDoListyWrogowWiezy(actXIdx, actZIdx);
                     czyDodawac = false;
                 }
+                głównyIndex++;
+                break;
+            case 5:
+            //Ustaw widoczniść paskaHP
+                if(sprite != null)
+                    sprite.parent.forward = -PomocniczeFunkcje.oCam.transform.forward;
                 głównyIndex = 0;
                 break;
             default:
@@ -146,13 +161,18 @@ public class KonkretnyNPCDynamiczny : NPCClass
         if (!rysujPasekŻycia && SpawnerHord.actualHPBars <= 10 && mainRenderer.isVisible)
         {
             rysujPasekŻycia = true;
+            sprite.parent.gameObject.SetActive(true);
         }
         if (rysujPasekŻycia)
         {
+            float actScaleX = (float)this.AktualneŻycie / this.maksymalneŻycie; 
+            sprite.localScale = new Vector3(actScaleX, 1, 1);
+            /*
             Vector3 tempPos = this.transform.position;
             tempPos.y += 1.6f;
             Vector2 pozycjaPostaci = Camera.main.WorldToScreenPoint(tempPos);
             GUI.Box(new Rect(pozycjaPostaci.x - 30, Screen.height - pozycjaPostaci.y - 30, 60, 20), this.AktualneŻycie + " / " + maksymalneŻycie);
+            */
             SpawnerHord.actualHPBars++;
         }
     }

@@ -558,19 +558,46 @@ public static class PomocniczeFunkcje
         ds.ilośćMonet = ManagerGryScript.iloscCoinów;
         ds._odblokowanieEpoki = odblokowaneEpoki;
         ds._odblokowanyPoziomEpoki = odblokowanyPoziomEpoki;
-        ds._skrzynki = managerGryScript.skrzynki;
-        List<KonkretnyNPCStatyczny>tmp = new List<KonkretnyNPCStatyczny>();
-        for(ushort i = 0; i < spawnBudynki.wszystkieBudynki.Length; i++)
+        List<ZapisSkrzynek> zsl = new List<ZapisSkrzynek>();
+        for(byte i = 0; i < managerGryScript.skrzynki.Length; i++)
         {
-            tmp.Add(spawnBudynki.wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>());
+            if(managerGryScript.skrzynki[i].ReuseTimer || managerGryScript.skrzynki[i].button.enabled)
+            {
+                ZapisSkrzynek t = new ZapisSkrzynek();
+                t.czyAktywna = managerGryScript.skrzynki[i].button.enabled;
+                t.dzień = managerGryScript.skrzynki[i].pozostałyCzas.Day;
+                t.godzina = (byte)managerGryScript.skrzynki[i].pozostałyCzas.Hour;
+                t.minuta = (byte)managerGryScript.skrzynki[i].pozostałyCzas.Minute;
+                t.sekunda = (byte)managerGryScript.skrzynki[i].pozostałyCzas.Second;
+                t.rok = managerGryScript.skrzynki[i].pozostałyCzas.Year;
+                if(t.czyAktywna || managerGryScript.skrzynki[i].ReuseTimer)
+                {
+                    t.czyIstniejeSkrzynka = true;
+                }
+                else
+                {
+                    t.czyIstniejeSkrzynka = false;
+                }
+                zsl.Add(t);
+            }
         }
-        ds._zablokowaneBudynki = tmp.ToArray();;
+        ds._skrzynki = zsl.ToArray();
+        List<EnOrDisBudynki> tmp = new List<EnOrDisBudynki>();
+        for (ushort i = 0; i < spawnBudynki.wszystkieBudynki.Length; i++)
+        {
+            KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
+            EnOrDisBudynki eodb = new EnOrDisBudynki();
+            eodb.nazwa = knpcs.nazwa;
+            eodb.zablokowanie = knpcs.zablokowany;
+            tmp.Add(eodb);
+        }
+        ds._zablokowaneBudynki = tmp.ToArray(); ;
 
         string ścieżka = ZwróćŚcieżkęZapisu();
 
         BinaryFormatter bf = new BinaryFormatter();
         FileStream fs;
-        if(!File.Exists(ścieżka))
+        if (!File.Exists(ścieżka))
         {
             fs = File.Create(ścieżka);
         }
@@ -586,7 +613,7 @@ public static class PomocniczeFunkcje
     public static void ŁadujDane()
     {
         string ścieżka = ZwróćŚcieżkęZapisu();
-        if(File.Exists(ścieżka))
+        if (File.Exists(ścieżka))
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream fs = File.Open(ścieżka, FileMode.Open);
@@ -594,14 +621,38 @@ public static class PomocniczeFunkcje
 
             fs.Close();
 
-            ManagerGryScript.iloscCoinów = ds.ilośćMonet;
+            ManagerGryScript.iloscCoinów = (ushort)ds.ilośćMonet;
             odblokowaneEpoki = ds._odblokowanieEpoki;
             odblokowanyPoziomEpoki = ds._odblokowanyPoziomEpoki;
-            managerGryScript.skrzynki = ds._skrzynki;
-            for(ushort i = 0; i < ds._zablokowaneBudynki.Length; i++)
+            for(ushort i = 0; i < ds._skrzynki.Length; i++)
             {
-                KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
-                knpcs.zablokowany = ds._zablokowaneBudynki[i].zablokowany;
+                if(ds._skrzynki[i].czyIstniejeSkrzynka || ds._skrzynki[i].czyAktywna)
+                {
+                    int offsetD = ds._skrzynki[i].dzień - System.DateTime.Now.Day;
+                    int offsetG = ds._skrzynki[i].godzina - System.DateTime.Now.Hour;
+                    int offsetM = ds._skrzynki[i].minuta - System.DateTime.Now.Minute;
+                    int offsetS = ds._skrzynki[i].sekunda - System.DateTime.Now.Second;
+                    int offsetR = ds._skrzynki[i].rok - System.DateTime.Now.Year;
+                    managerGryScript.skrzynki[i].pozostałyCzas = System.DateTime.Now;
+                    managerGryScript.skrzynki[i].pozostałyCzas.AddDays(offsetD);
+                    managerGryScript.skrzynki[i].pozostałyCzas.AddHours(offsetG);
+                    managerGryScript.skrzynki[i].pozostałyCzas.AddMinutes(offsetM);
+                    managerGryScript.skrzynki[i].pozostałyCzas.AddSeconds(offsetS);
+                    managerGryScript.skrzynki[i].pozostałyCzas.AddYears(offsetR);
+                    managerGryScript.skrzynki[i].button.enabled = ds._skrzynki[i].czyAktywna;
+                    managerGryScript.skrzynki[i].ReuseTimer = ds._skrzynki[i].czyIstniejeSkrzynka;
+                }
+            }
+            for (ushort i = 0; i < ds._zablokowaneBudynki.Length; i++)
+            {
+                for (byte j = 0; j < spawnBudynki.wszystkieBudynki.Length; j++)
+                {
+                    KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[j].GetComponent<KonkretnyNPCStatyczny>();
+                    if (knpcs.nazwa == ds._zablokowaneBudynki[i].nazwa)
+                    {
+                        knpcs.zablokowany = ds._zablokowaneBudynki[i].zablokowanie;
+                    }
+                }
             }
         }
         else
@@ -612,15 +663,15 @@ public static class PomocniczeFunkcje
     private static string ZwróćŚcieżkęZapisu()
     {
         string s = null;
-        #if UNITY_STANDALONE_WIN || UNITY_IOS
+#if UNITY_STANDALONE_WIN || UNITY_IOS
         s = Application.persistentDataPath+"/dataBaseTDv1.asc";
-        #endif
-        #if UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX
+#endif
+#if UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX
         s = Application.dataPath+"/dataBaseTDv1.asc";
-        #endif
-        #if UNITY_ANDROID
-        s = Application.dataPath+"/dataBaseTDv1.asc";
-        #endif
+#endif
+#if UNITY_ANDROID
+        s = Application.dataPath + "/dataBaseTDv1.asc";
+#endif
 
         return s;
     }
@@ -628,10 +679,28 @@ public static class PomocniczeFunkcje
 [System.Serializable]
 public struct DataSave
 {
-    [SerializeField]public ushort ilośćMonet;
-    [SerializeField]public byte _odblokowanyPoziomEpoki;
-    [SerializeField]public byte _odblokowanieEpoki;
-    [SerializeField]public Skrzynka[] _skrzynki;
-    [SerializeField]public KonkretnyNPCStatyczny[] _zablokowaneBudynki;
+    [SerializeField] public int ilośćMonet;
+    [SerializeField] public byte _odblokowanyPoziomEpoki;
+    [SerializeField] public byte _odblokowanieEpoki;
+    [SerializeField] public ZapisSkrzynek[] _skrzynki;
+    [SerializeField] public EnOrDisBudynki[] _zablokowaneBudynki;
+}
+[System.Serializable]
+public struct EnOrDisBudynki
+{
+    [SerializeField] public string nazwa;
+    [SerializeField] public bool zablokowanie;
+}
+[System.Serializable]
+public struct ZapisSkrzynek
+{
+    [SerializeField]public bool czyAktywna;
+    [SerializeField]public byte godzina;
+    [SerializeField]public byte minuta;
+    [SerializeField]public int dzień;
+    [SerializeField]public byte sekunda;
+    [SerializeField]public int rok;
+    [SerializeField]public bool czyIstniejeSkrzynka;
+
 }
 

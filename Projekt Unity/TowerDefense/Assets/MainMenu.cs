@@ -6,15 +6,12 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    public Text FPS;
-    public Text posCam;
     public static bool czyMenuEnable = true;
     private GameObject menu;
     private GameObject uiGry;
     private GameObject optionsMenu;
     private Button przyciskWznów;
     private Vector3 lastPosCam = Vector3.zero;
-    private ushort idxFPS = 0;
 
     void Awake()
     {
@@ -26,14 +23,6 @@ public class MainMenu : MonoBehaviour
         optionsMenu.SetActive(false);
         przyciskWznów.enabled = false;
         PomocniczeFunkcje.oCam = Camera.main;
-        StartCoroutine(FPSCoutIt());
-    }
-    private IEnumerator FPSCoutIt()
-    {
-        yield return new WaitForSeconds(1.0f);
-        FPS.text = "FPS = "+idxFPS.ToString();
-        idxFPS = 0;
-        StartCoroutine(FPSCoutIt());
     }
     public void PlayGame()
     {
@@ -49,8 +38,8 @@ public class MainMenu : MonoBehaviour
             PomocniczeFunkcje.managerGryScript.CzyScenaZostałaZaładowana = false;
             SceneManager.LoadScene((byte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka, LoadSceneMode.Additive);
         }
-            PomocniczeFunkcje.oCam.transform.position = new Vector3(50.0f, 5.0f, 45.0f);
-            lastPosCam = new Vector3(50.0f, 5.0f, 45.0f);
+            PomocniczeFunkcje.oCam.transform.position = new Vector3(50.0f, 8.0f, 42.5f);
+            lastPosCam = new Vector3(50.0f, 8.0f, 42.5f);
             PrzełączUI(false);
     }
     public void OptionsMenu(bool actButton)
@@ -63,12 +52,6 @@ public class MainMenu : MonoBehaviour
         Debug.Log("MainMenu 55: Quit");
         PomocniczeFunkcje.ZapiszDane();
         Application.Quit();
-    }
-    void Update()
-    {
-        //FPS
-        idxFPS++;
-        posCam.text = "Ilość wrogów na mapie = "+ManagerGryScript.iloscAktywnychWrogów;
     }
     public void PrzełączUI(bool aktywujeMenu)
     {

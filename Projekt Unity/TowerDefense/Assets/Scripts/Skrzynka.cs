@@ -8,11 +8,15 @@ public class Skrzynka
     [SerializeField]public DateTime pozostałyCzas;
     public Button button;
     private bool reuseTime = false;
-    public bool ReuseTImer
+    public bool ReuseTimer
     {
         get
         {
             return reuseTime;
+        }
+        set
+        {
+            reuseTime = value;
         }
     }
     public void SprawdźCzyReuseMinęło()

@@ -9,7 +9,7 @@ public class ManagerGryScript : MonoBehaviour
     [Header("Podstawowe informacje dla gracza")]
     #region Zmienne publiczne
     [Tooltip("Aktualna ilość monet")]
-    public static ushort iloscCoinów = 10;
+    public static ushort iloscCoinów = 10000;
     [Tooltip("Aktualna epoka w której gra gracz")]
     public Epoki aktualnaEpoka;
     public byte aktualnyPoziomEpoki = 1;
@@ -61,6 +61,21 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.tablicaWież = new List<InformacjeDlaPolWież>[20, 20];
         PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 40) / 2.0f);
         PomocniczeFunkcje.distXZ = (terr.terrainData.size.x - (PomocniczeFunkcje.aktualneGranicaTab * 2)) / 20f;
+        /*
+        for(byte i = 0; i < 20; i++)
+        {
+            for(byte j = 0; j < 20; j++)
+            {
+                GameObject go = new GameObject("X = "+i+" Z = "+j);
+                go.transform.position = new Vector3(i*PomocniczeFunkcje.distXZ + PomocniczeFunkcje.aktualneGranicaTab, 1.0f, j*PomocniczeFunkcje.distXZ + PomocniczeFunkcje.aktualneGranicaTab);
+                go.AddComponent<TestOnEnableGround>();
+                TestOnEnableGround toeg = go.GetComponent<TestOnEnableGround>();
+                toeg.X = i;
+                toeg.Z = j;
+            }
+        }
+        */
+        PomocniczeFunkcje.ZapiszDane();
     }
     public void GenerujBaze()
     {
@@ -201,7 +216,7 @@ public class ManagerGryScript : MonoBehaviour
             }
             for (byte i = 0; i < 4; i++)
             {
-                if (!skrzynki[i].button.enabled && !skrzynki[i].ReuseTImer)
+                if (!skrzynki[i].button.enabled && !skrzynki[i].ReuseTimer)
                 {
                     skrzynki[i].RozpocznijOdliczanie();
                     break;

@@ -80,11 +80,6 @@ public abstract class NPCClass : MonoBehaviour
         if (mainRenderer == null)
             mainRenderer = this.transform.GetComponent<Renderer>();
     }
-    void OnGUI()
-    {
-        if (aktualneŻycie <= maksymalneŻycie && aktualneŻycie > -1)
-            RysujHPBar();
-    }
     void Update()
     {
         if (aktualneŻycie == 0 && nieŻyję)
@@ -119,6 +114,7 @@ public abstract class NPCClass : MonoBehaviour
                 nieŻyję = true;
                 aktualneŻycie = 0;
             }
+            RysujHPBar();
         }
     }
     public abstract void Atakuj(bool wZwarciu);

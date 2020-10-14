@@ -9,7 +9,7 @@ public class MoveCameraScript : MonoBehaviour
     #endregion
 
     #region Zmienne prywatne
-    private float prędkoscPrzesunięciaKamery = 0.05f;
+    private float prędkoscPrzesunięciaKamery = 2.5f;
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
     private Vector3 pierwotnePołożenieKamery = Vector3.zero;
     private byte granica = 50;
