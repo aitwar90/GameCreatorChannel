@@ -559,9 +559,14 @@ public static class PomocniczeFunkcje
         ds._odblokowanieEpoki = odblokowaneEpoki;
         ds._odblokowanyPoziomEpoki = odblokowanyPoziomEpoki;
         ds._skrzynki = managerGryScript.skrzynki;
-        ds._zablokowaneBudynki = spawnBudynki.TablicaBudynkowZablokowanych;
+        List<KonkretnyNPCStatyczny>tmp = new List<KonkretnyNPCStatyczny>();
+        for(ushort i = 0; i < spawnBudynki.wszystkieBudynki.Length; i++)
+        {
+            tmp.Add(spawnBudynki.wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>());
+        }
+        ds._zablokowaneBudynki = tmp.ToArray();;
 
-        string ścieżka = Application.persistentDataPath+"/dataBaseTDv1.asc";
+        string ścieżka = ZwróćŚcieżkęZapisu();
 
         BinaryFormatter bf = new BinaryFormatter();
         FileStream fs;
@@ -580,25 +585,44 @@ public static class PomocniczeFunkcje
     }
     public static void ŁadujDane()
     {
-        string ścieżka = Application.persistentDataPath+"/dataBaseTDv1.asc";
+        string ścieżka = ZwróćŚcieżkęZapisu();
         if(File.Exists(ścieżka))
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream fs = File.Open(ścieżka, FileMode.Open);
             DataSave ds = (DataSave)bf.Deserialize(fs);
 
+            fs.Close();
+
             ManagerGryScript.iloscCoinów = ds.ilośćMonet;
             odblokowaneEpoki = ds._odblokowanieEpoki;
             odblokowanyPoziomEpoki = ds._odblokowanyPoziomEpoki;
             managerGryScript.skrzynki = ds._skrzynki;
-            spawnBudynki.TablicaBudynkowZablokowanych = ds._zablokowaneBudynki;
-
-            fs.Close();
+            for(ushort i = 0; i < ds._zablokowaneBudynki.Length; i++)
+            {
+                KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
+                knpcs.zablokowany = ds._zablokowaneBudynki[i].zablokowany;
+            }
         }
         else
         {
             Debug.Log("Nie odnalazłem zapisu");
         }
+    }
+    private static string ZwróćŚcieżkęZapisu()
+    {
+        string s = null;
+        #if UNITY_STANDALONE_WIN || UNITY_IOS
+        s = Application.persistentDataPath+"/dataBaseTDv1.asc";
+        #endif
+        #if UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX
+        s = Application.dataPath+"/dataBaseTDv1.asc";
+        #endif
+        #if UNITY_ANDROID
+        s = Application.dataPath+"/dataBaseTDv1.asc";
+        #endif
+
+        return s;
     }
 }
 [System.Serializable]
@@ -608,5 +632,6 @@ public struct DataSave
     [SerializeField]public byte _odblokowanyPoziomEpoki;
     [SerializeField]public byte _odblokowanieEpoki;
     [SerializeField]public Skrzynka[] _skrzynki;
-    [SerializeField]public bool[] _zablokowaneBudynki;
+    [SerializeField]public KonkretnyNPCStatyczny[] _zablokowaneBudynki;
 }
+

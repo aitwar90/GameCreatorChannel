@@ -21,18 +21,7 @@ public class SpawnBudynki : MonoBehaviour
     private Vector3 posClick = Vector3.zero;
     private bool[] czyBudynekZablokowany = null;
     #endregion
-    public bool[] TablicaBudynkowZablokowanych
-    {
-        get
-        {
-            return czyBudynekZablokowany;
-        }
-        set
-        {
-            czyBudynekZablokowany = value;
-        }
-    }
-    void Awake()
+    void Start()
     {
         if (rodzicBudynkow == null)
         {

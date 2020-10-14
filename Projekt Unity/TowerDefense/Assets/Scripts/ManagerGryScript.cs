@@ -52,6 +52,7 @@ public class ManagerGryScript : MonoBehaviour
     {
         PomocniczeFunkcje.managerGryScript = this;
         PomocniczeFunkcje.spawnBudynki = FindObjectOfType(typeof(SpawnBudynki)) as SpawnBudynki;
+        PomocniczeFunkcje.ŁadujDane();
     }
     private void ŁadowanieDanych()
     {
@@ -207,6 +208,7 @@ public class ManagerGryScript : MonoBehaviour
                 }
             }
             Debug.Log("Maksi Kaz rusza na łowy");
+            PomocniczeFunkcje.ZapiszDane();
         }
         else
         {
