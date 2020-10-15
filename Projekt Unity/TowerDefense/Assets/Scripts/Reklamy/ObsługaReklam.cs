@@ -109,30 +109,30 @@ public class ObsługaReklam : MonoBehaviour
     }
     public void HandleRewardBasedVideoLoaded(object sender, EventArgs args)
     {
-        MonoBehaviour.print("HandleRewardBasedVideoLoaded event received");
+        MonoBehaviour.print("1) Załadowano reklamę");
     }
 
     public void HandleRewardBasedVideoFailedToLoad(object sender, AdFailedToLoadEventArgs args)
     {
         MonoBehaviour.print(
-            "HandleRewardBasedVideoFailedToLoad event received with message: "
+            "2) HandleRewardBasedVideoFailedToLoad odebrano wydarzenie z informajcą: "
                              + args.Message);
     }
 
     public void HandleRewardBasedVideoOpened(object sender, EventArgs args)
     {
-        MonoBehaviour.print("HandleRewardBasedVideoOpened event received");
+        MonoBehaviour.print("HandleRewardBasedVideoOpened Otwarto reklamę");
     }
 
     public void HandleRewardBasedVideoStarted(object sender, EventArgs args)
     {
-        MonoBehaviour.print("HandleRewardBasedVideoStarted event received");
+        MonoBehaviour.print("HandleRewardBasedVideoStarted Reklama została odpalona");
     }
 
     public void HandleRewardBasedVideoClosed(object sender, EventArgs args)
     {
         this.ŻądanieWideo();
-        MonoBehaviour.print("HandleRewardBasedVideoClosed event received");
+        MonoBehaviour.print("HandleRewardBasedVideoClosed Reklama została zamknięta");
     }
 
     public void HandleRewardBasedVideoRewarded(object sender, Reward args)
@@ -140,13 +140,12 @@ public class ObsługaReklam : MonoBehaviour
         string type = args.Type;
         double amount = args.Amount;
         MonoBehaviour.print(
-            "HandleRewardBasedVideoRewarded event received for "
+            "HandleRewardBasedVideoRewarded reklama zwróciła nagrodę "
                         + amount.ToString() + " " + type);
     }
-
     public void HandleRewardBasedVideoLeftApplication(object sender, EventArgs args)
     {
-        MonoBehaviour.print("HandleRewardBasedVideoLeftApplication event received");
+        MonoBehaviour.print("HandleRewardBasedVideoLeftApplication reklama opuściła aplikację?");
     }
 
 }

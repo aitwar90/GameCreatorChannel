@@ -56,8 +56,8 @@ public class MoveCameraScript : MonoBehaviour
             {
                 ObsłużTouchPad();
             }
+            #endif
         }
-#endif
     }
     #region Metody i funkcje obsługujące przemieszczanie kamery
     private bool SprawdźCzyMogęPrzesunąćKamerę(Vector3 newPos)

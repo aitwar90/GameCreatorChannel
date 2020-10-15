@@ -251,7 +251,7 @@ public class SpawnBudynki : MonoBehaviour
             PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek(knpcs);
         //Pobranie coinów za postawiony budynek
         ManagerGryScript.iloscCoinów -= knpcs.kosztJednostki;
-        Debug.Log("Postawiłem budynek na X = "+temp[0]+" Z = "+temp[1]);
+        //Debug.Log("Postawiłem budynek na X = "+temp[0]+" Z = "+temp[1]);
         // Kasowanie ustawień potrzebnych do postawienia budynku
         materialWybranegoBudynku = null;
         knpcs = null;
