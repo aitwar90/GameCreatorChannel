@@ -38,8 +38,8 @@ public class MainMenu : MonoBehaviour
             PomocniczeFunkcje.managerGryScript.CzyScenaZostałaZaładowana = false;
             SceneManager.LoadScene((byte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka, LoadSceneMode.Additive);
         }
-            PomocniczeFunkcje.oCam.transform.position = new Vector3(50.0f, 8.0f, 42.5f);
-            lastPosCam = new Vector3(50.0f, 8.0f, 42.5f);
+            PomocniczeFunkcje.oCam.transform.position = MoveCameraScript.bazowePolozenieKameryGry;
+            lastPosCam = MoveCameraScript.bazowePolozenieKameryGry;
             PrzełączUI(false);
     }
     public void OptionsMenu(bool actButton)

@@ -670,7 +670,7 @@ public static class PomocniczeFunkcje
         s = Application.dataPath+"/dataBaseTDv1.asc";
 #endif
 #if UNITY_ANDROID
-        s = Application.dataPath + "/dataBaseTDv1.asc";
+        s = Application.persistentDataPath + "/dataBaseTDv1.asc";
 #endif
 
         return s;

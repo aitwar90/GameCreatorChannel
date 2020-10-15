@@ -5,11 +5,16 @@ public class MoveCameraScript : MonoBehaviour
     #region Zmienne publiczne
     [Range(1, 50), Tooltip("Promień odległości dla przeunięcia kamery od środka sceny")]
     public byte maxPrzesuniecieKamery = 25;
-
+    public static Vector3 bazowePolozenieKameryGry = new Vector3(50.0f, 8.0f, 46.0f);
     #endregion
 
     #region Zmienne prywatne
-    private float prędkoscPrzesunięciaKamery = 2.5f;
+    #if UNITY_STANDALONE
+    private float prędkoscPrzesunięciaKamery = 2f;
+    #endif
+    #if UNITY_ANDROID
+    private float prędkoscPrzesunięciaKamery = 0.7f;
+    #endif
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
     private Vector3 pierwotnePołożenieKamery = Vector3.zero;
     private byte granica = 50;
@@ -33,7 +38,7 @@ public class MoveCameraScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pierwotnePołożenieKamery = new Vector3(50.0f, 5.0f, 45.0f);
+        pierwotnePołożenieKamery = bazowePolozenieKameryGry;
         ostatniaPozycjaKamery = pierwotnePołożenieKamery;
         szerokośćObrazu = Screen.width;
         wysokśćObrazu = Screen.height;
@@ -122,7 +127,7 @@ public class MoveCameraScript : MonoBehaviour
                 Vector3 tmp = ostatniaPozycjaKamery + tmpOfs;
                 if (SprawdźCzyMogęPrzesunąćKamerę(tmp))
                 {
-                    tmp.y = 5.0f;
+                    tmp.y = bazowePolozenieKameryGry.y;
                     this.transform.position = tmp;
                     offs = posDotyk;
                 }
