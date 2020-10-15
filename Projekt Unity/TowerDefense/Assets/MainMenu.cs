@@ -6,6 +6,11 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    public Button nastepnyPoziom;
+    public Button powtorzPoziom;
+    public Button[] buttonSkrzynki;
+    public Button wróćDoMenu;
+    
     public static bool czyMenuEnable = true;
     private GameObject menu;
     private GameObject uiGry;
@@ -23,24 +28,30 @@ public class MainMenu : MonoBehaviour
         optionsMenu.SetActive(false);
         przyciskWznów.enabled = false;
         PomocniczeFunkcje.oCam = Camera.main;
+        nastepnyPoziom.gameObject.SetActive(false);
+        powtorzPoziom.gameObject.SetActive(false);
     }
     public void PlayGame()
     {
-        if(SceneManager.sceneCount == 1)
+        if (SceneManager.sceneCount == 1)
         {
             SceneManager.LoadScene((byte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka, LoadSceneMode.Additive);
         }
         else
         {
             //Reset scene
-            PomocniczeFunkcje.ResetujWszystko();
-            SceneManager.UnloadSceneAsync(1);
-            PomocniczeFunkcje.managerGryScript.CzyScenaZostałaZaładowana = false;
-            SceneManager.LoadScene((byte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka, LoadSceneMode.Additive);
+            ResetSceny();
         }
-            PomocniczeFunkcje.oCam.transform.position = MoveCameraScript.bazowePolozenieKameryGry;
-            lastPosCam = MoveCameraScript.bazowePolozenieKameryGry;
-            PrzełączUI(false);
+        PomocniczeFunkcje.oCam.transform.position = MoveCameraScript.bazowePolozenieKameryGry;
+        lastPosCam = MoveCameraScript.bazowePolozenieKameryGry;
+        PrzełączUI(false);
+    }
+    public void ResetSceny()
+    {
+        PomocniczeFunkcje.ResetujWszystko();
+        SceneManager.UnloadSceneAsync(1);
+        PomocniczeFunkcje.managerGryScript.CzyScenaZostałaZaładowana = false;
+        SceneManager.LoadScene((byte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka, LoadSceneMode.Additive);
     }
     public void OptionsMenu(bool actButton)
     {
@@ -49,7 +60,6 @@ public class MainMenu : MonoBehaviour
     }
     public void QuitGame()
     {
-        Debug.Log("MainMenu 55: Quit");
         PomocniczeFunkcje.ZapiszDane();
         Application.Quit();
     }

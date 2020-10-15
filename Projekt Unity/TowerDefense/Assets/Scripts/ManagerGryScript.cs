@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class ManagerGryScript : MonoBehaviour
@@ -15,8 +14,6 @@ public class ManagerGryScript : MonoBehaviour
     public byte aktualnyPoziomEpoki = 1;
 
     [Header("Informacje o graczu")]
-    [Tooltip("Ilość fal w hordzie")]
-    public byte iloscFalWHordzie = 5;
     [Tooltip("Czas pomięczy kolejnymi falami hordy")]
     public byte czasWMinutachMiędzyFalami = 10;
     public static short iloscAktywnychWrogów = 0;
@@ -28,14 +25,18 @@ public class ManagerGryScript : MonoBehaviour
     public GameObject[] bazy = new GameObject[1];
     [Tooltip("Lista nagrod ze skrzynek dla gracza")]
     //    public List<EkwipunekScript> ekwipunekGracza = new List<EkwipunekScript>();
-    public Skrzynka[] skrzynki = new Skrzynka[4];
-    private KonkretnyNPCStatyczny knpcsBazy = null;
-    private byte idxOfManagerGryScript = 0;
+    private Skrzynka[] skrzynki = new Skrzynka[4];
     #endregion
 
     #region Prywatne zmienne
+    private KonkretnyNPCStatyczny knpcsBazy = null;
+    private byte idxOfManagerGryScript = 0;
     private bool czyScenaZostałaZaładowana = false;
-    private byte aktualnaIlośćFal = 0;
+    private bool toNieOstatniaFala = true;
+    public Skrzynka ZwróćSkrzynkeOIndeksie(byte idx)
+    {
+        return skrzynki[idx];
+    }
     public bool CzyScenaZostałaZaładowana
     {
         get
@@ -52,16 +53,22 @@ public class ManagerGryScript : MonoBehaviour
     {
         PomocniczeFunkcje.managerGryScript = this;
         PomocniczeFunkcje.spawnBudynki = FindObjectOfType(typeof(SpawnBudynki)) as SpawnBudynki;
+        PomocniczeFunkcje.mainMenu = FindObjectOfType(typeof(MainMenu)) as MainMenu;
+        for (byte i = 0; i < 4; i++)
+        {
+            skrzynki[i] = new Skrzynka(PomocniczeFunkcje.mainMenu.buttonSkrzynki[i]);
+        }
         PomocniczeFunkcje.ŁadujDane();
     }
     private void ŁadowanieDanych()
     {
         PomocniczeFunkcje.spawnerHord = FindObjectOfType(typeof(SpawnerHord)) as SpawnerHord;
+        PomocniczeFunkcje.spawnerHord.UstawHorde(aktualnaEpoka, aktualnyPoziomEpoki);
         Terrain terr = FindObjectOfType(typeof(Terrain)) as Terrain;
         PomocniczeFunkcje.tablicaWież = new List<InformacjeDlaPolWież>[20, 20];
         PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 40) / 2.0f);
         PomocniczeFunkcje.distXZ = (terr.terrainData.size.x - (PomocniczeFunkcje.aktualneGranicaTab * 2)) / 20f;
-        /*
+        
         for(byte i = 0; i < 20; i++)
         {
             for(byte j = 0; j < 20; j++)
@@ -74,7 +81,7 @@ public class ManagerGryScript : MonoBehaviour
                 toeg.Z = j;
             }
         }
-        */
+        
         PomocniczeFunkcje.ZapiszDane();
     }
     public void GenerujBaze()
@@ -155,7 +162,7 @@ public class ManagerGryScript : MonoBehaviour
         }
         if (czyScenaZostałaZaładowana)
         {
-            if (aktualnaIlośćFal >= iloscFalWHordzie && iloscAktywnychWrogów <= 0)
+            if (!toNieOstatniaFala && iloscAktywnychWrogów <= 0)
             {
                 //Lvl skończony wszystkie fale zostały pokonane
                 KoniecPoziomuZakończony(true);
@@ -182,9 +189,8 @@ public class ManagerGryScript : MonoBehaviour
     private IEnumerator WyzwólKolejnąFalę()
     {
         yield return new WaitForSeconds(czasWMinutachMiędzyFalami * 60);
-        PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
-        aktualnaIlośćFal++;
-        if (aktualnaIlośćFal < iloscFalWHordzie)
+        toNieOstatniaFala = PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
+        if (toNieOstatniaFala)
         {
             StartCoroutine("WyzwólKolejnąFalę");
         }
@@ -197,7 +203,7 @@ public class ManagerGryScript : MonoBehaviour
             {
                 if (aktualnyPoziomEpoki == 100 && (byte)aktualnaEpoka < PomocniczeFunkcje.odblokowanyPoziomEpoki)
                 {
-                    PomocniczeFunkcje.odblokowanyPoziomEpoki++;
+                    PomocniczeFunkcje.odblokowaneEpoki++;
                 }
                 PomocniczeFunkcje.odblokowanyPoziomEpoki++;
             }
@@ -209,12 +215,36 @@ public class ManagerGryScript : MonoBehaviour
                     break;
                 }
             }
-            Debug.Log("Maksi Kaz rusza na łowy");
             PomocniczeFunkcje.ZapiszDane();
+            PomocniczeFunkcje.mainMenu.nastepnyPoziom.gameObject.SetActive(true);
+            PomocniczeFunkcje.mainMenu.powtorzPoziom.gameObject.SetActive(true);
+            //Tu reset sceny jak kliknie button
         }
         else
         {
-            Debug.Log("Porażka, dwa kieliszki i flaszka");
+            PomocniczeFunkcje.mainMenu.powtorzPoziom.gameObject.SetActive(true);
         }
+        toNieOstatniaFala = true;
+    }
+    public void PrzejdźNaNastepnyPoziom(bool czyNowyPoziom = true)
+    {
+        if (czyNowyPoziom)
+        {
+            if (aktualnyPoziomEpoki >= 100)
+            {
+                aktualnyPoziomEpoki = 0;
+                byte f = (byte)aktualnaEpoka;
+                aktualnaEpoka = Epoki.None;
+                f++;
+                aktualnaEpoka += f;
+            }
+            else
+            {
+                aktualnyPoziomEpoki++;
+            }
+        }
+        PomocniczeFunkcje.mainMenu.nastepnyPoziom.gameObject.SetActive(false);
+        PomocniczeFunkcje.mainMenu.powtorzPoziom.gameObject.SetActive(false);
+        PomocniczeFunkcje.mainMenu.ResetSceny();
     }
 }

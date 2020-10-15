@@ -12,6 +12,7 @@ public static class PomocniczeFunkcje
     public static Dictionary<string, StrukturaDoPoolowania> stosTrupów = null;
     public static SpawnerHord spawnerHord = null;
     public static ManagerGryScript managerGryScript = null;
+    public static MainMenu mainMenu = null;
     public static SpawnBudynki spawnBudynki = null;
     public static List<InformacjeDlaPolWież>[,] tablicaWież = null;
     public static float distXZ = 5;
@@ -559,18 +560,18 @@ public static class PomocniczeFunkcje
         ds._odblokowanieEpoki = odblokowaneEpoki;
         ds._odblokowanyPoziomEpoki = odblokowanyPoziomEpoki;
         List<ZapisSkrzynek> zsl = new List<ZapisSkrzynek>();
-        for(byte i = 0; i < managerGryScript.skrzynki.Length; i++)
+        for(byte i = 0; i < 4; i++)
         {
-            if(managerGryScript.skrzynki[i].ReuseTimer || managerGryScript.skrzynki[i].button.enabled)
+            if(managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).ReuseTimer || managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).button.enabled)
             {
                 ZapisSkrzynek t = new ZapisSkrzynek();
-                t.czyAktywna = managerGryScript.skrzynki[i].button.enabled;
-                t.dzień = managerGryScript.skrzynki[i].pozostałyCzas.Day;
-                t.godzina = (byte)managerGryScript.skrzynki[i].pozostałyCzas.Hour;
-                t.minuta = (byte)managerGryScript.skrzynki[i].pozostałyCzas.Minute;
-                t.sekunda = (byte)managerGryScript.skrzynki[i].pozostałyCzas.Second;
-                t.rok = managerGryScript.skrzynki[i].pozostałyCzas.Year;
-                if(t.czyAktywna || managerGryScript.skrzynki[i].ReuseTimer)
+                t.czyAktywna = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).button.enabled;
+                t.dzień = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.Day;
+                t.godzina = (byte)managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.Hour;
+                t.minuta = (byte)managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.Minute;
+                t.sekunda = (byte)managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.Second;
+                t.rok = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.Year;
+                if(t.czyAktywna || managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).ReuseTimer)
                 {
                     t.czyIstniejeSkrzynka = true;
                 }
@@ -633,14 +634,14 @@ public static class PomocniczeFunkcje
                     int offsetM = ds._skrzynki[i].minuta - System.DateTime.Now.Minute;
                     int offsetS = ds._skrzynki[i].sekunda - System.DateTime.Now.Second;
                     int offsetR = ds._skrzynki[i].rok - System.DateTime.Now.Year;
-                    managerGryScript.skrzynki[i].pozostałyCzas = System.DateTime.Now;
-                    managerGryScript.skrzynki[i].pozostałyCzas.AddDays(offsetD);
-                    managerGryScript.skrzynki[i].pozostałyCzas.AddHours(offsetG);
-                    managerGryScript.skrzynki[i].pozostałyCzas.AddMinutes(offsetM);
-                    managerGryScript.skrzynki[i].pozostałyCzas.AddSeconds(offsetS);
-                    managerGryScript.skrzynki[i].pozostałyCzas.AddYears(offsetR);
-                    managerGryScript.skrzynki[i].button.enabled = ds._skrzynki[i].czyAktywna;
-                    managerGryScript.skrzynki[i].ReuseTimer = ds._skrzynki[i].czyIstniejeSkrzynka;
+                    managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas = System.DateTime.Now;
+                    managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.AddDays(offsetD);
+                    managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.AddHours(offsetG);
+                    managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.AddMinutes(offsetM);
+                    managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.AddSeconds(offsetS);
+                    managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.AddYears(offsetR);
+                    managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).button.enabled = ds._skrzynki[i].czyAktywna;
+                    managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).ReuseTimer = ds._skrzynki[i].czyIstniejeSkrzynka;
                 }
             }
             for (ushort i = 0; i < ds._zablokowaneBudynki.Length; i++)

@@ -102,6 +102,7 @@ public class ObsługaReklam : MonoBehaviour
     {
         while(!bazowaReklama.IsLoaded())
         {
+            Debug.Log("Reklama wciaż niezaładowana");
             yield return null;
         }
         ObejrzyjAD();
@@ -155,5 +156,5 @@ public enum RodzajReklamy
     Baner = 1,
     Interstitial = 2,
     RewardedVideo = 3,
-    NativeAdvanced = 4
+    [HideInInspector]NativeAdvanced = 4
 }

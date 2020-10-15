@@ -103,32 +103,37 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 break;
             case 2: //Ustaw index tablicy dla npc i usuń stare wieże
                 short[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
-                List<byte> sQ = new List<byte>();
+                List<byte> sQt = new List<byte>();
                 bool c = false;
                 if (actXIdx < t[0])
                 {
-                    sQ.Add(0);
+                    sQt.Add(0);
                     c = true;
                 }
                 else if (actXIdx > t[0])
                 {
-                    sQ.Add(1);
+                    sQt.Add(1);
                     c = true;
                 }
                 if (actZIdx < t[1])
                 {
-                    sQ.Add(2);
+                    sQt.Add(2);
                     c = true;
                 }
                 else if (actZIdx > t[1])
                 {
-                    sQ.Add(3);
+                    sQt.Add(3);
                     c = true;
                 }
                 if (c)
                 {
                     //Usunięcie starych wież
-                    ostatnieStrony = sQ.ToArray();
+                    ostatnieStrony = sQt.ToArray();
+                    if(ostatnieStrony == null || ostatnieStrony.Length == 0)
+                    {
+                        Debug.Log("NPC "+this.name+" ma ostatnie strony na "+((ostatnieStrony == null) ? "null" : "Length = 0"));
+                        Debug.Log("X = "+t[0]+" Z = "+t[1]);
+                    }
                     UsuńMnieZTablicyWież(false, ostatnieStrony);
                     czyDodawac = true;
                     actXIdx = t[0];
@@ -189,6 +194,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
         PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek -= ResetujŚciezkę;
         ManagerGryScript.iloscAktywnychWrogów--;
         ManagerGryScript.iloscCoinów += this.ileCoinówZaZabicie;
+        actXIdx = 32767;
+        actZIdx = 32767;
         WłWyłObj(false);
         if (this.nastawienieNPC == NastawienieNPC.Wrogie)
         {
@@ -249,7 +256,9 @@ public class KonkretnyNPCDynamiczny : NPCClass
     public override void ResetujŚciezkę(KonkretnyNPCStatyczny taWiezaPierwszyRaz = null)
     {
         if (taWiezaPierwszyRaz != null)
+        {
             DodajMnieDoListyWrogowWiezy(actXIdx, actZIdx, false, taWiezaPierwszyRaz);
+        }
         ResetujŚcieżki();
     }
     private void DodajNavMeshAgent()
@@ -313,7 +322,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 }
             }
         }
-        else
+        else if(ostatnieStrony != null)
         {
             for (byte sq = 0; sq < ostatnieStrony.Length; sq++)
             {

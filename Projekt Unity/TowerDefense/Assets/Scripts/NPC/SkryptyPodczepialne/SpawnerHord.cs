@@ -20,77 +20,211 @@ public class SpawnerHord : MonoBehaviour
     public NPCClass cel;
     public Transform rodzicNPC = null;
 
-    public void GenerujSpawn(Epoki e)
+    private void ObsłużFale(Epoki e)
     {
-        if (cel != PomocniczeFunkcje.celWrogów)
-            PomocniczeFunkcje.celWrogów = cel;
-        List<KonkretnyNPCDynamiczny> możliwiNPC = new List<KonkretnyNPCDynamiczny>();
-        for (byte i = 0; i < wszystkieRodzajeWrogichJednostek.Length; i++)
+        byte aktPozEpoki = PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki;
+        if (e == Epoki.EpokaKamienia)
         {
-            if (wszystkieRodzajeWrogichJednostek[i].epokaNPC == e)
+            if (aktPozEpoki < 50)
             {
-                możliwiNPC.Add((KonkretnyNPCDynamiczny)wszystkieRodzajeWrogichJednostek[i]);
+                ostatniaIlośćWFali += 1;
+            }
+            else
+            {
+                ostatniaIlośćWFali = 50;
+                ostatniaIlośćWFali += (ushort)Mathf.FloorToInt(ostatniaIlośćWFali * 0.1f * (aktPozEpoki - 50));
             }
         }
-        if (możliwiNPC.Count < 1)
+        else if (e == Epoki.EpokaStarożytna)
         {
-            Debug.Log("Niestety nie ma jednostek spełniających wymagania epoki do generowania hordy");
-            return;
-        }
-        if (ostatniaIlośćWFali < maxIlośćNaFalę)
-        {
-            switch (e)
+            if (aktPozEpoki < 50)
             {
-                case Epoki.EpokaKamienia:
-                    ostatniaIlośćWFali += 3;
-                    break;
-                case Epoki.EpokaStarożytna:
-                    ostatniaIlośćWFali += 4;
-                    break;
-                case Epoki.EpokaŚredniowiecza:
-                    ostatniaIlośćWFali += 5;
-                    break;
-                case Epoki.EpokaNowożytna:
-                    ostatniaIlośćWFali += 6;
-                    break;
-                case Epoki.EpokaWspołczesna:
-                    ostatniaIlośćWFali += 7;
-                    break;
-                case Epoki.EpokaPrzyszła:
-                    ostatniaIlośćWFali += 8;
-                    break;
-                default:
-                    Debug.Log("Nie podano odpowiedniej epoki do metody GenerujSpawn(Epoki e)");
-                    break;
+                ostatniaIlośćWFali += 1;
             }
-            if (ostatniaIlośćWFali > maxIlośćNaFalę)
+            else
             {
-                ostatniaIlośćWFali = maxIlośćNaFalę;
+                ostatniaIlośćWFali = 50;
+                ostatniaIlośćWFali += (ushort)Mathf.FloorToInt(ostatniaIlośćWFali * 0.1f * (aktPozEpoki - 50));
             }
         }
-        if (ostatniaIlośćWFali < 11)
-            iloscPunktówSpawnu = 1;
-        else if (ostatniaIlośćWFali < 21)
-            iloscPunktówSpawnu = 2;
-        else if (ostatniaIlośćWFali < 31)
-            iloscPunktówSpawnu = 3;
-        else if (ostatniaIlośćWFali < 41)
-            iloscPunktówSpawnu = 4;
-        else if (ostatniaIlośćWFali < 51)
-            iloscPunktówSpawnu = 5;
-        else if (ostatniaIlośćWFali < 61)
-            iloscPunktówSpawnu = 6;
-        else if (ostatniaIlośćWFali < 71)
-            iloscPunktówSpawnu = 7;
+        else if (e == Epoki.EpokaŚredniowiecza)
+        {
+            if (aktPozEpoki < 50)
+            {
+                ostatniaIlośćWFali += 1;
+            }
+            else
+            {
+                ostatniaIlośćWFali = 50;
+                ostatniaIlośćWFali += (ushort)Mathf.FloorToInt(ostatniaIlośćWFali * 0.1f * (aktPozEpoki - 50));
+            }
+        }
+        else if (e == Epoki.EpokaNowożytna)
+        {
+            if (aktPozEpoki < 50)
+            {
+                ostatniaIlośćWFali += 1;
+            }
+            else
+            {
+                ostatniaIlośćWFali = 50;
+                ostatniaIlośćWFali += (ushort)Mathf.FloorToInt(ostatniaIlośćWFali * 0.1f * (aktPozEpoki - 50));
+            }
+        }
+        else if (e == Epoki.EpokaWspołczesna)
+        {
+            if (aktPozEpoki < 50)
+            {
+                ostatniaIlośćWFali += 1;
+            }
+            else
+            {
+                ostatniaIlośćWFali = 50;
+                ostatniaIlośćWFali += (ushort)Mathf.FloorToInt(ostatniaIlośćWFali * 0.1f * (aktPozEpoki - 50));
+            }
+        }
+        else if (e == Epoki.EpokaPrzyszła)
+        {
+            if (aktPozEpoki < 50)
+            {
+                ostatniaIlośćWFali += 1;
+            }
+            else
+            {
+                ostatniaIlośćWFali = 50;
+                ostatniaIlośćWFali += (ushort)Mathf.FloorToInt(ostatniaIlośćWFali * 0.1f * (aktPozEpoki - 50));
+            }
+        }
         else
-            iloscPunktówSpawnu = 8;
-        SpawnujMnie(ref możliwiNPC, 1);
-        for (ushort i = 1, j = 1; i < ostatniaIlośćWFali; i++)
         {
-            StartCoroutine(SpawnujMnieCorutine(możliwiNPC, j, Random.Range(0, 0.5f)));
-            j++;
-            if (j > iloscPunktówSpawnu)
-                j = 1;
+            Debug.Log("Nie wybrano epoki");
+            ostatniaIlośćWFali = 0;
+        }
+    }
+    public void UstawHorde(Epoki ep, byte poziomEpoki)
+    {
+        switch (ep)
+        {
+            case Epoki.EpokaKamienia:
+                if (poziomEpoki < 50)
+                {
+                    maxIlośćNaFalę = 2/*(ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)))*/;
+                }
+                else
+                {
+                    maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
+                }
+                break;
+            case Epoki.EpokaStarożytna:
+                if (poziomEpoki < 50)
+                {
+                    maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
+                }
+                else
+                {
+                    maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
+                }
+                break;
+            case Epoki.EpokaŚredniowiecza:
+                if (poziomEpoki < 50)
+                {
+                    maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
+                }
+                else
+                {
+                    maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
+                }
+                break;
+            case Epoki.EpokaNowożytna:
+                if (poziomEpoki < 50)
+                {
+                    maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
+                }
+                else
+                {
+                    maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
+                }
+                break;
+            case Epoki.EpokaWspołczesna:
+                if (poziomEpoki < 50)
+                {
+                    maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
+                }
+                else
+                {
+                    maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
+                }
+                break;
+            case Epoki.EpokaPrzyszła:
+                if (poziomEpoki < 50)
+                {
+                    maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
+                }
+                else
+                {
+                    maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    public bool GenerujSpawn(Epoki e)
+    {
+        if (ostatniaIlośćWFali >= maxIlośćNaFalę)
+        {
+            return false;
+        }
+        else
+        {
+            if (cel != PomocniczeFunkcje.celWrogów)
+                PomocniczeFunkcje.celWrogów = cel;
+            List<KonkretnyNPCDynamiczny> możliwiNPC = new List<KonkretnyNPCDynamiczny>();
+            for (byte i = 0; i < wszystkieRodzajeWrogichJednostek.Length; i++)
+            {
+                if (wszystkieRodzajeWrogichJednostek[i].epokaNPC == e)
+                {
+                    możliwiNPC.Add((KonkretnyNPCDynamiczny)wszystkieRodzajeWrogichJednostek[i]);
+                }
+            }
+            if (możliwiNPC.Count < 1)
+            {
+                Debug.Log("Niestety nie ma jednostek spełniających wymagania epoki do generowania hordy");
+                return false;
+            }
+            if (ostatniaIlośćWFali < maxIlośćNaFalę)
+            {
+                ObsłużFale(e);
+                if (ostatniaIlośćWFali > maxIlośćNaFalę)
+                {
+                    ostatniaIlośćWFali = maxIlośćNaFalę;
+                }
+            }
+            if (ostatniaIlośćWFali < 11)
+                iloscPunktówSpawnu = 1;
+            else if (ostatniaIlośćWFali < 21)
+                iloscPunktówSpawnu = 2;
+            else if (ostatniaIlośćWFali < 31)
+                iloscPunktówSpawnu = 3;
+            else if (ostatniaIlośćWFali < 41)
+                iloscPunktówSpawnu = 4;
+            else if (ostatniaIlośćWFali < 51)
+                iloscPunktówSpawnu = 5;
+            else if (ostatniaIlośćWFali < 61)
+                iloscPunktówSpawnu = 6;
+            else if (ostatniaIlośćWFali < 71)
+                iloscPunktówSpawnu = 7;
+            else
+                iloscPunktówSpawnu = 8;
+            SpawnujMnie(ref możliwiNPC, 1);
+            for (ushort i = 1, j = 1; i < ostatniaIlośćWFali; i++)
+            {
+                StartCoroutine(SpawnujMnieCorutine(możliwiNPC, j, Random.Range(0, 0.5f)));
+                j++;
+                if (j > iloscPunktówSpawnu)
+                    j = 1;
+            }
+            return true;
         }
     }
     private Vector3 OkreślPozucjeZOffsetem(Vector3 pos, float offsets)
@@ -167,7 +301,7 @@ public class SpawnerHord : MonoBehaviour
     }
     public void UsunWszystkieJednostki()
     {
-        for(int i = rodzicNPC.childCount - 1; i >= 0; i--)
+        for (int i = rodzicNPC.childCount - 1; i >= 0; i--)
         {
             Destroy(rodzicNPC.GetChild(i).gameObject);
         }

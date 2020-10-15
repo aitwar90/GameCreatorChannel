@@ -19,6 +19,11 @@ public class Skrzynka
             reuseTime = value;
         }
     }
+    public Skrzynka(Button _button)
+    {
+        this.button = _button;
+        reuseTime = false;
+    }
     public void SprawdźCzyReuseMinęło()
     {
         if(reuseTime)
