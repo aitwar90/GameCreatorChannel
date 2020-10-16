@@ -23,6 +23,13 @@ public class Skrzynka
     {
         this.button = _button;
         reuseTime = false;
+        this.button.enabled = false;
+    }
+    public void UstawButtonSkrzynki(Button _button)
+    {
+        this.button = _button;
+        reuseTime = false;
+        this.button.enabled = false;
     }
     public void SprawdźCzyReuseMinęło()
     {
@@ -35,11 +42,11 @@ public class Skrzynka
             }
         }
     }
-    public void OdejmnijCzas()
+    public void OdejmnijCzas(float offTime = -30)
     {
         if(reuseTime)
         {
-            pozostałyCzas = pozostałyCzas.AddMinutes(-30);
+            pozostałyCzas = pozostałyCzas.AddMinutes(offTime);
         }
     }
     public void RozpocznijOdliczanie()

@@ -23,9 +23,11 @@ public class ManagerGryScript : MonoBehaviour
     public delegate void WywołajResetujŚcieżki(KonkretnyNPCStatyczny knpcs = null);
     public WywołajResetujŚcieżki wywołajResetŚcieżek;
     public GameObject[] bazy = new GameObject[1];
-    [Tooltip("Lista nagrod ze skrzynek dla gracza")]
-    //    public List<EkwipunekScript> ekwipunekGracza = new List<EkwipunekScript>();
-    private Skrzynka[] skrzynki = new Skrzynka[4];
+    [Tooltip("Tablica nagród jakie gracz może otrzymać")]
+    public PrzedmiotScript[] ekwipunekGracza = null;
+    [Tooltip("Nagrody jakie gracz poisada")]
+    public EkwipunekScript ekwipunek;
+    private Skrzynka[] skrzynki;
     #endregion
 
     #region Prywatne zmienne
@@ -54,9 +56,10 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.managerGryScript = this;
         PomocniczeFunkcje.spawnBudynki = FindObjectOfType(typeof(SpawnBudynki)) as SpawnBudynki;
         PomocniczeFunkcje.mainMenu = FindObjectOfType(typeof(MainMenu)) as MainMenu;
-        for (byte i = 0; i < 4; i++)
+        skrzynki = new Skrzynka[PomocniczeFunkcje.mainMenu.buttonSkrzynki.Length];
+        for (byte i = 0; i < skrzynki.Length; i++)
         {
-            skrzynki[i] = new Skrzynka(PomocniczeFunkcje.mainMenu.buttonSkrzynki[i]);
+            skrzynki[i].UstawButtonSkrzynki(PomocniczeFunkcje.mainMenu.buttonSkrzynki[i]);
         }
         PomocniczeFunkcje.ŁadujDane();
     }
@@ -246,5 +249,27 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.mainMenu.nastepnyPoziom.gameObject.SetActive(false);
         PomocniczeFunkcje.mainMenu.powtorzPoziom.gameObject.SetActive(false);
         PomocniczeFunkcje.mainMenu.ResetSceny();
+    }
+    public void CudOcalenia()
+    {
+        PomocniczeFunkcje.celWrogów.AktualneŻycie = (short)(PomocniczeFunkcje.celWrogów.maksymalneŻycie/ 2.0f);
+        KonkretnyNPCDynamiczny[] knpcd = FindObjectsOfType(typeof(KonkretnyNPCDynamiczny)) as KonkretnyNPCDynamiczny[];
+        for(ushort i = 0; i < knpcd.Length; i++)
+        {
+            knpcd[i].AktualneŻycie = 0;
+        }
+        KonkretnyNPCStatyczny[] knpcs = FindObjectsOfType(typeof(KonkretnyNPCStatyczny)) as KonkretnyNPCStatyczny[];
+        for(ushort i = 0; i < knpcs.Length; i++)
+        {
+            if(knpcs[i].AktualneŻycie > 0)
+                knpcs[i].AktualneŻycie = knpcs[i].maksymalneŻycie;
+        }
+    }
+    public void KliknietyPrzycisk(byte idx)
+    {
+        skrzynki[idx].button.enabled = false;
+        if(ekwipunek == null)
+            ekwipunek = new EkwipunekScript(null);
+        ekwipunek.LosujNagrode();
     }
 }

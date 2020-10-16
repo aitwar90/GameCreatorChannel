@@ -81,4 +81,8 @@ public class MainMenu : MonoBehaviour
             PomocniczeFunkcje.oCam.transform.position = lastPosCam;
         }
     }
+    public void SkrzynkaKlik(int idx)
+    {
+        PomocniczeFunkcje.managerGryScript.KliknietyPrzycisk((byte)idx);
+    }
 }

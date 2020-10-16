@@ -2821,7 +2821,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 978081445}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1565554481}
+        m_MethodName: SkrzynkaKlik
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1027627991
 GameObject:
   m_ObjectHideFlags: 0
@@ -3091,7 +3102,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1096876112}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1565554481}
+        m_MethodName: SkrzynkaKlik
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1096876112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3407,7 +3429,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1220730638}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1565554481}
+        m_MethodName: SkrzynkaKlik
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1370920785
 GameObject:
   m_ObjectHideFlags: 0
@@ -3618,6 +3651,13 @@ MonoBehaviour:
   zaznaczonyObiekt: {fileID: 0}
   bazy:
   - {fileID: 5806775561652400943, guid: 89d920babba091d59abc812965ea24e6, type: 3}
+  ekwipunekGracza:
+  - {fileID: 566116733759100223, guid: e2fb13f66eaaf3648bc6e14d1f821c0e, type: 3}
+  - {fileID: 2171241412327539077, guid: 4c8450613bdc6c64c8d56b47e6bf7633, type: 3}
+  - {fileID: 3057942119976280522, guid: 3d33ef230705a2a4d81fcf4544e9f14b, type: 3}
+  - {fileID: 8698446341093283827, guid: 174a6b36457cf4f4c9d0959ffddd14de, type: 3}
+  ekwipunek:
+    przedmioty: []
 --- !u!114 &1420112164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4402,7 +4442,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1714262179}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1565554481}
+        m_MethodName: SkrzynkaKlik
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1727930480
 GameObject:
   m_ObjectHideFlags: 0

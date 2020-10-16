@@ -560,9 +560,9 @@ public static class PomocniczeFunkcje
         ds._odblokowanieEpoki = odblokowaneEpoki;
         ds._odblokowanyPoziomEpoki = odblokowanyPoziomEpoki;
         List<ZapisSkrzynek> zsl = new List<ZapisSkrzynek>();
-        for(byte i = 0; i < 4; i++)
+        for (byte i = 0; i < 4; i++)
         {
-            if(managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).ReuseTimer || managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).button.enabled)
+            if (managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).ReuseTimer || managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).button.enabled)
             {
                 ZapisSkrzynek t = new ZapisSkrzynek();
                 t.czyAktywna = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).button.enabled;
@@ -571,7 +571,7 @@ public static class PomocniczeFunkcje
                 t.minuta = (byte)managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.Minute;
                 t.sekunda = (byte)managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.Second;
                 t.rok = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.Year;
-                if(t.czyAktywna || managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).ReuseTimer)
+                if (t.czyAktywna || managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).ReuseTimer)
                 {
                     t.czyIstniejeSkrzynka = true;
                 }
@@ -592,8 +592,31 @@ public static class PomocniczeFunkcje
             eodb.zablokowanie = knpcs.zablokowany;
             tmp.Add(eodb);
         }
-        ds._zablokowaneBudynki = tmp.ToArray(); ;
-
+        ds._zablokowaneBudynki = tmp.ToArray();
+        if (managerGryScript.ekwipunek != null && managerGryScript.ekwipunek.przedmioty != null && managerGryScript.ekwipunek.przedmioty.Length > 0)
+        {
+            List<EkwiStruct> ekwi = new List<EkwiStruct>();
+            for (byte i = 0; i < managerGryScript.ekwipunek.przedmioty.Length; i++)
+            {
+                for (byte j = 0; j < managerGryScript.ekwipunekGracza.Length; j++)
+                {
+                    if (managerGryScript.ekwipunek.przedmioty[i].nazwaPrzedmiotu == managerGryScript.ekwipunekGracza[j].nazwaPrzedmiotu)
+                    {
+                        EkwiStruct es = new EkwiStruct();
+                        es.idxTab = j;
+                        es.iloscPrzedmiotu = managerGryScript.ekwipunek.przedmioty[j].ilośćDanejNagrody;
+                        ekwi.Add(es);
+                        break;
+                    }
+                }
+            }
+            ds._ekwipunek = ekwi.ToArray();
+        }
+        else
+        {
+            ds._ekwipunek = new EkwiStruct[1];
+            ds._ekwipunek[0].idxTab = 255;
+        }
         string ścieżka = ZwróćŚcieżkęZapisu();
 
         BinaryFormatter bf = new BinaryFormatter();
@@ -616,6 +639,7 @@ public static class PomocniczeFunkcje
         string ścieżka = ZwróćŚcieżkęZapisu();
         if (File.Exists(ścieżka))
         {
+            Debug.Log(ścieżka);
             BinaryFormatter bf = new BinaryFormatter();
             FileStream fs = File.Open(ścieżka, FileMode.Open);
             DataSave ds = (DataSave)bf.Deserialize(fs);
@@ -625,9 +649,9 @@ public static class PomocniczeFunkcje
             ManagerGryScript.iloscCoinów = (ushort)ds.ilośćMonet;
             odblokowaneEpoki = ds._odblokowanieEpoki;
             odblokowanyPoziomEpoki = ds._odblokowanyPoziomEpoki;
-            for(ushort i = 0; i < ds._skrzynki.Length; i++)
+            for (ushort i = 0; i < ds._skrzynki.Length; i++)
             {
-                if(ds._skrzynki[i].czyIstniejeSkrzynka || ds._skrzynki[i].czyAktywna)
+                if (ds._skrzynki[i].czyIstniejeSkrzynka || ds._skrzynki[i].czyAktywna)
                 {
                     int offsetD = ds._skrzynki[i].dzień - System.DateTime.Now.Day;
                     int offsetG = ds._skrzynki[i].godzina - System.DateTime.Now.Hour;
@@ -654,6 +678,22 @@ public static class PomocniczeFunkcje
                         knpcs.zablokowany = ds._zablokowaneBudynki[i].zablokowanie;
                     }
                 }
+            }
+            if (ds._ekwipunek.Length == 1 && ds._ekwipunek[0].idxTab == 255)
+            {
+                //Niestety brak przedmiotów w ekwipunku
+                managerGryScript.ekwipunek = null;
+            }
+            else
+            {
+                List<PrzedmiotScript> ps = new List<PrzedmiotScript>();
+                for (ushort i = 0; i < ds._ekwipunek.Length; i++)
+                {
+                    //Istnieją przedmioty w ekwipunku
+                    ps.Add(managerGryScript.ekwipunekGracza[ds._ekwipunek[i].idxTab]);
+                    ps[i].ilośćDanejNagrody = ds._ekwipunek[i].iloscPrzedmiotu;
+                }
+                managerGryScript.ekwipunek = new EkwipunekScript(ps.ToArray());
             }
         }
         else
@@ -685,6 +725,7 @@ public struct DataSave
     [SerializeField] public byte _odblokowanieEpoki;
     [SerializeField] public ZapisSkrzynek[] _skrzynki;
     [SerializeField] public EnOrDisBudynki[] _zablokowaneBudynki;
+    [SerializeField] public EkwiStruct[] _ekwipunek;
 }
 [System.Serializable]
 public struct EnOrDisBudynki
@@ -695,13 +736,19 @@ public struct EnOrDisBudynki
 [System.Serializable]
 public struct ZapisSkrzynek
 {
-    [SerializeField]public bool czyAktywna;
-    [SerializeField]public byte godzina;
-    [SerializeField]public byte minuta;
-    [SerializeField]public int dzień;
-    [SerializeField]public byte sekunda;
-    [SerializeField]public int rok;
-    [SerializeField]public bool czyIstniejeSkrzynka;
+    [SerializeField] public bool czyAktywna;
+    [SerializeField] public byte godzina;
+    [SerializeField] public byte minuta;
+    [SerializeField] public int dzień;
+    [SerializeField] public byte sekunda;
+    [SerializeField] public int rok;
+    [SerializeField] public bool czyIstniejeSkrzynka;
 
+}
+[System.Serializable]
+public struct EkwiStruct
+{
+    [SerializeField] public byte idxTab;
+    [SerializeField] public byte iloscPrzedmiotu;
 }
 

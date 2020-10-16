@@ -337,7 +337,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             for (byte sq = 0; sq < ostatnieStrony.Length; sq++)
             {
-                
                 if (ostatnieStrony[sq] == 0)
                     ostatnieStrony[sq] = 1;
                 else if (ostatnieStrony[sq] == 1)
