@@ -68,7 +68,7 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.tablicaWież = new List<InformacjeDlaPolWież>[20, 20];
         PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 40) / 2.0f);
         PomocniczeFunkcje.distXZ = (terr.terrainData.size.x - (PomocniczeFunkcje.aktualneGranicaTab * 2)) / 20f;
-        
+        /*
         for(byte i = 0; i < 20; i++)
         {
             for(byte j = 0; j < 20; j++)
@@ -81,7 +81,7 @@ public class ManagerGryScript : MonoBehaviour
                 toeg.Z = j;
             }
         }
-        
+        */
         PomocniczeFunkcje.ZapiszDane();
     }
     public void GenerujBaze()

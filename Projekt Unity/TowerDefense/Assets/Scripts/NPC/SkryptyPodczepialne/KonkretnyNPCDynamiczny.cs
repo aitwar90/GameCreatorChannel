@@ -105,22 +105,22 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 short[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
                 List<byte> sQt = new List<byte>();
                 bool c = false;
-                if (actXIdx < t[0])
+                if (actXIdx > t[0])
                 {
                     sQt.Add(0);
                     c = true;
                 }
-                else if (actXIdx > t[0])
+                else if (actXIdx < t[0])
                 {
                     sQt.Add(1);
                     c = true;
                 }
-                if (actZIdx < t[1])
+                if (actZIdx > t[1])
                 {
                     sQt.Add(2);
                     c = true;
                 }
-                else if (actZIdx > t[1])
+                else if (actZIdx < t[1])
                 {
                     sQt.Add(3);
                     c = true;
@@ -168,6 +168,11 @@ public class KonkretnyNPCDynamiczny : NPCClass
             rysujPasekŻycia = true;
             sprite.parent.gameObject.SetActive(true);
         }
+        else if(rysujPasekŻycia && SpawnerHord.actualHPBars > 10)
+        {
+            rysujPasekŻycia = false;
+            sprite.parent.gameObject.SetActive(false);
+        }
         if (rysujPasekŻycia)
         {
             float actScaleX = (float)this.AktualneŻycie / this.maksymalneŻycie; 
@@ -210,7 +215,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         //https://www.binpress.com/unity-3d-ai-navmesh-navigation/
         //Logika nav mesha
-        if (!agent.hasPath /*|| this.ostatniTargetPozycja != docelowaPozycja*/)
+        if (agent.enabled && !agent.hasPath /*|| this.ostatniTargetPozycja != docelowaPozycja*/)
         {
             /*
             if (agent.hasPath)
@@ -248,10 +253,16 @@ public class KonkretnyNPCDynamiczny : NPCClass
     public void WłWyłObj(bool enab = false)
     {
         if (enab)
+        {
             this.gameObject.SetActive(true);
+            this.RysujHPBar();
+        }
         agent.enabled = enab;
         if (!enab)
+        {
+            sprite.parent.gameObject.SetActive(false);
             this.gameObject.SetActive(false);
+        }
     }
     public override void ResetujŚciezkę(KonkretnyNPCStatyczny taWiezaPierwszyRaz = null)
     {
@@ -326,7 +337,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             for (byte sq = 0; sq < ostatnieStrony.Length; sq++)
             {
-                /*
+                
                 if (ostatnieStrony[sq] == 0)
                     ostatnieStrony[sq] = 1;
                 else if (ostatnieStrony[sq] == 1)
@@ -335,7 +346,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     ostatnieStrony[sq] = 2;
                 else if (ostatnieStrony[sq] == 2)
                     ostatnieStrony[sq] = 3;
-                */
+                
                 for (byte i = 0; i < PomocniczeFunkcje.tablicaWież[x, z].Count; i++)
                 {
                     if (PomocniczeFunkcje.tablicaWież[x, z][i].ZwrócCzyWieżaPosiadaStrone(ostatnieStrony[sq]))
@@ -372,6 +383,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 {
                     for (byte sq = 0; sq < sQ.Length; sq++)
                     {
+                        /*
                         if(sQ[sq] == 0)
                             sQ[sq] = 1;
                         else if(sQ[sq] == 1)
@@ -380,6 +392,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                             sQ[sq] = 3;
                         else if(sQ[sq] == 3)
                             sQ[sq] = 2;
+                            */
                         if (PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx][i].odlOdGranicy == 1)
                         {
                             if (PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx][i].ZwrócCzyWieżaPosiadaStrone(sQ[sq]))

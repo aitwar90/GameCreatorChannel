@@ -27,7 +27,7 @@ public class SpawnerHord : MonoBehaviour
         {
             if (aktPozEpoki < 50)
             {
-                ostatniaIlośćWFali += 1;
+                ostatniaIlośćWFali += 3;
             }
             else
             {
@@ -39,7 +39,7 @@ public class SpawnerHord : MonoBehaviour
         {
             if (aktPozEpoki < 50)
             {
-                ostatniaIlośćWFali += 1;
+                ostatniaIlośćWFali += 3;
             }
             else
             {
@@ -51,7 +51,7 @@ public class SpawnerHord : MonoBehaviour
         {
             if (aktPozEpoki < 50)
             {
-                ostatniaIlośćWFali += 1;
+                ostatniaIlośćWFali += 3;
             }
             else
             {
@@ -63,7 +63,7 @@ public class SpawnerHord : MonoBehaviour
         {
             if (aktPozEpoki < 50)
             {
-                ostatniaIlośćWFali += 1;
+                ostatniaIlośćWFali += 3;
             }
             else
             {
@@ -75,7 +75,7 @@ public class SpawnerHord : MonoBehaviour
         {
             if (aktPozEpoki < 50)
             {
-                ostatniaIlośćWFali += 1;
+                ostatniaIlośćWFali += 3;
             }
             else
             {
@@ -87,7 +87,7 @@ public class SpawnerHord : MonoBehaviour
         {
             if (aktPozEpoki < 50)
             {
-                ostatniaIlośćWFali += 1;
+                ostatniaIlośćWFali += 3;
             }
             else
             {
@@ -108,7 +108,7 @@ public class SpawnerHord : MonoBehaviour
             case Epoki.EpokaKamienia:
                 if (poziomEpoki < 50)
                 {
-                    maxIlośćNaFalę = 2/*(ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)))*/;
+                    maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
                 }
                 else
                 {

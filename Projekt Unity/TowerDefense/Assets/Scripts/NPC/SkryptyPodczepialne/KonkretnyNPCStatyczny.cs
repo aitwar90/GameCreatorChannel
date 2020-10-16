@@ -74,6 +74,10 @@ public class KonkretnyNPCStatyczny : NPCClass
                 {
                     ZnajdźNowyCel();
                 }
+                else if(cel != null && (wrogowieWZasiegu == null || wrogowieWZasiegu.Count == 0))
+                {
+                    cel = null;
+                }
                 idxAct++;
                 break;
             case 1:

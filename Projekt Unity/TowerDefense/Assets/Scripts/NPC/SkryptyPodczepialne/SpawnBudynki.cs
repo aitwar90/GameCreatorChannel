@@ -52,7 +52,7 @@ public class SpawnBudynki : MonoBehaviour
         }
         else
         {
-            Debug.Log("SpawnBudynki 48: Nie ustalono epoki");
+            Debug.Log("SpawnBudynki 55: Nie ustalono epoki");
         }
         czyBudynekZablokowany = sbwt.ToArray();
         this.dropdawn.AddOptions(wszystkieBudynkiList);
@@ -61,7 +61,7 @@ public class SpawnBudynki : MonoBehaviour
             if(czyBudynekZablokowany[i].czyZablokowany)
             {
                 this.dropdawn.options[i+1].image = lockDropdownImage;
-                this.dropdawn.options[i+1].text = this.dropdawn.options[i].text + " LOCK";
+                this.dropdawn.options[i+1].text = this.dropdawn.options[i+1].text + " LOCK";
             }
         }
     }
