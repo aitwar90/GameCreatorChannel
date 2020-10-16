@@ -84,5 +84,6 @@ public class MainMenu : MonoBehaviour
     public void SkrzynkaKlik(int idx)
     {
         PomocniczeFunkcje.managerGryScript.KliknietyPrzycisk((byte)idx);
+        buttonSkrzynki[idx].interactable = false;
     }
 }

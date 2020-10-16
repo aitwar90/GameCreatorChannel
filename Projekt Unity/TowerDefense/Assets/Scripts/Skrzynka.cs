@@ -19,17 +19,21 @@ public class Skrzynka
             reuseTime = value;
         }
     }
-    public Skrzynka(Button _button)
+    public Skrzynka()
+    {
+
+    }
+    public Skrzynka(ref Button _button)
     {
         this.button = _button;
         reuseTime = false;
-        this.button.enabled = false;
+        this.button.interactable = false;
     }
     public void UstawButtonSkrzynki(Button _button)
     {
         this.button = _button;
         reuseTime = false;
-        this.button.enabled = false;
+        this.button.interactable = false;
     }
     public void SprawdźCzyReuseMinęło()
     {
@@ -38,7 +42,7 @@ public class Skrzynka
             if(pozostałyCzas.CompareTo(DateTime.Now) < 0)   //Reuse minęło
             {
                 reuseTime = false;
-                button.enabled = true;
+                button.interactable = true;
             }
         }
     }
@@ -54,7 +58,7 @@ public class Skrzynka
         pozostałyCzas = DateTime.Now;
         pozostałyCzas = pozostałyCzas.AddHours(2);
         reuseTime = true;
-        if(button.enabled)
-            button.enabled = false;
+        if(button.interactable)
+            button.interactable = false;
     }
 }

@@ -59,7 +59,7 @@ public class ManagerGryScript : MonoBehaviour
         skrzynki = new Skrzynka[PomocniczeFunkcje.mainMenu.buttonSkrzynki.Length];
         for (byte i = 0; i < skrzynki.Length; i++)
         {
-            skrzynki[i].UstawButtonSkrzynki(PomocniczeFunkcje.mainMenu.buttonSkrzynki[i]);
+            skrzynki[i] = new Skrzynka(ref PomocniczeFunkcje.mainMenu.buttonSkrzynki[i]);
         }
         PomocniczeFunkcje.ŁadujDane();
     }
@@ -267,7 +267,6 @@ public class ManagerGryScript : MonoBehaviour
     }
     public void KliknietyPrzycisk(byte idx)
     {
-        skrzynki[idx].button.enabled = false;
         if(ekwipunek == null)
             ekwipunek = new EkwipunekScript(null);
         ekwipunek.LosujNagrode();

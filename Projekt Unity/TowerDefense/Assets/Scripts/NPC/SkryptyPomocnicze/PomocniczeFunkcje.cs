@@ -565,7 +565,7 @@ public static class PomocniczeFunkcje
             if (managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).ReuseTimer || managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).button.enabled)
             {
                 ZapisSkrzynek t = new ZapisSkrzynek();
-                t.czyAktywna = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).button.enabled;
+                t.czyAktywna = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).button.interactable;
                 t.dzień = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.Day;
                 t.godzina = (byte)managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.Hour;
                 t.minuta = (byte)managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.Minute;
@@ -664,7 +664,7 @@ public static class PomocniczeFunkcje
                     managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.AddMinutes(offsetM);
                     managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.AddSeconds(offsetS);
                     managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.AddYears(offsetR);
-                    managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).button.enabled = ds._skrzynki[i].czyAktywna;
+                    managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).button.interactable = ds._skrzynki[i].czyAktywna;
                     managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).ReuseTimer = ds._skrzynki[i].czyIstniejeSkrzynka;
                 }
             }
