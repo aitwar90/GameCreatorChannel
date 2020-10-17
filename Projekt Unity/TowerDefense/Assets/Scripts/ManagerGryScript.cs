@@ -35,6 +35,7 @@ public class ManagerGryScript : MonoBehaviour
     private byte idxOfManagerGryScript = 0;
     private bool czyScenaZostałaZaładowana = false;
     private bool toNieOstatniaFala = true;
+    private ObsługaReklam or;
     public Skrzynka ZwróćSkrzynkeOIndeksie(byte idx)
     {
         return skrzynki[idx];
@@ -56,12 +57,15 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.managerGryScript = this;
         PomocniczeFunkcje.spawnBudynki = FindObjectOfType(typeof(SpawnBudynki)) as SpawnBudynki;
         PomocniczeFunkcje.mainMenu = FindObjectOfType(typeof(MainMenu)) as MainMenu;
+        or = FindObjectOfType(typeof(ObsługaReklam)) as ObsługaReklam;
+
         skrzynki = new Skrzynka[PomocniczeFunkcje.mainMenu.buttonSkrzynki.Length];
         for (byte i = 0; i < skrzynki.Length; i++)
         {
             skrzynki[i] = new Skrzynka(ref PomocniczeFunkcje.mainMenu.buttonSkrzynki[i]);
         }
         PomocniczeFunkcje.ŁadujDane();
+        PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);
     }
     private void ŁadowanieDanych()
     {
@@ -109,9 +113,10 @@ public class ManagerGryScript : MonoBehaviour
         {
             ŁadowanieDanych();
             GameObject baza = GameObject.Instantiate(bazy[idxEpokiBazyWTablicy], new Vector3(50.0f, 1.5f, 50.0f), Quaternion.identity);
-            PomocniczeFunkcje.DodajDoDrzewaPozycji(baza.GetComponent<KonkretnyNPCStatyczny>(), ref PomocniczeFunkcje.korzeńDrzewaPozycji);
-            baza.transform.SetParent(PomocniczeFunkcje.spawnBudynki.rodzicBudynkow);
             knpcsBazy = baza.GetComponent<KonkretnyNPCStatyczny>();
+            PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcsBazy, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
+            baza.transform.SetParent(PomocniczeFunkcje.spawnBudynki.rodzicBudynkow);
+            PomocniczeFunkcje.celWrogów = knpcsBazy;
             StartCoroutine("WyzwólKolejnąFalę");
         }
     }
@@ -221,6 +226,8 @@ public class ManagerGryScript : MonoBehaviour
             PomocniczeFunkcje.ZapiszDane();
             PomocniczeFunkcje.mainMenu.nastepnyPoziom.gameObject.SetActive(true);
             PomocniczeFunkcje.mainMenu.powtorzPoziom.gameObject.SetActive(true);
+            PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(true);
+            OdblokujKolejnaSkrzynke();
             //Tu reset sceny jak kliknie button
         }
         else
@@ -252,23 +259,109 @@ public class ManagerGryScript : MonoBehaviour
     }
     public void CudOcalenia()
     {
-        PomocniczeFunkcje.celWrogów.AktualneŻycie = (short)(PomocniczeFunkcje.celWrogów.maksymalneŻycie/ 2.0f);
+        PomocniczeFunkcje.celWrogów.AktualneŻycie = (short)(PomocniczeFunkcje.celWrogów.maksymalneŻycie / 2.0f);
         KonkretnyNPCDynamiczny[] knpcd = FindObjectsOfType(typeof(KonkretnyNPCDynamiczny)) as KonkretnyNPCDynamiczny[];
-        for(ushort i = 0; i < knpcd.Length; i++)
+        for (ushort i = 0; i < knpcd.Length; i++)
         {
             knpcd[i].AktualneŻycie = 0;
         }
         KonkretnyNPCStatyczny[] knpcs = FindObjectsOfType(typeof(KonkretnyNPCStatyczny)) as KonkretnyNPCStatyczny[];
-        for(ushort i = 0; i < knpcs.Length; i++)
+        for (ushort i = 0; i < knpcs.Length; i++)
         {
-            if(knpcs[i].AktualneŻycie > 0)
+            if (knpcs[i].AktualneŻycie > 0)
                 knpcs[i].AktualneŻycie = knpcs[i].maksymalneŻycie;
         }
     }
     public void KliknietyPrzycisk(byte idx)
     {
-        if(ekwipunek == null)
+        if (ekwipunek == null)
             ekwipunek = new EkwipunekScript(null);
-        ekwipunek.LosujNagrode();
+        byte idxPrzedmiotuLosowanego = ekwipunek.LosujNagrode();
+        bool c = true;
+        if (ekwipunek.przedmioty != null && ekwipunek.przedmioty.Length > 0)
+        {
+            if (PomocniczeFunkcje.mainMenu.SprawdźCzyNazwaPasujeItemDropDown(ekwipunekGracza[idxPrzedmiotuLosowanego].nazwaPrzedmiotu))
+            {
+                for (byte i = 0; i < ekwipunek.przedmioty.Length; i++)
+                {
+                    if (ekwipunek.przedmioty[i].nazwaPrzedmiotu == ekwipunekGracza[idxPrzedmiotuLosowanego].nazwaPrzedmiotu)
+                    {
+                        ekwipunek.przedmioty[i].ilośćDanejNagrody++;
+                        PomocniczeFunkcje.mainMenu.AktualizujInfoOIlosci(i, ekwipunek.przedmioty[i].nazwaPrzedmiotu, ekwipunek.przedmioty[i].ilośćDanejNagrody);
+                        c = false;
+                        break;
+                    }
+                }
+            }
+        }
+        if (c)
+        {
+            Debug.Log("4");
+
+            PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);
+        }
+    }
+    public void SkróćCzasSkrzynki()
+    {
+        for (byte i = 0; i < skrzynki.Length; i++)
+        {
+            if (skrzynki[i].ReuseTimer && !skrzynki[i].button.interactable)
+            {
+                skrzynki[i].OdejmnijCzas();
+                break;
+            }
+        }
+    }
+    private void OdblokujKolejnaSkrzynke()
+    {
+        for (byte i = 0; i < skrzynki.Length; i++)
+        {
+            if (!skrzynki[i].ReuseTimer && !skrzynki[i].button.interactable)
+            {
+                skrzynki[i].RozpocznijOdliczanie();
+                break;
+            }
+        }
+    }
+    public void KliknietyButtonZwiekszeniaNagrodyPoLvlu()
+    {
+        ushort c = (ushort)(((byte)aktualnaEpoka) * 10 + aktualnyPoziomEpoki);
+        or.OtwórzReklame(1, c);
+    }
+    public void UzyciePrzedmiotu(byte idxOfItem)
+    {
+        if (ekwipunek != null && ekwipunek.przedmioty != null && ekwipunek.przedmioty.Length > 0)
+        {
+            if (ekwipunek.przedmioty.Length > idxOfItem)
+            {
+                if (ekwipunek.przedmioty[idxOfItem].ilośćDanejNagrody > 0)
+                {
+                    ekwipunek.przedmioty[idxOfItem].AktywujPrzedmiot();
+                    bool c = true;
+                    if (ekwipunek.przedmioty[idxOfItem].ilośćDanejNagrody == 0)
+                    {
+                        c = false;
+                        List<PrzedmiotScript> ps = new List<PrzedmiotScript>();
+                        for (byte i = 0; i < ekwipunek.przedmioty.Length; i++)
+                        {
+                            if (i == idxOfItem)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                ps.Add(ekwipunek.przedmioty[i]);
+                            }
+                        }
+                        ekwipunek.przedmioty = ps.ToArray();
+                        PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);
+                    }
+                    if (c)
+                    {
+                        PomocniczeFunkcje.mainMenu.AktualizujInfoOIlosci(idxOfItem, ekwipunek.przedmioty[idxOfItem].nazwaPrzedmiotu, ekwipunek.przedmioty[idxOfItem].ilośćDanejNagrody);
+                    }
+                }
+            }
+        }
     }
 }

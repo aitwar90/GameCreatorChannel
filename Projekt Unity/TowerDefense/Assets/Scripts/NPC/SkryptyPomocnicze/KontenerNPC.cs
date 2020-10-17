@@ -145,10 +145,12 @@ public enum TypPrzedmiotu
 public class EkwipunekScript
 {
     [SerializeField] public PrzedmiotScript[] przedmioty = null;
-    public void LosujNagrode()
+    public byte LosujNagrode()
     {
         byte mP = (byte)(System.Enum.GetValues(typeof(TypPrzedmiotu)).Length - 1);
-        PrzedmiotScript psT = PomocniczeFunkcje.managerGryScript.ekwipunekGracza[Random.Range(0, mP)];
+        byte losowany = (byte)Random.Range(0, mP);
+        PrzedmiotScript psT = PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany];
+        psT.ilośćDanejNagrody = 1;
         if (przedmioty == null)
         {
             przedmioty = new PrzedmiotScript[1];
@@ -156,7 +158,7 @@ public class EkwipunekScript
         }
         else
         {
-            bool c = false;
+            bool c = false; //Jeśli nie odnajdę wylosowanego przedmiotu w ekwipunku to dodaj ten przedmiot
             for(byte i = 0; i < PomocniczeFunkcje.managerGryScript.ekwipunekGracza.Length; i++)
             {
                 if(PomocniczeFunkcje.managerGryScript.ekwipunekGracza[i].nazwaPrzedmiotu == psT.nazwaPrzedmiotu)
@@ -177,6 +179,7 @@ public class EkwipunekScript
                 przedmioty = ps.ToArray();
             }
         }
+        return losowany;
     }
     public EkwipunekScript(PrzedmiotScript[] _ps)
     {

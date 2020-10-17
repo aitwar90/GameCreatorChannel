@@ -515,6 +515,10 @@ public static class PomocniczeFunkcje
         return null;
     }
     #endregion
+    public static void UstawTimeScale(float tScale)
+    {
+        Time.timeScale = tScale;
+    }
     public static void SaveInformationInDebug(string s)
     {
         StreamWriter writer = new StreamWriter(test, true);
@@ -604,7 +608,7 @@ public static class PomocniczeFunkcje
                     {
                         EkwiStruct es = new EkwiStruct();
                         es.idxTab = j;
-                        es.iloscPrzedmiotu = managerGryScript.ekwipunek.przedmioty[j].ilośćDanejNagrody;
+                        es.iloscPrzedmiotu = managerGryScript.ekwipunek.przedmioty[i].ilośćDanejNagrody;
                         ekwi.Add(es);
                         break;
                     }

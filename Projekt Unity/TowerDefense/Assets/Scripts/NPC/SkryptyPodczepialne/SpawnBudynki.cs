@@ -13,6 +13,7 @@ public class SpawnBudynki : MonoBehaviour
     public Dropdown dropdawn;
     public Sprite lockDropdownImage;
     public Sprite enableLockDropdownImage;
+    public short zablokowanyBudynekIndex = -1;
     #endregion
     #region Zmienne prywatne
     private Material materialWybranegoBudynku = null;
@@ -57,11 +58,11 @@ public class SpawnBudynki : MonoBehaviour
         czyBudynekZablokowany = sbwt.ToArray();
         this.dropdawn.AddOptions(wszystkieBudynkiList);
         for (ushort i = 0; i < czyBudynekZablokowany.Length; i++)
-        { 
-            if(czyBudynekZablokowany[i].czyZablokowany)
+        {
+            if (czyBudynekZablokowany[i].czyZablokowany)
             {
-                this.dropdawn.options[i+1].image = lockDropdownImage;
-                this.dropdawn.options[i+1].text = this.dropdawn.options[i+1].text + " LOCK";
+                this.dropdawn.options[i + 1].image = lockDropdownImage;
+                this.dropdawn.options[i + 1].text = this.dropdawn.options[i + 1].text + " LOCK";
             }
         }
     }
@@ -104,13 +105,17 @@ public class SpawnBudynki : MonoBehaviour
             }
         }
     }
-    public void OdblokujBudynek(ushort idxToUnlock)
+    public void OdblokujBudynek(bool czyOdblokowywuje = false)
     {
-        KonkretnyNPCStatyczny statycznyBudynekDoOdbl = wszystkieBudynki[czyBudynekZablokowany[idxToUnlock].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
-        statycznyBudynekDoOdbl.zablokowany = false;
-        czyBudynekZablokowany[idxToUnlock].czyZablokowany = false;
-        this.dropdawn.options[idxToUnlock+1].image = enableLockDropdownImage;
-        this.dropdawn.options[idxToUnlock+1].text = statycznyBudynekDoOdbl.nazwa;
+        if (czyOdblokowywuje && zablokowanyBudynekIndex > -1)
+        {
+            KonkretnyNPCStatyczny statycznyBudynekDoOdbl = wszystkieBudynki[czyBudynekZablokowany[zablokowanyBudynekIndex].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
+            statycznyBudynekDoOdbl.zablokowany = false;
+            czyBudynekZablokowany[zablokowanyBudynekIndex].czyZablokowany = false;
+            this.dropdawn.options[zablokowanyBudynekIndex + 1].image = enableLockDropdownImage;
+            this.dropdawn.options[zablokowanyBudynekIndex + 1].text = statycznyBudynekDoOdbl.nazwa;
+        }
+        zablokowanyBudynekIndex = -1;
     }
     private void ObsluzMysz()
     {
@@ -270,7 +275,10 @@ public class SpawnBudynki : MonoBehaviour
             }
             else
             {
+                zablokowanyBudynekIndex = index;
                 Debug.Log("Dany budynek należy kupić");
+                //Wyświetl przyciski kupna
+                PomocniczeFunkcje.mainMenu.WłWylPrzyciskiKupna(true);
             }
         }
         dropdawn.value = 0;

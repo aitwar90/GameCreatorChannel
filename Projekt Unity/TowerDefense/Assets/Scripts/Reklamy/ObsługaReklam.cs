@@ -13,6 +13,8 @@ public class ObsługaReklam : MonoBehaviour
     public RodzajReklamy rodzajReklamy;
     private BannerView bannerView;
     private InterstitialAd inter;
+    private byte status = 0;
+    private ushort iloscCoinówRew = 100;
     void Start()
     {
         /*
@@ -27,7 +29,7 @@ public class ObsługaReklam : MonoBehaviour
         MobileAds.Initialize(initStatus => { });
         this.bazowaReklama = RewardBasedVideoAd.Instance;
 
-         // Called when an ad request has successfully loaded.
+        // Called when an ad request has successfully loaded.
         bazowaReklama.OnAdLoaded += HandleRewardBasedVideoLoaded;
         // Called when an ad request failed to load.
         bazowaReklama.OnAdFailedToLoad += HandleRewardBasedVideoFailedToLoad;
@@ -43,54 +45,62 @@ public class ObsługaReklam : MonoBehaviour
         bazowaReklama.OnAdLeavingApplication += HandleRewardBasedVideoLeftApplication;
 
         this.ŻądanieWideo();
+    }
+    public void OtwórzReklame(byte _status, ushort iloscCoinów = 100)
+    {
+        status = _status;
+        iloscCoinówRew = iloscCoinów;
         ObejrzyjAD();
     }
-
     private void ŻądanieWideo()
     {
-        
-        #if UNITY_ANDROID
+#if UNITY_ANDROID
         AdRequest żądanie;
-        switch(rodzajReklamy)
+        switch (rodzajReklamy)
         {
             case RodzajReklamy.Baner:
-            reklamID = "ca-app-pub-3940256099942544/6300978111";    //Testowy banner
-            bannerView = new BannerView(reklamID, AdSize.Banner, AdPosition.Bottom);
-            żądanie = new AdRequest.Builder().Build();
-            bannerView.LoadAd(żądanie);
-            break;
+                if (bannerView != null)
+                    bannerView.Destroy();
+                reklamID = "ca-app-pub-3940256099942544/6300978111";    //Testowy banner
+                bannerView = new BannerView(reklamID, AdSize.Banner, AdPosition.Bottom);
+                żądanie = new AdRequest.Builder().Build();
+                this.bazowaReklama.LoadAd(żądanie, reklamID);
+                break;
             case RodzajReklamy.Interstitial:
-            reklamID = "ca-app-pub-3940256099942544/1033173712";    //Testowy banner
-            this.inter = new InterstitialAd(reklamID);
-            żądanie = new AdRequest.Builder().Build();
-            this.inter.LoadAd(żądanie);
-            break;
+                if (inter != null)
+                    inter.Destroy();
+                reklamID = "ca-app-pub-3940256099942544/1033173712";    //Testowy banner
+                this.inter = new InterstitialAd(reklamID);
+                żądanie = new AdRequest.Builder().Build();
+                this.bazowaReklama.LoadAd(żądanie, reklamID);
+                break;
             case RodzajReklamy.RewardedVideo:
-            reklamID = "ca-app-pub-3940256099942544/5224354917";    //Testowe wideo
-            żądanie = new AdRequest.Builder().Build();
-            this.bazowaReklama.LoadAd(żądanie, reklamID);
-            break;
+                reklamID = "ca-app-pub-3940256099942544/5224354917";    //Testowe wideo
+                żądanie = new AdRequest.Builder().Build();
+                this.bazowaReklama.LoadAd(żądanie, reklamID);
+                break;
             case RodzajReklamy.NativeAdvanced:  //Native nie jest wspierane przez unity
-            reklamID = "ca-app-pub-3940256099942544/2247696110";    //Testowe wideo
-            break;
+                reklamID = "ca-app-pub-3940256099942544/2247696110";    //Testowe wideo
+                break;
         }
-            
-        #elif UNITY_IPHONE
+
+#elif UNITY_IPHONE
             string adUnitId = "ca-app-pub-3940256099942544/2934735716"; //Testowy
-        #else
+#else
             string adUnitId = "unexpected_platform";
-        #endif
+#endif
 
         // Create an empty ad request.
-        
+
         // Load the rewarded video ad with the request.
     }
     private void ObejrzyjAD()
     {
-        if(bazowaReklama.IsLoaded())
+        if (bazowaReklama.IsLoaded())
         {
             Debug.Log("Wyświetlam reklame");
             bazowaReklama.Show();
+            PomocniczeFunkcje.UstawTimeScale(0);
         }
         else
         {
@@ -100,7 +110,7 @@ public class ObsługaReklam : MonoBehaviour
     }
     private IEnumerator CzekajNaZaladowanieReklamy()
     {
-        while(!bazowaReklama.IsLoaded())
+        while (!bazowaReklama.IsLoaded())
         {
             Debug.Log("Reklama wciaż niezaładowana");
             yield return null;
@@ -136,7 +146,23 @@ public class ObsługaReklam : MonoBehaviour
 
     public void HandleRewardBasedVideoClosed(object sender, EventArgs args)
     {
+        /*
+        Ta metoda jest wywoływana, gdy reklama pełnoekranowa zostanie zamknięta po dotknięciu przez użytkownika ikony zamknięcia lub kliknięciu przycisku Wstecz. 
+        Jeśli Twoja aplikacja wstrzymała wyjście audio lub pętlę gry, jest to świetne miejsce, aby ją wznowić. 
+        */
+        PomocniczeFunkcje.UstawTimeScale(1);
         Debug.Log("4) HandleRewardBasedVideoClosed Reklama została zamknięta");
+        switch (status)
+        {
+            case 1: //Skończony poziom
+                DodajNagrodęZaPoziom(iloscCoinówRew);
+                status = 0;
+                break;
+            case 2:
+                PomocniczeFunkcje.managerGryScript.SkróćCzasSkrzynki();
+                status = 0;
+                break;
+        }
         this.ŻądanieWideo();
         MonoBehaviour.print("HandleRewardBasedVideoClosed Reklama została zamknięta");
     }
@@ -153,8 +179,15 @@ public class ObsługaReklam : MonoBehaviour
     }
     public void HandleRewardBasedVideoLeftApplication(object sender, EventArgs args)
     {
+        /*
+        Ta metoda jest wywoływana po OnAdOpened, gdy użytkownik kliknie otwarcie innej aplikacji (takiej jak sklep Google Play), uruchamiając bieżącą aplikację w tle.
+        */
         Debug.Log("6) HandleRewardBasedVideoLeftApplication reklama opuściła aplikację?");
         MonoBehaviour.print("HandleRewardBasedVideoLeftApplication reklama opuściła aplikację?");
+    }
+    private void DodajNagrodęZaPoziom(ushort bazowaWartosc)
+    {
+        ManagerGryScript.iloscCoinów += (ushort)(bazowaWartosc * 2);
     }
 
 }
@@ -164,5 +197,5 @@ public enum RodzajReklamy
     Baner = 1,
     Interstitial = 2,
     RewardedVideo = 3,
-    [HideInInspector]NativeAdvanced = 4
+    [HideInInspector] NativeAdvanced = 4
 }
