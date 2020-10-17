@@ -110,11 +110,14 @@ public class ObsługaReklam : MonoBehaviour
     }
     public void HandleRewardBasedVideoLoaded(object sender, EventArgs args)
     {
+        Debug.Log("1) Załadowano reklamę");
         MonoBehaviour.print("1) Załadowano reklamę");
     }
 
     public void HandleRewardBasedVideoFailedToLoad(object sender, AdFailedToLoadEventArgs args)
     {
+        Debug.Log("2) HandleRewardBasedVideoFailedToLoad odebrano wydarzenie z informajcą: "
+                             + args.Message);
         MonoBehaviour.print(
             "2) HandleRewardBasedVideoFailedToLoad odebrano wydarzenie z informajcą: "
                              + args.Message);
@@ -127,11 +130,13 @@ public class ObsługaReklam : MonoBehaviour
 
     public void HandleRewardBasedVideoStarted(object sender, EventArgs args)
     {
+        Debug.Log("3) HandleRewardBasedVideoStarted Reklama została odpalona");
         MonoBehaviour.print("HandleRewardBasedVideoStarted Reklama została odpalona");
     }
 
     public void HandleRewardBasedVideoClosed(object sender, EventArgs args)
     {
+        Debug.Log("4) HandleRewardBasedVideoClosed Reklama została zamknięta");
         this.ŻądanieWideo();
         MonoBehaviour.print("HandleRewardBasedVideoClosed Reklama została zamknięta");
     }
@@ -140,12 +145,15 @@ public class ObsługaReklam : MonoBehaviour
     {
         string type = args.Type;
         double amount = args.Amount;
+        Debug.Log("5) HandleRewardBasedVideoRewarded reklama zwróciła nagrodę "
+                        + amount.ToString() + " " + type);
         MonoBehaviour.print(
             "HandleRewardBasedVideoRewarded reklama zwróciła nagrodę "
                         + amount.ToString() + " " + type);
     }
     public void HandleRewardBasedVideoLeftApplication(object sender, EventArgs args)
     {
+        Debug.Log("6) HandleRewardBasedVideoLeftApplication reklama opuściła aplikację?");
         MonoBehaviour.print("HandleRewardBasedVideoLeftApplication reklama opuściła aplikację?");
     }
 
