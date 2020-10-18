@@ -233,7 +233,7 @@ public class ManagerGryScript : MonoBehaviour
             PomocniczeFunkcje.ZapiszDane();
             PomocniczeFunkcje.mainMenu.nastepnyPoziom.gameObject.SetActive(true);
             PomocniczeFunkcje.mainMenu.powtorzPoziom.gameObject.SetActive(true);
-            PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(true);
+            PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
             OdblokujKolejnaSkrzynke();
             //Tu reset sceny jak kliknie button
         }
