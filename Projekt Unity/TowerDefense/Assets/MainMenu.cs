@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour
 {
     public Button nastepnyPoziom;
     public Button powtorzPoziom;
-    public Button[] buttonSkrzynki;
+    public PrzyciskiSkrzynekIReklam[] buttonSkrzynki;
     public Button wróćDoMenu;
     public Button rekZaWyzszaNagrode;
     public Button kup;
@@ -93,7 +93,7 @@ public class MainMenu : MonoBehaviour
     public void SkrzynkaKlik(int idx)
     {
         PomocniczeFunkcje.managerGryScript.KliknietyPrzycisk((byte)idx);
-        buttonSkrzynki[idx].interactable = false;
+        buttonSkrzynki[idx].skrzynkaB.interactable = false;
     }
     public void KliknietyPrzyciskRewardZPoziomuZReklama()
     {
@@ -165,5 +165,9 @@ public class MainMenu : MonoBehaviour
             }
         }
         return false;
+    }
+    public void KliknąłemReklame(int idx)
+    {
+        PomocniczeFunkcje.managerGryScript.KlikniętaReklamaButtonSkrzynki((byte)idx);
     }
 }

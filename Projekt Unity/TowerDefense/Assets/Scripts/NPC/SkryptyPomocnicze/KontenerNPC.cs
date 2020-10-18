@@ -134,6 +134,12 @@ public class StrukturaBudynkuWTab
         this.indexBudynku = _idxBudunkuWTablicyBudynków;
     }
 }
+[System.Serializable]
+public class PrzyciskiSkrzynekIReklam
+{
+    public UnityEngine.UI.Button skrzynkaB;
+    public UnityEngine.UI.Button reklamSkrzynkaB;
+}
 public enum TypPrzedmiotu
 {
     Coiny = 0,

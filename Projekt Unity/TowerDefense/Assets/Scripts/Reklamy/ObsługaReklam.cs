@@ -15,6 +15,14 @@ public class ObsługaReklam : MonoBehaviour
     private InterstitialAd inter;
     private byte status = 0;
     private ushort iloscCoinówRew = 100;
+    private bool zRek = false;
+    public bool ZaładowanaReklamaJest
+    {
+        get
+        {
+            return zRek;
+        }
+    }
     void Start()
     {
         /*
@@ -54,6 +62,7 @@ public class ObsługaReklam : MonoBehaviour
     }
     private void ŻądanieWideo()
     {
+        zRek = false;
 #if UNITY_ANDROID
         AdRequest żądanie;
         switch (rodzajReklamy)
@@ -120,6 +129,7 @@ public class ObsługaReklam : MonoBehaviour
     }
     public void HandleRewardBasedVideoLoaded(object sender, EventArgs args)
     {
+        zRek = true;
         Debug.Log("1) Załadowano reklamę");
         MonoBehaviour.print("1) Załadowano reklamę");
     }

@@ -7,6 +7,7 @@ public class Skrzynka
 {
     [SerializeField]public DateTime pozostałyCzas;
     public Button button;
+    public Button buttonReklamy;
     private bool reuseTime = false;
     public bool ReuseTimer
     {
@@ -23,17 +24,13 @@ public class Skrzynka
     {
 
     }
-    public Skrzynka(ref Button _button)
+    public Skrzynka(ref PrzyciskiSkrzynekIReklam s)
     {
-        this.button = _button;
+        this.button = s.skrzynkaB;
+        this.buttonReklamy = s.reklamSkrzynkaB;
         reuseTime = false;
         this.button.interactable = false;
-    }
-    public void UstawButtonSkrzynki(Button _button)
-    {
-        this.button = _button;
-        reuseTime = false;
-        this.button.interactable = false;
+        this.buttonReklamy.interactable = false;
     }
     public void SprawdźCzyReuseMinęło()
     {
@@ -43,6 +40,11 @@ public class Skrzynka
             {
                 reuseTime = false;
                 button.interactable = true;
+                buttonReklamy.interactable = false;
+            }
+            else
+            {
+                buttonReklamy.interactable = PomocniczeFunkcje.managerGryScript.CzyReklamaZaładowana;
             }
         }
     }

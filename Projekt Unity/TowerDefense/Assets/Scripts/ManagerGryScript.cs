@@ -51,6 +51,13 @@ public class ManagerGryScript : MonoBehaviour
             czyScenaZostałaZaładowana = value;
         }
     }
+    public bool CzyReklamaZaładowana
+    {
+        get
+        {
+            return or.ZaładowanaReklamaJest;
+        }
+    }
     #endregion  
     void Awake()
     {
@@ -363,5 +370,9 @@ public class ManagerGryScript : MonoBehaviour
                 }
             }
         }
+    }
+    public void KlikniętaReklamaButtonSkrzynki(byte idx)
+    {
+        
     }
 }
