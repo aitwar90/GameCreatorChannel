@@ -247,11 +247,6 @@ public class SpawnerHord : MonoBehaviour
             PomocniczeFunkcje.DodajDoDrzewaPozycji(cel, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
         }
     }
-    void Update()
-    {
-        if (SpawnerHord.actualHPBars != 0)
-            SpawnerHord.actualHPBars = 0;
-    }
     private void UstawWroga(KonkretnyNPCDynamiczny knpcd, bool czyPullowany = false)
     {
         knpcd.NastawienieNonPlayerCharacter = NastawienieNPC.Wrogie;

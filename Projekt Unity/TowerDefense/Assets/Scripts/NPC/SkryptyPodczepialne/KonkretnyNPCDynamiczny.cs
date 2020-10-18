@@ -163,12 +163,12 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     protected override void RysujHPBar()
     {
-        if (!rysujPasekŻycia && SpawnerHord.actualHPBars <= 10 && mainRenderer.isVisible)
+        if (!rysujPasekŻycia && SpawnerHord.actualHPBars <= 20 && mainRenderer.isVisible)
         {
             rysujPasekŻycia = true;
             sprite.parent.gameObject.SetActive(true);
         }
-        else if(rysujPasekŻycia && SpawnerHord.actualHPBars > 10)
+        else if(rysujPasekŻycia && SpawnerHord.actualHPBars > 20)
         {
             rysujPasekŻycia = false;
             sprite.parent.gameObject.SetActive(false);
@@ -254,6 +254,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         if (enab)
         {
+            sprite.localScale = new Vector3(1, 1, 1);
             this.gameObject.SetActive(true);
             this.RysujHPBar();
         }

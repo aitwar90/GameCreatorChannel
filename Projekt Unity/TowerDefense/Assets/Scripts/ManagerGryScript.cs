@@ -27,7 +27,7 @@ public class ManagerGryScript : MonoBehaviour
     public PrzedmiotScript[] ekwipunekGracza = null;
     [Tooltip("Nagrody jakie gracz poisada")]
     public EkwipunekScript ekwipunek;
-    private Skrzynka[] skrzynki;
+    public Skrzynka[] skrzynki;
     #endregion
 
     #region Prywatne zmienne
@@ -303,19 +303,27 @@ public class ManagerGryScript : MonoBehaviour
         }
         if (c)
         {
-            Debug.Log("4");
-
             PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);
         }
     }
-    public void SkróćCzasSkrzynki()
+    public void SkróćCzasSkrzynki(sbyte idxS = -1)
     {
+        if(idxS == -1)
+        {
         for (byte i = 0; i < skrzynki.Length; i++)
         {
             if (skrzynki[i].ReuseTimer && !skrzynki[i].button.interactable)
             {
                 skrzynki[i].OdejmnijCzas();
                 break;
+            }
+        }
+        }
+        else if(idxS > -1)
+        {
+            if (skrzynki[idxS].ReuseTimer && !skrzynki[idxS].button.interactable)
+            {
+                skrzynki[idxS].OdejmnijCzas();
             }
         }
     }
@@ -373,6 +381,6 @@ public class ManagerGryScript : MonoBehaviour
     }
     public void KlikniętaReklamaButtonSkrzynki(byte idx)
     {
-        
+        or.OtwórzReklame(2, idx);
     }
 }

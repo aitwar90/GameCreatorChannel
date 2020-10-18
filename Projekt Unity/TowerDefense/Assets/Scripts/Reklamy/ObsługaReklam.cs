@@ -15,7 +15,7 @@ public class ObsługaReklam : MonoBehaviour
     private InterstitialAd inter;
     private byte status = 0;
     private ushort iloscCoinówRew = 100;
-    private bool zRek = false;
+    public bool zRek = false;
     public bool ZaładowanaReklamaJest
     {
         get
@@ -53,8 +53,7 @@ public class ObsługaReklam : MonoBehaviour
         bazowaReklama.OnAdLeavingApplication += HandleRewardBasedVideoLeftApplication;
 
         this.ŻądanieWideo();
-    }
-    public void OtwórzReklame(byte _status, ushort iloscCoinów = 100)
+    }    public void OtwórzReklame(byte _status, ushort iloscCoinów = 100)
     {
         status = _status;
         iloscCoinówRew = iloscCoinów;
@@ -109,7 +108,7 @@ public class ObsługaReklam : MonoBehaviour
         {
             Debug.Log("Wyświetlam reklame");
             bazowaReklama.Show();
-            PomocniczeFunkcje.UstawTimeScale(0);
+            //PomocniczeFunkcje.UstawTimeScale(0);
         }
         else
         {
@@ -160,7 +159,7 @@ public class ObsługaReklam : MonoBehaviour
         Ta metoda jest wywoływana, gdy reklama pełnoekranowa zostanie zamknięta po dotknięciu przez użytkownika ikony zamknięcia lub kliknięciu przycisku Wstecz. 
         Jeśli Twoja aplikacja wstrzymała wyjście audio lub pętlę gry, jest to świetne miejsce, aby ją wznowić. 
         */
-        PomocniczeFunkcje.UstawTimeScale(1);
+        //PomocniczeFunkcje.UstawTimeScale(1);
         Debug.Log("4) HandleRewardBasedVideoClosed Reklama została zamknięta");
         switch (status)
         {
@@ -173,7 +172,7 @@ public class ObsługaReklam : MonoBehaviour
                 status = 0;
                 break;
         }
-        this.ŻądanieWideo();
+        this.ŻądanieWideo();    //Rozpocznij ładowanie kolejnej reklamy
         MonoBehaviour.print("HandleRewardBasedVideoClosed Reklama została zamknięta");
     }
 
