@@ -23,12 +23,15 @@ public class KonkretnyNPCStatyczny : NPCClass
     public TypAtakuWieży typAtakuWieży;
     [Tooltip("Czy budynek jest zablokowany (jeśli tak to znaczy że nie zostały spełnione wymagania, lub nie został wynaleziony")]
     [SerializeField] public bool zablokowany = true;
+    [Tooltip("Obiekt, który atakuje z wieży")]
+    public GameObject obiektAtaku;
+    public Transform sprite = null;
     #endregion
 
     #region Zmienny prywatne
-    public List<NPCClass> wrogowieWZasiegu = null;
+    private List<NPCClass> wrogowieWZasiegu = null;
     private byte idxAct = 0;
-    public Transform sprite = null;
+    private GameObject instaObj;
     #endregion
 
     #region Zmienne chronione
@@ -46,8 +49,15 @@ public class KonkretnyNPCStatyczny : NPCClass
         }
         this.AktualneŻycie = this.maksymalneŻycie;
         this.nastawienieNPC = NastawienieNPC.Przyjazne;
-        if(sprite == null)
+        if (sprite == null)
             sprite = this.transform.Find("HpGreen");
+        if (obiektAtaku != null)
+        {
+            instaObj = Instantiate(obiektAtaku, this.transform.position, Quaternion.identity);
+            instaObj.transform.position = new Vector3(instaObj.transform.position.x, instaObj.transform.position.y + 0.8f, instaObj.transform.position.z);
+            instaObj.transform.SetParent(this.transform);
+        }
+
         RysujHPBar();
     }
     // Update is called once per frame
@@ -74,9 +84,13 @@ public class KonkretnyNPCStatyczny : NPCClass
                 {
                     ZnajdźNowyCel();
                 }
-                else if(cel != null && (wrogowieWZasiegu == null || wrogowieWZasiegu.Count == 0))
+                else if (cel != null && (wrogowieWZasiegu == null || wrogowieWZasiegu.Count == 0))
                 {
                     cel = null;
+                    if(instaObj.activeInHierarchy)
+                    {
+                        instaObj.SetActive(false);
+                    }
                 }
                 idxAct++;
                 break;
@@ -149,7 +163,7 @@ public class KonkretnyNPCStatyczny : NPCClass
     */
     void OnDrawGizmos()
     {
-        if(cel != null)
+        if (cel != null)
         {
             Gizmos.color = Color.red;
             Gizmos.DrawLine(this.transform.position, cel.transform.position);
@@ -179,9 +193,28 @@ public class KonkretnyNPCStatyczny : NPCClass
         if (this.aktualnyReuseAtaku < szybkośćAtaku)
         {
             aktualnyReuseAtaku += Time.deltaTime * 2;
+            float f = szybkośćAtaku - aktualnyReuseAtaku;
+            if (f <= .1f)
+            {
+                if (!instaObj.activeInHierarchy)
+                {
+                    instaObj.SetActive(true);
+                    instaObj.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 1.0f, this.transform.position.z);
+                }
+                else
+                {
+                    if (f < 0)
+                        f = 0;
+                    else
+                        f *= 10f;
+
+                    instaObj.transform.position = Vector3.Lerp(cel.transform.position, new Vector3(this.transform.position.x, this.transform.position.y + 0.8f, this.transform.position.z), f);
+                }
+            }
         }
         else
         {
+            instaObj.SetActive(false);
             this.aktualnyReuseAtaku = 0;
             switch (typAtakuWieży)
             {

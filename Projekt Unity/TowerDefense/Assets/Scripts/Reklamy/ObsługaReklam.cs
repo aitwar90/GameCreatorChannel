@@ -15,7 +15,7 @@ public class ObsługaReklam : MonoBehaviour
     private InterstitialAd inter;
     private byte status = 0;
     private ushort iloscCoinówRew = 100;
-    public bool zRek = false;
+    private bool zRek = false;
     public bool ZaładowanaReklamaJest
     {
         get

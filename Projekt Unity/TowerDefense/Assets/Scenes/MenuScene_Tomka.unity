@@ -5653,7 +5653,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rodzajReklamy: 2
-  zRek: 0
 --- !u!1 &1459833571
 GameObject:
   m_ObjectHideFlags: 0
