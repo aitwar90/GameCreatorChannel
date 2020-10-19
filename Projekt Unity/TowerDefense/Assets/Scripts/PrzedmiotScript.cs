@@ -18,7 +18,7 @@ public class PrzedmiotScript : MonoBehaviour
             switch (typPrzedmiotu)
             {
                 case TypPrzedmiotu.Coiny:
-                    ManagerGryScript.iloscCoinów += (ushort)Random.Range(minParam, maxParam);
+                    ManagerGryScript.iloscCoinów += (ushort)Random.Range(minParam, maxParam+1);
                     break;
                 case TypPrzedmiotu.CudOcalenia:
                     PomocniczeFunkcje.managerGryScript.CudOcalenia();
@@ -29,7 +29,7 @@ public class PrzedmiotScript : MonoBehaviour
                         Skrzynka s = PomocniczeFunkcje.managerGryScript.ZwróćSkrzynkeOIndeksie(i);
                         if (s.ReuseTimer)
                         {
-                            s.OdejmnijCzas(Random.Range(minParam, maxParam));
+                            s.OdejmnijCzas(Random.Range(minParam, maxParam+1));
                             break;
                         }
                     }

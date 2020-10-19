@@ -154,7 +154,7 @@ public class EkwipunekScript
     public byte LosujNagrode()
     {
         byte mP = (byte)(System.Enum.GetValues(typeof(TypPrzedmiotu)).Length - 1);
-        byte losowany = (byte)Random.Range(0, mP);
+        byte losowany = (byte)Random.Range(0, mP+1);
         PrzedmiotScript psT = PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany];
         psT.ilośćDanejNagrody = 1;
         if (przedmioty == null)

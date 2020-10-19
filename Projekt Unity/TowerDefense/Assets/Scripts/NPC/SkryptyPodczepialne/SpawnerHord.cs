@@ -185,6 +185,7 @@ public class SpawnerHord : MonoBehaviour
                 if (wszystkieRodzajeWrogichJednostek[i].epokaNPC == e)
                 {
                     możliwiNPC.Add((KonkretnyNPCDynamiczny)wszystkieRodzajeWrogichJednostek[i]);
+                    Debug.Log("Dodaje do możliwych npc "+wszystkieRodzajeWrogichJednostek[i].nazwa);
                 }
             }
             if (możliwiNPC.Count < 1)
@@ -268,7 +269,7 @@ public class SpawnerHord : MonoBehaviour
     private void SpawnujMnie(ref List<KonkretnyNPCDynamiczny> możliwiNPC, ushort j)
     {
         bool czyPool = true;
-        ushort npcIdx = (ushort)Random.Range(0, możliwiNPC.Count - 1);
+        ushort npcIdx = (ushort)Random.Range(0, możliwiNPC.Count);
         GameObject go = PomocniczeFunkcje.ZwróćOBiektPoolowany(możliwiNPC[npcIdx].nazwa);
         if (go == null)
         {

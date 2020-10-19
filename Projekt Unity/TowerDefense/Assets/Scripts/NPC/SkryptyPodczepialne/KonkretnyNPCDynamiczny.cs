@@ -11,7 +11,13 @@ public class KonkretnyNPCDynamiczny : NPCClass
 {
     #region Zmienne publiczne
     public byte ileCoinówZaZabicie = 1;
-
+    [Tooltip("Obiekt będący wystrzałem od NPC")]
+    public GameObject obiektAtakuDystansowego;
+    [Tooltip("System cząstek wyzwalany kiedy następuje wystrzał z wieży")]
+    public ParticleSystem efektyFxStart;
+    [Tooltip("System cząstek wyzwalany kiedy nabój dosięga celu")]
+    public ParticleSystem efektyFxKoniec;
+    public Transform sprite = null;
     #endregion
     #region Zmienny prywatne
     private bool rysujPasekŻycia = false;
@@ -22,7 +28,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private short actZIdx = 32767;
     private bool czyDodawac = false;
     private byte[] ostatnieStrony = null;
-    public Transform sprite = null;
+    private GameObject _obiektAtaku = null;
     #endregion
 
     #region Zmienne chronione
@@ -68,11 +74,16 @@ public class KonkretnyNPCDynamiczny : NPCClass
         this.DodajMnieDoListyWrogowWiezy(t[0], t[1], true);
         actXIdx = t[0];
         actZIdx = t[1];
-        if(sprite == null)
+        if (sprite == null)
             sprite = this.transform.Find("HpGreen");
-        if(!rysujPasekŻycia)
+        if (!rysujPasekŻycia)
         {
             sprite.parent.gameObject.SetActive(false);
+        }
+        if (obiektAtakuDystansowego != null)
+        {
+            _obiektAtaku = Instantiate(obiektAtakuDystansowego, this.transform.position, this.transform.rotation);
+            _obiektAtaku.transform.SetParent(this.transform);
         }
         RysujHPBar();
     }
@@ -85,13 +96,21 @@ public class KonkretnyNPCDynamiczny : NPCClass
             case -1:
                 if (cel == null)
                 {
-                    PomocniczeFunkcje.ZwykłeAI(this);
+                    bool ff = PomocniczeFunkcje.ZwykłeAI(this);
+                    if (!ff && _obiektAtaku.activeInHierarchy)
+                    {
+                        _obiektAtaku.SetActive(false);
+                    }
                 }
                 ObsłużNavMeshAgent(cel.transform.position);
                 głównyIndex++;
                 break;
             case 0:
-                PomocniczeFunkcje.ZwykłeAI(this);
+                bool f = PomocniczeFunkcje.ZwykłeAI(this);
+                if (!f && _obiektAtaku.activeInHierarchy)
+                {
+                    _obiektAtaku.SetActive(false);
+                }
                 głównyIndex++;
                 break;
             case 1:
@@ -129,10 +148,10 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 {
                     //Usunięcie starych wież
                     ostatnieStrony = sQt.ToArray();
-                    if(ostatnieStrony == null || ostatnieStrony.Length == 0)
+                    if (ostatnieStrony == null || ostatnieStrony.Length == 0)
                     {
-                        Debug.Log("NPC "+this.name+" ma ostatnie strony na "+((ostatnieStrony == null) ? "null" : "Length = 0"));
-                        Debug.Log("X = "+t[0]+" Z = "+t[1]);
+                        Debug.Log("NPC " + this.name + " ma ostatnie strony na " + ((ostatnieStrony == null) ? "null" : "Length = 0"));
+                        Debug.Log("X = " + t[0] + " Z = " + t[1]);
                     }
                     UsuńMnieZTablicyWież(false, ostatnieStrony);
                     czyDodawac = true;
@@ -151,8 +170,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 głównyIndex++;
                 break;
             case 5:
-            //Ustaw widoczniść paskaHP
-                if(sprite != null)
+                //Ustaw widoczniść paskaHP
+                if (sprite != null)
                     sprite.parent.forward = -PomocniczeFunkcje.oCam.transform.forward;
                 głównyIndex = 0;
                 break;
@@ -168,14 +187,14 @@ public class KonkretnyNPCDynamiczny : NPCClass
             rysujPasekŻycia = true;
             sprite.parent.gameObject.SetActive(true);
         }
-        else if(rysujPasekŻycia && SpawnerHord.actualHPBars > 20)
+        else if (rysujPasekŻycia && SpawnerHord.actualHPBars > 20)
         {
             rysujPasekŻycia = false;
             sprite.parent.gameObject.SetActive(false);
         }
         if (rysujPasekŻycia)
         {
-            float actScaleX = (float)this.AktualneŻycie / this.maksymalneŻycie; 
+            float actScaleX = (float)this.AktualneŻycie / this.maksymalneŻycie;
             sprite.localScale = new Vector3(actScaleX, 1, 1);
             /*
             Vector3 tempPos = this.transform.position;
@@ -286,9 +305,49 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         if (aktualnyReuseAtaku < szybkośćAtaku)
         {
-            aktualnyReuseAtaku += Time.deltaTime * 4f;
+            aktualnyReuseAtaku += Time.deltaTime * 2f;
+            float f = szybkośćAtaku - aktualnyReuseAtaku;
+            if (f <= 0.1f)
+            {
+                if (_obiektAtaku != null)
+                {
+                    if (!_obiektAtaku.activeInHierarchy)
+                    {
+                        _obiektAtaku.SetActive(true);
+                        _obiektAtaku.transform.rotation = this.transform.rotation;
+                        if (efektyFxStart != null)
+                        {
+                            efektyFxStart.transform.position = this.transform.position;
+                            efektyFxStart.Play();
+                        }
+                    }
+                    else
+                    {
+                        if (f < 0)
+                        {
+                            f = 0;
+                            if (efektyFxKoniec != null)
+                            {
+                                efektyFxKoniec.transform.position = cel.transform.position;
+                                efektyFxKoniec.Play();
+                            }
+                        }
+                        else
+                        {
+                            f *= 10f;
+                        }
+                        _obiektAtaku.transform.position = Vector3.Lerp(cel.transform.position, this.transform.position, f);
+                    }
+                }
+
+            }
             return;
         }
+        if (_obiektAtaku.activeInHierarchy)
+        {
+            _obiektAtaku.SetActive(false);
+        }
+        this.transform.LookAt(cel.transform.position);
         aktualnyReuseAtaku = 0.0f;
         cel.ZmianaHP((short)Mathf.FloorToInt((zadawaneObrażenia * this.modyfikatorZadawanychObrażeń)));
         if (czyWZwarciu)
@@ -334,7 +393,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 }
             }
         }
-        else if(ostatnieStrony != null)
+        else if (ostatnieStrony != null)
         {
             for (byte sq = 0; sq < ostatnieStrony.Length; sq++)
             {
@@ -346,7 +405,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     ostatnieStrony[sq] = 2;
                 else if (ostatnieStrony[sq] == 2)
                     ostatnieStrony[sq] = 3;
-                
+
                 for (byte i = 0; i < PomocniczeFunkcje.tablicaWież[x, z].Count; i++)
                 {
                     if (PomocniczeFunkcje.tablicaWież[x, z][i].ZwrócCzyWieżaPosiadaStrone(ostatnieStrony[sq]))

@@ -25,6 +25,10 @@ public class KonkretnyNPCStatyczny : NPCClass
     [SerializeField] public bool zablokowany = true;
     [Tooltip("Obiekt, który atakuje z wieży")]
     public GameObject obiektAtaku;
+    [Tooltip("System cząstek wyzwalany kiedy następuje wystrzał z wieży")]
+    public ParticleSystem efektyFxStart;
+    [Tooltip("System cząstek wyzwalany kiedy nabój dosięga celu")]
+    public ParticleSystem efektyFxKoniec;
     public Transform sprite = null;
     #endregion
 
@@ -87,7 +91,7 @@ public class KonkretnyNPCStatyczny : NPCClass
                 else if (cel != null && (wrogowieWZasiegu == null || wrogowieWZasiegu.Count == 0))
                 {
                     cel = null;
-                    if(instaObj.activeInHierarchy)
+                    if (instaObj.activeInHierarchy)
                     {
                         instaObj.SetActive(false);
                     }
@@ -200,11 +204,23 @@ public class KonkretnyNPCStatyczny : NPCClass
                 {
                     instaObj.SetActive(true);
                     instaObj.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 1.0f, this.transform.position.z);
+                    if (efektyFxStart != null)
+                    {
+                        efektyFxStart.transform.position = this.transform.position;
+                        efektyFxStart.Play();
+                    }
                 }
                 else
                 {
                     if (f < 0)
+                    {
                         f = 0;
+                        if(efektyFxKoniec != null)
+                        {
+                            efektyFxKoniec.transform.position = cel.transform.position;
+                            efektyFxKoniec.Play();
+                        }
+                    }
                     else
                         f *= 10f;
 

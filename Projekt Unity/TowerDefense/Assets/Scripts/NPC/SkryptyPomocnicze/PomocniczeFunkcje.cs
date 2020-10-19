@@ -443,10 +443,10 @@ public static class PomocniczeFunkcje
     }
     #endregion
     #region AI
-    public static void ZwykłeAI(NPCClass pObiekt)
+    public static bool ZwykłeAI(NPCClass pObiekt)
     {
         if (pObiekt == null)
-            return;
+            return false;
         if (pObiekt.cel == null)
         {
             //Wyszukaj cel
@@ -456,13 +456,16 @@ public static class PomocniczeFunkcje
         {
             NPCClass cObiekt = pObiekt.cel.GetComponent<NPCClass>();
             if (cObiekt == null)
-                return;
+            {
+                return false;
+            }
             if (cObiekt.AktualneŻycie <= 0)
             {
                 if (pObiekt.cel != celWrogów)
                 {
                     pObiekt.cel = WyszukajWDrzewie(ref korzeńDrzewaPozycji, cObiekt.transform.position) as NPCClass;
                     pObiekt.ResetujŚciezkę();
+                    return false;
                 }
             }
             else
@@ -475,6 +478,7 @@ public static class PomocniczeFunkcje
                 }
             }
         }
+         return true;
     }
     public static void DodajDoStosuTrupów(KonkretnyNPCDynamiczny dodajDoTrupów)
     {
