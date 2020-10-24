@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 480594667005852909}
-  m_Mesh: {fileID: 4744780281993371032, guid: 80922d920c5b062389ccb12dbefa46af, type: 3}
+  m_Mesh: {fileID: 2099834325074241752, guid: 80922d920c5b062389ccb12dbefa46af, type: 3}
 --- !u!23 &1619491483798187585
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -58,10 +58,11 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4b2c5a8edb620d5438081d23cdfcf106, type: 2}
+  - {fileID: 2100000, guid: ec89135647bb2fc80b5c96b64ce412c7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,6 +83,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1945419270025672909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,7 +117,9 @@ MonoBehaviour:
   kosztBadania: 0
   "typAtakuWie\u017Cy": 0
   zablokowany: 1
-  wrogowieWZasiegu: []
+  obiektAtaku: {fileID: 0}
+  efektyFxStart: {fileID: 0}
+  efektyFxKoniec: {fileID: 0}
   sprite: {fileID: 1666213508012018869}
 --- !u!135 &480594667005852910
 SphereCollider:
@@ -176,6 +180,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -257,6 +262,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
