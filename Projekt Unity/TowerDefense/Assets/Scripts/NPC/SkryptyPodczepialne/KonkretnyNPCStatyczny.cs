@@ -204,6 +204,7 @@ public class KonkretnyNPCStatyczny : NPCClass
                 {
                     instaObj.SetActive(true);
                     instaObj.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 1.0f, this.transform.position.z);
+                    instaObj.transform.LookAt(cel.transform.position);
                     if (efektyFxStart != null)
                     {
                         efektyFxStart.transform.position = this.transform.position;

@@ -298,10 +298,13 @@ public class SpawnBudynki : MonoBehaviour
         if (Mathf.Abs(sugerowanaPozycja.x - najbliższyBudynek.transform.position.x) < najbliższyBudynek.granicaX + knpcs.granicaX &&
         Mathf.Abs(sugerowanaPozycja.z - najbliższyBudynek.transform.position.z) < najbliższyBudynek.granicaZ + knpcs.granicaZ)
         {
-            materialWybranegoBudynku.color = Color.red;
+            if (materialWybranegoBudynku.color != Color.red)
+            {
+                materialWybranegoBudynku.color = Color.red;
+            }
             return false;
         }
-        if (materialWybranegoBudynku != null)
+        if (materialWybranegoBudynku != null && materialWybranegoBudynku.color != Color.green)
             materialWybranegoBudynku.color = Color.green;
         return true;
     }

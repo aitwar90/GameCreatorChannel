@@ -320,6 +320,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                             efektyFxStart.transform.position = this.transform.position;
                             efektyFxStart.Play();
                         }
+                        _obiektAtaku.transform.LookAt(cel.transform.position);
                     }
                     else
                     {
