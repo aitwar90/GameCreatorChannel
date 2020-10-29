@@ -219,5 +219,5 @@ public abstract class NPCClass : MonoBehaviour
         }
     }
     #endregion
-    
+
 }

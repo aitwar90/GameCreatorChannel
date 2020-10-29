@@ -122,7 +122,7 @@ public class ManagerGryScript : MonoBehaviour
             GameObject baza = GameObject.Instantiate(bazy[idxEpokiBazyWTablicy], new Vector3(50.0f, 1.5f, 50.0f), Quaternion.identity);
             knpcsBazy = baza.GetComponent<KonkretnyNPCStatyczny>();
             PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcsBazy, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
-            baza.transform.SetParent(PomocniczeFunkcje.spawnBudynki.rodzicBudynkow);
+            baza.transform.SetParent(PomocniczeFunkcje.spawnBudynki.RodzicBudynków);
             PomocniczeFunkcje.celWrogów = knpcsBazy;
             StartCoroutine("WyzwólKolejnąFalę");
         }

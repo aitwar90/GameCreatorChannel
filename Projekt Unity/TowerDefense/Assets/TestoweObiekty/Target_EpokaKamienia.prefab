@@ -57,7 +57,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -82,7 +81,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &3369056954068059428
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -123,8 +121,13 @@ MonoBehaviour:
   nastawienieNPC: 0
   typBudynku: 2
   "odbiteObra\u017Cenia": 1
-  granicaX: 1.8
-  granicaZ: 1.8
-  wymusInicjacje: 0
+  granicaX: 1.7
+  granicaZ: 1.7
+  poziomBudynku: 1
+  kosztBadania: 0
   "typAtakuWie\u017Cy": 0
-  wrogowieWZasiegu: []
+  zablokowany: 1
+  obiektAtaku: {fileID: 0}
+  efektyFxStart: {fileID: 0}
+  efektyFxKoniec: {fileID: 0}
+  sprite: {fileID: 0}

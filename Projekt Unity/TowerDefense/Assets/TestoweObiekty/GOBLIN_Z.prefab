@@ -10947,7 +10947,7 @@ Transform:
   m_LocalScale: {x: 0.049869135, y: 0.049869135, z: 0.04986914}
   m_Children: []
   m_Father: {fileID: 400702}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &13700000
 SkinnedMeshRenderer:
@@ -11117,7 +11117,7 @@ Transform:
   m_LocalScale: {x: 0.04986914, y: 0.04986914, z: 0.04986914}
   m_Children: []
   m_Father: {fileID: 400702}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &13700002
 SkinnedMeshRenderer:
@@ -11291,7 +11291,7 @@ Transform:
   - {fileID: 400520}
   - {fileID: 400514}
   m_Father: {fileID: 400702}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &100698
 GameObject:
@@ -11322,7 +11322,7 @@ Transform:
   m_LocalScale: {x: 0.0128892725, y: 0.0128892725, z: 0.0128892725}
   m_Children: []
   m_Father: {fileID: 400702}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &13700004
 SkinnedMeshRenderer:
@@ -11492,7 +11492,7 @@ Transform:
   m_LocalScale: {x: 0.0128892725, y: 0.0128892725, z: 0.0128892725}
   m_Children: []
   m_Father: {fileID: 400702}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &13700006
 SkinnedMeshRenderer:
@@ -11662,12 +11662,12 @@ Transform:
   m_LocalPosition: {x: 0.63482064, y: 0.04992175, z: -1.9501475}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1757978252}
   - {fileID: 400700}
   - {fileID: 400698}
   - {fileID: 400696}
   - {fileID: 400694}
   - {fileID: 400692}
+  - {fileID: 1757978252}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11708,7 +11708,7 @@ MonoBehaviour:
   epokaNPC: 1
   kosztJednostki: 1
   "zadawaneObra\u017Cenia": 10
-  "zasi\u0119gAtaku": 0
+  "zasi\u0119gAtaku": 1
   "szybko\u015B\u0107Ataku": 0.5
   "modyfikatorOtrzymywanychObra\u017Ce\u0144": 1
   "modyfikatorZadawanychObra\u017Ce\u0144": 1
@@ -11720,6 +11720,7 @@ MonoBehaviour:
   efektyFxStart: {fileID: 0}
   efektyFxKoniec: {fileID: 0}
   sprite: {fileID: 895180035}
+  "rysujPasek\u017Bycia": 0
 --- !u!1 &895180034
 GameObject:
   m_ObjectHideFlags: 0
@@ -11831,7 +11832,7 @@ Transform:
   - {fileID: 895180035}
   - {fileID: 1882738707}
   m_Father: {fileID: 400702}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1882738706
 GameObject:

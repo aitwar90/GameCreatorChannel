@@ -193,10 +193,12 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     protected override void RysujHPBar()
     {
+        Debug.Log("Rysuj pasek Życia = "+rysujPasekŻycia+" SpawnedHord.actualHPBars = "+SpawnerHord.actualHPBars+" mainRenderer.isVisible = "+mainRenderer.isVisible);
         if (!rysujPasekŻycia && SpawnerHord.actualHPBars <= 20 && mainRenderer.isVisible)
         {
             rysujPasekŻycia = true;
             sprite.parent.gameObject.SetActive(true);
+            SpawnerHord.actualHPBars++;
         }
         else if (rysujPasekŻycia && SpawnerHord.actualHPBars > 20)
         {
@@ -213,7 +215,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
             Vector2 pozycjaPostaci = Camera.main.WorldToScreenPoint(tempPos);
             GUI.Box(new Rect(pozycjaPostaci.x - 30, Screen.height - pozycjaPostaci.y - 30, 60, 20), this.AktualneŻycie + " / " + maksymalneŻycie);
             */
-            SpawnerHord.actualHPBars++;
         }
     }
     protected override void UsuńJednostkę()

@@ -1397,7 +1397,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 150
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -1442,7 +1442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41af63f475ce5c64a9fb639cd674624c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPrzesuniecieKamery: 10
+  maxPrzesuniecieKamery: 5
 --- !u!1 &332673379
 GameObject:
   m_ObjectHideFlags: 0
@@ -5606,14 +5606,13 @@ MonoBehaviour:
   wszystkieBudynki:
   - {fileID: 8240789140282401236, guid: b8164cf752c70df46891bc4e4ac3bf67, type: 3}
   - {fileID: 480594667005852909, guid: 81d7c4ca18bcac044a4773011d34808d, type: 3}
-  rodzicBudynkow: {fileID: 0}
   teksAktualnegoObiektu: {fileID: 1652672898}
   dropdawn: {fileID: 720737298}
   lockDropdownImage: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   enableLockDropdownImage: {fileID: 10907, guid: 0000000000000000f000000000000000,
     type: 0}
-  zablokowanyBudynekIndex: -1
   aktualnyObiekt: {fileID: 0}
+  zablokowanyBudynekIndex: -1
 --- !u!4 &1420112165
 Transform:
   m_ObjectHideFlags: 0

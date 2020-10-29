@@ -7,22 +7,31 @@ public class SpawnBudynki : MonoBehaviour
 {
     #region Zmienne publiczne
     public GameObject[] wszystkieBudynki;
-    public Transform rodzicBudynkow = null;
     public Text teksAktualnegoObiektu;
     //UI _ Canvas
     public Dropdown dropdawn;
     public Sprite lockDropdownImage;
     public Sprite enableLockDropdownImage;
+    public GameObject aktualnyObiekt = null;
     public short zablokowanyBudynekIndex = -1;
     #endregion
     #region Zmienne prywatne
     private Material materialWybranegoBudynku = null;
     private Color kolorOrginału;
     private KonkretnyNPCStatyczny knpcs = null;
-    public GameObject aktualnyObiekt = null;
     private Vector3 ostatniaPozycjaKursora = Vector3.zero;
     private Vector3 posClick = Vector3.zero;
+    private Transform rodzicBudynkow = null;
     private StrukturaBudynkuWTab[] czyBudynekZablokowany = null;
+    #endregion
+    #region Getery i Setery
+    public Transform RodzicBudynków
+    {
+        get
+        {
+            return rodzicBudynkow;
+        }
+    }
     #endregion
     void Start()
     {
@@ -53,7 +62,7 @@ public class SpawnBudynki : MonoBehaviour
         }
         else
         {
-            Debug.Log("SpawnBudynki 55: Nie ustalono epoki");
+            Debug.Log("SpawnBudynki 56: Nie ustalono epoki");
         }
         czyBudynekZablokowany = sbwt.ToArray();
         this.dropdawn.AddOptions(wszystkieBudynkiList);
