@@ -156,20 +156,20 @@ public class EkwipunekScript
         byte mP = (byte)(System.Enum.GetValues(typeof(TypPrzedmiotu)).Length - 1);
         byte losowany = (byte)Random.Range(0, mP+1);
         PrzedmiotScript psT = PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany];
-        psT.ilośćDanejNagrody = 1;
         if (przedmioty == null)
         {
             przedmioty = new PrzedmiotScript[1];
             przedmioty[0] = psT;
+            przedmioty[0].ilośćDanejNagrody = psT.liczbaItemówOtrzymywanych;
         }
         else
         {
             bool c = false; //Jeśli nie odnajdę wylosowanego przedmiotu w ekwipunku to dodaj ten przedmiot
-            for(byte i = 0; i < PomocniczeFunkcje.managerGryScript.ekwipunekGracza.Length; i++)
+            for(byte i = 0; i < przedmioty.Length; i++)
             {
-                if(PomocniczeFunkcje.managerGryScript.ekwipunekGracza[i].nazwaPrzedmiotu == psT.nazwaPrzedmiotu)
+                if(przedmioty[i].nazwaPrzedmiotu == psT.nazwaPrzedmiotu)
                 {
-                    PomocniczeFunkcje.managerGryScript.ekwipunekGracza[i].ilośćDanejNagrody++;
+                    przedmioty[i].ilośćDanejNagrody += przedmioty[i].liczbaItemówOtrzymywanych;
                     c = true;
                     break;
                 }

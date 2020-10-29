@@ -551,6 +551,7 @@ public static class PomocniczeFunkcje
         stosTrupów = null;
         tablicaWież = null;
         spawnBudynki.DestroyBuildings();
+        SpawnerHord.actualHPBars = 0;
         if (spawnerHord != null)
         {
             spawnerHord.UsunWszystkieJednostki();

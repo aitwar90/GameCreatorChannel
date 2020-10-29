@@ -759,7 +759,6 @@ GameObject:
   - component: {fileID: 6650381888769724633}
   - component: {fileID: 5307295156365174026}
   - component: {fileID: 6773174147869840242}
-  - component: {fileID: 6650381889237516664}
   m_Layer: 8
   m_Name: GOBLIN_D
   m_TagString: NPC
@@ -796,11 +795,11 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6650381888769230009}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
   m_Controller: {fileID: 9100000, guid: a5d52dc712dfb33488a15b4245379eca, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -836,20 +835,6 @@ MonoBehaviour:
   efektyFxStart: {fileID: 0}
   efektyFxKoniec: {fileID: 0}
   sprite: {fileID: 6650381887910105316}
---- !u!136 &6650381889237516664
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6650381888769230009}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.34
-  m_Height: 1.52
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.74, z: 0}
 --- !u!1 &6650381888769230011
 GameObject:
   m_ObjectHideFlags: 0

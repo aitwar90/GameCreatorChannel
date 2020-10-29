@@ -16,7 +16,6 @@ public class SpawnerHord : MonoBehaviour
     public ushort maxIlośćNaFalę = 1;
     public byte iloscPunktówSpawnu = 1;
     public static byte actualHPBars = 0;
-    public byte aktualnaIloscHPBarów = 0;
     public NPCClass cel;
     public Transform rodzicNPC = null;
 

@@ -121,15 +121,13 @@ public class MainMenu : MonoBehaviour
     public void UstawDropDownEkwipunku(ref EkwipunekScript es)
     {
         List<string> listaOpcji = new List<string>();
-        listaOpcji.Add("NONE");
+            listaOpcji.Add("NONE");
         if (es != null && es.przedmioty != null && es.przedmioty.Length > 0)
         {
+            Debug.Log("UstawDropDownEkwipunku");
             for (byte i = 0; i < es.przedmioty.Length; i++)
             {
-                if (!SprawdźCzyNazwaPasujeItemDropDown(es.przedmioty[i].nazwaPrzedmiotu))
-                {
-                    listaOpcji.Add(es.przedmioty[i].nazwaPrzedmiotu + " " + es.przedmioty[i].ilośćDanejNagrody.ToString());
-                }
+                listaOpcji.Add(es.przedmioty[i].nazwaPrzedmiotu + " " + es.przedmioty[i].ilośćDanejNagrody.ToString());
             }
         }
         this.wybórPrzedmiotuZEkwipunku.ClearOptions();
@@ -158,7 +156,7 @@ public class MainMenu : MonoBehaviour
     {
         for (byte i = 0; i < this.wybórPrzedmiotuZEkwipunku.options.Count; i++)
         {
-            string[] s = this.wybórPrzedmiotuZEkwipunku.options[i].text.Split(new char[' ']);
+            string[] s = this.wybórPrzedmiotuZEkwipunku.options[i].text.Split(' ');
             if (s[0] == szukanaNazwa)
             {
                 return true;

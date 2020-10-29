@@ -65,7 +65,7 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.spawnBudynki = FindObjectOfType(typeof(SpawnBudynki)) as SpawnBudynki;
         PomocniczeFunkcje.mainMenu = FindObjectOfType(typeof(MainMenu)) as MainMenu;
         or = FindObjectOfType(typeof(ObsługaReklam)) as ObsługaReklam;
-
+        SpawnerHord.actualHPBars = 0;
         skrzynki = new Skrzynka[PomocniczeFunkcje.mainMenu.buttonSkrzynki.Length];
         for (byte i = 0; i < skrzynki.Length; i++)
         {
@@ -151,6 +151,29 @@ public class ManagerGryScript : MonoBehaviour
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
+            }
+        }
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            sbyte t = 120;
+            for(byte i = 0; i < skrzynki.Length; i++)
+            {
+                if(skrzynki[i].ReuseTimer && !skrzynki[i].button.interactable)
+                {
+                    skrzynki[i].OdejmnijCzas();
+                    break;
+                }
+                else    //
+                {
+                    if(i < t && !skrzynki[i].button.interactable)
+                    {
+                        t = (sbyte)i;
+                    }
+                    if( t != 120 && i == (skrzynki.Length-1))
+                    {
+                        skrzynki[t].RozpocznijOdliczanie();
+                    }
+                }
             }
         }
 #endif
@@ -292,7 +315,6 @@ public class ManagerGryScript : MonoBehaviour
                 {
                     if (ekwipunek.przedmioty[i].nazwaPrzedmiotu == ekwipunekGracza[idxPrzedmiotuLosowanego].nazwaPrzedmiotu)
                     {
-                        ekwipunek.przedmioty[i].ilośćDanejNagrody++;
                         PomocniczeFunkcje.mainMenu.AktualizujInfoOIlosci(i, ekwipunek.przedmioty[i].nazwaPrzedmiotu, ekwipunek.przedmioty[i].ilośćDanejNagrody);
                         c = false;
                         break;

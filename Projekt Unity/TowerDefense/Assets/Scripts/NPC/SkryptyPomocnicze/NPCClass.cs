@@ -115,8 +115,8 @@ public abstract class NPCClass : MonoBehaviour
                 aktualneŻycie = maksymalneŻycie;
             if (aktualneŻycie <= 0)
             {
-                nieŻyję = true;
                 aktualneŻycie = 0;
+                nieŻyję = true;
             }
             RysujHPBar();
         }
@@ -139,6 +139,7 @@ public abstract class NPCClass : MonoBehaviour
     {
 
     }
+    #region Ustawianie zmiennych w animatorze
     public void ObsluzAnimacje(string[] paramsT, bool[] values)
     {
         if (ReferenceEquals(this.GetType(), typeof(KonkretnyNPCStatyczny)))
@@ -217,4 +218,6 @@ public abstract class NPCClass : MonoBehaviour
             Debug.Log("Animator nie został zadałdoany");
         }
     }
+    #endregion
+    
 }

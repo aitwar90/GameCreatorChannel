@@ -20,7 +20,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     public Transform sprite = null;
     #endregion
     #region Zmienny prywatne
-    private bool rysujPasekŻycia = false;
+    public bool rysujPasekŻycia = false;
     private NavMeshAgent agent = null;
     private NavMeshPath ścieżka = null;
     private sbyte głównyIndex = -1;
