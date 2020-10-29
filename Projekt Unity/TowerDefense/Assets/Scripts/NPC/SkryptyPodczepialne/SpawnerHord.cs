@@ -269,7 +269,7 @@ public class SpawnerHord : MonoBehaviour
     {
         bool czyPool = true;
         ushort npcIdx = (ushort)Random.Range(0, możliwiNPC.Count);
-        GameObject go = PomocniczeFunkcje.ZwróćOBiektPoolowany(możliwiNPC[npcIdx].nazwa);
+        GameObject go = PomocniczeFunkcje.ZwróćOBiektPoolowany(możliwiNPC[npcIdx].name);
         if (go == null)
         {
             czyPool = false;

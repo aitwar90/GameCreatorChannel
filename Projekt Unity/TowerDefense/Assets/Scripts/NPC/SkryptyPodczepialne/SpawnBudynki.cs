@@ -33,6 +33,24 @@ public class SpawnBudynki : MonoBehaviour
         }
     }
     #endregion
+    public void ZróbListęDropdownBudynków()
+    {
+        List<string> s = new List<string>();
+        s.Add("None");
+        for(byte i = 0; i < czyBudynekZablokowany.Length; i++)
+        {
+            if(czyBudynekZablokowany[i].czyZablokowany)
+            {
+                s.Add(wszystkieBudynki[czyBudynekZablokowany[i].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().nazwa + " LOCK");
+            }
+            else
+            {
+                s.Add(wszystkieBudynki[czyBudynekZablokowany[i].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().nazwa);
+            }
+        }
+        this.dropdawn.ClearOptions();
+        this.dropdawn.AddOptions(s);
+    }
     void Start()
     {
         if (rodzicBudynkow == null)
@@ -62,7 +80,7 @@ public class SpawnBudynki : MonoBehaviour
         }
         else
         {
-            Debug.Log("SpawnBudynki 56: Nie ustalono epoki");
+            Debug.Log("SpawnBudynki 83: Nie ustalono epoki");
         }
         czyBudynekZablokowany = sbwt.ToArray();
         this.dropdawn.AddOptions(wszystkieBudynkiList);

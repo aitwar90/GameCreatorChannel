@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class ManagerGryScript : MonoBehaviour
 {
@@ -28,10 +29,12 @@ public class ManagerGryScript : MonoBehaviour
     [Tooltip("Nagrody jakie gracz poisada")]
     public EkwipunekScript ekwipunek;
     public Skrzynka[] skrzynki;
+    [Tooltip("Asset o rozszerzeniu csv z tłumaczeniem")]
+    public TextAsset plikJezykowy;
     #endregion
 
     #region Prywatne zmienne
-    private KonkretnyNPCStatyczny knpcsBazy = null;
+    KonkretnyNPCStatyczny knpcsBazy = null;
     private byte idxOfManagerGryScript = 0;
     private bool czyScenaZostałaZaładowana = false;
     private bool toNieOstatniaFala = true;
@@ -72,6 +75,7 @@ public class ManagerGryScript : MonoBehaviour
             skrzynki[i] = new Skrzynka(ref PomocniczeFunkcje.mainMenu.buttonSkrzynki[i]);
         }
         PomocniczeFunkcje.ŁadujDane();
+        UtworzSzablonPlikuJezykowego();
         PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);
     }
     private void ŁadowanieDanych()
@@ -153,23 +157,23 @@ public class ManagerGryScript : MonoBehaviour
                 zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
             }
         }
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             sbyte t = 120;
-            for(byte i = 0; i < skrzynki.Length; i++)
+            for (byte i = 0; i < skrzynki.Length; i++)
             {
-                if(skrzynki[i].ReuseTimer && !skrzynki[i].button.interactable)
+                if (skrzynki[i].ReuseTimer && !skrzynki[i].button.interactable)
                 {
                     skrzynki[i].OdejmnijCzas();
                     break;
                 }
                 else    //
                 {
-                    if(i < t && !skrzynki[i].button.interactable)
+                    if (i < t && !skrzynki[i].button.interactable)
                     {
                         t = (sbyte)i;
                     }
-                    if( t != 120 && i == (skrzynki.Length-1))
+                    if (t != 120 && i == (skrzynki.Length - 1))
                     {
                         skrzynki[t].RozpocznijOdliczanie();
                     }
@@ -329,18 +333,18 @@ public class ManagerGryScript : MonoBehaviour
     }
     public void SkróćCzasSkrzynki(sbyte idxS = -1)
     {
-        if(idxS == -1)
+        if (idxS == -1)
         {
-        for (byte i = 0; i < skrzynki.Length; i++)
-        {
-            if (skrzynki[i].ReuseTimer && !skrzynki[i].button.interactable)
+            for (byte i = 0; i < skrzynki.Length; i++)
             {
-                skrzynki[i].OdejmnijCzas();
-                break;
+                if (skrzynki[i].ReuseTimer && !skrzynki[i].button.interactable)
+                {
+                    skrzynki[i].OdejmnijCzas();
+                    break;
+                }
             }
         }
-        }
-        else if(idxS > -1)
+        else if (idxS > -1)
         {
             if (skrzynki[idxS].ReuseTimer && !skrzynki[idxS].button.interactable)
             {
@@ -403,5 +407,138 @@ public class ManagerGryScript : MonoBehaviour
     public void KlikniętaReklamaButtonSkrzynki(byte idx)
     {
         or.OtwórzReklame(2, idx);
+    }
+    public void ZmianaJęzyka(byte idx)
+    {
+        //if (plikJezykowy != null)
+        //{
+            UnityEngine.UI.Text[] wszystkieFrazy = Resources.FindObjectsOfTypeAll(typeof(UnityEngine.UI.Text)) as UnityEngine.UI.Text[];
+            string fs = plikJezykowy.text;
+            fs = fs.Replace("\n", "");
+            fs = fs.Replace("\r", "");
+            string[] fLines = fs.Split(';');
+            idx++;
+            for (ushort i = 0; i < fLines.Length; i++)
+            {
+                string[] pFrazy = fLines[i].Split(',');
+                if (idx >= pFrazy.Length)
+                {
+                    continue;
+                }
+                if (pFrazy[idx] != "")
+                {
+                    for (ushort j = 0; j < wszystkieFrazy.Length; j++)
+                    {
+                        if (wszystkieFrazy[j].transform.name != "Text")
+                        {
+                            if (pFrazy[0] == wszystkieFrazy[j].transform.name)
+                            {
+                                wszystkieFrazy[j].text = pFrazy[idx];
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if (pFrazy[0] == wszystkieFrazy[j].transform.parent.name)
+                            {
+                                wszystkieFrazy[j].text = pFrazy[idx];
+                                break;
+                            }
+                        }
+                    }
+                    if (PomocniczeFunkcje.spawnBudynki != null)
+                    {
+                        for (ushort j = 0; j < PomocniczeFunkcje.spawnBudynki.wszystkieBudynki.Length; j++)
+                        {
+                            if (pFrazy[0] == PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[j].name)
+                            {
+                                PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[j].GetComponent<KonkretnyNPCStatyczny>().nazwa = pFrazy[idx];
+                                break;
+                            }
+                        }
+                        PomocniczeFunkcje.spawnBudynki.ZróbListęDropdownBudynków();
+                    }
+                    if(PomocniczeFunkcje.managerGryScript != null)
+                    {
+                        for(ushort j = 0; j < PomocniczeFunkcje.managerGryScript.ekwipunekGracza.Length; j++)
+                        {
+                            if(PomocniczeFunkcje.managerGryScript.ekwipunekGracza[j].name == pFrazy[0])
+                            {
+                                PomocniczeFunkcje.managerGryScript.ekwipunekGracza[j].nazwaPrzedmiotu = pFrazy[idx];
+                            }
+                        }
+                        PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);
+                    }
+                }
+            }
+        //}
+    }
+    private void UtworzSzablonPlikuJezykowego()
+    {
+        string sciezka = "Assets/Resources/jezyki.txt";
+        if (plikJezykowy == null)
+        {
+            if (File.Exists(sciezka))
+            {
+                File.Delete(sciezka);
+            }
+            StreamWriter writer = File.CreateText(sciezka);
+            UnityEngine.UI.Text[] wszystkieFrazy = FindObjectsOfType<UnityEngine.UI.Text>() as UnityEngine.UI.Text[];
+            for (ushort i = 0; i < wszystkieFrazy.Length; i++)
+            {
+                string zapisywanaFraza = "";
+                if (wszystkieFrazy[i].transform.name != "Text")
+                {
+                    zapisywanaFraza = zapisywanaFraza + wszystkieFrazy[i].transform.name + ",";
+                }
+                else
+                {
+                    zapisywanaFraza = zapisywanaFraza + wszystkieFrazy[i].transform.parent.name + ",";
+                }
+                zapisywanaFraza = zapisywanaFraza + wszystkieFrazy[i].text + ";";
+                writer.WriteLine(zapisywanaFraza);
+            }
+            TextMesh[] allTe = FindObjectsOfType<TextMesh>() as TextMesh[];
+            for (ushort i = 0; i < allTe.Length; i++)
+            {
+                string zapisywanaFraza = "";
+                if (allTe[i].transform.name != "Text")
+                {
+                    zapisywanaFraza = zapisywanaFraza + allTe[i].transform.name + ",";
+                }
+                else
+                {
+                    zapisywanaFraza = zapisywanaFraza + allTe[i].transform.parent.name + ",";
+                }
+                zapisywanaFraza = zapisywanaFraza + allTe[i].text + ";";
+                writer.WriteLine(zapisywanaFraza);
+            }
+            if (PomocniczeFunkcje.spawnBudynki != null)
+            {
+                for (ushort i = 0; i < PomocniczeFunkcje.spawnBudynki.wszystkieBudynki.Length; i++)
+                {
+                    string zapisywanaFraza = "";
+                    KonkretnyNPCStatyczny knpcs = PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
+                    zapisywanaFraza = zapisywanaFraza + knpcs.gameObject.name + ",";
+                    zapisywanaFraza = zapisywanaFraza + knpcs.nazwa + ";";
+                    writer.WriteLine(zapisywanaFraza);
+                }
+            }
+            else
+            {
+                Debug.Log("Spawn Budynki jest null");
+            }
+            if(PomocniczeFunkcje.managerGryScript != null)
+            {
+                for(ushort i = 0; i < ekwipunekGracza.Length; i++)
+                {
+                    string zapisywanaFraza = "";
+                    zapisywanaFraza = zapisywanaFraza + ekwipunekGracza[i].gameObject.name + ",";
+                    zapisywanaFraza = zapisywanaFraza + ekwipunekGracza[i].nazwaPrzedmiotu + ";";
+                    writer.WriteLine(zapisywanaFraza);
+                }
+            }
+            writer.Close();
+        }
     }
 }

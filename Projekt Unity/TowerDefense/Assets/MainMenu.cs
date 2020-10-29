@@ -14,6 +14,7 @@ public class MainMenu : MonoBehaviour
     public Button kup;
     public Button wróc;
     public Button użyjPrzedmiotu;
+    public Button zmianaJezyka;
 
     public Dropdown wybórPrzedmiotuZEkwipunku;
     public static bool czyMenuEnable = true;
@@ -23,13 +24,36 @@ public class MainMenu : MonoBehaviour
     private Button przyciskWznów;
     private Vector3 lastPosCam = Vector3.zero;
     private sbyte wybranyPrzedmiot = -1;
+    public sbyte lastIdxJezyka = 0;
+    private static MainMenu singelton = null;
 
+    public sbyte UstawLubPobierzOstatniIdexJezyka
+    {
+        get
+        {
+            return lastIdxJezyka;
+        }
+        set
+        {
+            lastIdxJezyka = (sbyte)(value - 1);
+            ZmieńJęzyk();
+        }
+    }
     void Awake()
     {
-        menu = GameObject.Find("Menu").gameObject;
-        uiGry = GameObject.Find("UIGry").gameObject;
-        optionsMenu = GameObject.Find("OptionsMenu").gameObject;
-        przyciskWznów = GameObject.Find("ResumeButton").GetComponent<Button>();
+        if(singelton == null)
+        {
+            singelton = this;
+        }
+        else
+        {
+            Destroy(this);
+            return;
+        }
+        menu = this.transform.Find("Menu/MainMenu").gameObject;
+        uiGry = this.transform.Find("UIGry").gameObject;
+        optionsMenu = this.transform.Find("Menu/OptionsMenu").gameObject;
+        przyciskWznów = this.transform.Find("Menu/MainMenu/ResumeButton").GetComponent<Button>();
         uiGry.SetActive(false);
         optionsMenu.SetActive(false);
         przyciskWznów.enabled = false;
@@ -124,7 +148,6 @@ public class MainMenu : MonoBehaviour
             listaOpcji.Add("NONE");
         if (es != null && es.przedmioty != null && es.przedmioty.Length > 0)
         {
-            Debug.Log("UstawDropDownEkwipunku");
             for (byte i = 0; i < es.przedmioty.Length; i++)
             {
                 listaOpcji.Add(es.przedmioty[i].nazwaPrzedmiotu + " " + es.przedmioty[i].ilośćDanejNagrody.ToString());
@@ -167,5 +190,12 @@ public class MainMenu : MonoBehaviour
     public void KliknąłemReklame(int idx)
     {
         PomocniczeFunkcje.managerGryScript.KlikniętaReklamaButtonSkrzynki((byte)idx);
+    }
+    public void ZmieńJęzyk()
+    {
+        lastIdxJezyka++;
+        if(lastIdxJezyka < 0 || lastIdxJezyka > 1)  //Tu należy zmienić liczbę jesli dodany zostanie nowy jezyk
+            lastIdxJezyka = 0;
+        PomocniczeFunkcje.managerGryScript.ZmianaJęzyka((byte)lastIdxJezyka);
     }
 }

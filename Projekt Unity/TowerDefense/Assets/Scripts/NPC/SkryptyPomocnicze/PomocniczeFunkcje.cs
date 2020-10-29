@@ -499,17 +499,17 @@ public static class PomocniczeFunkcje
         if (stosTrupów == null)
             stosTrupów = new Dictionary<string, StrukturaDoPoolowania>();
 
-        if (!stosTrupów.ContainsKey(dodajDoTrupów.nazwa))
+        if (!stosTrupów.ContainsKey(dodajDoTrupów.name))
         {
             StrukturaDoPoolowania sdp = new StrukturaDoPoolowania();
-            sdp.nazwa = dodajDoTrupów.nazwa;
+            sdp.nazwa = dodajDoTrupów.name;
             sdp.listaObiektówPoolingu = new List<KonkretnyNPCDynamiczny>();
             sdp.listaObiektówPoolingu.Add(dodajDoTrupów);
-            stosTrupów.Add(dodajDoTrupów.nazwa, sdp);
+            stosTrupów.Add(dodajDoTrupów.name, sdp);
         }
         else
         {
-            stosTrupów[dodajDoTrupów.nazwa].listaObiektówPoolingu.Add(dodajDoTrupów);
+            stosTrupów[dodajDoTrupów.name].listaObiektówPoolingu.Add(dodajDoTrupów);
         }
         dodajDoTrupów.transform.position = new Vector3(0, -20f, 0);
     }
@@ -611,7 +611,7 @@ public static class PomocniczeFunkcje
         {
             KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
             EnOrDisBudynki eodb = new EnOrDisBudynki();
-            eodb.nazwa = knpcs.nazwa;
+            eodb.nazwa = knpcs.name;
             eodb.zablokowanie = knpcs.zablokowany;
             tmp.Add(eodb);
         }
@@ -696,7 +696,7 @@ public static class PomocniczeFunkcje
                 for (byte j = 0; j < spawnBudynki.wszystkieBudynki.Length; j++)
                 {
                     KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[j].GetComponent<KonkretnyNPCStatyczny>();
-                    if (knpcs.nazwa == ds._zablokowaneBudynki[i].nazwa)
+                    if (knpcs.name == ds._zablokowaneBudynki[i].nazwa)
                     {
                         knpcs.zablokowany = ds._zablokowaneBudynki[i].zablokowanie;
                     }

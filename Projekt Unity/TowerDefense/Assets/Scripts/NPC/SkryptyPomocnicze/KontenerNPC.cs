@@ -182,6 +182,7 @@ public class EkwipunekScript
                     ps.Add(przedmioty[i]);
                 }
                 ps.Add(psT);
+                ps[przedmioty.Length].ilośćDanejNagrody += psT.liczbaItemówOtrzymywanych;
                 przedmioty = ps.ToArray();
             }
         }
