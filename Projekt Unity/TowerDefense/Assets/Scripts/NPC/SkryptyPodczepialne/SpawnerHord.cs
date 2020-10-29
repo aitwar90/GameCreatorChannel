@@ -299,6 +299,8 @@ public class SpawnerHord : MonoBehaviour
     {
         for (int i = rodzicNPC.childCount - 1; i >= 0; i--)
         {
+            KonkretnyNPCDynamiczny knpcd = rodzicNPC.GetChild(i).GetComponent<KonkretnyNPCDynamiczny>();
+            knpcd.WyczyscDaneDynamic(true);
             Destroy(rodzicNPC.GetChild(i).gameObject);
         }
     }

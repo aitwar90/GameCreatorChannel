@@ -29,6 +29,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private bool czyDodawac = false;
     private byte[] ostatnieStrony = null;
     private GameObject _obiektAtaku = null;
+    private Animator anima;
     #endregion
 
     #region Zmienne chronione
@@ -60,11 +61,19 @@ public class KonkretnyNPCDynamiczny : NPCClass
             return agent.isOnNavMesh;
         }
     }
+    public Animator GetAnimator
+    {
+        get
+        {
+            return this.anima;
+        }
+    }
     #endregion
     // Start is called before the first frame update
     void Start()
     {
         agent = this.GetComponent<NavMeshAgent>();
+        anima = this.GetComponent<Animator>();
         if (agent == null)
         {
             DodajNavMeshAgent();
@@ -85,6 +94,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
             _obiektAtaku = Instantiate(obiektAtakuDystansowego, this.transform.position, this.transform.rotation);
             _obiektAtaku.transform.SetParent(this.transform);
         }
+        ObsluzAnimacje(ref anima, "haveTarget", false);
+        ObsluzAnimacje(ref anima, "inRange", false);
         RysujHPBar();
     }
 
@@ -208,7 +219,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     protected override void UsuńJednostkę()
     {
         this.AktualneŻycie = -1;
-        UsuńMnieZTablicyWież(true);
+
         if (this.rysujPasekŻycia)
         {
             if (SpawnerHord.actualHPBars > 0)
@@ -218,17 +229,26 @@ public class KonkretnyNPCDynamiczny : NPCClass
         PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek -= ResetujŚciezkę;
         ManagerGryScript.iloscAktywnychWrogów--;
         ManagerGryScript.iloscCoinów += this.ileCoinówZaZabicie;
+        WyczyscDaneDynamic();
+        UsuńMnieZTablicyWież(true);
         actXIdx = 32767;
         actZIdx = 32767;
+    }
+    public void WyczyscDaneDynamic(bool wymuszonaKasacja = false)
+    {
+        PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek -= ResetujŚciezkę;
+        if (!wymuszonaKasacja)
+        {
+            if (this.nastawienieNPC == NastawienieNPC.Wrogie)
+            {
+                PomocniczeFunkcje.DodajDoStosuTrupów(this);
+            }
+            else
+            {
+                StartCoroutine(SkasujObject(3.0f));
+            }
+        }
         WłWyłObj(false);
-        if (this.nastawienieNPC == NastawienieNPC.Wrogie)
-        {
-            PomocniczeFunkcje.DodajDoStosuTrupów(this);
-        }
-        else
-        {
-            StartCoroutine(SkasujObject(3.0f));
-        }
     }
     private void ObsłużNavMeshAgent(Vector3 docelowaPozycja)
     {
@@ -275,13 +295,17 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             sprite.localScale = new Vector3(1, 1, 1);
             this.gameObject.SetActive(true);
+            ObsluzAnimacje(ref anima, "isDeath", false);
+            anima.StartPlayback();
             this.RysujHPBar();
         }
         agent.enabled = enab;
         if (!enab)
         {
+            ObsluzAnimacje(ref anima, "isDeath", true);
             sprite.parent.gameObject.SetActive(false);
             this.gameObject.SetActive(false);
+            anima.StopPlayback();
         }
     }
     public override void ResetujŚciezkę(KonkretnyNPCStatyczny taWiezaPierwszyRaz = null)

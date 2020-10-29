@@ -43,7 +43,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
+  serializedVersion: 11
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -118,8 +118,6 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
-    maxJobWorkers: 0
-    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 361c2da9ec0d84f4697eb3c943346a5d, type: 2}
@@ -222,8 +220,8 @@ MonoBehaviour:
   - {fileID: 62758910}
   - {fileID: 1553939948}
   wszystkieRodzajeWrogichJednostek:
-  - {fileID: 62081523889469384, guid: 83fc012387a61b74080e5048ba7a0dbb, type: 3}
-  - {fileID: 4989268198024245822, guid: 1e1552545a08c384dbe7951709fb6037, type: 3}
+  - {fileID: 123216872998805141, guid: a8fe9acb1e0f9f74c81a0ac4738f9efe, type: 3}
+  - {fileID: 6773174147869840242, guid: 828f681922577fe40acd6b9ad4cae326, type: 3}
   "ostatniaIlo\u015B\u0107WFali": 1
   "maxIlo\u015B\u0107NaFal\u0119": 30
   "iloscPunkt\xF3wSpawnu": 1

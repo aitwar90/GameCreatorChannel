@@ -60,7 +60,7 @@ public class MainMenu : MonoBehaviour
         PomocniczeFunkcje.ResetujWszystko();
         SceneManager.UnloadSceneAsync(1);
         PomocniczeFunkcje.managerGryScript.CzyScenaZostałaZaładowana = false;
-        SceneManager.LoadScene((byte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka, LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync((byte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka, LoadSceneMode.Additive);
     }
     public void OptionsMenu(bool actButton)
     {

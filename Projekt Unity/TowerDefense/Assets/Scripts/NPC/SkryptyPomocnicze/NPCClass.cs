@@ -79,6 +79,10 @@ public abstract class NPCClass : MonoBehaviour
     {
         if (mainRenderer == null)
             mainRenderer = this.transform.GetComponent<Renderer>();
+        if(mainRenderer == null)
+        {
+            mainRenderer = this.GetComponentInChildren<Renderer>();
+        }
     }
     void Update()
     {
@@ -109,7 +113,7 @@ public abstract class NPCClass : MonoBehaviour
             this.aktualneŻycie -= deltaHP;
             if (aktualneŻycie > maksymalneŻycie)
                 aktualneŻycie = maksymalneŻycie;
-            if (aktualneŻycie < 0)
+            if (aktualneŻycie <= 0)
             {
                 nieŻyję = true;
                 aktualneŻycie = 0;
@@ -134,5 +138,83 @@ public abstract class NPCClass : MonoBehaviour
     public virtual void ResetujŚciezkę(KonkretnyNPCStatyczny taWiezaPierwszyRaz = null)
     {
 
+    }
+    public void ObsluzAnimacje(string[] paramsT, bool[] values)
+    {
+        if (ReferenceEquals(this.GetType(), typeof(KonkretnyNPCStatyczny)))
+        {
+            KonkretnyNPCDynamiczny knpcd = (KonkretnyNPCDynamiczny)this;
+            Animator anim = null;
+            anim = knpcd.GetAnimator;
+            if (anim != null)
+            {
+                for (byte i = 0; i < paramsT.Length; i++)
+                {
+                    anim.SetBool(paramsT[i], values[i]);
+                }
+            }
+            else
+            {
+                Debug.Log("Animator nie został zadałdoany");
+            }
+        }
+        else
+        {
+            Debug.Log("Nie odnalazlem typu");
+        }
+    }
+    public void ObsluzAnimacje(string param, bool value)
+    {
+        if (ReferenceEquals(this.GetType(), typeof(KonkretnyNPCDynamiczny)))
+        {
+            KonkretnyNPCDynamiczny knpcd = (KonkretnyNPCDynamiczny)this;
+            Animator anim = null;
+            anim = knpcd.GetAnimator;
+            if (anim != null)
+            {
+                anim.SetBool(param, value);
+            }
+            else
+            {
+                Debug.Log("Animator nie został zadałdoany");
+            }
+        }
+        else
+        {
+            Debug.Log("Nie odnalazlem typu");
+        }
+    }
+    public void ObsluzAnimacje(ref Animator anima, string param, bool value)
+    {
+        if (anima != null)
+        {
+            anima.SetBool(param, value);
+        }
+        else
+        {
+            Debug.Log("Animator nie został zadałdoany");
+        }
+    }
+    public void ObsluzAnimacje(ref Animator anima, string param, int value)
+    {
+        if (anima != null)
+        {
+            anima.SetInteger(param, value);
+        }
+        else
+        {
+            Debug.Log("Animator nie został zadałdoany");
+        }
+    }
+    public void ObsluzAnimacje(ref Animator anima, string param, float value)
+    {
+        if (anima != null)
+        {
+            anima.SetFloat(param, value);
+        }
+        else
+        {
+            Debug.Log("Animator nie został zadałdoany");
+        }
     }
 }

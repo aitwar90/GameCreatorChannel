@@ -450,7 +450,11 @@ public static class PomocniczeFunkcje
         if (pObiekt.cel == null)
         {
             //Wyszukaj cel
-            pObiekt.cel = WyszukajWDrzewie(ref korzeńDrzewaPozycji, pObiekt.transform.position) as NPCClass;
+            pObiekt.cel = PomocniczeFunkcje.WyszukajWDrzewie(ref korzeńDrzewaPozycji, pObiekt.transform.position) as NPCClass;
+            if (pObiekt.cel != null)
+            {
+                pObiekt.ObsluzAnimacje("haveTarget", true);
+            }
         }
         else
         {
@@ -463,9 +467,14 @@ public static class PomocniczeFunkcje
             {
                 if (pObiekt.cel != celWrogów)
                 {
-                    pObiekt.cel = WyszukajWDrzewie(ref korzeńDrzewaPozycji, cObiekt.transform.position) as NPCClass;
+                    pObiekt.cel = PomocniczeFunkcje.WyszukajWDrzewie(ref korzeńDrzewaPozycji, cObiekt.transform.position) as NPCClass;
                     pObiekt.ResetujŚciezkę();
+                    pObiekt.ObsluzAnimacje("haveTarget", (pObiekt.cel == null) ? false : true);
                     return false;
+                }
+                else
+                {
+                    pObiekt.ObsluzAnimacje("haveTarget", false);
                 }
             }
             else
@@ -475,10 +484,15 @@ public static class PomocniczeFunkcje
                 {
                     //Atakuj
                     pObiekt.Atakuj((d <= 3f + cObiekt.PobierzGranice()) ? true : false);
+                    pObiekt.ObsluzAnimacje("inRange", true);
+                }
+                else
+                {
+                    pObiekt.ObsluzAnimacje("inRange", false);
                 }
             }
         }
-         return true;
+        return true;
     }
     public static void DodajDoStosuTrupów(KonkretnyNPCDynamiczny dodajDoTrupów)
     {
