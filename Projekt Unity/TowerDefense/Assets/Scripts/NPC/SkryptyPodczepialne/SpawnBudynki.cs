@@ -23,6 +23,7 @@ public class SpawnBudynki : MonoBehaviour
     private Vector3 posClick = Vector3.zero;
     private Transform rodzicBudynkow = null;
     private StrukturaBudynkuWTab[] czyBudynekZablokowany = null;
+    public bool kliknieteUI = false;
     #endregion
     #region Getery i Setery
     public Transform RodzicBudynków
@@ -32,25 +33,18 @@ public class SpawnBudynki : MonoBehaviour
             return rodzicBudynkow;
         }
     }
-    #endregion
-    public void ZróbListęDropdownBudynków()
+    public bool KlikUI
     {
-        List<string> s = new List<string>();
-        s.Add("None");
-        for(byte i = 0; i < czyBudynekZablokowany.Length; i++)
+        get
         {
-            if(czyBudynekZablokowany[i].czyZablokowany)
-            {
-                s.Add(wszystkieBudynki[czyBudynekZablokowany[i].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().nazwa + " LOCK");
-            }
-            else
-            {
-                s.Add(wszystkieBudynki[czyBudynekZablokowany[i].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().nazwa);
-            }
+            return kliknieteUI;
         }
-        this.dropdawn.ClearOptions();
-        this.dropdawn.AddOptions(s);
+        set
+        {
+            kliknieteUI = value;
+        }
     }
+    #endregion
     void Start()
     {
         if (rodzicBudynkow == null)
@@ -97,7 +91,7 @@ public class SpawnBudynki : MonoBehaviour
     {
         if (aktualnyObiekt != null && !MainMenu.czyMenuEnable)
         {
-            posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora);
+            posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora, ref kliknieteUI);
         }
     }
     void LateUpdate()
@@ -151,13 +145,7 @@ public class SpawnBudynki : MonoBehaviour
             ZatwierdźBudynekWindows();
         }
         float numer = Input.GetAxisRaw("Mouse ScrollWheel");
-        if (numer != 0)
-        {
-            numer = (numer < 0) ? -1 : 1;
-            Vector3 vet = aktualnyObiekt.transform.rotation.eulerAngles;
-            vet.y += numer * 45;
-            aktualnyObiekt.transform.rotation = Quaternion.Euler(vet);
-        }
+        ObróćBudynek(numer);
     }
     private void ObsluzTouchPad()
     {
@@ -189,6 +177,7 @@ public class SpawnBudynki : MonoBehaviour
             ResetWybranegoObiektu();
             Debug.Log("Nie stać Ciebie na dany budynek");
         }
+        PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(true);
         teksAktualnegoObiektu.text = "Aktualny obiekt = " + aktualnyObiekt.name;
     }
     private void ZatwierdźBudynekWindows()
@@ -197,8 +186,11 @@ public class SpawnBudynki : MonoBehaviour
         {
             posClick = WyrównajSpawn(posClick);
         }
-        aktualnyObiekt.transform.position = posClick;
-        HelperZatwierdzenieBudynku();
+        if (!kliknieteUI)
+        {
+            aktualnyObiekt.transform.position = posClick;
+            HelperZatwierdzenieBudynku();
+        }
     }
     private void ZatwierdźBudynekAndroid()
     {
@@ -289,10 +281,17 @@ public class SpawnBudynki : MonoBehaviour
         knpcs = null;
         aktualnyObiekt = null;
         teksAktualnegoObiektu.text = "Ilość coinów = " + ManagerGryScript.iloscCoinów;
+        dropdawn.value = 0;
+        PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
     }
     public void WybierzBudynekDoPostawienia()  //Wybór obiektu budynku do postawienia
     {
         short index = (short)(this.dropdawn.value - 1);
+        if (index < 0)
+        {
+            ResetWybranegoObiektu();
+            return;
+        }
         if (index > -1 && aktualnyObiekt == null)
         {
             if (!czyBudynekZablokowany[index].czyZablokowany)
@@ -308,11 +307,10 @@ public class SpawnBudynki : MonoBehaviour
                 PomocniczeFunkcje.mainMenu.WłWylPrzyciskiKupna(true);
             }
         }
-        dropdawn.value = 0;
     }
     private bool CzyMogęPostawićBudynek(Vector3 sugerowanaPozycja)
     {
-        if (knpcs.kosztJednostki > ManagerGryScript.iloscCoinów)
+        if (knpcs.kosztJednostki > ManagerGryScript.iloscCoinów || kliknieteUI)
         {
             return false;
         }
@@ -341,6 +339,8 @@ public class SpawnBudynki : MonoBehaviour
         knpcs = null;
         Destroy(aktualnyObiekt);
         aktualnyObiekt = null;
+        dropdawn.value = 0;
+        PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
     }
     private Vector3 WyrównajSpawn(Vector3 sugerowanePolozenie)
     {
@@ -357,6 +357,34 @@ public class SpawnBudynki : MonoBehaviour
         for (int i = rodzicBudynkow.childCount - 1; i >= 0; i--)
         {
             Destroy(rodzicBudynkow.GetChild(i).gameObject);
+        }
+    }
+    public void ZróbListęDropdownBudynków()
+    {
+        List<string> s = new List<string>();
+        s.Add("None");
+        for (byte i = 0; i < czyBudynekZablokowany.Length; i++)
+        {
+            if (czyBudynekZablokowany[i].czyZablokowany)
+            {
+                s.Add(wszystkieBudynki[czyBudynekZablokowany[i].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().nazwa + " LOCK");
+            }
+            else
+            {
+                s.Add(wszystkieBudynki[czyBudynekZablokowany[i].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().nazwa);
+            }
+        }
+        this.dropdawn.ClearOptions();
+        this.dropdawn.AddOptions(s);
+    }
+    public void ObróćBudynek(float numer = 2)   //numer to parametr skoków o ile ma obrócić się budynek
+    {
+        if (numer != 0)
+        {
+            numer = (numer < 0) ? (-1)*numer : 1*numer;
+            Vector3 vet = aktualnyObiekt.transform.rotation.eulerAngles;
+            vet.y += numer * 45;
+            aktualnyObiekt.transform.rotation = Quaternion.Euler(vet);
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public static class PomocniczeFunkcje
 {
@@ -20,8 +22,10 @@ public static class PomocniczeFunkcje
     public static byte odblokowaneEpoki = 6;
     public static ushort aktualneGranicaTab = 0;
     public static Camera oCam = null;
+    public static EventSystem eSystem = null;
+    public static GraphicRaycaster gr = null;
     #region Obsługa położenia myszy względem ekranu
-    public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos)
+    public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos, ref bool hitUI)
     {
         if (oCam == null)
         {
@@ -48,8 +52,17 @@ public static class PomocniczeFunkcje
             }
         }
 #endif
+        if(EventSystem.current.IsPointerOverGameObject())
+        {
+            hitUI = true;
+            return lastPos;
+        }
+        else
+        {
+            hitUI = false;
+        }
         RaycastHit[] hit = new RaycastHit[1];
-        int layerMask = ~(0 << 8);
+        int layerMask = ~((0 << 8) | (0 << 5));
         int hits = Physics.RaycastNonAlloc(ray, hit, 50f, layerMask, QueryTriggerInteraction.Collide);
         if (hits > 0)
         {

@@ -115,8 +115,11 @@ public class MoveCameraScript : MonoBehaviour
     {
         if (Input.touchCount == 1)    //Przesuniecie kamery
         {
+            bool klik = false;
+            Vector3 posDotyk = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKamery, ref klik);
+            if(klik)
+                return;
             Touch dotyk = Input.GetTouch(0);    //Pobierz informację o pierwszym dotknięciu
-            Vector3 posDotyk = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKamery);
             if(dotyk.phase == TouchPhase.Began)
             {
                 offs = posDotyk;

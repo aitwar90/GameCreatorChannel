@@ -15,6 +15,7 @@ public class MainMenu : MonoBehaviour
     public Button wróc;
     public Button użyjPrzedmiotu;
     public Button zmianaJezyka;
+    public Button rotacjaBudynku;
 
     public Dropdown wybórPrzedmiotuZEkwipunku;
     public static bool czyMenuEnable = true;
@@ -56,12 +57,13 @@ public class MainMenu : MonoBehaviour
         przyciskWznów = this.transform.Find("Menu/MainMenu/ResumeButton").GetComponent<Button>();
         uiGry.SetActive(false);
         optionsMenu.SetActive(false);
-        przyciskWznów.enabled = false;
+        przyciskWznów.interactable = false;
         PomocniczeFunkcje.oCam = Camera.main;
         nastepnyPoziom.gameObject.SetActive(false);
         powtorzPoziom.gameObject.SetActive(false);
         rekZaWyzszaNagrode.gameObject.SetActive(false);
         użyjPrzedmiotu.gameObject.SetActive(false);
+        UstawPrzyciskObrotu(false);
         WłWylPrzyciskiKupna(false);
     }
     public void PlayGame()
@@ -98,7 +100,7 @@ public class MainMenu : MonoBehaviour
     }
     public void PrzełączUI(bool aktywujeMenu)
     {
-        przyciskWznów.enabled = true;
+        przyciskWznów.interactable = true;
         czyMenuEnable = aktywujeMenu;
         menu.SetActive(aktywujeMenu);
         uiGry.SetActive(!aktywujeMenu);
@@ -197,5 +199,13 @@ public class MainMenu : MonoBehaviour
         if(lastIdxJezyka < 0 || lastIdxJezyka > 1)  //Tu należy zmienić liczbę jesli dodany zostanie nowy jezyk
             lastIdxJezyka = 0;
         PomocniczeFunkcje.managerGryScript.ZmianaJęzyka((byte)lastIdxJezyka);
+    }
+    public void ObrótBudynku()
+    {
+        PomocniczeFunkcje.spawnBudynki.ObróćBudynek();
+    }
+    public void UstawPrzyciskObrotu(bool wartośćPrzycisku)
+    {
+        rotacjaBudynku.gameObject.SetActive(wartośćPrzycisku);
     }
 }

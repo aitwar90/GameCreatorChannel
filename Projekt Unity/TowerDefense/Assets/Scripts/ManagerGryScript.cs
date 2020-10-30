@@ -261,6 +261,7 @@ public class ManagerGryScript : MonoBehaviour
             PomocniczeFunkcje.mainMenu.nastepnyPoziom.gameObject.SetActive(true);
             PomocniczeFunkcje.mainMenu.powtorzPoziom.gameObject.SetActive(true);
             PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
+            PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
             OdblokujKolejnaSkrzynke();
         }
         else
