@@ -114,6 +114,10 @@ public class KonkretnyNPCStatyczny : NPCClass
     }
     protected override void UsuńJednostkę()
     {
+        if(this == PomocniczeFunkcje.celWrogów)
+        {
+            return;
+        }
         if (this.nastawienieNPC == NastawienieNPC.Wrogie)
         {
             StartCoroutine(SkasujObject(5.0f));

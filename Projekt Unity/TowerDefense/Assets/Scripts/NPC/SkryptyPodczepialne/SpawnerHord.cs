@@ -176,15 +176,12 @@ public class SpawnerHord : MonoBehaviour
         }
         else
         {
-            if (cel != PomocniczeFunkcje.celWrogów)
-                PomocniczeFunkcje.celWrogów = cel;
             List<KonkretnyNPCDynamiczny> możliwiNPC = new List<KonkretnyNPCDynamiczny>();
             for (byte i = 0; i < wszystkieRodzajeWrogichJednostek.Length; i++)
             {
                 if (wszystkieRodzajeWrogichJednostek[i].epokaNPC == e)
                 {
                     możliwiNPC.Add((KonkretnyNPCDynamiczny)wszystkieRodzajeWrogichJednostek[i]);
-                    Debug.Log("Dodaje do możliwych npc "+wszystkieRodzajeWrogichJednostek[i].nazwa);
                 }
             }
             if (możliwiNPC.Count < 1)

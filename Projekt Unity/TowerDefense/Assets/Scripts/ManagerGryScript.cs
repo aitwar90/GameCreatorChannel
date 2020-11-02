@@ -298,6 +298,7 @@ public class ManagerGryScript : MonoBehaviour
         for (ushort i = 0; i < knpcd.Length; i++)
         {
             knpcd[i].AktualneŻycie = 0;
+            knpcd[i].NieŻyję = true;
         }
         KonkretnyNPCStatyczny[] knpcs = FindObjectsOfType(typeof(KonkretnyNPCStatyczny)) as KonkretnyNPCStatyczny[];
         for (ushort i = 0; i < knpcs.Length; i++)
@@ -305,6 +306,8 @@ public class ManagerGryScript : MonoBehaviour
             if (knpcs[i].AktualneŻycie > 0)
                 knpcs[i].AktualneŻycie = knpcs[i].maksymalneŻycie;
         }
+        PomocniczeFunkcje.mainMenu.powtorzPoziom.gameObject.SetActive(false);
+        PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
     }
     public void KliknietyPrzycisk(byte idx)
     {
