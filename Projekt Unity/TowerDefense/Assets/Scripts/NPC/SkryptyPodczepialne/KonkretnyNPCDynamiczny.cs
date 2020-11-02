@@ -192,7 +192,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     protected override void RysujHPBar()
     {
-        Debug.Log("Rysuj pasek Życia = "+rysujPasekŻycia+" SpawnedHord.actualHPBars = "+SpawnerHord.actualHPBars+" mainRenderer.isVisible = "+mainRenderer.isVisible);
         if (!rysujPasekŻycia && SpawnerHord.actualHPBars <= 20 && mainRenderer.isVisible)
         {
             rysujPasekŻycia = true;

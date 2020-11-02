@@ -251,7 +251,7 @@ public class ManagerGryScript : MonoBehaviour
             }
             for (byte i = 0; i < 4; i++)
             {
-                if (!skrzynki[i].button.enabled && !skrzynki[i].ReuseTimer)
+                if (!skrzynki[i].button.interactable && !skrzynki[i].ReuseTimer)
                 {
                     skrzynki[i].RozpocznijOdliczanie();
                     break;
@@ -541,5 +541,6 @@ public class ManagerGryScript : MonoBehaviour
             }
             writer.Close();
         }
+        //Hehe
     }
 }
