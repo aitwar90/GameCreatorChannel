@@ -167,6 +167,7 @@ public class SpawnBudynki : MonoBehaviour
     public void PostawBudynek(ref GameObject obiektDoRespawnu, Vector3 pos, Quaternion rotation)
     {
         aktualnyObiekt = Instantiate(obiektDoRespawnu, pos, rotation);
+        Debug.Log("Aktualny obiekt "+aktualnyObiekt.name);
         materialWybranegoBudynku = aktualnyObiekt.GetComponent<Renderer>().material;
         if (materialWybranegoBudynku != null)
         {
@@ -177,7 +178,7 @@ public class SpawnBudynki : MonoBehaviour
         if (knpcs.kosztJednostki > ManagerGryScript.iloscCoinów || knpcs.Zablokowany)
         {
             ResetWybranegoObiektu();
-            Debug.Log("Nie stać Ciebie na dany budynek");
+            return;
         }
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(true);
         teksAktualnegoObiektu.text = "Aktualny obiekt = " + aktualnyObiekt.name;

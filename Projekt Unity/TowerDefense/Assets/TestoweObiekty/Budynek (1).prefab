@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nazwa: Mur Standard
-  "maksymalne\u017Bycie": 100
+  "maksymalne\u017Bycie": 300
   typNPC: 0
   epokaNPC: 1
   kosztJednostki: 1
@@ -116,7 +116,7 @@ MonoBehaviour:
   poziomBudynku: 1
   kosztBadania: 0
   "typAtakuWie\u017Cy": 0
-  zablokowany: 1
+  blokowany: 1
   obiektAtaku: {fileID: 0}
   efektyFxStart: {fileID: 0}
   efektyFxKoniec: {fileID: 0}

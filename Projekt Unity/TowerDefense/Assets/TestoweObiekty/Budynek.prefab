@@ -298,7 +298,7 @@ MonoBehaviour:
   epokaNPC: 1
   kosztJednostki: 1
   "zadawaneObra\u017Cenia": 40
-  "zasi\u0119gAtaku": 5
+  "zasi\u0119gAtaku": 8
   "szybko\u015B\u0107Ataku": 1
   "modyfikatorOtrzymywanychObra\u017Ce\u0144": 1
   "modyfikatorZadawanychObra\u017Ce\u0144": 1
@@ -317,7 +317,6 @@ MonoBehaviour:
   efektyFxStart: {fileID: 0}
   efektyFxKoniec: {fileID: 0}
   sprite: {fileID: 6558778321167177766}
-  zablokowany: 0
 --- !u!135 &8240789140282401239
 SphereCollider:
   m_ObjectHideFlags: 0

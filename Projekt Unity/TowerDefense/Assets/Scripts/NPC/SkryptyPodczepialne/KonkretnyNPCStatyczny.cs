@@ -36,7 +36,7 @@ public class KonkretnyNPCStatyczny : NPCClass
     private List<NPCClass> wrogowieWZasiegu = null;
     private byte idxAct = 0;
     private GameObject instaObj;
-    private bool zablokowany = true;
+    [HideInInspector,SerializeField]private bool zablokowany = true;
     #endregion
 
     #region Zmienne chronione
