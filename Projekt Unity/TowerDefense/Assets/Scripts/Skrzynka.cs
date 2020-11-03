@@ -61,7 +61,5 @@ public class Skrzynka
         pozostałyCzas = DateTime.Now;
         pozostałyCzas = pozostałyCzas.AddHours(2);
         reuseTime = true;
-        if(button.interactable)
-            button.interactable = false;
     }
 }

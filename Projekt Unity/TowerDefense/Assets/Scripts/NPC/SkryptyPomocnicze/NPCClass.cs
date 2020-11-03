@@ -156,7 +156,7 @@ public abstract class NPCClass : MonoBehaviour
             }
             else
             {
-                Debug.Log("Animator nie został zadałdoany");
+                Debug.Log("Animator nie został załadowany");
             }
         }
         else
