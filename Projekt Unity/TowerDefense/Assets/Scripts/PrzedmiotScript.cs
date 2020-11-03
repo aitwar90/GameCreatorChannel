@@ -11,6 +11,10 @@ public class PrzedmiotScript : MonoBehaviour
     public ushort maxParam;
     public byte liczbaItemówOtrzymywanych = 1;
     public byte ilośćDanejNagrody = 0;
+    void Awake()
+    {
+        this.ilośćDanejNagrody = 0;
+    }
     public void AktywujPrzedmiot()
     {
         if (ilośćDanejNagrody > 0)

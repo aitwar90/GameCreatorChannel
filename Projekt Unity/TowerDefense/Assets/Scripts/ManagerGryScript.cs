@@ -249,14 +249,6 @@ public class ManagerGryScript : MonoBehaviour
                 }
                 PomocniczeFunkcje.odblokowanyPoziomEpoki++;
             }
-            for (byte i = 0; i < 4; i++)
-            {
-                if (!skrzynki[i].button.interactable && !skrzynki[i].ReuseTimer)
-                {
-                    skrzynki[i].RozpocznijOdliczanie();
-                    break;
-                }
-            }
             PomocniczeFunkcje.ZapiszDane();
             PomocniczeFunkcje.mainMenu.nastepnyPoziom.gameObject.SetActive(true);
             PomocniczeFunkcje.mainMenu.powtorzPoziom.gameObject.SetActive(true);

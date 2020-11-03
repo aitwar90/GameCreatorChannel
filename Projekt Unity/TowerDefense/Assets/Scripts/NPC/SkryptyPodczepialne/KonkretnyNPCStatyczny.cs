@@ -22,7 +22,7 @@ public class KonkretnyNPCStatyczny : NPCClass
     [Tooltip("Typ ataku wieży")]
     public TypAtakuWieży typAtakuWieży;
     [Tooltip("Czy budynek jest zablokowany (jeśli tak to znaczy że nie zostały spełnione wymagania, lub nie został wynaleziony")]
-    [SerializeField] public bool zablokowany = true;
+    public bool blokowany = true;
     [Tooltip("Obiekt, który atakuje z wieży")]
     public GameObject obiektAtaku;
     [Tooltip("System cząstek wyzwalany kiedy następuje wystrzał z wieży")]
@@ -36,13 +36,24 @@ public class KonkretnyNPCStatyczny : NPCClass
     private List<NPCClass> wrogowieWZasiegu = null;
     private byte idxAct = 0;
     private GameObject instaObj;
+    private bool zablokowany = true;
     #endregion
 
     #region Zmienne chronione
     #endregion
 
     #region Getery i setery
-
+    public bool Zablokowany
+    {
+        get
+        {
+            return zablokowany;
+        }
+        set
+        {
+            zablokowany = value;
+        }
+    }
     #endregion
     public void InicjacjaBudynku()
     {

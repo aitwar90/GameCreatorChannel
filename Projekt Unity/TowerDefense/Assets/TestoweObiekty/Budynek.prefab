@@ -312,11 +312,12 @@ MonoBehaviour:
   poziomBudynku: 1
   kosztBadania: 0
   "typAtakuWie\u017Cy": 1
-  zablokowany: 0
+  blokowany: 0
   obiektAtaku: {fileID: 6802195553192024197, guid: b1b921f0f68750a41be28bf2c07630fc, type: 3}
   efektyFxStart: {fileID: 0}
   efektyFxKoniec: {fileID: 0}
   sprite: {fileID: 6558778321167177766}
+  zablokowany: 0
 --- !u!135 &8240789140282401239
 SphereCollider:
   m_ObjectHideFlags: 0

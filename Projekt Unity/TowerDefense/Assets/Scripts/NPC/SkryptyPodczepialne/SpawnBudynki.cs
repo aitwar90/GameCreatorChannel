@@ -64,9 +64,10 @@ public class SpawnBudynki : MonoBehaviour
             {
                 KonkretnyNPCStatyczny knpcs = wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
                 byte budynekEpoki = (byte)knpcs.epokaNPC;
+                knpcs.Zablokowany = knpcs.blokowany;
                 if (budynekEpoki == idxActEpoki || budynekEpoki == idxActEpoki - 1)
                 {
-                    StrukturaBudynkuWTab tt = new StrukturaBudynkuWTab(knpcs.zablokowany, i);
+                    StrukturaBudynkuWTab tt = new StrukturaBudynkuWTab(knpcs.Zablokowany, i);
                     sbwt.Add(tt);
                     wszystkieBudynkiList.Add(knpcs.nazwa);
                 }
@@ -131,12 +132,13 @@ public class SpawnBudynki : MonoBehaviour
         if (czyOdblokowywuje && zablokowanyBudynekIndex > -1)
         {
             KonkretnyNPCStatyczny statycznyBudynekDoOdbl = wszystkieBudynki[czyBudynekZablokowany[zablokowanyBudynekIndex].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
-            statycznyBudynekDoOdbl.zablokowany = false;
+            statycznyBudynekDoOdbl.Zablokowany = false;
             czyBudynekZablokowany[zablokowanyBudynekIndex].czyZablokowany = false;
             this.dropdawn.options[zablokowanyBudynekIndex + 1].image = enableLockDropdownImage;
             this.dropdawn.options[zablokowanyBudynekIndex + 1].text = statycznyBudynekDoOdbl.nazwa;
         }
         zablokowanyBudynekIndex = -1;
+        ResetWybranegoObiektu();
     }
     private void ObsluzMysz()
     {
@@ -172,7 +174,7 @@ public class SpawnBudynki : MonoBehaviour
             materialWybranegoBudynku.color = Color.red;
         }
         knpcs = aktualnyObiekt.GetComponent<KonkretnyNPCStatyczny>();
-        if (knpcs.kosztJednostki > ManagerGryScript.iloscCoinów || knpcs.zablokowany)
+        if (knpcs.kosztJednostki > ManagerGryScript.iloscCoinów || knpcs.Zablokowany)
         {
             ResetWybranegoObiektu();
             Debug.Log("Nie stać Ciebie na dany budynek");

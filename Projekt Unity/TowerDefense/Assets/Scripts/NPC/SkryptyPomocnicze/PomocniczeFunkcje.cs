@@ -625,7 +625,7 @@ public static class PomocniczeFunkcje
             KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
             EnOrDisBudynki eodb = new EnOrDisBudynki();
             eodb.nazwa = knpcs.name;
-            eodb.zablokowanie = knpcs.zablokowany;
+            eodb.zablokowanie = knpcs.Zablokowany;
             tmp.Add(eodb);
         }
         ds._zablokowaneBudynki = tmp.ToArray();
@@ -711,7 +711,7 @@ public static class PomocniczeFunkcje
                     KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[j].GetComponent<KonkretnyNPCStatyczny>();
                     if (knpcs.name == ds._zablokowaneBudynki[i].nazwa)
                     {
-                        knpcs.zablokowany = ds._zablokowaneBudynki[i].zablokowanie;
+                        knpcs.Zablokowany = ds._zablokowaneBudynki[i].zablokowanie;
                     }
                 }
             }
