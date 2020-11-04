@@ -21,7 +21,10 @@ public class MainMenu : MonoBehaviour
     public Text ilośćCoinów;
     public Text ilośćFal;
     #endregion
-
+    #region Panel
+    public KontenerKomponentów panelDynamiczny;
+    public KontenerKomponentów panelStatyczny;
+    #endregion
     public Dropdown wybórPrzedmiotuZEkwipunku;
     public static bool czyMenuEnable = true;
     private GameObject menu;
@@ -32,7 +35,7 @@ public class MainMenu : MonoBehaviour
     private sbyte wybranyPrzedmiot = -1;
     public sbyte lastIdxJezyka = 0;
     private static MainMenu singelton = null;
-
+    private bool odpalonyPanel = false;
     public sbyte UstawLubPobierzOstatniIdexJezyka
     {
         get
@@ -45,9 +48,20 @@ public class MainMenu : MonoBehaviour
             ZmieńJęzyk();
         }
     }
+    public bool OdpalonyPanel
+    {
+        get
+        {
+            return odpalonyPanel;
+        }
+        set
+        {
+            odpalonyPanel = value;
+        }
+    }
     void Awake()
     {
-        if(singelton == null)
+        if (singelton == null)
         {
             singelton = this;
         }
@@ -70,6 +84,8 @@ public class MainMenu : MonoBehaviour
         użyjPrzedmiotu.gameObject.SetActive(false);
         UstawPrzyciskObrotu(false);
         WłWylPrzyciskiKupna(false);
+        panelDynamiczny.gameObject.SetActive(false);
+        panelStatyczny.gameObject.SetActive(false);
     }
     public void PlayGame()
     {
@@ -152,7 +168,7 @@ public class MainMenu : MonoBehaviour
     public void UstawDropDownEkwipunku(ref EkwipunekScript es)
     {
         List<string> listaOpcji = new List<string>();
-            listaOpcji.Add("NONE");
+        listaOpcji.Add("NONE");
         if (es != null && es.przedmioty != null && es.przedmioty.Length > 0)
         {
             for (byte i = 0; i < es.przedmioty.Length; i++)
@@ -201,7 +217,7 @@ public class MainMenu : MonoBehaviour
     public void ZmieńJęzyk()
     {
         lastIdxJezyka++;
-        if(lastIdxJezyka < 0 || lastIdxJezyka > 1)  //Tu należy zmienić liczbę jesli dodany zostanie nowy jezyk
+        if (lastIdxJezyka < 0 || lastIdxJezyka > 1)  //Tu należy zmienić liczbę jesli dodany zostanie nowy jezyk
             lastIdxJezyka = 0;
         PomocniczeFunkcje.managerGryScript.ZmianaJęzyka((byte)lastIdxJezyka);
     }
@@ -215,13 +231,90 @@ public class MainMenu : MonoBehaviour
     }
     public void UstawTextUI(string nazwaTekstu, string tekst)
     {
-        if(nazwaTekstu == "ilośćCoinów")
+        if (nazwaTekstu == "ilośćCoinów")
         {
             ilośćCoinów.text = tekst;
         }
-        else if(nazwaTekstu == "ilośćFal")
+        else if (nazwaTekstu == "ilośćFal")
         {
             ilośćFal.text = tekst;
+        }
+    }
+    public void UstawPanelUI(string parametry, Vector2 pos, KonkretnyNPCStatyczny knpcs = null)
+    {
+        if (odpalonyPanel)
+        {
+            panelDynamiczny.gameObject.SetActive(false);
+            panelStatyczny.gameObject.SetActive(false);
+            odpalonyPanel = false;
+        }
+        if (parametry == "")
+        {
+            return;
+        }
+        string[] s = parametry.Split('_');
+        if (s[0] == "STATYCZNY")
+        {
+            PanelStatyczny ps = (PanelStatyczny)panelStatyczny;
+            ps.KNPCS = knpcs;
+            RectTransform r = ps.GetComponent<RectTransform>();
+            for (byte i = 1; i < s.Length; i++)
+            {
+                switch (i)
+                {
+                    case 1: //Czy odblokować button
+                        if (s[i] == "True")  //Odblokuj naprawe budynku
+                        {
+                            ps.naprawButton.interactable = true;
+                        }
+                        else
+                        {
+                            ps.naprawButton.interactable = false;
+                        }
+                        break;
+                    case 2: //Nazwa obiektu
+                        ps.nazwaObiektu.text = s[i];
+                        break;
+                    case 3: //Punkty życia
+                        ps.punktyZycia.text = s[i];
+                        break;
+                    case 4: //Koszt naprawy
+                        ps.kosztNaprawy.text = s[i];
+                        break;
+                    case 5: //Obrażenia
+                        ps.obrazenia.text = s[i];
+                        break;
+                    case 6: //Opis
+                        ps.opis.text = s[i];
+                        break;
+                }
+            }
+            r.position = pos;
+            ps.gameObject.SetActive(true);
+            odpalonyPanel = true;
+        }
+        else if (s[0] == "DYNAMICZNY")
+        {
+            PanelDynamiczny ps = (PanelDynamiczny)panelDynamiczny;
+            RectTransform r = ps.GetComponent<RectTransform>();
+            for (byte i = 1; i < s.Length; i++)
+            {
+                switch (i)
+                {
+                    case 1: //Nazwa obiektu
+                        ps.nazwaObiektu.text = s[i];
+                        break;
+                    case 2: //Punkty życia
+                        ps.punktyZycia.text = s[i];
+                        break;
+                    case 3: //Obrażenia
+                        ps.obrazenia.text = s[i];
+                        break;
+                }
+            }
+            r.position = pos;
+            ps.gameObject.SetActive(true);
+            odpalonyPanel = true;
         }
     }
 }

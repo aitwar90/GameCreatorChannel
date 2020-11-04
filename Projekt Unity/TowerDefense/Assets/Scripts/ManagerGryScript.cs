@@ -75,7 +75,7 @@ public class ManagerGryScript : MonoBehaviour
             skrzynki[i] = new Skrzynka(ref PomocniczeFunkcje.mainMenu.buttonSkrzynki[i]);
         }
         PomocniczeFunkcje.ŁadujDane();
-        UtworzSzablonPlikuJezykowego();
+        //UtworzSzablonPlikuJezykowego();
         PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
     }
@@ -133,7 +133,7 @@ public class ManagerGryScript : MonoBehaviour
             StartCoroutine("WyzwólKolejnąFalę");
         }
     }
-    void FixedUpdate()
+    void Update()
     {
         /*
         Fragment kodu, który ma za zadanie zaznaczyć obiekt
@@ -142,6 +142,14 @@ public class ManagerGryScript : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
+            if(zaznaczonyObiekt != null)
+            {
+                 zaznaczonyObiekt.UstawPanel(Input.mousePosition);
+            }
+            else if(PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
+           {
+                PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
+            }
         }
 #endif
 #if UNITY_ANDROID
@@ -150,6 +158,14 @@ public class ManagerGryScript : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
+                if (zaznaczonyObiekt != null)
+                {
+                    zaznaczonyObiekt.UstawPanel(Input.mousePosition);
+                }
+                else if (PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
+                {
+                    PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
+                }
             }
         }
         else
@@ -157,6 +173,14 @@ public class ManagerGryScript : MonoBehaviour
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
+                if (zaznaczonyObiekt != null)
+                {
+                    zaznaczonyObiekt.UstawPanel(Input.GetTouch(0).position);
+                }
+                else if (PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
+                {
+                    PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
+                }
             }
         }
         if (Input.GetKeyDown(KeyCode.Space))
@@ -183,13 +207,6 @@ public class ManagerGryScript : MonoBehaviour
             }
         }
 #endif
-        if (zaznaczonyObiekt != null)
-        {
-            PomocniczeFunkcje.spawnBudynki.teksAktualnegoObiektu.text = "Altualnie zaznaczony obiekt: " + zaznaczonyObiekt.nazwa;
-        }
-    }
-    void Update()
-    {
         switch (idxOfManagerGryScript)
         {
             case 255:
@@ -410,65 +427,124 @@ public class ManagerGryScript : MonoBehaviour
     {
         //if (plikJezykowy != null)
         //{
-            UnityEngine.UI.Text[] wszystkieFrazy = Resources.FindObjectsOfTypeAll(typeof(UnityEngine.UI.Text)) as UnityEngine.UI.Text[];
-            string fs = plikJezykowy.text;
-            fs = fs.Replace("\n", "");
-            fs = fs.Replace("\r", "");
-            string[] fLines = fs.Split(';');
-            idx++;
-            for (ushort i = 0; i < fLines.Length; i++)
+        UnityEngine.UI.Text[] wszystkieFrazy = Resources.FindObjectsOfTypeAll(typeof(UnityEngine.UI.Text)) as UnityEngine.UI.Text[];
+        string fs = plikJezykowy.text;
+        fs = fs.Replace("\n", "");
+        fs = fs.Replace("\r", "");
+        string[] fLines = fs.Split(';');
+        idx++;
+        for (ushort i = 0; i < fLines.Length; i++)
+        {
+            string[] pFrazy = fLines[i].Split(',');
+            if (idx >= pFrazy.Length)
             {
-                string[] pFrazy = fLines[i].Split(',');
-                if (idx >= pFrazy.Length)
+                continue;
+            }
+            if (pFrazy[idx] != "")
+            {
+                for (ushort j = 0; j < wszystkieFrazy.Length; j++)
                 {
-                    continue;
+                    if (wszystkieFrazy[j].transform.name != "Text")
+                    {
+                        if (pFrazy[0] == wszystkieFrazy[j].transform.name)
+                        {
+                            wszystkieFrazy[j].text = pFrazy[idx];
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if (pFrazy[0] == wszystkieFrazy[j].transform.parent.name)
+                        {
+                            if (pFrazy[idx] != "")
+                            {
+                                wszystkieFrazy[j].text = pFrazy[idx];
+                            }
+                            break;
+                        }
+                    }
                 }
-                if (pFrazy[idx] != "")
+                if (PomocniczeFunkcje.spawnBudynki != null)
                 {
-                    for (ushort j = 0; j < wszystkieFrazy.Length; j++)
+                    KonkretnyNPCStatyczny[] knpcsT = PomocniczeFunkcje.spawnBudynki.RodzicBudynków.GetComponentsInChildren<KonkretnyNPCStatyczny>();
+                    byte fD = 0;
+                    for (ushort j = 0; j < PomocniczeFunkcje.spawnBudynki.wszystkieBudynki.Length; j++)
                     {
-                        if (wszystkieFrazy[j].transform.name != "Text")
+                        ushort kk = 10000;
+                        if (pFrazy[0] == PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[j].name + "=nazwa")
                         {
-                            if (pFrazy[0] == wszystkieFrazy[j].transform.name)
+                            if (pFrazy[idx] != "")
                             {
-                                wszystkieFrazy[j].text = pFrazy[idx];
-                                break;
+                                fD++;
+                                KonkretnyNPCStatyczny knpcs = PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[j].GetComponent<KonkretnyNPCStatyczny>();
+                                if (kk == 10000)
+                                {
+                                    for (ushort k = 0; k < knpcsT.Length; k++)
+                                    {
+                                        if (knpcs.nazwa == knpcsT[k].nazwa)
+                                        {
+                                            Debug.Log("Podmieniam nazwe obiektom na mapie");
+                                            knpcsT[k].nazwa = pFrazy[idx];
+                                            kk = k;
+                                            break;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    knpcsT[kk].nazwa = pFrazy[idx];
+                                }
+                                knpcs.nazwa = pFrazy[idx];
                             }
                         }
-                        else
+                        if (pFrazy[0] == PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[j].name + "=opis")
                         {
-                            if (pFrazy[0] == wszystkieFrazy[j].transform.parent.name)
+                            if (pFrazy[idx] != "")
                             {
-                                wszystkieFrazy[j].text = pFrazy[idx];
-                                break;
+                                fD++;
+                                KonkretnyNPCStatyczny knpcs = PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[j].GetComponent<KonkretnyNPCStatyczny>();
+                                if (kk == 10000)
+                                {
+                                    for (ushort k = 0; k < knpcsT.Length; k++)
+                                    {
+                                        if (knpcs.opisBudynku == knpcsT[k].opisBudynku)
+                                        {
+                                            knpcsT[k].opisBudynku = pFrazy[idx];
+                                            kk = k;
+                                            break;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    knpcsT[kk].opisBudynku = pFrazy[idx];
+                                }
+                                knpcs.opisBudynku = pFrazy[idx];
                             }
+                        }
+                        if (fD == 2)
+                        {
+                            break;
                         }
                     }
-                    if (PomocniczeFunkcje.spawnBudynki != null)
+                    PomocniczeFunkcje.spawnBudynki.ZróbListęDropdownBudynków();
+                }
+                if (PomocniczeFunkcje.managerGryScript != null)
+                {
+                    for (ushort j = 0; j < PomocniczeFunkcje.managerGryScript.ekwipunekGracza.Length; j++)
                     {
-                        for (ushort j = 0; j < PomocniczeFunkcje.spawnBudynki.wszystkieBudynki.Length; j++)
+                        if (PomocniczeFunkcje.managerGryScript.ekwipunekGracza[j].name == pFrazy[0])
                         {
-                            if (pFrazy[0] == PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[j].name)
-                            {
-                                PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[j].GetComponent<KonkretnyNPCStatyczny>().nazwa = pFrazy[idx];
-                                break;
-                            }
-                        }
-                        PomocniczeFunkcje.spawnBudynki.ZróbListęDropdownBudynków();
-                    }
-                    if(PomocniczeFunkcje.managerGryScript != null)
-                    {
-                        for(ushort j = 0; j < PomocniczeFunkcje.managerGryScript.ekwipunekGracza.Length; j++)
-                        {
-                            if(PomocniczeFunkcje.managerGryScript.ekwipunekGracza[j].name == pFrazy[0])
+                            if (pFrazy[idx] != "")
                             {
                                 PomocniczeFunkcje.managerGryScript.ekwipunekGracza[j].nazwaPrzedmiotu = pFrazy[idx];
                             }
                         }
-                        PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);
                     }
+                    PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);
                 }
             }
+        }
         //}
     }
     private void UtworzSzablonPlikuJezykowego()
@@ -517,18 +593,21 @@ public class ManagerGryScript : MonoBehaviour
                 {
                     string zapisywanaFraza = "";
                     KonkretnyNPCStatyczny knpcs = PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
-                    zapisywanaFraza = zapisywanaFraza + knpcs.gameObject.name + ",";
+                    zapisywanaFraza = zapisywanaFraza + knpcs.gameObject.name + "=nazwa,";
                     zapisywanaFraza = zapisywanaFraza + knpcs.nazwa + ";";
+                    writer.WriteLine(zapisywanaFraza);
+                    zapisywanaFraza = knpcs.gameObject.name + "=opis,";
+                    zapisywanaFraza = zapisywanaFraza + knpcs.opisBudynku + ";";
                     writer.WriteLine(zapisywanaFraza);
                 }
             }
             else
             {
-                Debug.Log("Spawn Budynki jest null");
+                Debug.Log("Spawn Budynki jest null");//
             }
-            if(PomocniczeFunkcje.managerGryScript != null)
+            if (PomocniczeFunkcje.managerGryScript != null)
             {
-                for(ushort i = 0; i < ekwipunekGracza.Length; i++)
+                for (ushort i = 0; i < ekwipunekGracza.Length; i++)
                 {
                     string zapisywanaFraza = "";
                     zapisywanaFraza = zapisywanaFraza + ekwipunekGracza[i].gameObject.name + ",";
@@ -538,6 +617,5 @@ public class ManagerGryScript : MonoBehaviour
             }
             writer.Close();
         }
-        //Hehe
     }
 }

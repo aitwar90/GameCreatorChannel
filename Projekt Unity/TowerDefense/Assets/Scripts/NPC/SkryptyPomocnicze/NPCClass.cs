@@ -97,6 +97,7 @@ public abstract class NPCClass : MonoBehaviour
     }
     protected abstract void RysujHPBar();
     protected abstract void UsuńJednostkę();
+    public abstract void UstawPanel(Vector2 pos);
     protected virtual IEnumerator SkasujObject(float time)
     {
         yield return new WaitForSeconds(time);

@@ -7,7 +7,6 @@ public class SpawnBudynki : MonoBehaviour
 {
     #region Zmienne publiczne
     public GameObject[] wszystkieBudynki;
-    public Text teksAktualnegoObiektu;
     //UI _ Canvas
     public Dropdown dropdawn;
     public Sprite lockDropdownImage;
@@ -23,7 +22,7 @@ public class SpawnBudynki : MonoBehaviour
     private Vector3 posClick = Vector3.zero;
     private Transform rodzicBudynkow = null;
     private StrukturaBudynkuWTab[] czyBudynekZablokowany = null;
-    public bool kliknieteUI = false;
+    private bool kliknieteUI = false;
     #endregion
     #region Getery i Setery
     public Transform RodzicBudynków
@@ -88,7 +87,7 @@ public class SpawnBudynki : MonoBehaviour
             }
         }
     }
-    void FixedUpdate()
+    void Update()
     {
         if (aktualnyObiekt != null && !MainMenu.czyMenuEnable)
         {
@@ -169,7 +168,6 @@ public class SpawnBudynki : MonoBehaviour
     public void PostawBudynek(ref GameObject obiektDoRespawnu, Vector3 pos, Quaternion rotation)
     {
         aktualnyObiekt = Instantiate(obiektDoRespawnu, pos, rotation);
-        Debug.Log("Aktualny obiekt "+aktualnyObiekt.name);
         materialWybranegoBudynku = aktualnyObiekt.GetComponent<Renderer>().material;
         if (materialWybranegoBudynku != null)
         {
@@ -183,7 +181,6 @@ public class SpawnBudynki : MonoBehaviour
             return;
         }
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(true);
-        teksAktualnegoObiektu.text = "Aktualny obiekt = " + aktualnyObiekt.name;
     }
     private void ZatwierdźBudynekWindows()
     {
@@ -386,7 +383,7 @@ public class SpawnBudynki : MonoBehaviour
     {
         if (numer != 0)
         {
-            numer = (numer < 0) ? (-1)*numer : 1*numer;
+            numer = (numer < 0) ? (-1)*numer : numer;
             Vector3 vet = aktualnyObiekt.transform.rotation.eulerAngles;
             vet.y += numer * 45;
             aktualnyObiekt.transform.rotation = Quaternion.Euler(vet);

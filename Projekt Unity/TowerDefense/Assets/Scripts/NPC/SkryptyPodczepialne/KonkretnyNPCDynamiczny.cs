@@ -235,6 +235,11 @@ public class KonkretnyNPCDynamiczny : NPCClass
         actXIdx = 32767;
         actZIdx = 32767;
     }
+    public override void UstawPanel(Vector2 pos)
+    {
+        string s = "DYNAMICZNY_"+this.nazwa.ToString()+"_"+this.AktualneŻycie.ToString()+"/"+this.maksymalneŻycie.ToString()+"_"+this.zadawaneObrażenia.ToString();
+        PomocniczeFunkcje.mainMenu.UstawPanelUI(s, pos);
+    }
     public void WyczyscDaneDynamic(bool wymuszonaKasacja = false)
     {
         PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek -= ResetujŚciezkę;
@@ -265,7 +270,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
             }
             */
             //Debug.Log("Has Path = " + agent.hasPath + " ostatni target pozycja " + ostatniTargetPozycja + " agent.destination = " + agent.destination);
-
             StartCoroutine(WyliczŚciezkę(UnityEngine.Random.Range(0f, 0.5f), docelowaPozycja));
         }
     }

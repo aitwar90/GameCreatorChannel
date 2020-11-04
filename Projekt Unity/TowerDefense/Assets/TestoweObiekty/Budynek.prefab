@@ -46,7 +46,6 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -160,7 +159,6 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -208,7 +206,7 @@ GameObject:
   - component: {fileID: 5312836397273425300}
   - component: {fileID: 7102131182484517752}
   - component: {fileID: 7929084977028605428}
-  - component: {fileID: 8240789140282401239}
+  - component: {fileID: 4633920508582325732}
   m_Layer: 8
   m_Name: Budynek
   m_TagString: Budynek
@@ -254,7 +252,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -279,7 +276,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &7929084977028605428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,11 +309,15 @@ MonoBehaviour:
   kosztBadania: 0
   "typAtakuWie\u017Cy": 1
   blokowany: 0
-  obiektAtaku: {fileID: 6802195553192024197, guid: b1b921f0f68750a41be28bf2c07630fc, type: 3}
+  obiektAtaku: {fileID: 6802195553192024197, guid: b1b921f0f68750a41be28bf2c07630fc,
+    type: 3}
   efektyFxStart: {fileID: 0}
   efektyFxKoniec: {fileID: 0}
   sprite: {fileID: 6558778321167177766}
---- !u!135 &8240789140282401239
+  opisBudynku: "Wie\u017Ca jest budynkiem ofensywnym maj\u0105cym za zadanie zadawa\u0107
+    obra\u017Cenia nadci\u0105gaj\u0105cym falom wrog\xF3w."
+  zablokowany: 0
+--- !u!135 &4633920508582325732
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -328,5 +328,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: -0.35, z: 0}
+  m_Radius: 0.5273676
+  m_Center: {x: 0.0000003874302, y: 0.4650412, z: 0.025956005}

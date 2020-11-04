@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 4417112919331240109}
   - component: {fileID: 1619491483798187585}
   - component: {fileID: 1945419270025672909}
-  - component: {fileID: 480594667005852910}
+  - component: {fileID: 1138384478543054448}
+  - component: {fileID: 3845351046716084671}
   m_Layer: 8
   m_Name: Budynek (1)
   m_TagString: Budynek
@@ -119,8 +120,26 @@ MonoBehaviour:
   efektyFxStart: {fileID: 0}
   efektyFxKoniec: {fileID: 0}
   sprite: {fileID: 1666213508012018869}
-  zablokowany: 0
---- !u!135 &480594667005852910
+  opisBudynku: "Mur jest budynkiem fortyfikuj\u0105cym maj\u0105cym du\u017Ca ilo\u015B\u0107
+    \u017Cycia."
+  zablokowany: 1
+--- !u!208 &1138384478543054448
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480594667005852909}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.001, y: 0.19600001, z: 0.021000002}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.19600001, z: -0.001}
+  m_TimeToStationary: 0.5
+--- !u!135 &3845351046716084671
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,7 +151,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.2
-  m_Center: {x: 0, y: 0.18, z: 0}
+  m_Center: {x: 0, y: 0.19578439, z: -0.0008080043}
 --- !u!1 &1071708322701970114
 GameObject:
   m_ObjectHideFlags: 0

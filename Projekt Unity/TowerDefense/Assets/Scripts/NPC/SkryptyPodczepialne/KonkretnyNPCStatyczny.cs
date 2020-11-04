@@ -30,11 +30,13 @@ public class KonkretnyNPCStatyczny : NPCClass
     [Tooltip("System cząstek wyzwalany kiedy nabój dosięga celu")]
     public ParticleSystem efektyFxKoniec;
     public Transform sprite = null;
+    public string opisBudynku;
     #endregion
 
     #region Zmienny prywatne
     private List<NPCClass> wrogowieWZasiegu = null;
     private byte idxAct = 0;
+    private ushort kosztNaprawy = 0;
     private GameObject instaObj;
     [HideInInspector,SerializeField]private bool zablokowany = true;
     #endregion
@@ -89,6 +91,7 @@ public class KonkretnyNPCStatyczny : NPCClass
             GUI.Box(new Rect(pozycjaPostaci.x - 40, Screen.height - pozycjaPostaci.y - 30, 80, 20), this.AktualneŻycie + " / " + maksymalneŻycie);
         */
         }
+        kosztNaprawy = (ushort)(1-(this.AktualneŻycie / this.maksymalneŻycie) * kosztJednostki*1.05);
     }
     protected override void UpdateMe()
     {
@@ -289,6 +292,14 @@ public class KonkretnyNPCStatyczny : NPCClass
     {
         return (granicaX + granicaZ) / 2f;
     }
+    public override void UstawPanel(Vector2 pos)
+    {
+        bool czyOdbl = false;
+        if(this.AktualneŻycie < this.maksymalneŻycie)
+            czyOdbl = true;
+        string s = "STATYCZNY_"+czyOdbl.ToString()+"_"+this.nazwa+"_"+this.AktualneŻycie.ToString()+"/"+this.maksymalneŻycie.ToString()+"_"+kosztNaprawy.ToString()+"_"+zadawaneObrażenia.ToString()+"_"+opisBudynku;
+        PomocniczeFunkcje.mainMenu.UstawPanelUI(s, pos, this);
+    }
     public void ZnajdźNowyCel()
     {
         if (wrogowieWZasiegu != null)
@@ -335,5 +346,12 @@ public class KonkretnyNPCStatyczny : NPCClass
             }
         }
         wrogowieWZasiegu = temp;
+    }
+    public void Napraw()
+    {
+        ManagerGryScript.iloscCoinów -= kosztNaprawy;
+        this.AktualneŻycie = this.maksymalneŻycie;
+        kosztNaprawy = 0;
+        RysujHPBar();
     }
 }

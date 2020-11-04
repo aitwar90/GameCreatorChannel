@@ -52,7 +52,7 @@ public static class PomocniczeFunkcje
             }
         }
 #endif
-        if(EventSystem.current.IsPointerOverGameObject())
+        if(CzyKliknalemUI())
         {
             hitUI = true;
             return lastPos;
@@ -194,7 +194,17 @@ public static class PomocniczeFunkcje
         }
         return compDoZwrotu;
     }
-
+    public static bool CzyKliknalemUI()
+    {
+        if(EventSystem.current.IsPointerOverGameObject())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     public static void SkasujElementDrzewa(ref StrukturaDrzewa korzeń, Component _komponentDoSkasowania)
     {
         if (korzeń == null)
