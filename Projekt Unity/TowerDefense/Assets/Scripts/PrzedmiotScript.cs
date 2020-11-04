@@ -23,6 +23,7 @@ public class PrzedmiotScript : MonoBehaviour
             {
                 case TypPrzedmiotu.Coiny:
                     ManagerGryScript.iloscCoinów += (ushort)Random.Range(minParam, maxParam+1);
+                    PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
                     break;
                 case TypPrzedmiotu.CudOcalenia:
                     PomocniczeFunkcje.managerGryScript.CudOcalenia();

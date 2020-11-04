@@ -228,6 +228,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
         PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek -= ResetujŚciezkę;
         ManagerGryScript.iloscAktywnychWrogów--;
         ManagerGryScript.iloscCoinów += this.ileCoinówZaZabicie;
+        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
+        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", ManagerGryScript.iloscAktywnychWrogów.ToString());
         WyczyscDaneDynamic();
         UsuńMnieZTablicyWież(true);
         actXIdx = 32767;

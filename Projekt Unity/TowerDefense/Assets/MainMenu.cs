@@ -17,6 +17,11 @@ public class MainMenu : MonoBehaviour
     public Button zmianaJezyka;
     public Button rotacjaBudynku;
 
+    #region TextUI
+    public Text ilośćCoinów;
+    public Text ilośćFal;
+    #endregion
+
     public Dropdown wybórPrzedmiotuZEkwipunku;
     public static bool czyMenuEnable = true;
     private GameObject menu;
@@ -207,5 +212,16 @@ public class MainMenu : MonoBehaviour
     public void UstawPrzyciskObrotu(bool wartośćPrzycisku)
     {
         rotacjaBudynku.gameObject.SetActive(wartośćPrzycisku);
+    }
+    public void UstawTextUI(string nazwaTekstu, string tekst)
+    {
+        if(nazwaTekstu == "ilośćCoinów")
+        {
+            ilośćCoinów.text = tekst;
+        }
+        else if(nazwaTekstu == "ilośćFal")
+        {
+            ilośćFal.text = tekst;
+        }
     }
 }

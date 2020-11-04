@@ -14,11 +14,9 @@ public class SpawnerHord : MonoBehaviour
     [Tooltip("Ilość przeciwników w ostatnio wygenerowanej fali")]
     public ushort ostatniaIlośćWFali = 0;
     public ushort maxIlośćNaFalę = 1;
-    public byte iloscPunktówSpawnu = 1;
     public static byte actualHPBars = 0;
     public NPCClass cel;
     public Transform rodzicNPC = null;
-
     private void ObsłużFale(Epoki e)
     {
         byte aktPozEpoki = PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki;
@@ -30,8 +28,7 @@ public class SpawnerHord : MonoBehaviour
             }
             else
             {
-                ostatniaIlośćWFali = 50;
-                ostatniaIlośćWFali += (ushort)Mathf.FloorToInt(ostatniaIlośćWFali * 0.1f * (aktPozEpoki - 50));
+                ostatniaIlośćWFali += (ushort)(3 + (aktPozEpoki - 45));
             }
         }
         else if (e == Epoki.EpokaStarożytna)
@@ -40,10 +37,9 @@ public class SpawnerHord : MonoBehaviour
             {
                 ostatniaIlośćWFali += 3;
             }
-            else
+           else
             {
-                ostatniaIlośćWFali = 50;
-                ostatniaIlośćWFali += (ushort)Mathf.FloorToInt(ostatniaIlośćWFali * 0.1f * (aktPozEpoki - 50));
+                ostatniaIlośćWFali += (ushort)(3 + (aktPozEpoki - 44));
             }
         }
         else if (e == Epoki.EpokaŚredniowiecza)
@@ -54,8 +50,7 @@ public class SpawnerHord : MonoBehaviour
             }
             else
             {
-                ostatniaIlośćWFali = 50;
-                ostatniaIlośćWFali += (ushort)Mathf.FloorToInt(ostatniaIlośćWFali * 0.1f * (aktPozEpoki - 50));
+               ostatniaIlośćWFali += (ushort)(3 + (aktPozEpoki - 43));
             }
         }
         else if (e == Epoki.EpokaNowożytna)
@@ -66,8 +61,7 @@ public class SpawnerHord : MonoBehaviour
             }
             else
             {
-                ostatniaIlośćWFali = 50;
-                ostatniaIlośćWFali += (ushort)Mathf.FloorToInt(ostatniaIlośćWFali * 0.1f * (aktPozEpoki - 50));
+                ostatniaIlośćWFali += (ushort)(3 + (aktPozEpoki - 42));
             }
         }
         else if (e == Epoki.EpokaWspołczesna)
@@ -78,8 +72,7 @@ public class SpawnerHord : MonoBehaviour
             }
             else
             {
-                ostatniaIlośćWFali = 50;
-                ostatniaIlośćWFali += (ushort)Mathf.FloorToInt(ostatniaIlośćWFali * 0.1f * (aktPozEpoki - 50));
+                ostatniaIlośćWFali += (ushort)(3 + (aktPozEpoki - 41));
             }
         }
         else if (e == Epoki.EpokaPrzyszła)
@@ -91,7 +84,7 @@ public class SpawnerHord : MonoBehaviour
             else
             {
                 ostatniaIlośćWFali = 50;
-                ostatniaIlośćWFali += (ushort)Mathf.FloorToInt(ostatniaIlośćWFali * 0.1f * (aktPozEpoki - 50));
+                ostatniaIlośćWFali += (ushort)(3 + (aktPozEpoki - 40));
             }
         }
         else
@@ -177,6 +170,7 @@ public class SpawnerHord : MonoBehaviour
         else
         {
             List<KonkretnyNPCDynamiczny> możliwiNPC = new List<KonkretnyNPCDynamiczny>();
+            byte iloscPunktówSpawnu = 1;
             for (byte i = 0; i < wszystkieRodzajeWrogichJednostek.Length; i++)
             {
                 if (wszystkieRodzajeWrogichJednostek[i].epokaNPC == e)
@@ -279,6 +273,7 @@ public class SpawnerHord : MonoBehaviour
         KonkretnyNPCDynamiczny knpcd = go.GetComponent<KonkretnyNPCDynamiczny>();
         UstawWroga(knpcd, czyPool);
         go.transform.SetParent(rodzicNPC);
+        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", ManagerGryScript.iloscAktywnychWrogów.ToString());
     }
     public void WywołajResetujŚcieżki()
     {

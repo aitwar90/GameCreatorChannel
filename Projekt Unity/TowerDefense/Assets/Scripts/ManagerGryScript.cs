@@ -77,6 +77,7 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.ŁadujDane();
         UtworzSzablonPlikuJezykowego();
         PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);
+        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
     }
     private void ŁadowanieDanych()
     {
@@ -86,6 +87,7 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.tablicaWież = new List<InformacjeDlaPolWież>[20, 20];
         PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 40) / 2.0f);
         PomocniczeFunkcje.distXZ = (terr.terrainData.size.x - (PomocniczeFunkcje.aktualneGranicaTab * 2)) / 20f;
+        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
         /*
         for(byte i = 0; i < 20; i++)
         {

@@ -58,7 +58,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -83,7 +82,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1945419270025672909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,13 +112,14 @@ MonoBehaviour:
   granicaX: 0.35
   granicaZ: 0.35
   poziomBudynku: 1
-  kosztBadania: 0
+  kosztBadania: 5
   "typAtakuWie\u017Cy": 0
   blokowany: 1
   obiektAtaku: {fileID: 0}
   efektyFxStart: {fileID: 0}
   efektyFxKoniec: {fileID: 0}
   sprite: {fileID: 1666213508012018869}
+  zablokowany: 0
 --- !u!135 &480594667005852910
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -180,7 +179,6 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -262,7 +260,6 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

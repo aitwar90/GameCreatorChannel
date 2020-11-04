@@ -133,9 +133,11 @@ public class SpawnBudynki : MonoBehaviour
         {
             KonkretnyNPCStatyczny statycznyBudynekDoOdbl = wszystkieBudynki[czyBudynekZablokowany[zablokowanyBudynekIndex].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
             statycznyBudynekDoOdbl.Zablokowany = false;
+            ManagerGryScript.iloscCoinów -= statycznyBudynekDoOdbl.kosztBadania;
             czyBudynekZablokowany[zablokowanyBudynekIndex].czyZablokowany = false;
             this.dropdawn.options[zablokowanyBudynekIndex + 1].image = enableLockDropdownImage;
             this.dropdawn.options[zablokowanyBudynekIndex + 1].text = statycznyBudynekDoOdbl.nazwa;
+            PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
         }
         zablokowanyBudynekIndex = -1;
         ResetWybranegoObiektu();
@@ -278,12 +280,12 @@ public class SpawnBudynki : MonoBehaviour
             PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek(knpcs);
         //Pobranie coinów za postawiony budynek
         ManagerGryScript.iloscCoinów -= knpcs.kosztJednostki;
+        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
         //Debug.Log("Postawiłem budynek na X = "+temp[0]+" Z = "+temp[1]);
         // Kasowanie ustawień potrzebnych do postawienia budynku
         materialWybranegoBudynku = null;
         knpcs = null;
         aktualnyObiekt = null;
-        teksAktualnegoObiektu.text = "Ilość coinów = " + ManagerGryScript.iloscCoinów;
         dropdawn.value = 0;
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
     }
