@@ -52,7 +52,7 @@ public static class PomocniczeFunkcje
             }
         }
 #endif
-        if(CzyKliknalemUI())
+        if (CzyKliknalemUI())
         {
             hitUI = true;
             return lastPos;
@@ -96,26 +96,48 @@ public static class PomocniczeFunkcje
             }
             else
             {
-                Debug.Log("Zwracam ostatni NPC = "+lastNPCCLass);
+                Debug.Log("Zwracam ostatni NPC = " + lastNPCCLass);
                 return lastNPCCLass;
             }
         }
 #endif
         int layerMask = (1 << 8) | (1 << 0);
         RaycastHit[] hit = new RaycastHit[2];
-        int hits = Physics.RaycastNonAlloc(ray, hit, 80f, layerMask,QueryTriggerInteraction.Ignore);
+        int hits = Physics.RaycastNonAlloc(ray, hit, 80f, layerMask, QueryTriggerInteraction.Ignore);
         if (hits > 0)
         {
-            if (hit[hits - 1].collider.CompareTag("Budynek") || hit[hits - 1].collider.CompareTag("NPC"))
-            {
-                return hit[hits - 1].collider.GetComponent<NPCClass>();
-            }
-            else if (hit[hits - 1].collider.GetType() == typeof(TerrainCollider))
-            {
-                return null;
-            }
+            return ZwrócNaPodstawieHit(ref hit, ref hits, ref lastNPCCLass);
         }
         return lastNPCCLass;
+    }
+    private static NPCClass ZwrócNaPodstawieHit(ref RaycastHit[] rays, ref int hits, ref NPCClass lastClass)
+    {
+        int tempIBudynek = -1, tempITeren = -1;
+        if (hits > 0)
+        {
+            for (int i = hits - 1; i >= 0; i--)
+            {
+                if (rays[i].collider.CompareTag("Budynek") || rays[i].collider.CompareTag("NPC"))
+                {
+                    tempIBudynek = i;
+                    break;
+                }
+                else if (rays[i].collider.GetType() == typeof(TerrainCollider))
+                {
+                    tempITeren = i;
+                }
+            }
+        }
+        if (tempIBudynek > -1)
+        {
+            return rays[tempIBudynek].collider.GetComponent<NPCClass>();
+        }
+        else if (tempITeren > -1)
+        {
+            return null;
+        }
+        else
+            return lastClass;
     }
     #endregion
     #region Drzewo pozycji
@@ -197,7 +219,7 @@ public static class PomocniczeFunkcje
     }
     public static bool CzyKliknalemUI()
     {
-        if(EventSystem.current.IsPointerOverGameObject())
+        if (EventSystem.current.IsPointerOverGameObject())
         {
             return true;
         }
