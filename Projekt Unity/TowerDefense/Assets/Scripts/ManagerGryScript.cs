@@ -142,7 +142,7 @@ public class ManagerGryScript : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
-            if(zaznaczonyObiekt != null)
+            if(zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0)
             {
                  zaznaczonyObiekt.UstawPanel(Input.mousePosition);
             }
@@ -158,11 +158,11 @@ public class ManagerGryScript : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
-                if (zaznaczonyObiekt != null)
+                if(zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0)
                 {
                     zaznaczonyObiekt.UstawPanel(Input.mousePosition);
                 }
-                else if (PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
+                else if(PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
                 {
                     PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
                 }
@@ -173,7 +173,7 @@ public class ManagerGryScript : MonoBehaviour
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
-                if (zaznaczonyObiekt != null)
+                if (zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0)
                 {
                     zaznaczonyObiekt.UstawPanel(Input.GetTouch(0).position);
                 }

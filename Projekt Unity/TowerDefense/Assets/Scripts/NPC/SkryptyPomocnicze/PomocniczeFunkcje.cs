@@ -96,13 +96,14 @@ public static class PomocniczeFunkcje
             }
             else
             {
+                Debug.Log("Zwracam ostatni NPC = "+lastNPCCLass);
                 return lastNPCCLass;
             }
         }
 #endif
         int layerMask = (1 << 8) | (1 << 0);
-        RaycastHit[] hit = new RaycastHit[1];
-        int hits = Physics.RaycastNonAlloc(ray, hit, 50f, layerMask, QueryTriggerInteraction.Collide);
+        RaycastHit[] hit = new RaycastHit[2];
+        int hits = Physics.RaycastNonAlloc(ray, hit, 80f, layerMask,QueryTriggerInteraction.Ignore);
         if (hits > 0)
         {
             if (hit[hits - 1].collider.CompareTag("Budynek") || hit[hits - 1].collider.CompareTag("NPC"))
