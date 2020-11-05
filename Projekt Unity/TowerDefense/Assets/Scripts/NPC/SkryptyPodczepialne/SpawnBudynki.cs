@@ -63,7 +63,6 @@ public class SpawnBudynki : MonoBehaviour
             {
                 KonkretnyNPCStatyczny knpcs = wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
                 byte budynekEpoki = (byte)knpcs.epokaNPC;
-                knpcs.Zablokowany = knpcs.blokowany;
                 if (budynekEpoki == idxActEpoki || budynekEpoki == idxActEpoki - 1)
                 {
                     StrukturaBudynkuWTab tt = new StrukturaBudynkuWTab(knpcs.Zablokowany, i);

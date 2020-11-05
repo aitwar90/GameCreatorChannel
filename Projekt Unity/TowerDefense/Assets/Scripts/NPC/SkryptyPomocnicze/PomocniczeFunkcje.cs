@@ -744,6 +744,7 @@ public static class PomocniczeFunkcje
                     KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[j].GetComponent<KonkretnyNPCStatyczny>();
                     if (knpcs.name == ds._zablokowaneBudynki[i].nazwa)
                     {
+                        knpcs.Zablokowany = knpcs.blokowany;
                         knpcs.Zablokowany = ds._zablokowaneBudynki[i].zablokowanie;
                     }
                 }
@@ -768,6 +769,11 @@ public static class PomocniczeFunkcje
         else
         {
             Debug.Log("Nie odnalazłem zapisu");
+            for (byte j = 0; j < spawnBudynki.wszystkieBudynki.Length; j++)
+            {
+                KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[j].GetComponent<KonkretnyNPCStatyczny>();
+                knpcs.Zablokowany = knpcs.blokowany;
+            }
         }
     }
     private static string ZwróćŚcieżkęZapisu()
