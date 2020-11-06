@@ -83,6 +83,7 @@ public class ManagerGryScript : MonoBehaviour
         {
             skrzynki[i] = new Skrzynka(ref PomocniczeFunkcje.mainMenu.buttonSkrzynki[i]);
         }
+        PomocniczeFunkcje.LadujDaneOpcje();
         PomocniczeFunkcje.ŁadujDane();
         //UtworzSzablonPlikuJezykowego();
         PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);

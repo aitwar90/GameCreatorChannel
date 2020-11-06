@@ -85,7 +85,7 @@ public class SpawnBudynki : MonoBehaviour
                 this.dropdawn.options[i + 1].text = this.dropdawn.options[i + 1].text + " LOCK";
             }
         }
-        PomocniczeFunkcje.managerGryScript.ZmianaJęzyka(0);
+        PomocniczeFunkcje.managerGryScript.ZmianaJęzyka((byte)PomocniczeFunkcje.mainMenu.lastIdxJezyka);
     }
     void Update()
     {

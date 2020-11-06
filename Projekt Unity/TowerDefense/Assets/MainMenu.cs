@@ -113,6 +113,10 @@ public class MainMenu : MonoBehaviour
     {
         menu.SetActive(!actButton);
         optionsMenu.SetActive(actButton);
+        if(!actButton)
+        {
+            PomocniczeFunkcje.ZapisDanychOpcje();
+        }
     }
     public void QuitGame()
     {

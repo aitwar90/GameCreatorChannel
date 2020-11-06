@@ -686,7 +686,7 @@ public static class PomocniczeFunkcje
             ds._ekwipunek = new EkwiStruct[1];
             ds._ekwipunek[0].idxTab = 255;
         }
-        string ścieżka = ZwróćŚcieżkęZapisu();
+        string ścieżka = ZwróćŚcieżkęZapisu("dataBaseTDv1.asc");
 
         BinaryFormatter bf = new BinaryFormatter();
         FileStream fs;
@@ -705,7 +705,7 @@ public static class PomocniczeFunkcje
     }
     public static void ŁadujDane()
     {
-        string ścieżka = ZwróćŚcieżkęZapisu();
+        string ścieżka = ZwróćŚcieżkęZapisu("dataBaseTDv1.asc");
         if (File.Exists(ścieżka))
         {
             Debug.Log(ścieżka);
@@ -776,20 +776,59 @@ public static class PomocniczeFunkcje
             }
         }
     }
-    private static string ZwróćŚcieżkęZapisu()
+    private static string ZwróćŚcieżkęZapisu(string nazwaPliku)
     {
         string s = null;
 #if UNITY_STANDALONE_WIN || UNITY_IOS
-        s = Application.persistentDataPath+"/dataBaseTDv1.asc";
+        s = Application.persistentDataPath+"/"+nazwaPliku;
 #endif
 #if UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX
-        s = Application.dataPath+"/dataBaseTDv1.asc";
+        s = Application.dataPath+"/"+nazwaPliku;
 #endif
 #if UNITY_ANDROID
-        s = Application.persistentDataPath + "/dataBaseTDv1.asc";
+        s = Application.persistentDataPath + "/" + nazwaPliku;
 #endif
 
         return s;
+    }
+    public static void ZapisDanychOpcje()
+    {
+        DaneOpcji daneO = new DaneOpcji();
+
+        daneO.indeksJezyka = mainMenu.lastIdxJezyka;
+
+        string ścieżka = ZwróćŚcieżkęZapisu("daneOpcje.asc");
+
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream fs;
+        if (!File.Exists(ścieżka))
+        {
+            fs = File.Create(ścieżka);
+        }
+        else
+        {
+            File.Delete(ścieżka);
+            fs = File.Create(ścieżka);
+        }
+        bf.Serialize(fs, daneO);
+        fs.Close();
+    }
+    public static void LadujDaneOpcje()
+    {
+        string ścieżka = ZwróćŚcieżkęZapisu("daneOpcje.asc");
+        if(File.Exists(ścieżka))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream fs = File.Open(ścieżka, FileMode.Open);
+            DaneOpcji daneO = (DaneOpcji)bf.Deserialize(fs);
+
+            fs.Close();
+
+            if(mainMenu != null)
+            {
+                mainMenu.lastIdxJezyka = daneO.indeksJezyka;
+            }
+        }
     }
 }
 [System.Serializable]
@@ -825,5 +864,10 @@ public struct EkwiStruct
 {
     [SerializeField] public byte idxTab;
     [SerializeField] public byte iloscPrzedmiotu;
+}
+[System.Serializable]
+public struct DaneOpcji
+{
+    [SerializeField] public sbyte indeksJezyka;
 }
 
