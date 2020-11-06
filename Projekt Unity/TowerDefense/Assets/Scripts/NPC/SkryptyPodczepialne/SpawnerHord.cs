@@ -9,8 +9,6 @@ public class SpawnerHord : MonoBehaviour
 {
     [Tooltip("Miejsca w których mogą zostać wygenerowani przewciwnicy")]
     public Transform[] spawnPunkty;
-    [Tooltip("Wszystkie dostępne jednostki w grze, które mogą mieć nastawienie wrogie")]
-    public NPCClass[] wszystkieRodzajeWrogichJednostek;
     [Tooltip("Ilość przeciwników w ostatnio wygenerowanej fali")]
     public ushort ostatniaIlośćWFali = 0;
     public ushort maxIlośćNaFalę = 1;
@@ -163,19 +161,20 @@ public class SpawnerHord : MonoBehaviour
     }
     public bool GenerujSpawn(Epoki e)
     {
-        if (ostatniaIlośćWFali >= maxIlośćNaFalę)
+        if (ostatniaIlośćWFali >= maxIlośćNaFalę || PomocniczeFunkcje.managerGryScript == null)
         {
             return false;
         }
         else
         {
             List<KonkretnyNPCDynamiczny> możliwiNPC = new List<KonkretnyNPCDynamiczny>();
+            NPCClass[] npcs = PomocniczeFunkcje.managerGryScript.PobierzTabliceWrogow;
             byte iloscPunktówSpawnu = 1;
-            for (byte i = 0; i < wszystkieRodzajeWrogichJednostek.Length; i++)
+            for (byte i = 0; i < npcs.Length; i++)
             {
-                if (wszystkieRodzajeWrogichJednostek[i].epokaNPC == e)
+                if (npcs[i].epokaNPC == e)
                 {
-                    możliwiNPC.Add((KonkretnyNPCDynamiczny)wszystkieRodzajeWrogichJednostek[i]);
+                    możliwiNPC.Add((KonkretnyNPCDynamiczny)npcs[i]);
                 }
             }
             if (możliwiNPC.Count < 1)

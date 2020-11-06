@@ -31,6 +31,8 @@ public class ManagerGryScript : MonoBehaviour
     public Skrzynka[] skrzynki;
     [Tooltip("Asset o rozszerzeniu csv z tłumaczeniem")]
     public TextAsset plikJezykowy;
+    [Tooltip("Wszystkie dostępne jednostki w grze, które mogą mieć nastawienie wrogie")]
+    public NPCClass[] wszystkieRodzajeWrogichJednostek;
     #endregion
 
     #region Prywatne zmienne
@@ -59,6 +61,13 @@ public class ManagerGryScript : MonoBehaviour
         get
         {
             return or.ZaładowanaReklamaJest;
+        }
+    }
+    public ref NPCClass[] PobierzTabliceWrogow
+    {
+        get
+        {
+            return ref wszystkieRodzajeWrogichJednostek;
         }
     }
     #endregion  
@@ -158,11 +167,11 @@ public class ManagerGryScript : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
-                if(zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
+                if (zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
                 {
                     zaznaczonyObiekt.UstawPanel(Input.mousePosition);
                 }
-                else if(PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
+                else if (PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
                 {
                     PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
                 }
@@ -456,27 +465,26 @@ public class ManagerGryScript : MonoBehaviour
                     {
                         if (pFrazy[0] == wszystkieFrazy[j].transform.parent.name)
                         {
-                            if (pFrazy[idx] != "")
-                            {
-                                wszystkieFrazy[j].text = pFrazy[idx];
-                            }
+                            wszystkieFrazy[j].text = pFrazy[idx];
                             break;
                         }
                     }
                 }
                 if (PomocniczeFunkcje.spawnBudynki != null)
                 {
-                    KonkretnyNPCStatyczny[] knpcsT = PomocniczeFunkcje.spawnBudynki.RodzicBudynków.GetComponentsInChildren<KonkretnyNPCStatyczny>();
+                    KonkretnyNPCStatyczny[] knpcsT = null;
+                    if (PomocniczeFunkcje.spawnBudynki.RodzicBudynków != null)
+                        knpcsT = PomocniczeFunkcje.spawnBudynki.RodzicBudynków.GetComponentsInChildren<KonkretnyNPCStatyczny>();
                     byte fD = 0;
                     for (ushort j = 0; j < PomocniczeFunkcje.spawnBudynki.wszystkieBudynki.Length; j++)
                     {
                         ushort kk = 10000;
                         if (pFrazy[0] == PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[j].name + "=nazwa")
                         {
-                            if (pFrazy[idx] != "")
+                            fD++;
+                            KonkretnyNPCStatyczny knpcs = PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[j].GetComponent<KonkretnyNPCStatyczny>();
+                            if (knpcsT != null)
                             {
-                                fD++;
-                                KonkretnyNPCStatyczny knpcs = PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[j].GetComponent<KonkretnyNPCStatyczny>();
                                 if (kk == 10000)
                                 {
                                     for (ushort k = 0; k < knpcsT.Length; k++)
@@ -492,17 +500,17 @@ public class ManagerGryScript : MonoBehaviour
                                 }
                                 else
                                 {
-                                    knpcsT[kk].nazwa = pFrazy[idx];
+                                    knpcsT[kk].UstawJezykNPC("nazwa", pFrazy[idx]);
                                 }
-                                knpcs.nazwa = pFrazy[idx];
                             }
+                            knpcs.UstawJezykNPC("nazwa", pFrazy[idx]);
                         }
                         if (pFrazy[0] == PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[j].name + "=opis")
                         {
-                            if (pFrazy[idx] != "")
+                            fD++;
+                            KonkretnyNPCStatyczny knpcs = PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[j].GetComponent<KonkretnyNPCStatyczny>();
+                            if (knpcsT != null)
                             {
-                                fD++;
-                                KonkretnyNPCStatyczny knpcs = PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[j].GetComponent<KonkretnyNPCStatyczny>();
                                 if (kk == 10000)
                                 {
                                     for (ushort k = 0; k < knpcsT.Length; k++)
@@ -517,10 +525,10 @@ public class ManagerGryScript : MonoBehaviour
                                 }
                                 else
                                 {
-                                    knpcsT[kk].opisBudynku = pFrazy[idx];
+                                    knpcsT[kk].UstawJezykNPC("opis", pFrazy[idx]);
                                 }
-                                knpcs.opisBudynku = pFrazy[idx];
                             }
+                            knpcs.UstawJezykNPC("opis", pFrazy[idx]);
                         }
                         if (fD == 2)
                         {
@@ -529,16 +537,23 @@ public class ManagerGryScript : MonoBehaviour
                     }
                     PomocniczeFunkcje.spawnBudynki.ZróbListęDropdownBudynków();
                 }
-                if (PomocniczeFunkcje.managerGryScript != null)
+                if (wszystkieRodzajeWrogichJednostek != null && wszystkieRodzajeWrogichJednostek.Length > 0)
+                {
+                    for (ushort j = 0; j < wszystkieRodzajeWrogichJednostek.Length; j++)
+                    {
+                        if (pFrazy[0] == wszystkieRodzajeWrogichJednostek[j].name + "=nazwa")
+                        {
+                            wszystkieRodzajeWrogichJednostek[j].UstawJezykNPC("nazwa", pFrazy[idx]);
+                        }
+                    }
+                }
+                if (PomocniczeFunkcje.managerGryScript != null || pFrazy[idx] != "")
                 {
                     for (ushort j = 0; j < PomocniczeFunkcje.managerGryScript.ekwipunekGracza.Length; j++)
                     {
                         if (PomocniczeFunkcje.managerGryScript.ekwipunekGracza[j].name == pFrazy[0])
                         {
-                            if (pFrazy[idx] != "")
-                            {
-                                PomocniczeFunkcje.managerGryScript.ekwipunekGracza[j].nazwaPrzedmiotu = pFrazy[idx];
-                            }
+                            PomocniczeFunkcje.managerGryScript.ekwipunekGracza[j].nazwaPrzedmiotu = pFrazy[idx];
                         }
                     }
                     PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);
@@ -603,7 +618,17 @@ public class ManagerGryScript : MonoBehaviour
             }
             else
             {
-                Debug.Log("Spawn Budynki jest null");//
+                Debug.Log("Spawn Budynki jest null");
+            }
+            if (wszystkieRodzajeWrogichJednostek != null && wszystkieRodzajeWrogichJednostek.Length > 0)
+            {
+                for (ushort i = 0; i < wszystkieRodzajeWrogichJednostek.Length; i++)
+                {
+                    string zapisywanaFraza = "";
+                    zapisywanaFraza = zapisywanaFraza + wszystkieRodzajeWrogichJednostek[i].name + "=nazwa,";
+                    zapisywanaFraza = zapisywanaFraza + wszystkieRodzajeWrogichJednostek[i].nazwa + ";";
+                    writer.WriteLine(zapisywanaFraza);
+                }
             }
             if (PomocniczeFunkcje.managerGryScript != null)
             {

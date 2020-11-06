@@ -354,4 +354,13 @@ public class KonkretnyNPCStatyczny : NPCClass
         kosztNaprawy = 0;
         RysujHPBar();
     }
+    public override void UstawJezykNPC(string coZmieniam, string podmianaWartosci)
+    {
+        base.UstawJezykNPC(coZmieniam, podmianaWartosci);
+        if(coZmieniam == "opis")
+        {
+            this.opisBudynku = podmianaWartosci;
+            return;
+        }
+    }
 }

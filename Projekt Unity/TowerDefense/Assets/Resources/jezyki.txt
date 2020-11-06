@@ -44,6 +44,8 @@ Budynek=nazwa,Wieża Standard,Simple Tower;
 Budynek=opis,Wieża jest budynkiem ofensywnym mającym za zadanie zadawać obrażenia nadciągającym falom wrogów., Tower is offensife building. Use it to damage your enemy.;
 Budynek (1)=nazwa,Mur Standard,Wall Standard;
 Budynek (1)=opis,Mur jest budynkiem fortyfikującym mającym duża ilość życia.,Wall is a fortificated building. Use it for defence your base.;
+GOBLIN_D=nazwa,GoblinD,GoblinusD;
+GOBLIN_Z=nazwa,GoblinZ,GoblinusZ;
 Coiny,Monety,Coins;
 CudOcalenia,CudOcalenia,Miracle;
 DodatkowaNagroda,Dodatkowa nagroda,Additional reward;

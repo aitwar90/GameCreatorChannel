@@ -219,6 +219,14 @@ public abstract class NPCClass : MonoBehaviour
             Debug.Log("Animator nie został zadałdoany");
         }
     }
+    public virtual void UstawJezykNPC(string coZmieniam, string podmianaWartosci)
+    {
+        if(coZmieniam == "nazwa")
+        {
+            this.nazwa = podmianaWartosci;
+            return;
+        }
+    }
     #endregion
 
 }
