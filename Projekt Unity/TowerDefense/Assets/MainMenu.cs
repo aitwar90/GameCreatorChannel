@@ -16,10 +16,20 @@ public class MainMenu : MonoBehaviour
     public Button użyjPrzedmiotu;
     public Button zmianaJezyka;
     public Button rotacjaBudynku;
+    public Button odpalPoziom;
+    public Button lvlNizej;
+    public Button lvlWyzej;
+    public Button wrocDoMenuZPoGraj;
+    #region Akademia
+    public Button buttonAZycie;
+    public Button buttonAAtak;
+    public Button buttonAObrona;
+    #endregion
 
     #region TextUI
     public Text ilośćCoinów;
     public Text ilośćFal;
+    public InputField poziomWEpoce;
     #endregion
     #region Panel
     public KontenerKomponentów panelDynamiczny;
@@ -30,6 +40,7 @@ public class MainMenu : MonoBehaviour
     private GameObject menu;
     private GameObject uiGry;
     private GameObject optionsMenu;
+    private GameObject poGraj;
     private Button przyciskWznów;
     private Vector3 lastPosCam = Vector3.zero;
     private sbyte wybranyPrzedmiot = -1;
@@ -70,10 +81,15 @@ public class MainMenu : MonoBehaviour
             Destroy(this);
             return;
         }
+        this.poziomWEpoce.characterValidation = InputField.CharacterValidation.Integer;
         menu = this.transform.Find("Menu/MainMenu").gameObject;
         uiGry = this.transform.Find("UIGry").gameObject;
         optionsMenu = this.transform.Find("Menu/OptionsMenu").gameObject;
+        poGraj = this.transform.Find("Menu/PoGraj").gameObject;
         przyciskWznów = this.transform.Find("Menu/MainMenu/ResumeButton").GetComponent<Button>();
+        OdpalButtonyAkademii(false);
+        UstawPrzyciskObrotu(false);
+        WłWylPrzyciskiKupna(false);
         uiGry.SetActive(false);
         optionsMenu.SetActive(false);
         przyciskWznów.interactable = false;
@@ -82,13 +98,28 @@ public class MainMenu : MonoBehaviour
         powtorzPoziom.gameObject.SetActive(false);
         rekZaWyzszaNagrode.gameObject.SetActive(false);
         użyjPrzedmiotu.gameObject.SetActive(false);
-        UstawPrzyciskObrotu(false);
-        WłWylPrzyciskiKupna(false);
+        poGraj.SetActive(false);
         panelDynamiczny.gameObject.SetActive(false);
         panelStatyczny.gameObject.SetActive(false);
     }
-    public void PlayGame()
+    public void OdpalPoScenie(bool czyOdpalamPoScenie)
     {
+        if (czyOdpalamPoScenie)
+        {
+            menu.SetActive(false);
+            poGraj.SetActive(true);
+            poziomWEpoce.text = PomocniczeFunkcje.odblokowanyPoziomEpoki.ToString();
+        }
+        else
+        {
+            menu.SetActive(true);
+            poGraj.SetActive(false);
+        }
+    }
+    public void OdpalPoziom()
+    {
+        byte poziom = (byte)int.Parse(poziomWEpoce.text);
+        PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki = poziom;
         if (SceneManager.sceneCount == 1)
         {
             SceneManager.LoadScene((byte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka, LoadSceneMode.Additive);
@@ -100,7 +131,28 @@ public class MainMenu : MonoBehaviour
         }
         PomocniczeFunkcje.oCam.transform.position = MoveCameraScript.bazowePolozenieKameryGry;
         lastPosCam = MoveCameraScript.bazowePolozenieKameryGry;
+        poGraj.SetActive(false);
         PrzełączUI(false);
+    }
+    public void LVLNizejWyzej(bool czyWyzej)
+    {
+        int t = int.Parse(poziomWEpoce.text);
+        if (czyWyzej)
+        {
+            t++;
+            if (t <= PomocniczeFunkcje.odblokowanyPoziomEpoki)
+            {
+                poziomWEpoce.text = t.ToString();
+            }
+        }
+        else
+        {
+            t--;
+            if (t > 0)
+            {
+                poziomWEpoce.text = t.ToString();
+            }
+        }
     }
     public void ResetSceny()
     {
@@ -113,7 +165,7 @@ public class MainMenu : MonoBehaviour
     {
         menu.SetActive(!actButton);
         optionsMenu.SetActive(actButton);
-        if(!actButton)
+        if (!actButton)
         {
             PomocniczeFunkcje.ZapisDanychOpcje();
         }
@@ -232,6 +284,31 @@ public class MainMenu : MonoBehaviour
     public void UstawPrzyciskObrotu(bool wartośćPrzycisku)
     {
         rotacjaBudynku.gameObject.SetActive(wartośćPrzycisku);
+    }
+    public void KliknalemButtonRozwoju(int indeksButtonu)   //1 - Zycie, 2 - Atak, 3 - Obrona
+    {
+        PomocniczeFunkcje.managerGryScript.RozwójBudynkow((byte)indeksButtonu);
+    }
+    public void OdpalButtonyAkademii(bool czyOdpalac = true)
+    {
+        if (buttonAZycie.gameObject.activeInHierarchy != czyOdpalac)
+        {
+            buttonAZycie.gameObject.SetActive(czyOdpalac);
+            buttonAAtak.gameObject.SetActive(czyOdpalac);
+            buttonAObrona.gameObject.SetActive(czyOdpalac);
+            if(ManagerGryScript.iloscCoinów < 200)
+            {
+                buttonAZycie.interactable = false;
+                buttonAAtak.interactable = false;
+                buttonAObrona.interactable = false;
+            }
+            else
+            {
+                buttonAZycie.interactable = true;
+                buttonAAtak.interactable = true;
+                buttonAObrona.interactable = true;
+            }
+        }
     }
     public void UstawTextUI(string nazwaTekstu, string tekst)
     {

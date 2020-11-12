@@ -628,6 +628,9 @@ public static class PomocniczeFunkcje
         ds.ilośćMonet = ManagerGryScript.iloscCoinów;
         ds._odblokowanieEpoki = odblokowaneEpoki;
         ds._odblokowanyPoziomEpoki = odblokowanyPoziomEpoki;
+        ds.poziomHP = PomocniczeFunkcje.managerGryScript.hpIdx;
+        ds.poziomAtak = PomocniczeFunkcje.managerGryScript.atkIdx;
+        ds.poziomDef = PomocniczeFunkcje.managerGryScript.defIdx;
         List<ZapisSkrzynek> zsl = new List<ZapisSkrzynek>();
         for (byte i = 0; i < 4; i++)
         {
@@ -718,6 +721,9 @@ public static class PomocniczeFunkcje
             ManagerGryScript.iloscCoinów = (ushort)ds.ilośćMonet;
             odblokowaneEpoki = ds._odblokowanieEpoki;
             odblokowanyPoziomEpoki = ds._odblokowanyPoziomEpoki;
+            managerGryScript.hpIdx = (ushort)ds.poziomHP;
+            managerGryScript.atkIdx = (ushort)ds.poziomAtak;
+            managerGryScript.defIdx = (ushort)ds.poziomDef;
             for (ushort i = 0; i < ds._skrzynki.Length; i++)
             {
                 if (ds._skrzynki[i].czyIstniejeSkrzynka || ds._skrzynki[i].czyAktywna)
@@ -840,6 +846,9 @@ public struct DataSave
     [SerializeField] public ZapisSkrzynek[] _skrzynki;
     [SerializeField] public EnOrDisBudynki[] _zablokowaneBudynki;
     [SerializeField] public EkwiStruct[] _ekwipunek;
+    [SerializeField] public int poziomHP;
+    [SerializeField] public int poziomAtak;
+    [SerializeField] public int poziomDef;
 }
 [System.Serializable]
 public struct EnOrDisBudynki

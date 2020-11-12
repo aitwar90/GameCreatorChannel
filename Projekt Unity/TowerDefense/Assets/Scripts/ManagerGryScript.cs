@@ -33,6 +33,9 @@ public class ManagerGryScript : MonoBehaviour
     public TextAsset plikJezykowy;
     [Tooltip("Wszystkie dostępne jednostki w grze, które mogą mieć nastawienie wrogie")]
     public NPCClass[] wszystkieRodzajeWrogichJednostek;
+    [HideInInspector]public ushort hpIdx;
+    [HideInInspector]public ushort atkIdx;
+    [HideInInspector]public ushort defIdx;
     #endregion
 
     #region Prywatne zmienne
@@ -85,7 +88,7 @@ public class ManagerGryScript : MonoBehaviour
         }
         PomocniczeFunkcje.LadujDaneOpcje();
         PomocniczeFunkcje.ŁadujDane();
-        //UtworzSzablonPlikuJezykowego();
+        UtworzSzablonPlikuJezykowego();
         PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
     }
@@ -154,6 +157,7 @@ public class ManagerGryScript : MonoBehaviour
             zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
             if(zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
             {
+                PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
                  zaznaczonyObiekt.UstawPanel(Input.mousePosition);
             }
             else if(PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
@@ -167,6 +171,7 @@ public class ManagerGryScript : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
+                PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
                 zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
                 if (zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
                 {
@@ -182,6 +187,7 @@ public class ManagerGryScript : MonoBehaviour
         {
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
+                PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
                 zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
                 if (zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
                 {
@@ -642,6 +648,34 @@ public class ManagerGryScript : MonoBehaviour
                 }
             }
             writer.Close();
+        }
+    }
+    public void RozwójBudynkow(byte idxRozwojuBudynku)
+    {
+        KonkretnyNPCStatyczny[] knpcs = FindObjectsOfType(typeof(KonkretnyNPCStatyczny)) as KonkretnyNPCStatyczny[];
+        switch(idxRozwojuBudynku)
+        {
+            case 1: //Max HP
+            hpIdx ++;
+            for(ushort i = 0; i < knpcs.Length; i++)
+            {
+                knpcs[i].maksymalneŻycie = (short)(knpcs[i].maksymalneŻycie + 10*hpIdx);
+            }
+            break;
+            case 2: //Max atak
+            atkIdx++;
+            for(ushort i = 0; i < knpcs.Length; i++)
+            {
+                knpcs[i].modyfikatorZadawanychObrażeń = (float)(knpcs[i].modyfikatorZadawanychObrażeń + 0.1f*atkIdx);
+            }
+            break;
+            case 3: //Max obrona
+            defIdx++;
+            for(ushort i = 0; i < knpcs.Length; i++)
+            {
+                knpcs[i].modyfikatorOtrzymywanychObrażeń = (float)(knpcs[i].modyfikatorZadawanychObrażeń + 0.1f*defIdx);
+            }
+            break;
         }
     }
 }

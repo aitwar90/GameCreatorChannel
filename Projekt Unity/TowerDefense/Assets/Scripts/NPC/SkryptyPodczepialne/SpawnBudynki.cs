@@ -273,6 +273,9 @@ public class SpawnBudynki : MonoBehaviour
             k++;
             s--;
         }
+        knpcs.maksymalneŻycie += (short)(PomocniczeFunkcje.managerGryScript.hpIdx*10);
+        knpcs.modyfikatorZadawanychObrażeń += PomocniczeFunkcje.managerGryScript.atkIdx*0.1f;
+        knpcs.modyfikatorOtrzymywanychObrażeń += PomocniczeFunkcje.managerGryScript.defIdx*0.1f;
         if (PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek != null)
             PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek(knpcs);
         //Pobranie coinów za postawiony budynek

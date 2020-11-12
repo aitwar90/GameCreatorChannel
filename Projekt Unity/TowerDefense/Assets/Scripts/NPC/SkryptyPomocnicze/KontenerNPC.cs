@@ -26,6 +26,7 @@ public enum TypBudynku
 {
     Mur,
     Wieża,
+    Akademia,
     Reszta
 }
 public enum TypAtakuWieży

@@ -299,6 +299,14 @@ public class KonkretnyNPCStatyczny : NPCClass
             czyOdbl = true;
         string s = "STATYCZNY_"+czyOdbl.ToString()+"_"+this.nazwa+"_"+this.AktualneŻycie.ToString()+"/"+this.maksymalneŻycie.ToString()+"_"+kosztNaprawy.ToString()+"_"+zadawaneObrażenia.ToString()+"_"+opisBudynku;
         PomocniczeFunkcje.mainMenu.UstawPanelUI(s, pos, this);
+        if(this.typBudynku == TypBudynku.Akademia)
+        {
+            PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(true);
+        }
+        else
+        {
+            PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
+        }
     }
     public void ZnajdźNowyCel()
     {
