@@ -33,9 +33,9 @@ public class ManagerGryScript : MonoBehaviour
     public TextAsset plikJezykowy;
     [Tooltip("Wszystkie dostępne jednostki w grze, które mogą mieć nastawienie wrogie")]
     public NPCClass[] wszystkieRodzajeWrogichJednostek;
-    [HideInInspector]public ushort hpIdx;
-    [HideInInspector]public ushort atkIdx;
-    [HideInInspector]public ushort defIdx;
+    [HideInInspector] public ushort hpIdx;
+    [HideInInspector] public ushort atkIdx;
+    [HideInInspector] public ushort defIdx;
     #endregion
 
     #region Prywatne zmienne
@@ -280,9 +280,13 @@ public class ManagerGryScript : MonoBehaviour
             {
                 if (aktualnyPoziomEpoki % 100 == 0 && (byte)aktualnaEpoka == PomocniczeFunkcje.odblokowanyPoziomEpoki)
                 {
-                    PomocniczeFunkcje.odblokowaneEpoki++;
+                    //Jeśli epoki są gotowe to tu są odblokowywane
+                    //PomocniczeFunkcje.odblokowaneEpoki++;
                 }
-                PomocniczeFunkcje.odblokowanyPoziomEpoki++;
+                else    //Ten else do usunięcia jesli zostanie dodanych więcej epok
+                {
+                    PomocniczeFunkcje.odblokowanyPoziomEpoki++;
+                }
             }
             PomocniczeFunkcje.ZapiszDane();
             PomocniczeFunkcje.mainMenu.nastepnyPoziom.gameObject.SetActive(true);
@@ -653,29 +657,29 @@ public class ManagerGryScript : MonoBehaviour
     public void RozwójBudynkow(byte idxRozwojuBudynku)
     {
         KonkretnyNPCStatyczny[] knpcs = FindObjectsOfType(typeof(KonkretnyNPCStatyczny)) as KonkretnyNPCStatyczny[];
-        switch(idxRozwojuBudynku)
+        switch (idxRozwojuBudynku)
         {
             case 1: //Max HP
-            hpIdx ++;
-            for(ushort i = 0; i < knpcs.Length; i++)
-            {
-                knpcs[i].maksymalneŻycie = (short)(knpcs[i].maksymalneŻycie + 10*hpIdx);
-            }
-            break;
+                hpIdx++;
+                for (ushort i = 0; i < knpcs.Length; i++)
+                {
+                    knpcs[i].maksymalneŻycie = (short)(knpcs[i].maksymalneŻycie + 10 * hpIdx);
+                }
+                break;
             case 2: //Max atak
-            atkIdx++;
-            for(ushort i = 0; i < knpcs.Length; i++)
-            {
-                knpcs[i].modyfikatorZadawanychObrażeń = (float)(knpcs[i].modyfikatorZadawanychObrażeń + 0.1f*atkIdx);
-            }
-            break;
+                atkIdx++;
+                for (ushort i = 0; i < knpcs.Length; i++)
+                {
+                    knpcs[i].modyfikatorZadawanychObrażeń = (float)(knpcs[i].modyfikatorZadawanychObrażeń + 0.1f * atkIdx);
+                }
+                break;
             case 3: //Max obrona
-            defIdx++;
-            for(ushort i = 0; i < knpcs.Length; i++)
-            {
-                knpcs[i].modyfikatorOtrzymywanychObrażeń = (float)(knpcs[i].modyfikatorZadawanychObrażeń + 0.1f*defIdx);
-            }
-            break;
+                defIdx++;
+                for (ushort i = 0; i < knpcs.Length; i++)
+                {
+                    knpcs[i].modyfikatorOtrzymywanychObrażeń = (float)(knpcs[i].modyfikatorZadawanychObrażeń + 0.1f * defIdx);
+                }
+                break;
         }
     }
 }

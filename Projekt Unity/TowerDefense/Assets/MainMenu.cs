@@ -91,6 +91,8 @@ public class MainMenu : MonoBehaviour
         poGraj = this.transform.Find("Menu/PoGraj").gameObject;
         przyciskWznów = this.transform.Find("Menu/MainMenu/ResumeButton").GetComponent<Button>();
         actWybEpoka = this.transform.Find("Menu/PoGraj/AktualnieWybEpoka").GetComponent<Text>();
+        epokaNizej.interactable = false;
+        epokaWyzej.interactable = false;
         OdpalButtonyAkademii(false);
         UstawPrzyciskObrotu(false);
         WłWylPrzyciskiKupna(false);
