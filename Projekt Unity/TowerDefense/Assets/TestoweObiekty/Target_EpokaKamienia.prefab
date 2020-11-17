@@ -119,15 +119,17 @@ MonoBehaviour:
   cel: {fileID: 0}
   "aktualne\u017Bycie": 32767
   nastawienieNPC: 0
-  typBudynku: 2
+  typBudynku: 3
   "odbiteObra\u017Cenia": 1
   granicaX: 1.7
   granicaZ: 1.7
   poziomBudynku: 1
   kosztBadania: 0
   "typAtakuWie\u017Cy": 0
-  zablokowany: 1
+  blokowany: 1
   obiektAtaku: {fileID: 0}
   efektyFxStart: {fileID: 0}
   efektyFxKoniec: {fileID: 0}
   sprite: {fileID: 0}
+  opisBudynku: 
+  zablokowany: 1

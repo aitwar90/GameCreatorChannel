@@ -80,6 +80,11 @@ public class KonkretnyNPCStatyczny : NPCClass
     // Update is called once per frame
     protected override void RysujHPBar()
     {
+        if((KonkretnyNPCStatyczny)PomocniczeFunkcje.celWrogów == this)
+        {
+            //Jeśli to główna baza
+            PomocniczeFunkcje.mainMenu.UstawHPGłównegoPaska((float)this.AktualneŻycie / this.maksymalneŻycie);
+        }
         if (mainRenderer.isVisible && sprite != null)
         {
             float actScaleX = (float)this.AktualneŻycie / this.maksymalneŻycie;

@@ -50,6 +50,7 @@ public class MainMenu : MonoBehaviour
     public sbyte lastIdxJezyka = 0;
     private static MainMenu singelton = null;
     private bool odpalonyPanel = false;
+    private RectTransform rectHpBar;
     public sbyte UstawLubPobierzOstatniIdexJezyka
     {
         get
@@ -91,6 +92,7 @@ public class MainMenu : MonoBehaviour
         poGraj = this.transform.Find("Menu/PoGraj").gameObject;
         przyciskWznów = this.transform.Find("Menu/MainMenu/ResumeButton").GetComponent<Button>();
         actWybEpoka = this.transform.Find("Menu/PoGraj/AktualnieWybEpoka").GetComponent<Text>();
+        rectHpBar = this.transform.Find("UIGry/DaneGry/PasekZyciaGłównegoBudynku/Green").GetComponent<RectTransform>();
         epokaNizej.interactable = false;
         epokaWyzej.interactable = false;
         OdpalButtonyAkademii(false);
@@ -351,6 +353,10 @@ public class MainMenu : MonoBehaviour
     public void KliknalemButtonRozwoju(int indeksButtonu)   //1 - Zycie, 2 - Atak, 3 - Obrona
     {
         PomocniczeFunkcje.managerGryScript.RozwójBudynkow((byte)indeksButtonu);
+    }
+    public void UstawHPGłównegoPaska(float wartoscX)
+    {
+        rectHpBar.localScale = new Vector3(wartoscX, 1, 1);
     }
     public void OdpalButtonyAkademii(bool czyOdpalac = true)
     {
