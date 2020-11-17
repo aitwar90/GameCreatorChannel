@@ -19,6 +19,8 @@ public class MainMenu : MonoBehaviour
     public Button odpalPoziom;
     public Button lvlNizej;
     public Button lvlWyzej;
+    public Button epokaNizej;
+    public Button epokaWyzej;
     public Button wrocDoMenuZPoGraj;
     #region Akademia
     public Button buttonAZycie;
@@ -29,6 +31,7 @@ public class MainMenu : MonoBehaviour
     #region TextUI
     public Text ilośćCoinów;
     public Text ilośćFal;
+    private Text actWybEpoka;
     public InputField poziomWEpoce;
     #endregion
     #region Panel
@@ -87,6 +90,7 @@ public class MainMenu : MonoBehaviour
         optionsMenu = this.transform.Find("Menu/OptionsMenu").gameObject;
         poGraj = this.transform.Find("Menu/PoGraj").gameObject;
         przyciskWznów = this.transform.Find("Menu/MainMenu/ResumeButton").GetComponent<Button>();
+        actWybEpoka = this.transform.Find("Menu/PoGraj/AktualnieWybEpoka").GetComponent<Text>();
         OdpalButtonyAkademii(false);
         UstawPrzyciskObrotu(false);
         WłWylPrzyciskiKupna(false);
@@ -108,7 +112,9 @@ public class MainMenu : MonoBehaviour
         {
             menu.SetActive(false);
             poGraj.SetActive(true);
+
             poziomWEpoce.text = PomocniczeFunkcje.odblokowanyPoziomEpoki.ToString();
+            actWybEpoka.text = PomocniczeFunkcje.odblokowaneEpoki.ToString();
         }
         else
         {
@@ -116,13 +122,46 @@ public class MainMenu : MonoBehaviour
             poGraj.SetActive(false);
         }
     }
+    private byte DajMiMaxPoziom(string ustawionaEpoka)
+    {
+        int ustEpoka = int.Parse(ustawionaEpoka);
+        if (ustEpoka < 1)
+        {
+            return 0;
+        }
+        else
+        {
+            if (ustEpoka < PomocniczeFunkcje.odblokowaneEpoki)
+            {
+                return 100;
+            }
+            else if (ustEpoka == PomocniczeFunkcje.odblokowaneEpoki)
+            {
+                byte temp = (byte)(PomocniczeFunkcje.odblokowanyPoziomEpoki % 100);
+                if(temp == 0)
+                {
+                    return 1;
+                }
+                else
+                    return temp;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+    }
     public void OdpalPoziom()
     {
         byte poziom = (byte)int.Parse(poziomWEpoce.text);
         PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki = poziom;
+        poziom = (byte)int.Parse(actWybEpoka.text);
+        Epoki e = Epoki.None;
+        e += poziom;
+        PomocniczeFunkcje.managerGryScript.aktualnaEpoka = e;
         if (SceneManager.sceneCount == 1)
         {
-            SceneManager.LoadScene((byte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka, LoadSceneMode.Additive);
+            SceneManager.LoadScene(poziom, LoadSceneMode.Additive);
         }
         else
         {
@@ -134,13 +173,35 @@ public class MainMenu : MonoBehaviour
         poGraj.SetActive(false);
         PrzełączUI(false);
     }
+    public void UstawEpokeWyzejNizej(bool czyWyzej)
+    {
+        int actEpok = int.Parse(actWybEpoka.text);
+        if (czyWyzej)
+        {
+            if (actEpok < PomocniczeFunkcje.odblokowaneEpoki)
+            {
+                actEpok++;
+                actWybEpoka.text = actEpok.ToString();
+                poziomWEpoce.text = DajMiMaxPoziom(actEpok.ToString()).ToString();
+            }
+        }
+        else
+        {
+            if (actEpok > 1)
+            {
+                actEpok--;
+                actWybEpoka.text = actEpok.ToString();
+                poziomWEpoce.text = DajMiMaxPoziom(actEpok.ToString()).ToString();
+            }
+        }
+    }
     public void LVLNizejWyzej(bool czyWyzej)
     {
         int t = int.Parse(poziomWEpoce.text);
         if (czyWyzej)
         {
             t++;
-            if (t <= PomocniczeFunkcje.odblokowanyPoziomEpoki)
+            if (t <= DajMiMaxPoziom(actWybEpoka.text))
             {
                 poziomWEpoce.text = t.ToString();
             }
@@ -296,7 +357,7 @@ public class MainMenu : MonoBehaviour
             buttonAZycie.gameObject.SetActive(czyOdpalac);
             buttonAAtak.gameObject.SetActive(czyOdpalac);
             buttonAObrona.gameObject.SetActive(czyOdpalac);
-            if(ManagerGryScript.iloscCoinów < 200)
+            if (ManagerGryScript.iloscCoinów < 200)
             {
                 buttonAZycie.interactable = false;
                 buttonAAtak.interactable = false;

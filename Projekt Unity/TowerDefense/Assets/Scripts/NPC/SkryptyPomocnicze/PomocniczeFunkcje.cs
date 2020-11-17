@@ -18,8 +18,8 @@ public static class PomocniczeFunkcje
     public static SpawnBudynki spawnBudynki = null;
     public static List<InformacjeDlaPolWież>[,] tablicaWież = null;
     public static float distXZ = 5;
-    public static byte odblokowanyPoziomEpoki = 100;
-    public static byte odblokowaneEpoki = 6;
+    public static ushort odblokowanyPoziomEpoki = 1;
+    public static byte odblokowaneEpoki = 1;
     public static ushort aktualneGranicaTab = 0;
     public static Camera oCam = null;
     public static EventSystem eSystem = null;
@@ -841,7 +841,7 @@ public static class PomocniczeFunkcje
 public struct DataSave
 {
     [SerializeField] public int ilośćMonet;
-    [SerializeField] public byte _odblokowanyPoziomEpoki;
+    [SerializeField] public ushort _odblokowanyPoziomEpoki;
     [SerializeField] public byte _odblokowanieEpoki;
     [SerializeField] public ZapisSkrzynek[] _skrzynki;
     [SerializeField] public EnOrDisBudynki[] _zablokowaneBudynki;

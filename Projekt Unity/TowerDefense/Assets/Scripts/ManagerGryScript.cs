@@ -88,7 +88,7 @@ public class ManagerGryScript : MonoBehaviour
         }
         PomocniczeFunkcje.LadujDaneOpcje();
         PomocniczeFunkcje.ŁadujDane();
-        UtworzSzablonPlikuJezykowego();
+        //UtworzSzablonPlikuJezykowego();
         PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
     }
@@ -278,7 +278,7 @@ public class ManagerGryScript : MonoBehaviour
         {
             if (aktualnyPoziomEpoki == PomocniczeFunkcje.odblokowanyPoziomEpoki)
             {
-                if (aktualnyPoziomEpoki == 100 && (byte)aktualnaEpoka < PomocniczeFunkcje.odblokowanyPoziomEpoki)
+                if (aktualnyPoziomEpoki % 100 == 0 && (byte)aktualnaEpoka == PomocniczeFunkcje.odblokowanyPoziomEpoki)
                 {
                     PomocniczeFunkcje.odblokowaneEpoki++;
                 }
