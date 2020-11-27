@@ -73,6 +73,7 @@ public class ManagerGryScript : MonoBehaviour
             return ref wszystkieRodzajeWrogichJednostek;
         }
     }
+    public bool blokowanieOrientacji = true;
     #endregion  
     void Awake()
     {
@@ -89,6 +90,15 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.LadujDaneOpcje();
         PomocniczeFunkcje.ŁadujDane();
         //UtworzSzablonPlikuJezykowego();
+        if(blokowanieOrientacji)
+        {
+            Debug.Log("Ustawiam orientację");
+            Screen.orientation = ScreenOrientation.Landscape;
+            Screen.autorotateToLandscapeLeft = false;
+            Screen.autorotateToLandscapeRight = false;
+            Screen.autorotateToPortraitUpsideDown = false;
+            Screen.autorotateToPortrait = false;
+        }
         PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
     }

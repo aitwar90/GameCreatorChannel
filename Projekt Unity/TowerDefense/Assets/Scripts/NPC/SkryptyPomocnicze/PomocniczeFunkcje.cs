@@ -802,6 +802,7 @@ public static class PomocniczeFunkcje
         DaneOpcji daneO = new DaneOpcji();
 
         daneO.indeksJezyka = mainMenu.lastIdxJezyka;
+        daneO.blokadaOrientacji = managerGryScript.blokowanieOrientacji;
 
         string ścieżka = ZwróćŚcieżkęZapisu("daneOpcje.asc");
 
@@ -833,6 +834,10 @@ public static class PomocniczeFunkcje
             if(mainMenu != null)
             {
                 mainMenu.lastIdxJezyka = daneO.indeksJezyka;
+            }
+            if(managerGryScript != null)
+            {
+                managerGryScript.blokowanieOrientacji = daneO.blokadaOrientacji;
             }
         }
     }
@@ -878,5 +883,6 @@ public struct EkwiStruct
 public struct DaneOpcji
 {
     [SerializeField] public sbyte indeksJezyka;
+    [SerializeField] public bool blokadaOrientacji;
 }
 

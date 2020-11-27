@@ -93,6 +93,7 @@ public class MainMenu : MonoBehaviour
         przyciskWznów = this.transform.Find("Menu/MainMenu/ResumeButton").GetComponent<Button>();
         actWybEpoka = this.transform.Find("Menu/PoGraj/AktualnieWybEpoka").GetComponent<Text>();
         rectHpBar = this.transform.Find("UIGry/DaneGry/PasekZyciaGłównegoBudynku/Green").GetComponent<RectTransform>();
+        PrzeskalujUI();
         epokaNizej.interactable = false;
         epokaWyzej.interactable = false;
         OdpalButtonyAkademii(false);
@@ -466,5 +467,9 @@ public class MainMenu : MonoBehaviour
             ps.gameObject.SetActive(true);
             odpalonyPanel = true;
         }
+    }
+    private void PrzeskalujUI()
+    {
+        Debug.Log("Wielkość buttonu "+nastepnyPoziom.transform.GetComponent<RectTransform>().sizeDelta.ToString());
     }
 }
