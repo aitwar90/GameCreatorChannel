@@ -7006,6 +7006,10 @@ MonoBehaviour:
   wszystkieRodzajeWrogichJednostek:
   - {fileID: 6773174147869840242, guid: 828f681922577fe40acd6b9ad4cae326, type: 3}
   - {fileID: 123216872998805141, guid: a8fe9acb1e0f9f74c81a0ac4738f9efe, type: 3}
+  hpIdx: 0
+  atkIdx: 0
+  defIdx: 0
+  blokowanieOrientacji: 1
 --- !u!114 &1420112164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7810,15 +7814,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
-  m_PhysicalUnit: 3
-  m_FallbackScreenDPI: 96
-  m_DefaultSpriteDPI: 96
+  m_PhysicalUnit: 0
+  m_FallbackScreenDPI: 1920
+  m_DefaultSpriteDPI: 1080
   m_DynamicPixelsPerUnit: 1
 --- !u!223 &1565554479
 Canvas:
@@ -7892,8 +7896,18 @@ MonoBehaviour:
   "u\u017CyjPrzedmiotu": {fileID: 1586656054}
   zmianaJezyka: {fileID: 353624722}
   rotacjaBudynku: {fileID: 1501321161}
+  odpalPoziom: {fileID: 0}
+  lvlNizej: {fileID: 0}
+  lvlWyzej: {fileID: 0}
+  epokaNizej: {fileID: 0}
+  epokaWyzej: {fileID: 0}
+  wrocDoMenuZPoGraj: {fileID: 0}
+  buttonAZycie: {fileID: 0}
+  buttonAAtak: {fileID: 0}
+  buttonAObrona: {fileID: 0}
   "ilo\u015B\u0107Coin\xF3w": {fileID: 487016611}
   "ilo\u015B\u0107Fal": {fileID: 1383614825}
+  poziomWEpoce: {fileID: 0}
   panelDynamiczny: {fileID: 116084933}
   panelStatyczny: {fileID: 1926874340}
   "wyb\xF3rPrzedmiotuZEkwipunku": {fileID: 447821032}
