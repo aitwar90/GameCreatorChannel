@@ -219,7 +219,17 @@ public static class PomocniczeFunkcje
     }
     public static bool CzyKliknalemUI()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
+        int fingerID = -1;
+        if(!Input.mousePresent && Input.touchCount > 0)
+        {
+            Touch t = Input.GetTouch(0);
+            if(t.phase == TouchPhase.Ended || t.phase == TouchPhase.Canceled)
+            {
+                return spawnBudynki.KlikUI;
+            }
+            fingerID = t.fingerId;
+        }
+        if (EventSystem.current.IsPointerOverGameObject(fingerID))
         {
             return true;
         }
