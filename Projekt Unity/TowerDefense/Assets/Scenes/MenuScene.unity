@@ -8357,6 +8357,7 @@ GameObject:
   - component: {fileID: 1420112163}
   - component: {fileID: 1420112166}
   - component: {fileID: 1420112167}
+  - component: {fileID: 1420112168}
   m_Layer: 0
   m_Name: NiezbedneSkrypty
   m_TagString: Untagged
@@ -8457,6 +8458,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rodzajReklamy: 2
+--- !u!114 &1420112168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420112162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53be69a70fc03e29ca5dfe6bb04dd9fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1446127414
 GameObject:
   m_ObjectHideFlags: 0
@@ -9353,6 +9366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0553de0e4529a74c835a43d1b8fee13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  "t\u0142oOpcji": {fileID: 0}
   nastepnyPoziom: {fileID: 1517305828}
   powtorzPoziom: {fileID: 752808061}
   buttonSkrzynki:
