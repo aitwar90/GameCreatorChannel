@@ -16,6 +16,7 @@ public static class PomocniczeFunkcje
     public static ManagerGryScript managerGryScript = null;
     public static MainMenu mainMenu = null;
     public static SpawnBudynki spawnBudynki = null;
+    public static MuzykaScript muzyka = null;
     public static List<InformacjeDlaPolWież>[,] tablicaWież = null;
     public static float distXZ = 5;
     public static ushort odblokowanyPoziomEpoki = 1;

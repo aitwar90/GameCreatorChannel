@@ -470,6 +470,6 @@ public class MainMenu : MonoBehaviour
     }
     private void PrzeskalujUI()
     {
-        Debug.Log("Wielkość buttonu "+nastepnyPoziom.transform.GetComponent<RectTransform>().sizeDelta.ToString());
+        //Debug.Log("Wielkość buttonu "+nastepnyPoziom.transform.GetComponent<RectTransform>().sizeDelta.ToString());
     }
 }

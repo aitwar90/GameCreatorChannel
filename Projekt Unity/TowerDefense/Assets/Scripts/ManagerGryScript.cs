@@ -80,6 +80,7 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.managerGryScript = this;
         PomocniczeFunkcje.spawnBudynki = FindObjectOfType(typeof(SpawnBudynki)) as SpawnBudynki;
         PomocniczeFunkcje.mainMenu = FindObjectOfType(typeof(MainMenu)) as MainMenu;
+        PomocniczeFunkcje.muzyka = this.GetComponent<MuzykaScript>();
         or = FindObjectOfType(typeof(ObsługaReklam)) as ObsługaReklam;
         SpawnerHord.actualHPBars = 0;
         skrzynki = new Skrzynka[PomocniczeFunkcje.mainMenu.buttonSkrzynki.Length];

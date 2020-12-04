@@ -237,7 +237,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     public override void UstawPanel(Vector2 pos)
     {
-        string s = "DYNAMICZNY_"+this.nazwa.ToString()+"_"+this.AktualneŻycie.ToString()+"/"+this.maksymalneŻycie.ToString()+"_"+this.zadawaneObrażenia.ToString();
+        string s = "DYNAMICZNY_" + this.nazwa.ToString() + "_" + this.AktualneŻycie.ToString() + "/" + this.maksymalneŻycie.ToString() + "_" + this.zadawaneObrażenia.ToString();
         PomocniczeFunkcje.mainMenu.UstawPanelUI(s, pos);
     }
     public void WyczyscDaneDynamic(bool wymuszonaKasacja = false)
@@ -303,6 +303,10 @@ public class KonkretnyNPCDynamiczny : NPCClass
             ObsluzAnimacje(ref anima, "isDeath", false);
             anima.StartPlayback();
             this.RysujHPBar();
+            if (this.odgłosyNPC != null)
+            {
+                PomocniczeFunkcje.muzyka.ustawGłośność += this.UstawGłośnośćNPC;
+            }
         }
         agent.enabled = enab;
         if (!enab)
@@ -311,6 +315,10 @@ public class KonkretnyNPCDynamiczny : NPCClass
             sprite.parent.gameObject.SetActive(false);
             this.gameObject.SetActive(false);
             anima.StopPlayback();
+            if (this.odgłosyNPC != null)
+            {
+                PomocniczeFunkcje.muzyka.ustawGłośność -= this.UstawGłośnośćNPC;
+            }
         }
     }
     public override void ResetujŚciezkę(KonkretnyNPCStatyczny taWiezaPierwszyRaz = null)

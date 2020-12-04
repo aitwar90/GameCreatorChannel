@@ -26,6 +26,7 @@ public abstract class NPCClass : MonoBehaviour
     [Tooltip("Mnożnik zadawanych obrażeń przez jednostkę")]
     public float modyfikatorZadawanychObrażeń = 1.0f;
     public NPCClass cel = null;
+    public AudioSource odgłosyNPC = null;
     #endregion
 
     #region Zmienny prywatne
@@ -83,6 +84,11 @@ public abstract class NPCClass : MonoBehaviour
         {
             mainRenderer = this.GetComponentInChildren<Renderer>();
         }
+        if(odgłosyNPC == null)
+        {
+            odgłosyNPC = this.gameObject.AddComponent<AudioSource>();
+        }
+        PomocniczeFunkcje.muzyka.ustawGłośność += UstawGłośnośćNPC;
     }
     void Update()
     {
@@ -226,6 +232,10 @@ public abstract class NPCClass : MonoBehaviour
             this.nazwa = podmianaWartosci;
             return;
         }
+    }
+    public void UstawGłośnośćNPC(sbyte wartość)
+    {
+        odgłosyNPC.volume = wartość/100.0f;
     }
     #endregion
 

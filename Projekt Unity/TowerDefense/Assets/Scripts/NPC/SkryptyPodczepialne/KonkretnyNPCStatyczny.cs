@@ -175,6 +175,10 @@ public class KonkretnyNPCStatyczny : NPCClass
             wrogowieWZasiegu = null;
             StartCoroutine(SkasujObject(5.0f));
         }
+        if(this.odgłosyNPC != null)
+        {
+            PomocniczeFunkcje.muzyka.ustawGłośność -= this.UstawGłośnośćNPC;
+        }
     }
     /*
     void OnDrawGizmosSelected()
