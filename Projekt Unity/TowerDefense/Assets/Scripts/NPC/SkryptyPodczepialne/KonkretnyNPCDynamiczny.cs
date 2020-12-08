@@ -212,7 +212,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     protected override void UsuńJednostkę()
     {
-        PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, PomocniczeFunkcje.TagZEpoka("ŚmiercNPC", PomocniczeFunkcje.managerGryScript.aktualnaEpoka, this.tagRodzajDoDźwięków), true);
+        PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, PomocniczeFunkcje.TagZEpoka("ŚmiercNPC", this.epokaNPC, this.tagRodzajDoDźwięków), true);
         this.AktualneŻycie = -1;
 
         if (this.rysujPasekŻycia)
@@ -354,8 +354,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
                             efektyFxStart.Play();
                         }
                         PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, (this.typNPC == TypNPC.WalczyNaDystans || this.typNPC == TypNPC.WalczynaDystansIWZwarciu) ? 
-                        PomocniczeFunkcje.TagZEpoka("AtakNPCDystans", PomocniczeFunkcje.managerGryScript.aktualnaEpoka, this.tagRodzajDoDźwięków) : 
-                        PomocniczeFunkcje.TagZEpoka("AtakNPCZwarcie", PomocniczeFunkcje.managerGryScript.aktualnaEpoka, this.tagRodzajDoDźwięków), true);
+                        PomocniczeFunkcje.TagZEpoka("AtakNPCDystans", this.epokaNPC, this.tagRodzajDoDźwięków) : 
+                        PomocniczeFunkcje.TagZEpoka("AtakNPCZwarcie", this.epokaNPC, this.tagRodzajDoDźwięków), true);
                         _obiektAtaku.transform.LookAt(cel.transform.position);
                     }
                     else

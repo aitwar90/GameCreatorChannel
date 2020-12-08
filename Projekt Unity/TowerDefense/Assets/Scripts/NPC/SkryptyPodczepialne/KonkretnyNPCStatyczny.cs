@@ -144,7 +144,7 @@ public class KonkretnyNPCStatyczny : NPCClass
         else    //Jeśli nastawienie jest przyjazne
         {
             //Podmień obiekt na zgruzowany
-            PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, PomocniczeFunkcje.TagZEpoka("ŚmiercB", PomocniczeFunkcje.managerGryScript.aktualnaEpoka, this.tagRodzajDoDźwięków), true);
+            PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, PomocniczeFunkcje.TagZEpoka("ŚmiercB", this.epokaNPC, this.tagRodzajDoDźwięków), true);
             PomocniczeFunkcje.SkasujElementDrzewa(ref PomocniczeFunkcje.korzeńDrzewaPozycji, this);
             Collider[] tablicaKoliderow = this.GetComponents<Collider>();
             for (byte i = 0; i < tablicaKoliderow.Length; i++)
@@ -243,13 +243,13 @@ public class KonkretnyNPCStatyczny : NPCClass
                     switch (typAtakuWieży)
                     {
                         case TypAtakuWieży.jedenTarget:
-                            s = PomocniczeFunkcje.TagZEpoka("AtakBJeden", PomocniczeFunkcje.managerGryScript.aktualnaEpoka, this.tagRodzajDoDźwięków);
+                            s = PomocniczeFunkcje.TagZEpoka("AtakBJeden", this.epokaNPC, this.tagRodzajDoDźwięków);
                             break;
                         case TypAtakuWieży.wybuch:
-                            s = PomocniczeFunkcje.TagZEpoka("AtakBObszar", PomocniczeFunkcje.managerGryScript.aktualnaEpoka, this.tagRodzajDoDźwięków);
+                            s = PomocniczeFunkcje.TagZEpoka("AtakBObszar", this.epokaNPC, this.tagRodzajDoDźwięków);
                             break;
                         case TypAtakuWieży.wszyscyWZasiegu:
-                            s = PomocniczeFunkcje.TagZEpoka("AtakBAll", PomocniczeFunkcje.managerGryScript.aktualnaEpoka, this.tagRodzajDoDźwięków);
+                            s = PomocniczeFunkcje.TagZEpoka("AtakBAll", this.epokaNPC, this.tagRodzajDoDźwięków);
                             break;
                     }
                     PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, s, true);

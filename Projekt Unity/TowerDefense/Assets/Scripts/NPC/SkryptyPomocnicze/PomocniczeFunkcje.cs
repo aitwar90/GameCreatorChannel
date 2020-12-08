@@ -516,7 +516,7 @@ public static class PomocniczeFunkcje
             {
                 if (!pObiekt.odgłosyNPC.isPlaying)
                 {
-                    PomocniczeFunkcje.muzyka.WłączWyłączClip(ref pObiekt.odgłosyNPC, true, TagZEpoka("Idle", managerGryScript.aktualnaEpoka, pObiekt.tagRodzajDoDźwięków), true);
+                    PomocniczeFunkcje.muzyka.WłączWyłączClip(ref pObiekt.odgłosyNPC, true, TagZEpoka("Idle", pObiekt.epokaNPC, pObiekt.tagRodzajDoDźwięków), true);
                 }
             }
         }
@@ -554,7 +554,7 @@ public static class PomocniczeFunkcje
                 {
                     if (!pObiekt.odgłosyNPC.isPlaying)
                     {
-                        PomocniczeFunkcje.muzyka.WłączWyłączClip(ref pObiekt.odgłosyNPC, true, TagZEpoka("Poruszanie", managerGryScript.aktualnaEpoka, pObiekt.tagRodzajDoDźwięków), true);
+                        PomocniczeFunkcje.muzyka.WłączWyłączClip(ref pObiekt.odgłosyNPC, true, TagZEpoka("Poruszanie", pObiekt.epokaNPC, pObiekt.tagRodzajDoDźwięków), true);
                     }
                     pObiekt.ObsluzAnimacje("inRange", false);
                 }
