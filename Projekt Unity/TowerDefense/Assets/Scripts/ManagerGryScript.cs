@@ -682,14 +682,14 @@ public class ManagerGryScript : MonoBehaviour
                 atkIdx++;
                 for (ushort i = 0; i < knpcs.Length; i++)
                 {
-                    knpcs[i].modyfikatorZadawanychObrażeń = (float)(knpcs[i].modyfikatorZadawanychObrażeń + 0.1f * atkIdx);
+                    knpcs[i].modyfikatorZadawanychObrażeń = PomocniczeFunkcje.WyliczModyfikatorObrazeń(knpcs[i].modyfikatorZadawanychObrażeń, atkIdx);
                 }
                 break;
             case 3: //Max obrona
                 defIdx++;
                 for (ushort i = 0; i < knpcs.Length; i++)
                 {
-                    knpcs[i].modyfikatorOtrzymywanychObrażeń = (float)(knpcs[i].modyfikatorZadawanychObrażeń + 0.1f * defIdx);
+                    knpcs[i].modyfikatorOtrzymywanychObrażeń = PomocniczeFunkcje.WyliczModyfikatorObrazeń(knpcs[i].modyfikatorOtrzymywanychObrażeń, defIdx);
                 }
                 break;
         }

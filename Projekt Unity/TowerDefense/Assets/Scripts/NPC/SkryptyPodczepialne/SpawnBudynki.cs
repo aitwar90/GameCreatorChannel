@@ -274,8 +274,12 @@ public class SpawnBudynki : MonoBehaviour
             s--;
         }
         knpcs.maksymalneŻycie += (short)(PomocniczeFunkcje.managerGryScript.hpIdx*10);
+        /*
         knpcs.modyfikatorZadawanychObrażeń += PomocniczeFunkcje.managerGryScript.atkIdx*0.1f;
         knpcs.modyfikatorOtrzymywanychObrażeń += PomocniczeFunkcje.managerGryScript.defIdx*0.1f;
+        */
+        knpcs.modyfikatorZadawanychObrażeń = PomocniczeFunkcje.WyliczModyfikatorObrazeń(knpcs.modyfikatorZadawanychObrażeń, PomocniczeFunkcje.managerGryScript.atkIdx);
+        knpcs.modyfikatorZadawanychObrażeń = PomocniczeFunkcje.WyliczModyfikatorObrazeń(knpcs.modyfikatorOtrzymywanychObrażeń, PomocniczeFunkcje.managerGryScript.defIdx);
         if (PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek != null)
             PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek(knpcs);
         //Pobranie coinów za postawiony budynek

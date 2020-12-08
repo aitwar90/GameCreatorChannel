@@ -867,6 +867,12 @@ public static class PomocniczeFunkcje
     {
         return aktTag+"_"+e.ToString()+rodzajObiektu;
     }
+    //Wylicza wartość modyfikatora zadawanych i otrzymywanych obrażeń
+    public static float WyliczModyfikatorObrazeń(float bazowyModyfikator, ushort wartośćIndeksu)
+    {
+        float warMnoznika = Mathf.Pow(0.98f, wartośćIndeksu);
+        return bazowyModyfikator + (0.002f*warMnoznika); //Do +5% na 37 poziomie
+    }
 }
 [System.Serializable]
 public struct DataSave
