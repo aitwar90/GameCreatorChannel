@@ -299,6 +299,8 @@ MonoBehaviour:
   "modyfikatorOtrzymywanychObra\u017Ce\u0144": 1
   "modyfikatorZadawanychObra\u017Ce\u0144": 1
   cel: {fileID: 0}
+  "odg\u0142osyNPC": {fileID: 0}
+  "tagRodzajDoD\u017Awi\u0119k\xF3w": "_W\u0142\xF3cznia"
   "aktualne\u017Bycie": -1
   nastawienieNPC: 0
   typBudynku: 1
