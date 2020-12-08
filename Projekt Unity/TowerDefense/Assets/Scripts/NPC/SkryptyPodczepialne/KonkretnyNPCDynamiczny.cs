@@ -217,6 +217,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     protected override void UsuńJednostkę()
     {
+        PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, "ŚmiercNPC", true);
         this.AktualneŻycie = -1;
 
         if (this.rysujPasekŻycia)
@@ -357,6 +358,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                             efektyFxStart.transform.position = this.transform.position;
                             efektyFxStart.Play();
                         }
+                        PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, (this.typNPC == TypNPC.WalczyNaDystans || this.typNPC == TypNPC.WalczynaDystansIWZwarciu) ? "AtakNPCDystans" : "AtakNPCZwarcie", true);
                         _obiektAtaku.transform.LookAt(cel.transform.position);
                     }
                     else

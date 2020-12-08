@@ -221,10 +221,10 @@ public static class PomocniczeFunkcje
     public static bool CzyKliknalemUI()
     {
         int fingerID = -1;
-        if(!Input.mousePresent && Input.touchCount > 0)
+        if (!Input.mousePresent && Input.touchCount > 0)
         {
             Touch t = Input.GetTouch(0);
-            if(t.phase == TouchPhase.Ended || t.phase == TouchPhase.Canceled)
+            if (t.phase == TouchPhase.Ended || t.phase == TouchPhase.Canceled)
             {
                 return spawnBudynki.KlikUI;
             }
@@ -512,6 +512,13 @@ public static class PomocniczeFunkcje
             {
                 pObiekt.ObsluzAnimacje("haveTarget", true);
             }
+            else
+            {
+                if (!pObiekt.odgłosyNPC.isPlaying)
+                {
+                    PomocniczeFunkcje.muzyka.WłączWyłączClip(ref pObiekt.odgłosyNPC, true, "Idle", true);
+                }
+            }
         }
         else
         {
@@ -545,6 +552,10 @@ public static class PomocniczeFunkcje
                 }
                 else
                 {
+                    if (!pObiekt.odgłosyNPC.isPlaying)
+                    {
+                        PomocniczeFunkcje.muzyka.WłączWyłączClip(ref pObiekt.odgłosyNPC, true, "Poruszanie", true);
+                    }
                     pObiekt.ObsluzAnimacje("inRange", false);
                 }
             }
@@ -834,7 +845,7 @@ public static class PomocniczeFunkcje
     public static void LadujDaneOpcje()
     {
         string ścieżka = ZwróćŚcieżkęZapisu("daneOpcje.asc");
-        if(File.Exists(ścieżka))
+        if (File.Exists(ścieżka))
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream fs = File.Open(ścieżka, FileMode.Open);
@@ -842,11 +853,11 @@ public static class PomocniczeFunkcje
 
             fs.Close();
 
-            if(mainMenu != null)
+            if (mainMenu != null)
             {
                 mainMenu.lastIdxJezyka = daneO.indeksJezyka;
             }
-            if(managerGryScript != null)
+            if (managerGryScript != null)
             {
                 managerGryScript.blokowanieOrientacji = daneO.blokadaOrientacji;
             }

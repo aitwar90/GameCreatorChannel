@@ -144,6 +144,7 @@ public class KonkretnyNPCStatyczny : NPCClass
         else    //Jeśli nastawienie jest przyjazne
         {
             //Podmień obiekt na zgruzowany
+            PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, "ŚmiercB", true);
             PomocniczeFunkcje.SkasujElementDrzewa(ref PomocniczeFunkcje.korzeńDrzewaPozycji, this);
             Collider[] tablicaKoliderow = this.GetComponents<Collider>();
             for (byte i = 0; i < tablicaKoliderow.Length; i++)
@@ -238,6 +239,20 @@ public class KonkretnyNPCStatyczny : NPCClass
                         efektyFxStart.transform.position = this.transform.position;
                         efektyFxStart.Play();
                     }
+                    string s = "";
+                    switch (typAtakuWieży)
+                    {
+                        case TypAtakuWieży.jedenTarget:
+                            s = "AtakBJeden";
+                            break;
+                        case TypAtakuWieży.wybuch:
+                            s = "AtakBObszar";
+                            break;
+                        case TypAtakuWieży.wszyscyWZasiegu:
+                            s = "AtakBAll";
+                            break;
+                    }
+                    PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, s, true);
                 }
                 else
                 {

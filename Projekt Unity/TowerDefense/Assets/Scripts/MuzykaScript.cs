@@ -7,7 +7,7 @@ public class MuzykaScript : MonoBehaviour
 {
     // Start is called before the first frame update
     public AudioSource muzykaTła;
-    [Tooltip("Nazwa musi mieć szablon x przy czym x oznacza przeznaczenie clipu zaś y kolejny numer np. Tło oznacza pierwszy utwór przeznaczony dla tła. Typy: Tło, AmbientWGrze, AtakNPCDystans, AtakNPCZwarcie, AtakBJeden, AtakBObszar, AtakBAll, ŚmiercNPC, ŚmiercB, Poruszanie")]
+    [Tooltip("Nazwa musi mieć szablon x przy czym x oznacza przeznaczenie clipu zaś y kolejny numer np. Tło oznacza pierwszy utwór przeznaczony dla tła. Typy: Tło, AmbientWGrze, AtakNPCDystans, AtakNPCZwarcie, AtakBJeden, AtakBObszar, AtakBAll, ŚmiercNPC, ŚmiercB, Poruszanie, Idle")]
     public StrukturaAudio[] clipyAudio;
     public delegate void UstawGłośność(sbyte wartość);
     public UstawGłośność ustawGłośność;
