@@ -516,7 +516,7 @@ public static class PomocniczeFunkcje
             {
                 if (!pObiekt.odgłosyNPC.isPlaying)
                 {
-                    PomocniczeFunkcje.muzyka.WłączWyłączClip(ref pObiekt.odgłosyNPC, true, "Idle", true);
+                    PomocniczeFunkcje.muzyka.WłączWyłączClip(ref pObiekt.odgłosyNPC, true, TagZEpoka("Idle", managerGryScript.aktualnaEpoka, pObiekt.tagRodzajDoDźwięków), true);
                 }
             }
         }
@@ -554,7 +554,7 @@ public static class PomocniczeFunkcje
                 {
                     if (!pObiekt.odgłosyNPC.isPlaying)
                     {
-                        PomocniczeFunkcje.muzyka.WłączWyłączClip(ref pObiekt.odgłosyNPC, true, "Poruszanie", true);
+                        PomocniczeFunkcje.muzyka.WłączWyłączClip(ref pObiekt.odgłosyNPC, true, TagZEpoka("Poruszanie", managerGryScript.aktualnaEpoka, pObiekt.tagRodzajDoDźwięków), true);
                     }
                     pObiekt.ObsluzAnimacje("inRange", false);
                 }
@@ -862,6 +862,10 @@ public static class PomocniczeFunkcje
                 managerGryScript.blokowanieOrientacji = daneO.blokadaOrientacji;
             }
         }
+    }
+    public static string TagZEpoka(string aktTag, Epoki e, string rodzajObiektu = "")
+    {
+        return aktTag+"_"+e.ToString()+rodzajObiektu;
     }
 }
 [System.Serializable]

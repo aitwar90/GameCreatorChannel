@@ -144,7 +144,7 @@ public class KonkretnyNPCStatyczny : NPCClass
         else    //Jeśli nastawienie jest przyjazne
         {
             //Podmień obiekt na zgruzowany
-            PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, "ŚmiercB", true);
+            PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, PomocniczeFunkcje.TagZEpoka("ŚmiercB", PomocniczeFunkcje.managerGryScript.aktualnaEpoka, this.tagRodzajDoDźwięków), true);
             PomocniczeFunkcje.SkasujElementDrzewa(ref PomocniczeFunkcje.korzeńDrzewaPozycji, this);
             Collider[] tablicaKoliderow = this.GetComponents<Collider>();
             for (byte i = 0; i < tablicaKoliderow.Length; i++)
@@ -243,13 +243,13 @@ public class KonkretnyNPCStatyczny : NPCClass
                     switch (typAtakuWieży)
                     {
                         case TypAtakuWieży.jedenTarget:
-                            s = "AtakBJeden";
+                            s = PomocniczeFunkcje.TagZEpoka("AtakBJeden", PomocniczeFunkcje.managerGryScript.aktualnaEpoka, this.tagRodzajDoDźwięków);
                             break;
                         case TypAtakuWieży.wybuch:
-                            s = "AtakBObszar";
+                            s = PomocniczeFunkcje.TagZEpoka("AtakBObszar", PomocniczeFunkcje.managerGryScript.aktualnaEpoka, this.tagRodzajDoDźwięków);
                             break;
                         case TypAtakuWieży.wszyscyWZasiegu:
-                            s = "AtakBAll";
+                            s = PomocniczeFunkcje.TagZEpoka("AtakBAll", PomocniczeFunkcje.managerGryScript.aktualnaEpoka, this.tagRodzajDoDźwięków);
                             break;
                     }
                     PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, s, true);

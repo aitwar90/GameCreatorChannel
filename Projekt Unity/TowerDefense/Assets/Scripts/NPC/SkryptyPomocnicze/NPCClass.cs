@@ -27,6 +27,8 @@ public abstract class NPCClass : MonoBehaviour
     public float modyfikatorZadawanychObrażeń = 1.0f;
     public NPCClass cel = null;
     public AudioSource odgłosyNPC = null;
+    [Tooltip("Tag rodzaj do dźwięków jest dokładniejszym określeniem jaki rodzaj powinien zostać odtworzony z bazy dźwięków. Przykład _łuk")]
+    public string tagRodzajDoDźwięków;
     #endregion
 
     #region Zmienny prywatne

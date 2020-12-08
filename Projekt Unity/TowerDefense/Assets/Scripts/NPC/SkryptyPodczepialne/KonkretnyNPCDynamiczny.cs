@@ -158,11 +158,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 {
                     //Usunięcie starych wież
                     ostatnieStrony = sQt.ToArray();
-                    if (ostatnieStrony == null || ostatnieStrony.Length == 0)
-                    {
-                        Debug.Log("NPC " + this.name + " ma ostatnie strony na " + ((ostatnieStrony == null) ? "null" : "Length = 0"));
-                        Debug.Log("X = " + t[0] + " Z = " + t[1]);
-                    }
                     UsuńMnieZTablicyWież(false, ostatnieStrony);
                     czyDodawac = true;
                     actXIdx = t[0];
@@ -217,7 +212,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     protected override void UsuńJednostkę()
     {
-        PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, "ŚmiercNPC", true);
+        PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, PomocniczeFunkcje.TagZEpoka("ŚmiercNPC", PomocniczeFunkcje.managerGryScript.aktualnaEpoka, this.tagRodzajDoDźwięków), true);
         this.AktualneŻycie = -1;
 
         if (this.rysujPasekŻycia)
@@ -358,7 +353,9 @@ public class KonkretnyNPCDynamiczny : NPCClass
                             efektyFxStart.transform.position = this.transform.position;
                             efektyFxStart.Play();
                         }
-                        PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, (this.typNPC == TypNPC.WalczyNaDystans || this.typNPC == TypNPC.WalczynaDystansIWZwarciu) ? "AtakNPCDystans" : "AtakNPCZwarcie", true);
+                        PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, (this.typNPC == TypNPC.WalczyNaDystans || this.typNPC == TypNPC.WalczynaDystansIWZwarciu) ? 
+                        PomocniczeFunkcje.TagZEpoka("AtakNPCDystans", PomocniczeFunkcje.managerGryScript.aktualnaEpoka, this.tagRodzajDoDźwięków) : 
+                        PomocniczeFunkcje.TagZEpoka("AtakNPCZwarcie", PomocniczeFunkcje.managerGryScript.aktualnaEpoka, this.tagRodzajDoDźwięków), true);
                         _obiektAtaku.transform.LookAt(cel.transform.position);
                     }
                     else

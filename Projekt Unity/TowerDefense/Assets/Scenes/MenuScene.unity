@@ -8374,7 +8374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   "muzykaT\u0142a": {fileID: 1958797334}
   clipyAudio:
-  - nazwa: "T\u0142o"
+  - nazwa: "T\u0142o_None"
     clip: {fileID: 8300000, guid: da751eaa67e05c89eb3fc33087f96524, type: 3}
 --- !u!1 &1446127414
 GameObject:

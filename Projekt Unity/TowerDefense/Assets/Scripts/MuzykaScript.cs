@@ -7,7 +7,7 @@ public class MuzykaScript : MonoBehaviour
 {
     // Start is called before the first frame update
     public AudioSource muzykaTła;
-    [Tooltip("Nazwa musi mieć szablon x przy czym x oznacza przeznaczenie clipu zaś y kolejny numer np. Tło oznacza pierwszy utwór przeznaczony dla tła. Typy: Tło, AmbientWGrze, AtakNPCDystans, AtakNPCZwarcie, AtakBJeden, AtakBObszar, AtakBAll, ŚmiercNPC, ŚmiercB, Poruszanie, Idle")]
+    [Tooltip("Nazwa musi mieć szablon x_y_z przy czym x oznacza przeznaczenie clipu zaś y epokę. Tło oznacza pierwszy utwór przeznaczony dla tła. Typy: Tło, AmbientWGrze, AtakNPCDystans, AtakNPCZwarcie, AtakBJeden, AtakBObszar, AtakBAll, ŚmiercNPC, ŚmiercB, Poruszanie, Idle. Przykład AtakBObszar_EpokaKamienia_Kamień (W przypadku tła i ambient nie ma specjalnych rodzajów)")]
     public StrukturaAudio[] clipyAudio;
     public delegate void UstawGłośność(sbyte wartość);
     public UstawGłośność ustawGłośność;
@@ -37,7 +37,7 @@ public class MuzykaScript : MonoBehaviour
                 }
             }
             indeksyMuzyki = tByte.ToArray();
-            WłączWyłączClip(ref muzykaTła, true, "Tło", false);
+            WłączWyłączClip(ref muzykaTła, true, PomocniczeFunkcje.TagZEpoka("Tło", Epoki.None), false);
         }
     }
     public void UstawGłośnośćGry(int val)   //Ta metoda powinna być wywoływana w opcjach aplikacji
