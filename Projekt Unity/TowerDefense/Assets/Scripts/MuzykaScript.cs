@@ -18,7 +18,6 @@ public class MuzykaScript : MonoBehaviour
         if (clipyAudio != null && clipyAudio.Length > 0)
         {
             ustawGłośność += UstawGłośnośćTła;
-            WłączWyłączClip(ref muzykaTła, true, "Tło", false);
         }
     }
     void Start()
@@ -31,13 +30,14 @@ public class MuzykaScript : MonoBehaviour
             tByte.Add(0);
             for (byte i = 1; i < clipyAudio.Length; i++)
             {
-                if(clipyAudio[i].nazwa != lastString)
+                if (clipyAudio[i].nazwa != lastString)
                 {
                     lastString = clipyAudio[i].nazwa;
                     tByte.Add(i);
                 }
             }
             indeksyMuzyki = tByte.ToArray();
+            WłączWyłączClip(ref muzykaTła, true, "Tło", false);
         }
     }
     public void UstawGłośnośćGry(int val)   //Ta metoda powinna być wywoływana w opcjach aplikacji
@@ -55,44 +55,52 @@ public class MuzykaScript : MonoBehaviour
             ustawGłośność((sbyte)val);
         }
     }
-    public void WłączWyłączClip(ref AudioSource ado, bool czyWłączyć, string typ = "", bool czyOneShoot = false)
+    public void WłączWyłączClip(ref AudioSource ado, bool czyWłączyć, string typ = "", bool czyOneShoot = false)    //Ta metoda obsługuje całe audio
     {
-        if(!czyWłączyć)
+        if (!czyWłączyć)
         {
             ado.Stop();
         }
         else
         {
-            ado.clip = ZwróćSzukanyClip(typ);
-            if(czyOneShoot)
-            {
-                ado.PlayOneShot(ado.clip);
-            }
-            else
-            {
-                ado.Play();
-            }
+            WłączWyłączClip(typ, ref ado, czyOneShoot);
         }
     }
-    private AudioClip ZwróćSzukanyClip(string typ)   //Funkcja zwraca klip w zależności od podanego w parametrze typu
+    public void WłączWyłączClip(string typ, ref AudioSource ado, bool czyOneShoot = false, string nazwaAktualnegoKlipu = "") //Ta metoda pozwala na wybranie klipu z wyłączeniem nazwy aktualnie granej
     {
-        if(indeksyMuzyki != null)
+        ado.clip = ZwróćSzukanyClip(typ, nazwaAktualnegoKlipu);
+        if (czyOneShoot)
         {
-            for(byte i = 0; i < indeksyMuzyki.Length; i++)
+            ado.PlayOneShot(ado.clip);
+        }
+        else
+        {
+            ado.Play();
+        }
+    }
+    private AudioClip ZwróćSzukanyClip(string typ, string nazwaAktualnegoKlipu = "")   //Funkcja zwraca klip w zależności od podanego w parametrze typu
+    {
+        if (indeksyMuzyki != null)
+        {
+            for (byte i = 0; i < indeksyMuzyki.Length; i++)
             {
-                if(clipyAudio[indeksyMuzyki[i]].nazwa == typ)
+                if (clipyAudio[indeksyMuzyki[i]].nazwa == typ)
                 {
-                    if(indeksyMuzyki[i] == indeksyMuzyki.Length-1)  //Jeśli typ jest jedyny i ostatni w tablicy
+                    if (indeksyMuzyki[i] == indeksyMuzyki.Length - 1)  //Jeśli typ jest jedyny i ostatni w tablicy
                     {
                         return clipyAudio[indeksyMuzyki[i]].clip;
                     }
-                    else if(indeksyMuzyki[i+1] - indeksyMuzyki[i] == 1) //Jeśli typ jest jedyny
+                    else if (indeksyMuzyki[i + 1] - indeksyMuzyki[i] == 1) //Jeśli typ jest jedyny
                     {
                         return clipyAudio[indeksyMuzyki[i]].clip;
                     }
                     else    //Obsługa domyślna
                     {
-                        byte x = (byte)Random.Range(indeksyMuzyki[i], indeksyMuzyki[i+1]-1);
+                        byte x = indeksyMuzyki[i];
+                        do
+                        {
+                            x = (byte)Random.Range(indeksyMuzyki[i], indeksyMuzyki[i + 1] - 1);
+                        } while (clipyAudio[x].clip.name != nazwaAktualnegoKlipu);
                         return clipyAudio[x].clip;
                     }
                 }
