@@ -689,29 +689,16 @@ public static class PomocniczeFunkcje
             tmp.Add(eodb);
         }
         ds._zablokowaneBudynki = tmp.ToArray();
-        if (managerGryScript.ekwipunek != null && managerGryScript.ekwipunek.przedmioty != null && managerGryScript.ekwipunek.przedmioty.Length > 0)
+        if (managerGryScript.ekwipunekGracza.Length > 0)
         {
             List<EkwiStruct> ekwi = new List<EkwiStruct>();
-            for (byte i = 0; i < managerGryScript.ekwipunek.przedmioty.Length; i++)
+            for (byte i = 0; i < managerGryScript.ekwipunekGracza.Length; i++)
             {
-                for (byte j = 0; j < managerGryScript.ekwipunekGracza.Length; j++)
-                {
-                    if (managerGryScript.ekwipunek.przedmioty[i].nazwaPrzedmiotu == managerGryScript.ekwipunekGracza[j].nazwaPrzedmiotu)
-                    {
-                        EkwiStruct es = new EkwiStruct();
-                        es.idxTab = j;
-                        es.iloscPrzedmiotu = managerGryScript.ekwipunek.przedmioty[i].ilośćDanejNagrody;
-                        ekwi.Add(es);
-                        break;
-                    }
-                }
+                EkwiStruct es = new EkwiStruct();
+                es.iloscPrzedmiotu = managerGryScript.ekwipunekGracza[i].ilośćDanejNagrody;
+                ekwi.Add(es);
             }
             ds._ekwipunek = ekwi.ToArray();
-        }
-        else
-        {
-            ds._ekwipunek = new EkwiStruct[1];
-            ds._ekwipunek[0].idxTab = 255;
         }
         string ścieżka = ZwróćŚcieżkęZapisu("dataBaseTDv1.asc");
 
@@ -779,21 +766,10 @@ public static class PomocniczeFunkcje
                     }
                 }
             }
-            if (ds._ekwipunek.Length == 1 && ds._ekwipunek[0].idxTab == 255)
+            for (ushort i = 0; i < ds._ekwipunek.Length; i++)
             {
-                //Niestety brak przedmiotów w ekwipunku
-                managerGryScript.ekwipunek = null;
-            }
-            else
-            {
-                List<PrzedmiotScript> ps = new List<PrzedmiotScript>();
-                for (ushort i = 0; i < ds._ekwipunek.Length; i++)
-                {
-                    //Istnieją przedmioty w ekwipunku
-                    ps.Add(managerGryScript.ekwipunekGracza[ds._ekwipunek[i].idxTab]);
-                    ps[i].ilośćDanejNagrody = ds._ekwipunek[i].iloscPrzedmiotu;
-                }
-                managerGryScript.ekwipunek = new EkwipunekScript(ps.ToArray());
+                //Istnieją przedmioty w ekwipunku
+                managerGryScript.ekwipunekGracza[i].ilośćDanejNagrody = ds._ekwipunek[i].iloscPrzedmiotu;
             }
         }
         else
@@ -867,13 +843,13 @@ public static class PomocniczeFunkcje
     }
     public static string TagZEpoka(string aktTag, Epoki e, string rodzajObiektu = "")
     {
-        return aktTag+"_"+e.ToString()+rodzajObiektu;
+        return aktTag + "_" + e.ToString() + rodzajObiektu;
     }
     //Wylicza wartość modyfikatora zadawanych i otrzymywanych obrażeń
     public static float WyliczModyfikatorObrazeń(float bazowyModyfikator, ushort wartośćIndeksu)
     {
         float warMnoznika = Mathf.Pow(0.98f, wartośćIndeksu);
-        return bazowyModyfikator + (0.002f*warMnoznika); //Do +5% na 37 poziomie
+        return bazowyModyfikator + (0.002f * warMnoznika); //Do +5% na 37 poziomie
     }
 }
 [System.Serializable]
@@ -910,7 +886,6 @@ public struct ZapisSkrzynek
 [System.Serializable]
 public struct EkwiStruct
 {
-    [SerializeField] public byte idxTab;
     [SerializeField] public byte iloscPrzedmiotu;
 }
 [System.Serializable]

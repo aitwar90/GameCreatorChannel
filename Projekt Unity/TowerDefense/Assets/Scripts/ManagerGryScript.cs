@@ -27,7 +27,6 @@ public class ManagerGryScript : MonoBehaviour
     [Tooltip("Tablica nagród jakie gracz może otrzymać")]
     public PrzedmiotScript[] ekwipunekGracza = null;
     [Tooltip("Nagrody jakie gracz poisada")]
-    public EkwipunekScript ekwipunek;
     public Skrzynka[] skrzynki;
     [Tooltip("Asset o rozszerzeniu csv z tłumaczeniem")]
     public TextAsset plikJezykowy;
@@ -100,7 +99,7 @@ public class ManagerGryScript : MonoBehaviour
             Screen.autorotateToPortraitUpsideDown = false;
             Screen.autorotateToPortrait = false;
         }
-        PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);
+        PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunekGracza);
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
     }
     private void ŁadowanieDanych()
@@ -334,7 +333,7 @@ public class ManagerGryScript : MonoBehaviour
     }
     public void CudOcalenia()
     {
-        PomocniczeFunkcje.celWrogów.AktualneŻycie = (short)(PomocniczeFunkcje.celWrogów.maksymalneŻycie / 2.0f);
+        PomocniczeFunkcje.celWrogów.AktualneŻycie = (PomocniczeFunkcje.celWrogów.AktualneŻycie < PomocniczeFunkcje.celWrogów.maksymalneŻycie / 2) ? (short)(PomocniczeFunkcje.celWrogów.maksymalneŻycie / 2.0f) : PomocniczeFunkcje.celWrogów.maksymalneŻycie;
         KonkretnyNPCDynamiczny[] knpcd = FindObjectsOfType(typeof(KonkretnyNPCDynamiczny)) as KonkretnyNPCDynamiczny[];
         for (ushort i = 0; i < knpcd.Length; i++)
         {
@@ -350,31 +349,10 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.mainMenu.powtorzPoziom.gameObject.SetActive(false);
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
     }
-    public void KliknietyPrzycisk(byte idx)
+    public void KliknietyPrzycisk() //Kliknięty przycisk potwierdzający użycie skrzynki
     {
-        if (ekwipunek == null)
-            ekwipunek = new EkwipunekScript(null);
-        byte idxPrzedmiotuLosowanego = ekwipunek.LosujNagrode();
-        bool c = true;
-        if (ekwipunek.przedmioty != null && ekwipunek.przedmioty.Length > 0)
-        {
-            if (PomocniczeFunkcje.mainMenu.SprawdźCzyNazwaPasujeItemDropDown(ekwipunekGracza[idxPrzedmiotuLosowanego].nazwaPrzedmiotu))
-            {
-                for (byte i = 0; i < ekwipunek.przedmioty.Length; i++)
-                {
-                    if (ekwipunek.przedmioty[i].nazwaPrzedmiotu == ekwipunekGracza[idxPrzedmiotuLosowanego].nazwaPrzedmiotu)
-                    {
-                        PomocniczeFunkcje.mainMenu.AktualizujInfoOIlosci(i, ekwipunek.przedmioty[i].nazwaPrzedmiotu, ekwipunek.przedmioty[i].ilośćDanejNagrody);
-                        c = false;
-                        break;
-                    }
-                }
-            }
-        }
-        if (c)
-        {
-            PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);
-        }
+        byte losowy = ekwipunekGracza[0].DodajNagrode();
+        PomocniczeFunkcje.mainMenu.UstawButtonNagrody(losowy, ekwipunekGracza[losowy].ilośćDanejNagrody);
     }
     public void SkróćCzasSkrzynki(sbyte idxS = -1)
     {
@@ -415,38 +393,10 @@ public class ManagerGryScript : MonoBehaviour
     }
     public void UzyciePrzedmiotu(byte idxOfItem)
     {
-        if (ekwipunek != null && ekwipunek.przedmioty != null && ekwipunek.przedmioty.Length > 0)
+        if (ekwipunekGracza[idxOfItem].ilośćDanejNagrody > 0)
         {
-            if (ekwipunek.przedmioty.Length > idxOfItem)
-            {
-                if (ekwipunek.przedmioty[idxOfItem].ilośćDanejNagrody > 0)
-                {
-                    ekwipunek.przedmioty[idxOfItem].AktywujPrzedmiot();
-                    bool c = true;
-                    if (ekwipunek.przedmioty[idxOfItem].ilośćDanejNagrody == 0)
-                    {
-                        c = false;
-                        List<PrzedmiotScript> ps = new List<PrzedmiotScript>();
-                        for (byte i = 0; i < ekwipunek.przedmioty.Length; i++)
-                        {
-                            if (i == idxOfItem)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                ps.Add(ekwipunek.przedmioty[i]);
-                            }
-                        }
-                        ekwipunek.przedmioty = ps.ToArray();
-                        PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);
-                    }
-                    if (c)
-                    {
-                        PomocniczeFunkcje.mainMenu.AktualizujInfoOIlosci(idxOfItem, ekwipunek.przedmioty[idxOfItem].nazwaPrzedmiotu, ekwipunek.przedmioty[idxOfItem].ilośćDanejNagrody);
-                    }
-                }
-            }
+            ekwipunekGracza[idxOfItem].AktywujPrzedmiot();
+            PomocniczeFunkcje.mainMenu.UstawButtonNagrody(idxOfItem, ekwipunekGracza[idxOfItem].ilośćDanejNagrody);
         }
     }
     public void KlikniętaReklamaButtonSkrzynki(byte idx)
@@ -577,7 +527,7 @@ public class ManagerGryScript : MonoBehaviour
                             PomocniczeFunkcje.managerGryScript.ekwipunekGracza[j].nazwaPrzedmiotu = pFrazy[idx];
                         }
                     }
-                    PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunek);
+                    PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunekGracza);
                 }
             }
         }

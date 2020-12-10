@@ -43,9 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49634009582d3045b90868311d66a56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nazwaPrzedmiotu: Coiny
+  nazwaPrzedmiotu: Monety
   obrazek: {fileID: 0}
   typPrzedmiotu: 0
   minParam: 10
   maxParam: 1000
   "liczbaItem\xF3wOtrzymywanych": 1
+  "ilo\u015B\u0107DanejNagrody": 0

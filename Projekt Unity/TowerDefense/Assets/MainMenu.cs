@@ -13,7 +13,6 @@ public class MainMenu : MonoBehaviour
     public Button rekZaWyzszaNagrode;
     public Button kup;
     public Button wróc;
-    public Button użyjPrzedmiotu;
     public Button zmianaJezyka;
     public Button rotacjaBudynku;
     public Button odpalPoziom;
@@ -26,7 +25,10 @@ public class MainMenu : MonoBehaviour
     public Button buttonAAtak;
     public Button buttonAObrona;
     #endregion
-
+    #region Ekwipunek
+    [Tooltip("Przyciski nagród powinny być wpięte w tablicę w kolejności zgodnej z taką jak Ekwipunek Gracza w ManagerGryScript.cs")]
+    public Button[] przyciskiNagród;
+    #endregion
     #region TextUI
     public Text ilośćCoinów;
     public Text ilośćFal;
@@ -37,18 +39,17 @@ public class MainMenu : MonoBehaviour
     public KontenerKomponentów panelDynamiczny;
     public KontenerKomponentów panelStatyczny;
     #endregion
-    public Dropdown wybórPrzedmiotuZEkwipunku;
     public static bool czyMenuEnable = true;
     private GameObject menu;
     private GameObject uiGry;
     private GameObject optionsMenu;
     private GameObject poGraj;
     private GameObject reklamyPanel;
-    private Button przyciskWznów;
     private GameObject ui_down;
     private GameObject goPanel;
+    private Button przyciskWznów;
     private Vector3 lastPosCam = Vector3.zero;
-    private sbyte wybranyPrzedmiot = -1;
+    private sbyte wybranaNagroda = -1;
     public sbyte lastIdxJezyka = 0;
     private static MainMenu singelton = null;
     private bool odpalonyPanel = false;
@@ -111,7 +112,6 @@ public class MainMenu : MonoBehaviour
         PomocniczeFunkcje.oCam = Camera.main;
         nastepnyPoziom.interactable = false;
         rekZaWyzszaNagrode.gameObject.SetActive(false);
-        użyjPrzedmiotu.gameObject.SetActive(false);
         reklamyPanel.SetActive(false);
         poGraj.SetActive(false);
         panelDynamiczny.gameObject.SetActive(false);
@@ -135,31 +135,31 @@ public class MainMenu : MonoBehaviour
     }
     public void WłączWyłączPanel(string panel, bool czyWłączyć)
     {
-        if(panel == menu.name)
+        if (panel == menu.name)
         {
             menu.SetActive(czyWłączyć);
         }
-        else if(panel == uiGry.name)
+        else if (panel == uiGry.name)
         {
             uiGry.SetActive(czyWłączyć);
         }
-        else if(panel == optionsMenu.name)
+        else if (panel == optionsMenu.name)
         {
             optionsMenu.SetActive(czyWłączyć);
         }
-        else if(panel == poGraj.name)
+        else if (panel == poGraj.name)
         {
             poGraj.SetActive(czyWłączyć);
         }
-        else if(panel == reklamyPanel.name)
+        else if (panel == reklamyPanel.name)
         {
             reklamyPanel.SetActive(czyWłączyć);
         }
-        else if(ui_down.name == panel)
+        else if (ui_down.name == panel)
         {
             ui_down.SetActive(czyWłączyć);
         }
-        else if(goPanel.name == panel)
+        else if (goPanel.name == panel)
         {
             goPanel.SetActive(czyWłączyć);
         }
@@ -180,7 +180,7 @@ public class MainMenu : MonoBehaviour
             else if (ustEpoka == PomocniczeFunkcje.odblokowaneEpoki)
             {
                 byte temp = (byte)(PomocniczeFunkcje.odblokowanyPoziomEpoki % 100);
-                if(temp == 0)
+                if (temp == 0)
                 {
                     return 1;
                 }
@@ -298,7 +298,7 @@ public class MainMenu : MonoBehaviour
     }
     public void SkrzynkaKlik(int idx)
     {
-        PomocniczeFunkcje.managerGryScript.KliknietyPrzycisk((byte)idx);
+        PomocniczeFunkcje.managerGryScript.KliknietyPrzycisk();
         buttonSkrzynki[idx].skrzynkaB.interactable = false;
     }
     public void KliknietyPrzyciskRewardZPoziomuZReklama()
@@ -316,58 +316,71 @@ public class MainMenu : MonoBehaviour
         PomocniczeFunkcje.mainMenu.kup.gameObject.SetActive(f);
         PomocniczeFunkcje.mainMenu.wróc.gameObject.SetActive(f);
     }
-    public void WybierzWybranyPrzedmiot()
+    public void WybierzWybranyPrzedmiot(int nagroda)
     {
+        if (PomocniczeFunkcje.managerGryScript.ekwipunekGracza[nagroda].ilośćDanejNagrody > 0)
+        {
+            wybranaNagroda = (sbyte)nagroda;
+        }
+        UżyjKlikniętegoPrzedmiotu();
+        /*
         if (this.wybórPrzedmiotuZEkwipunku.value > 0)
         {
             wybranyPrzedmiot = (sbyte)(this.wybórPrzedmiotuZEkwipunku.value - 1);   //Konwert na tablice przedmiotów
             użyjPrzedmiotu.gameObject.SetActive(true);
         }
+        */
     }
-    public void UstawDropDownEkwipunku(ref EkwipunekScript es)
+    public void UstawDropDownEkwipunku(ref PrzedmiotScript[] ps)
     {
-        List<string> listaOpcji = new List<string>();
-        listaOpcji.Add("NONE");
-        if (es != null && es.przedmioty != null && es.przedmioty.Length > 0)
+        for (byte i = 0; i < przyciskiNagród.Length; i++)
         {
-            for (byte i = 0; i < es.przedmioty.Length; i++)
+            przyciskiNagród[i].interactable = false;
+        }
+        for (ushort i = 0; i < ps.Length; i++)
+        {
+            if (ps[i].ilośćDanejNagrody > 0)
             {
-                listaOpcji.Add(es.przedmioty[i].nazwaPrzedmiotu + " " + es.przedmioty[i].ilośćDanejNagrody.ToString());
+                switch (ps[i].typPrzedmiotu)
+                {
+                    case TypPrzedmiotu.Coiny:
+                        przyciskiNagród[0].interactable = true;
+                        przyciskiNagród[0].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
+                        break;
+                    case TypPrzedmiotu.CudOcalenia:
+                        przyciskiNagród[1].interactable = true;
+                        przyciskiNagród[1].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
+                        break;
+                    case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
+                        przyciskiNagród[3].interactable = true;
+                        przyciskiNagród[3].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
+                        break;
+                    case TypPrzedmiotu.DodatkowaNagroda:
+                        przyciskiNagród[2].interactable = true;
+                        przyciskiNagród[2].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
+                        break;
+                }
             }
         }
-        this.wybórPrzedmiotuZEkwipunku.ClearOptions();
-        this.wybórPrzedmiotuZEkwipunku.AddOptions(listaOpcji);
     }
     public void UżyjKlikniętegoPrzedmiotu()
     {
-        if (wybranyPrzedmiot > -1)
-        {
-            użyjPrzedmiotu.gameObject.SetActive(false);
-            PomocniczeFunkcje.managerGryScript.UzyciePrzedmiotu((byte)wybranyPrzedmiot);
-        }
-        wybranyPrzedmiot = -1;
-        this.wybórPrzedmiotuZEkwipunku.value = 0;
 
-    }
-    public void AktualizujInfoOIlosci(byte idx, string orginalnaNazwa, ushort actIlosc)
-    {
-        idx++;
-        if (idx < this.wybórPrzedmiotuZEkwipunku.options.Count)
+        if (wybranaNagroda > -1)
         {
-            this.wybórPrzedmiotuZEkwipunku.options[idx].text = orginalnaNazwa + " " + actIlosc.ToString();
+            PomocniczeFunkcje.managerGryScript.UzyciePrzedmiotu((byte)wybranaNagroda);
         }
+        if (PomocniczeFunkcje.managerGryScript.ekwipunekGracza[wybranaNagroda].ilośćDanejNagrody == 0)
+        wybranaNagroda = -1;
     }
-    public bool SprawdźCzyNazwaPasujeItemDropDown(string szukanaNazwa)  //Wyszukuje nazwę w opcjach dropdawna
+    public void UstawButtonNagrody(byte idxButtonaNagrody, ushort ilość)  //Wyszukuje nazwę w opcjach dropdawna
     {
-        for (byte i = 0; i < this.wybórPrzedmiotuZEkwipunku.options.Count; i++)
+        bool czyAktywuje = (ilość <= 0) ? false : true;
+        if(przyciskiNagród[idxButtonaNagrody].interactable != czyAktywuje)
         {
-            string[] s = this.wybórPrzedmiotuZEkwipunku.options[i].text.Split(' ');
-            if (s[0] == szukanaNazwa)
-            {
-                return true;
-            }
+            przyciskiNagród[idxButtonaNagrody].interactable = czyAktywuje;
         }
-        return false;
+        przyciskiNagród[idxButtonaNagrody].GetComponentInChildren<Text>().text = ilość.ToString();
     }
     public void KliknąłemReklame(int idx)
     {
