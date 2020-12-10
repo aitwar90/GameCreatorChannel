@@ -50,3 +50,4 @@ Coiny,Monety,Coins;
 CudOcalenia,CudOcalenia,Miracle;
 DodatkowaNagroda,Dodatkowa nagroda,Additional reward;
 SkrótCzasuSkrzynki,SkrócenieCzasuSkrzynki,Cut time box;
+ReklamyButtonMenu,Reklamy,Ads Panel;
