@@ -5,10 +5,11 @@ using System;
 [System.Serializable]
 public class Skrzynka
 {
-    [SerializeField]public DateTime pozostałyCzas;
+    [SerializeField] public DateTime pozostałyCzas;
     public Button button;
     public Button buttonReklamy;
     public bool reuseTime = false;
+    private Text czasReusu;
     public bool ReuseTimer
     {
         get
@@ -31,29 +32,35 @@ public class Skrzynka
         reuseTime = false;
         this.button.interactable = false;
         this.buttonReklamy.interactable = false;
+        this.czasReusu = this.buttonReklamy.transform.Find("TextTimer").GetComponent<Text>();
     }
     public void SprawdźCzyReuseMinęło()
     {
-        if(reuseTime)
+        if (reuseTime)
         {
-            if(pozostałyCzas.CompareTo(DateTime.Now) < 0)   //Reuse minęło
+            if (pozostałyCzas.CompareTo(DateTime.Now) < 0)   //Reuse minęło
             {
                 reuseTime = false;
                 button.interactable = true;
                 buttonReklamy.interactable = false;
+                this.czasReusu.text = "";
             }
             else
             {
-                buttonReklamy.interactable = PomocniczeFunkcje.managerGryScript.CzyReklamaZaładowana;
+                if (!buttonReklamy.interactable)
+                {
+                    buttonReklamy.interactable = PomocniczeFunkcje.managerGryScript.CzyReklamaZaładowana;
+                }
+                this.czasReusu.text = OkreślCzasDoTekstu();
             }
         }
     }
     public void OdejmnijCzas(float offTime = -30)
     {
-        if(reuseTime)
+        if (reuseTime)
         {
             pozostałyCzas = pozostałyCzas.AddMinutes(offTime);
-            Debug.Log("Dodałem minut = "+offTime+" i pozostały czas to "+pozostałyCzas.Hour+" h / "+pozostałyCzas.Minute+" m.");
+            Debug.Log("Dodałem minut = " + offTime + " i pozostały czas to " + pozostałyCzas.Hour + " h / " + pozostałyCzas.Minute + " m.");
         }
     }
     public void RozpocznijOdliczanie()
@@ -61,5 +68,11 @@ public class Skrzynka
         pozostałyCzas = DateTime.Now;
         pozostałyCzas = pozostałyCzas.AddHours(2);
         reuseTime = true;
+    }
+    private string OkreślCzasDoTekstu()
+    {
+        TimeSpan ts = pozostałyCzas.Subtract(DateTime.Now);
+        byte minuty = (byte)ts.TotalMinutes;
+        return minuty.ToString();
     }
 }
