@@ -21,7 +21,6 @@ public class MainMenu : MonoBehaviour
     public Button lvlWyzej;
     public Button epokaNizej;
     public Button epokaWyzej;
-    public Button wrocDoMenuZPoGraj;
     #region Akademia
     public Button buttonAZycie;
     public Button buttonAAtak;
@@ -44,6 +43,7 @@ public class MainMenu : MonoBehaviour
     private GameObject uiGry;
     private GameObject optionsMenu;
     private GameObject poGraj;
+    private GameObject reklamyPanel;
     private Button przyciskWznów;
     private Vector3 lastPosCam = Vector3.zero;
     private sbyte wybranyPrzedmiot = -1;
@@ -90,10 +90,10 @@ public class MainMenu : MonoBehaviour
         uiGry = this.transform.Find("UIGry").gameObject;
         optionsMenu = this.transform.Find("Menu/OptionsMenu").gameObject;
         poGraj = this.transform.Find("Menu/PoGraj").gameObject;
+        reklamyPanel = this.transform.Find("Menu/PanelSkrzynki").gameObject;
         przyciskWznów = this.transform.Find("Menu/MainMenu/ResumeButton").GetComponent<Button>();
         actWybEpoka = this.transform.Find("Menu/PoGraj/AktualnieWybEpoka").GetComponent<Text>();
         rectHpBar = this.transform.Find("UIGry/DaneGry/PasekZyciaGłównegoBudynku/Green").GetComponent<RectTransform>();
-        PrzeskalujUI();
         epokaNizej.interactable = false;
         epokaWyzej.interactable = false;
         OdpalButtonyAkademii(false);
@@ -107,6 +107,7 @@ public class MainMenu : MonoBehaviour
         powtorzPoziom.gameObject.SetActive(false);
         rekZaWyzszaNagrode.gameObject.SetActive(false);
         użyjPrzedmiotu.gameObject.SetActive(false);
+        reklamyPanel.SetActive(false);
         poGraj.SetActive(false);
         panelDynamiczny.gameObject.SetActive(false);
         panelStatyczny.gameObject.SetActive(false);
@@ -468,8 +469,9 @@ public class MainMenu : MonoBehaviour
             odpalonyPanel = true;
         }
     }
-    private void PrzeskalujUI()
+    public void WłWyłPanelReklam(bool czyWłPanel)
     {
-        //Debug.Log("Wielkość buttonu "+nastepnyPoziom.transform.GetComponent<RectTransform>().sizeDelta.ToString());
+        menu.SetActive(!czyWłPanel);
+        reklamyPanel.SetActive(czyWłPanel);
     }
 }
