@@ -12,6 +12,8 @@ public class SpawnerHord : MonoBehaviour
     [Tooltip("Ilość przeciwników w ostatnio wygenerowanej fali")]
     public ushort ostatniaIlośćWFali = 0;
     public ushort maxIlośćNaFalę = 1;
+    public static byte actFala = 0;
+    public static byte iloscFalNaKoncu = 0;
     public static byte actualHPBars = 0;
     public NPCClass cel;
     public Transform rodzicNPC = null;
@@ -99,60 +101,72 @@ public class SpawnerHord : MonoBehaviour
                 if (poziomEpoki < 50)
                 {
                     maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
+                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / 3.0f));
                 }
                 else
                 {
                     maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
+                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / (3 + (poziomEpoki - 45))));
                 }
                 break;
             case Epoki.EpokaStarożytna:
                 if (poziomEpoki < 50)
                 {
                     maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
+                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / 3.0f));
                 }
                 else
                 {
                     maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
+                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / (3 + (poziomEpoki - 44))));
                 }
                 break;
             case Epoki.EpokaŚredniowiecza:
                 if (poziomEpoki < 50)
                 {
                     maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
+                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / 3.0f));
                 }
                 else
                 {
                     maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
+                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / (3 + (poziomEpoki - 43))));
                 }
                 break;
             case Epoki.EpokaNowożytna:
                 if (poziomEpoki < 50)
                 {
                     maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
+                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / 3.0f));
                 }
                 else
                 {
                     maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
+                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / (3 + (poziomEpoki - 42))));
                 }
                 break;
             case Epoki.EpokaWspołczesna:
                 if (poziomEpoki < 50)
                 {
                     maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
+                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / 3.0f));
                 }
                 else
                 {
                     maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
+                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / (3 + (poziomEpoki - 41))));
                 }
                 break;
             case Epoki.EpokaPrzyszła:
                 if (poziomEpoki < 50)
                 {
                     maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
+                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / 3.0f));
                 }
                 else
                 {
                     maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
+                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / (3 + (poziomEpoki - 40))));
                 }
                 break;
             default:
@@ -206,6 +220,7 @@ public class SpawnerHord : MonoBehaviour
                 iloscPunktówSpawnu = 7;
             else
                 iloscPunktówSpawnu = 8;
+            actFala++;
             SpawnujMnie(ref możliwiNPC, 1);
             for (ushort i = 1, j = 1; i < ostatniaIlośćWFali; i++)
             {
@@ -214,6 +229,7 @@ public class SpawnerHord : MonoBehaviour
                 if (j > iloscPunktówSpawnu)
                     j = 1;
             }
+            PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", false);
             return true;
         }
     }
@@ -272,7 +288,6 @@ public class SpawnerHord : MonoBehaviour
         KonkretnyNPCDynamiczny knpcd = go.GetComponent<KonkretnyNPCDynamiczny>();
         UstawWroga(knpcd, czyPool);
         go.transform.SetParent(rodzicNPC);
-        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", ManagerGryScript.iloscAktywnychWrogów.ToString());
     }
     public void WywołajResetujŚcieżki()
     {
@@ -293,5 +308,6 @@ public class SpawnerHord : MonoBehaviour
             knpcd.WyczyscDaneDynamic(true);
             Destroy(rodzicNPC.GetChild(i).gameObject);
         }
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
     }
 }

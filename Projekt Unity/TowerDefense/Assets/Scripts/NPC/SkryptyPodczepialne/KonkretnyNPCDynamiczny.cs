@@ -224,8 +224,12 @@ public class KonkretnyNPCDynamiczny : NPCClass
         PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek -= ResetujŚciezkę;
         ManagerGryScript.iloscAktywnychWrogów--;
         ManagerGryScript.iloscCoinów += this.ileCoinówZaZabicie;
-        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
-        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", ManagerGryScript.iloscAktywnychWrogów.ToString());
+        if (ManagerGryScript.iloscAktywnychWrogów == 0)
+        {
+            PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
+            PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
+            PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
+        }
         WyczyscDaneDynamic();
         UsuńMnieZTablicyWież(true);
         actXIdx = 32767;
@@ -353,8 +357,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
                             efektyFxStart.transform.position = this.transform.position;
                             efektyFxStart.Play();
                         }
-                        PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, (this.typNPC == TypNPC.WalczyNaDystans || this.typNPC == TypNPC.WalczynaDystansIWZwarciu) ? 
-                        PomocniczeFunkcje.TagZEpoka("AtakNPCDystans", this.epokaNPC, this.tagRodzajDoDźwięków) : 
+                        PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, (this.typNPC == TypNPC.WalczyNaDystans || this.typNPC == TypNPC.WalczynaDystansIWZwarciu) ?
+                        PomocniczeFunkcje.TagZEpoka("AtakNPCDystans", this.epokaNPC, this.tagRodzajDoDźwięków) :
                         PomocniczeFunkcje.TagZEpoka("AtakNPCZwarcie", this.epokaNPC, this.tagRodzajDoDźwięków), true);
                         _obiektAtaku.transform.LookAt(cel.transform.position);
                     }

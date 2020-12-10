@@ -91,7 +91,7 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.LadujDaneOpcje();
         PomocniczeFunkcje.ŁadujDane();
         //UtworzSzablonPlikuJezykowego();
-        if(blokowanieOrientacji)
+        if (blokowanieOrientacji)
         {
             Debug.Log("Ustawiam orientację");
             Screen.orientation = ScreenOrientation.Landscape;
@@ -113,6 +113,8 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 40) / 2.0f);
         PomocniczeFunkcje.distXZ = (terr.terrainData.size.x - (PomocniczeFunkcje.aktualneGranicaTab * 2)) / 20f;
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
+        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
         /*
         for(byte i = 0; i < 20; i++)
         {
@@ -301,16 +303,12 @@ public class ManagerGryScript : MonoBehaviour
                 }
             }
             PomocniczeFunkcje.ZapiszDane();
-            PomocniczeFunkcje.mainMenu.nastepnyPoziom.gameObject.SetActive(true);
-            PomocniczeFunkcje.mainMenu.powtorzPoziom.gameObject.SetActive(true);
+            PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
             PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
             PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
             OdblokujKolejnaSkrzynke();
         }
-        else
-        {
-            PomocniczeFunkcje.mainMenu.powtorzPoziom.gameObject.SetActive(true);
-        }
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("GameOver Panel", true);
         toNieOstatniaFala = true;
     }
     public void PrzejdźNaNastepnyPoziom(bool czyNowyPoziom = true)
@@ -330,8 +328,8 @@ public class ManagerGryScript : MonoBehaviour
                 aktualnyPoziomEpoki++;
             }
         }
-        PomocniczeFunkcje.mainMenu.nastepnyPoziom.gameObject.SetActive(false);
-        PomocniczeFunkcje.mainMenu.powtorzPoziom.gameObject.SetActive(false);
+        PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = false;
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("GameOver Panel", false);
         PomocniczeFunkcje.mainMenu.ResetSceny();
     }
     public void CudOcalenia()

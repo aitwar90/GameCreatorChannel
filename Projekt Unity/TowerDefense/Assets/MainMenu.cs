@@ -45,6 +45,8 @@ public class MainMenu : MonoBehaviour
     private GameObject poGraj;
     private GameObject reklamyPanel;
     private Button przyciskWznów;
+    private GameObject ui_down;
+    private GameObject goPanel;
     private Vector3 lastPosCam = Vector3.zero;
     private sbyte wybranyPrzedmiot = -1;
     public sbyte lastIdxJezyka = 0;
@@ -91,20 +93,23 @@ public class MainMenu : MonoBehaviour
         optionsMenu = this.transform.Find("Menu/OptionsMenu").gameObject;
         poGraj = this.transform.Find("Menu/PoGraj").gameObject;
         reklamyPanel = this.transform.Find("Menu/PanelSkrzynki").gameObject;
+        ui_down = uiGry.transform.Find("ui_down").gameObject;
         przyciskWznów = this.transform.Find("Menu/MainMenu/ResumeButton").GetComponent<Button>();
         actWybEpoka = this.transform.Find("Menu/PoGraj/AktualnieWybEpoka").GetComponent<Text>();
-        rectHpBar = this.transform.Find("UIGry/DaneGry/PasekZyciaGłównegoBudynku/Green").GetComponent<RectTransform>();
+        rectHpBar = ui_down.transform.Find("DaneGry/PasekZyciaGłównegoBudynku/Green").GetComponent<RectTransform>();
+        goPanel = uiGry.transform.Find("GameOver Panel").gameObject;
         epokaNizej.interactable = false;
         epokaWyzej.interactable = false;
         OdpalButtonyAkademii(false);
         UstawPrzyciskObrotu(false);
         WłWylPrzyciskiKupna(false);
+        goPanel.SetActive(false);
+        ui_down.SetActive(false);
         uiGry.SetActive(false);
         optionsMenu.SetActive(false);
         przyciskWznów.interactable = false;
         PomocniczeFunkcje.oCam = Camera.main;
-        nastepnyPoziom.gameObject.SetActive(false);
-        powtorzPoziom.gameObject.SetActive(false);
+        nastepnyPoziom.interactable = false;
         rekZaWyzszaNagrode.gameObject.SetActive(false);
         użyjPrzedmiotu.gameObject.SetActive(false);
         reklamyPanel.SetActive(false);
@@ -126,6 +131,37 @@ public class MainMenu : MonoBehaviour
         {
             menu.SetActive(true);
             poGraj.SetActive(false);
+        }
+    }
+    public void WłączWyłączPanel(string panel, bool czyWłączyć)
+    {
+        if(panel == menu.name)
+        {
+            menu.SetActive(czyWłączyć);
+        }
+        else if(panel == uiGry.name)
+        {
+            uiGry.SetActive(czyWłączyć);
+        }
+        else if(panel == optionsMenu.name)
+        {
+            optionsMenu.SetActive(czyWłączyć);
+        }
+        else if(panel == poGraj.name)
+        {
+            poGraj.SetActive(czyWłączyć);
+        }
+        else if(panel == reklamyPanel.name)
+        {
+            reklamyPanel.SetActive(czyWłączyć);
+        }
+        else if(ui_down.name == panel)
+        {
+            ui_down.SetActive(czyWłączyć);
+        }
+        else if(goPanel.name == panel)
+        {
+            goPanel.SetActive(czyWłączyć);
         }
     }
     private byte DajMiMaxPoziom(string ustawionaEpoka)

@@ -618,6 +618,8 @@ public static class PomocniczeFunkcje
         stosTrupów = null;
         stosTrupów = null;
         tablicaWież = null;
+        SpawnerHord.iloscFalNaKoncu = 0;
+        SpawnerHord.actFala = 0;
         spawnBudynki.DestroyBuildings();
         SpawnerHord.actualHPBars = 0;
         if (spawnerHord != null)
