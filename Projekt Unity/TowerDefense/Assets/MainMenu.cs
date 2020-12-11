@@ -39,8 +39,19 @@ public class MainMenu : MonoBehaviour
     public KontenerKomponentów panelDynamiczny;
     public KontenerKomponentów panelStatyczny;
     #endregion
+    #region Panel budynków
+    public Button stawiajBudynek;
+    private GameObject uiBudynkiPanel;
+    private byte wielkosćButtonu = 100;
+    private byte offsetBB = 1;
+    private byte iloscButtonow = 1;
+    private RectTransform trBudynkówŁącze = null;
+    private ushort[] idxWież = null;
+    private ushort[] idxMurów = null;
+    private ushort[] idxInne = null;
+    private sbyte lastPanelEnabledBuildings = -1;
+    #endregion
     public Slider sliderDźwięku;
-    public static bool czyMenuEnable = true;
     private GameObject menu;
     private GameObject uiGry;
     private GameObject optionsMenu;
@@ -48,7 +59,6 @@ public class MainMenu : MonoBehaviour
     private GameObject reklamyPanel;
     private GameObject ui_down;
     private GameObject goPanel;
-    private GameObject uiBudynkiPanel;
     private Button przyciskWznów;
     private Vector3 lastPosCam = Vector3.zero;
     private sbyte wybranaNagroda = -1;
@@ -56,10 +66,6 @@ public class MainMenu : MonoBehaviour
     private static MainMenu singelton = null;
     private bool odpalonyPanel = false;
     private RectTransform rectHpBar;
-    private ushort[] idxWież = null;
-    private ushort[] idxMurów = null;
-    private ushort[] idxInne = null;
-    private sbyte lastPanelEnabledBuildings = -1;
     public sbyte UstawLubPobierzOstatniIdexJezyka
     {
         get
@@ -107,6 +113,8 @@ public class MainMenu : MonoBehaviour
         rectHpBar = ui_down.transform.Find("DaneGry/PasekZyciaGłównegoBudynku/Green").GetComponent<RectTransform>();
         goPanel = uiGry.transform.Find("GameOver Panel").gameObject;
         epokaNizej.interactable = false;
+        panelStatyczny.gameObject.SetActive(false);
+        panelDynamiczny.gameObject.SetActive(false);
         epokaWyzej.interactable = false;
         OdpalButtonyAkademii(false);
         UstawPrzyciskObrotu(false);
@@ -115,7 +123,7 @@ public class MainMenu : MonoBehaviour
         nastepnyPoziom.interactable = false;
         rekZaWyzszaNagrode.gameObject.SetActive(false);
         WłączWyłączPanel(new string[] {goPanel.name, uiBudynkiPanel.name, ui_down.name, uiGry.name, optionsMenu.name,
-        reklamyPanel.name, poGraj.name, panelDynamiczny.name, panelStatyczny.name}, false);
+        reklamyPanel.name, poGraj.name}, false);
     }
     public void OdpalPoScenie(bool czyOdpalamPoScenie)
     {
@@ -323,7 +331,6 @@ public class MainMenu : MonoBehaviour
     public void PrzełączUI(bool aktywujeMenu)
     {
         przyciskWznów.interactable = true;
-        czyMenuEnable = aktywujeMenu;
         menu.SetActive(aktywujeMenu);
         uiGry.SetActive(!aktywujeMenu);
         if (aktywujeMenu)
@@ -552,9 +559,10 @@ public class MainMenu : MonoBehaviour
     }
     public void WłączWyłączPanelBudynków(int idx)
     {
+        PrzesuńBudynki(0, true);
         if (idx == 0)    //Panel z wieżami
         {
-            if(idxWież == null)
+            if (idxWież == null)
                 return;
             WłączWyłączPanel("UI_BudynkiPanel", true);
             PomocniczeFunkcje.UstawTimeScale(0);
@@ -570,7 +578,7 @@ public class MainMenu : MonoBehaviour
         }
         else if (idx == 1)   //Panel z murkami
         {
-            if(idxMurów == null)
+            if (idxMurów == null)
                 return;
             WłączWyłączPanel("UI_BudynkiPanel", true);
             PomocniczeFunkcje.UstawTimeScale(0);
@@ -586,7 +594,7 @@ public class MainMenu : MonoBehaviour
         }
         else if (idx == 2)    //Panel z innymi budynkami
         {
-            if(idxInne == null)
+            if (idxInne == null)
                 return;
             WłączWyłączPanel("UI_BudynkiPanel", true);
             PomocniczeFunkcje.UstawTimeScale(0);
@@ -611,6 +619,7 @@ public class MainMenu : MonoBehaviour
             WłączWyłączPanel("UI_BudynkiPanel", false);
             PomocniczeFunkcje.UstawTimeScale(1);
             lastPanelEnabledBuildings = -1;
+            iloscButtonow = 1;
         }
     }
     private void EnDisButtonsOfBuildingsInPanel(ref ushort[] tabOfBuildToChange, bool willEnable = false)
@@ -620,11 +629,12 @@ public class MainMenu : MonoBehaviour
         {
             tab[tabOfBuildToChange[i]].przycisk.gameObject.SetActive(willEnable);
         }
+        iloscButtonow = (byte)tabOfBuildToChange.Length;
     }
     public void WygenerujIPosortujTablice()
     {
         Button b = Resources.Load<Button>("UI/PrzyciskBudynku");
-        Transform tr = GameObject.Find("Canvas/UIGry/UI_BudynkiPanel/RodzicButtonów").transform;
+        trBudynkówŁącze = GameObject.Find("Canvas/UIGry/UI_BudynkiPanel/RodzicButtonów").transform.GetComponent<RectTransform>();
         StrukturaBudynkuWTab[] tab = PomocniczeFunkcje.spawnBudynki.ZablokowaneBudynki;
         List<ushort> murki = null;
         List<ushort> wieże = null;
@@ -632,12 +642,9 @@ public class MainMenu : MonoBehaviour
         for (ushort i = 0; i < tab.Length; i++)
         {
             Button tb = GameObject.Instantiate(b);
-            tb.transform.SetParent(tr);
+            tb.transform.SetParent(trBudynkówŁącze.transform);
             tab[i].DajButton(ref tb);
-            if (tab[i].czyZablokowany)
-            {
-                tb.interactable = false;
-            }
+
             switch (PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[tab[i].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().typBudynku)
             {
                 case TypBudynku.Mur:
@@ -679,5 +686,64 @@ public class MainMenu : MonoBehaviour
     {
         menu.SetActive(!czyWłPanel);
         reklamyPanel.SetActive(czyWłPanel);
+    }
+    public void PrzesuńBudynki(float wartość, bool zresetuj = false)
+    {
+        if(zresetuj)
+        {
+            trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, -100);
+            return;
+        }
+        Vector2 sOff = Vector2.zero;
+        sOff.y += wartość;
+        Vector3 tmp = trBudynkówŁącze.anchoredPosition = trBudynkówŁącze.anchoredPosition + sOff;
+        short t = (short)(-100 - ((wielkosćButtonu + offsetBB)*iloscButtonow));
+        if(tmp.y <= -100 && tmp.y >= t)
+        {
+            trBudynkówŁącze.anchoredPosition = tmp;
+        }
+        else
+        {
+            if(tmp.y > -100)
+            {
+                trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, -100);
+            }
+            else
+            {
+                trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, t);
+            }
+        }
+    }
+    public bool CzyMogePrzesuwaćKamere()
+    {
+        if (uiGry.activeInHierarchy)
+        {
+            if (goPanel.activeInHierarchy || uiBudynkiPanel.activeInHierarchy)
+            {
+                return false;
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool CzyAktywnyPanelZBudynkami()
+    {
+        if (uiBudynkiPanel.activeInHierarchy)
+            return true;
+        else
+            return false;
+    }
+    public void KliknijPrzyciskKupnaBudynku()
+    {
+        kup.interactable = false;
+        PomocniczeFunkcje.spawnBudynki.OdblokujBudynek(lastPanelEnabledBuildings, true);
+    }
+    public void KliknijPrzyciskPostawBudynek()
+    {
+        PomocniczeFunkcje.spawnBudynki.WybierzBudynekDoPostawienia();
+        WłączWyłączPanel(uiBudynkiPanel.name, false);
     }
 }

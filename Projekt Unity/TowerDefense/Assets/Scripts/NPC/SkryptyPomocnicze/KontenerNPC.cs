@@ -142,7 +142,7 @@ public class StrukturaBudynkuWTab
     }
     void OnClick()
     {
-        PomocniczeFunkcje.spawnBudynki.AktIdxBudZab = (short)indexBudynku;
+        PomocniczeFunkcje.spawnBudynki.KliknietyBudynekWPanelu((short)indexBudynku);
     }
 }
 [System.Serializable]

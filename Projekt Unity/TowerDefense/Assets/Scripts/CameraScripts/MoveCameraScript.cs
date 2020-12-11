@@ -9,12 +9,12 @@ public class MoveCameraScript : MonoBehaviour
     #endregion
 
     #region Zmienne prywatne
-    #if UNITY_STANDALONE
+#if UNITY_STANDALONE
     private float prędkoscPrzesunięciaKamery = 2f;
-    #endif
-    #if UNITY_ANDROID
+#endif
+#if UNITY_ANDROID
     private float prędkoscPrzesunięciaKamery = 0.7f;
-    #endif
+#endif
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
     private Vector3 pierwotnePołożenieKamery = Vector3.zero;
     private byte granica = 50;
@@ -47,7 +47,7 @@ public class MoveCameraScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!MainMenu.czyMenuEnable && PomocniczeFunkcje.spawnBudynki.aktualnyObiekt == null)
+        if (PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere() && PomocniczeFunkcje.spawnBudynki.aktualnyObiekt == null)
         {
 #if UNITY_STANDALONE
         ObsłużMysz();
@@ -61,7 +61,46 @@ public class MoveCameraScript : MonoBehaviour
             {
                 ObsłużTouchPad();
             }
-            #endif
+#endif
+        }
+        else if (PomocniczeFunkcje.mainMenu.CzyAktywnyPanelZBudynkami())
+        {
+#if UNITY_STANDALONE
+            if(Input.mouseScrollDelta.y != 0)
+            {
+                PomocniczeFunkcje.mainMenu.PrzesuńBudynki(Input.mouseScrollDelta.y);
+            }
+#endif
+#if UNITY_ANDROID
+            if (Input.mousePresent)
+            {
+                if (Input.mouseScrollDelta.y != 0)
+                {
+                    PomocniczeFunkcje.mainMenu.PrzesuńBudynki(Input.mouseScrollDelta.y);
+                }
+            }
+            else
+            {
+                if(Input.touchCount == 1)
+                {
+                    bool klik = false;
+                    Vector3 posDotyk = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKamery, ref klik);
+                    if(klik)
+                    {
+                        Touch dotyk = Input.GetTouch(0);
+                        if(dotyk.phase == TouchPhase.Began)
+                        {
+                            offs = posDotyk;
+                        }
+                        else if(dotyk.phase == TouchPhase.Moved)
+                        {
+                            Vector3 tmpOfs = posDotyk - offs;
+                            PomocniczeFunkcje.mainMenu.PrzesuńBudynki(tmpOfs.magnitude);
+                        }
+                    }
+                }
+            }
+#endif
         }
     }
     #region Metody i funkcje obsługujące przemieszczanie kamery
@@ -117,16 +156,16 @@ public class MoveCameraScript : MonoBehaviour
         {
             bool klik = false;
             Vector3 posDotyk = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKamery, ref klik);
-            if(klik)
+            if (klik)
                 return;
             Touch dotyk = Input.GetTouch(0);    //Pobierz informację o pierwszym dotknięciu
-            if(dotyk.phase == TouchPhase.Began)
+            if (dotyk.phase == TouchPhase.Began)
             {
                 offs = posDotyk;
             }
             else if (dotyk.phase == TouchPhase.Moved) //Jeśli wykrywa przesunięcie palcem po ekranie
             {
-                Vector3 tmpOfs = (posDotyk-offs)*prędkoscPrzesunięciaKamery;
+                Vector3 tmpOfs = (posDotyk - offs) * prędkoscPrzesunięciaKamery;
                 Vector3 tmp = ostatniaPozycjaKamery + tmpOfs;
                 if (SprawdźCzyMogęPrzesunąćKamerę(tmp))
                 {

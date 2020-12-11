@@ -95,14 +95,14 @@ public class SpawnBudynki : MonoBehaviour
     }
     void Update()
     {
-        if (aktualnyObiekt != null && !MainMenu.czyMenuEnable)
+        if (aktualnyObiekt != null && PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere())
         {
             posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora, ref kliknieteUI);
         }
     }
     void LateUpdate()
     {
-        if (aktualnyObiekt != null && !MainMenu.czyMenuEnable)
+        if (aktualnyObiekt != null && PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere())
         {
             if (Input.GetMouseButton(2))
             {
@@ -132,19 +132,16 @@ public class SpawnBudynki : MonoBehaviour
             }
         }
     }
-    public void OdblokujBudynek(bool czyOdblokowywuje = false)
+    public void OdblokujBudynek(sbyte idxDoOdblokowania, bool czyOdblokowywuje = false)
     {
-        if (czyOdblokowywuje && zablokowanyBudynekIndex > -1)
+        if (czyOdblokowywuje && idxDoOdblokowania > -1)
         {
-            KonkretnyNPCStatyczny statycznyBudynekDoOdbl = wszystkieBudynki[czyBudynekZablokowany[zablokowanyBudynekIndex].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
+            KonkretnyNPCStatyczny statycznyBudynekDoOdbl = wszystkieBudynki[czyBudynekZablokowany[idxDoOdblokowania].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
             statycznyBudynekDoOdbl.Zablokowany = false;
             ManagerGryScript.iloscCoinów -= statycznyBudynekDoOdbl.kosztBadania;
-            czyBudynekZablokowany[zablokowanyBudynekIndex].czyZablokowany = false;
-            //this.dropdawn.options[zablokowanyBudynekIndex + 1].image = enableLockDropdownImage;
-            //this.dropdawn.options[zablokowanyBudynekIndex + 1].text = statycznyBudynekDoOdbl.nazwa;
+            czyBudynekZablokowany[idxDoOdblokowania].czyZablokowany = false;
             PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
         }
-        zablokowanyBudynekIndex = -1;
         ResetWybranegoObiektu();
     }
     private void ObsluzMysz()
@@ -169,6 +166,26 @@ public class SpawnBudynki : MonoBehaviour
             {
                 ZatwierdźBudynekAndroid();
             }
+        }
+    }
+    public void KliknietyBudynekWPanelu(short tabWTablicy)
+    {
+        aktualnieWybranyIndeksObiektuTabZablokowany = tabWTablicy;
+        if (czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].czyZablokowany)
+        {
+            //Odpal przycisk kupna
+            if (ManagerGryScript.iloscCoinów >= wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().kosztBadania)
+            {
+                PomocniczeFunkcje.mainMenu.kup.interactable = true;
+                PomocniczeFunkcje.mainMenu.stawiajBudynek.interactable = false;
+            }
+
+        }
+        else
+        {
+            //Odpal przycisk budowy
+            PomocniczeFunkcje.mainMenu.kup.interactable = false;
+            PomocniczeFunkcje.mainMenu.stawiajBudynek.interactable = true;
         }
     }
     public void PostawBudynek(ref GameObject obiektDoRespawnu, Vector3 pos, Quaternion rotation)
@@ -294,28 +311,28 @@ public class SpawnBudynki : MonoBehaviour
         //Debug.Log("Postawiłem budynek na X = "+temp[0]+" Z = "+temp[1]);
         // Kasowanie ustawień potrzebnych do postawienia budynku
         materialWybranegoBudynku = null;
+        aktualnieWybranyIndeksObiektuTabZablokowany = -1;
         knpcs = null;
         aktualnyObiekt = null;
-        dropdawn.value = 0;
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
     }
-    public void WybierzBudynekDoPostawienia(int index)  //Wybór obiektu budynku do postawienia
+    public void WybierzBudynekDoPostawienia()  //Wybór obiektu budynku do postawienia
     {
-        if (index < 0)
+        if (aktualnieWybranyIndeksObiektuTabZablokowany < 0)
         {
             ResetWybranegoObiektu();
             return;
         }
-        if (index > -1 && aktualnyObiekt == null)
+        if (aktualnieWybranyIndeksObiektuTabZablokowany > -1 && aktualnyObiekt == null)
         {
-            if (!czyBudynekZablokowany[index].czyZablokowany)
+            if (!czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].czyZablokowany)
             {
-                PostawBudynek(ref wszystkieBudynki[czyBudynekZablokowany[index].indexBudynku], posClick, Quaternion.identity);
+                PostawBudynek(ref wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku], posClick, Quaternion.identity);
                 ostatniaPozycjaKursora = posClick;
             }
             else
             {
-                zablokowanyBudynekIndex = (short)index;
+                zablokowanyBudynekIndex = (short)aktualnieWybranyIndeksObiektuTabZablokowany;
                 Debug.Log("Dany budynek należy kupić");
             }
         }
@@ -351,7 +368,7 @@ public class SpawnBudynki : MonoBehaviour
         knpcs = null;
         Destroy(aktualnyObiekt);
         aktualnyObiekt = null;
-        dropdawn.value = 0;
+        aktualnieWybranyIndeksObiektuTabZablokowany = -1;
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
     }
     private Vector3 WyrównajSpawn(Vector3 sugerowanePolozenie)
