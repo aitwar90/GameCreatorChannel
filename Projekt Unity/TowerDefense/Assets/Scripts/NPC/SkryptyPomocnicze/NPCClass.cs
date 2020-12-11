@@ -235,9 +235,9 @@ public abstract class NPCClass : MonoBehaviour
             return;
         }
     }
-    public void UstawGłośnośćNPC(sbyte wartość)
+    public void UstawGłośnośćNPC(float wartość)
     {
-        odgłosyNPC.volume = wartość/100.0f;
+        odgłosyNPC.volume = wartość;
     }
     #endregion
 

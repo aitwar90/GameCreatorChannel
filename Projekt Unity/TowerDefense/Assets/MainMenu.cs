@@ -39,6 +39,7 @@ public class MainMenu : MonoBehaviour
     public KontenerKomponentów panelDynamiczny;
     public KontenerKomponentów panelStatyczny;
     #endregion
+    public Slider sliderDźwięku;
     public static bool czyMenuEnable = true;
     private GameObject menu;
     private GameObject uiGry;
@@ -530,8 +531,12 @@ public class MainMenu : MonoBehaviour
         }
         else    //Panel z innymi budynkami
         {
-            
+
         }
+    }
+    public void UstawGłośność()
+    {
+        PomocniczeFunkcje.muzyka.UstawGłośnośćGry(sliderDźwięku.value);
     }
     public void WłWyłPanelReklam(bool czyWłPanel)
     {

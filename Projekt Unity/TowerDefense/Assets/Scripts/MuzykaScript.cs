@@ -9,7 +9,7 @@ public class MuzykaScript : MonoBehaviour
     public AudioSource muzykaTła;
     [Tooltip("Nazwa musi mieć szablon x_y_z przy czym x oznacza przeznaczenie clipu zaś y epokę. Tło oznacza pierwszy utwór przeznaczony dla tła. Typy: Tło, AmbientWGrze, AtakNPCDystans, AtakNPCZwarcie, AtakBJeden, AtakBObszar, AtakBAll, ŚmiercNPC, ŚmiercB, Poruszanie, Idle. Przykład AtakBObszar_EpokaKamienia_Kamień (W przypadku tła i ambient nie ma specjalnych rodzajów)")]
     public StrukturaAudio[] clipyAudio;
-    public delegate void UstawGłośność(sbyte wartość);
+    public delegate void UstawGłośność(float wartość);
     public UstawGłośność ustawGłośność;
     private byte[] indeksyMuzyki = null;
 
@@ -40,20 +40,9 @@ public class MuzykaScript : MonoBehaviour
             WłączWyłączClip(ref muzykaTła, true, PomocniczeFunkcje.TagZEpoka("Tło", Epoki.None), false);
         }
     }
-    public void UstawGłośnośćGry(int val)   //Ta metoda powinna być wywoływana w opcjach aplikacji
+    public void UstawGłośnośćGry(float val)   //Ta metoda powinna być wywoływana w opcjach aplikacji
     {
-        if (val > 100)
-        {
-            ustawGłośność(100);
-        }
-        else if (val < 0)
-        {
-            ustawGłośność(0);
-        }
-        else
-        {
-            ustawGłośność((sbyte)val);
-        }
+        ustawGłośność(val);
     }
     public void WłączWyłączClip(ref AudioSource ado, bool czyWłączyć, string typ = "", bool czyOneShoot = false)    //Ta metoda obsługuje całe audio
     {
@@ -108,9 +97,9 @@ public class MuzykaScript : MonoBehaviour
         }
         return null;
     }
-    public void UstawGłośnośćTła(sbyte wartość)
+    public void UstawGłośnośćTła(float wartość)
     {
-        muzykaTła.volume = wartość / 100.0f;
+        muzykaTła.volume = wartość;
     }
     public void SortujAlfabetyczniePoNazwie()
     {
