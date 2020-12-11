@@ -114,6 +114,8 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
+        PomocniczeFunkcje.spawnBudynki.InicjacjaPaneluBudynków();
+        PomocniczeFunkcje.mainMenu.WygenerujIPosortujTablice(); //Generuje i sortuje tablice budynków do wybudowania
         /*
         for(byte i = 0; i < 20; i++)
         {
@@ -506,7 +508,6 @@ public class ManagerGryScript : MonoBehaviour
                             break;
                         }
                     }
-                    PomocniczeFunkcje.spawnBudynki.ZróbListęDropdownBudynków();
                 }
                 if (wszystkieRodzajeWrogichJednostek != null && wszystkieRodzajeWrogichJednostek.Length > 0)
                 {

@@ -48,6 +48,7 @@ public class MainMenu : MonoBehaviour
     private GameObject reklamyPanel;
     private GameObject ui_down;
     private GameObject goPanel;
+    private GameObject uiBudynkiPanel;
     private Button przyciskWznów;
     private Vector3 lastPosCam = Vector3.zero;
     private sbyte wybranaNagroda = -1;
@@ -55,6 +56,10 @@ public class MainMenu : MonoBehaviour
     private static MainMenu singelton = null;
     private bool odpalonyPanel = false;
     private RectTransform rectHpBar;
+    private ushort[] idxWież = null;
+    private ushort[] idxMurów = null;
+    private ushort[] idxInne = null;
+    private sbyte lastPanelEnabledBuildings = -1;
     public sbyte UstawLubPobierzOstatniIdexJezyka
     {
         get
@@ -98,25 +103,19 @@ public class MainMenu : MonoBehaviour
         ui_down = uiGry.transform.Find("ui_down").gameObject;
         przyciskWznów = this.transform.Find("Menu/MainMenu/ResumeButton").GetComponent<Button>();
         actWybEpoka = this.transform.Find("Menu/PoGraj/AktualnieWybEpoka").GetComponent<Text>();
+        uiBudynkiPanel = uiGry.transform.Find("UI_BudynkiPanel").gameObject;
         rectHpBar = ui_down.transform.Find("DaneGry/PasekZyciaGłównegoBudynku/Green").GetComponent<RectTransform>();
         goPanel = uiGry.transform.Find("GameOver Panel").gameObject;
         epokaNizej.interactable = false;
         epokaWyzej.interactable = false;
         OdpalButtonyAkademii(false);
         UstawPrzyciskObrotu(false);
-        WłWylPrzyciskiKupna(false);
-        goPanel.SetActive(false);
-        ui_down.SetActive(false);
-        uiGry.SetActive(false);
-        optionsMenu.SetActive(false);
         przyciskWznów.interactable = false;
         PomocniczeFunkcje.oCam = Camera.main;
         nastepnyPoziom.interactable = false;
         rekZaWyzszaNagrode.gameObject.SetActive(false);
-        reklamyPanel.SetActive(false);
-        poGraj.SetActive(false);
-        panelDynamiczny.gameObject.SetActive(false);
-        panelStatyczny.gameObject.SetActive(false);
+        WłączWyłączPanel(new string[] {goPanel.name, uiBudynkiPanel.name, ui_down.name, uiGry.name, optionsMenu.name,
+        reklamyPanel.name, poGraj.name, panelDynamiczny.name, panelStatyczny.name}, false);
     }
     public void OdpalPoScenie(bool czyOdpalamPoScenie)
     {
@@ -163,6 +162,48 @@ public class MainMenu : MonoBehaviour
         else if (goPanel.name == panel)
         {
             goPanel.SetActive(czyWłączyć);
+        }
+        else if (uiBudynkiPanel.name == panel)
+        {
+            uiBudynkiPanel.SetActive(czyWłączyć);
+        }
+    }
+    public void WłączWyłączPanel(string[] panel, bool czyWłączyć)
+    {
+        for (byte i = 0; i < panel.Length; i++)
+        {
+            if (panel[i] == menu.name)
+            {
+                menu.SetActive(czyWłączyć);
+            }
+            else if (panel[i] == uiGry.name)
+            {
+                uiGry.SetActive(czyWłączyć);
+            }
+            else if (panel[i] == optionsMenu.name)
+            {
+                optionsMenu.SetActive(czyWłączyć);
+            }
+            else if (panel[i] == poGraj.name)
+            {
+                poGraj.SetActive(czyWłączyć);
+            }
+            else if (panel[i] == reklamyPanel.name)
+            {
+                reklamyPanel.SetActive(czyWłączyć);
+            }
+            else if (ui_down.name == panel[i])
+            {
+                ui_down.SetActive(czyWłączyć);
+            }
+            else if (goPanel.name == panel[i])
+            {
+                goPanel.SetActive(czyWłączyć);
+            }
+            else if (uiBudynkiPanel.name == panel[i])
+            {
+                uiBudynkiPanel.SetActive(czyWłączyć);
+            }
         }
     }
     private byte DajMiMaxPoziom(string ustawionaEpoka)
@@ -307,16 +348,6 @@ public class MainMenu : MonoBehaviour
         rekZaWyzszaNagrode.gameObject.SetActive(false);
         PomocniczeFunkcje.managerGryScript.KliknietyButtonZwiekszeniaNagrodyPoLvlu();
     }
-    public void PrzyciskiKupna(bool kupujący)
-    {
-        WłWylPrzyciskiKupna(false);
-        PomocniczeFunkcje.spawnBudynki.OdblokujBudynek(kupujący);
-    }
-    public void WłWylPrzyciskiKupna(bool f)
-    {
-        PomocniczeFunkcje.mainMenu.kup.gameObject.SetActive(f);
-        PomocniczeFunkcje.mainMenu.wróc.gameObject.SetActive(f);
-    }
     public void WybierzWybranyPrzedmiot(int nagroda)
     {
         if (PomocniczeFunkcje.managerGryScript.ekwipunekGracza[nagroda].ilośćDanejNagrody > 0)
@@ -372,12 +403,12 @@ public class MainMenu : MonoBehaviour
             PomocniczeFunkcje.managerGryScript.UzyciePrzedmiotu((byte)wybranaNagroda);
         }
         if (PomocniczeFunkcje.managerGryScript.ekwipunekGracza[wybranaNagroda].ilośćDanejNagrody == 0)
-        wybranaNagroda = -1;
+            wybranaNagroda = -1;
     }
     public void UstawButtonNagrody(byte idxButtonaNagrody, ushort ilość)  //Wyszukuje nazwę w opcjach dropdawna
     {
         bool czyAktywuje = (ilość <= 0) ? false : true;
-        if(przyciskiNagród[idxButtonaNagrody].interactable != czyAktywuje)
+        if (przyciskiNagród[idxButtonaNagrody].interactable != czyAktywuje)
         {
             przyciskiNagród[idxButtonaNagrody].interactable = czyAktywuje;
         }
@@ -521,22 +552,128 @@ public class MainMenu : MonoBehaviour
     }
     public void WłączWyłączPanelBudynków(int idx)
     {
-        if(idx == 0)    //Panel z wieżami
+        if (idx == 0)    //Panel z wieżami
         {
-
+            if(idxWież == null)
+                return;
+            WłączWyłączPanel("UI_BudynkiPanel", true);
+            PomocniczeFunkcje.UstawTimeScale(0);
+            if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 0)
+            {
+                if (lastPanelEnabledBuildings == 1)
+                    EnDisButtonsOfBuildingsInPanel(ref idxMurów, false);
+                else if (lastPanelEnabledBuildings == 2)
+                    EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
+            }
+            EnDisButtonsOfBuildingsInPanel(ref idxWież, true);
+            lastPanelEnabledBuildings = 0;
         }
-        else if(idx == 1)   //Panel z murkami
+        else if (idx == 1)   //Panel z murkami
         {
-
+            if(idxMurów == null)
+                return;
+            WłączWyłączPanel("UI_BudynkiPanel", true);
+            PomocniczeFunkcje.UstawTimeScale(0);
+            if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 1)
+            {
+                if (lastPanelEnabledBuildings == 0)
+                    EnDisButtonsOfBuildingsInPanel(ref idxWież, false);
+                else if (lastPanelEnabledBuildings == 2)
+                    EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
+            }
+            EnDisButtonsOfBuildingsInPanel(ref idxMurów, true);
+            lastPanelEnabledBuildings = 1;
         }
-        else    //Panel z innymi budynkami
+        else if (idx == 2)    //Panel z innymi budynkami
         {
-
+            if(idxInne == null)
+                return;
+            WłączWyłączPanel("UI_BudynkiPanel", true);
+            PomocniczeFunkcje.UstawTimeScale(0);
+            if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 2)
+            {
+                if (lastPanelEnabledBuildings == 1)
+                    EnDisButtonsOfBuildingsInPanel(ref idxMurów, false);
+                else if (lastPanelEnabledBuildings == 0)
+                    EnDisButtonsOfBuildingsInPanel(ref idxWież, false);
+            }
+            EnDisButtonsOfBuildingsInPanel(ref idxInne, true);
+            lastPanelEnabledBuildings = 2;
+        }
+        else    //Wyłącz panel
+        {
+            if (lastPanelEnabledBuildings == 1)
+                EnDisButtonsOfBuildingsInPanel(ref idxMurów, false);
+            else if (lastPanelEnabledBuildings == 0)
+                EnDisButtonsOfBuildingsInPanel(ref idxWież, false);
+            else if (lastPanelEnabledBuildings == 2)
+                EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
+            WłączWyłączPanel("UI_BudynkiPanel", false);
+            PomocniczeFunkcje.UstawTimeScale(1);
+            lastPanelEnabledBuildings = -1;
+        }
+    }
+    private void EnDisButtonsOfBuildingsInPanel(ref ushort[] tabOfBuildToChange, bool willEnable = false)
+    {
+        StrukturaBudynkuWTab[] tab = PomocniczeFunkcje.spawnBudynki.ZablokowaneBudynki;
+        for (ushort i = 0; i < tabOfBuildToChange.Length; i++)
+        {
+            tab[tabOfBuildToChange[i]].przycisk.gameObject.SetActive(willEnable);
+        }
+    }
+    public void WygenerujIPosortujTablice()
+    {
+        Button b = Resources.Load<Button>("UI/PrzyciskBudynku");
+        Transform tr = GameObject.Find("Canvas/UIGry/UI_BudynkiPanel/RodzicButtonów").transform;
+        StrukturaBudynkuWTab[] tab = PomocniczeFunkcje.spawnBudynki.ZablokowaneBudynki;
+        List<ushort> murki = null;
+        List<ushort> wieże = null;
+        List<ushort> inne = null;
+        for (ushort i = 0; i < tab.Length; i++)
+        {
+            Button tb = GameObject.Instantiate(b);
+            tb.transform.SetParent(tr);
+            tab[i].DajButton(ref tb);
+            if (tab[i].czyZablokowany)
+            {
+                tb.interactable = false;
+            }
+            switch (PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[tab[i].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().typBudynku)
+            {
+                case TypBudynku.Mur:
+                    if (murki == null)
+                        murki = new List<ushort>();
+                    murki.Add(i);
+                    break;
+                case TypBudynku.Wieża:
+                    if (wieże == null)
+                        wieże = new List<ushort>();
+                    wieże.Add(i);
+                    break;
+                default:
+                    if (inne == null)
+                        inne = new List<ushort>();
+                    inne.Add(i);
+                    break;
+            }
+            tb.gameObject.SetActive(false);
+            if (murki != null)
+                idxMurów = murki.ToArray();
+            if (wieże != null)
+                idxWież = wieże.ToArray();
+            if (inne != null)
+                idxInne = inne.ToArray();
         }
     }
     public void UstawGłośność()
     {
         PomocniczeFunkcje.muzyka.UstawGłośnośćGry(sliderDźwięku.value);
+    }
+    public void WyłączPanelBudynków()
+    {
+        WłączWyłączPanelBudynków(-1);
+        PomocniczeFunkcje.spawnBudynki.AktIdxBudZab = -1;
+        WłączWyłączPanel(uiBudynkiPanel.name, false);
     }
     public void WłWyłPanelReklam(bool czyWłPanel)
     {

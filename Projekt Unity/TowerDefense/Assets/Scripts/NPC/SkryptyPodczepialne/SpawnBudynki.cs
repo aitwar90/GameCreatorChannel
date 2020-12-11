@@ -21,6 +21,7 @@ public class SpawnBudynki : MonoBehaviour
     private Vector3 posClick = Vector3.zero;
     private Transform rodzicBudynkow = null;
     private StrukturaBudynkuWTab[] czyBudynekZablokowany = null;
+    private short aktualnieWybranyIndeksObiektuTabZablokowany = -1;
     private bool kliknieteUI = false;
     #endregion
     #region Getery i Setery
@@ -42,11 +43,22 @@ public class SpawnBudynki : MonoBehaviour
             kliknieteUI = value;
         }
     }
-    public StrukturaBudynkuWTab[] ZablokowaneBudynki
+    public short AktIdxBudZab
     {
         get
         {
-            return czyBudynekZablokowany;
+            return aktualnieWybranyIndeksObiektuTabZablokowany;
+        }
+        set
+        {
+            aktualnieWybranyIndeksObiektuTabZablokowany = value;
+        }
+    }
+    public ref StrukturaBudynkuWTab[] ZablokowaneBudynki
+    {
+        get
+        {
+            return ref czyBudynekZablokowany;
         }
     }
     #endregion
@@ -59,41 +71,7 @@ public class SpawnBudynki : MonoBehaviour
             go.transform.rotation = Quaternion.identity;
             rodzicBudynkow = go.transform;
         }
-        InicjacjaPaneluBudynków();
-        /*
-        List<string> wszystkieBudynkiList = new List<string>();
-        List<StrukturaBudynkuWTab> sbwt = new List<StrukturaBudynkuWTab>();
-        wszystkieBudynkiList.Add("None");
-        sbyte idxActEpoki = (sbyte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka;
-        if (idxActEpoki > 0)
-        {
-            for (byte i = 0; i < wszystkieBudynki.Length; i++)
-            {
-                KonkretnyNPCStatyczny knpcs = wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
-                byte budynekEpoki = (byte)knpcs.epokaNPC;
-                if (budynekEpoki == idxActEpoki || budynekEpoki == idxActEpoki - 1)
-                {
-                    StrukturaBudynkuWTab tt = new StrukturaBudynkuWTab(knpcs.Zablokowany, i);
-                    sbwt.Add(tt);
-                    wszystkieBudynkiList.Add(knpcs.nazwa);
-                }
-            }
-        }
-        else
-        {
-            Debug.Log("SpawnBudynki 83: Nie ustalono epoki");
-        }
-        czyBudynekZablokowany = sbwt.ToArray();
-        this.dropdawn.AddOptions(wszystkieBudynkiList);
-        for (ushort i = 0; i < czyBudynekZablokowany.Length; i++)
-        {
-            if (czyBudynekZablokowany[i].czyZablokowany)
-            {
-                this.dropdawn.options[i + 1].image = lockDropdownImage;
-                this.dropdawn.options[i + 1].text = this.dropdawn.options[i + 1].text + " LOCK";
-            }
-        }
-        */
+
         PomocniczeFunkcje.managerGryScript.ZmianaJęzyka((byte)PomocniczeFunkcje.mainMenu.lastIdxJezyka);
     }
     public void InicjacjaPaneluBudynków()
@@ -102,9 +80,6 @@ public class SpawnBudynki : MonoBehaviour
         //Reset paneli
 
         //Stwórz listy
-        List<StrukturaBudynkuWTab> sbwtMury = new List<StrukturaBudynkuWTab>();
-        List<StrukturaBudynkuWTab> sbwtWieża = new List<StrukturaBudynkuWTab>();
-        List<StrukturaBudynkuWTab> sbwtInne = new List<StrukturaBudynkuWTab>();
         List<StrukturaBudynkuWTab> allsbwt = new List<StrukturaBudynkuWTab>();
         for (ushort i = 0; i < wszystkieBudynki.Length; i++)
         {
@@ -113,18 +88,6 @@ public class SpawnBudynki : MonoBehaviour
             if (budynekEpoki == idxActEpoki || budynekEpoki == idxActEpoki - 1)
             {
                 StrukturaBudynkuWTab tt = new StrukturaBudynkuWTab(knpcs.Zablokowany, i);
-                if (knpcs.typBudynku == TypBudynku.Wieża)
-                {
-                    sbwtWieża.Add(tt);
-                }
-                else if (knpcs.typBudynku == TypBudynku.Mur)
-                {
-                    sbwtMury.Add(tt);
-                }
-                else
-                {
-                    sbwtInne.Add(tt);
-                }
                 allsbwt.Add(tt);
             }
         }
@@ -354,8 +317,6 @@ public class SpawnBudynki : MonoBehaviour
             {
                 zablokowanyBudynekIndex = (short)index;
                 Debug.Log("Dany budynek należy kupić");
-                //Wyświetl przyciski kupna
-                PomocniczeFunkcje.mainMenu.WłWylPrzyciskiKupna(true);
             }
         }
     }
@@ -410,24 +371,6 @@ public class SpawnBudynki : MonoBehaviour
             Destroy(rodzicBudynkow.GetChild(i).gameObject);
         }
     }
-    public void ZróbListęDropdownBudynków()
-    {
-        List<string> s = new List<string>();
-        s.Add("None");
-        for (byte i = 0; i < czyBudynekZablokowany.Length; i++)
-        {
-            if (czyBudynekZablokowany[i].czyZablokowany)
-            {
-                s.Add(wszystkieBudynki[czyBudynekZablokowany[i].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().nazwa + " LOCK");
-            }
-            else
-            {
-                s.Add(wszystkieBudynki[czyBudynekZablokowany[i].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().nazwa);
-            }
-        }
-        this.dropdawn.ClearOptions();
-        this.dropdawn.AddOptions(s);
-    }
     public void ObróćBudynek(float numer = 2)   //numer to parametr skoków o ile ma obrócić się budynek
     {
         if (numer != 0)
@@ -437,5 +380,12 @@ public class SpawnBudynki : MonoBehaviour
             vet.y += numer * 45;
             aktualnyObiekt.transform.rotation = Quaternion.Euler(vet);
         }
+    }
+    public StrukturaBudynkuWTab ZwrócMiStruktureBudynku(short idx)
+    {
+        if (idx < 0 || idx >= czyBudynekZablokowany.Length)
+            return null;
+        else
+            return czyBudynekZablokowany[idx];
     }
 }

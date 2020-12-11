@@ -138,6 +138,11 @@ public class StrukturaBudynkuWTab
     public void DajButton(ref UnityEngine.UI.Button _przycisk)
     {
         przycisk = _przycisk;
+        przycisk.onClick.AddListener(OnClick);
+    }
+    void OnClick()
+    {
+        PomocniczeFunkcje.spawnBudynki.AktIdxBudZab = (short)indexBudynku;
     }
 }
 [System.Serializable]
