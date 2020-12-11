@@ -518,6 +518,21 @@ public class MainMenu : MonoBehaviour
             odpalonyPanel = true;
         }
     }
+    public void WłączWyłączPanelBudynków(int idx)
+    {
+        if(idx == 0)    //Panel z wieżami
+        {
+
+        }
+        else if(idx == 1)   //Panel z murkami
+        {
+
+        }
+        else    //Panel z innymi budynkami
+        {
+            
+        }
+    }
     public void WłWyłPanelReklam(bool czyWłPanel)
     {
         menu.SetActive(!czyWłPanel);

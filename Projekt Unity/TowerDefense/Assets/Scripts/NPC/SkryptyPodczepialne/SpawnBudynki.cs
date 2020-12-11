@@ -7,7 +7,6 @@ public class SpawnBudynki : MonoBehaviour
 {
     #region Zmienne publiczne
     public GameObject[] wszystkieBudynki;
-    //UI _ Canvas
     public Dropdown dropdawn;
     public Sprite lockDropdownImage;
     public Sprite enableLockDropdownImage;
@@ -43,6 +42,13 @@ public class SpawnBudynki : MonoBehaviour
             kliknieteUI = value;
         }
     }
+    public StrukturaBudynkuWTab[] ZablokowaneBudynki
+    {
+        get
+        {
+            return czyBudynekZablokowany;
+        }
+    }
     #endregion
     void Start()
     {
@@ -53,6 +59,8 @@ public class SpawnBudynki : MonoBehaviour
             go.transform.rotation = Quaternion.identity;
             rodzicBudynkow = go.transform;
         }
+        InicjacjaPaneluBudynków();
+        /*
         List<string> wszystkieBudynkiList = new List<string>();
         List<StrukturaBudynkuWTab> sbwt = new List<StrukturaBudynkuWTab>();
         wszystkieBudynkiList.Add("None");
@@ -85,7 +93,42 @@ public class SpawnBudynki : MonoBehaviour
                 this.dropdawn.options[i + 1].text = this.dropdawn.options[i + 1].text + " LOCK";
             }
         }
+        */
         PomocniczeFunkcje.managerGryScript.ZmianaJęzyka((byte)PomocniczeFunkcje.mainMenu.lastIdxJezyka);
+    }
+    public void InicjacjaPaneluBudynków()
+    {
+        sbyte idxActEpoki = (sbyte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka;
+        //Reset paneli
+
+        //Stwórz listy
+        List<StrukturaBudynkuWTab> sbwtMury = new List<StrukturaBudynkuWTab>();
+        List<StrukturaBudynkuWTab> sbwtWieża = new List<StrukturaBudynkuWTab>();
+        List<StrukturaBudynkuWTab> sbwtInne = new List<StrukturaBudynkuWTab>();
+        List<StrukturaBudynkuWTab> allsbwt = new List<StrukturaBudynkuWTab>();
+        for (ushort i = 0; i < wszystkieBudynki.Length; i++)
+        {
+            KonkretnyNPCStatyczny knpcs = wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
+            byte budynekEpoki = (byte)knpcs.epokaNPC;
+            if (budynekEpoki == idxActEpoki || budynekEpoki == idxActEpoki - 1)
+            {
+                StrukturaBudynkuWTab tt = new StrukturaBudynkuWTab(knpcs.Zablokowany, i);
+                if (knpcs.typBudynku == TypBudynku.Wieża)
+                {
+                    sbwtWieża.Add(tt);
+                }
+                else if (knpcs.typBudynku == TypBudynku.Mur)
+                {
+                    sbwtMury.Add(tt);
+                }
+                else
+                {
+                    sbwtInne.Add(tt);
+                }
+                allsbwt.Add(tt);
+            }
+        }
+        czyBudynekZablokowany = allsbwt.ToArray();
     }
     void Update()
     {
@@ -134,8 +177,8 @@ public class SpawnBudynki : MonoBehaviour
             statycznyBudynekDoOdbl.Zablokowany = false;
             ManagerGryScript.iloscCoinów -= statycznyBudynekDoOdbl.kosztBadania;
             czyBudynekZablokowany[zablokowanyBudynekIndex].czyZablokowany = false;
-            this.dropdawn.options[zablokowanyBudynekIndex + 1].image = enableLockDropdownImage;
-            this.dropdawn.options[zablokowanyBudynekIndex + 1].text = statycznyBudynekDoOdbl.nazwa;
+            //this.dropdawn.options[zablokowanyBudynekIndex + 1].image = enableLockDropdownImage;
+            //this.dropdawn.options[zablokowanyBudynekIndex + 1].text = statycznyBudynekDoOdbl.nazwa;
             PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
         }
         zablokowanyBudynekIndex = -1;
@@ -273,7 +316,7 @@ public class SpawnBudynki : MonoBehaviour
             k++;
             s--;
         }
-        knpcs.maksymalneŻycie += (short)(PomocniczeFunkcje.managerGryScript.hpIdx*10);
+        knpcs.maksymalneŻycie += (short)(PomocniczeFunkcje.managerGryScript.hpIdx * 10);
         /*
         knpcs.modyfikatorZadawanychObrażeń += PomocniczeFunkcje.managerGryScript.atkIdx*0.1f;
         knpcs.modyfikatorOtrzymywanychObrażeń += PomocniczeFunkcje.managerGryScript.defIdx*0.1f;
@@ -293,9 +336,8 @@ public class SpawnBudynki : MonoBehaviour
         dropdawn.value = 0;
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
     }
-    public void WybierzBudynekDoPostawienia()  //Wybór obiektu budynku do postawienia
+    public void WybierzBudynekDoPostawienia(int index)  //Wybór obiektu budynku do postawienia
     {
-        short index = (short)(this.dropdawn.value - 1);
         if (index < 0)
         {
             ResetWybranegoObiektu();
@@ -310,7 +352,7 @@ public class SpawnBudynki : MonoBehaviour
             }
             else
             {
-                zablokowanyBudynekIndex = index;
+                zablokowanyBudynekIndex = (short)index;
                 Debug.Log("Dany budynek należy kupić");
                 //Wyświetl przyciski kupna
                 PomocniczeFunkcje.mainMenu.WłWylPrzyciskiKupna(true);
@@ -390,7 +432,7 @@ public class SpawnBudynki : MonoBehaviour
     {
         if (numer != 0)
         {
-            numer = (numer < 0) ? (-1)*numer : numer;
+            numer = (numer < 0) ? (-1) * numer : numer;
             Vector3 vet = aktualnyObiekt.transform.rotation.eulerAngles;
             vet.y += numer * 45;
             aktualnyObiekt.transform.rotation = Quaternion.Euler(vet);

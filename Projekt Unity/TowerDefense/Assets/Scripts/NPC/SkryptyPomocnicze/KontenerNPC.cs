@@ -129,10 +129,15 @@ public class StrukturaBudynkuWTab
 {
     public bool czyZablokowany;
     public ushort indexBudynku;
+    public UnityEngine.UI.Button przycisk;
     public StrukturaBudynkuWTab(bool _czyZablokowany, ushort _idxBudunkuWTablicyBudynków)
     {
         this.czyZablokowany = _czyZablokowany;
         this.indexBudynku = _idxBudunkuWTablicyBudynków;
+    }
+    public void DajButton(ref UnityEngine.UI.Button _przycisk)
+    {
+        przycisk = _przycisk;
     }
 }
 [System.Serializable]
@@ -147,71 +152,6 @@ public enum TypPrzedmiotu
     CudOcalenia = 1,
     SkrócenieCzasuDoSkrzynki = 2,
     DodatkowaNagroda = 3
-}
-[System.Serializable]
-public class EkwipunekScript
-{
-    [SerializeField] public PrzedmiotScript[] przedmioty = null;
-    public byte LosujNagrode()
-    {
-        byte mP = (byte)(System.Enum.GetValues(typeof(TypPrzedmiotu)).Length - 1);
-        byte losowany = (byte)Random.Range(0, mP+1);
-        PrzedmiotScript psT = PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany];
-        if (przedmioty == null)
-        {
-            przedmioty = new PrzedmiotScript[1];
-            przedmioty[0] = psT;
-            przedmioty[0].ilośćDanejNagrody = psT.liczbaItemówOtrzymywanych;
-        }
-        else
-        {
-            bool c = false; //Jeśli nie odnajdę wylosowanego przedmiotu w ekwipunku to dodaj ten przedmiot
-            for(byte i = 0; i < przedmioty.Length; i++)
-            {
-                if(przedmioty[i].nazwaPrzedmiotu == psT.nazwaPrzedmiotu)
-                {
-                    przedmioty[i].ilośćDanejNagrody += przedmioty[i].liczbaItemówOtrzymywanych;
-                    c = true;
-                    break;
-                }
-            }
-            if (!c)
-            {
-                System.Collections.Generic.List<PrzedmiotScript> ps = new System.Collections.Generic.List<PrzedmiotScript>();
-                for (ushort i = 0; i < przedmioty.Length; i++)
-                {
-                    ps.Add(przedmioty[i]);
-                }
-                ps.Add(psT);
-                ps[przedmioty.Length].ilośćDanejNagrody += psT.liczbaItemówOtrzymywanych;
-                przedmioty = ps.ToArray();
-            }
-        }
-        return losowany;
-    }
-    public EkwipunekScript(PrzedmiotScript[] _ps)
-    {
-        this.przedmioty = _ps;
-    }
-    public void UżyjPrzedmiotu(string nazwaAktywowanegoPrzedmiotu)
-    {
-        if (przedmioty == null)
-            return;
-
-        System.Collections.Generic.List<PrzedmiotScript> ps = new System.Collections.Generic.List<PrzedmiotScript>();
-        for (ushort i = 0; i < przedmioty.Length; i++)
-        {
-            if (przedmioty[i].nazwaPrzedmiotu == nazwaAktywowanegoPrzedmiotu)
-            {
-                przedmioty[i].AktywujPrzedmiot();
-            }
-            else
-            {
-                ps.Add(przedmioty[i]);
-            }
-        }
-        przedmioty = ps.ToArray();
-    }
 }
 
 
