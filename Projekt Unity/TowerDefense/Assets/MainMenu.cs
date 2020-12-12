@@ -717,6 +717,8 @@ public class MainMenu : MonoBehaviour
     public void KliknijPrzyciskPostawBudynek()
     {
         PomocniczeFunkcje.spawnBudynki.WybierzBudynekDoPostawienia();
+        kup.interactable = false;
+        stawiajBudynek.interactable = false;
         WłączWyłączPanel(uiBudynkiPanel.name, false);
     }
 }
