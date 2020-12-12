@@ -38,6 +38,7 @@ public class MainMenu : MonoBehaviour
     #region Panel
     public KontenerKomponentów panelDynamiczny;
     public KontenerKomponentów panelStatyczny;
+    public KontenerKomponentów panelBudynki;
     #endregion
     #region Panel budynków
     public Button stawiajBudynek;
@@ -522,6 +523,11 @@ public class MainMenu : MonoBehaviour
             ps.gameObject.SetActive(true);
             odpalonyPanel = true;
         }
+        else if(s[0] == "PANEL")
+        {
+            PanelTextuWBudynkach ps = (PanelTextuWBudynkach)panelBudynki;
+            ps.UstawDane(new string[] { s[1], s[2], s[3], s[4], s[5], s[6], s[7] });
+        }
     }
     public void WłączWyłączPanelBudynków(int idx)
     {
@@ -600,6 +606,7 @@ public class MainMenu : MonoBehaviour
     public void WygenerujIPosortujTablice()
     {
         Button b = Resources.Load<Button>("UI/PrzyciskBudynku");
+        wielkosćButtonu = (byte)b.GetComponent<RectTransform>().sizeDelta.y;
         trBudynkówŁącze = GameObject.Find("Canvas/UIGry/UI_BudynkiPanel/RodzicButtonów").transform.GetComponent<RectTransform>();
         StrukturaBudynkuWTab[] tab = PomocniczeFunkcje.spawnBudynki.ZablokowaneBudynki;
         List<ushort> murki = null;

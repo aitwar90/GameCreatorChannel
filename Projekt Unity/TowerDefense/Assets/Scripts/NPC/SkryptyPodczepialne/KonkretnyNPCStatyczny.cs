@@ -38,7 +38,7 @@ public class KonkretnyNPCStatyczny : NPCClass
     private byte idxAct = 0;
     private ushort kosztNaprawy = 0;
     private GameObject instaObj;
-    [HideInInspector,SerializeField]private bool zablokowany = true;
+    [HideInInspector, SerializeField] private bool zablokowany = true;
     #endregion
 
     #region Zmienne chronione
@@ -80,7 +80,7 @@ public class KonkretnyNPCStatyczny : NPCClass
     // Update is called once per frame
     protected override void RysujHPBar()
     {
-        if((KonkretnyNPCStatyczny)PomocniczeFunkcje.celWrogów == this)
+        if ((KonkretnyNPCStatyczny)PomocniczeFunkcje.celWrogów == this)
         {
             //Jeśli to główna baza
             PomocniczeFunkcje.mainMenu.UstawHPGłównegoPaska((float)this.AktualneŻycie / this.maksymalneŻycie);
@@ -96,7 +96,7 @@ public class KonkretnyNPCStatyczny : NPCClass
             GUI.Box(new Rect(pozycjaPostaci.x - 40, Screen.height - pozycjaPostaci.y - 30, 80, 20), this.AktualneŻycie + " / " + maksymalneŻycie);
         */
         }
-        kosztNaprawy = (ushort)(1-(this.AktualneŻycie / this.maksymalneŻycie) * kosztJednostki*1.05);
+        kosztNaprawy = (ushort)(1 - (this.AktualneŻycie / this.maksymalneŻycie) * kosztJednostki * 1.05);
     }
     protected override void UpdateMe()
     {
@@ -133,7 +133,7 @@ public class KonkretnyNPCStatyczny : NPCClass
     }
     protected override void UsuńJednostkę()
     {
-        if(this == PomocniczeFunkcje.celWrogów)
+        if (this == PomocniczeFunkcje.celWrogów)
         {
             return;
         }
@@ -176,7 +176,7 @@ public class KonkretnyNPCStatyczny : NPCClass
             wrogowieWZasiegu = null;
             StartCoroutine(SkasujObject(5.0f));
         }
-        if(this.odgłosyNPC != null)
+        if (this.odgłosyNPC != null)
         {
             PomocniczeFunkcje.muzyka.ustawGłośność -= this.UstawGłośnośćNPC;
         }
@@ -259,7 +259,7 @@ public class KonkretnyNPCStatyczny : NPCClass
                     if (f < 0)
                     {
                         f = 0;
-                        if(efektyFxKoniec != null)
+                        if (efektyFxKoniec != null)
                         {
                             efektyFxKoniec.transform.position = cel.transform.position;
                             efektyFxKoniec.Play();
@@ -318,18 +318,39 @@ public class KonkretnyNPCStatyczny : NPCClass
     }
     public override void UstawPanel(Vector2 pos)
     {
-        bool czyOdbl = false;
-        if(this.AktualneŻycie < this.maksymalneŻycie)
-            czyOdbl = true;
-        string s = "STATYCZNY_"+czyOdbl.ToString()+"_"+this.nazwa+"_"+this.AktualneŻycie.ToString()+"/"+this.maksymalneŻycie.ToString()+"_"+kosztNaprawy.ToString()+"_"+zadawaneObrażenia.ToString()+"_"+opisBudynku;
-        PomocniczeFunkcje.mainMenu.UstawPanelUI(s, pos, this);
-        if(this.typBudynku == TypBudynku.Akademia)
+        if (pos.x == float.NegativeInfinity)
         {
-            PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(true);
+            string p = "-";
+            string c = "ZIELONY";
+            if (PomocniczeFunkcje.odblokowaneEpoki == (byte)this.epokaNPC)
+            {
+                if (PomocniczeFunkcje.odblokowanyPoziomEpoki > this.poziomBudynku)
+                    c = "CZERWONY";
+                p = this.poziomBudynku.ToString();
+            }
+            else if (PomocniczeFunkcje.odblokowaneEpoki < (byte)this.epokaNPC)
+            {
+                p = "ERROR";
+                c = "CZERWONY";
+            }
+            PomocniczeFunkcje.mainMenu.UstawPanelUI("PANEL_" + this.nazwa + "_" + this.maksymalneŻycie.ToString() + "_" + this.kosztJednostki.ToString() + "_" + this.zadawaneObrażenia + "_" + p + "_" + this.opisBudynku + "_" + c, Vector2.zero);
         }
         else
         {
-            PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
+            Debug.Log("Jestem w reszcie");
+            bool czyOdbl = false;
+            if (this.AktualneŻycie < this.maksymalneŻycie)
+                czyOdbl = true;
+            string s = "STATYCZNY_" + czyOdbl.ToString() + "_" + this.nazwa + "_" + this.AktualneŻycie.ToString() + "/" + this.maksymalneŻycie.ToString() + "_" + kosztNaprawy.ToString() + "_" + zadawaneObrażenia.ToString() + "_" + opisBudynku;
+            PomocniczeFunkcje.mainMenu.UstawPanelUI(s, pos, this);
+            if (this.typBudynku == TypBudynku.Akademia)
+            {
+                PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(true);
+            }
+            else
+            {
+                PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
+            }
         }
     }
     public void ZnajdźNowyCel()
@@ -389,7 +410,7 @@ public class KonkretnyNPCStatyczny : NPCClass
     public override void UstawJezykNPC(string coZmieniam, string podmianaWartosci)
     {
         base.UstawJezykNPC(coZmieniam, podmianaWartosci);
-        if(coZmieniam == "opis")
+        if (coZmieniam == "opis")
         {
             this.opisBudynku = podmianaWartosci;
             return;

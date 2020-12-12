@@ -167,6 +167,10 @@ public class SpawnBudynki : MonoBehaviour
                 ZatwierdźBudynekAndroid();
             }
         }
+        else if(Input.touchCount == 2)  //Jeśli jest aktualny budynek do postawienia to kliknięcie 2 przycisków na ekran spowoduje jego reset
+        {
+            ResetWybranegoObiektu();
+        }
     }
     public void KliknietyBudynekWPanelu(short tabWTablicy)
     {
@@ -187,6 +191,8 @@ public class SpawnBudynki : MonoBehaviour
             PomocniczeFunkcje.mainMenu.kup.interactable = false;
             PomocniczeFunkcje.mainMenu.stawiajBudynek.interactable = true;
         }
+        KonkretnyNPCStatyczny knpcs = wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
+        knpcs.UstawPanel(Vector2.negativeInfinity);
     }
     public void PostawBudynek(ref GameObject obiektDoRespawnu, Vector3 pos, Quaternion rotation)
     {
