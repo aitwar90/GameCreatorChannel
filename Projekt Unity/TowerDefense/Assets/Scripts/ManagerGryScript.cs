@@ -350,6 +350,7 @@ public class ManagerGryScript : MonoBehaviour
         }
         PomocniczeFunkcje.mainMenu.powtorzPoziom.gameObject.SetActive(false);
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
+        //Fragment wyłączający courutyny
         StopAllCoroutines();
         StartCoroutine(WyzwólKolejnąFalę());
     }
