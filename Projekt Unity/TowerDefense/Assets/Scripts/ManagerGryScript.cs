@@ -350,6 +350,8 @@ public class ManagerGryScript : MonoBehaviour
         }
         PomocniczeFunkcje.mainMenu.powtorzPoziom.gameObject.SetActive(false);
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
+        StopAllCoroutines();
+        StartCoroutine(WyzwólKolejnąFalę());
     }
     public void KliknietyPrzycisk() //Kliknięty przycisk potwierdzający użycie skrzynki
     {
