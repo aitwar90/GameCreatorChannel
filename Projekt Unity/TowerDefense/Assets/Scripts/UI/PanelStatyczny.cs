@@ -33,4 +33,12 @@ public class PanelStatyczny : KontenerKomponentów
             naprawButton.interactable = false;
         }
     }
+    public override void UstawDane(string[] s)
+    {
+        nazwaObiektu.text = s[0];
+        punktyZycia.text = s[1];
+        kosztNaprawy.text = s[2];
+        obrazenia.text = s[3];
+        opis.text = s[4];
+    }
 }

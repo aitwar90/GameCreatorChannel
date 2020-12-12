@@ -4,5 +4,8 @@ using UnityEngine;
 
 public abstract class KontenerKomponentów : MonoBehaviour
 {
-    
+    public virtual void UstawDane(string [] s)
+    {
+
+    }
 }

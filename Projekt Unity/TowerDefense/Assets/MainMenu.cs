@@ -498,37 +498,17 @@ public class MainMenu : MonoBehaviour
             PanelStatyczny ps = (PanelStatyczny)panelStatyczny;
             ps.KNPCS = knpcs;
             RectTransform r = ps.GetComponent<RectTransform>();
-            for (byte i = 1; i < s.Length; i++)
+            if (s[1] == "True")  //Odblokuj naprawe budynku
             {
-                switch (i)
-                {
-                    case 1: //Czy odblokować button
-                        if (s[i] == "True")  //Odblokuj naprawe budynku
-                        {
-                            ps.naprawButton.interactable = true;
-                        }
-                        else
-                        {
-                            ps.naprawButton.interactable = false;
-                        }
-                        break;
-                    case 2: //Nazwa obiektu
-                        ps.nazwaObiektu.text = s[i];
-                        break;
-                    case 3: //Punkty życia
-                        ps.punktyZycia.text = s[i];
-                        break;
-                    case 4: //Koszt naprawy
-                        ps.kosztNaprawy.text = s[i];
-                        break;
-                    case 5: //Obrażenia
-                        ps.obrazenia.text = s[i];
-                        break;
-                    case 6: //Opis
-                        ps.opis.text = s[i];
-                        break;
-                }
+                ps.naprawButton.interactable = true;
             }
+            else
+            {
+                ps.naprawButton.interactable = false;
+            }
+
+            ps.UstawDane(new string[] { s[2], s[3], s[4], s[5], s[6] });
+
             r.position = pos;
             ps.gameObject.SetActive(true);
             odpalonyPanel = true;
@@ -537,21 +517,7 @@ public class MainMenu : MonoBehaviour
         {
             PanelDynamiczny ps = (PanelDynamiczny)panelDynamiczny;
             RectTransform r = ps.GetComponent<RectTransform>();
-            for (byte i = 1; i < s.Length; i++)
-            {
-                switch (i)
-                {
-                    case 1: //Nazwa obiektu
-                        ps.nazwaObiektu.text = s[i];
-                        break;
-                    case 2: //Punkty życia
-                        ps.punktyZycia.text = s[i];
-                        break;
-                    case 3: //Obrażenia
-                        ps.obrazenia.text = s[i];
-                        break;
-                }
-            }
+            ps.UstawDane(new string[] { s[1], s[2], s[3] });
             r.position = pos;
             ps.gameObject.SetActive(true);
             odpalonyPanel = true;
@@ -689,7 +655,7 @@ public class MainMenu : MonoBehaviour
     }
     public void PrzesuńBudynki(float wartość, bool zresetuj = false)
     {
-        if(zresetuj)
+        if (zresetuj)
         {
             trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, -100);
             return;
@@ -697,14 +663,14 @@ public class MainMenu : MonoBehaviour
         Vector2 sOff = Vector2.zero;
         sOff.y += wartość;
         Vector3 tmp = trBudynkówŁącze.anchoredPosition = trBudynkówŁącze.anchoredPosition + sOff;
-        short t = (short)(-100 - ((wielkosćButtonu + offsetBB)*iloscButtonow));
-        if(tmp.y <= -100 && tmp.y >= t)
+        short t = (short)(-100 - ((wielkosćButtonu + offsetBB) * iloscButtonow));
+        if (tmp.y <= -100 && tmp.y >= t)
         {
             trBudynkówŁącze.anchoredPosition = tmp;
         }
         else
         {
-            if(tmp.y > -100)
+            if (tmp.y > -100)
             {
                 trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, -100);
             }
