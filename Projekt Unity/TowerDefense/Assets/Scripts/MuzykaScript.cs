@@ -25,6 +25,8 @@ public class MuzykaScript : MonoBehaviour
         string lastString = null;
         if (clipyAudio != null && clipyAudio.Length > 0)
         {
+            muzykaTła.ignoreListenerPause = true;
+            muzykaTła.ignoreListenerVolume = true;
             lastString = clipyAudio[0].nazwa;
             List<byte> tByte = new List<byte>();
             tByte.Add(0);

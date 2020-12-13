@@ -42,6 +42,7 @@ public class MoveCameraScript : MonoBehaviour
         ostatniaPozycjaKamery = pierwotnePołożenieKamery;
         szerokośćObrazu = Screen.width;
         wysokśćObrazu = Screen.height;
+        
     }
 
     // Update is called once per frame

@@ -1691,7 +1691,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &286344973
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9992,6 +9992,8 @@ MonoBehaviour:
   "muzykaT\u0142a": {fileID: 1958797334}
   clipyAudio:
   - nazwa: "T\u0142o_None"
+    clip: {fileID: 8300000, guid: da751eaa67e05c89eb3fc33087f96524, type: 3}
+  - nazwa: AmbientWGrze_EpokaKamienia
     clip: {fileID: 8300000, guid: da751eaa67e05c89eb3fc33087f96524, type: 3}
 --- !u!1 &1446127414
 GameObject:
