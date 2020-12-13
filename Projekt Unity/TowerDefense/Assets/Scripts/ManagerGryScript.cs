@@ -245,7 +245,7 @@ public class ManagerGryScript : MonoBehaviour
         }
         if (czyScenaZostałaZaładowana)
         {
-            if (!toNieOstatniaFala && iloscAktywnychWrogów <= 0)
+            if (!toNieOstatniaFala && iloscAktywnychWrogów <= 0 && SpawnerHord.actFala > 0)
             {
                 //Lvl skończony wszystkie fale zostały pokonane
                 KoniecPoziomuZakończony(true);
