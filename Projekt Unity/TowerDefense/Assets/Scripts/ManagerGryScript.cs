@@ -16,7 +16,7 @@ public class ManagerGryScript : MonoBehaviour
 
     [Header("Informacje o graczu")]
     [Tooltip("Czas pomięczy kolejnymi falami hordy")]
-    public byte czasWMinutachMiędzyFalami = 10;
+    public float czasMiędzyFalami = 1;
     public static short iloscAktywnychWrogów = 0;
 
     [Tooltip("Zaznaczony NPC")]
@@ -41,8 +41,9 @@ public class ManagerGryScript : MonoBehaviour
     KonkretnyNPCStatyczny knpcsBazy = null;
     private byte idxOfManagerGryScript = 0;
     private bool czyScenaZostałaZaładowana = false;
-    private bool toNieOstatniaFala = true;
+    private bool toNieOstatniaFala = false;
     private ObsługaReklam or;
+    private float timerFal;
     public Skrzynka ZwróćSkrzynkeOIndeksie(byte idx)
     {
         return skrzynki[idx];
@@ -92,7 +93,6 @@ public class ManagerGryScript : MonoBehaviour
         //UtworzSzablonPlikuJezykowego();
         if (blokowanieOrientacji)
         {
-            Debug.Log("Ustawiam orientację");
             Screen.orientation = ScreenOrientation.Landscape;
             Screen.autorotateToLandscapeLeft = false;
             Screen.autorotateToLandscapeRight = false;
@@ -116,21 +116,9 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
         PomocniczeFunkcje.spawnBudynki.InicjacjaPaneluBudynków();
         PomocniczeFunkcje.mainMenu.WygenerujIPosortujTablice(); //Generuje i sortuje tablice budynków do wybudowania
-        /*
-        for(byte i = 0; i < 20; i++)
-        {
-            for(byte j = 0; j < 20; j++)
-            {
-                GameObject go = new GameObject("X = "+i+" Z = "+j);
-                go.transform.position = new Vector3(i*PomocniczeFunkcje.distXZ + PomocniczeFunkcje.aktualneGranicaTab, 1.0f, j*PomocniczeFunkcje.distXZ + PomocniczeFunkcje.aktualneGranicaTab);
-                go.AddComponent<TestOnEnableGround>();
-                TestOnEnableGround toeg = go.GetComponent<TestOnEnableGround>();
-                toeg.X = i;
-                toeg.Z = j;
-            }
-        }
-        */
         PomocniczeFunkcje.ZapiszDane();
+        toNieOstatniaFala = true;
+        ObslTimerFal(0);
     }
     public void GenerujBaze()
     {
@@ -158,7 +146,6 @@ public class ManagerGryScript : MonoBehaviour
             PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcsBazy, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
             baza.transform.SetParent(PomocniczeFunkcje.spawnBudynki.RodzicBudynków);
             PomocniczeFunkcje.celWrogów = knpcsBazy;
-            StartCoroutine("WyzwólKolejnąFalę");
         }
     }
     void Update()
@@ -238,9 +225,9 @@ public class ManagerGryScript : MonoBehaviour
             }
         }
 #endif
-        switch (idxOfManagerGryScript)
+        switch (idxOfManagerGryScript)  //Każdy idxOfManagerGryScript podzielny przez 5 bez reszty obsługuje timerFal
         {
-            case 255:
+            case 254:   
                 for (byte i = 0; i < 4; i++)
                 {
                     skrzynki[i].SprawdźCzyReuseMinęło();
@@ -248,6 +235,10 @@ public class ManagerGryScript : MonoBehaviour
                 idxOfManagerGryScript++;
                 break;
             default:
+                if(toNieOstatniaFala && idxOfManagerGryScript % 5 == 0)
+                {
+                    ObslTimerFal();
+                }
                 idxOfManagerGryScript++;
                 break;
 
@@ -269,6 +260,29 @@ public class ManagerGryScript : MonoBehaviour
             SprawdźCzyScenaZostałaZaładowana();
         }
     }
+    private void ObslTimerFal(float setTimer = -10000)
+    {
+        if(setTimer == -10000)
+        {
+            if(timerFal < czasMiędzyFalami)
+            {
+                timerFal += Time.deltaTime*5.0f;
+            }
+            else
+            {
+                timerFal = 0;
+                toNieOstatniaFala = PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
+            }
+        }
+        else
+        {
+            timerFal = setTimer;
+        }
+        string czas = "";
+        czas = ((byte)czasMiędzyFalami - (byte)timerFal).ToString();
+        //Debug.Log("ObslTimerFal "+ czas+" gdzie czas między falami "+czasMiędzyFalami+" timerFal "+timerFal);
+        PomocniczeFunkcje.mainMenu.UstawTextUI("timer", czas);
+    }
     private void SprawdźCzyScenaZostałaZaładowana()
     {
         Scene s = SceneManager.GetSceneByBuildIndex((byte)aktualnaEpoka);
@@ -276,15 +290,6 @@ public class ManagerGryScript : MonoBehaviour
         {
             czyScenaZostałaZaładowana = true;
             GenerujBaze();
-        }
-    }
-    private IEnumerator WyzwólKolejnąFalę()
-    {
-        yield return new WaitForSeconds(czasWMinutachMiędzyFalami * 60);
-        toNieOstatniaFala = PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
-        if (toNieOstatniaFala)
-        {
-            StartCoroutine("WyzwólKolejnąFalę");
         }
     }
     private void KoniecPoziomuZakończony(bool sukces = true)
@@ -352,7 +357,7 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
         //Fragment wyłączający courutyny
         StopAllCoroutines();
-        StartCoroutine(WyzwólKolejnąFalę());
+        ObslTimerFal(0);
     }
     public void KliknietyPrzycisk() //Kliknięty przycisk potwierdzający użycie skrzynki
     {

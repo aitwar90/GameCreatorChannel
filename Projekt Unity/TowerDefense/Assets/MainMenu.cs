@@ -33,6 +33,7 @@ public class MainMenu : MonoBehaviour
     public Text ilośćCoinów;
     public Text ilośćFal;
     private Text actWybEpoka;
+    private Text licznikCzasuDoFali;
     public InputField poziomWEpoce;
     #endregion
     #region Panel
@@ -113,6 +114,7 @@ public class MainMenu : MonoBehaviour
         uiBudynkiPanel = uiGry.transform.Find("UI_BudynkiPanel").gameObject;
         rectHpBar = ui_down.transform.Find("DaneGry/PasekZyciaGłównegoBudynku/Green").GetComponent<RectTransform>();
         goPanel = uiGry.transform.Find("GameOver Panel").gameObject;
+        licznikCzasuDoFali = uiGry.transform.Find("UI_LicznikCzasu/img_licznik/KompTextLicznikCzasu").GetComponent<Text>();
         epokaNizej.interactable = false;
         panelStatyczny.gameObject.SetActive(false);
         panelDynamiczny.gameObject.SetActive(false);
@@ -176,6 +178,10 @@ public class MainMenu : MonoBehaviour
         {
             uiBudynkiPanel.SetActive(czyWłączyć);
         }
+        else if (panel == "UI_LicznikCzasu")
+        {
+            licznikCzasuDoFali.transform.parent.gameObject.SetActive(czyWłączyć);
+        }
     }
     public void WłączWyłączPanel(string[] panel, bool czyWłączyć)
     {
@@ -212,6 +218,10 @@ public class MainMenu : MonoBehaviour
             else if (uiBudynkiPanel.name == panel[i])
             {
                 uiBudynkiPanel.SetActive(czyWłączyć);
+            }
+            else if (panel[i] == "UI_LicznikCzasu")
+            {
+                licznikCzasuDoFali.transform.parent.gameObject.SetActive(czyWłączyć);
             }
         }
     }
@@ -363,13 +373,6 @@ public class MainMenu : MonoBehaviour
             wybranaNagroda = (sbyte)nagroda;
         }
         UżyjKlikniętegoPrzedmiotu();
-        /*
-        if (this.wybórPrzedmiotuZEkwipunku.value > 0)
-        {
-            wybranyPrzedmiot = (sbyte)(this.wybórPrzedmiotuZEkwipunku.value - 1);   //Konwert na tablice przedmiotów
-            użyjPrzedmiotu.gameObject.SetActive(true);
-        }
-        */
     }
     public void UstawDropDownEkwipunku(ref PrzedmiotScript[] ps)
     {
@@ -472,7 +475,11 @@ public class MainMenu : MonoBehaviour
     }
     public void UstawTextUI(string nazwaTekstu, string tekst)
     {
-        if (nazwaTekstu == "ilośćCoinów")
+        if(nazwaTekstu == "timer")
+        {
+            licznikCzasuDoFali.text = tekst;
+        }
+        else if (nazwaTekstu == "ilośćCoinów")
         {
             ilośćCoinów.text = tekst;
         }
@@ -523,7 +530,7 @@ public class MainMenu : MonoBehaviour
             ps.gameObject.SetActive(true);
             odpalonyPanel = true;
         }
-        else if(s[0] == "PANEL")
+        else if (s[0] == "PANEL")
         {
             PanelTextuWBudynkach ps = (PanelTextuWBudynkach)panelBudynki;
             ps.UstawDane(new string[] { s[1], s[2], s[3], s[4], s[5], s[6], s[7] });
@@ -537,6 +544,7 @@ public class MainMenu : MonoBehaviour
             if (idxWież == null)
                 return;
             WłączWyłączPanel("UI_BudynkiPanel", true);
+            WłączWyłączPanel("UI_LicznikCzasu", false);
             PomocniczeFunkcje.UstawTimeScale(0);
             if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 0)
             {
@@ -553,6 +561,7 @@ public class MainMenu : MonoBehaviour
             if (idxMurów == null)
                 return;
             WłączWyłączPanel("UI_BudynkiPanel", true);
+            WłączWyłączPanel("UI_LicznikCzasu", false);
             PomocniczeFunkcje.UstawTimeScale(0);
             if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 1)
             {
@@ -569,6 +578,7 @@ public class MainMenu : MonoBehaviour
             if (idxInne == null)
                 return;
             WłączWyłączPanel("UI_BudynkiPanel", true);
+            WłączWyłączPanel("UI_LicznikCzasu", false);
             PomocniczeFunkcje.UstawTimeScale(0);
             if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 2)
             {
@@ -589,6 +599,7 @@ public class MainMenu : MonoBehaviour
             else if (lastPanelEnabledBuildings == 2)
                 EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
             WłączWyłączPanel("UI_BudynkiPanel", false);
+            WłączWyłączPanel("UI_LicznikCzasu", true);
             PomocniczeFunkcje.UstawTimeScale(1);
             lastPanelEnabledBuildings = -1;
             iloscButtonow = 1;
@@ -691,7 +702,7 @@ public class MainMenu : MonoBehaviour
     {
         if (uiGry.activeInHierarchy)
         {
-            if (goPanel.activeInHierarchy || uiBudynkiPanel.activeInHierarchy)
+            if (goPanel.activeInHierarchy || CzyAktywnyPanelZBudynkami())
             {
                 return false;
             }
@@ -719,6 +730,6 @@ public class MainMenu : MonoBehaviour
         PomocniczeFunkcje.spawnBudynki.WybierzBudynekDoPostawienia();
         kup.interactable = false;
         stawiajBudynek.interactable = false;
-        WłączWyłączPanel(uiBudynkiPanel.name, false);
+        WłączWyłączPanelBudynków(-1);
     }
 }
