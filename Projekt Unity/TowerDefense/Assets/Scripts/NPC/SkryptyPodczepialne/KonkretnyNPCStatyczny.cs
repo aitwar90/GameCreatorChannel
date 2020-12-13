@@ -29,6 +29,7 @@ public class KonkretnyNPCStatyczny : NPCClass
     public ParticleSystem efektyFxStart;
     [Tooltip("System cząstek wyzwalany kiedy nabój dosięga celu")]
     public ParticleSystem efektyFxKoniec;
+    public Sprite obrazekDoBudynku = null;
     public Transform sprite = null;
     public string opisBudynku;
     #endregion

@@ -626,10 +626,15 @@ public class MainMenu : MonoBehaviour
         for (ushort i = 0; i < tab.Length; i++)
         {
             Button tb = GameObject.Instantiate(b);
+            KonkretnyNPCStatyczny knpcs = PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[tab[i].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
+            if(knpcs.obrazekDoBudynku != null)
+            {
+                tb.image.sprite = knpcs.obrazekDoBudynku;
+            }
             tb.transform.SetParent(trBudynkówŁącze.transform);
             tab[i].DajButton(ref tb);
 
-            switch (PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[tab[i].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().typBudynku)
+            switch (knpcs.typBudynku)
             {
                 case TypBudynku.Mur:
                     if (murki == null)
