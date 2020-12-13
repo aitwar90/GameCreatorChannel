@@ -22,6 +22,6 @@ public class PanelTextuWBudynkach : KontenerKomponentów
             wymaganyPoziom.color = Color.red;
         }
         else
-            wymaganyPoziom.color = Color.black;
+            wymaganyPoziom.color = Color.white;
     }
 }
