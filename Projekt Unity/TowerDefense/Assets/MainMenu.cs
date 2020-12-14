@@ -391,18 +391,22 @@ public class MainMenu : MonoBehaviour
                     case TypPrzedmiotu.Coiny:
                         przyciskiNagród[0].interactable = true;
                         przyciskiNagród[0].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
+                        ps[i].obrazek = przyciskiNagród[0].image;
                         break;
                     case TypPrzedmiotu.CudOcalenia:
                         przyciskiNagród[1].interactable = true;
                         przyciskiNagród[1].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
+                        ps[i].obrazek = przyciskiNagród[1].image;
                         break;
                     case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
                         przyciskiNagród[3].interactable = true;
                         przyciskiNagród[3].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
+                        ps[i].obrazek = przyciskiNagród[3].image;
                         break;
                     case TypPrzedmiotu.DodatkowaNagroda:
                         przyciskiNagród[2].interactable = true;
                         przyciskiNagród[2].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
+                        ps[i].obrazek = przyciskiNagród[2].image;
                         break;
                 }
             }

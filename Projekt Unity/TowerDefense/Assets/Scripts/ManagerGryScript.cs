@@ -250,14 +250,27 @@ public class ManagerGryScript : MonoBehaviour
             {
                 KoniecPoziomuZakończony(false);
             }
-            else if(!czyLFala && idxOfManagerGryScript % 5 == 0 && iloscAktywnychWrogów == 0)
+            else if(!czyLFala && idxOfManagerGryScript % 5 == 0)
             {
-                ObslTimerFal();
+                if(iloscAktywnychWrogów == 0)
+                    ObslTimerFal();
+                ObslMryganie();
             }
         }
         else
         {
             SprawdźCzyScenaZostałaZaładowana();
+        }
+    }
+    private void ObslMryganie()
+    {
+        if(czyScenaZostałaZaładowana && PomocniczeFunkcje.celWrogów != null)
+        {
+            float pŻycie = PomocniczeFunkcje.celWrogów.AktualneŻycie / (float)PomocniczeFunkcje.celWrogów.maksymalneŻycie;
+            if( pŻycie <= 0.5f)
+            {
+                ekwipunekGracza[1].Mrygaj();
+            }
         }
     }
     private void ObslTimerFal(float setTimer = -10000)
@@ -339,7 +352,7 @@ public class ManagerGryScript : MonoBehaviour
     }
     public void CudOcalenia()
     {
-        PomocniczeFunkcje.celWrogów.AktualneŻycie = (PomocniczeFunkcje.celWrogów.AktualneŻycie < PomocniczeFunkcje.celWrogów.maksymalneŻycie / 2) ? (short)(PomocniczeFunkcje.celWrogów.maksymalneŻycie / 2.0f) : PomocniczeFunkcje.celWrogów.maksymalneŻycie;
+        //PomocniczeFunkcje.celWrogów.AktualneŻycie = (PomocniczeFunkcje.celWrogów.AktualneŻycie < PomocniczeFunkcje.celWrogów.maksymalneŻycie / 2) ? (short)(PomocniczeFunkcje.celWrogów.maksymalneŻycie / 2.0f) : PomocniczeFunkcje.celWrogów.maksymalneŻycie;
         KonkretnyNPCDynamiczny[] knpcd = FindObjectsOfType(typeof(KonkretnyNPCDynamiczny)) as KonkretnyNPCDynamiczny[];
         for (ushort i = 0; i < knpcd.Length; i++)
         {
@@ -352,8 +365,8 @@ public class ManagerGryScript : MonoBehaviour
             if (knpcs[i].AktualneŻycie > 0)
                 knpcs[i].AktualneŻycie = knpcs[i].maksymalneŻycie;
         }
-        PomocniczeFunkcje.mainMenu.powtorzPoziom.gameObject.SetActive(false);
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
+        PomocniczeFunkcje.mainMenu.UstawHPGłównegoPaska(1.0f);
         //Fragment wyłączający courutyny
         StopAllCoroutines();
         ObslTimerFal(0);
