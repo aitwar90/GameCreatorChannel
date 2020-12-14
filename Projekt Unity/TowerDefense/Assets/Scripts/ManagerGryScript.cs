@@ -44,6 +44,8 @@ public class ManagerGryScript : MonoBehaviour
     public bool toNieOstatniaFala = false;
     private ObsługaReklam or;
     private float timerFal;
+    private short valFPS = 0;
+    private byte aktualnyIndexTabFPS = 0;
     public Skrzynka ZwróćSkrzynkeOIndeksie(byte idx)
     {
         return skrzynki[idx];
@@ -229,8 +231,18 @@ public class ManagerGryScript : MonoBehaviour
             case 0:
                 if (PomocniczeFunkcje.mainMenu.CzyLFPSOn)
                 {
-                    short valFPS = (short)(1f / Time.unscaledDeltaTime);
-                    PomocniczeFunkcje.mainMenu.UstawWartoscFPS(valFPS);
+                    if(aktualnyIndexTabFPS < 15)
+                    {
+                        valFPS += (short)(1f / Time.unscaledDeltaTime);
+                        aktualnyIndexTabFPS++;
+                    }
+                    else
+                    {
+
+                        PomocniczeFunkcje.mainMenu.UstawWartoscFPS((short)(valFPS / 15f));
+                        valFPS = 0;
+                        aktualnyIndexTabFPS = 0;
+                    }
                 }
                 idxOfManagerGryScript++;
                 break;

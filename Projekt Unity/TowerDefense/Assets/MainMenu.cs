@@ -761,12 +761,10 @@ public class MainMenu : MonoBehaviour
     {
         if (lFPS.gameObject.activeSelf)
         {
-            Debug.Log("wyłączam FPS");
             lFPS.gameObject.SetActive(false);
         }
         else
         {
-            Debug.Log("włączam FPS");
             lFPS.gameObject.SetActive(true);
         }
     }
