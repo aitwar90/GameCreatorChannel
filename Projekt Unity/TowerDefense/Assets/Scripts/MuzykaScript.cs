@@ -44,7 +44,20 @@ public class MuzykaScript : MonoBehaviour
     }
     public void UstawGłośnośćGry(float val)   //Ta metoda powinna być wywoływana w opcjach aplikacji
     {
+        if (ustawGłośność == null)
+        {
+            StartCoroutine(CzekajNaUstawGłośność(val));
+        }
+        else
+        {
+            ustawGłośność(val);
+        }
+    }
+    private IEnumerator CzekajNaUstawGłośność(float val)
+    {
+        yield return new WaitUntil(() => ustawGłośność != null);
         ustawGłośność(val);
+        yield return null;
     }
     public void WłączWyłączClip(ref AudioSource ado, bool czyWłączyć, string typ = "", bool czyOneShoot = false)    //Ta metoda obsługuje całe audio
     {

@@ -803,6 +803,7 @@ public static class PomocniczeFunkcje
 
         daneO.indeksJezyka = mainMenu.lastIdxJezyka;
         daneO.blokadaOrientacji = managerGryScript.blokowanieOrientacji;
+        daneO.głośność = PomocniczeFunkcje.muzyka.muzykaTła.volume;
 
         string ścieżka = ZwróćŚcieżkęZapisu("daneOpcje.asc");
 
@@ -834,6 +835,7 @@ public static class PomocniczeFunkcje
             if (mainMenu != null)
             {
                 mainMenu.lastIdxJezyka = daneO.indeksJezyka;
+                mainMenu.sliderDźwięku.value = daneO.głośność;
             }
             if (managerGryScript != null)
             {
@@ -893,5 +895,6 @@ public struct DaneOpcji
 {
     [SerializeField] public sbyte indeksJezyka;
     [SerializeField] public bool blokadaOrientacji;
+    [SerializeField] public float głośność;
 }
 
