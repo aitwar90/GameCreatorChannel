@@ -92,6 +92,19 @@ public class MainMenu : MonoBehaviour
             odpalonyPanel = value;
         }
     }
+    public bool CzyLFPSOn
+    {
+        set
+        {
+            Toggle t = this.transform.Find("Menu/OptionsMenu/ToggleFPS").GetComponent<Toggle>();
+            t.isOn = value;
+            Debug.Log("Ustawilem is on na "+t.isOn);
+        }
+        get
+        {
+            return lFPS.gameObject.activeSelf;
+        }
+    }
     void Awake()
     {
         if (singelton == null)
@@ -746,6 +759,19 @@ public class MainMenu : MonoBehaviour
     }
     public void WłączWyłączLicznikFPS()
     {
-
+        if (lFPS.gameObject.activeSelf)
+        {
+            Debug.Log("wyłączam FPS");
+            lFPS.gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.Log("włączam FPS");
+            lFPS.gameObject.SetActive(true);
+        }
+    }
+    public void UstawWartoscFPS(short val)
+    {
+        lFPS.text = "FPS: " + val.ToString();
     }
 }

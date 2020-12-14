@@ -10438,7 +10438,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aktualnaEpoka: 1
   aktualnyPoziomEpoki: 1
-  "czasMi\u0119dzyFalami": 15
+  "czasMi\u0119dzyFalami": 30
   zaznaczonyObiekt: {fileID: 0}
   bazy:
   - {fileID: 5806775561652400943, guid: 89d920babba091d59abc812965ea24e6, type: 3}
@@ -14073,7 +14073,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1565554481}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
         m_MethodName: "W\u0142\u0105czWy\u0142\u0105czLicznikFPS"
-        m_Mode: 6
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

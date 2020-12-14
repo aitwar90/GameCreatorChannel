@@ -226,48 +226,59 @@ public class ManagerGryScript : MonoBehaviour
 #endif
         switch (idxOfManagerGryScript)  //Każdy idxOfManagerGryScript podzielny przez 5 bez reszty obsługuje timerFal
         {
-            case 254:
+            case 0:
+                if (PomocniczeFunkcje.mainMenu.CzyLFPSOn)
+                {
+                    short valFPS = (short)(1f / Time.unscaledDeltaTime);
+                    PomocniczeFunkcje.mainMenu.UstawWartoscFPS(valFPS);
+                }
+                idxOfManagerGryScript++;
+                break;
+            case 1:
+                if (czyScenaZostałaZaładowana)
+                {
+                    bool czyLFala = PomocniczeFunkcje.spawnerHord.CzyOstatniaFala();
+                    if (czyLFala && iloscAktywnychWrogów <= 0)
+                    {
+                        //Lvl skończony wszystkie fale zostały pokonane
+                        KoniecPoziomuZakończony(true);
+                    }
+                    else if (knpcsBazy.AktualneŻycie <= 0)
+                    {
+                        KoniecPoziomuZakończony(false);
+                    }
+                    else if (!czyLFala)
+                    {
+                        if (iloscAktywnychWrogów == 0)
+                            ObslTimerFal();
+                        ObslMryganie();
+                    }
+                }
+                else
+                {
+                    SprawdźCzyScenaZostałaZaładowana();
+                }
+                idxOfManagerGryScript++;
+                break;
+            case 5:
                 for (byte i = 0; i < 4; i++)
                 {
                     skrzynki[i].SprawdźCzyReuseMinęło();
                 }
-                idxOfManagerGryScript++;
+                idxOfManagerGryScript = 0;
                 break;
             default:
                 idxOfManagerGryScript++;
                 break;
 
         }
-        if (czyScenaZostałaZaładowana)
-        {
-            bool czyLFala = PomocniczeFunkcje.spawnerHord.CzyOstatniaFala();
-            if (PomocniczeFunkcje.spawnerHord.CzyOstatniaFala() && iloscAktywnychWrogów <= 0)
-            {
-                //Lvl skończony wszystkie fale zostały pokonane
-                KoniecPoziomuZakończony(true);
-            }
-            else if (knpcsBazy.AktualneŻycie <= 0)
-            {
-                KoniecPoziomuZakończony(false);
-            }
-            else if(!czyLFala && idxOfManagerGryScript % 5 == 0)
-            {
-                if(iloscAktywnychWrogów == 0)
-                    ObslTimerFal();
-                ObslMryganie();
-            }
-        }
-        else
-        {
-            SprawdźCzyScenaZostałaZaładowana();
-        }
     }
     private void ObslMryganie()
     {
-        if(czyScenaZostałaZaładowana && PomocniczeFunkcje.celWrogów != null)
+        if (czyScenaZostałaZaładowana && PomocniczeFunkcje.celWrogów != null)
         {
             float pŻycie = PomocniczeFunkcje.celWrogów.AktualneŻycie / (float)PomocniczeFunkcje.celWrogów.maksymalneŻycie;
-            if( pŻycie <= 0.5f)
+            if (pŻycie <= 0.5f)
             {
                 ekwipunekGracza[1].Mrygaj();
             }
