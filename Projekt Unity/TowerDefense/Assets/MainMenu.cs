@@ -32,6 +32,7 @@ public class MainMenu : MonoBehaviour
     #region TextUI
     public Text ilośćCoinów;
     public Text ilośćFal;
+    public Text lFPS;
     private Text actWybEpoka;
     private Text licznikCzasuDoFali;
     public InputField poziomWEpoce;
@@ -742,5 +743,9 @@ public class MainMenu : MonoBehaviour
         kup.interactable = false;
         stawiajBudynek.interactable = false;
         WłączWyłączPanelBudynków(-1);
+    }
+    public void WłączWyłączLicznikFPS()
+    {
+
     }
 }
