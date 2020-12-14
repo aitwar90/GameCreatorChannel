@@ -325,7 +325,7 @@ public class KonkretnyNPCStatyczny : NPCClass
             string c = "ZIELONY";
             if (PomocniczeFunkcje.odblokowaneEpoki == (byte)this.epokaNPC)
             {
-                if (PomocniczeFunkcje.odblokowanyPoziomEpoki > this.poziomBudynku)
+                if (PomocniczeFunkcje.odblokowanyPoziomEpoki < this.poziomBudynku)
                     c = "CZERWONY";
                 p = this.poziomBudynku.ToString();
             }
@@ -338,7 +338,6 @@ public class KonkretnyNPCStatyczny : NPCClass
         }
         else
         {
-            Debug.Log("Jestem w reszcie");
             bool czyOdbl = false;
             if (this.AktualneŻycie < this.maksymalneŻycie)
                 czyOdbl = true;

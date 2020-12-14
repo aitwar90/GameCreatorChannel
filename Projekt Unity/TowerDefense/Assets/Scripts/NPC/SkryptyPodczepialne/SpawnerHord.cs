@@ -310,4 +310,11 @@ public class SpawnerHord : MonoBehaviour
         }
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
     }
+    public bool CzyOstatniaFala()
+    {
+        if(actFala < iloscFalNaKoncu)
+            return false;
+        else
+            return true;
+    }
 }

@@ -169,6 +169,7 @@ public class MainMenu : MonoBehaviour
         else if (ui_down.name == panel)
         {
             ui_down.SetActive(czyWłączyć);
+            licznikCzasuDoFali.transform.parent.gameObject.SetActive(czyWłączyć);
         }
         else if (goPanel.name == panel)
         {
@@ -210,6 +211,7 @@ public class MainMenu : MonoBehaviour
             else if (ui_down.name == panel[i])
             {
                 ui_down.SetActive(czyWłączyć);
+                licznikCzasuDoFali.transform.parent.gameObject.SetActive(czyWłączyć);
             }
             else if (goPanel.name == panel[i])
             {
@@ -475,7 +477,7 @@ public class MainMenu : MonoBehaviour
     }
     public void UstawTextUI(string nazwaTekstu, string tekst)
     {
-        if(nazwaTekstu == "timer")
+        if (nazwaTekstu == "timer")
         {
             licznikCzasuDoFali.text = tekst;
         }
@@ -627,7 +629,7 @@ public class MainMenu : MonoBehaviour
         {
             Button tb = GameObject.Instantiate(b);
             KonkretnyNPCStatyczny knpcs = PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[tab[i].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
-            if(knpcs.obrazekDoBudynku != null)
+            if (knpcs.obrazekDoBudynku != null)
             {
                 tb.image.sprite = knpcs.obrazekDoBudynku;
             }

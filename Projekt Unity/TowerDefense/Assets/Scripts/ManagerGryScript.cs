@@ -41,7 +41,7 @@ public class ManagerGryScript : MonoBehaviour
     KonkretnyNPCStatyczny knpcsBazy = null;
     private byte idxOfManagerGryScript = 0;
     private bool czyScenaZostałaZaładowana = false;
-    private bool toNieOstatniaFala = false;
+    public bool toNieOstatniaFala = false;
     private ObsługaReklam or;
     private float timerFal;
     public Skrzynka ZwróćSkrzynkeOIndeksie(byte idx)
@@ -117,7 +117,6 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.spawnBudynki.InicjacjaPaneluBudynków();
         PomocniczeFunkcje.mainMenu.WygenerujIPosortujTablice(); //Generuje i sortuje tablice budynków do wybudowania
         PomocniczeFunkcje.ZapiszDane();
-        toNieOstatniaFala = true;
         ObslTimerFal(0);
     }
     public void GenerujBaze()
@@ -227,7 +226,7 @@ public class ManagerGryScript : MonoBehaviour
 #endif
         switch (idxOfManagerGryScript)  //Każdy idxOfManagerGryScript podzielny przez 5 bez reszty obsługuje timerFal
         {
-            case 254:   
+            case 254:
                 for (byte i = 0; i < 4; i++)
                 {
                     skrzynki[i].SprawdźCzyReuseMinęło();
@@ -235,17 +234,14 @@ public class ManagerGryScript : MonoBehaviour
                 idxOfManagerGryScript++;
                 break;
             default:
-                if(toNieOstatniaFala && idxOfManagerGryScript % 5 == 0)
-                {
-                    ObslTimerFal();
-                }
                 idxOfManagerGryScript++;
                 break;
 
         }
         if (czyScenaZostałaZaładowana)
         {
-            if (!toNieOstatniaFala && iloscAktywnychWrogów <= 0 && SpawnerHord.actFala > 0)
+            bool czyLFala = PomocniczeFunkcje.spawnerHord.CzyOstatniaFala();
+            if (PomocniczeFunkcje.spawnerHord.CzyOstatniaFala() && iloscAktywnychWrogów <= 0)
             {
                 //Lvl skończony wszystkie fale zostały pokonane
                 KoniecPoziomuZakończony(true);
@@ -253,6 +249,10 @@ public class ManagerGryScript : MonoBehaviour
             else if (knpcsBazy.AktualneŻycie <= 0)
             {
                 KoniecPoziomuZakończony(false);
+            }
+            else if(!czyLFala && idxOfManagerGryScript % 5 == 0 && iloscAktywnychWrogów == 0)
+            {
+                ObslTimerFal();
             }
         }
         else
@@ -262,16 +262,16 @@ public class ManagerGryScript : MonoBehaviour
     }
     private void ObslTimerFal(float setTimer = -10000)
     {
-        if(setTimer == -10000)
+        if (setTimer == -10000)
         {
-            if(timerFal < czasMiędzyFalami)
+            if (timerFal < czasMiędzyFalami)
             {
-                timerFal += Time.deltaTime*5.0f;
+                timerFal += Time.deltaTime * 5.0f;
             }
             else
             {
                 timerFal = 0;
-                toNieOstatniaFala = PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
+                PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
             }
         }
         else
@@ -315,7 +315,6 @@ public class ManagerGryScript : MonoBehaviour
             OdblokujKolejnaSkrzynke();
         }
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("GameOver Panel", true);
-        toNieOstatniaFala = true;
     }
     public void PrzejdźNaNastepnyPoziom(bool czyNowyPoziom = true)
     {
