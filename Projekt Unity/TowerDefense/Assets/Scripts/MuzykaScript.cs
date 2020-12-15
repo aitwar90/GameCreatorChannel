@@ -76,6 +76,11 @@ public class MuzykaScript : MonoBehaviour, ICzekajAz
             WłączWyłączClip(typ, ref ado, czyOneShoot);
         }
     }
+    public void WłączTymczasowyClip(string typ, Vector3 pos)
+    {
+        AudioClip clip = ZwróćSzukanyClip(typ);
+        AudioSource.PlayClipAtPoint(clip, pos, aktValVolume);
+    }
     public void WłączWyłączClip(string typ, ref AudioSource ado, bool czyOneShoot = false, string nazwaAktualnegoKlipu = "") //Ta metoda pozwala na wybranie klipu z wyłączeniem nazwy aktualnie granej
     {
         ado.clip = ZwróćSzukanyClip(typ, nazwaAktualnegoKlipu);
@@ -109,8 +114,8 @@ public class MuzykaScript : MonoBehaviour, ICzekajAz
                         byte x = indeksyMuzyki[i];
                         do
                         {
-                            x = (byte)Random.Range(indeksyMuzyki[i], indeksyMuzyki[i + 1] - 1);
-                        } while (clipyAudio[x].clip.name != nazwaAktualnegoKlipu);
+                            x = (byte)Random.Range(indeksyMuzyki[i], indeksyMuzyki[i + 1]);
+                        } while (clipyAudio[x].clip.name == nazwaAktualnegoKlipu);
                         return clipyAudio[x].clip;
                     }
                 }

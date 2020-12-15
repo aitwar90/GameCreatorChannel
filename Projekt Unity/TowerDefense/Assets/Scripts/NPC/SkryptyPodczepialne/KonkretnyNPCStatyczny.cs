@@ -81,7 +81,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         }
         else
         {
-
+            StartCoroutine(CzekajAz());
         }
         RysujHPBar();
     }
