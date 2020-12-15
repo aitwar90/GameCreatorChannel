@@ -98,7 +98,6 @@ public class MainMenu : MonoBehaviour
         {
             Toggle t = this.transform.Find("Menu/OptionsMenu/ToggleFPS").GetComponent<Toggle>();
             t.isOn = value;
-            Debug.Log("Ustawilem is on na "+t.isOn);
         }
         get
         {
@@ -126,7 +125,7 @@ public class MainMenu : MonoBehaviour
         przyciskWznów = this.transform.Find("Menu/MainMenu/ResumeButton").GetComponent<Button>();
         actWybEpoka = this.transform.Find("Menu/PoGraj/AktualnieWybEpoka").GetComponent<Text>();
         uiBudynkiPanel = uiGry.transform.Find("UI_BudynkiPanel").gameObject;
-        rectHpBar = ui_down.transform.Find("DaneGry/PasekZyciaGłównegoBudynku/Green").GetComponent<RectTransform>();
+        rectHpBar = uiGry.transform.Find("PasekZyciaGłównegoBudynku/Green").GetComponent<RectTransform>();
         goPanel = uiGry.transform.Find("GameOver Panel").gameObject;
         licznikCzasuDoFali = uiGry.transform.Find("UI_LicznikCzasu/img_licznik/KompTextLicznikCzasu").GetComponent<Text>();
         epokaNizej.interactable = false;

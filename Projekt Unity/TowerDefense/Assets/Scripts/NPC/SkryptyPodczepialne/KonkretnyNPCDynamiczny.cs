@@ -372,6 +372,9 @@ public class KonkretnyNPCDynamiczny : NPCClass
                                 efektyFxKoniec.transform.position = cel.transform.position;
                                 efektyFxKoniec.Play();
                             }
+                            PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, (this.typNPC == TypNPC.WalczyNaDystans || this.typNPC == TypNPC.WalczynaDystansIWZwarciu) ?
+                        PomocniczeFunkcje.TagZEpoka("TrafienieNPC", this.epokaNPC, this.tagRodzajDoDźwięków) :
+                        PomocniczeFunkcje.TagZEpoka("TrafienieNPC", this.epokaNPC, this.tagRodzajDoDźwięków), true);
                         }
                         else
                         {

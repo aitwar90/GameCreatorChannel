@@ -5,7 +5,7 @@ using UnityEngine;
 /*
 Klasa obsługuje statyczne NPC
 */
-public class KonkretnyNPCStatyczny : NPCClass
+public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
 {
     #region Zmienne publiczne
     public TypBudynku typBudynku;
@@ -75,8 +75,25 @@ public class KonkretnyNPCStatyczny : NPCClass
             instaObj.transform.position = new Vector3(instaObj.transform.position.x, instaObj.transform.position.y + 0.8f, instaObj.transform.position.z);
             instaObj.transform.SetParent(this.transform);
         }
+        if (this.odgłosyNPC != null)
+        {
+            PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, "PostawB", true);
+        }
+        else
+        {
 
+        }
         RysujHPBar();
+    }
+    public void MetodaDoOdpaleniaPoWyczekaniu()
+    {
+        PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, "PostawB", true);
+    }
+    public IEnumerator CzekajAz()
+    {
+        yield return new WaitUntil(() => this.odgłosyNPC != null);
+        MetodaDoOdpaleniaPoWyczekaniu();
+        yield return null;
     }
     // Update is called once per frame
     protected override void RysujHPBar()
@@ -195,6 +212,7 @@ public class KonkretnyNPCStatyczny : NPCClass
         }
     }
     */
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
         if (cel != null)
@@ -203,6 +221,7 @@ public class KonkretnyNPCStatyczny : NPCClass
             Gizmos.DrawLine(this.transform.position, cel.transform.position);
         }
     }
+#endif
     private void UsuńMnieZListy(short x, short z)
     {
         if (PomocniczeFunkcje.tablicaWież[x, z] == null)
@@ -265,6 +284,7 @@ public class KonkretnyNPCStatyczny : NPCClass
                             efektyFxKoniec.transform.position = cel.transform.position;
                             efektyFxKoniec.Play();
                         }
+                        PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, "TrafienieB", true);
                     }
                     else
                         f *= 10f;

@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class MuzykaScript : MonoBehaviour
+public class MuzykaScript : MonoBehaviour, ICzekajAz
 {
     // Start is called before the first frame update
     public AudioSource muzykaTła;
-    [Tooltip("Nazwa musi mieć szablon x_y_z przy czym x oznacza przeznaczenie clipu zaś y epokę. Tło oznacza pierwszy utwór przeznaczony dla tła. Typy: Tło, AmbientWGrze, AtakNPCDystans, AtakNPCZwarcie, AtakBJeden, AtakBObszar, AtakBAll, ŚmiercNPC, ŚmiercB, Poruszanie, Idle. Przykład AtakBObszar_EpokaKamienia_Kamień (W przypadku tła i ambient nie ma specjalnych rodzajów)")]
+    [Tooltip("Nazwa musi mieć szablon x_y_z przy czym x oznacza przeznaczenie clipu zaś y epokę. Tło oznacza pierwszy utwór przeznaczony dla tła. Typy: Tło, AmbientWGrze, AtakNPCDystans, AtakNPCZwarcie, AtakBJeden, AtakBObszar, AtakBAll, ŚmiercNPC, ŚmiercB, Poruszanie, Idle, TrafienieB, TrafienieNPC, PostawB. Przykład AtakBObszar_EpokaKamienia_Kamień (W przypadku tła i ambient nie ma specjalnych rodzajów)")]
     public StrukturaAudio[] clipyAudio;
     public delegate void UstawGłośność(float wartość);
     public UstawGłośność ustawGłośność;
+    private float aktValVolume = 0.0f;
     private byte[] indeksyMuzyki = null;
 
     void Awake()
@@ -44,19 +45,24 @@ public class MuzykaScript : MonoBehaviour
     }
     public void UstawGłośnośćGry(float val)   //Ta metoda powinna być wywoływana w opcjach aplikacji
     {
+        aktValVolume = val;
         if (ustawGłośność == null)
         {
-            StartCoroutine(CzekajNaUstawGłośność(val));
+            StartCoroutine(CzekajAz());
         }
         else
         {
-            ustawGłośność(val);
+            ustawGłośność(aktValVolume);
         }
     }
-    private IEnumerator CzekajNaUstawGłośność(float val)
+    public void MetodaDoOdpaleniaPoWyczekaniu()
     {
-        yield return new WaitUntil(() => ustawGłośność != null);
-        ustawGłośność(val);
+        ustawGłośność(aktValVolume);
+    }
+    public IEnumerator CzekajAz()
+    {
+        yield return new WaitUntil(() => this.ustawGłośność != null);
+        MetodaDoOdpaleniaPoWyczekaniu();
         yield return null;
     }
     public void WłączWyłączClip(ref AudioSource ado, bool czyWłączyć, string typ = "", bool czyOneShoot = false)    //Ta metoda obsługuje całe audio

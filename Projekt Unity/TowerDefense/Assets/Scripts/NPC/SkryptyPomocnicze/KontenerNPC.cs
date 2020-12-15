@@ -158,6 +158,11 @@ public enum TypPrzedmiotu
     SkrócenieCzasuDoSkrzynki = 2,
     DodatkowaNagroda = 3
 }
+public interface ICzekajAz
+{
+    void MetodaDoOdpaleniaPoWyczekaniu();
+    System.Collections.IEnumerator CzekajAz();
+}
 
 
 
