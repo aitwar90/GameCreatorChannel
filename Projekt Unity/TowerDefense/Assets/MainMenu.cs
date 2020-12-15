@@ -139,7 +139,7 @@ public class MainMenu : MonoBehaviour
         nastepnyPoziom.interactable = false;
         rekZaWyzszaNagrode.gameObject.SetActive(false);
         WłączWyłączPanel(new string[] {goPanel.name, uiBudynkiPanel.name, ui_down.name, uiGry.name, optionsMenu.name,
-        reklamyPanel.name, poGraj.name}, false);
+        reklamyPanel.name, poGraj.name, "Cretidsy"}, false);
     }
     public void OdpalPoScenie(bool czyOdpalamPoScenie)
     {
@@ -196,6 +196,10 @@ public class MainMenu : MonoBehaviour
         {
             licznikCzasuDoFali.transform.parent.gameObject.SetActive(czyWłączyć);
         }
+        else if (panel == "Cretidsy") //Powinno być ostatnie (kto odpala creditsy xD)
+        {
+            this.transform.Find("Menu/Cretidsy").gameObject.SetActive(czyWłączyć);
+        }
     }
     public void WłączWyłączPanel(string[] panel, bool czyWłączyć)
     {
@@ -237,6 +241,10 @@ public class MainMenu : MonoBehaviour
             else if (panel[i] == "UI_LicznikCzasu")
             {
                 licznikCzasuDoFali.transform.parent.gameObject.SetActive(czyWłączyć);
+            }
+            else if (panel[i] == "Cretidsy") //Powinno być ostatnie (kto odpala creditsy xD)
+            {
+                this.transform.Find("Menu/Cretidsy").gameObject.SetActive(czyWłączyć);
             }
         }
     }
@@ -678,6 +686,19 @@ public class MainMenu : MonoBehaviour
                 idxWież = wieże.ToArray();
             if (inne != null)
                 idxInne = inne.ToArray();
+        }
+    }
+    public void ObsluzCreditsy(bool wł)
+    {
+        if (!wł)
+        {
+            WłączWyłączPanel("Cretidsy", false);
+            WłączWyłączPanel(menu.name, true);
+        }
+        else
+        {
+            WłączWyłączPanel("Cretidsy", true);
+            WłączWyłączPanel(menu.name, false);
         }
     }
     public void UstawGłośność()
