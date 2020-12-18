@@ -825,7 +825,7 @@ MonoBehaviour:
   kosztJednostki: 1
   "zadawaneObra\u017Cenia": 10
   "zasi\u0119gAtaku": 6
-  "szybko\u015B\u0107Ataku": 0.7
+  "szybko\u015B\u0107Ataku": 0.3
   "modyfikatorOtrzymywanychObra\u017Ce\u0144": 1
   "modyfikatorZadawanychObra\u017Ce\u0144": 1
   cel: {fileID: 0}
