@@ -1,0 +1,149 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8539881029944531423
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8539881029944531416}
+  - component: {fileID: 8539881029944531417}
+  - component: {fileID: 8539881029944531422}
+  - component: {fileID: 8539881029944531419}
+  - component: {fileID: 8539881029944531418}
+  - component: {fileID: 8539881029944531413}
+  m_Layer: 0
+  m_Name: NiezbedneSkrypty_Mobile
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8539881029944531416
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8539881029944531423}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8539881029944531417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8539881029944531423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 742bd31a08379dc41b757bf36e0c9bb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wszystkieBudynki:
+  - {fileID: 8240789140282401236, guid: b8164cf752c70df46891bc4e4ac3bf67, type: 3}
+  - {fileID: 480594667005852909, guid: 81d7c4ca18bcac044a4773011d34808d, type: 3}
+  dropdawn: {fileID: 0}
+  lockDropdownImage: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  enableLockDropdownImage: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  aktualnyObiekt: {fileID: 0}
+  zablokowanyBudynekIndex: -1
+--- !u!114 &8539881029944531422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8539881029944531423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ab19e0cfff9904dae065988a956972, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aktualnaEpoka: 1
+  aktualnyPoziomEpoki: 1
+  "czasMi\u0119dzyFalami": 30
+  zaznaczonyObiekt: {fileID: 0}
+  bazy:
+  - {fileID: 5806775561652400943, guid: 89d920babba091d59abc812965ea24e6, type: 3}
+  ekwipunekGracza:
+  - {fileID: 566116733759100223, guid: e2fb13f66eaaf3648bc6e14d1f821c0e, type: 3}
+  - {fileID: 2171241412327539077, guid: 4c8450613bdc6c64c8d56b47e6bf7633, type: 3}
+  - {fileID: 3057942119976280522, guid: 3d33ef230705a2a4d81fcf4544e9f14b, type: 3}
+  - {fileID: 8698446341093283827, guid: 174a6b36457cf4f4c9d0959ffddd14de, type: 3}
+  skrzynki: []
+  plikJezykowy: {fileID: 4900000, guid: aa2e13c07c2c82e478f40ebcda33e5f5, type: 3}
+  wszystkieRodzajeWrogichJednostek:
+  - {fileID: 6773174147869840242, guid: 828f681922577fe40acd6b9ad4cae326, type: 3}
+  - {fileID: 123216872998805141, guid: a8fe9acb1e0f9f74c81a0ac4738f9efe, type: 3}
+  hpIdx: 0
+  atkIdx: 0
+  defIdx: 0
+  toNieOstatniaFala: 0
+  blokowanieOrientacji: 1
+--- !u!114 &8539881029944531419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8539881029944531423}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2c2205e656d0e4b6ac7517893f69fd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8539881029944531418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8539881029944531423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f833196302ee4549485653e5fb785e4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rodzajReklamy: 2
+--- !u!114 &8539881029944531413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8539881029944531423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53be69a70fc03e29ca5dfe6bb04dd9fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  "muzykaT\u0142a": {fileID: 0}
+  clipyAudio:
+  - nazwa: AmbientWGrze_EpokaKamienia
+    clip: {fileID: 8300000, guid: da751eaa67e05c89eb3fc33087f96524, type: 3}
+  - nazwa: "AtakNPCDystans_EpokaKamienia_Kamie\u0144"
+    clip: {fileID: 8300000, guid: 57878b9a59007ea45b57ff120a84a146, type: 3}
+  - nazwa: "AtakNPCZwarcie_EpokaKamienia_Kamie\u0144"
+    clip: {fileID: 8300000, guid: 57878b9a59007ea45b57ff120a84a146, type: 3}
+  - nazwa: PostawB
+    clip: {fileID: 8300000, guid: e073c30b8cf38b9ed99e3f2fa5caef6c, type: 3}
+  - nazwa: PostawB
+    clip: {fileID: 8300000, guid: cc77b279e9c554fbaa3f192de590e31e, type: 3}
+  - nazwa: "\u015AmiercB_EpokaKamienia_W\u0142\xF3cznia"
+    clip: {fileID: 8300000, guid: 57878b9a59007ea45b57ff120a84a146, type: 3}
+  - nazwa: "\u015AmiercNPC_EpokaKamienia_Kamie\u0144"
+    clip: {fileID: 8300000, guid: 57878b9a59007ea45b57ff120a84a146, type: 3}
+  - nazwa: "T\u0142o_None"
+    clip: {fileID: 8300000, guid: da751eaa67e05c89eb3fc33087f96524, type: 3}
+  - nazwa: "TrafienieB_EpokaKamienia_W\u0142\xF3cznia"
+    clip: {fileID: 8300000, guid: 40dff6472471f3b4eb0a65a89f5f83d2, type: 3}
+  - nazwa: "TrafienieNPC_EpokaKamienia_Kamie\u0144"
+    clip: {fileID: 8300000, guid: 7b1224c2047b99a48a0782bc1cf7c0c1, type: 3}
