@@ -150,11 +150,13 @@ public class MainMenu : MonoBehaviour
 
             poziomWEpoce.text = PomocniczeFunkcje.odblokowanyPoziomEpoki.ToString();
             actWybEpoka.text = PomocniczeFunkcje.odblokowaneEpoki.ToString();
+            PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Tło_None_PoMenu");
         }
         else
         {
             menu.SetActive(true);
             poGraj.SetActive(false);
+            PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Tło_None");
         }
     }
     public void WłączWyłączPanel(string panel, bool czyWłączyć)
@@ -372,11 +374,13 @@ public class MainMenu : MonoBehaviour
             PomocniczeFunkcje.UstawTimeScale(0);
             lastPosCam = PomocniczeFunkcje.oCam.transform.position;
             PomocniczeFunkcje.oCam.transform.position = new Vector3(0.0f, 0.0f, -10.0f);
+            PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Tło_None");
         }
         else
         {
             PomocniczeFunkcje.UstawTimeScale(1);
             PomocniczeFunkcje.oCam.transform.position = lastPosCam;
+            PomocniczeFunkcje.muzyka.WłączWyłączClip(true, PomocniczeFunkcje.TagZEpoka("AmbientWGrze", PomocniczeFunkcje.managerGryScript.aktualnaEpoka));
         }
     }
     public void SkrzynkaKlik(int idx)
@@ -694,11 +698,13 @@ public class MainMenu : MonoBehaviour
         {
             WłączWyłączPanel("Cretidsy", false);
             WłączWyłączPanel(menu.name, true);
+            PomocniczeFunkcje.muzyka.WłączWyłączClip(ref PomocniczeFunkcje.muzyka.muzykaTła, true, "Tło_None");
         }
         else
         {
             WłączWyłączPanel("Cretidsy", true);
             WłączWyłączPanel(menu.name, false);
+            PomocniczeFunkcje.muzyka.WłączWyłączClip(ref PomocniczeFunkcje.muzyka.muzykaTła, true, "Tło_None_PoMenu");
         }
     }
     public void UstawGłośność()
