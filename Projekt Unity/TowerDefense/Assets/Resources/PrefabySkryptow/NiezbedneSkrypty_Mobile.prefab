@@ -52,7 +52,8 @@ MonoBehaviour:
   - {fileID: 480594667005852909, guid: 81d7c4ca18bcac044a4773011d34808d, type: 3}
   dropdawn: {fileID: 0}
   lockDropdownImage: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  enableLockDropdownImage: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  enableLockDropdownImage: {fileID: 10907, guid: 0000000000000000f000000000000000,
+    type: 0}
   aktualnyObiekt: {fileID: 0}
   zablokowanyBudynekIndex: -1
 --- !u!114 &8539881029944531422
@@ -69,7 +70,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aktualnaEpoka: 1
   aktualnyPoziomEpoki: 1
-  "czasMi\u0119dzyFalami": 30
+  "czasMi\u0119dzyFalami": 45
   zaznaczonyObiekt: {fileID: 0}
   bazy:
   - {fileID: 5806775561652400943, guid: 89d920babba091d59abc812965ea24e6, type: 3}

@@ -71,6 +71,17 @@ public class MuzykaScript : MonoBehaviour, ICzekajAz
         MetodaDoOdpaleniaPoWyczekaniu();
         yield return null;
     }
+    public void WłączWyłączClip(bool czyWłączyć, string typ = "", bool czyOneShoot = false)
+    {
+        if (!czyWłączyć)
+        {
+            muzykaTła.Stop();
+        }
+        else
+        {
+            WłączWyłączClip(typ, ref muzykaTła, czyOneShoot);
+        }
+    }
     public void WłączWyłączClip(ref AudioSource ado, bool czyWłączyć, string typ = "", bool czyOneShoot = false)    //Ta metoda obsługuje całe audio
     {
         if (!czyWłączyć)

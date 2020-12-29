@@ -569,7 +569,7 @@ public static class PomocniczeFunkcje
         if (stosTrupów == null)
             stosTrupów = new Dictionary<string, StrukturaDoPoolowania>();
 
-        if(stosTrupów.ContainsKey(dodajDoTrupów.NID))
+        if (stosTrupów.ContainsKey(dodajDoTrupów.NID))
         {
             stosTrupów[dodajDoTrupów.NID].listaObiektówPoolingu.Add(dodajDoTrupów);
         }
@@ -618,12 +618,9 @@ public static class PomocniczeFunkcje
         korzeńDrzewaPozycji = null;
         celWrogów = null;
         stosTrupów = null;
-        stosTrupów = null;
         tablicaWież = null;
-        SpawnerHord.iloscFalNaKoncu = 0;
-        SpawnerHord.actFala = 0;
+        managerGryScript.ResetManagerGryScript();
         spawnBudynki.DestroyBuildings();
-        SpawnerHord.actualHPBars = 0;
         if (spawnerHord != null)
         {
             spawnerHord.UsunWszystkieJednostki();
@@ -660,16 +657,18 @@ public static class PomocniczeFunkcje
         List<ZapisSkrzynek> zsl = new List<ZapisSkrzynek>();
         for (byte i = 0; i < 4; i++)
         {
-            if (managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).ReuseTimer || managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).button.enabled)
+            Skrzynka s = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i);
+            if (s.ReuseTimer || s.button.enabled)
             {
                 ZapisSkrzynek t = new ZapisSkrzynek();
-                t.czyAktywna = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).button.interactable;
-                t.dzień = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.Day;
-                t.godzina = (byte)managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.Hour;
-                t.minuta = (byte)managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.Minute;
-                t.sekunda = (byte)managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.Second;
-                t.rok = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.Year;
-                if (t.czyAktywna || managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).ReuseTimer)
+                t.czyAktywna = s.button.interactable;
+                t.dzień = s.pozostałyCzas.Day;
+                t.godzina = (byte)s.pozostałyCzas.Hour;
+                t.minuta = (byte)s.pozostałyCzas.Minute;
+                t.sekunda = (byte)s.pozostałyCzas.Second;
+                t.miesiąc = (byte)s.pozostałyCzas.Month;
+                t.rok = s.pozostałyCzas.Year;
+                if (t.czyAktywna || s.ReuseTimer)
                 {
                     t.czyIstniejeSkrzynka = true;
                 }
@@ -745,15 +744,23 @@ public static class PomocniczeFunkcje
                     int offsetG = ds._skrzynki[i].godzina - System.DateTime.Now.Hour;
                     int offsetM = ds._skrzynki[i].minuta - System.DateTime.Now.Minute;
                     int offsetS = ds._skrzynki[i].sekunda - System.DateTime.Now.Second;
+                    int offsetMSC = ds._skrzynki[i].miesiąc - System.DateTime.Now.Month;
                     int offsetR = ds._skrzynki[i].rok - System.DateTime.Now.Year;
-                    managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas = System.DateTime.Now;
-                    managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.AddDays(offsetD);
-                    managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.AddHours(offsetG);
-                    managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.AddMinutes(offsetM);
-                    managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.AddSeconds(offsetS);
-                    managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).pozostałyCzas.AddYears(offsetR);
-                    managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).button.interactable = ds._skrzynki[i].czyAktywna;
-                    managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i).ReuseTimer = ds._skrzynki[i].czyIstniejeSkrzynka;
+                    Skrzynka s = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i);
+                    System.DateTime dT = System.DateTime.Now;
+                    dT = dT.AddDays(offsetD);
+                    //Debug.Log("dt godzina przed dodaniem "+dT.Hour);
+                    dT = dT.AddHours(offsetG);
+                    //Debug.Log("dt godzina po dodaniu "+dT.Hour);
+                    dT = dT.AddMinutes(offsetM);
+                    dT = dT.AddSeconds(offsetS);
+                    dT = dT.AddYears(offsetR);
+                    dT = dT.AddMonths(offsetMSC);
+                    s.pozostałyCzas = dT;
+                    //Debug.Log("dT.czas = "+dT.ToShortTimeString());
+                    //Debug.Log("Dzień = "+offsetD+" godzina = "+offsetG+" minuta = "+offsetM+" sekunda = "+offsetS+" miesiąc = "+offsetMSC+" rok = "+offsetR);
+                    s.button.interactable = ds._skrzynki[i].czyAktywna;
+                    s.ReuseTimer = ds._skrzynki[i].czyIstniejeSkrzynka;
                 }
             }
             for (ushort i = 0; i < ds._zablokowaneBudynki.Length; i++)
@@ -885,6 +892,7 @@ public struct ZapisSkrzynek
     [SerializeField] public byte minuta;
     [SerializeField] public int dzień;
     [SerializeField] public byte sekunda;
+    [SerializeField] public byte miesiąc;
     [SerializeField] public int rok;
     [SerializeField] public bool czyIstniejeSkrzynka;
 
