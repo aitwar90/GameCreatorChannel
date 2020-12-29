@@ -29,6 +29,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private byte[] ostatnieStrony = null;
     private GameObject _obiektAtaku = null;
     private Animator anima;
+    private string nId;
     #endregion
 
     #region Zmienne chronione
@@ -51,6 +52,13 @@ public class KonkretnyNPCDynamiczny : NPCClass
         set
         {
             głównyIndex = value;
+        }
+    }
+    public string NID
+    {
+        get
+        {
+            return nId;
         }
     }
     public bool GetIsOnnavmesh
@@ -95,6 +103,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         }
         ObsluzAnimacje(ref anima, "haveTarget", false);
         ObsluzAnimacje(ref anima, "inRange", false);
+        nId = this.name.Split('(').GetValue(0).ToString();
         RysujHPBar();
     }
 
@@ -234,6 +243,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         UsuńMnieZTablicyWież(true);
         actXIdx = 32767;
         actZIdx = 32767;
+        cel = null;
     }
     public override void UstawPanel(Vector2 pos)
     {
@@ -300,21 +310,26 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             sprite.localScale = new Vector3(1, 1, 1);
             this.gameObject.SetActive(true);
-            ObsluzAnimacje(ref anima, "isDeath", false);
-            anima.StartPlayback();
+            short[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
+            actXIdx = t[0];
+            actZIdx = t[1];
+            //ObsluzAnimacje(ref anima, "isDeath", false);
             this.RysujHPBar();
             if (this.odgłosyNPC != null)
             {
                 PomocniczeFunkcje.muzyka.ustawGłośność += this.UstawGłośnośćNPC;
             }
+            this._obiektAtaku.transform.position = this.transform.position;
+            anima.speed = 1.0f;
+            głównyIndex = -1;
         }
         agent.enabled = enab;
         if (!enab)
         {
-            ObsluzAnimacje(ref anima, "isDeath", true);
+            //ObsluzAnimacje(ref anima, "isDeath", true);
             sprite.parent.gameObject.SetActive(false);
+            anima.speed = 0.0f;
             this.gameObject.SetActive(false);
-            anima.StopPlayback();
             if (this.odgłosyNPC != null)
             {
                 PomocniczeFunkcje.muzyka.ustawGłośność -= this.UstawGłośnośćNPC;

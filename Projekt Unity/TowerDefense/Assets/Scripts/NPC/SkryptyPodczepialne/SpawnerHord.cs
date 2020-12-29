@@ -280,14 +280,17 @@ public class SpawnerHord : MonoBehaviour
         {
             czyPool = false;
             go = Instantiate(możliwiNPC[npcIdx].gameObject);
+            go.transform.position = OkreślPozucjeZOffsetem(spawnPunkty[j - 1].position, 3.0f);
+            go.transform.SetParent(rodzicNPC);
         }
         else
+        {
+            go.transform.position = OkreślPozucjeZOffsetem(spawnPunkty[j - 1].position, 3.0f);
             go.SetActive(true);
-        go.transform.position = OkreślPozucjeZOffsetem(spawnPunkty[j - 1].position, 3.0f);
+        }
         ManagerGryScript.iloscAktywnychWrogów++;
         KonkretnyNPCDynamiczny knpcd = go.GetComponent<KonkretnyNPCDynamiczny>();
         UstawWroga(knpcd, czyPool);
-        go.transform.SetParent(rodzicNPC);
     }
     public void WywołajResetujŚcieżki()
     {

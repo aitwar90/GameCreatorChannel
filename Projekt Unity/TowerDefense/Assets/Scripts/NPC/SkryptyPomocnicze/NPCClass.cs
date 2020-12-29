@@ -90,6 +90,7 @@ public abstract class NPCClass : MonoBehaviour
         {
             odgłosyNPC = this.gameObject.AddComponent<AudioSource>();
         }
+        UstawGłośnośćNPC(PomocniczeFunkcje.muzyka.ZwrócVol);
         PomocniczeFunkcje.muzyka.ustawGłośność += UstawGłośnośćNPC;
     }
     void Update()
@@ -109,6 +110,8 @@ public abstract class NPCClass : MonoBehaviour
     protected virtual IEnumerator SkasujObject(float time)
     {
         yield return new WaitForSeconds(time);
+        if(this.odgłosyNPC.isPlaying)
+            PomocniczeFunkcje.muzyka.WłączWyłączClip(ref odgłosyNPC, false);
         Destroy(this.gameObject);
     }
     public virtual void ZmianaHP(short deltaHP)

@@ -503,7 +503,9 @@ public static class PomocniczeFunkcje
     public static bool ZwykłeAI(NPCClass pObiekt)
     {
         if (pObiekt == null)
+        {
             return false;
+        }
         if (pObiekt.cel == null)
         {
             //Wyszukaj cel
@@ -567,17 +569,17 @@ public static class PomocniczeFunkcje
         if (stosTrupów == null)
             stosTrupów = new Dictionary<string, StrukturaDoPoolowania>();
 
-        if (!stosTrupów.ContainsKey(dodajDoTrupów.name))
+        if(stosTrupów.ContainsKey(dodajDoTrupów.NID))
         {
-            StrukturaDoPoolowania sdp = new StrukturaDoPoolowania();
-            sdp.nazwa = dodajDoTrupów.name;
-            sdp.listaObiektówPoolingu = new List<KonkretnyNPCDynamiczny>();
-            sdp.listaObiektówPoolingu.Add(dodajDoTrupów);
-            stosTrupów.Add(dodajDoTrupów.name, sdp);
+            stosTrupów[dodajDoTrupów.NID].listaObiektówPoolingu.Add(dodajDoTrupów);
         }
         else
         {
-            stosTrupów[dodajDoTrupów.name].listaObiektówPoolingu.Add(dodajDoTrupów);
+            StrukturaDoPoolowania sdp = new StrukturaDoPoolowania();
+            sdp.nazwa = dodajDoTrupów.NID;
+            sdp.listaObiektówPoolingu = new List<KonkretnyNPCDynamiczny>();
+            sdp.listaObiektówPoolingu.Add(dodajDoTrupów);
+            stosTrupów.Add(dodajDoTrupów.NID, sdp);
         }
         dodajDoTrupów.transform.position = new Vector3(0, -20f, 0);
     }

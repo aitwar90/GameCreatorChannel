@@ -13,7 +13,13 @@ public class MuzykaScript : MonoBehaviour, ICzekajAz
     public UstawGłośność ustawGłośność;
     private float aktValVolume = 0.0f;
     private byte[] indeksyMuzyki = null;
-
+    public float ZwrócVol
+    {
+        get 
+        {
+            return aktValVolume;
+        }
+    }
     void Awake()
     {
         if (clipyAudio != null && clipyAudio.Length > 0)
@@ -101,7 +107,7 @@ public class MuzykaScript : MonoBehaviour, ICzekajAz
             {
                 if (clipyAudio[indeksyMuzyki[i]].nazwa == typ)
                 {
-                    if (indeksyMuzyki[i] == indeksyMuzyki.Length - 1)  //Jeśli typ jest jedyny i ostatni w tablicy
+                    if (indeksyMuzyki[i] == indeksyMuzyki[indeksyMuzyki.Length-1])  //Jeśli typ jest jedyny i ostatni w tablicy
                     {
                         return clipyAudio[indeksyMuzyki[i]].clip;
                     }
