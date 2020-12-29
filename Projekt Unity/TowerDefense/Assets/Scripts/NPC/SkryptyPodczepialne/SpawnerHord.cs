@@ -311,6 +311,7 @@ public class SpawnerHord : MonoBehaviour
             knpcd.WyczyscDaneDynamic(true);
             Destroy(rodzicNPC.GetChild(i).gameObject);
         }
+        ResetSpawnedHord();
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
     }
     public bool CzyOstatniaFala()
@@ -319,5 +320,11 @@ public class SpawnerHord : MonoBehaviour
             return false;
         else
             return true;
+    }
+    public void ResetSpawnedHord()
+    {
+        iloscFalNaKoncu = 0;
+        actFala = 0;
+        actualHPBars = 0;
     }
 }

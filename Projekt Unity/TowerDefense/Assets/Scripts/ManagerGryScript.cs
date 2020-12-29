@@ -46,6 +46,7 @@ public class ManagerGryScript : MonoBehaviour
     private float timerFal;
     private short valFPS = 0;
     private byte aktualnyIndexTabFPS = 0;
+    private bool poziomZakonczony = false;
     public Skrzynka ZwróćSkrzynkeOIndeksie(byte idx)
     {
         return skrzynki[idx];
@@ -142,11 +143,13 @@ public class ManagerGryScript : MonoBehaviour
         else
         {
             ŁadowanieDanych();
+            //Debug.Log("Ustawiam budynek główny");
             GameObject baza = GameObject.Instantiate(bazy[idxEpokiBazyWTablicy], new Vector3(50.0f, 1.5f, 50.0f), Quaternion.identity);
             knpcsBazy = baza.GetComponent<KonkretnyNPCStatyczny>();
+            PomocniczeFunkcje.celWrogów = knpcsBazy;
+            knpcsBazy.InicjacjaBudynku();
             PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcsBazy, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
             baza.transform.SetParent(PomocniczeFunkcje.spawnBudynki.RodzicBudynków);
-            PomocniczeFunkcje.celWrogów = knpcsBazy;
         }
     }
     void Update()
@@ -250,7 +253,7 @@ public class ManagerGryScript : MonoBehaviour
                 if (czyScenaZostałaZaładowana)
                 {
                     bool czyLFala = PomocniczeFunkcje.spawnerHord.CzyOstatniaFala();
-                    if (czyLFala && iloscAktywnychWrogów <= 0)
+                    if (!poziomZakonczony && czyLFala && iloscAktywnychWrogów <= 0)
                     {
                         //Lvl skończony wszystkie fale zostały pokonane
                         KoniecPoziomuZakończony(true);
@@ -262,7 +265,9 @@ public class ManagerGryScript : MonoBehaviour
                     else if (!czyLFala)
                     {
                         if (iloscAktywnychWrogów == 0)
+                        {
                             ObslTimerFal();
+                        }
                         ObslMryganie();
                     }
                 }
@@ -344,13 +349,15 @@ public class ManagerGryScript : MonoBehaviour
                     PomocniczeFunkcje.odblokowanyPoziomEpoki++;
                 }
             }
-            PomocniczeFunkcje.ZapiszDane();
             PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
             PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
-            PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
             OdblokujKolejnaSkrzynke();
+            PomocniczeFunkcje.ZapiszDane();
         }
+        PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("GameOver Panel", true);
+        poziomZakonczony = true;
+        iloscAktywnychWrogów = 0;
     }
     public void PrzejdźNaNastepnyPoziom(bool czyNowyPoziom = true)
     {
@@ -371,6 +378,7 @@ public class ManagerGryScript : MonoBehaviour
         }
         PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = false;
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("GameOver Panel", false);
+        poziomZakonczony = false;
         PomocniczeFunkcje.mainMenu.ResetSceny();
     }
     public void CudOcalenia()
@@ -427,6 +435,7 @@ public class ManagerGryScript : MonoBehaviour
             if (!skrzynki[i].ReuseTimer && !skrzynki[i].button.interactable)
             {
                 skrzynki[i].RozpocznijOdliczanie();
+                Debug.Log("Odblokowałem skrzynkę nr "+i);
                 break;
             }
         }
@@ -685,5 +694,10 @@ public class ManagerGryScript : MonoBehaviour
                 }
                 break;
         }
+    }
+    public void ResetManagerGryScript()
+    {
+        poziomZakonczony = false;
+        iloscAktywnychWrogów = 0;
     }
 }
