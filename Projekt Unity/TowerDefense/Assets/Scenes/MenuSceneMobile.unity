@@ -3337,7 +3337,7 @@ GameObject:
   - component: {fileID: 434348221}
   - component: {fileID: 434348220}
   m_Layer: 5
-  m_Name: title
+  m_Name: "title_G\u0142o\u015Bno\u015B\u0107"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14816,7 +14816,7 @@ GameObject:
   - component: {fileID: 1944595766}
   - component: {fileID: 1944595765}
   m_Layer: 5
-  m_Name: "Wr\xF3\u0107ZPoGraj"
+  m_Name: "Wr\xF3\u0107ZPoGrajCredits"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

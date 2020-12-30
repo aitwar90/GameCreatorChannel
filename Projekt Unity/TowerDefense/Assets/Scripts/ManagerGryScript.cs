@@ -459,8 +459,8 @@ public class ManagerGryScript : MonoBehaviour
     }
     public void ZmianaJęzyka(byte idx)
     {
-        //if (plikJezykowy != null)
-        //{
+        if (plikJezykowy != null)
+        {
         UnityEngine.UI.Text[] wszystkieFrazy = Resources.FindObjectsOfTypeAll(typeof(UnityEngine.UI.Text)) as UnityEngine.UI.Text[];
         string fs = plikJezykowy.text;
         fs = fs.Replace("\n", "");
@@ -584,7 +584,7 @@ public class ManagerGryScript : MonoBehaviour
                 }
             }
         }
-        //}
+        }
     }
     private void UtworzSzablonPlikuJezykowego()
     {
