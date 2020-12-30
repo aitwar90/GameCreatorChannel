@@ -369,6 +369,7 @@ public class MainMenu : MonoBehaviour
         przyciskWznów.interactable = true;
         menu.SetActive(aktywujeMenu);
         uiGry.SetActive(!aktywujeMenu);
+        menu.transform.parent.GetComponent<Image>().enabled = aktywujeMenu;
         if (aktywujeMenu)
         {
             PomocniczeFunkcje.UstawTimeScale(0);
