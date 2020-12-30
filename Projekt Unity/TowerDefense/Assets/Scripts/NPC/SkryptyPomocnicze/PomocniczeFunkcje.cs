@@ -789,6 +789,13 @@ public static class PomocniczeFunkcje
                 KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[j].GetComponent<KonkretnyNPCStatyczny>();
                 knpcs.Zablokowany = knpcs.blokowany;
             }
+            for(byte i = 0; i < managerGryScript.ekwipunekGracza.Length; i++)
+            {
+                managerGryScript.ekwipunekGracza[i].ilośćDanejNagrody = 0;
+            }
+            managerGryScript.hpIdx = 0;
+            managerGryScript.atkIdx = 0;
+            managerGryScript.defIdx = 0;
         }
     }
     private static string ZwróćŚcieżkęZapisu(string nazwaPliku)
