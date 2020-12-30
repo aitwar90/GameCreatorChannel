@@ -1041,7 +1041,6 @@ GameObject:
   m_Component:
   - component: {fileID: 96132163}
   - component: {fileID: 96132165}
-  - component: {fileID: 96132164}
   m_Layer: 5
   m_Name: Skrzynka2
   m_TagString: Untagged
@@ -1071,35 +1070,6 @@ RectTransform:
   m_AnchoredPosition: {x: 744, y: -373.03354}
   m_SizeDelta: {x: 500.22852, y: 746.0671}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &96132164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 96132162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 1
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &96132165
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4275,7 +4245,6 @@ GameObject:
   m_Component:
   - component: {fileID: 542050793}
   - component: {fileID: 542050795}
-  - component: {fileID: 542050794}
   m_Layer: 5
   m_Name: Skrzynka1
   m_TagString: Untagged
@@ -4305,35 +4274,6 @@ RectTransform:
   m_AnchoredPosition: {x: 245.14575, y: -373}
   m_SizeDelta: {x: 490.2915, y: 745.937}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &542050794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 542050792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 1
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &542050795
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6104,7 +6044,6 @@ GameObject:
   m_Component:
   - component: {fileID: 807415074}
   - component: {fileID: 807415076}
-  - component: {fileID: 807415075}
   m_Layer: 5
   m_Name: Skrzynka4
   m_TagString: Untagged
@@ -6134,35 +6073,6 @@ RectTransform:
   m_AnchoredPosition: {x: 1725, y: -373.03604}
   m_SizeDelta: {x: 500.22437, y: 746.0721}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &807415075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 807415073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 1
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &807415076
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6819,6 +6729,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 905512113}
+  - component: {fileID: 905512115}
+  - component: {fileID: 905512114}
   m_Layer: 5
   m_Name: Menu
   m_TagString: Untagged
@@ -6850,6 +6762,43 @@ RectTransform:
   m_AnchoredPosition: {x: -0.00030518, y: -0.00011063}
   m_SizeDelta: {x: 1023.9993, y: 567.5184}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &905512114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905512112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &905512115
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905512112}
+  m_CullTransparentMesh: 0
 --- !u!1 &908338120
 GameObject:
   m_ObjectHideFlags: 0
@@ -14541,7 +14490,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1852659529}
   - component: {fileID: 1852659531}
-  - component: {fileID: 1852659530}
   m_Layer: 5
   m_Name: Skrzynka3
   m_TagString: Untagged
@@ -14571,35 +14519,6 @@ RectTransform:
   m_AnchoredPosition: {x: 1233, y: -373.0355}
   m_SizeDelta: {x: 500.2246, y: 746.071}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1852659530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1852659528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 1
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1852659531
 CanvasRenderer:
   m_ObjectHideFlags: 0

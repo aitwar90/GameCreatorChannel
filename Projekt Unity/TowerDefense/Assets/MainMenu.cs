@@ -96,7 +96,7 @@ public class MainMenu : MonoBehaviour
     {
         set
         {
-            Toggle t = this.transform.Find("Menu/OptionsMenu/ToggleFPS").GetComponent<Toggle>();
+            Toggle t = this.transform.Find("Menu/OptionsMenu/GrafikaPanel/ToggleFPS").GetComponent<Toggle>();
             t.isOn = value;
         }
         get
