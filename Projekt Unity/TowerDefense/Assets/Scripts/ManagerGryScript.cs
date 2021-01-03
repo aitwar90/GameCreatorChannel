@@ -443,7 +443,6 @@ public class ManagerGryScript : MonoBehaviour
             if (!skrzynki[i].ReuseTimer && !skrzynki[i].button.interactable)
             {
                 skrzynki[i].RozpocznijOdliczanie();
-                Debug.Log("Odblokowałem skrzynkę nr " + i);
                 break;
             }
         }
