@@ -104,6 +104,13 @@ public class MainMenu : MonoBehaviour
             return lFPS.gameObject.activeSelf;
         }
     }
+    public bool CzyOdpaloneMenu
+    {
+        get
+        {
+            return menu.activeInHierarchy;
+        }
+    }
     void Awake()
     {
         if (singelton == null)
@@ -754,7 +761,7 @@ public class MainMenu : MonoBehaviour
     {
         if (uiGry.activeInHierarchy)
         {
-            if (goPanel.activeInHierarchy || CzyAktywnyPanelZBudynkami())
+            if (CzyOdpaloneMenu || goPanel.activeInHierarchy || CzyAktywnyPanelZBudynkami())
             {
                 return false;
             }
