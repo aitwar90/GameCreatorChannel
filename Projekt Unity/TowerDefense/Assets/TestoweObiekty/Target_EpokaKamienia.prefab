@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 8058030567810908562}
   - component: {fileID: 3369056954068059428}
   - component: {fileID: 8028420526115157696}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Target_EpokaKamienia
-  m_TagString: Untagged
+  m_TagString: Budynek
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -117,6 +117,8 @@ MonoBehaviour:
   "modyfikatorOtrzymywanychObra\u017Ce\u0144": 1
   "modyfikatorZadawanychObra\u017Ce\u0144": 1
   cel: {fileID: 0}
+  "odg\u0142osyNPC": {fileID: 0}
+  "tagRodzajDoD\u017Awi\u0119k\xF3w": 
   "aktualne\u017Bycie": 32767
   nastawienieNPC: 0
   typBudynku: 3
@@ -130,6 +132,7 @@ MonoBehaviour:
   obiektAtaku: {fileID: 0}
   efektyFxStart: {fileID: 0}
   efektyFxKoniec: {fileID: 0}
+  obrazekDoBudynku: {fileID: 0}
   sprite: {fileID: 0}
   opisBudynku: 
   zablokowany: 1

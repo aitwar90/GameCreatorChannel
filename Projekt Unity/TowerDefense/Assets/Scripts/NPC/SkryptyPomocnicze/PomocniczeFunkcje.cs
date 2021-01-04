@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -25,6 +24,8 @@ public static class PomocniczeFunkcje
     public static Camera oCam = null;
     public static EventSystem eSystem = null;
     public static GraphicRaycaster gr = null;
+    public static sbyte poHerbacie = -1;
+    private static RaycastHit[] tabHit = null;
     #region Obsługa położenia myszy względem ekranu
     public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos, ref bool hitUI)
     {
@@ -32,20 +33,21 @@ public static class PomocniczeFunkcje
         {
             oCam = Camera.main;
         }
-        Ray ray;
+        Vector2 posK = Vector2.zero;
+
 #if UNITY_STANDALONE
-        ray = oCam.ScreenPointToRay(Input.mousePosition);
+        posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 #endif
 #if UNITY_ANDROID
         if (Input.mousePresent)
         {
-            ray = oCam.ScreenPointToRay(Input.mousePosition);
+            posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         }
         else
         {
             if (Input.touchCount > 0)
             {
-                ray = oCam.ScreenPointToRay(Input.GetTouch(0).position);
+                posK = Input.GetTouch(0).position;
             }
             else
             {
@@ -62,14 +64,14 @@ public static class PomocniczeFunkcje
         {
             hitUI = false;
         }
-        RaycastHit[] hit = new RaycastHit[1];
-        int layerMask = ~((0 << 8) | (0 << 5));
-        int hits = Physics.RaycastNonAlloc(ray, hit, 50f, layerMask, QueryTriggerInteraction.Collide);
-        if (hits > 0)
+        RaycastHit[] rh = ZwrócHity(ref oCam, posK);
+        if(rh == null)
+            return lastPos;
+        if (poHerbacie > 0)
         {
-            if (hit[hits - 1].collider.GetType() == typeof(TerrainCollider))
+            if (rh[poHerbacie - 1].collider.GetType() == typeof(TerrainCollider))
             {
-                return hit[hits - 1].point;
+                return rh[poHerbacie - 1].point;
             }
         }
         return lastPos;
@@ -80,43 +82,42 @@ public static class PomocniczeFunkcje
         {
             oCam = Camera.main;
         }
-        Ray ray;
-#if UNITY_STANDALONE
-        ray = oCam.ScreenPointToRay(Input.mousePosition);
+        Vector2 posK = Vector2.zero;
+        #if UNITY_STANDALONE
+        posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 #endif
 #if UNITY_ANDROID
         if (Input.mousePresent)
         {
-            ray = oCam.ScreenPointToRay(Input.mousePosition);
+            posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         }
         else
         {
             if (Input.touchCount > 0)
             {
-                ray = oCam.ScreenPointToRay(Input.GetTouch(0).position);
+                posK = Input.GetTouch(0).position;
             }
             else
             {
-                Debug.Log("Zwracam ostatni NPC = " + lastNPCCLass);
                 return lastNPCCLass;
             }
         }
 #endif
-        int layerMask = (1 << 8) | (1 << 0);
-        RaycastHit[] hit = new RaycastHit[2];
-        int hits = Physics.RaycastNonAlloc(ray, hit, 80f, layerMask, QueryTriggerInteraction.Ignore);
-        if (hits > 0)
+        RaycastHit[] rh = ZwrócHity(ref oCam, posK);
+        if(rh == null)
+            return lastNPCCLass;
+        if (poHerbacie > 0)
         {
-            return ZwrócNaPodstawieHit(ref hit, ref hits, ref lastNPCCLass);
+            return ZwrócNaPodstawieHit(ref rh, ref lastNPCCLass);
         }
         return lastNPCCLass;
     }
-    private static NPCClass ZwrócNaPodstawieHit(ref RaycastHit[] rays, ref int hits, ref NPCClass lastClass)
+    private static NPCClass ZwrócNaPodstawieHit(ref RaycastHit[] rays, ref NPCClass lastClass)
     {
         int tempIBudynek = -1, tempITeren = -1;
-        if (hits > 0)
+        if (poHerbacie > 0)
         {
-            for (int i = hits - 1; i >= 0; i--)
+            for (int i = poHerbacie - 1; i >= 0; i--)
             {
                 if (rays[i].collider.CompareTag("Budynek") || rays[i].collider.CompareTag("NPC"))
                 {
@@ -139,6 +140,48 @@ public static class PomocniczeFunkcje
         }
         else
             return lastClass;
+    }
+     private static RaycastHit[] ZwrócHity(ref Camera camera, Vector2 pozycjaK)
+    {
+        if (poHerbacie < 0) //Już raz wyszukałem w tej turze colidery
+        {
+            Ray ray = camera.ScreenPointToRay(pozycjaK);
+            ray.direction = ray.direction*40f;
+            int layerMask = ~((0 << 8) | (0 << 0));
+            if(tabHit == null)
+                tabHit = new RaycastHit[2];
+            poHerbacie = (sbyte)Physics.RaycastNonAlloc(ray, tabHit, 40f, layerMask, QueryTriggerInteraction.Collide);
+        }
+        if(poHerbacie > 0)
+            return tabHit;
+        else
+            return null;
+    }
+        public static bool CzyKliknalemUI()
+    {
+        int fingerID = -1;
+        if (!Input.mousePresent && Input.touchCount > 0)
+        {
+            Touch t = Input.GetTouch(0);
+            if (t.phase == TouchPhase.Ended || t.phase == TouchPhase.Canceled)
+            {
+                return spawnBudynki.KlikUI;
+            }
+            fingerID = t.fingerId;
+        }
+        if (EventSystem.current.IsPointerOverGameObject(fingerID))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public static void ResetujDaneRaycast()
+    {
+        poHerbacie = -1;
+        tabHit = null;
     }
     #endregion
     #region Drzewo pozycji
@@ -217,27 +260,6 @@ public static class PomocniczeFunkcje
             }
         }
         return compDoZwrotu;
-    }
-    public static bool CzyKliknalemUI()
-    {
-        int fingerID = -1;
-        if (!Input.mousePresent && Input.touchCount > 0)
-        {
-            Touch t = Input.GetTouch(0);
-            if (t.phase == TouchPhase.Ended || t.phase == TouchPhase.Canceled)
-            {
-                return spawnBudynki.KlikUI;
-            }
-            fingerID = t.fingerId;
-        }
-        if (EventSystem.current.IsPointerOverGameObject(fingerID))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
     public static void SkasujElementDrzewa(ref StrukturaDrzewa korzeń, Component _komponentDoSkasowania)
     {
@@ -619,6 +641,9 @@ public static class PomocniczeFunkcje
         celWrogów = null;
         stosTrupów = null;
         tablicaWież = null;
+        tabHit = null;
+        poHerbacie = -1;
+        ObslugaScenScript.indeksAktualnejSceny = -1;
         managerGryScript.ResetManagerGryScript();
         spawnBudynki.DestroyBuildings();
         if (spawnerHord != null)
@@ -789,7 +814,7 @@ public static class PomocniczeFunkcje
                 KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[j].GetComponent<KonkretnyNPCStatyczny>();
                 knpcs.Zablokowany = knpcs.blokowany;
             }
-            for(byte i = 0; i < managerGryScript.ekwipunekGracza.Length; i++)
+            for (byte i = 0; i < managerGryScript.ekwipunekGracza.Length; i++)
             {
                 managerGryScript.ekwipunekGracza[i].ilośćDanejNagrody = 0;
             }

@@ -18,5 +18,9 @@ public class SpawnerHordEditor : Editor
         {
             myTarget.WywołajResetujŚcieżki();
         }
+        if(GUILayout.Button("Załaduj spawn punkty"))
+        {
+            myTarget.ŁadowanieTablicy();
+        }
     }
 }

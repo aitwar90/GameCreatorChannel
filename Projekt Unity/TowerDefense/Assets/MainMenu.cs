@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MainMenu : MonoBehaviour
+public class MainMenu : MonoBehaviour, ICzekajAz
 {
     public Button nastepnyPoziom;
     public Button powtorzPoziom;
@@ -102,6 +102,13 @@ public class MainMenu : MonoBehaviour
         get
         {
             return lFPS.gameObject.activeSelf;
+        }
+    }
+    public bool CzyOdpaloneMenu
+    {
+        get
+        {
+            return menu.activeInHierarchy;
         }
     }
     void Awake()
@@ -289,6 +296,7 @@ public class MainMenu : MonoBehaviour
         PomocniczeFunkcje.managerGryScript.aktualnaEpoka = e;
         if (SceneManager.sceneCount == 1)
         {
+            poziom = PomocniczeFunkcje.managerGryScript.GetComponent<ObslugaScenScript>().ZwróćIndeksScenyPoEpoce(e);
             SceneManager.LoadScene(poziom, LoadSceneMode.Additive);
         }
         else
@@ -345,10 +353,19 @@ public class MainMenu : MonoBehaviour
     }
     public void ResetSceny()
     {
+        int unSceneIdx = ObslugaScenScript.indeksAktualnejSceny;
         PomocniczeFunkcje.ResetujWszystko();
-        SceneManager.UnloadSceneAsync(1);
-        PomocniczeFunkcje.managerGryScript.CzyScenaZostałaZaładowana = false;
-        SceneManager.LoadSceneAsync((byte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka, LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync(unSceneIdx);
+        StartCoroutine(CzekajAz());
+    }
+    public IEnumerator CzekajAz()
+    {
+        yield return new WaitUntil(() => SceneManager.sceneCount == 1);
+        MetodaDoOdpaleniaPoWyczekaniu();
+    }
+    public void MetodaDoOdpaleniaPoWyczekaniu()
+    {
+        OdpalPoziom();
     }
     public void OptionsMenu(bool actButton)
     {
@@ -754,7 +771,7 @@ public class MainMenu : MonoBehaviour
     {
         if (uiGry.activeInHierarchy)
         {
-            if (goPanel.activeInHierarchy || CzyAktywnyPanelZBudynkami())
+            if (CzyOdpaloneMenu || goPanel.activeInHierarchy || CzyAktywnyPanelZBudynkami())
             {
                 return false;
             }
