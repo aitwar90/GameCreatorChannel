@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MainMenu : MonoBehaviour
+public class MainMenu : MonoBehaviour, ICzekajAz
 {
     public Button nastepnyPoziom;
     public Button powtorzPoziom;
@@ -353,10 +353,19 @@ public class MainMenu : MonoBehaviour
     }
     public void ResetSceny()
     {
+        int unSceneIdx = ObslugaScenScript.indeksAktualnejSceny;
         PomocniczeFunkcje.ResetujWszystko();
-        SceneManager.UnloadSceneAsync(1);
-        PomocniczeFunkcje.managerGryScript.CzyScenaZostałaZaładowana = false;
-        SceneManager.LoadSceneAsync((byte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka, LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync(unSceneIdx);
+        StartCoroutine(CzekajAz());
+    }
+    public IEnumerator CzekajAz()
+    {
+        yield return new WaitUntil(() => SceneManager.sceneCount == 1);
+        MetodaDoOdpaleniaPoWyczekaniu();
+    }
+    public void MetodaDoOdpaleniaPoWyczekaniu()
+    {
+        OdpalPoziom();
     }
     public void OptionsMenu(bool actButton)
     {

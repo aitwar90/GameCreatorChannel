@@ -706,6 +706,7 @@ public class ManagerGryScript : MonoBehaviour
     }
     public void ResetManagerGryScript()
     {
+        czyScenaZostałaZaładowana = false;
         poziomZakonczony = false;
         iloscAktywnychWrogów = 0;
     }
