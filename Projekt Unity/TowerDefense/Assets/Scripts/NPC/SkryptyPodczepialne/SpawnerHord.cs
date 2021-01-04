@@ -10,8 +10,8 @@ public class SpawnerHord : MonoBehaviour
     [Tooltip("Miejsca w których mogą zostać wygenerowani przewciwnicy")]
     public Transform[] spawnPunkty;
     [Tooltip("Ilość przeciwników w ostatnio wygenerowanej fali")]
-    public ushort ostatniaIlośćWFali = 0;
-    public ushort maxIlośćNaFalę = 1;
+    private ushort ostatniaIlośćWFali = 0;
+    private ushort maxIlośćNaFalę = 1;
     public static byte actFala = 0;
     public static byte iloscFalNaKoncu = 0;
     public static byte actualHPBars = 0;
@@ -326,5 +326,13 @@ public class SpawnerHord : MonoBehaviour
         iloscFalNaKoncu = 0;
         actFala = 0;
         actualHPBars = 0;
+    }
+    public void ŁadowanieTablicy()
+    {
+        spawnPunkty = new Transform[this.transform.childCount];
+        for(ushort i = 0; i < this.transform.childCount; i++)
+        {
+            spawnPunkty[i] = this.transform.GetChild(i).transform;
+        }
     }
 }

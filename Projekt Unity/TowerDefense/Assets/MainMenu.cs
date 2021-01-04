@@ -296,6 +296,7 @@ public class MainMenu : MonoBehaviour
         PomocniczeFunkcje.managerGryScript.aktualnaEpoka = e;
         if (SceneManager.sceneCount == 1)
         {
+            poziom = PomocniczeFunkcje.managerGryScript.GetComponent<ObslugaScenScript>().ZwróćIndeksScenyPoEpoce(e);
             SceneManager.LoadScene(poziom, LoadSceneMode.Additive);
         }
         else
