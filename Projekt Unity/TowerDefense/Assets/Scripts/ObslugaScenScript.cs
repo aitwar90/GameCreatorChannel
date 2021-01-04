@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class ObslugaScenScript : MonoBehaviour
 {
     [Header("Sceny muszą mieć nazwę Scena_x_y1_y2_y3 gdzie x oznacza indeks sceny danej epoki a y epoki do której scena ma przynależeć")]
-    public byte indeksAktualnejSceny = 0;
+    public static sbyte indeksAktualnejSceny = -1;
     public byte ZwróćIndeksScenyPoEpoce(Epoki e)
     {
         string doPorowniania = e.ToString()+".unity";
@@ -13,6 +13,7 @@ public class ObslugaScenScript : MonoBehaviour
         for (byte i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
         {
             string ścieżka = SceneUtility.GetScenePathByBuildIndex(i);
+            ścieżka = ścieżka.Substring(ścieżka.LastIndexOf('/')+1);
             string[] nSceny = ścieżka.Split('_');
             for (byte j = 2; j < nSceny.Length; j++)
             {
@@ -23,7 +24,7 @@ public class ObslugaScenScript : MonoBehaviour
             }
         }
         sbyte t = (sbyte)Random.Range(0, wszystkieSceny.Count);
-        indeksAktualnejSceny = (byte)wszystkieSceny[t];
-        return indeksAktualnejSceny;
+        indeksAktualnejSceny = (sbyte)wszystkieSceny[t];
+        return (byte)indeksAktualnejSceny;
     }
 }

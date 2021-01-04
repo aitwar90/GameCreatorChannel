@@ -334,7 +334,9 @@ public class ManagerGryScript : MonoBehaviour
     }
     private void SprawdźCzyScenaZostałaZaładowana()
     {
-        Scene s = SceneManager.GetSceneByBuildIndex((byte)aktualnaEpoka);
+        if(ObslugaScenScript.indeksAktualnejSceny < 0)
+            return;
+        Scene s = SceneManager.GetSceneByBuildIndex(ObslugaScenScript.indeksAktualnejSceny);
         if (s.isLoaded)
         {
             czyScenaZostałaZaładowana = true;

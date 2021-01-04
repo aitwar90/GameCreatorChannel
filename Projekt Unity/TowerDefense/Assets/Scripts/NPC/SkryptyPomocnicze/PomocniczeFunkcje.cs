@@ -643,6 +643,7 @@ public static class PomocniczeFunkcje
         tablicaWież = null;
         tabHit = null;
         poHerbacie = -1;
+        ObslugaScenScript.indeksAktualnejSceny = -1;
         managerGryScript.ResetManagerGryScript();
         spawnBudynki.DestroyBuildings();
         if (spawnerHord != null)
