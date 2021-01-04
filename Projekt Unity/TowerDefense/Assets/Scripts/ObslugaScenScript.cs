@@ -13,11 +13,10 @@ public class ObslugaScenScript : MonoBehaviour
         for (byte i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
         {
             string ścieżka = SceneUtility.GetScenePathByBuildIndex(i);
-            Debug.Log("Ścieżka = "+ścieżka);
             string[] nSceny = ścieżka.Split('_');
             for (byte j = 2; j < nSceny.Length; j++)
             {
-                if (nSceny[j] == doPorowniania)
+                if (nSceny[j] == doPorowniania || nSceny[j] == e.ToString())
                 {
                     wszystkieSceny.Add(i);
                 }
