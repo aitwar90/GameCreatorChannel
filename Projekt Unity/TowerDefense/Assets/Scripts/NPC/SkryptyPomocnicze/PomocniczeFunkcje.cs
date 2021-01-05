@@ -67,13 +67,15 @@ public static class PomocniczeFunkcje
         RaycastHit[] rh = ZwrócHity(ref oCam, posK);
         if(rh == null)
             return lastPos;
-        if (poHerbacie > 0)
+        if (poHerbacie == 1)
         {
-            if (rh[poHerbacie - 1].collider.GetType() == typeof(TerrainCollider))
+            if (rh[0].collider.GetType() == typeof(TerrainCollider))
             {
-                return rh[poHerbacie - 1].point;
+                Debug.Log("Zwracam nową pozycję");
+                return rh[0].point;
             }
         }
+        Debug.Log("Zwracam starą pozycję");
         return lastPos;
     }
     public static NPCClass OkreślKlikniętyNPC(ref NPCClass lastNPCCLass)

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8805238247844620429}
   - component: {fileID: 5592808957954041640}
   - component: {fileID: 7672252863189996514}
-  - component: {fileID: 5462813558578643987}
+  - component: {fileID: 6677820074976716467}
   m_Layer: 0
   m_Name: Kamien5
   m_TagString: Untagged
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8176756970205114935}
-  m_LocalRotation: {x: 0.0000018099951, y: 0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -82,7 +82,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &5462813558578643987
+--- !u!135 &6677820074976716467
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,5 +93,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.6
-  m_Center: {x: 0.0308685, y: 0.532395, z: 0.0153056085}
+  m_Radius: 0.5108875
+  m_Center: {x: 0.024132863, y: 0.41622412, z: 0.011965871}

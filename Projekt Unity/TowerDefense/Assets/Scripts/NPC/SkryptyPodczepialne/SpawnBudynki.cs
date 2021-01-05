@@ -364,6 +364,10 @@ public class SpawnBudynki : MonoBehaviour
             }
             return false;
         }
+        else    //Tu trzeba wykrywać obiekty terenu typu drzewa, kamienie itp
+        {
+            
+        }
         if (materialWybranegoBudynku != null && materialWybranegoBudynku.color != Color.green)
             materialWybranegoBudynku.color = Color.green;
         return true;

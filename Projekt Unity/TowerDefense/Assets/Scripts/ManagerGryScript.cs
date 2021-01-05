@@ -111,8 +111,8 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.spawnerHord = FindObjectOfType(typeof(SpawnerHord)) as SpawnerHord;
         PomocniczeFunkcje.spawnerHord.UstawHorde(aktualnaEpoka, aktualnyPoziomEpoki);
         Terrain terr = FindObjectOfType(typeof(Terrain)) as Terrain;
-        PomocniczeFunkcje.tablicaWież = new List<InformacjeDlaPolWież>[20, 20];
-        PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 40) / 2.0f);
+        PomocniczeFunkcje.tablicaWież = new List<InformacjeDlaPolWież>[22, 22];
+        PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 56) / 2.0f);
         PomocniczeFunkcje.distXZ = (terr.terrainData.size.x - (PomocniczeFunkcje.aktualneGranicaTab * 2)) / 20f;
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
@@ -121,6 +121,24 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.mainMenu.WygenerujIPosortujTablice(); //Generuje i sortuje tablice budynków do wybudowania
         PomocniczeFunkcje.ZapiszDane();
         ObslTimerFal(0);
+        /*
+        Transform go = new GameObject("R").transform;
+         for(byte i = 0; i < 22; i++)
+        {
+            for(byte j = 0; j < 22; j++)
+            {
+                GameObject go1 = new GameObject("X = "+i+" Z = "+j);
+                go1.transform.position = new Vector3(i*PomocniczeFunkcje.distXZ + PomocniczeFunkcje.aktualneGranicaTab, 1.0f, j*PomocniczeFunkcje.distXZ + PomocniczeFunkcje.aktualneGranicaTab);
+
+                go1.AddComponent<TestOnEnableGround>();
+                TestOnEnableGround toeg = go.GetComponent<TestOnEnableGround>();
+                toeg.X = i;
+                toeg.Z = j;
+
+                go1.transform.SetParent(go);
+            }
+        }
+        */
     }
     public void GenerujBaze()
     {
@@ -144,7 +162,7 @@ public class ManagerGryScript : MonoBehaviour
         {
             ŁadowanieDanych();
             //Debug.Log("Ustawiam budynek główny");
-            GameObject baza = GameObject.Instantiate(bazy[idxEpokiBazyWTablicy], new Vector3(50.0f, 1.5f, 50.0f), Quaternion.identity);
+            GameObject baza = GameObject.Instantiate(bazy[idxEpokiBazyWTablicy], new Vector3(MoveCameraScript.bazowePolozenieKameryGry.x, 1.5f, MoveCameraScript.bazowePolozenieKameryGry.z+5f), Quaternion.identity);
             knpcsBazy = baza.GetComponent<KonkretnyNPCStatyczny>();
             PomocniczeFunkcje.celWrogów = knpcsBazy;
             knpcsBazy.InicjacjaBudynku();

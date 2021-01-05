@@ -5,7 +5,7 @@ public class MoveCameraScript : MonoBehaviour
     #region Zmienne publiczne
     [Range(1, 50), Tooltip("Promień odległości dla przeunięcia kamery od środka sceny")]
     public byte maxPrzesuniecieKamery = 25;
-    public static Vector3 bazowePolozenieKameryGry = new Vector3(50.0f, 8.0f, 46.0f);
+    public static Vector3 bazowePolozenieKameryGry = new Vector3(52.0f, 10.0f, 41.0f);
     #endregion
 
     #region Zmienne prywatne
@@ -13,7 +13,7 @@ public class MoveCameraScript : MonoBehaviour
     private float prędkoscPrzesunięciaKamery = 2f;
 #endif
 #if UNITY_ANDROID
-    private float prędkoscPrzesunięciaKamery = 0.7f;
+    private float prędkoscPrzesunięciaKamery = 10f;
 #endif
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
     private Vector3 pierwotnePołożenieKamery = Vector3.zero;
@@ -42,7 +42,7 @@ public class MoveCameraScript : MonoBehaviour
         ostatniaPozycjaKamery = pierwotnePołożenieKamery;
         szerokośćObrazu = Screen.width;
         wysokśćObrazu = Screen.height;
-        
+
     }
 
     // Update is called once per frame
@@ -50,6 +50,7 @@ public class MoveCameraScript : MonoBehaviour
     {
         if (PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere() && PomocniczeFunkcje.spawnBudynki.aktualnyObiekt == null)
         {
+            ObsluzKlawiature();
 #if UNITY_STANDALONE
         ObsłużMysz();
 #endif
@@ -82,18 +83,18 @@ public class MoveCameraScript : MonoBehaviour
             }
             else
             {
-                if(Input.touchCount == 1)
+                if (Input.touchCount == 1)
                 {
                     bool klik = false;
                     Vector3 posDotyk = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKamery, ref klik);
-                    if(klik)
+                    if (klik)
                     {
                         Touch dotyk = Input.GetTouch(0);
-                        if(dotyk.phase == TouchPhase.Began)
+                        if (dotyk.phase == TouchPhase.Began)
                         {
                             offs = posDotyk;
                         }
-                        else if(dotyk.phase == TouchPhase.Moved)
+                        else if (dotyk.phase == TouchPhase.Moved)
                         {
                             Vector3 tmpOfs = posDotyk - offs;
                             PomocniczeFunkcje.mainMenu.PrzesuńBudynki(tmpOfs.magnitude);
@@ -148,6 +149,41 @@ public class MoveCameraScript : MonoBehaviour
             if (SprawdźCzyMogęPrzesunąćKamerę(newPos))
             {
                 this.transform.position = newPos;
+            }
+        }
+    }
+    void ObsluzKlawiature()
+    {
+        if (Input.GetKey(KeyCode.W))
+        {
+            Vector3 posDotyk = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + prędkoscPrzesunięciaKamery * Time.deltaTime);
+            if (SprawdźCzyMogęPrzesunąćKamerę(posDotyk))
+            {
+                this.transform.position = posDotyk;
+            }
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            Vector3 posDotyk = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z - prędkoscPrzesunięciaKamery * Time.deltaTime);
+            if (SprawdźCzyMogęPrzesunąćKamerę(posDotyk))
+            {
+                this.transform.position = posDotyk;
+            }
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            Vector3 posDotyk = new Vector3(this.transform.position.x - prędkoscPrzesunięciaKamery * Time.deltaTime, this.transform.position.y, this.transform.position.z);
+            if (SprawdźCzyMogęPrzesunąćKamerę(posDotyk))
+            {
+                this.transform.position = posDotyk;
+            }
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            Vector3 posDotyk = new Vector3(this.transform.position.x + prędkoscPrzesunięciaKamery * Time.deltaTime, this.transform.position.y, this.transform.position.z);
+            if (SprawdźCzyMogęPrzesunąćKamerę(posDotyk))
+            {
+                this.transform.position = posDotyk;
             }
         }
     }
