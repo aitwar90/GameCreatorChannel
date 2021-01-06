@@ -1,7 +1,9 @@
 using UnityEditor;
 using UnityEngine;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
-using System;
+using System.IO;
 public class ConvertNaObjektyEditor : EditorWindow
 {
     public static bool instance = false;
@@ -10,6 +12,7 @@ public class ConvertNaObjektyEditor : EditorWindow
     private bool _generujDrzewa = false;
     private bool _generujDetale = false;
     private bool _łączObiekty = false;
+    private static int idxik = 0;
     [MenuItem("Window/Convert/ConvertFromTerrain")]
     public static void PokażOkno()
     {
@@ -27,6 +30,7 @@ public class ConvertNaObjektyEditor : EditorWindow
         _generujDrzewa = EditorGUILayout.Toggle("Generuj drzewa", _generujDrzewa);
         _generujDetale = EditorGUILayout.Toggle("Generuj detale", _generujDetale);
         _łączObiekty = EditorGUILayout.Toggle("Spróbuj połączyć obiekty", _łączObiekty);
+        idxik = EditorGUILayout.IntField("Podzątkowy indeks mesha", idxik);
         if (GUILayout.Button("Konwertuj"))
         {
             if (Selection.activeGameObject != null)
@@ -47,6 +51,10 @@ public class ConvertNaObjektyEditor : EditorWindow
             {
                 Debug.LogError("Nie zaznaczono terenu!!!!");
             }
+        }
+        if (GUILayout.Button("Czyść meshe"))
+        {
+            ClearMeshes();
         }
     }
     public static int Konwertuj(ref Transform tr, bool _generujDrzewa, bool _generujDetale, bool czyKasowac = false, bool czyłączyćObiekty = false)
@@ -79,10 +87,10 @@ public class ConvertNaObjektyEditor : EditorWindow
                 pos.y *= td.size.y;
                 pos.z *= td.size.z;
                 GameObject tree = GameObject.Instantiate(tP[tIns[i].prototypeIndex].prefab, pos, qt);
-                float yScale = (Mathf.Abs(tIns[i].heightScale - tIns[i].widthScale) < 0.25f) ? tIns[i].heightScale : tIns[i].widthScale;
+                float yScale = (Mathf.Abs(tIns[i].heightScale - tIns[i].widthScale) < 0.1f) ? tIns[i].heightScale : tIns[i].widthScale;
                 tree.transform.localScale = new Vector3(tIns[i].widthScale, yScale, tIns[i].widthScale);
                 tree.transform.SetParent(treeParent.transform);
-
+                //ZapiszAsset(tree.GetComponent<MeshFilter>().sharedMesh, ZwróćMiTuŚcieżkę(tree.name), SceneManager.GetActiveScene().name + i.ToString(), ".mesh");
             }
             if (czyKasowac)
             {
@@ -126,72 +134,73 @@ public class ConvertNaObjektyEditor : EditorWindow
                 for (byte i = 0; i < dp.Length; i++)
                 {
                     GameObject go = dp[i].prototype;
-                    Debug.Log("Protonyp d["+i+"] = "+dp[i].prototype.name);
+                    Debug.Log("Protonyp d[" + i + "] = " + dp[i].prototype.name);
                     float minWidth = dp[i].minWidth;
                     float maxWidth = dp[i].maxWidth;
 
                     float minH = dp[i].minHeight;
                     float maxH = dp[i].maxHeight;
-                        int[,] map = td.GetDetailLayer(0, 0, td.detailWidth, td.detailHeight, i);
+                    int[,] map = td.GetDetailLayer(0, 0, td.detailWidth, td.detailHeight, i);
 
-                        List<Vector3> trawa = new List<Vector3>();
+                    List<Vector3> trawa = new List<Vector3>();
 
+                    for (int z = 0; z < td.detailHeight; z++)
+                    {
+                        for (int x = 0; x < td.detailWidth; x++)
+                        {
+                            if (map[x, z] > 0)
+                            {
+                                currentDensity += 1f;
+
+                                bool pass = false;
+
+                                if (!toDensity)
+                                    pass = true;
+                                else
+                                    pass = currentDensity < targetDensity;
+
+                                if (pass)
+                                {
+                                    float _z = (x * delatilWToTerrainW) + mapPosition.z;
+                                    float _x = (z * delatilHToTerrainW) + mapPosition.x;
+                                    float _y = ter.SampleHeight(new Vector3(_x, 0, _z));
+                                    trawa.Add(new Vector3(
+                                        _x,
+                                        _y,
+                                        _z
+                                        ));
+                                }
+                                else
+                                {
+                                    currentDensity -= targetDensity;
+                                }
+                            }
+                        }
+                    }
+                    for (int k = 0; k < trawa.Count; k++)
+                    {
+                        Quaternion q = Quaternion.Euler(0, UnityEngine.Random.Range(0, 360), 0);
+                        GameObject gok = Instantiate(go, trawa[k], q);
+                        gok.transform.localScale = new Vector3(UnityEngine.Random.Range(minWidth, maxWidth),
+                        UnityEngine.Random.Range(minH, maxH),
+                        UnityEngine.Random.Range(minWidth, maxWidth));
+                        gok.transform.SetParent(detParent.transform);
+                        //ZapiszAsset(gok.GetComponent<MeshFilter>().sharedMesh, ZwróćMiTuŚcieżkę(gok.name), SceneManager.GetActiveScene().name + i.ToString(), ".mesh");
+                    }
+                    if (czyKasowac)
+                    {
                         for (int z = 0; z < td.detailHeight; z++)
                         {
                             for (int x = 0; x < td.detailWidth; x++)
                             {
                                 if (map[x, z] > 0)
                                 {
-                                    currentDensity += 1f;
-
-                                    bool pass = false;
-
-                                    if (!toDensity)
-                                        pass = true;
-                                    else
-                                        pass = currentDensity < targetDensity;
-
-                                    if (pass)
-                                    {
-                                        float _z = (x * delatilWToTerrainW) + mapPosition.z;
-                                        float _x = (z * delatilHToTerrainW) + mapPosition.x;
-                                        float _y = ter.SampleHeight(new Vector3(_x, 0, _z));
-                                        trawa.Add(new Vector3(
-                                            _x,
-                                            _y,
-                                            _z
-                                            ));
-                                    }
-                                    else
-                                    {
-                                        currentDensity -= targetDensity;
-                                    }
+                                    map[x, z] = 0;
                                 }
                             }
                         }
-                        for (int k = 0; k < trawa.Count; k++)
-                        {
-                            Quaternion q = Quaternion.Euler(0, UnityEngine.Random.Range(0, 360), 0);
-                            GameObject gok = Instantiate(go, trawa[k], q);
-                            gok.transform.localScale = new Vector3(UnityEngine.Random.Range(minWidth, maxWidth),
-                            UnityEngine.Random.Range(minH, maxH),
-                            UnityEngine.Random.Range(minWidth, maxWidth));
-                            gok.transform.SetParent(detParent.transform);
-                        }
-                        if (czyKasowac)
-                        {
-                            for (int z = 0; z < td.detailHeight; z++)
-                            {
-                                for (int x = 0; x < td.detailWidth; x++)
-                                {
-                                    if (map[x, z] > 0)
-                                    {
-                                        map[x, z] = 0;
-                                    }
-                                }
-                            }
-                            td.SetDetailLayer(0, 0, i, map);
-                        }
+                        td.SetDetailLayer(0, 0, i, map);
+                    }
                 }
                 if (czyłączyćObiekty)
                 {
@@ -275,7 +284,7 @@ public class ConvertNaObjektyEditor : EditorWindow
                         SphereCollider t = (SphereCollider)comps[j];
                         SphereCollider bc = rodzic.gameObject.AddComponent<SphereCollider>();
 
-                        bc.radius = t.radius*actSO.localScale.x;
+                        bc.radius = t.radius * actSO.localScale.x;
                         bc.center = new Vector3(t.center.x + actSO.position.x, t.center.y * actSO.localScale.y, t.center.z + actSO.position.z);
                     }
                     else if (ReferenceEquals(comps[j].GetType(), typeof(CapsuleCollider)))
@@ -291,8 +300,13 @@ public class ConvertNaObjektyEditor : EditorWindow
                 m.RecalculateBounds();
                 m.RecalculateNormals();
                 m.RecalculateTangents();
+                MeshUtility.Optimize(m);
                 mff.sharedMesh = m;
             }
+        }
+        for (ushort gi = 0; gi < gos.Count; gi++)
+        {
+            ZapiszAsset(gos[gi].GetComponent<MeshFilter>().sharedMesh, ZwróćMiTuŚcieżkę(gos[gi].name), EditorSceneManager.GetActiveScene().name + "_" + gi.ToString() + "_" + idxik.ToString(), ".mesh");
         }
     }
     private static GameObject StwórzObiekt(string nazwa, int idx, Material mat)
@@ -323,7 +337,7 @@ public class ConvertNaObjektyEditor : EditorWindow
         int idx = t1.Length;
         for (int i = 0; i < t2.Length; i++, idx++)
         {
-            if(tir != null)
+            if (tir != null)
             {
                 t2[i] = tir.TransformDirection(t2[i]);
             }
@@ -374,4 +388,102 @@ public class ConvertNaObjektyEditor : EditorWindow
         return tab;
     }
     #endregion
+    public static void ZapiszAsset(UnityEngine.Object asset, string path, string name, string rozszerzenie = ".mesh")
+    {
+        path = path + "/" + name + rozszerzenie;
+        AssetDatabase.CreateAsset(asset, path);
+        AssetDatabase.SaveAssets();
+    }
+    private static string ZwróćMiTuŚcieżkę(string nazwaZapisywanegoObiektu)
+    {
+        string path = "Assets/Converter/" + nazwaZapisywanegoObiektu;
+        if (!AssetDatabase.IsValidFolder(path))
+        {
+            string[] tpath = path.Split('/');
+            string nPath = tpath[0];
+            for (byte i = 1; i < tpath.Length; i++)
+            {
+                string sPath = nPath;
+                nPath = nPath + "/" + tpath[i];
+                if (!AssetDatabase.IsValidFolder(nPath))
+                {
+                    AssetDatabase.CreateFolder(sPath, tpath[i]);
+                }
+            }
+        }
+        idxik++;
+        return path;
+    }
+    private static void ClearMeshes()
+    {
+        string path = "/Converter/";
+        Debug.Log("Ścieżka tablicy ścieżek = " + Application.dataPath + path);
+        string[] tablicaŚcieżek = Directory.GetFiles(Application.dataPath + path, "*.mesh", SearchOption.AllDirectories);
+        List<string> allMeshes = new List<string>();
+        for (byte i = 0; i < EditorSceneManager.sceneCountInBuildSettings; i++)    //ładowanie danych o obiektach
+        {
+            string pathScene = SceneUtility.GetScenePathByBuildIndex(i);
+            EditorSceneManager.OpenScene(pathScene, OpenSceneMode.Single);
+            ZwrócMeshe(ref allMeshes);
+        }
+        //Przetwarzanie danych i kasowanie assetów
+        for (int i = 0; i < tablicaŚcieżek.Length; i++)
+        {
+            bool kasować = true;
+            string[] tns = tablicaŚcieżek[i].Split(new char[] {'/'});
+            string prawidłowaŚcieżka = "Assets";
+            for (byte s = 0; s < tns.Length; s++)   //Określenie prawidłowej ścieżki
+            {
+                if (tns[s] == "Assets")
+                {
+                    for (byte k = (byte)(s + 1); k < tns.Length; k++)
+                    {
+                        char[] tabChar = tns[k].ToCharArray();
+                        for(ushort y = 0; y < tabChar.Length; y++)
+                        {
+                            if(tabChar[y] == (char)92)
+                            {
+                                tabChar[y] = (char)47;  //Zamieniam backslash na slash
+                            }
+                        }
+                        tns[k] = new string(tabChar);
+                        prawidłowaŚcieżka += "/" + tns[k];
+                    }
+                    break;
+                }
+            }
+            for (int j = 0; j < allMeshes.Count; j++)   //Sprawdzenie czy odnajdzie w assecie daną ścieżkę
+            {
+                if (prawidłowaŚcieżka == allMeshes[j]/* PorównajStringi(prawidłowaŚcieżka, allMeshes[j])*/)
+                {
+                    kasować = false;
+                    break;
+                }
+            }
+            if (kasować)
+            {
+                AssetDatabase.DeleteAsset(prawidłowaŚcieżka);
+            }
+        }
+    }
+    private static void ZwrócMeshe(ref List<string> stringi)
+    {
+        MeshFilter[] m = FindObjectsOfType(typeof(MeshFilter)) as MeshFilter[];
+        for (int i = 0; i < m.Length; i++)
+        {
+            bool dodaj = true;
+            for (int j = 0; j < stringi.Count; j++)
+            {
+                if (AssetDatabase.GetAssetOrScenePath(m[i].sharedMesh) == stringi[j])
+                {
+                    dodaj = false;
+                    break;
+                }
+            }
+            if (dodaj)
+            {
+                stringi.Add(AssetDatabase.GetAssetOrScenePath(m[i].sharedMesh));
+            }
+        }
+    }
 }
