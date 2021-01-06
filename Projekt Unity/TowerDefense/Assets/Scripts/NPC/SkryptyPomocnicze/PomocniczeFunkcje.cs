@@ -71,11 +71,9 @@ public static class PomocniczeFunkcje
         {
             if (rh[0].collider.GetType() == typeof(TerrainCollider))
             {
-                Debug.Log("Zwracam nową pozycję");
                 return rh[0].point;
             }
         }
-        Debug.Log("Zwracam starą pozycję");
         return lastPos;
     }
     public static NPCClass OkreślKlikniętyNPC(ref NPCClass lastNPCCLass)
