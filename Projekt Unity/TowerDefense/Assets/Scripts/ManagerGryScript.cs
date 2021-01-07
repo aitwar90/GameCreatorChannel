@@ -320,7 +320,8 @@ public class ManagerGryScript : MonoBehaviour
     {
         if (czyScenaZostałaZaładowana && PomocniczeFunkcje.celWrogów != null)
         {
-            float pŻycie = PomocniczeFunkcje.celWrogów.AktualneŻycie / (float)PomocniczeFunkcje.celWrogów.maksymalneŻycie;
+            NPCClass nc = PomocniczeFunkcje.celWrogów;
+            float pŻycie = nc.AktualneŻycie / (float)nc.maksymalneŻycie;
             if (pŻycie <= 0.5f)
             {
                 ekwipunekGracza[1].Mrygaj();

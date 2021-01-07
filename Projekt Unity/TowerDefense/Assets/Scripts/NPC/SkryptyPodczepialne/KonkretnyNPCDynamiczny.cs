@@ -361,41 +361,48 @@ public class KonkretnyNPCDynamiczny : NPCClass
             float f = szybkośćAtaku - aktualnyReuseAtaku;
             if (f <= 0.1f)
             {
+                bool czyPrzetwarzac = ((czyWZwarciu && mainRenderer.isVisible) || !czyWZwarciu) ? true : false;
                 if (_obiektAtaku != null)
                 {
                     if (!_obiektAtaku.activeInHierarchy)
                     {
-                        _obiektAtaku.SetActive(true);
-                        _obiektAtaku.transform.rotation = this.transform.rotation;
-                        if (efektyFxStart != null)
+                        if (czyPrzetwarzac)
                         {
-                            efektyFxStart.transform.position = this.transform.position;
-                            efektyFxStart.Play();
+                            _obiektAtaku.SetActive(true);
+                            if (czyWZwarciu && mainRenderer.isVisible)
+                            {
+                                if (efektyFxStart != null && czyPrzetwarzac)
+                                {
+                                    efektyFxStart.transform.position = this.transform.position;
+                                    efektyFxStart.Play();
+                                }
+                                _obiektAtaku.transform.LookAt(cel.transform.position);
+                            }
                         }
                         PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, (this.typNPC == TypNPC.WalczyNaDystans || this.typNPC == TypNPC.WalczynaDystansIWZwarciu) ?
                         PomocniczeFunkcje.TagZEpoka("AtakNPCDystans", this.epokaNPC, this.tagRodzajDoDźwięków) :
                         PomocniczeFunkcje.TagZEpoka("AtakNPCZwarcie", this.epokaNPC, this.tagRodzajDoDźwięków), true);
-                        _obiektAtaku.transform.LookAt(cel.transform.position);
                     }
                     else
                     {
                         if (f < 0)
                         {
                             f = 0;
-                            if (efektyFxKoniec != null)
+                            if (efektyFxKoniec != null && czyPrzetwarzac)
                             {
                                 efektyFxKoniec.transform.position = cel.transform.position;
                                 efektyFxKoniec.Play();
                             }
                             PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, (this.typNPC == TypNPC.WalczyNaDystans || this.typNPC == TypNPC.WalczynaDystansIWZwarciu) ?
-                        PomocniczeFunkcje.TagZEpoka("TrafienieNPC", this.epokaNPC, this.tagRodzajDoDźwięków) :
-                        PomocniczeFunkcje.TagZEpoka("TrafienieNPC", this.epokaNPC, this.tagRodzajDoDźwięków), true);
+                            PomocniczeFunkcje.TagZEpoka("TrafienieNPC", this.epokaNPC, this.tagRodzajDoDźwięków) :
+                            PomocniczeFunkcje.TagZEpoka("TrafienieNPC", this.epokaNPC, this.tagRodzajDoDźwięków), true);
                         }
                         else
                         {
                             f *= 10f;
                         }
-                        _obiektAtaku.transform.position = Vector3.Lerp(cel.transform.position, this.transform.position, f);
+                        if(czyPrzetwarzac)
+                            _obiektAtaku.transform.position = Vector3.Lerp(cel.transform.position, this.transform.position, f);
                     }
                 }
 

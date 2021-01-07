@@ -157,7 +157,7 @@ public static class PomocniczeFunkcje
         else
             return null;
     }
-        public static bool CzyKliknalemUI()
+    public static bool CzyKliknalemUI()
     {
         int fingerID = -1;
         if (!Input.mousePresent && Input.touchCount > 0)
