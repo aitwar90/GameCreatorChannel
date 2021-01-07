@@ -581,11 +581,12 @@ public static class PomocniczeFunkcje
             }
             else
             {
-                float d = Vector3.Distance(pObiekt.transform.position, cObiekt.transform.position) - 0.25f;
+                float gObiektuAtakowanego = cObiekt.PobierzGranice();
+                float d = Vector3.Distance(pObiekt.transform.position, cObiekt.transform.position) - 0.25f - gObiektuAtakowanego;
                 if (d <= pObiekt.zasięgAtaku)
                 {
                     //Atakuj
-                    pObiekt.Atakuj((d <= 3f + cObiekt.PobierzGranice()) ? true : false);
+                    pObiekt.Atakuj((cObiekt.typNPC == TypNPC.WalczyWZwarciu) ? true : false);
                     if (pObiekt.ZwróćMiWartośćParametru(2) == 1)
                     {
                         pObiekt.ObsluzAnimacje("inRange", true);
@@ -910,7 +911,7 @@ public static class PomocniczeFunkcje
     }
     public static string TagZEpoka(string aktTag, Epoki e, string rodzajObiektu = "")
     {
-        return aktTag + "_" + e.ToString() + "_" + rodzajObiektu;
+        return aktTag + "_" + e.ToString() + rodzajObiektu;
     }
     //Wylicza wartość modyfikatora zadawanych i otrzymywanych obrażeń
     public static float WyliczModyfikatorObrazeń(float bazowyModyfikator, ushort wartośćIndeksu)
