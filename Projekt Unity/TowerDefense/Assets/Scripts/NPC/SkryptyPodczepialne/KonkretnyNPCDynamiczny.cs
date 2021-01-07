@@ -29,6 +29,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private byte[] ostatnieStrony = null;
     private GameObject _obiektAtaku = null;
     private Animator anima;
+    private bool[] bufferAnima = new bool[] { false, false, false }; //isDeath, haveTarget, inRange
     private string nId;
     #endregion
 
@@ -86,7 +87,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
             DodajNavMeshAgent();
         }
         this.AktualneŻycie = this.maksymalneŻycie;
-        short[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
+        short[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position.x, this.transform.position.z);
         this.DodajMnieDoListyWrogowWiezy(t[0], t[1], true);
         actXIdx = t[0];
         actZIdx = t[1];
@@ -101,8 +102,16 @@ public class KonkretnyNPCDynamiczny : NPCClass
             _obiektAtaku = Instantiate(obiektAtakuDystansowego, this.transform.position, this.transform.rotation);
             _obiektAtaku.transform.SetParent(this.transform);
         }
-        ObsluzAnimacje(ref anima, "haveTarget", false);
-        ObsluzAnimacje(ref anima, "inRange", false);
+        if (ZwróćMiWartośćParametru(1) == 0)
+        {
+            ObsluzAnimacje(ref anima, "haveTarget", false);
+            UstawMiWartośćParametru(1, false);
+        }
+        if (ZwróćMiWartośćParametru(2) == 0)
+        {
+            ObsluzAnimacje(ref anima, "inRange", false);
+            UstawMiWartośćParametru(2, false);
+        }
         nId = this.name.Split('(').GetValue(0).ToString();
         RysujHPBar();
     }
@@ -121,7 +130,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                         _obiektAtaku.SetActive(false);
                     }
                 }
-                ObsłużNavMeshAgent(cel.transform.position);
+                ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
                 głównyIndex++;
                 break;
             case 0:
@@ -135,12 +144,12 @@ public class KonkretnyNPCDynamiczny : NPCClass
             case 1:
                 if (cel != null)
                 {
-                    ObsłużNavMeshAgent(cel.transform.position);
+                    ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
                 }
                 głównyIndex++;
                 break;
             case 2: //Ustaw index tablicy dla npc i usuń stare wieże
-                short[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
+                short[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position.x, this.transform.position.z);
                 List<byte> sQt = new List<byte>();
                 bool c = false;
                 if (actXIdx > t[0])
@@ -191,6 +200,38 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 break;
             default:
                 głównyIndex++;
+                break;
+        }
+    }
+    public override sbyte ZwróćMiWartośćParametru(byte i)
+    {
+        sbyte toRet = -1;
+        switch (i)
+        {
+            case 0:
+                toRet = (bufferAnima[i] == true) ? (sbyte)0 : (sbyte)1;
+                break;
+            case 1:
+                toRet = (bufferAnima[i] == true) ? (sbyte)0 : (sbyte)1;
+                break;
+            case 2:
+                toRet = (bufferAnima[i] == true) ? (sbyte)0 : (sbyte)1;
+                break;
+        }
+        return toRet;
+    }
+    public override void UstawMiWartośćParametru(byte parametr, bool value)
+    {
+        switch (parametr)
+        {
+            case 0:
+                bufferAnima[0] = value;
+                break;
+            case 1:
+                bufferAnima[1] = value;
+                break;
+            case 2:
+                bufferAnima[2] = value;
                 break;
         }
     }
@@ -266,7 +307,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         }
         WłWyłObj(false);
     }
-    private void ObsłużNavMeshAgent(Vector3 docelowaPozycja)
+    private void ObsłużNavMeshAgent(float x, float z)
     {
         //https://www.binpress.com/unity-3d-ai-navmesh-navigation/
         //Logika nav mesha
@@ -280,14 +321,14 @@ public class KonkretnyNPCDynamiczny : NPCClass
             }
             */
             //Debug.Log("Has Path = " + agent.hasPath + " ostatni target pozycja " + ostatniTargetPozycja + " agent.destination = " + agent.destination);
-            StartCoroutine(WyliczŚciezkę(UnityEngine.Random.Range(0f, 0.5f), docelowaPozycja));
+            StartCoroutine(WyliczŚciezkę(UnityEngine.Random.Range(0f, 0.5f), x, z));
         }
     }
-    private IEnumerator WyliczŚciezkę(float f, Vector3 docelowaPozycja)
+    private IEnumerator WyliczŚciezkę(float f, float x, float z)
     {
         yield return new WaitForSeconds(f);
         ścieżka = new NavMeshPath();
-        bool czyOdnalzazłemŚcieżkę = agent.CalculatePath(docelowaPozycja, ścieżka);
+        bool czyOdnalzazłemŚcieżkę = agent.CalculatePath(new Vector3(x, 0, z), ścieżka);
         if (ścieżka.status == NavMeshPathStatus.PathComplete)
         {
             agent.SetPath(ścieżka);
@@ -297,7 +338,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         else
         {
             cel = WyszukajNajbliższyObiekt() as KonkretnyNPCStatyczny;
-            ObsłużNavMeshAgent(cel.transform.position);
+            ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
         }
     }
     public void ResetujŚcieżki()
@@ -310,7 +351,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             sprite.localScale = new Vector3(1, 1, 1);
             this.gameObject.SetActive(true);
-            short[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
+            short[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position.x, this.transform.position.z);
             actXIdx = t[0];
             actZIdx = t[1];
             //ObsluzAnimacje(ref anima, "isDeath", false);
@@ -401,7 +442,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                         {
                             f *= 10f;
                         }
-                        if(czyPrzetwarzac)
+                        if (czyPrzetwarzac)
                             _obiektAtaku.transform.position = Vector3.Lerp(cel.transform.position, this.transform.position, f);
                     }
                 }

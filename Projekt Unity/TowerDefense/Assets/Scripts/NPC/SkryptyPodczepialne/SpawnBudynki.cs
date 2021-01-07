@@ -244,7 +244,7 @@ public class SpawnBudynki : MonoBehaviour
         //Ustawiam materiał
         materialWybranegoBudynku.color = kolorOrginału;
         //Teraz nalezy umieścić budynek w odpowiednim miejscu tablicy PomocniczeFunkcje.tablicaWież
-        short[] temp = PomocniczeFunkcje.ZwrócIndeksyWTablicy(posClick);
+        short[] temp = PomocniczeFunkcje.ZwrócIndeksyWTablicy(posClick.x, posClick.z);
         byte s = (byte)Mathf.CeilToInt(knpcs.zasięgAtaku / PomocniczeFunkcje.distXZ);
         int k = 0;
         while (s > 0)  //Ustawienie budynku na planszy aby wieża mogła stwierdzić że może atakować

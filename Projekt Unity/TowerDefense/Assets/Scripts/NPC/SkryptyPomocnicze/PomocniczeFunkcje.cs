@@ -26,6 +26,7 @@ public static class PomocniczeFunkcje
     public static GraphicRaycaster gr = null;
     public static sbyte poHerbacie = -1;
     private static RaycastHit[] tabHit = null;
+    private static short[] bufferpozycji = new short[2];
     #region Obsługa położenia myszy względem ekranu
     public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos, ref bool hitUI)
     {
@@ -65,7 +66,7 @@ public static class PomocniczeFunkcje
             hitUI = false;
         }
         RaycastHit[] rh = ZwrócHity(ref oCam, posK);
-        if(rh == null)
+        if (rh == null)
             return lastPos;
         if (poHerbacie == 1)
         {
@@ -83,7 +84,7 @@ public static class PomocniczeFunkcje
             oCam = Camera.main;
         }
         Vector2 posK = Vector2.zero;
-        #if UNITY_STANDALONE
+#if UNITY_STANDALONE
         posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 #endif
 #if UNITY_ANDROID
@@ -104,7 +105,7 @@ public static class PomocniczeFunkcje
         }
 #endif
         RaycastHit[] rh = ZwrócHity(ref oCam, posK);
-        if(rh == null)
+        if (rh == null)
             return lastNPCCLass;
         if (poHerbacie > 0)
         {
@@ -141,18 +142,18 @@ public static class PomocniczeFunkcje
         else
             return lastClass;
     }
-     private static RaycastHit[] ZwrócHity(ref Camera camera, Vector2 pozycjaK)
+    private static RaycastHit[] ZwrócHity(ref Camera camera, Vector2 pozycjaK)
     {
         if (poHerbacie < 0) //Już raz wyszukałem w tej turze colidery
         {
             Ray ray = camera.ScreenPointToRay(pozycjaK);
-            ray.direction = ray.direction*40f;
+            ray.direction = ray.direction * 40f;
             int layerMask = ~((0 << 8) | (0 << 0));
-            if(tabHit == null)
+            if (tabHit == null)
                 tabHit = new RaycastHit[2];
             poHerbacie = (sbyte)Physics.RaycastNonAlloc(ray, tabHit, 40f, layerMask, QueryTriggerInteraction.Collide);
         }
-        if(poHerbacie > 0)
+        if (poHerbacie > 0)
             return tabHit;
         else
             return null;
@@ -534,7 +535,11 @@ public static class PomocniczeFunkcje
             pObiekt.cel = PomocniczeFunkcje.WyszukajWDrzewie(ref korzeńDrzewaPozycji, pObiekt.transform.position) as NPCClass;
             if (pObiekt.cel != null)
             {
-                pObiekt.ObsluzAnimacje("haveTarget", true);
+                if (pObiekt.ZwróćMiWartośćParametru(1) > 0)
+                {
+                    pObiekt.ObsluzAnimacje("haveTarget", true);
+                    pObiekt.UstawMiWartośćParametru(1, true);
+                }
             }
             else
             {
@@ -557,12 +562,21 @@ public static class PomocniczeFunkcje
                 {
                     pObiekt.cel = PomocniczeFunkcje.WyszukajWDrzewie(ref korzeńDrzewaPozycji, cObiekt.transform.position) as NPCClass;
                     pObiekt.ResetujŚciezkę();
-                    pObiekt.ObsluzAnimacje("haveTarget", (pObiekt.cel == null) ? false : true);
+                    bool ha = (pObiekt.cel == null) ? false : true;
+                    if (pObiekt.ZwróćMiWartośćParametru(1) > 0)
+                    {
+                        pObiekt.ObsluzAnimacje("haveTarget", ha);
+                        pObiekt.UstawMiWartośćParametru(1, ha);
+                    }
                     return false;
                 }
                 else
                 {
-                    pObiekt.ObsluzAnimacje("haveTarget", false);
+                    if (pObiekt.ZwróćMiWartośćParametru(1) == 1)
+                    {
+                        pObiekt.ObsluzAnimacje("haveTarget", false);
+                        pObiekt.UstawMiWartośćParametru(1, false);
+                    }
                 }
             }
             else
@@ -572,7 +586,11 @@ public static class PomocniczeFunkcje
                 {
                     //Atakuj
                     pObiekt.Atakuj((d <= 3f + cObiekt.PobierzGranice()) ? true : false);
-                    pObiekt.ObsluzAnimacje("inRange", true);
+                    if (pObiekt.ZwróćMiWartośćParametru(2) == 1)
+                    {
+                        pObiekt.ObsluzAnimacje("inRange", true);
+                        pObiekt.UstawMiWartośćParametru(1, true);
+                    }
                 }
                 else
                 {
@@ -580,7 +598,11 @@ public static class PomocniczeFunkcje
                     {
                         PomocniczeFunkcje.muzyka.WłączWyłączClip(ref pObiekt.odgłosyNPC, true, TagZEpoka("Poruszanie", pObiekt.epokaNPC, pObiekt.tagRodzajDoDźwięków), true);
                     }
-                    pObiekt.ObsluzAnimacje("inRange", false);
+                    if (pObiekt.ZwróćMiWartośćParametru(2) > 0)
+                    {
+                        pObiekt.ObsluzAnimacje("inRange", false);
+                        pObiekt.UstawMiWartośćParametru(1, false);
+                    }
                 }
             }
         }
@@ -652,11 +674,11 @@ public static class PomocniczeFunkcje
             spawnerHord = null;
         }
     }
-    public static short[] ZwrócIndeksyWTablicy(Vector3 pozycja)
+    public static short[] ZwrócIndeksyWTablicy(float posx, float posz)
     {
-        short x = (short)(Mathf.FloorToInt((pozycja.x - aktualneGranicaTab) / distXZ));
-        short z = (short)(Mathf.FloorToInt((pozycja.z - aktualneGranicaTab) / distXZ));
-        return new short[] { x, z };
+        bufferpozycji[0] = (short)(Mathf.FloorToInt((posx - aktualneGranicaTab) / distXZ));
+        bufferpozycji[1] = (short)(Mathf.FloorToInt((posz - aktualneGranicaTab) / distXZ));
+        return bufferpozycji;
     }
     public static bool SprawdźCzyWykraczaPozaZakresTablicy(short x, short z)
     {
@@ -888,7 +910,7 @@ public static class PomocniczeFunkcje
     }
     public static string TagZEpoka(string aktTag, Epoki e, string rodzajObiektu = "")
     {
-        return aktTag + "_" + e.ToString() + rodzajObiektu;
+        return aktTag + "_" + e.ToString() + "_" + rodzajObiektu;
     }
     //Wylicza wartość modyfikatora zadawanych i otrzymywanych obrażeń
     public static float WyliczModyfikatorObrazeń(float bazowyModyfikator, ushort wartośćIndeksu)

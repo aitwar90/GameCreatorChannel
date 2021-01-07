@@ -101,11 +101,11 @@ public class MuzykaScript : MonoBehaviour, ICzekajAz
     public void WłączWyłączClip(string typ, ref AudioSource ado, bool czyOneShoot = false, string nazwaAktualnegoKlipu = "") //Ta metoda pozwala na wybranie klipu z wyłączeniem nazwy aktualnie granej
     {
         ado.clip = ZwróćSzukanyClip(typ, nazwaAktualnegoKlipu);
-        if (czyOneShoot)
+        if (czyOneShoot && ado.clip != null)
         {
             ado.PlayOneShot(ado.clip);
         }
-        else
+        else if(ado.clip != null)
         {
             ado.Play();
         }

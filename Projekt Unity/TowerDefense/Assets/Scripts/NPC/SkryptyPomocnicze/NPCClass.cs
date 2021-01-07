@@ -178,11 +178,14 @@ public abstract class NPCClass : MonoBehaviour
     }
     public void ObsluzAnimacje(string param, bool value)
     {
-        if (ReferenceEquals(this.GetType(), typeof(KonkretnyNPCDynamiczny)))
+        if(this.GetType() == typeof(KonkretnyNPCDynamiczny))
         {
+        //if (ReferenceEquals(this.GetType(), typeof(KonkretnyNPCDynamiczny)))
+        //{
             KonkretnyNPCDynamiczny knpcd = (KonkretnyNPCDynamiczny)this;
             Animator anim = null;
             anim = knpcd.GetAnimator;
+            
             if (anim != null)
             {
                 anim.SetBool(param, value);
@@ -241,6 +244,14 @@ public abstract class NPCClass : MonoBehaviour
     public void UstawGłośnośćNPC(float wartość)
     {
         odgłosyNPC.volume = wartość;
+    }
+    public virtual sbyte ZwróćMiWartośćParametru(byte i)
+    {
+        return -1;  //Zwrócenie parametru z animationController
+    }
+    public virtual void UstawMiWartośćParametru(byte parametr, bool value)
+    {
+        //Ustawienie parametru w animation controller
     }
     #endregion
 

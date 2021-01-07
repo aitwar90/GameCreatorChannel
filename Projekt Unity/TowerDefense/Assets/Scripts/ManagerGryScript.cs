@@ -47,6 +47,7 @@ public class ManagerGryScript : MonoBehaviour
     private short valFPS = 0;
     private byte aktualnyIndexTabFPS = 0;
     private bool poziomZakonczony = false;
+    private byte bufferTimerFal = 255;
     #endregion
     #region Getery i Setery
     public Skrzynka ZwróćSkrzynkeOIndeksie(byte idx)
@@ -193,15 +194,15 @@ public class ManagerGryScript : MonoBehaviour
             case 0:
                 if (PomocniczeFunkcje.mainMenu.CzyLFPSOn)
                 {
-                    if (aktualnyIndexTabFPS < 15)
+                    if (aktualnyIndexTabFPS < 30)
                     {
                         valFPS += (short)(1f / Time.unscaledDeltaTime);
                         aktualnyIndexTabFPS++;
                     }
                     else
                     {
-
-                        PomocniczeFunkcje.mainMenu.UstawWartoscFPS((short)(valFPS / 15f));
+                        valFPS = (short)(valFPS/30f);
+                        PomocniczeFunkcje.mainMenu.UstawWartoscFPS(valFPS);
                         valFPS = 0;
                         aktualnyIndexTabFPS = 0;
                     }
@@ -264,7 +265,7 @@ public class ManagerGryScript : MonoBehaviour
         Terrain terr = FindObjectOfType(typeof(Terrain)) as Terrain;
         PomocniczeFunkcje.tablicaWież = new List<InformacjeDlaPolWież>[22, 22];
         PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 56) / 2.0f);
-        PomocniczeFunkcje.distXZ = (terr.terrainData.size.x - (PomocniczeFunkcje.aktualneGranicaTab * 2)) / 20f;
+        PomocniczeFunkcje.distXZ = (terr.terrainData.size.x - (PomocniczeFunkcje.aktualneGranicaTab * 2)) / PomocniczeFunkcje.tablicaWież.GetLength(0);
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
@@ -370,10 +371,12 @@ public class ManagerGryScript : MonoBehaviour
         {
             timerFal = setTimer;
         }
-        string czas = "";
-        czas = ((byte)czasMiędzyFalami - (byte)timerFal).ToString();
-        //Debug.Log("ObslTimerFal "+ czas+" gdzie czas między falami "+czasMiędzyFalami+" timerFal "+timerFal);
-        PomocniczeFunkcje.mainMenu.UstawTextUI("timer", czas);
+        byte czas = (byte)(czasMiędzyFalami - timerFal);
+        if(czas != bufferTimerFal)
+        {
+            bufferTimerFal = czas;
+            PomocniczeFunkcje.mainMenu.UstawTextUI("timer", czas.ToString());
+        }
     }
     public void ZmianaJęzyka(byte idx)
     {

@@ -171,7 +171,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                 tablicaKoliderow[i].enabled = false;
             }
             UnityEngine.AI.NavMeshObstacle tNVO = this.GetComponent<UnityEngine.AI.NavMeshObstacle>();
-            short[] temp = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position);
+            short[] temp = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position.x, this.transform.position.z);
             byte s = (byte)Mathf.CeilToInt(this.zasięgAtaku / PomocniczeFunkcje.distXZ);
             if (s > 1)
             {

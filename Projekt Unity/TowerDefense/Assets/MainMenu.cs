@@ -692,31 +692,40 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         }
         for (ushort i = 0; i < ps.Length; i++)
         {
-            if (ps[i].ilośćDanejNagrody > 0)
+            switch (ps[i].typPrzedmiotu)
             {
-                switch (ps[i].typPrzedmiotu)
-                {
-                    case TypPrzedmiotu.Coiny:
+                case TypPrzedmiotu.Coiny:
+                    if (ps[i].ilośćDanejNagrody > 0)
+                    {
                         przyciskiNagród[0].interactable = true;
                         przyciskiNagród[0].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
-                        ps[i].obrazek = przyciskiNagród[0].image;
-                        break;
-                    case TypPrzedmiotu.CudOcalenia:
+                    }
+                    ps[i].obrazek = przyciskiNagród[0].image;
+                    break;
+                case TypPrzedmiotu.CudOcalenia:
+                    if (ps[i].ilośćDanejNagrody > 0)
+                    {
                         przyciskiNagród[1].interactable = true;
                         przyciskiNagród[1].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
-                        ps[i].obrazek = przyciskiNagród[1].image;
-                        break;
-                    case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
+                    }
+                    ps[i].obrazek = przyciskiNagród[1].image;
+                    break;
+                case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
+                    if (ps[i].ilośćDanejNagrody > 0)
+                    {
                         przyciskiNagród[3].interactable = true;
                         przyciskiNagród[3].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
-                        ps[i].obrazek = przyciskiNagród[3].image;
-                        break;
-                    case TypPrzedmiotu.DodatkowaNagroda:
+                    }
+                    ps[i].obrazek = przyciskiNagród[3].image;
+                    break;
+                case TypPrzedmiotu.DodatkowaNagroda:
+                    if (ps[i].ilośćDanejNagrody > 0)
+                    {
                         przyciskiNagród[2].interactable = true;
                         przyciskiNagród[2].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
-                        ps[i].obrazek = przyciskiNagród[2].image;
-                        break;
-                }
+                    }
+                    ps[i].obrazek = przyciskiNagród[2].image;
+                    break;
             }
         }
     }
@@ -751,7 +760,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     public void UstawWartoscFPS(short val)
     {
-        lFPS.text = "FPS: " + val.ToString();
+        lFPS.text = "FPS: " + val;
     }
     public void ObsluzCreditsy(bool wł)
     {
