@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour, ICzekajAz
 {
+    #region Zmienne przycisków
     public Button nastepnyPoziom;
     public Button powtorzPoziom;
     public PrzyciskiSkrzynekIReklam[] buttonSkrzynki;
@@ -20,6 +21,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public Button lvlWyzej;
     public Button epokaNizej;
     public Button epokaWyzej;
+    #endregion
     #region Akademia
     public Button buttonAZycie;
     public Button buttonAAtak;
@@ -54,6 +56,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     private ushort[] idxInne = null;
     private sbyte lastPanelEnabledBuildings = -1;
     #endregion
+    #region Obiekty ładowane
     public Slider sliderDźwięku;
     private GameObject menu;
     private GameObject uiGry;
@@ -69,6 +72,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     private static MainMenu singelton = null;
     private bool odpalonyPanel = false;
     private RectTransform rectHpBar;
+    #endregion
+    #region Getery i setery
     public sbyte UstawLubPobierzOstatniIdexJezyka
     {
         get
@@ -111,6 +116,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             return menu.activeInHierarchy;
         }
     }
+    #endregion
     void Awake()
     {
         if (singelton == null)
@@ -148,24 +154,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         WłączWyłączPanel(new string[] {goPanel.name, uiBudynkiPanel.name, ui_down.name, uiGry.name, optionsMenu.name,
         reklamyPanel.name, poGraj.name, "Cretidsy"}, false);
     }
-    public void OdpalPoScenie(bool czyOdpalamPoScenie)
-    {
-        if (czyOdpalamPoScenie)
-        {
-            menu.SetActive(false);
-            poGraj.SetActive(true);
 
-            poziomWEpoce.text = PomocniczeFunkcje.odblokowanyPoziomEpoki.ToString();
-            actWybEpoka.text = PomocniczeFunkcje.odblokowaneEpoki.ToString();
-            PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Tło_None_PoMenu");
-        }
-        else
-        {
-            menu.SetActive(true);
-            poGraj.SetActive(false);
-            PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Tło_None");
-        }
-    }
+    #region Obsługa paneli UI, Czy mogę przesuwać kamerę (), Pasek HP
     public void WłączWyłączPanel(string panel, bool czyWłączyć)
     {
         if (panel == menu.name)
@@ -256,6 +246,145 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 this.transform.Find("Menu/Cretidsy").gameObject.SetActive(czyWłączyć);
             }
         }
+    }
+    public void PrzełączUI(bool aktywujeMenu)
+    {
+        przyciskWznów.interactable = true;
+        menu.SetActive(aktywujeMenu);
+        uiGry.SetActive(!aktywujeMenu);
+        menu.transform.parent.GetComponent<Image>().enabled = aktywujeMenu;
+        if (aktywujeMenu)
+        {
+            PomocniczeFunkcje.UstawTimeScale(0);
+            lastPosCam = PomocniczeFunkcje.oCam.transform.position;
+            PomocniczeFunkcje.oCam.transform.position = new Vector3(0.0f, 0.0f, -10.0f);
+            PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Tło_None");
+        }
+        else
+        {
+            PomocniczeFunkcje.UstawTimeScale(1);
+            PomocniczeFunkcje.oCam.transform.position = lastPosCam;
+            PomocniczeFunkcje.muzyka.WłączWyłączClip(true, PomocniczeFunkcje.TagZEpoka("AmbientWGrze", PomocniczeFunkcje.managerGryScript.aktualnaEpoka));
+        }
+    }
+    public void UstawHPGłównegoPaska(float wartoscX)
+    {
+        rectHpBar.localScale = new Vector3(wartoscX, 1, 1);
+    }
+
+    public void UstawTextUI(string nazwaTekstu, string tekst)
+    {
+        if (nazwaTekstu == "timer")
+        {
+            licznikCzasuDoFali.text = tekst;
+        }
+        else if (nazwaTekstu == "ilośćCoinów")
+        {
+            ilośćCoinów.text = tekst;
+        }
+        else if (nazwaTekstu == "ilośćFal")
+        {
+            ilośćFal.text = tekst;
+        }
+    }
+    public void UstawPanelUI(string parametry, Vector2 pos, KonkretnyNPCStatyczny knpcs = null)
+    {
+        if (odpalonyPanel)
+        {
+            panelDynamiczny.gameObject.SetActive(false);
+            panelStatyczny.gameObject.SetActive(false);
+            odpalonyPanel = false;
+        }
+        if (parametry == "")
+        {
+            return;
+        }
+        string[] s = parametry.Split('_');
+        if (s[0] == "STATYCZNY")
+        {
+            PanelStatyczny ps = (PanelStatyczny)panelStatyczny;
+            ps.KNPCS = knpcs;
+            RectTransform r = ps.GetComponent<RectTransform>();
+            if (s[1] == "True")  //Odblokuj naprawe budynku
+            {
+                ps.naprawButton.interactable = true;
+            }
+            else
+            {
+                ps.naprawButton.interactable = false;
+            }
+
+            ps.UstawDane(new string[] { s[2], s[3], s[4], s[5], s[6] });
+
+            r.position = pos;
+            ps.gameObject.SetActive(true);
+            odpalonyPanel = true;
+        }
+        else if (s[0] == "DYNAMICZNY")
+        {
+            PanelDynamiczny ps = (PanelDynamiczny)panelDynamiczny;
+            RectTransform r = ps.GetComponent<RectTransform>();
+            ps.UstawDane(new string[] { s[1], s[2], s[3] });
+            r.position = pos;
+            ps.gameObject.SetActive(true);
+            odpalonyPanel = true;
+        }
+        else if (s[0] == "PANEL")
+        {
+            PanelTextuWBudynkach ps = (PanelTextuWBudynkach)panelBudynki;
+            ps.UstawDane(new string[] { s[1], s[2], s[3], s[4], s[5], s[6], s[7] });
+        }
+    }
+    public bool CzyMogePrzesuwaćKamere()
+    {
+        if (uiGry.activeInHierarchy)
+        {
+            if (CzyOdpaloneMenu || goPanel.activeInHierarchy || CzyAktywnyPanelZBudynkami())
+            {
+                return false;
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    #endregion
+    #region Po Scenie
+    public void OdpalPoScenie(bool czyOdpalamPoScenie)
+    {
+        if (czyOdpalamPoScenie)
+        {
+            menu.SetActive(false);
+            poGraj.SetActive(true);
+
+            poziomWEpoce.text = PomocniczeFunkcje.odblokowanyPoziomEpoki.ToString();
+            actWybEpoka.text = PomocniczeFunkcje.odblokowaneEpoki.ToString();
+            PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Tło_None_PoMenu");
+        }
+        else
+        {
+            menu.SetActive(true);
+            poGraj.SetActive(false);
+            PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Tło_None");
+        }
+    }
+    public void ResetSceny()
+    {
+        int unSceneIdx = ObslugaScenScript.indeksAktualnejSceny;
+        PomocniczeFunkcje.ResetujWszystko();
+        SceneManager.UnloadSceneAsync(unSceneIdx);
+        StartCoroutine(CzekajAz());
+    }
+    public IEnumerator CzekajAz()
+    {
+        yield return new WaitUntil(() => SceneManager.sceneCount == 1);
+        MetodaDoOdpaleniaPoWyczekaniu();
+    }
+    public void MetodaDoOdpaleniaPoWyczekaniu()
+    {
+        OdpalPoziom();
     }
     private byte DajMiMaxPoziom(string ustawionaEpoka)
     {
@@ -351,238 +480,40 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             }
         }
     }
-    public void ResetSceny()
+    #endregion
+    #region Budynki interfejs
+    public bool CzyAktywnyPanelZBudynkami()
     {
-        int unSceneIdx = ObslugaScenScript.indeksAktualnejSceny;
-        PomocniczeFunkcje.ResetujWszystko();
-        SceneManager.UnloadSceneAsync(unSceneIdx);
-        StartCoroutine(CzekajAz());
+        if (uiBudynkiPanel.activeInHierarchy)
+            return true;
+        else
+            return false;
     }
-    public IEnumerator CzekajAz()
+    public void PrzesuńBudynki(float wartość, bool zresetuj = false)
     {
-        yield return new WaitUntil(() => SceneManager.sceneCount == 1);
-        MetodaDoOdpaleniaPoWyczekaniu();
-    }
-    public void MetodaDoOdpaleniaPoWyczekaniu()
-    {
-        OdpalPoziom();
-    }
-    public void OptionsMenu(bool actButton)
-    {
-        menu.SetActive(!actButton);
-        optionsMenu.SetActive(actButton);
-        if (!actButton)
+        if (zresetuj)
         {
-            PomocniczeFunkcje.ZapisDanychOpcje();
+            trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, -100);
+            return;
         }
-    }
-    public void QuitGame()
-    {
-        PomocniczeFunkcje.ZapiszDane();
-        Application.Quit();
-    }
-    public void PrzełączUI(bool aktywujeMenu)
-    {
-        przyciskWznów.interactable = true;
-        menu.SetActive(aktywujeMenu);
-        uiGry.SetActive(!aktywujeMenu);
-        menu.transform.parent.GetComponent<Image>().enabled = aktywujeMenu;
-        if (aktywujeMenu)
+        Vector2 sOff = Vector2.zero;
+        sOff.y += wartość;
+        Vector3 tmp = trBudynkówŁącze.anchoredPosition = trBudynkówŁącze.anchoredPosition + sOff;
+        short t = (short)(-100 - ((wielkosćButtonu + offsetBB) * iloscButtonow));
+        if (tmp.y <= -100 && tmp.y >= t)
         {
-            PomocniczeFunkcje.UstawTimeScale(0);
-            lastPosCam = PomocniczeFunkcje.oCam.transform.position;
-            PomocniczeFunkcje.oCam.transform.position = new Vector3(0.0f, 0.0f, -10.0f);
-            PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Tło_None");
+            trBudynkówŁącze.anchoredPosition = tmp;
         }
         else
         {
-            PomocniczeFunkcje.UstawTimeScale(1);
-            PomocniczeFunkcje.oCam.transform.position = lastPosCam;
-            PomocniczeFunkcje.muzyka.WłączWyłączClip(true, PomocniczeFunkcje.TagZEpoka("AmbientWGrze", PomocniczeFunkcje.managerGryScript.aktualnaEpoka));
-        }
-    }
-    public void SkrzynkaKlik(int idx)
-    {
-        PomocniczeFunkcje.managerGryScript.KliknietyPrzycisk();
-        buttonSkrzynki[idx].skrzynkaB.interactable = false;
-    }
-    public void KliknietyPrzyciskRewardZPoziomuZReklama()
-    {
-        rekZaWyzszaNagrode.gameObject.SetActive(false);
-        PomocniczeFunkcje.managerGryScript.KliknietyButtonZwiekszeniaNagrodyPoLvlu();
-    }
-    public void WybierzWybranyPrzedmiot(int nagroda)
-    {
-        if (PomocniczeFunkcje.managerGryScript.ekwipunekGracza[nagroda].ilośćDanejNagrody > 0)
-        {
-            wybranaNagroda = (sbyte)nagroda;
-        }
-        UżyjKlikniętegoPrzedmiotu();
-    }
-    public void UstawDropDownEkwipunku(ref PrzedmiotScript[] ps)
-    {
-        for (byte i = 0; i < przyciskiNagród.Length; i++)
-        {
-            przyciskiNagród[i].interactable = false;
-        }
-        for (ushort i = 0; i < ps.Length; i++)
-        {
-            if (ps[i].ilośćDanejNagrody > 0)
+            if (tmp.y > -100)
             {
-                switch (ps[i].typPrzedmiotu)
-                {
-                    case TypPrzedmiotu.Coiny:
-                        przyciskiNagród[0].interactable = true;
-                        przyciskiNagród[0].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
-                        ps[i].obrazek = przyciskiNagród[0].image;
-                        break;
-                    case TypPrzedmiotu.CudOcalenia:
-                        przyciskiNagród[1].interactable = true;
-                        przyciskiNagród[1].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
-                        ps[i].obrazek = przyciskiNagród[1].image;
-                        break;
-                    case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
-                        przyciskiNagród[3].interactable = true;
-                        przyciskiNagród[3].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
-                        ps[i].obrazek = przyciskiNagród[3].image;
-                        break;
-                    case TypPrzedmiotu.DodatkowaNagroda:
-                        przyciskiNagród[2].interactable = true;
-                        przyciskiNagród[2].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
-                        ps[i].obrazek = przyciskiNagród[2].image;
-                        break;
-                }
-            }
-        }
-    }
-    public void UżyjKlikniętegoPrzedmiotu()
-    {
-
-        if (wybranaNagroda > -1)
-        {
-            PomocniczeFunkcje.managerGryScript.UzyciePrzedmiotu((byte)wybranaNagroda);
-        }
-        if (PomocniczeFunkcje.managerGryScript.ekwipunekGracza[wybranaNagroda].ilośćDanejNagrody == 0)
-            wybranaNagroda = -1;
-    }
-    public void UstawButtonNagrody(byte idxButtonaNagrody, ushort ilość)  //Wyszukuje nazwę w opcjach dropdawna
-    {
-        bool czyAktywuje = (ilość <= 0) ? false : true;
-        if (przyciskiNagród[idxButtonaNagrody].interactable != czyAktywuje)
-        {
-            przyciskiNagród[idxButtonaNagrody].interactable = czyAktywuje;
-        }
-        przyciskiNagród[idxButtonaNagrody].GetComponentInChildren<Text>().text = ilość.ToString();
-    }
-    public void KliknąłemReklame(int idx)
-    {
-        PomocniczeFunkcje.managerGryScript.KlikniętaReklamaButtonSkrzynki((byte)idx);
-    }
-    public void ZmieńJęzyk()
-    {
-        lastIdxJezyka++;
-        if (lastIdxJezyka < 0 || lastIdxJezyka > 1)  //Tu należy zmienić liczbę jesli dodany zostanie nowy jezyk
-            lastIdxJezyka = 0;
-        PomocniczeFunkcje.managerGryScript.ZmianaJęzyka((byte)lastIdxJezyka);
-    }
-    public void ObrótBudynku()
-    {
-        PomocniczeFunkcje.spawnBudynki.ObróćBudynek();
-    }
-    public void UstawPrzyciskObrotu(bool wartośćPrzycisku)
-    {
-        rotacjaBudynku.gameObject.SetActive(wartośćPrzycisku);
-    }
-    public void KliknalemButtonRozwoju(int indeksButtonu)   //1 - Zycie, 2 - Atak, 3 - Obrona
-    {
-        PomocniczeFunkcje.managerGryScript.RozwójBudynkow((byte)indeksButtonu);
-    }
-    public void UstawHPGłównegoPaska(float wartoscX)
-    {
-        rectHpBar.localScale = new Vector3(wartoscX, 1, 1);
-    }
-    public void OdpalButtonyAkademii(bool czyOdpalac = true)
-    {
-        if (buttonAZycie.gameObject.activeInHierarchy != czyOdpalac)
-        {
-            buttonAZycie.gameObject.SetActive(czyOdpalac);
-            buttonAAtak.gameObject.SetActive(czyOdpalac);
-            buttonAObrona.gameObject.SetActive(czyOdpalac);
-            if (ManagerGryScript.iloscCoinów < 200)
-            {
-                buttonAZycie.interactable = false;
-                buttonAAtak.interactable = false;
-                buttonAObrona.interactable = false;
+                trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, -100);
             }
             else
             {
-                buttonAZycie.interactable = true;
-                buttonAAtak.interactable = true;
-                buttonAObrona.interactable = true;
+                trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, t);
             }
-        }
-    }
-    public void UstawTextUI(string nazwaTekstu, string tekst)
-    {
-        if (nazwaTekstu == "timer")
-        {
-            licznikCzasuDoFali.text = tekst;
-        }
-        else if (nazwaTekstu == "ilośćCoinów")
-        {
-            ilośćCoinów.text = tekst;
-        }
-        else if (nazwaTekstu == "ilośćFal")
-        {
-            ilośćFal.text = tekst;
-        }
-    }
-    public void UstawPanelUI(string parametry, Vector2 pos, KonkretnyNPCStatyczny knpcs = null)
-    {
-        if (odpalonyPanel)
-        {
-            panelDynamiczny.gameObject.SetActive(false);
-            panelStatyczny.gameObject.SetActive(false);
-            odpalonyPanel = false;
-        }
-        if (parametry == "")
-        {
-            return;
-        }
-        string[] s = parametry.Split('_');
-        if (s[0] == "STATYCZNY")
-        {
-            PanelStatyczny ps = (PanelStatyczny)panelStatyczny;
-            ps.KNPCS = knpcs;
-            RectTransform r = ps.GetComponent<RectTransform>();
-            if (s[1] == "True")  //Odblokuj naprawe budynku
-            {
-                ps.naprawButton.interactable = true;
-            }
-            else
-            {
-                ps.naprawButton.interactable = false;
-            }
-
-            ps.UstawDane(new string[] { s[2], s[3], s[4], s[5], s[6] });
-
-            r.position = pos;
-            ps.gameObject.SetActive(true);
-            odpalonyPanel = true;
-        }
-        else if (s[0] == "DYNAMICZNY")
-        {
-            PanelDynamiczny ps = (PanelDynamiczny)panelDynamiczny;
-            RectTransform r = ps.GetComponent<RectTransform>();
-            ps.UstawDane(new string[] { s[1], s[2], s[3] });
-            r.position = pos;
-            ps.gameObject.SetActive(true);
-            odpalonyPanel = true;
-        }
-        else if (s[0] == "PANEL")
-        {
-            PanelTextuWBudynkach ps = (PanelTextuWBudynkach)panelBudynki;
-            ps.UstawDane(new string[] { s[1], s[2], s[3], s[4], s[5], s[6], s[7] });
         }
     }
     public void WłączWyłączPanelBudynków(int idx)
@@ -663,7 +594,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         }
         iloscButtonow = (byte)tabOfBuildToChange.Length;
     }
-    public void WygenerujIPosortujTablice()
+    public void WygenerujIPosortujTablice() //Tworzy i sortuje tablicę budynków, które gracz może postawić
     {
         Button b = Resources.Load<Button>("UI/PrzyciskBudynku");
         wielkosćButtonu = (byte)b.GetComponent<RectTransform>().sizeDelta.y;
@@ -710,6 +641,118 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 idxInne = inne.ToArray();
         }
     }
+    #endregion
+    #region Rklamy, Skrzynki i ekwipunek
+    public void UżyjKlikniętegoPrzedmiotu()
+    {
+
+        if (wybranaNagroda > -1)
+        {
+            PomocniczeFunkcje.managerGryScript.UzyciePrzedmiotu((byte)wybranaNagroda);
+        }
+        if (PomocniczeFunkcje.managerGryScript.ekwipunekGracza[wybranaNagroda].ilośćDanejNagrody == 0)
+            wybranaNagroda = -1;
+    }
+    public void UstawButtonNagrody(byte idxButtonaNagrody, ushort ilość)  //Wyszukuje nazwę w opcjach dropdawna
+    {
+        bool czyAktywuje = (ilość <= 0) ? false : true;
+        if (przyciskiNagród[idxButtonaNagrody].interactable != czyAktywuje)
+        {
+            przyciskiNagród[idxButtonaNagrody].interactable = czyAktywuje;
+        }
+        przyciskiNagród[idxButtonaNagrody].GetComponentInChildren<Text>().text = ilość.ToString();
+    }
+    public void KliknąłemReklame(int idx)
+    {
+        PomocniczeFunkcje.managerGryScript.KlikniętaReklamaButtonSkrzynki((byte)idx);
+    }
+    public void SkrzynkaKlik(int idx)
+    {
+        PomocniczeFunkcje.managerGryScript.KliknietyPrzycisk();
+        buttonSkrzynki[idx].skrzynkaB.interactable = false;
+    }
+    public void KliknietyPrzyciskRewardZPoziomuZReklama()
+    {
+        rekZaWyzszaNagrode.gameObject.SetActive(false);
+        PomocniczeFunkcje.managerGryScript.KliknietyButtonZwiekszeniaNagrodyPoLvlu();
+    }
+    public void WybierzWybranyPrzedmiot(int nagroda)
+    {
+        if (PomocniczeFunkcje.managerGryScript.ekwipunekGracza[nagroda].ilośćDanejNagrody > 0)
+        {
+            wybranaNagroda = (sbyte)nagroda;
+        }
+        UżyjKlikniętegoPrzedmiotu();
+    }
+    public void UstawDropDownEkwipunku(ref PrzedmiotScript[] ps)
+    {
+        for (byte i = 0; i < przyciskiNagród.Length; i++)
+        {
+            przyciskiNagród[i].interactable = false;
+        }
+        for (ushort i = 0; i < ps.Length; i++)
+        {
+            if (ps[i].ilośćDanejNagrody > 0)
+            {
+                switch (ps[i].typPrzedmiotu)
+                {
+                    case TypPrzedmiotu.Coiny:
+                        przyciskiNagród[0].interactable = true;
+                        przyciskiNagród[0].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
+                        ps[i].obrazek = przyciskiNagród[0].image;
+                        break;
+                    case TypPrzedmiotu.CudOcalenia:
+                        przyciskiNagród[1].interactable = true;
+                        przyciskiNagród[1].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
+                        ps[i].obrazek = przyciskiNagród[1].image;
+                        break;
+                    case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
+                        przyciskiNagród[3].interactable = true;
+                        przyciskiNagród[3].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
+                        ps[i].obrazek = przyciskiNagród[3].image;
+                        break;
+                    case TypPrzedmiotu.DodatkowaNagroda:
+                        przyciskiNagród[2].interactable = true;
+                        przyciskiNagród[2].GetComponentInChildren<Text>().text = ps[i].ilośćDanejNagrody.ToString();
+                        ps[i].obrazek = przyciskiNagród[2].image;
+                        break;
+                }
+            }
+        }
+    }
+    #endregion
+    #region Obsluga Opcje i Creditsy
+    public void OptionsMenu(bool actButton)
+    {
+        menu.SetActive(!actButton);
+        optionsMenu.SetActive(actButton);
+        if (!actButton)
+        {
+            PomocniczeFunkcje.ZapisDanychOpcje();
+        }
+    }
+    public void ZmieńJęzyk()
+    {
+        lastIdxJezyka++;
+        if (lastIdxJezyka < 0 || lastIdxJezyka > 1)  //Tu należy zmienić liczbę jesli dodany zostanie nowy jezyk
+            lastIdxJezyka = 0;
+        PomocniczeFunkcje.managerGryScript.ZmianaJęzyka((byte)lastIdxJezyka);
+    }
+    public void WłączWyłączLicznikFPS()
+    {
+        if (lFPS.gameObject.activeSelf)
+        {
+            lFPS.gameObject.SetActive(false);
+        }
+        else
+        {
+            lFPS.gameObject.SetActive(true);
+        }
+    }
+    public void UstawWartoscFPS(short val)
+    {
+        lFPS.text = "FPS: " + val.ToString();
+    }
     public void ObsluzCreditsy(bool wł)
     {
         if (!wł)
@@ -729,66 +772,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         PomocniczeFunkcje.muzyka.UstawGłośnośćGry(sliderDźwięku.value);
     }
-    public void WyłączPanelBudynków()
-    {
-        WłączWyłączPanelBudynków(-1);
-        PomocniczeFunkcje.spawnBudynki.AktIdxBudZab = -1;
-        WłączWyłączPanel(uiBudynkiPanel.name, false);
-    }
-    public void WłWyłPanelReklam(bool czyWłPanel)
-    {
-        menu.SetActive(!czyWłPanel);
-        reklamyPanel.SetActive(czyWłPanel);
-    }
-    public void PrzesuńBudynki(float wartość, bool zresetuj = false)
-    {
-        if (zresetuj)
-        {
-            trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, -100);
-            return;
-        }
-        Vector2 sOff = Vector2.zero;
-        sOff.y += wartość;
-        Vector3 tmp = trBudynkówŁącze.anchoredPosition = trBudynkówŁącze.anchoredPosition + sOff;
-        short t = (short)(-100 - ((wielkosćButtonu + offsetBB) * iloscButtonow));
-        if (tmp.y <= -100 && tmp.y >= t)
-        {
-            trBudynkówŁącze.anchoredPosition = tmp;
-        }
-        else
-        {
-            if (tmp.y > -100)
-            {
-                trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, -100);
-            }
-            else
-            {
-                trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, t);
-            }
-        }
-    }
-    public bool CzyMogePrzesuwaćKamere()
-    {
-        if (uiGry.activeInHierarchy)
-        {
-            if (CzyOdpaloneMenu || goPanel.activeInHierarchy || CzyAktywnyPanelZBudynkami())
-            {
-                return false;
-            }
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    public bool CzyAktywnyPanelZBudynkami()
-    {
-        if (uiBudynkiPanel.activeInHierarchy)
-            return true;
-        else
-            return false;
-    }
+    #endregion
+    #region Klikniety lub odpalony Przycisk
     public void KliknijPrzyciskKupnaBudynku()
     {
         kup.interactable = false;
@@ -801,19 +786,54 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         stawiajBudynek.interactable = false;
         WłączWyłączPanelBudynków(-1);
     }
-    public void WłączWyłączLicznikFPS()
+    public void WyłączPanelBudynków()
     {
-        if (lFPS.gameObject.activeSelf)
+        WłączWyłączPanelBudynków(-1);
+        PomocniczeFunkcje.spawnBudynki.AktIdxBudZab = -1;
+        WłączWyłączPanel(uiBudynkiPanel.name, false);
+    }
+    public void WłWyłPanelReklam(bool czyWłPanel)
+    {
+        menu.SetActive(!czyWłPanel);
+        reklamyPanel.SetActive(czyWłPanel);
+    }
+    public void OdpalButtonyAkademii(bool czyOdpalac = true)
+    {
+        if (buttonAZycie.gameObject.activeInHierarchy != czyOdpalac)
         {
-            lFPS.gameObject.SetActive(false);
-        }
-        else
-        {
-            lFPS.gameObject.SetActive(true);
+            buttonAZycie.gameObject.SetActive(czyOdpalac);
+            buttonAAtak.gameObject.SetActive(czyOdpalac);
+            buttonAObrona.gameObject.SetActive(czyOdpalac);
+            if (ManagerGryScript.iloscCoinów < 200)
+            {
+                buttonAZycie.interactable = false;
+                buttonAAtak.interactable = false;
+                buttonAObrona.interactable = false;
+            }
+            else
+            {
+                buttonAZycie.interactable = true;
+                buttonAAtak.interactable = true;
+                buttonAObrona.interactable = true;
+            }
         }
     }
-    public void UstawWartoscFPS(short val)
+    public void ObrótBudynku()
     {
-        lFPS.text = "FPS: " + val.ToString();
+        PomocniczeFunkcje.spawnBudynki.ObróćBudynek();
     }
+    public void UstawPrzyciskObrotu(bool wartośćPrzycisku)
+    {
+        rotacjaBudynku.gameObject.SetActive(wartośćPrzycisku);
+    }
+    public void KliknalemButtonRozwoju(int indeksButtonu)   //1 - Zycie, 2 - Atak, 3 - Obrona
+    {
+        PomocniczeFunkcje.managerGryScript.RozwójBudynkow((byte)indeksButtonu);
+    }
+    public void QuitGame()
+    {
+        PomocniczeFunkcje.ZapiszDane();
+        Application.Quit();
+    }
+    #endregion
 }

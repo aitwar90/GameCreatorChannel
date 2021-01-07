@@ -47,6 +47,8 @@ public class ManagerGryScript : MonoBehaviour
     private short valFPS = 0;
     private byte aktualnyIndexTabFPS = 0;
     private bool poziomZakonczony = false;
+    #endregion
+    #region Getery i Setery
     public Skrzynka ZwróćSkrzynkeOIndeksie(byte idx)
     {
         return skrzynki[idx];
@@ -78,6 +80,7 @@ public class ManagerGryScript : MonoBehaviour
     }
     public bool blokowanieOrientacji = true;
     #endregion  
+    #region Metody UNITY
     void Awake()
     {
         PomocniczeFunkcje.managerGryScript = this;
@@ -104,71 +107,6 @@ public class ManagerGryScript : MonoBehaviour
         }
         PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunekGracza);
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
-    }
-    private void ŁadowanieDanych()
-    {
-        PomocniczeFunkcje.muzyka.WłączWyłączClip(PomocniczeFunkcje.TagZEpoka("AmbientWGrze", aktualnaEpoka), ref PomocniczeFunkcje.muzyka.muzykaTła, false, (PomocniczeFunkcje.muzyka.muzykaTła.clip != null) ? PomocniczeFunkcje.muzyka.muzykaTła.clip.name : "");
-        PomocniczeFunkcje.spawnerHord = FindObjectOfType(typeof(SpawnerHord)) as SpawnerHord;
-        PomocniczeFunkcje.spawnerHord.UstawHorde(aktualnaEpoka, aktualnyPoziomEpoki);
-        Terrain terr = FindObjectOfType(typeof(Terrain)) as Terrain;
-        PomocniczeFunkcje.tablicaWież = new List<InformacjeDlaPolWież>[22, 22];
-        PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 56) / 2.0f);
-        PomocniczeFunkcje.distXZ = (terr.terrainData.size.x - (PomocniczeFunkcje.aktualneGranicaTab * 2)) / 20f;
-        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
-        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
-        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
-        PomocniczeFunkcje.spawnBudynki.InicjacjaPaneluBudynków();
-        PomocniczeFunkcje.mainMenu.WygenerujIPosortujTablice(); //Generuje i sortuje tablice budynków do wybudowania
-        PomocniczeFunkcje.ZapiszDane();
-        ObslTimerFal(0);
-        /*
-        Transform go = new GameObject("R").transform;
-         for(byte i = 0; i < 22; i++)
-        {
-            for(byte j = 0; j < 22; j++)
-            {
-                GameObject go1 = new GameObject("X = "+i+" Z = "+j);
-                go1.transform.position = new Vector3(i*PomocniczeFunkcje.distXZ + PomocniczeFunkcje.aktualneGranicaTab, 1.0f, j*PomocniczeFunkcje.distXZ + PomocniczeFunkcje.aktualneGranicaTab);
-
-                go1.AddComponent<TestOnEnableGround>();
-                TestOnEnableGround toeg = go.GetComponent<TestOnEnableGround>();
-                toeg.X = i;
-                toeg.Z = j;
-
-                go1.transform.SetParent(go);
-            }
-        }
-        */
-    }
-    public void GenerujBaze()
-    {
-        if (aktualnyPoziomEpoki > PomocniczeFunkcje.odblokowanyPoziomEpoki)
-        {
-            Debug.Log("Poziom epoki nie został odblokowany");
-            return;
-        }
-        else if ((byte)aktualnaEpoka > PomocniczeFunkcje.odblokowanyPoziomEpoki)
-        {
-            Debug.Log("Epoka nie została odblokowana");
-            return;
-        }
-        sbyte idxEpokiBazyWTablicy = (sbyte)((sbyte)aktualnaEpoka - 1);
-        if (idxEpokiBazyWTablicy < 0 || idxEpokiBazyWTablicy >= bazy.Length)
-        {
-            Debug.Log("idxEpokaBazyWTablicy = " + idxEpokiBazyWTablicy);
-            return;
-        }
-        else
-        {
-            ŁadowanieDanych();
-            //Debug.Log("Ustawiam budynek główny");
-            GameObject baza = GameObject.Instantiate(bazy[idxEpokiBazyWTablicy], new Vector3(MoveCameraScript.bazowePolozenieKameryGry.x, 1.5f, MoveCameraScript.bazowePolozenieKameryGry.z+5f), Quaternion.identity);
-            knpcsBazy = baza.GetComponent<KonkretnyNPCStatyczny>();
-            PomocniczeFunkcje.celWrogów = knpcsBazy;
-            knpcsBazy.InicjacjaBudynku();
-            PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcsBazy, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
-            baza.transform.SetParent(PomocniczeFunkcje.spawnBudynki.RodzicBudynków);
-        }
     }
     void Update()
     {
@@ -313,9 +251,95 @@ public class ManagerGryScript : MonoBehaviour
     }
     void LateUpdate()
     {
-        if(PomocniczeFunkcje.poHerbacie > -1)
+        if (PomocniczeFunkcje.poHerbacie > -1)
             PomocniczeFunkcje.ResetujDaneRaycast();
     }
+    #endregion
+    #region Metody podczas ładowania i kasowania sceny
+    private void ŁadowanieDanych()
+    {
+        PomocniczeFunkcje.muzyka.WłączWyłączClip(PomocniczeFunkcje.TagZEpoka("AmbientWGrze", aktualnaEpoka), ref PomocniczeFunkcje.muzyka.muzykaTła, false, (PomocniczeFunkcje.muzyka.muzykaTła.clip != null) ? PomocniczeFunkcje.muzyka.muzykaTła.clip.name : "");
+        PomocniczeFunkcje.spawnerHord = FindObjectOfType(typeof(SpawnerHord)) as SpawnerHord;
+        PomocniczeFunkcje.spawnerHord.UstawHorde(aktualnaEpoka, aktualnyPoziomEpoki);
+        Terrain terr = FindObjectOfType(typeof(Terrain)) as Terrain;
+        PomocniczeFunkcje.tablicaWież = new List<InformacjeDlaPolWież>[22, 22];
+        PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 56) / 2.0f);
+        PomocniczeFunkcje.distXZ = (terr.terrainData.size.x - (PomocniczeFunkcje.aktualneGranicaTab * 2)) / 20f;
+        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
+        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
+        PomocniczeFunkcje.spawnBudynki.InicjacjaPaneluBudynków();
+        PomocniczeFunkcje.mainMenu.WygenerujIPosortujTablice(); //Generuje i sortuje tablice budynków do wybudowania
+        PomocniczeFunkcje.ZapiszDane();
+        ObslTimerFal(0);
+        /*
+        Transform go = new GameObject("R").transform;
+         for(byte i = 0; i < 22; i++)
+        {
+            for(byte j = 0; j < 22; j++)
+            {
+                GameObject go1 = new GameObject("X = "+i+" Z = "+j);
+                go1.transform.position = new Vector3(i*PomocniczeFunkcje.distXZ + PomocniczeFunkcje.aktualneGranicaTab, 1.0f, j*PomocniczeFunkcje.distXZ + PomocniczeFunkcje.aktualneGranicaTab);
+
+                go1.AddComponent<TestOnEnableGround>();
+                TestOnEnableGround toeg = go.GetComponent<TestOnEnableGround>();
+                toeg.X = i;
+                toeg.Z = j;
+
+                go1.transform.SetParent(go);
+            }
+        }
+        */
+    }
+    public void GenerujBaze()
+    {
+        if (aktualnyPoziomEpoki > PomocniczeFunkcje.odblokowanyPoziomEpoki)
+        {
+            Debug.Log("Poziom epoki nie został odblokowany");
+            return;
+        }
+        else if ((byte)aktualnaEpoka > PomocniczeFunkcje.odblokowanyPoziomEpoki)
+        {
+            Debug.Log("Epoka nie została odblokowana");
+            return;
+        }
+        sbyte idxEpokiBazyWTablicy = (sbyte)((sbyte)aktualnaEpoka - 1);
+        if (idxEpokiBazyWTablicy < 0 || idxEpokiBazyWTablicy >= bazy.Length)
+        {
+            Debug.Log("idxEpokaBazyWTablicy = " + idxEpokiBazyWTablicy);
+            return;
+        }
+        else
+        {
+            ŁadowanieDanych();
+            //Debug.Log("Ustawiam budynek główny");
+            GameObject baza = GameObject.Instantiate(bazy[idxEpokiBazyWTablicy], new Vector3(MoveCameraScript.bazowePolozenieKameryGry.x, 1.5f, MoveCameraScript.bazowePolozenieKameryGry.z + 5f), Quaternion.identity);
+            knpcsBazy = baza.GetComponent<KonkretnyNPCStatyczny>();
+            PomocniczeFunkcje.celWrogów = knpcsBazy;
+            knpcsBazy.InicjacjaBudynku();
+            PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcsBazy, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
+            baza.transform.SetParent(PomocniczeFunkcje.spawnBudynki.RodzicBudynków);
+        }
+    }
+    private void SprawdźCzyScenaZostałaZaładowana()
+    {
+        if (ObslugaScenScript.indeksAktualnejSceny < 0)
+            return;
+        Scene s = SceneManager.GetSceneByBuildIndex(ObslugaScenScript.indeksAktualnejSceny);
+        if (s.isLoaded)
+        {
+            czyScenaZostałaZaładowana = true;
+            GenerujBaze();
+        }
+    }
+    public void ResetManagerGryScript()
+    {
+        czyScenaZostałaZaładowana = false;
+        poziomZakonczony = false;
+        iloscAktywnychWrogów = 0;
+    }
+    #endregion
+    #region Metody do obsługi UI
     private void ObslMryganie()
     {
         if (czyScenaZostałaZaładowana && PomocniczeFunkcje.celWrogów != null)
@@ -350,140 +374,6 @@ public class ManagerGryScript : MonoBehaviour
         czas = ((byte)czasMiędzyFalami - (byte)timerFal).ToString();
         //Debug.Log("ObslTimerFal "+ czas+" gdzie czas między falami "+czasMiędzyFalami+" timerFal "+timerFal);
         PomocniczeFunkcje.mainMenu.UstawTextUI("timer", czas);
-    }
-    private void SprawdźCzyScenaZostałaZaładowana()
-    {
-        if(ObslugaScenScript.indeksAktualnejSceny < 0)
-            return;
-        Scene s = SceneManager.GetSceneByBuildIndex(ObslugaScenScript.indeksAktualnejSceny);
-        if (s.isLoaded)
-        {
-            czyScenaZostałaZaładowana = true;
-            GenerujBaze();
-        }
-    }
-    private void KoniecPoziomuZakończony(bool sukces = true)
-    {
-        if (sukces)
-        {
-            if (aktualnyPoziomEpoki == PomocniczeFunkcje.odblokowanyPoziomEpoki)
-            {
-                if (aktualnyPoziomEpoki % 100 == 0 && (byte)aktualnaEpoka == PomocniczeFunkcje.odblokowanyPoziomEpoki)
-                {
-                    //Jeśli epoki są gotowe to tu są odblokowywane
-                    //PomocniczeFunkcje.odblokowaneEpoki++;
-                }
-                else    //Ten else do usunięcia jesli zostanie dodanych więcej epok
-                {
-                    PomocniczeFunkcje.odblokowanyPoziomEpoki++;
-                }
-            }
-            PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
-            PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
-            OdblokujKolejnaSkrzynke();
-            PomocniczeFunkcje.ZapiszDane();
-        }
-        PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
-        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("GameOver Panel", true);
-        poziomZakonczony = true;
-        iloscAktywnychWrogów = 0;
-    }
-    public void PrzejdźNaNastepnyPoziom(bool czyNowyPoziom = true)
-    {
-        if (czyNowyPoziom)
-        {
-            if (aktualnyPoziomEpoki >= 100)
-            {
-                aktualnyPoziomEpoki = 0;
-                byte f = (byte)aktualnaEpoka;
-                aktualnaEpoka = Epoki.None;
-                f++;
-                aktualnaEpoka += f;
-            }
-            else
-            {
-                aktualnyPoziomEpoki++;
-            }
-        }
-        PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = false;
-        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("GameOver Panel", false);
-        poziomZakonczony = false;
-        PomocniczeFunkcje.mainMenu.ResetSceny();
-    }
-    public void CudOcalenia()
-    {
-        //PomocniczeFunkcje.celWrogów.AktualneŻycie = (PomocniczeFunkcje.celWrogów.AktualneŻycie < PomocniczeFunkcje.celWrogów.maksymalneŻycie / 2) ? (short)(PomocniczeFunkcje.celWrogów.maksymalneŻycie / 2.0f) : PomocniczeFunkcje.celWrogów.maksymalneŻycie;
-        KonkretnyNPCDynamiczny[] knpcd = FindObjectsOfType(typeof(KonkretnyNPCDynamiczny)) as KonkretnyNPCDynamiczny[];
-        for (ushort i = 0; i < knpcd.Length; i++)
-        {
-            knpcd[i].AktualneŻycie = 0;
-            knpcd[i].NieŻyję = true;
-        }
-        KonkretnyNPCStatyczny[] knpcs = FindObjectsOfType(typeof(KonkretnyNPCStatyczny)) as KonkretnyNPCStatyczny[];
-        for (ushort i = 0; i < knpcs.Length; i++)
-        {
-            if (knpcs[i].AktualneŻycie > 0)
-                knpcs[i].AktualneŻycie = knpcs[i].maksymalneŻycie;
-        }
-        PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
-        PomocniczeFunkcje.mainMenu.UstawHPGłównegoPaska(1.0f);
-        //Fragment wyłączający courutyny
-        StopAllCoroutines();
-        ObslTimerFal(0);
-    }
-    public void KliknietyPrzycisk() //Kliknięty przycisk potwierdzający użycie skrzynki
-    {
-        byte losowy = ekwipunekGracza[0].DodajNagrode();
-        PomocniczeFunkcje.mainMenu.UstawButtonNagrody(losowy, ekwipunekGracza[losowy].ilośćDanejNagrody);
-    }
-    public void SkróćCzasSkrzynki(sbyte idxS = -1)
-    {
-        if (idxS == -1)
-        {
-            for (byte i = 0; i < skrzynki.Length; i++)
-            {
-                if (skrzynki[i].ReuseTimer && !skrzynki[i].button.interactable)
-                {
-                    skrzynki[i].OdejmnijCzas();
-                    break;
-                }
-            }
-        }
-        else if (idxS > -1)
-        {
-            if (skrzynki[idxS].ReuseTimer && !skrzynki[idxS].button.interactable)
-            {
-                skrzynki[idxS].OdejmnijCzas();
-            }
-        }
-    }
-    private void OdblokujKolejnaSkrzynke()
-    {
-        for (byte i = 0; i < skrzynki.Length; i++)
-        {
-            if (!skrzynki[i].ReuseTimer && !skrzynki[i].button.interactable)
-            {
-                skrzynki[i].RozpocznijOdliczanie();
-                break;
-            }
-        }
-    }
-    public void KliknietyButtonZwiekszeniaNagrodyPoLvlu()
-    {
-        ushort c = (ushort)(((byte)aktualnaEpoka) * 10 + aktualnyPoziomEpoki);
-        or.OtwórzReklame(1, c);
-    }
-    public void UzyciePrzedmiotu(byte idxOfItem)
-    {
-        if (ekwipunekGracza[idxOfItem].ilośćDanejNagrody > 0)
-        {
-            ekwipunekGracza[idxOfItem].AktywujPrzedmiot();
-            PomocniczeFunkcje.mainMenu.UstawButtonNagrody(idxOfItem, ekwipunekGracza[idxOfItem].ilośćDanejNagrody);
-        }
-    }
-    public void KlikniętaReklamaButtonSkrzynki(byte idx)
-    {
-        or.OtwórzReklame(2, idx);
     }
     public void ZmianaJęzyka(byte idx)
     {
@@ -614,6 +504,135 @@ public class ManagerGryScript : MonoBehaviour
             }
         }
     }
+    #endregion
+    #region Nagrody, skrzynki i reklamy
+    public void CudOcalenia()
+    {
+        //PomocniczeFunkcje.celWrogów.AktualneŻycie = (PomocniczeFunkcje.celWrogów.AktualneŻycie < PomocniczeFunkcje.celWrogów.maksymalneŻycie / 2) ? (short)(PomocniczeFunkcje.celWrogów.maksymalneŻycie / 2.0f) : PomocniczeFunkcje.celWrogów.maksymalneŻycie;
+        KonkretnyNPCDynamiczny[] knpcd = FindObjectsOfType(typeof(KonkretnyNPCDynamiczny)) as KonkretnyNPCDynamiczny[];
+        for (ushort i = 0; i < knpcd.Length; i++)
+        {
+            knpcd[i].AktualneŻycie = 0;
+            knpcd[i].NieŻyję = true;
+        }
+        KonkretnyNPCStatyczny[] knpcs = FindObjectsOfType(typeof(KonkretnyNPCStatyczny)) as KonkretnyNPCStatyczny[];
+        for (ushort i = 0; i < knpcs.Length; i++)
+        {
+            if (knpcs[i].AktualneŻycie > 0)
+                knpcs[i].AktualneŻycie = knpcs[i].maksymalneŻycie;
+        }
+        PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
+        PomocniczeFunkcje.mainMenu.UstawHPGłównegoPaska(1.0f);
+        //Fragment wyłączający courutyny
+        StopAllCoroutines();
+        ObslTimerFal(0);
+    }
+    public void KliknietyPrzycisk() //Kliknięty przycisk potwierdzający użycie skrzynki
+    {
+        byte losowy = ekwipunekGracza[0].DodajNagrode();
+        PomocniczeFunkcje.mainMenu.UstawButtonNagrody(losowy, ekwipunekGracza[losowy].ilośćDanejNagrody);
+    }
+    public void SkróćCzasSkrzynki(sbyte idxS = -1)
+    {
+        if (idxS == -1)
+        {
+            for (byte i = 0; i < skrzynki.Length; i++)
+            {
+                if (skrzynki[i].ReuseTimer && !skrzynki[i].button.interactable)
+                {
+                    skrzynki[i].OdejmnijCzas();
+                    break;
+                }
+            }
+        }
+        else if (idxS > -1)
+        {
+            if (skrzynki[idxS].ReuseTimer && !skrzynki[idxS].button.interactable)
+            {
+                skrzynki[idxS].OdejmnijCzas();
+            }
+        }
+    }
+    private void OdblokujKolejnaSkrzynke()
+    {
+        for (byte i = 0; i < skrzynki.Length; i++)
+        {
+            if (!skrzynki[i].ReuseTimer && !skrzynki[i].button.interactable)
+            {
+                skrzynki[i].RozpocznijOdliczanie();
+                break;
+            }
+        }
+    }
+    public void KliknietyButtonZwiekszeniaNagrodyPoLvlu()
+    {
+        ushort c = (ushort)(((byte)aktualnaEpoka) * 10 + aktualnyPoziomEpoki);
+        or.OtwórzReklame(1, c);
+    }
+    public void UzyciePrzedmiotu(byte idxOfItem)
+    {
+        if (ekwipunekGracza[idxOfItem].ilośćDanejNagrody > 0)
+        {
+            ekwipunekGracza[idxOfItem].AktywujPrzedmiot();
+            PomocniczeFunkcje.mainMenu.UstawButtonNagrody(idxOfItem, ekwipunekGracza[idxOfItem].ilośćDanejNagrody);
+        }
+    }
+    public void KlikniętaReklamaButtonSkrzynki(byte idx)
+    {
+        or.OtwórzReklame(2, idx);
+    }
+    #endregion
+    #region Koniec poziomu
+    private void KoniecPoziomuZakończony(bool sukces = true)
+    {
+        if (sukces)
+        {
+            if (aktualnyPoziomEpoki == PomocniczeFunkcje.odblokowanyPoziomEpoki)
+            {
+                if (aktualnyPoziomEpoki % 100 == 0 && (byte)aktualnaEpoka == PomocniczeFunkcje.odblokowanyPoziomEpoki)
+                {
+                    //Jeśli epoki są gotowe to tu są odblokowywane
+                    //PomocniczeFunkcje.odblokowaneEpoki++;
+                }
+                else    //Ten else do usunięcia jesli zostanie dodanych więcej epok
+                {
+                    PomocniczeFunkcje.odblokowanyPoziomEpoki++;
+                }
+            }
+            PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
+            PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
+            OdblokujKolejnaSkrzynke();
+            PomocniczeFunkcje.ZapiszDane();
+        }
+        PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("GameOver Panel", true);
+        poziomZakonczony = true;
+        iloscAktywnychWrogów = 0;
+    }
+    public void PrzejdźNaNastepnyPoziom(bool czyNowyPoziom = true)
+    {
+        if (czyNowyPoziom)
+        {
+            if (aktualnyPoziomEpoki >= 100)
+            {
+                aktualnyPoziomEpoki = 0;
+                byte f = (byte)aktualnaEpoka;
+                aktualnaEpoka = Epoki.None;
+                f++;
+                aktualnaEpoka += f;
+            }
+            else
+            {
+                aktualnyPoziomEpoki++;
+            }
+        }
+        PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = false;
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("GameOver Panel", false);
+        poziomZakonczony = false;
+        PomocniczeFunkcje.mainMenu.ResetSceny();
+    }
+    #endregion
+    #region Metody ogólne
     private void UtworzSzablonPlikuJezykowego()
     {
         string sciezka = "Assets/Resources/jezyki.txt";
@@ -723,10 +742,5 @@ public class ManagerGryScript : MonoBehaviour
                 break;
         }
     }
-    public void ResetManagerGryScript()
-    {
-        czyScenaZostałaZaładowana = false;
-        poziomZakonczony = false;
-        iloscAktywnychWrogów = 0;
-    }
+    #endregion
 }
