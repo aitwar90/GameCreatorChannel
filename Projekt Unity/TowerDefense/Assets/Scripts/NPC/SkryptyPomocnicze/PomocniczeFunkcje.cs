@@ -40,7 +40,7 @@ public static class PomocniczeFunkcje
         posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 #endif
 #if UNITY_ANDROID
-        if (Input.mousePresent)
+        if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
         {
             posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         }
@@ -88,7 +88,7 @@ public static class PomocniczeFunkcje
         posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 #endif
 #if UNITY_ANDROID
-        if (Input.mousePresent)
+        if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
         {
             posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         }

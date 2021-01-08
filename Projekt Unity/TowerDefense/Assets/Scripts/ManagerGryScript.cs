@@ -35,6 +35,7 @@ public class ManagerGryScript : MonoBehaviour
     [HideInInspector] public ushort hpIdx;
     [HideInInspector] public ushort atkIdx;
     [HideInInspector] public ushort defIdx;
+    public static bool odpalamNaUnityRemote = false;
     #endregion
 
     #region Prywatne zmienne

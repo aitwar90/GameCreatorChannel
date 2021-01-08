@@ -13,7 +13,7 @@ public class MoveCameraScript : MonoBehaviour
     private float prędkoscPrzesunięciaKamery = 2f;
 #endif
 #if UNITY_ANDROID
-    private float prędkoscPrzesunięciaKamery = 10f;
+    private float prędkoscPrzesunięciaKamery = (!ManagerGryScript.odpalamNaUnityRemote) ? 10f : 0.8f;
 #endif
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
     private Vector3 pierwotnePołożenieKamery = Vector3.zero;
@@ -55,7 +55,7 @@ public class MoveCameraScript : MonoBehaviour
         ObsłużMysz();
 #endif
 #if UNITY_ANDROID
-            if (Input.mousePresent)
+            if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
             {
                 ObsłużMysz();
             }
@@ -96,8 +96,8 @@ public class MoveCameraScript : MonoBehaviour
                         }
                         else if (dotyk.phase == TouchPhase.Moved)
                         {
-                            Vector3 tmpOfs = posDotyk - offs;
-                            PomocniczeFunkcje.mainMenu.PrzesuńBudynki(tmpOfs.magnitude);
+                            posDotyk = posDotyk - offs;
+                            PomocniczeFunkcje.mainMenu.PrzesuńBudynki(posDotyk.magnitude);
                         }
                     }
                 }
@@ -190,7 +190,7 @@ public class MoveCameraScript : MonoBehaviour
     void ObsłużTouchPad()
     {
         if (Input.touchCount == 1)    //Przesuniecie kamery
-        {
+        {        
             bool klik = false;
             Vector3 posDotyk = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKamery, ref klik);
             if (klik)
@@ -212,23 +212,22 @@ public class MoveCameraScript : MonoBehaviour
                 }
             }
         }
-        /*
         if (Input.touchCount == 2)   //Oddalenie i przybliżenie kamery
         {
             Touch przybliżenie1 = Input.GetTouch(0);
             Touch przybliżenie2 = Input.GetTouch(1);
-
-            Vector2 przyb1Prev = przybliżenie1.position - przybliżenie1.deltaPosition;
-            Vector2 przyb2Prev = przybliżenie2.position - przybliżenie2.deltaPosition;
-
-            float prevTouchDeltaMag = (przyb1Prev - przyb2Prev).magnitude;
-            float touchDeltaMag = (przybliżenie1.position - przybliżenie2.position).magnitude;
-
-            float różnicaPrzybliżenia = ((prevTouchDeltaMag - touchDeltaMag) * -1) * prędkoscPrzesunięciaKamery;
-            if (Mathf.Abs(różnicaPrzybliżenia - 5.0f) < 2)
-                transform.Translate(0, 0, różnicaPrzybliżenia);
+            //Przesuniecie w lewo deltaposition.x jest - w prawo + w góre y + w dół -
+            Vector2 przyb1Prev = przybliżenie1.deltaPosition - przybliżenie2.deltaPosition;
+            float różnicaPrzybliżenia = DodajElementyWektora(ref przyb1Prev) * prędkoscPrzesunięciaKamery;
+            Vector3 eNP = this.transform.position + (this.transform.forward*różnicaPrzybliżenia);
+            if (Mathf.Abs(eNP.y - bazowePolozenieKameryGry.y) < 3)
+                transform.position = eNP;
         }
-        */
+    }
+    private float DodajElementyWektora(ref Vector2 v)
+    {
+        v = v.normalized;
+        return (v.x + v.y)/2.0f;
     }
     #endregion
 }
