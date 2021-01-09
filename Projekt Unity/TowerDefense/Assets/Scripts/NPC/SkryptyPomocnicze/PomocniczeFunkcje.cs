@@ -3,31 +3,34 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public static class PomocniczeFunkcje
 {
-    public static StrukturaDrzewa korzeńDrzewaPozycji = null;
-    public static NPCClass celWrogów = null;
-    private static string test = "Assets/Resources/Debug.txt";
-    public static Dictionary<string, StrukturaDoPoolowania> stosTrupów = null;
-    public static SpawnerHord spawnerHord = null;
-    public static ManagerGryScript managerGryScript = null;
-    public static MainMenu mainMenu = null;
-    public static SpawnBudynki spawnBudynki = null;
-    public static MuzykaScript muzyka = null;
-    public static List<InformacjeDlaPolWież>[,] tablicaWież = null;
-    public static float distXZ = 5;
-    public static ushort odblokowanyPoziomEpoki = 1;
-    public static byte odblokowaneEpoki = 1;
-    public static ushort aktualneGranicaTab = 0;
-    public static Camera oCam = null;
-    public static EventSystem eSystem = null;
-    public static GraphicRaycaster gr = null;
-    public static sbyte poHerbacie = -1;
-    private static RaycastHit[] tabHit = null;
-    private static short[] bufferpozycji = new short[2];
+    #region Zmienne
+    public static StrukturaDrzewa korzeńDrzewaPozycji = null;   //Root dla drzewa pozycji budynków gracza postawionych na scenie
+    public static NPCClass celWrogów = null;                    //Budynek - baza
+    private static string test = "Assets/Resources/Debug.txt";  //Ścieżka dla debugera błędów, których nie może wykryć aplikacja Unity
+    public static Dictionary<string, StrukturaDoPoolowania> stosTrupów = null;  //Stos przeciwników używany do poolowania
+    public static SpawnerHord spawnerHord = null;               //Referencja do klasy generującej fale wrogów na mapie
+    public static ManagerGryScript managerGryScript = null;     //Referencja dla klasy obsługującej grę
+    public static MainMenu mainMenu = null;                     //Referencja do klasy obsługującej UI
+    public static SpawnBudynki spawnBudynki = null;             //Referencja do klasy odpowiedzialnej za stawianie budynków na scenie
+    public static MuzykaScript muzyka = null;                   //Referencja do klasy odpowiedzialnej za przechowywanie klipów audio
+    public static List<InformacjeDlaPolWież>[,] tablicaWież = null; //Lista pól do obsługi wież na terenie
+    public static float distXZ = 5;                             //Dystans klatki dla tablicy wież
+    public static ushort odblokowanyPoziomEpoki = 1;            //Ile poziomów najnowszej epoki odblokował gracz
+    public static byte odblokowaneEpoki = 1;                    //Jakie epoki odblokował gracz        
+    public static ushort aktualneGranicaTab = 0;                //Odległość między krawędzią terenu a obszarem działania gracza     
+    public static Camera oCam = null;                           //Referencja do głównej kamery (optymalizacyjna zmienna)
+    public static EventSystem eSystem = null;                   //Event system wykorzystywany do sprawdzenia czy gracz przypadkiem nie działa na UI                
+    public static sbyte poHerbacie = -1;                        //Zmienna przechowująca informacje o tym, czy w tej klatce generowano promień dla tabHit
+    private static RaycastHit[] tabHit = null;                  //Tablica trafień dla promienia
+    private static short[] bufferpozycji = new short[2];        //Buffer pozycji wyliczanej dla jednostki przemieszczającej się po scenie gry
+    #endregion
     #region Obsługa położenia myszy względem ekranu
+    /*
+    Metoda zwraca punkt styku promienia generowanego przez kursor a obiektem natrafiającym na collider
+    */
     public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos, ref bool hitUI)
     {
         if (oCam == null)
@@ -77,6 +80,9 @@ public static class PomocniczeFunkcje
         }
         return lastPos;
     }
+    /*
+    Metoda zwraca informację o ewentualnym klikniętym obiekcie przez gracza
+    */
     public static NPCClass OkreślKlikniętyNPC(ref NPCClass lastNPCCLass)
     {
         if (oCam == null)
@@ -142,6 +148,9 @@ public static class PomocniczeFunkcje
         else
             return lastClass;
     }
+    /*
+    Metoda pomocnicza zwracająca trafione promieniem obiekty z colliderem mającym layer default lub NPCS
+    */
     private static RaycastHit[] ZwrócHity(ref Camera camera, Vector2 pozycjaK)
     {
         if (poHerbacie < 0) //Już raz wyszukałem w tej turze colidery
@@ -158,6 +167,9 @@ public static class PomocniczeFunkcje
         else
             return null;
     }
+    /*
+    Metoda zwraca informację czy kliknięty był obiekt UI czy też nie
+    */
     public static bool CzyKliknalemUI()
     {
         int fingerID = -1;
@@ -179,6 +191,9 @@ public static class PomocniczeFunkcje
             return false;
         }
     }
+    /*
+    Metoda resetuje dane bufforów dla promienia (LateUpdate())
+    */
     public static void ResetujDaneRaycast()
     {
         poHerbacie = -1;
@@ -186,6 +201,29 @@ public static class PomocniczeFunkcje
     }
     #endregion
     #region Drzewo pozycji
+    /*
+    Funkcja zwraca informację o tym, czy npc znajduje się w obszarze gracza (Funkcja ustawiana zgodnie z ilością pól dla wież)
+    */
+    public static bool SprawdźCzyWykraczaPozaZakresTablicy(short x, short z)
+    {
+        if (x < 0 || x > 21 || z < 0 || z > 21)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    /*
+    Funkcja zwraca o indeksie w liście tablicaWież dla danego punktu
+    */
+    public static short[] ZwrócIndeksyWTablicy(float posx, float posz)
+    {
+        bufferpozycji[0] = (short)(Mathf.FloorToInt((posx - aktualneGranicaTab) / distXZ));
+        bufferpozycji[1] = (short)(Mathf.FloorToInt((posz - aktualneGranicaTab) / distXZ));
+        return bufferpozycji;
+    }
     //Wyszukuje najbliższy budynek w drzewie dla punktu wysłanego w parametrze pozycjaWyszukiwujacego
     public static Component WyszukajWDrzewie(ref StrukturaDrzewa korzeń, Vector3 pozycjaWyszukiwującego)
     {
@@ -262,6 +300,9 @@ public static class PomocniczeFunkcje
         }
         return compDoZwrotu;
     }
+    /*
+    Metoda kasuje element drzewa wysłany jako parametr (wywołuje się podczas kiedy budynek gracza jest niszczony)
+    */
     public static void SkasujElementDrzewa(ref StrukturaDrzewa korzeń, Component _komponentDoSkasowania)
     {
         if (korzeń == null)
@@ -288,6 +329,9 @@ public static class PomocniczeFunkcje
             }
         }
     }
+    /*
+    Funkcja zwraca informację o elementach będących dziećmi elementu wysyłanego w parametrze (Wywoływana podczas kasowania elementu w drzewie)
+    */
     private static StrukturaDrzewa[,] ZnajdźElementPoKomponencie(ref StrukturaDrzewa korzeń, Component _com)
     {
         StrukturaDrzewa aktualnyElement = korzeń;
@@ -398,6 +442,9 @@ public static class PomocniczeFunkcje
         }
         return null;
     }
+    /*
+    Metoda dodaje do drzewa pozycji budynków elementy dzieci, których rodzic jest kasowany
+    */
     private static void DodajDoDrzewaPozycji(ref StrukturaDrzewa korzeń, StrukturaDrzewa elementDodawany)
     {
         StrukturaDrzewa aktualnieSprawdzanyNode = korzeń;
@@ -458,6 +505,10 @@ public static class PomocniczeFunkcje
             }
         }
     }
+    /*
+    Metoda dodaje do drzewa pozycji nowy element.
+    Metoda działa na zasadzie pozycji względem rodzica tj rootem a inne budynki są wstawiane w określone gałęzie zgodnie z ćwiartką osi położenia względem gałęzi nadrzędnej.
+    */
     public static void DodajDoDrzewaPozycji(Component _component, ref StrukturaDrzewa korzeń)
     {
         if (korzeń == null)
@@ -523,6 +574,9 @@ public static class PomocniczeFunkcje
     }
     #endregion
     #region AI
+    /*
+    Funkcja zwraca wartość true, kiedy NPC znalazł, atakuje lub dąży do celu.
+    */
     public static bool ZwykłeAI(NPCClass pObiekt)
     {
         if (pObiekt == null)
@@ -609,6 +663,9 @@ public static class PomocniczeFunkcje
         }
         return true;
     }
+    /*
+    Metoda dodaje do stosu NPC, którzy w danej fali zostali pokonani (Pooling)
+    */
     public static void DodajDoStosuTrupów(KonkretnyNPCDynamiczny dodajDoTrupów)
     {
         if (stosTrupów == null)
@@ -628,6 +685,9 @@ public static class PomocniczeFunkcje
         }
         dodajDoTrupów.transform.position = new Vector3(0, -20f, 0);
     }
+    /*
+    Funkcja zwraca obiekt, który został wygenerowany w jednej z poprzednich fal zgodny z życzeniem Generatora Fal
+    */
     public static GameObject ZwróćOBiektPoolowany(string nazwaZpoolera)
     {
         try
@@ -648,16 +708,19 @@ public static class PomocniczeFunkcje
         return null;
     }
     #endregion
-    public static void UstawTimeScale(float tScale)
-    {
-        Time.timeScale = tScale;
-    }
+    #region Ładowanie czyszczenie i zapis danych
+    /*
+    Metoda zapisuje dane do pliku Debugującego coś co chcemy zdebugować, a potem poddać ręcznej analizie.
+    */
     public static void SaveInformationInDebug(string s)
     {
         StreamWriter writer = new StreamWriter(test, true);
         writer.WriteLine(s);
         writer.Close();
     }
+    /*
+    Metoda przywraca podstawowe dane projektu (ładowanie nowej sceny np)
+    */
     public static void ResetujWszystko()
     {
         korzeńDrzewaPozycji = null;
@@ -675,23 +738,9 @@ public static class PomocniczeFunkcje
             spawnerHord = null;
         }
     }
-    public static short[] ZwrócIndeksyWTablicy(float posx, float posz)
-    {
-        bufferpozycji[0] = (short)(Mathf.FloorToInt((posx - aktualneGranicaTab) / distXZ));
-        bufferpozycji[1] = (short)(Mathf.FloorToInt((posz - aktualneGranicaTab) / distXZ));
-        return bufferpozycji;
-    }
-    public static bool SprawdźCzyWykraczaPozaZakresTablicy(short x, short z)
-    {
-        if (x < 0 || x > 19 || z < 0 || z > 19)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+    /*
+    Metoda zapisuje dane do pliku odnośnie postępów gracza w grze
+    */
     public static void ZapiszDane()
     {
         DataSave ds = new DataSave();
@@ -766,6 +815,9 @@ public static class PomocniczeFunkcje
         fs.Close();
 
     }
+    /*
+    Metoda ładuje dane odnośnie postępów gracza w grze z pliku
+    */
     public static void ŁadujDane()
     {
         string ścieżka = ZwróćŚcieżkęZapisu("dataBaseTDv1.asc");
@@ -846,6 +898,9 @@ public static class PomocniczeFunkcje
             managerGryScript.defIdx = 0;
         }
     }
+    /*
+    Funkcja zwraca ścieżkę zapisu plików
+    */
     private static string ZwróćŚcieżkęZapisu(string nazwaPliku)
     {
         string s = null;
@@ -861,6 +916,9 @@ public static class PomocniczeFunkcje
 
         return s;
     }
+    /*
+    Zapisuje ustawienia opcji do pliku
+    */
     public static void ZapisDanychOpcje()
     {
         DaneOpcji daneO = new DaneOpcji();
@@ -886,6 +944,9 @@ public static class PomocniczeFunkcje
         bf.Serialize(fs, daneO);
         fs.Close();
     }
+    /*
+    Ładuje opcje gracza z pliku
+    */
     public static void LadujDaneOpcje()
     {
         string ścieżka = ZwróćŚcieżkęZapisu("daneOpcje.asc");
@@ -909,6 +970,10 @@ public static class PomocniczeFunkcje
             }
         }
     }
+    #endregion
+    /*
+    Funkcja Tag z epoką zwraca informację o tagu dla audio clip jaki ma zostac załadowany do Audio Source
+    */
     public static string TagZEpoka(string aktTag, Epoki e, string rodzajObiektu = "")
     {
         return aktTag + "_" + e.ToString() + rodzajObiektu;
@@ -918,6 +983,10 @@ public static class PomocniczeFunkcje
     {
         float warMnoznika = Mathf.Pow(0.98f, wartośćIndeksu);
         return bazowyModyfikator + (0.002f * warMnoznika); //Do +5% na 37 poziomie
+    }
+    public static void UstawTimeScale(float tScale)
+    {
+        Time.timeScale = tScale;
     }
 }
 [System.Serializable]

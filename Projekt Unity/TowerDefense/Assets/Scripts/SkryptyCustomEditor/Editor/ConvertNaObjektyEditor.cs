@@ -1,3 +1,8 @@
+/*
+Skrypt generujący obiekty z zaznaczonego terenu i jeśli zachodzi taka potrzeba łączący je w większe obiekty.
+Klikasz teren => Ustawiasz co ma się dziać i konwertujesz klikając na Konwertuj. Jeśli coś się popsuło, możesz skasować zapisane pliki mesha klikając na Czyść meshe.
+(UWAGA obiekty muszą znajdować się w folderze ich zapisu, a sceny musza być załadowane w builderze inaczej skasuje wszystkie meshe co są w folderach Assets/Convert)
+*/
 using UnityEditor;
 using UnityEngine;
 using UnityEditor.SceneManagement;
@@ -14,7 +19,7 @@ public class ConvertNaObjektyEditor : EditorWindow
     private bool _łączObiekty = false;
     private static int idxik = 0;
     [MenuItem("Window/Convert/ConvertFromTerrain")]
-    public static void PokażOkno()
+    public static void PokażOkno()  //Metoda generująca okno Edytora Unity
     {
         if (!instance)
         {
@@ -22,7 +27,7 @@ public class ConvertNaObjektyEditor : EditorWindow
             instance = true;
         }
     }
-    void OnGUI()
+    void OnGUI()    //OnGUI czyli interfejs okna => Prosty ale działający :)
     {
         GUILayout.Label("Te okno służy do konwersji obiektów z terenu na obiekty");
         GUILayout.Space(odl);
@@ -57,6 +62,9 @@ public class ConvertNaObjektyEditor : EditorWindow
             ClearMeshes();
         }
     }
+    /*
+    Metoda wyciąga z terenu informacje o pozcji drzew i detali i tworzy ich odpowiedniki na scenie. Jeśli zaznaczone kasować to skasuje je z terenu.
+    */
     public static int Konwertuj(ref Transform tr, bool _generujDrzewa, bool _generujDetale, bool czyKasowac = false, bool czyłączyćObiekty = false)
     {
         Terrain ter = null;
@@ -71,6 +79,7 @@ public class ConvertNaObjektyEditor : EditorWindow
         {
             return 1;
         }
+        //Blok odpowiedzialny za generowanie drzew
         if (td.treeInstanceCount > 0 && _generujDrzewa)
         {
             GameObject treeParent = null;
@@ -106,6 +115,7 @@ public class ConvertNaObjektyEditor : EditorWindow
         {
             Debug.Log("Brak drzew");
         }
+        //Blok odpowiedzialny za generowanie detali
         if (td.detailPatchCount > 0 && _generujDetale)
         {
             GameObject detParent = null;
@@ -134,7 +144,6 @@ public class ConvertNaObjektyEditor : EditorWindow
                 for (byte i = 0; i < dp.Length; i++)
                 {
                     GameObject go = dp[i].prototype;
-                    Debug.Log("Protonyp d[" + i + "] = " + dp[i].prototype.name);
                     float minWidth = dp[i].minWidth;
                     float maxWidth = dp[i].maxWidth;
 
@@ -214,6 +223,9 @@ public class ConvertNaObjektyEditor : EditorWindow
         }
         return 1;
     }
+    /*
+    Metoda łączy w 1 obiekt obiekty które zostały przekonwertowane z terenu. Mało wydajna, ale to nie w grze i do Tower Defenca o małej ilości danych wystarczająca.
+    */
     private static void ŁączDzieciWJedno(Transform trRodzica)
     {
         List<GameObject> gos = new List<GameObject>();
@@ -309,6 +321,9 @@ public class ConvertNaObjektyEditor : EditorWindow
             ZapiszAsset(gos[gi].GetComponent<MeshFilter>().sharedMesh, ZwróćMiTuŚcieżkę(gos[gi].name), EditorSceneManager.GetActiveScene().name + "_" + gi.ToString() + "_" + idxik.ToString(), ".mesh");
         }
     }
+    /*
+    Funkcja tworzy obiekt, do którego przypisany będzie mesh z łączenia
+    */
     private static GameObject StwórzObiekt(string nazwa, int idx, Material mat)
     {
         GameObject go = new GameObject(nazwa/* + "_" + idx.ToString()*/);
@@ -321,12 +336,17 @@ public class ConvertNaObjektyEditor : EditorWindow
         go.GetComponent<MeshFilter>().sharedMesh = m;
         return go;
     }
-
+    /*
+    Funkcja zwraca informację czy ilość wierzchołków w obiekcie nie jest większa niż 55000
+    */
     private static bool SprawdźCzyMamMniejNiż(ref Transform go)
     {
         return (go.GetComponent<MeshFilter>().sharedMesh.vertexCount < 55000) ? true : false;
     }
     #region Dodaj tablice
+    /*
+    Blok funkcji dodających tablice poszczególnych obiektów
+    */
     private static Vector3[] DodajTablice(Vector3[] t1, Vector3[] t2, Vector3 offset, Vector3 skala, Transform tir = null)
     {
         Vector3[] tab = new Vector3[t1.Length + t2.Length];
@@ -388,12 +408,18 @@ public class ConvertNaObjektyEditor : EditorWindow
         return tab;
     }
     #endregion
+    /*
+    Metoda zapisuje utworzony mesh na dysku
+    */
     public static void ZapiszAsset(UnityEngine.Object asset, string path, string name, string rozszerzenie = ".mesh")
     {
         path = path + "/" + name + rozszerzenie;
         AssetDatabase.CreateAsset(asset, path);
         AssetDatabase.SaveAssets();
     }
+    /*
+    Funkcja zwraca ścieżkę do zapisu assetów, a jeśli danej ściezki nie ma to tworzy foldery aby zainstniała
+    */
     private static string ZwróćMiTuŚcieżkę(string nazwaZapisywanegoObiektu)
     {
         string path = "Assets/Converter/" + nazwaZapisywanegoObiektu;
@@ -414,6 +440,9 @@ public class ConvertNaObjektyEditor : EditorWindow
         idxik++;
         return path;
     }
+    /*
+    Metoda czyści projekt z meshy nie używanych w projekcie (tylko utworzonych przez ten edytor)
+    */
     private static void ClearMeshes()
     {
         string path = "/Converter/";
@@ -466,6 +495,9 @@ public class ConvertNaObjektyEditor : EditorWindow
             }
         }
     }
+    /*
+    Metoda dodaje do listy meshy wszystkie, które znajdują się w scenach znajdującyc się w Build Indeksie (nie chcemy kasować używanych meshy)
+    */
     private static void ZwrócMeshe(ref List<string> stringi)
     {
         MeshFilter[] m = FindObjectsOfType(typeof(MeshFilter)) as MeshFilter[];
