@@ -65,6 +65,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     private GameObject reklamyPanel;
     private GameObject ui_down;
     private GameObject goPanel;
+    private GameObject samouczekPanel;
     private Button przyciskWznów;
     private Vector3 lastPosCam = Vector3.zero;
     private sbyte wybranaNagroda = -1;
@@ -141,6 +142,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         rectHpBar = uiGry.transform.Find("PasekZyciaGłównegoBudynku/Green").GetComponent<RectTransform>();
         goPanel = uiGry.transform.Find("GameOver Panel").gameObject;
         licznikCzasuDoFali = uiGry.transform.Find("UI_LicznikCzasu/img_licznik/KompTextLicznikCzasu").GetComponent<Text>();
+        samouczekPanel = uiGry.transform.Find("SamouczekPanel").gameObject;
         epokaNizej.interactable = false;
         panelStatyczny.gameObject.SetActive(false);
         panelDynamiczny.gameObject.SetActive(false);
@@ -152,7 +154,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         nastepnyPoziom.interactable = false;
         rekZaWyzszaNagrode.gameObject.SetActive(false);
         WłączWyłączPanel(new string[] {goPanel.name, uiBudynkiPanel.name, ui_down.name, uiGry.name, optionsMenu.name,
-        reklamyPanel.name, poGraj.name, "Cretidsy"}, false);
+        reklamyPanel.name, poGraj.name, samouczekPanel.name, "Cretidsy"}, false);
     }
 
     #region Obsługa paneli UI, Czy mogę przesuwać kamerę (), Pasek HP
@@ -194,6 +196,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         else if (panel == "UI_LicznikCzasu")
         {
             licznikCzasuDoFali.transform.parent.gameObject.SetActive(czyWłączyć);
+        }
+        else if (panel == samouczekPanel.name)
+        {
+            samouczekPanel.SetActive(czyWłączyć);
         }
         else if (panel == "Cretidsy") //Powinno być ostatnie (kto odpala creditsy xD)
         {
@@ -240,6 +246,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             else if (panel[i] == "UI_LicznikCzasu")
             {
                 licznikCzasuDoFali.transform.parent.gameObject.SetActive(czyWłączyć);
+            }
+            else if (panel[i] == samouczekPanel.name)
+            {
+                samouczekPanel.SetActive(czyWłączyć);
             }
             else if (panel[i] == "Cretidsy") //Powinno być ostatnie (kto odpala creditsy xD)
             {
