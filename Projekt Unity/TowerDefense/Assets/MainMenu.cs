@@ -360,6 +360,66 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             return false;
         }
     }
+    public Vector2 ZwrocRectTransformObiektu(string nazwaSzukanegoObiektu)
+    {
+        Vector2 zwracanaPos = Vector2.zero;
+        switch (nazwaSzukanegoObiektu)
+        {
+            case "kup":
+                zwracanaPos = kup.GetComponent<RectTransform>().position;
+                break;
+            case "stawiajBudynek":
+                zwracanaPos = stawiajBudynek.GetComponent<RectTransform>().position;
+                break;
+            case "rotacjaBudynku":
+                zwracanaPos = rotacjaBudynku.GetComponent<RectTransform>().position;
+                break;
+            case "cudOcalenia":
+                zwracanaPos = przyciskiNagród[1].GetComponent<RectTransform>().position;
+                break;
+            case "coinyNagroda":
+                zwracanaPos = przyciskiNagród[0].GetComponent<RectTransform>().position;
+                break;
+            case "dodatkowaNagroda":
+                zwracanaPos = przyciskiNagród[2].GetComponent<RectTransform>().position;
+                break;
+            case "skrócenieCzasuSkrzynki":
+                zwracanaPos = przyciskiNagród[3].GetComponent<RectTransform>().position;
+                break;
+            case "ilośćCoinów":
+                zwracanaPos = ilośćCoinów.GetComponent<RectTransform>().position;
+                break;
+            case "ilośćFal":
+                zwracanaPos = ilośćFal.GetComponent<RectTransform>().position;
+                break;
+            case "buttonAŻycie":
+                zwracanaPos = buttonAZycie.GetComponent<RectTransform>().position;
+                break;
+            case "buttonAAtak":
+                zwracanaPos = buttonAAtak.GetComponent<RectTransform>().position;
+                break;
+            case "buttonAObrona":
+                zwracanaPos = buttonAObrona.GetComponent<RectTransform>().position;
+                break;
+            case "kupnoWieża":
+                zwracanaPos = ui_down.transform.Find("kupno_wieza").GetComponent<RectTransform>().position;
+                break;
+            case "kupnoMur":
+                zwracanaPos = ui_down.transform.Find("kupno_mur").GetComponent<RectTransform>().position;
+                break;
+            case "kupnoInne":
+                zwracanaPos = ui_down.transform.Find("kupno_inne").GetComponent<RectTransform>().position;
+                break;
+            case "naprawBudynek":
+                PanelStatyczny ps = (PanelStatyczny)panelStatyczny;
+                zwracanaPos = ps.naprawButton.GetComponent<RectTransform>().position;
+                break;
+            default:
+                zwracanaPos = Vector2.negativeInfinity;
+                break;
+        }
+        return zwracanaPos;
+    }
     #endregion
     #region Po Scenie
     public void OdpalPoScenie(bool czyOdpalamPoScenie)
@@ -385,7 +445,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         int unSceneIdx = ObslugaScenScript.indeksAktualnejSceny;
         PomocniczeFunkcje.ResetujWszystko();
         SceneManager.UnloadSceneAsync(unSceneIdx);
-        if(ładowaćNowąScene)
+        if (ładowaćNowąScene)
             StartCoroutine(CzekajAz());
     }
     public IEnumerator CzekajAz()
@@ -463,7 +523,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         if (SceneManager.sceneCount == 1)
         {
             byte poziom = PomocniczeFunkcje.managerGryScript.GetComponent<ObslugaScenScript>().ZwróćScenęSamouczka();
-            if(poziom < SceneManager.sceneCountInBuildSettings)
+            if (poziom < SceneManager.sceneCountInBuildSettings)
                 SceneManager.LoadScene(poziom, LoadSceneMode.Additive);
             else
             {
@@ -562,71 +622,75 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     public void WłączWyłączPanelBudynków(int idx)
     {
-        PrzesuńBudynki(0, true);
-        if (idx == 0)    //Panel z wieżami
+        if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki < 255 ||
+        samouczekPanel.GetComponent<ManagerSamouczekScript>().PozwólZamknąćPanelBudynków())
         {
-            if (idxWież == null)
-                return;
-            WłączWyłączPanel("UI_BudynkiPanel", true);
-            WłączWyłączPanel("UI_LicznikCzasu", false);
-            PomocniczeFunkcje.UstawTimeScale(0);
-            if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 0)
+            PrzesuńBudynki(0, true);
+            if (idx == 0)    //Panel z wieżami
             {
-                if (lastPanelEnabledBuildings == 1)
-                    EnDisButtonsOfBuildingsInPanel(ref idxMurów, false);
-                else if (lastPanelEnabledBuildings == 2)
-                    EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
+                if (idxWież == null)
+                    return;
+                WłączWyłączPanel("UI_BudynkiPanel", true);
+                WłączWyłączPanel("UI_LicznikCzasu", false);
+                PomocniczeFunkcje.UstawTimeScale(0);
+                if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 0)
+                {
+                    if (lastPanelEnabledBuildings == 1)
+                        EnDisButtonsOfBuildingsInPanel(ref idxMurów, false);
+                    else if (lastPanelEnabledBuildings == 2)
+                        EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
+                }
+                EnDisButtonsOfBuildingsInPanel(ref idxWież, true);
+                lastPanelEnabledBuildings = 0;
             }
-            EnDisButtonsOfBuildingsInPanel(ref idxWież, true);
-            lastPanelEnabledBuildings = 0;
-        }
-        else if (idx == 1)   //Panel z murkami
-        {
-            if (idxMurów == null)
-                return;
-            WłączWyłączPanel("UI_BudynkiPanel", true);
-            WłączWyłączPanel("UI_LicznikCzasu", false);
-            PomocniczeFunkcje.UstawTimeScale(0);
-            if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 1)
+            else if (idx == 1)   //Panel z murkami
             {
-                if (lastPanelEnabledBuildings == 0)
-                    EnDisButtonsOfBuildingsInPanel(ref idxWież, false);
-                else if (lastPanelEnabledBuildings == 2)
-                    EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
+                if (idxMurów == null)
+                    return;
+                WłączWyłączPanel("UI_BudynkiPanel", true);
+                WłączWyłączPanel("UI_LicznikCzasu", false);
+                PomocniczeFunkcje.UstawTimeScale(0);
+                if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 1)
+                {
+                    if (lastPanelEnabledBuildings == 0)
+                        EnDisButtonsOfBuildingsInPanel(ref idxWież, false);
+                    else if (lastPanelEnabledBuildings == 2)
+                        EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
+                }
+                EnDisButtonsOfBuildingsInPanel(ref idxMurów, true);
+                lastPanelEnabledBuildings = 1;
             }
-            EnDisButtonsOfBuildingsInPanel(ref idxMurów, true);
-            lastPanelEnabledBuildings = 1;
-        }
-        else if (idx == 2)    //Panel z innymi budynkami
-        {
-            if (idxInne == null)
-                return;
-            WłączWyłączPanel("UI_BudynkiPanel", true);
-            WłączWyłączPanel("UI_LicznikCzasu", false);
-            PomocniczeFunkcje.UstawTimeScale(0);
-            if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 2)
+            else if (idx == 2)    //Panel z innymi budynkami
+            {
+                if (idxInne == null)
+                    return;
+                WłączWyłączPanel("UI_BudynkiPanel", true);
+                WłączWyłączPanel("UI_LicznikCzasu", false);
+                PomocniczeFunkcje.UstawTimeScale(0);
+                if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 2)
+                {
+                    if (lastPanelEnabledBuildings == 1)
+                        EnDisButtonsOfBuildingsInPanel(ref idxMurów, false);
+                    else if (lastPanelEnabledBuildings == 0)
+                        EnDisButtonsOfBuildingsInPanel(ref idxWież, false);
+                }
+                EnDisButtonsOfBuildingsInPanel(ref idxInne, true);
+                lastPanelEnabledBuildings = 2;
+            }
+            else    //Wyłącz panel
             {
                 if (lastPanelEnabledBuildings == 1)
                     EnDisButtonsOfBuildingsInPanel(ref idxMurów, false);
                 else if (lastPanelEnabledBuildings == 0)
                     EnDisButtonsOfBuildingsInPanel(ref idxWież, false);
+                else if (lastPanelEnabledBuildings == 2)
+                    EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
+                WłączWyłączPanel("UI_BudynkiPanel", false);
+                WłączWyłączPanel("UI_LicznikCzasu", true);
+                PomocniczeFunkcje.UstawTimeScale(1);
+                lastPanelEnabledBuildings = -1;
+                iloscButtonow = 1;
             }
-            EnDisButtonsOfBuildingsInPanel(ref idxInne, true);
-            lastPanelEnabledBuildings = 2;
-        }
-        else    //Wyłącz panel
-        {
-            if (lastPanelEnabledBuildings == 1)
-                EnDisButtonsOfBuildingsInPanel(ref idxMurów, false);
-            else if (lastPanelEnabledBuildings == 0)
-                EnDisButtonsOfBuildingsInPanel(ref idxWież, false);
-            else if (lastPanelEnabledBuildings == 2)
-                EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
-            WłączWyłączPanel("UI_BudynkiPanel", false);
-            WłączWyłączPanel("UI_LicznikCzasu", true);
-            PomocniczeFunkcje.UstawTimeScale(1);
-            lastPanelEnabledBuildings = -1;
-            iloscButtonow = 1;
         }
     }
     private void EnDisButtonsOfBuildingsInPanel(ref ushort[] tabOfBuildToChange, bool willEnable = false)

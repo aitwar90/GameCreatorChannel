@@ -8,6 +8,7 @@ public class ManagerSamouczekScript : MonoBehaviour
     private SamouczekInfoPanelScript sips = null;
     private SamouczekKliknijTuVisual sktv = null;
     private byte idxProgresuSamouczka = 0;
+    private byte symulujManageraUpdate = 0;
     private bool sprawdzajCzyZaliczone = false;
     public TextAsset plikTekstowySamouczka;
     public string[] zaladujTextKonkretne = null;
@@ -87,6 +88,22 @@ public class ManagerSamouczekScript : MonoBehaviour
                 break;
             }
         }
+        if(idxProgresuSamouczka > 3)    //Na jakim etapie timer ma zacząć być odliczany
+        {
+            if(symulujManageraUpdate < 5)
+                symulujManageraUpdate++;
+            else
+            {
+                PomocniczeFunkcje.managerGryScript.ObslTimerFal();
+                symulujManageraUpdate = 0;
+            }
+        }
+    }
+    private void UstawIkonkePomocnicza(string nazwaObiektu, float x, float y)//x i y to offsety
+    {
+        Vector2 p = PomocniczeFunkcje.mainMenu.ZwrocRectTransformObiektu(nazwaObiektu);
+        this.sktv.UstawIkone(p.x, p.y, x, y);
+        this.sktv.WłączObiekt();
     }
     public void ZaladujText()
     {
@@ -139,5 +156,13 @@ public class ManagerSamouczekScript : MonoBehaviour
     {
         sprawdzajCzyZaliczone = true;
         this.sips.ZamknijPanel();
+    }
+    public bool PozwólZamknąćPanelBudynków()
+    {
+        /*
+        Należy tu podać indeksy, w których nie można zamknąć panelu z budynkami (gracz ma je postawić lub kupić)
+        */
+        //if(idxProgresuSamouczka != )
+        return true;
     }
 }

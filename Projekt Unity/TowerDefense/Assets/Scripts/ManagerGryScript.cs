@@ -225,7 +225,7 @@ public class ManagerGryScript : MonoBehaviour
                     }
                     else if (!czyLFala)
                     {
-                        if (iloscAktywnychWrogów == 0)
+                        if (iloscAktywnychWrogów == 0 && aktualnyPoziomEpoki != 255)
                         {
                             ObslTimerFal();
                         }
@@ -354,7 +354,7 @@ public class ManagerGryScript : MonoBehaviour
             }
         }
     }
-    private void ObslTimerFal(float setTimer = -10000)
+    public void ObslTimerFal(float setTimer = -10000)
     {
         if (setTimer == -10000)
         {
