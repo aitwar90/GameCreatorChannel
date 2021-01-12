@@ -380,12 +380,13 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Tło_None");
         }
     }
-    public void ResetSceny()
+    public void ResetSceny(bool ładowaćNowąScene = true)
     {
         int unSceneIdx = ObslugaScenScript.indeksAktualnejSceny;
         PomocniczeFunkcje.ResetujWszystko();
         SceneManager.UnloadSceneAsync(unSceneIdx);
-        StartCoroutine(CzekajAz());
+        if(ładowaćNowąScene)
+            StartCoroutine(CzekajAz());
     }
     public IEnumerator CzekajAz()
     {

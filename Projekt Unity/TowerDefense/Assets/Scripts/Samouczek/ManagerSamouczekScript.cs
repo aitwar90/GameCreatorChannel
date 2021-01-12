@@ -116,6 +116,7 @@ public class ManagerSamouczekScript : MonoBehaviour
     public void OpuśćSamouczek()
     {
         ZwróćMiDane();
+        PomocniczeFunkcje.mainMenu.ResetSceny(false);
         PomocniczeFunkcje.mainMenu.PrzełączUI(true);
         this.sips.ZamknijPanel();
         this.sktv.gameObject.SetActive(false);
