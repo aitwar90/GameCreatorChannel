@@ -77,6 +77,7 @@ public class SpawnBudynki : MonoBehaviour
     public void InicjacjaPaneluBudynków()
     {
         sbyte idxActEpoki = (sbyte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka;
+        byte ape = PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki;
         //Reset paneli
 
         //Stwórz listy
@@ -87,7 +88,7 @@ public class SpawnBudynki : MonoBehaviour
             byte budynekEpoki = (byte)knpcs.epokaNPC;
             if (budynekEpoki == idxActEpoki || budynekEpoki == idxActEpoki - 1)
             {
-                StrukturaBudynkuWTab tt = new StrukturaBudynkuWTab(knpcs.Zablokowany, i);
+                StrukturaBudynkuWTab tt = new StrukturaBudynkuWTab((ape != 255) ? knpcs.Zablokowany : knpcs.blokowany, i);
                 allsbwt.Add(tt);
             }
         }
@@ -167,7 +168,7 @@ public class SpawnBudynki : MonoBehaviour
                 ZatwierdźBudynekAndroid();
             }
         }
-        else if(Input.touchCount == 2)  //Jeśli jest aktualny budynek do postawienia to kliknięcie 2 przycisków na ekran spowoduje jego reset
+        else if (Input.touchCount == 2)  //Jeśli jest aktualny budynek do postawienia to kliknięcie 2 przycisków na ekran spowoduje jego reset
         {
             ResetWybranegoObiektu();
         }
@@ -366,7 +367,7 @@ public class SpawnBudynki : MonoBehaviour
         }
         else    //Tu trzeba wykrywać obiekty terenu typu drzewa, kamienie itp
         {
-            
+
         }
         if (materialWybranegoBudynku != null && materialWybranegoBudynku.color != Color.green)
             materialWybranegoBudynku.color = Color.green;

@@ -14,6 +14,7 @@ public class SamouczekInfoPanelScript : MonoBehaviour
     {
         if(!this.gameObject.activeInHierarchy)
         {
+            PomocniczeFunkcje.UstawTimeScale(0);
             this.gameObject.SetActive(true);
         }
     }
@@ -21,6 +22,7 @@ public class SamouczekInfoPanelScript : MonoBehaviour
     {
         if(this.gameObject.activeInHierarchy)
         {
+            PomocniczeFunkcje.UstawTimeScale(1);
             this.gameObject.SetActive(false);
         }
     }

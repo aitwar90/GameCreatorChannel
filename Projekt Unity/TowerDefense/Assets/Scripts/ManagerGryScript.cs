@@ -295,12 +295,12 @@ public class ManagerGryScript : MonoBehaviour
     }
     public void GenerujBaze()
     {
-        if (aktualnyPoziomEpoki > PomocniczeFunkcje.odblokowanyPoziomEpoki)
+        if (aktualnyPoziomEpoki > PomocniczeFunkcje.odblokowanyPoziomEpoki && aktualnyPoziomEpoki != 255)
         {
             Debug.Log("Poziom epoki nie został odblokowany");
             return;
         }
-        else if ((byte)aktualnaEpoka > PomocniczeFunkcje.odblokowanyPoziomEpoki)
+        else if ((byte)aktualnaEpoka > PomocniczeFunkcje.odblokowanyPoziomEpoki && aktualnyPoziomEpoki != 255)
         {
             Debug.Log("Epoka nie została odblokowana");
             return;

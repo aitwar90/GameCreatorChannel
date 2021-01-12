@@ -22,7 +22,11 @@ public class SpawnerHord : MonoBehaviour
         byte aktPozEpoki = PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki;
         if (e == Epoki.EpokaKamienia)
         {
-            if (aktPozEpoki < 50)
+            if(aktPozEpoki == 255)  //Samouczek
+            {
+                ostatniaIlośćWFali = 1;
+            }
+            else if (aktPozEpoki < 50)
             {
                 ostatniaIlośćWFali += 3;
             }
@@ -98,6 +102,11 @@ public class SpawnerHord : MonoBehaviour
         switch (ep)
         {
             case Epoki.EpokaKamienia:
+                if(poziomEpoki == 255)  //Samouczek
+                {
+                    maxIlośćNaFalę = 1;
+                    iloscFalNaKoncu = 1;
+                }
                 if (poziomEpoki < 50)
                 {
                     maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));

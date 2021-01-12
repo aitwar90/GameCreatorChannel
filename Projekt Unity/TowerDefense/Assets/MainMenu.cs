@@ -349,7 +349,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         if (uiGry.activeInHierarchy)
         {
-            if (CzyOdpaloneMenu || goPanel.activeInHierarchy || CzyAktywnyPanelZBudynkami() || samouczekPanel.activeInHierarchy)
+            if (CzyOdpaloneMenu || goPanel.activeInHierarchy || CzyAktywnyPanelZBudynkami())
             {
                 return false;
             }
@@ -394,7 +394,14 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     public void MetodaDoOdpaleniaPoWyczekaniu()
     {
-        OdpalPoziom();
+        if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki > 100)
+        {
+            OdpalSamouczek();
+        }
+        else
+        {
+            OdpalPoziom();
+        }
     }
     private byte DajMiMaxPoziom(string ustawionaEpoka)
     {
@@ -447,6 +454,32 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         lastPosCam = MoveCameraScript.bazowePolozenieKameryGry;
         poGraj.SetActive(false);
         PrzełączUI(false);
+    }
+    public void OdpalSamouczek()
+    {
+        PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki = 255;
+        PomocniczeFunkcje.managerGryScript.aktualnaEpoka = Epoki.EpokaKamienia;
+        if (SceneManager.sceneCount == 1)
+        {
+            byte poziom = PomocniczeFunkcje.managerGryScript.GetComponent<ObslugaScenScript>().ZwróćScenęSamouczka();
+            if(poziom < SceneManager.sceneCountInBuildSettings)
+                SceneManager.LoadScene(poziom, LoadSceneMode.Additive);
+            else
+            {
+                Debug.Log("Nie odnalazłem sceny dla danej opcji");
+                return;
+            }
+        }
+        else
+        {
+            //Reset scene
+            ResetSceny();
+        }
+        PomocniczeFunkcje.oCam.transform.position = MoveCameraScript.bazowePolozenieKameryGry;
+        lastPosCam = MoveCameraScript.bazowePolozenieKameryGry;
+        poGraj.SetActive(false);
+        PrzełączUI(false);
+        samouczekPanel.GetComponent<ManagerSamouczekScript>().ŁadujDaneSamouczek();
     }
     public void UstawEpokeWyzejNizej(bool czyWyzej)
     {

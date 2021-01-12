@@ -11,6 +11,10 @@ public class ManagerSamouczekScript : MonoBehaviour
     private bool sprawdzajCzyZaliczone = false;
     public TextAsset plikTekstowySamouczka;
     public string[] zaladujTextKonkretne = null;
+    private ushort tmpHajs = 0;
+    private Skrzynka[] skrzynki = null;
+    private byte e1 = 0, e2 = 0, e3 = 0, e4 = 0;
+    private ushort thp = 0, atkIdx = 0, defidx = 0;
     // Start is called before the first frame update
     void Awake()
     {
@@ -19,22 +23,47 @@ public class ManagerSamouczekScript : MonoBehaviour
             mssInstance = this;
             sips = this.GetComponentInChildren<SamouczekInfoPanelScript>();
             sktv = this.GetComponentInChildren<SamouczekKliknijTuVisual>();
+            sips.gameObject.SetActive(false);
+            sktv.gameObject.SetActive(false);
         }
         else
         {
             Destroy(this);
         }
     }
+    public void ŁadujDaneSamouczek()
+    {
+        this.gameObject.SetActive(true);
+        ManagerGryScript mgs = PomocniczeFunkcje.managerGryScript;
+        //Stworzenie danych tymczasowych zapisujących stan gracza
+        tmpHajs = ManagerGryScript.iloscCoinów;
+        skrzynki = mgs.skrzynki;
+        e1 = mgs.ekwipunekGracza[0].ilośćDanejNagrody;
+        e2 = mgs.ekwipunekGracza[1].ilośćDanejNagrody;
+        e3 = mgs.ekwipunekGracza[2].ilośćDanejNagrody;
+        e4 = mgs.ekwipunekGracza[3].ilośćDanejNagrody;
+        thp = mgs.hpIdx;
+        atkIdx = mgs.atkIdx;
+        defidx = mgs.defIdx;
+        //Przypisanie nowych danych
+        ManagerGryScript.iloscCoinów = 30;
+        for(byte i = 0; i < mgs.ekwipunekGracza.Length; i++)
+        {
+            mgs.ekwipunekGracza[i].ilośćDanejNagrody = 0;
+        }
+        mgs.hpIdx = 0;
+        mgs.atkIdx = 0;
+        mgs.defIdx = 0;
+        sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[0]);
+    }
     public void WywolajProgress()
     {
         idxProgresuSamouczka++;
         switch(idxProgresuSamouczka)
         {
-            case 0:
-            sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[0]);
-            break;
             case 1:
-            sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[1]);
+            Debug.Log("Przesunąłeś kamerę");
+            //sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[1]);
             break;
             default:
             Debug.Log("Nic nie robie");
@@ -65,7 +94,6 @@ public class ManagerSamouczekScript : MonoBehaviour
         {
             zaladujTextKonkretne = null;
             sbyte jez = PomocniczeFunkcje.mainMenu.lastIdxJezyka;   //0 - Polski, 1 - Angielski
-            Debug.Log("Jez = "+jez);
             List<string> listaOpisu = new List<string>();
             string fs = plikTekstowySamouczka.text;
             fs = fs.Replace("\n", "");
@@ -78,12 +106,33 @@ public class ManagerSamouczekScript : MonoBehaviour
                 string[] lot = fLines[i].Split('^');
                 listaOpisu.Add(lot[jez]);
             }
-            zaladujTextKonkretne = new string[listaOpisu.Count];
+            zaladujTextKonkretne = listaOpisu.ToArray();
         }
         else
         {
             Debug.Log("Brak pliku tekstowego");
         }
+    }
+    public void OpuśćSamouczek()
+    {
+        ZwróćMiDane();
+        PomocniczeFunkcje.mainMenu.PrzełączUI(true);
+        this.sips.ZamknijPanel();
+        this.sktv.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
+    }
+    private void ZwróćMiDane()
+    {
+        ManagerGryScript mgs = PomocniczeFunkcje.managerGryScript;
+        ManagerGryScript.iloscCoinów = tmpHajs;
+        mgs.skrzynki = skrzynki;
+        mgs.ekwipunekGracza[0].ilośćDanejNagrody = e1;
+        mgs.ekwipunekGracza[1].ilośćDanejNagrody = e2;
+        mgs.ekwipunekGracza[2].ilośćDanejNagrody = e3;
+        mgs.ekwipunekGracza[3].ilośćDanejNagrody = e4;
+        mgs.hpIdx = thp;
+        mgs.atkIdx = atkIdx;
+        mgs.defIdx = defidx;
     }
     public void ZamknijPanel()
     {
