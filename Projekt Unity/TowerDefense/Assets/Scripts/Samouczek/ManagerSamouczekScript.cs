@@ -8,8 +8,9 @@ public class ManagerSamouczekScript : MonoBehaviour
     private SamouczekInfoPanelScript sips = null;
     private SamouczekKliknijTuVisual sktv = null;
     private byte idxProgresuSamouczka = 0;
+    private bool sprawdzajCzyZaliczone = false;
     public TextAsset plikTekstowySamouczka;
-    private string[] zaladujTextKonkretne = null;
+    public string[] zaladujTextKonkretne = null;
     // Start is called before the first frame update
     void Awake()
     {
@@ -30,10 +31,32 @@ public class ManagerSamouczekScript : MonoBehaviour
         switch(idxProgresuSamouczka)
         {
             case 0:
+            sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[0]);
+            break;
+            case 1:
+            sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[1]);
             break;
             default:
             Debug.Log("Nic nie robie");
             break;
+        }
+    }
+    void Update()
+    {
+        if(sprawdzajCzyZaliczone)
+        {
+            switch(idxProgresuSamouczka)
+            {
+                case 0: //Przesunięcie kamery
+                Vector3 tOcaPos = PomocniczeFunkcje.oCam.transform.position;
+                if(tOcaPos!= MoveCameraScript.bazowePolozenieKameryGry 
+                && tOcaPos != Vector3.zero)
+                {
+                    WywolajProgress();
+                    sprawdzajCzyZaliczone = false;
+                }
+                break;
+            }
         }
     }
     public void ZaladujText()
@@ -42,6 +65,7 @@ public class ManagerSamouczekScript : MonoBehaviour
         {
             zaladujTextKonkretne = null;
             sbyte jez = PomocniczeFunkcje.mainMenu.lastIdxJezyka;   //0 - Polski, 1 - Angielski
+            Debug.Log("Jez = "+jez);
             List<string> listaOpisu = new List<string>();
             string fs = plikTekstowySamouczka.text;
             fs = fs.Replace("\n", "");
@@ -49,6 +73,8 @@ public class ManagerSamouczekScript : MonoBehaviour
             string[] fLines = fs.Split(';');
             for(ushort i = 0; i < fLines.Length; i++)
             {
+                if(fLines[i] == "")
+                    continue;
                 string[] lot = fLines[i].Split('^');
                 listaOpisu.Add(lot[jez]);
             }
@@ -58,5 +84,10 @@ public class ManagerSamouczekScript : MonoBehaviour
         {
             Debug.Log("Brak pliku tekstowego");
         }
+    }
+    public void ZamknijPanel()
+    {
+        sprawdzajCzyZaliczone = true;
+        this.sips.ZamknijPanel();
     }
 }

@@ -1783,6 +1783,7 @@ GameObject:
   - component: {fileID: 195373053}
   - component: {fileID: 195373055}
   - component: {fileID: 195373054}
+  - component: {fileID: 195373056}
   m_Layer: 5
   m_Name: SamouczekTekst
   m_TagString: Untagged
@@ -1806,8 +1807,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000009371058, y: -790.3252}
-  m_SizeDelta: {x: 494.86, y: 2123.0378}
+  m_AnchoredPosition: {x: -0.000009371058, y: -771.0139}
+  m_SizeDelta: {x: 494.86, y: 2084.4128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &195373054
 MonoBehaviour:
@@ -1890,6 +1891,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 195373052}
   m_CullTransparentMesh: 1
+--- !u!114 &195373056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195373052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 0
 --- !u!1 &225359138
 GameObject:
   m_ObjectHideFlags: 0
@@ -9341,7 +9356,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1205668219}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1289656726}
+        m_TargetAssemblyTypeName: ManagerSamouczekScript, Assembly-CSharp
+        m_MethodName: ZamknijPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1205668219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9889,6 +9916,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plikTekstowySamouczka: {fileID: 4900000, guid: 083747a53bc495c199573e6ff690574d, type: 3}
+  zaladujTextKonkretne: []
 --- !u!1 &1292896848
 GameObject:
   m_ObjectHideFlags: 0
@@ -17009,8 +17037,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 437094946}
   m_HandleRect: {fileID: 437094945}
   m_Direction: 2
-  m_Value: 0.9999992
-  m_Size: 0.25547594
+  m_Value: 1
+  m_Size: 0.26021
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

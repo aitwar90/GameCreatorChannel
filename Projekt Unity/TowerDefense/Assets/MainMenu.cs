@@ -349,7 +349,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         if (uiGry.activeInHierarchy)
         {
-            if (CzyOdpaloneMenu || goPanel.activeInHierarchy || CzyAktywnyPanelZBudynkami())
+            if (CzyOdpaloneMenu || goPanel.activeInHierarchy || CzyAktywnyPanelZBudynkami() || samouczekPanel.activeInHierarchy)
             {
                 return false;
             }

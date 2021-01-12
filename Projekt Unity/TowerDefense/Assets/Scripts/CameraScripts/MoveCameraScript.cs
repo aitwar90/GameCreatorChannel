@@ -190,7 +190,7 @@ public class MoveCameraScript : MonoBehaviour
     void ObsłużTouchPad()
     {
         if (Input.touchCount == 1)    //Przesuniecie kamery
-        {        
+        {
             bool klik = false;
             Vector3 posDotyk = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKamery, ref klik);
             if (klik)
@@ -219,7 +219,7 @@ public class MoveCameraScript : MonoBehaviour
             //Przesuniecie w lewo deltaposition.x jest - w prawo + w góre y + w dół -
             Vector2 przyb1Prev = przybliżenie1.deltaPosition - przybliżenie2.deltaPosition;
             float różnicaPrzybliżenia = DodajElementyWektora(ref przyb1Prev) * prędkoscPrzesunięciaKamery;
-            Vector3 eNP = this.transform.position + (this.transform.forward*różnicaPrzybliżenia);
+            Vector3 eNP = this.transform.position + (this.transform.forward * różnicaPrzybliżenia);
             if (Mathf.Abs(eNP.y - bazowePolozenieKameryGry.y) < 3)
                 transform.position = eNP;
         }
@@ -227,7 +227,7 @@ public class MoveCameraScript : MonoBehaviour
     private float DodajElementyWektora(ref Vector2 v)
     {
         v = v.normalized;
-        return (v.x + v.y)/2.0f;
+        return (v.x + v.y) / 2.0f;
     }
     #endregion
 }
