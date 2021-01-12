@@ -506,6 +506,7 @@ public class ManagerGryScript : MonoBehaviour
                     }
                 }
             }
+            ManagerSamouczekScript.mssInstance.ZaladujText();
         }
     }
     #endregion
