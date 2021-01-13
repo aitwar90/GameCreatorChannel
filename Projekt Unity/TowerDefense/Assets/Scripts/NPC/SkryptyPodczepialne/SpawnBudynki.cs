@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -324,7 +324,7 @@ public class SpawnBudynki : MonoBehaviour
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
         if(PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
         {
-            ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = 1;
+            ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = -3;
         }
     }
     public void WybierzBudynekDoPostawienia()  //Wybór obiektu budynku do postawienia

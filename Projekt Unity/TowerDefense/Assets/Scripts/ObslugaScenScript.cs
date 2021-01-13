@@ -30,7 +30,6 @@ public class ObslugaScenScript : MonoBehaviour
     public byte ZwróćScenęSamouczka()
     {
         string doPorowniania = "Samouczek.unity";
-        List<int> wszystkieSceny = new List<int>();
         for (byte i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
         {
             string ścieżka = SceneUtility.GetScenePathByBuildIndex(i);

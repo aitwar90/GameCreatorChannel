@@ -7,16 +7,16 @@ public class ManagerSamouczekScript : MonoBehaviour
     public static ManagerSamouczekScript mssInstance = null;
     private SamouczekInfoPanelScript sips = null;
     private SamouczekKliknijTuVisual sktv = null;
-    public byte idxProgresuSamouczka = 0;
+    private byte idxProgresuSamouczka = 0;
     private byte symulujManageraUpdate = 0;
     private bool sprawdzajCzyZaliczone = false;
     public TextAsset plikTekstowySamouczka;
-    public string[] zaladujTextKonkretne = null;
+    private string[] zaladujTextKonkretne = null;
     private ushort tmpHajs = 0;
     private Skrzynka[] skrzynki = null;
     private byte e1 = 0, e2 = 0, e3 = 0, e4 = 0;
     private ushort thp = 0, atkIdx = 0, defidx = 0;
-    public sbyte zmiennaPomocnicza = -1;
+    private sbyte zmiennaPomocnicza = -1;
     public static bool byloZaladowane = false;
     public sbyte ZmiennaPomocnicza
     {
@@ -39,6 +39,7 @@ public class ManagerSamouczekScript : MonoBehaviour
             sktv = this.GetComponentInChildren<SamouczekKliknijTuVisual>();
             sips.gameObject.SetActive(false);
             sktv.gameObject.SetActive(false);
+            sips.UstawTłoEnabeld(this.GetComponent<UnityEngine.UI.Image>());
         }
         else
         {
@@ -109,40 +110,43 @@ public class ManagerSamouczekScript : MonoBehaviour
                 UstawIkonkePomocnicza("kup", 0, 0);
                 break;
             case 9:
+                UstawIkonkePomocnicza("stawiajBudynek", 0, 0);
+                break;
+            case 10:
                 sprawdzajCzyZaliczone = true;
                 UstawIkonkePomocnicza("rotacjaBudynku", 0, 0);
                 break;
-            case 10:
+            case 11:
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[9]);
                 break;
-            case 11:    //Rozpoczęcie omawiania nagród
+            case 12:    //Rozpoczęcie omawiania nagród
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[10]);
                 UstawIkonkePomocnicza("coinyNagroda", 0, 0);
                 PomocniczeFunkcje.managerGryScript.ekwipunekGracza[0].ilośćDanejNagrody = 1;
                 PomocniczeFunkcje.mainMenu.UstawButtonNagrody(0, 1);
                 break;
-            case 12:    //Cud ocalenia
+            case 13:    //Cud ocalenia
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[11]);
                 UstawIkonkePomocnicza("cudOcalenia", 0, 0);
                 PomocniczeFunkcje.managerGryScript.ekwipunekGracza[1].ilośćDanejNagrody = 1;
                 PomocniczeFunkcje.mainMenu.UstawButtonNagrody(1, 1);
                 break;
-            case 13:    //Dodatkowa nagroda
+            case 14:    //Dodatkowa nagroda
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[12]);
                 UstawIkonkePomocnicza("dodatkowaNagroda", 0, 0);
                 PomocniczeFunkcje.managerGryScript.ekwipunekGracza[2].ilośćDanejNagrody = 1;
                 PomocniczeFunkcje.mainMenu.UstawButtonNagrody(2, 1);
                 break;
-            case 14:    //Skrócenie czasu skrzynki
+            case 15:    //Skrócenie czasu skrzynki
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[13]);
                 UstawIkonkePomocnicza("skrócenieCzasuSkrzynki", 0, 0);
                 PomocniczeFunkcje.managerGryScript.ekwipunekGracza[3].ilośćDanejNagrody = 1;
                 PomocniczeFunkcje.mainMenu.UstawButtonNagrody(3, 1);
                 break;
-            case 15:    //Objaśnienie timera
+            case 16:    //Objaśnienie timera
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[14]);
                 break;
-            case 16:
+            case 17:
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[15]);
                 break;
             default:
@@ -212,7 +216,7 @@ public class ManagerSamouczekScript : MonoBehaviour
                     break;
                 case 5:
                     //Wybierz budynek do postawienia
-                    if (zmiennaPomocnicza == 1)
+                    if (zmiennaPomocnicza == 12)
                     {
                         sktv.WyłączObiekt();
                         WywolajProgress();
@@ -234,6 +238,7 @@ public class ManagerSamouczekScript : MonoBehaviour
                     if (PomocniczeFunkcje.mainMenu.OdpalonyPanelBudynków == 1)
                     {
                         sktv.WyłączObiekt();
+                        sprawdzajCzyZaliczone = false;
                         WywolajProgress();
                     }
                     break;
@@ -241,11 +246,19 @@ public class ManagerSamouczekScript : MonoBehaviour
                     if (zmiennaPomocnicza == 10)
                     {
                         WywolajProgress();
-                        sprawdzajCzyZaliczone = false;
                         zmiennaPomocnicza = -1;
                     }
                     break;
                 case 9:
+                    if(zmiennaPomocnicza == 12) //Kliknięte postaw już murek
+                    {
+                        sktv.WyłączObiekt();
+                        WywolajProgress();
+                        //sprawdzajCzyZaliczone = false;
+                        zmiennaPomocnicza = -1;
+                    }
+                    break;
+                case 10:
                     //Wyłączenie markera przycisku obrotu
                     if (zmiennaPomocnicza == -3)
                     {
@@ -255,7 +268,11 @@ public class ManagerSamouczekScript : MonoBehaviour
                         zmiennaPomocnicza = -1;
                     }
                     break;
-                case 10:    //Nagrody
+                case 11:
+                    WywolajProgress();
+                    sprawdzajCzyZaliczone = false;
+                    break;
+                case 12:    //Nagrody
                     if (zmiennaPomocnicza == 2)
                     {
                         sktv.WyłączObiekt();
@@ -264,7 +281,7 @@ public class ManagerSamouczekScript : MonoBehaviour
                         zmiennaPomocnicza = -1;
                     }
                     break;
-                case 11:
+                case 13:
                     if (zmiennaPomocnicza == 3)
                     {
                         sktv.WyłączObiekt();
@@ -273,7 +290,7 @@ public class ManagerSamouczekScript : MonoBehaviour
                         zmiennaPomocnicza = -1;
                     }
                     break;
-                case 12:
+                case 14:
                     if (zmiennaPomocnicza == 4)
                     {
                         sktv.WyłączObiekt();
@@ -282,7 +299,7 @@ public class ManagerSamouczekScript : MonoBehaviour
                         zmiennaPomocnicza = -1;
                     }
                     break;
-                case 13:
+                case 15:
                     if (zmiennaPomocnicza == 5)
                     {
                         sktv.WyłączObiekt();
@@ -291,7 +308,7 @@ public class ManagerSamouczekScript : MonoBehaviour
                         zmiennaPomocnicza = -1;
                     }
                     break;
-                case 14:    //Licznik czasu
+                case 16:    //Licznik czasu
                     if (zmiennaPomocnicza == -100)
                     {
                         WywolajProgress();
@@ -303,7 +320,7 @@ public class ManagerSamouczekScript : MonoBehaviour
 
             }
         }
-        if (idxProgresuSamouczka == 14)    //Na jakim etapie timer ma zacząć być odliczany
+        if (idxProgresuSamouczka == 16)    //Na jakim etapie timer ma zacząć być odliczany
         {
             if (symulujManageraUpdate < 5)
                 symulujManageraUpdate++;
@@ -351,8 +368,8 @@ public class ManagerSamouczekScript : MonoBehaviour
         if(res)
             PomocniczeFunkcje.mainMenu.ResetSceny(false);
         PomocniczeFunkcje.mainMenu.PrzełączUI(true);
-        this.sips.gameObject.SetActive(true);
-        this.sktv.gameObject.SetActive(true);
+        this.sips.gameObject.SetActive(false);
+        this.sktv.gameObject.SetActive(false);
         this.gameObject.SetActive(false);
         PomocniczeFunkcje.mainMenu.wróćDoMenu.interactable = true;
     }
@@ -377,10 +394,9 @@ public class ManagerSamouczekScript : MonoBehaviour
     {
         sprawdzajCzyZaliczone = true;
         this.sips.ZamknijPanel();
-        if (idxProgresuSamouczka == 15)  //Koniec samouczka
+        if (idxProgresuSamouczka == 17)  //Koniec samouczka
         {
             OpuśćSamouczek();
-            PomocniczeFunkcje.mainMenu.ResetSceny(false);
         }
     }
     public bool PozwólZamknąćPanelBudynków()

@@ -916,7 +916,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         {
             if (lastPanelEnabledBuildings > -1)
             {
-                samouczekPanel.GetComponent<ManagerSamouczekScript>().ZmiennaPomocnicza = 1;
+                ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = 12;
             }
         }
         PomocniczeFunkcje.spawnBudynki.WybierzBudynekDoPostawienia();
