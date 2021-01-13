@@ -3,6 +3,7 @@ Skrypt generujący obiekty z zaznaczonego terenu i jeśli zachodzi taka potrzeba
 Klikasz teren => Ustawiasz co ma się dziać i konwertujesz klikając na Konwertuj. Jeśli coś się popsuło, możesz skasować zapisane pliki mesha klikając na Czyść meshe.
 (UWAGA obiekty muszą znajdować się w folderze ich zapisu, a sceny musza być załadowane w builderze inaczej skasuje wszystkie meshe co są w folderach Assets/Convert)
 */
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 using UnityEditor.SceneManagement;
@@ -519,3 +520,4 @@ public class ConvertNaObjektyEditor : EditorWindow
         }
     }
 }
+#endif
