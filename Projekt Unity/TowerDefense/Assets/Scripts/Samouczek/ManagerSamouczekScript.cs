@@ -7,7 +7,7 @@ public class ManagerSamouczekScript : MonoBehaviour
     public static ManagerSamouczekScript mssInstance = null;
     private SamouczekInfoPanelScript sips = null;
     private SamouczekKliknijTuVisual sktv = null;
-    private byte idxProgresuSamouczka = 0;
+    public byte idxProgresuSamouczka = 0;
     private byte symulujManageraUpdate = 0;
     private bool sprawdzajCzyZaliczone = false;
     public TextAsset plikTekstowySamouczka;
@@ -16,10 +16,23 @@ public class ManagerSamouczekScript : MonoBehaviour
     private Skrzynka[] skrzynki = null;
     private byte e1 = 0, e2 = 0, e3 = 0, e4 = 0;
     private ushort thp = 0, atkIdx = 0, defidx = 0;
+    public sbyte zmiennaPomocnicza = -1;
+    public static bool byloZaladowane = false;
+    public sbyte ZmiennaPomocnicza
+    {
+        get
+        {
+            return zmiennaPomocnicza;
+        }
+        set
+        {
+            zmiennaPomocnicza = value;
+        }
+    }
     // Start is called before the first frame update
     void Awake()
     {
-        if(mssInstance == null)
+        if (mssInstance == null)
         {
             mssInstance = this;
             sips = this.GetComponentInChildren<SamouczekInfoPanelScript>();
@@ -36,19 +49,23 @@ public class ManagerSamouczekScript : MonoBehaviour
     {
         this.gameObject.SetActive(true);
         ManagerGryScript mgs = PomocniczeFunkcje.managerGryScript;
-        //Stworzenie danych tymczasowych zapisujących stan gracza
-        tmpHajs = ManagerGryScript.iloscCoinów;
-        skrzynki = mgs.skrzynki;
-        e1 = mgs.ekwipunekGracza[0].ilośćDanejNagrody;
-        e2 = mgs.ekwipunekGracza[1].ilośćDanejNagrody;
-        e3 = mgs.ekwipunekGracza[2].ilośćDanejNagrody;
-        e4 = mgs.ekwipunekGracza[3].ilośćDanejNagrody;
-        thp = mgs.hpIdx;
-        atkIdx = mgs.atkIdx;
-        defidx = mgs.defIdx;
+        if (!byloZaladowane)
+        {
+            //Stworzenie danych tymczasowych zapisujących stan gracza
+            tmpHajs = ManagerGryScript.iloscCoinów;
+            skrzynki = mgs.skrzynki;
+            e1 = mgs.ekwipunekGracza[0].ilośćDanejNagrody;
+            e2 = mgs.ekwipunekGracza[1].ilośćDanejNagrody;
+            e3 = mgs.ekwipunekGracza[2].ilośćDanejNagrody;
+            e4 = mgs.ekwipunekGracza[3].ilośćDanejNagrody;
+            thp = mgs.hpIdx;
+            atkIdx = mgs.atkIdx;
+            defidx = mgs.defIdx;
+            byloZaladowane = true;
+        }
         //Przypisanie nowych danych
         ManagerGryScript.iloscCoinów = 30;
-        for(byte i = 0; i < mgs.ekwipunekGracza.Length; i++)
+        for (byte i = 0; i < mgs.ekwipunekGracza.Length; i++)
         {
             mgs.ekwipunekGracza[i].ilośćDanejNagrody = 0;
         }
@@ -60,37 +77,235 @@ public class ManagerSamouczekScript : MonoBehaviour
     public void WywolajProgress()
     {
         idxProgresuSamouczka++;
-        switch(idxProgresuSamouczka)
+        switch (idxProgresuSamouczka)
         {
-            case 1:
-            Debug.Log("Przesunąłeś kamerę");
-            //sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[1]);
-            break;
+            case 1: //Gracz przesunął kamerę
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[1]);
+                break;
+            case 2: //Gracz otworzył i zamknął panel budynku
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[2]);
+                PomocniczeFunkcje.celWrogów.ZmianaHP(20);
+                break;
+            case 3: //Gracz otrzymał podstawowe informacje o interfejsie
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[3]);
+                break;
+            case 4: //Gracz odpalił panel z budynkami wież
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[4]);
+                UstawIkonkePomocnicza("kupnoWieża", 0, 0);
+                break;
+            case 5:
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[5]);
+                UstawIkonkePomocnicza("stawiajBudynek", 0, 0);
+                break;
+            case 6:
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[6]);
+                break;
+            case 7:
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[7]);
+                UstawIkonkePomocnicza("kupnoMur", 0, 0);
+                break;
+            case 8:
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[8]);
+                UstawIkonkePomocnicza("kup", 0, 0);
+                break;
+            case 9:
+                sprawdzajCzyZaliczone = true;
+                UstawIkonkePomocnicza("rotacjaBudynku", 0, 0);
+                break;
+            case 10:
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[9]);
+                break;
+            case 11:    //Rozpoczęcie omawiania nagród
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[10]);
+                UstawIkonkePomocnicza("coinyNagroda", 0, 0);
+                PomocniczeFunkcje.managerGryScript.ekwipunekGracza[0].ilośćDanejNagrody = 1;
+                PomocniczeFunkcje.mainMenu.UstawButtonNagrody(0, 1);
+                break;
+            case 12:    //Cud ocalenia
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[11]);
+                UstawIkonkePomocnicza("cudOcalenia", 0, 0);
+                PomocniczeFunkcje.managerGryScript.ekwipunekGracza[1].ilośćDanejNagrody = 1;
+                PomocniczeFunkcje.mainMenu.UstawButtonNagrody(1, 1);
+                break;
+            case 13:    //Dodatkowa nagroda
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[12]);
+                UstawIkonkePomocnicza("dodatkowaNagroda", 0, 0);
+                PomocniczeFunkcje.managerGryScript.ekwipunekGracza[2].ilośćDanejNagrody = 1;
+                PomocniczeFunkcje.mainMenu.UstawButtonNagrody(2, 1);
+                break;
+            case 14:    //Skrócenie czasu skrzynki
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[13]);
+                UstawIkonkePomocnicza("skrócenieCzasuSkrzynki", 0, 0);
+                PomocniczeFunkcje.managerGryScript.ekwipunekGracza[3].ilośćDanejNagrody = 1;
+                PomocniczeFunkcje.mainMenu.UstawButtonNagrody(3, 1);
+                break;
+            case 15:    //Objaśnienie timera
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[14]);
+                break;
+            case 16:
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[15]);
+                break;
             default:
-            Debug.Log("Nic nie robie");
-            break;
+                Debug.Log("Nic nie robie");
+                break;
         }
     }
     void Update()
     {
-        if(sprawdzajCzyZaliczone)
+        if (sprawdzajCzyZaliczone)
         {
-            switch(idxProgresuSamouczka)
+            switch (idxProgresuSamouczka)
             {
                 case 0: //Przesunięcie kamery
-                Vector3 tOcaPos = PomocniczeFunkcje.oCam.transform.position;
-                if(tOcaPos!= MoveCameraScript.bazowePolozenieKameryGry 
-                && tOcaPos != Vector3.zero)
-                {
-                    WywolajProgress();
+                    Vector3 tOcaPos = PomocniczeFunkcje.oCam.transform.position;
+                    if (tOcaPos != MoveCameraScript.bazowePolozenieKameryGry
+                    && tOcaPos != Vector3.zero)
+                    {
+                        WywolajProgress();
+                        sprawdzajCzyZaliczone = false;
+                    }
+                    break;
+                case 1: //Otwarcie i zamknięcie panelu głównego obiektu
+                    if (zmiennaPomocnicza == -1 && PomocniczeFunkcje.mainMenu.OdpalonyPanel)
+                        zmiennaPomocnicza = 0;
+                    else if (zmiennaPomocnicza == 0 && !PomocniczeFunkcje.mainMenu.OdpalonyPanel)
+                    {
+                        WywolajProgress();
+                        sprawdzajCzyZaliczone = false;
+                        zmiennaPomocnicza = -1;
+                    }
+                    break;
+                case 2: //Próba naprawy budynku
+                    if (zmiennaPomocnicza == -1 && PomocniczeFunkcje.mainMenu.OdpalonyPanel)
+                    {
+                        UstawIkonkePomocnicza("naprawBudynek", 0, 0);
+                    }
+                    else if (PomocniczeFunkcje.mainMenu.OdpalonyPanel)
+                    {
+                        sktv.WyłączObiekt();
+                    }
+                    if (zmiennaPomocnicza == 1)  //Kliknieto postaw budynek
+                    {
+                        sktv.WyłączObiekt();
+                        zmiennaPomocnicza = -1;
+                        WywolajProgress();
+                        sprawdzajCzyZaliczone = false;
+                    }
+                    break;
+                case 3:
+                    //Przekazanie informacji o panelu
                     sprawdzajCzyZaliczone = false;
-                }
-                break;
+                    WywolajProgress();
+                    if (PomocniczeFunkcje.mainMenu.OdpalonyPanel)
+                    {
+                        PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
+                    }
+                    break;
+                case 4:
+                    //Odpal panel z budynkami
+                    if (PomocniczeFunkcje.mainMenu.OdpalonyPanelBudynków == 0)   //Odpalony panel z wieżami
+                    {
+                        sktv.WyłączObiekt();
+                        WywolajProgress();
+                        sprawdzajCzyZaliczone = false;
+                    }
+                    break;
+                case 5:
+                    //Wybierz budynek do postawienia
+                    if (zmiennaPomocnicza == 1)
+                    {
+                        sktv.WyłączObiekt();
+                        WywolajProgress();
+                        sprawdzajCzyZaliczone = false;
+                        zmiennaPomocnicza = -1;
+                    }
+                    break;
+                case 6:
+                    //Postaw budynek
+                    if (zmiennaPomocnicza == -3)    //-3 postaw budynek
+                    {
+                        sprawdzajCzyZaliczone = false;
+                        zmiennaPomocnicza = -1;
+                        WywolajProgress();
+                    }
+                    break;
+                case 7:
+                    //Kupno budynku muru
+                    if (PomocniczeFunkcje.mainMenu.OdpalonyPanelBudynków == 1)
+                    {
+                        sktv.WyłączObiekt();
+                        WywolajProgress();
+                    }
+                    break;
+                case 8:
+                    if (zmiennaPomocnicza == 10)
+                    {
+                        WywolajProgress();
+                        sprawdzajCzyZaliczone = false;
+                        zmiennaPomocnicza = -1;
+                    }
+                    break;
+                case 9:
+                    //Wyłączenie markera przycisku obrotu
+                    if (zmiennaPomocnicza == -3)
+                    {
+                        sktv.WyłączObiekt();
+                        WywolajProgress();
+                        sprawdzajCzyZaliczone = false;
+                        zmiennaPomocnicza = -1;
+                    }
+                    break;
+                case 10:    //Nagrody
+                    if (zmiennaPomocnicza == 2)
+                    {
+                        sktv.WyłączObiekt();
+                        WywolajProgress();
+                        sprawdzajCzyZaliczone = false;
+                        zmiennaPomocnicza = -1;
+                    }
+                    break;
+                case 11:
+                    if (zmiennaPomocnicza == 3)
+                    {
+                        sktv.WyłączObiekt();
+                        WywolajProgress();
+                        sprawdzajCzyZaliczone = false;
+                        zmiennaPomocnicza = -1;
+                    }
+                    break;
+                case 12:
+                    if (zmiennaPomocnicza == 4)
+                    {
+                        sktv.WyłączObiekt();
+                        WywolajProgress();
+                        sprawdzajCzyZaliczone = false;
+                        zmiennaPomocnicza = -1;
+                    }
+                    break;
+                case 13:
+                    if (zmiennaPomocnicza == 5)
+                    {
+                        sktv.WyłączObiekt();
+                        WywolajProgress();
+                        sprawdzajCzyZaliczone = false;
+                        zmiennaPomocnicza = -1;
+                    }
+                    break;
+                case 14:    //Licznik czasu
+                    if (zmiennaPomocnicza == -100)
+                    {
+                        WywolajProgress();
+                        sprawdzajCzyZaliczone = false;
+                        zmiennaPomocnicza = -1;
+                        sprawdzajCzyZaliczone = false;
+                    }
+                    break;
+
             }
         }
-        if(idxProgresuSamouczka > 3)    //Na jakim etapie timer ma zacząć być odliczany
+        if (idxProgresuSamouczka == 14)    //Na jakim etapie timer ma zacząć być odliczany
         {
-            if(symulujManageraUpdate < 5)
+            if (symulujManageraUpdate < 5)
                 symulujManageraUpdate++;
             else
             {
@@ -107,7 +322,7 @@ public class ManagerSamouczekScript : MonoBehaviour
     }
     public void ZaladujText()
     {
-        if(plikTekstowySamouczka != null)
+        if (plikTekstowySamouczka != null)
         {
             zaladujTextKonkretne = null;
             sbyte jez = PomocniczeFunkcje.mainMenu.lastIdxJezyka;   //0 - Polski, 1 - Angielski
@@ -116,9 +331,9 @@ public class ManagerSamouczekScript : MonoBehaviour
             fs = fs.Replace("\n", "");
             fs = fs.Replace("\r", "");
             string[] fLines = fs.Split(';');
-            for(ushort i = 0; i < fLines.Length; i++)
+            for (ushort i = 0; i < fLines.Length; i++)
             {
-                if(fLines[i] == "")
+                if (fLines[i] == "")
                     continue;
                 string[] lot = fLines[i].Split('^');
                 listaOpisu.Add(lot[jez]);
@@ -130,32 +345,43 @@ public class ManagerSamouczekScript : MonoBehaviour
             Debug.Log("Brak pliku tekstowego");
         }
     }
-    public void OpuśćSamouczek()
+    public void OpuśćSamouczek(bool res = true)
     {
         ZwróćMiDane();
-        PomocniczeFunkcje.mainMenu.ResetSceny(false);
+        if(res)
+            PomocniczeFunkcje.mainMenu.ResetSceny(false);
         PomocniczeFunkcje.mainMenu.PrzełączUI(true);
-        this.sips.ZamknijPanel();
-        this.sktv.gameObject.SetActive(false);
+        this.sips.gameObject.SetActive(true);
+        this.sktv.gameObject.SetActive(true);
         this.gameObject.SetActive(false);
+        PomocniczeFunkcje.mainMenu.wróćDoMenu.interactable = true;
     }
     private void ZwróćMiDane()
     {
-        ManagerGryScript mgs = PomocniczeFunkcje.managerGryScript;
-        ManagerGryScript.iloscCoinów = tmpHajs;
-        mgs.skrzynki = skrzynki;
-        mgs.ekwipunekGracza[0].ilośćDanejNagrody = e1;
-        mgs.ekwipunekGracza[1].ilośćDanejNagrody = e2;
-        mgs.ekwipunekGracza[2].ilośćDanejNagrody = e3;
-        mgs.ekwipunekGracza[3].ilośćDanejNagrody = e4;
-        mgs.hpIdx = thp;
-        mgs.atkIdx = atkIdx;
-        mgs.defIdx = defidx;
+        if (byloZaladowane)
+        {
+            ManagerGryScript mgs = PomocniczeFunkcje.managerGryScript;
+            ManagerGryScript.iloscCoinów = tmpHajs;
+            mgs.skrzynki = skrzynki;
+            mgs.ekwipunekGracza[0].ilośćDanejNagrody = e1;
+            mgs.ekwipunekGracza[1].ilośćDanejNagrody = e2;
+            mgs.ekwipunekGracza[2].ilośćDanejNagrody = e3;
+            mgs.ekwipunekGracza[3].ilośćDanejNagrody = e4;
+            mgs.hpIdx = thp;
+            mgs.atkIdx = atkIdx;
+            mgs.defIdx = defidx;
+            byloZaladowane = false;
+        }
     }
     public void ZamknijPanel()
     {
         sprawdzajCzyZaliczone = true;
         this.sips.ZamknijPanel();
+        if (idxProgresuSamouczka == 15)  //Koniec samouczka
+        {
+            OpuśćSamouczek();
+            PomocniczeFunkcje.mainMenu.ResetSceny(false);
+        }
     }
     public bool PozwólZamknąćPanelBudynków()
     {

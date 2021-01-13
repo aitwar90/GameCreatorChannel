@@ -117,6 +117,13 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             return menu.activeInHierarchy;
         }
     }
+    public sbyte OdpalonyPanelBudynków
+    {
+        get
+        {
+            return lastPanelEnabledBuildings;
+        }
+    }
     #endregion
     void Awake()
     {
@@ -386,12 +393,6 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             case "skrócenieCzasuSkrzynki":
                 zwracanaPos = przyciskiNagród[3].GetComponent<RectTransform>().position;
                 break;
-            case "ilośćCoinów":
-                zwracanaPos = ilośćCoinów.GetComponent<RectTransform>().position;
-                break;
-            case "ilośćFal":
-                zwracanaPos = ilośćFal.GetComponent<RectTransform>().position;
-                break;
             case "buttonAŻycie":
                 zwracanaPos = buttonAZycie.GetComponent<RectTransform>().position;
                 break;
@@ -443,10 +444,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public void ResetSceny(bool ładowaćNowąScene = true)
     {
         int unSceneIdx = ObslugaScenScript.indeksAktualnejSceny;
-        PomocniczeFunkcje.ResetujWszystko();
-        SceneManager.UnloadSceneAsync(unSceneIdx);
-        if (ładowaćNowąScene)
-            StartCoroutine(CzekajAz());
+            PomocniczeFunkcje.ResetujWszystko();
+            SceneManager.UnloadSceneAsync(unSceneIdx);
+            if (ładowaćNowąScene)
+                StartCoroutine(CzekajAz());
     }
     public IEnumerator CzekajAz()
     {
@@ -495,6 +496,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     public void OdpalPoziom()
     {
+        if (ManagerSamouczekScript.byloZaladowane)
+        {
+            ManagerSamouczekScript.mssInstance.OpuśćSamouczek(false);
+        }
         byte poziom = (byte)int.Parse(poziomWEpoce.text);
         PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki = poziom;
         poziom = (byte)int.Parse(actWybEpoka.text);
@@ -534,6 +539,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         else
         {
             //Reset scene
+            Debug.Log("113");
             ResetSceny();
         }
         PomocniczeFunkcje.oCam.transform.position = MoveCameraScript.bazowePolozenieKameryGry;
@@ -757,6 +763,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         if (wybranaNagroda > -1)
         {
             PomocniczeFunkcje.managerGryScript.UzyciePrzedmiotu((byte)wybranaNagroda);
+            if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
+            {
+                ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = (sbyte)(wybranaNagroda + 2);
+            }
         }
         if (PomocniczeFunkcje.managerGryScript.ekwipunekGracza[wybranaNagroda].ilośćDanejNagrody == 0)
             wybranaNagroda = -1;
@@ -895,9 +905,20 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         kup.interactable = false;
         PomocniczeFunkcje.spawnBudynki.OdblokujBudynek(lastPanelEnabledBuildings, true);
+        if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
+        {
+            ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = 10;
+        }
     }
     public void KliknijPrzyciskPostawBudynek()
     {
+        if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
+        {
+            if (lastPanelEnabledBuildings > -1)
+            {
+                samouczekPanel.GetComponent<ManagerSamouczekScript>().ZmiennaPomocnicza = 1;
+            }
+        }
         PomocniczeFunkcje.spawnBudynki.WybierzBudynekDoPostawienia();
         kup.interactable = false;
         stawiajBudynek.interactable = false;

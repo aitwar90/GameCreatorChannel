@@ -202,7 +202,7 @@ public class ManagerGryScript : MonoBehaviour
                     }
                     else
                     {
-                        valFPS = (short)(valFPS/30f);
+                        valFPS = (short)(valFPS / 30f);
                         PomocniczeFunkcje.mainMenu.UstawWartoscFPS(valFPS);
                         valFPS = 0;
                         aktualnyIndexTabFPS = 0;
@@ -214,7 +214,11 @@ public class ManagerGryScript : MonoBehaviour
                 if (czyScenaZostałaZaładowana)
                 {
                     bool czyLFala = PomocniczeFunkcje.spawnerHord.CzyOstatniaFala();
-                    if (!poziomZakonczony && czyLFala && iloscAktywnychWrogów <= 0)
+                    if (aktualnyPoziomEpoki == 255 && !poziomZakonczony && czyLFala && iloscAktywnychWrogów <= 0)
+                    {
+                        ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = -100;
+                    }
+                    else if (!poziomZakonczony && czyLFala && iloscAktywnychWrogów <= 0)
                     {
                         //Lvl skończony wszystkie fale zostały pokonane
                         KoniecPoziomuZakończony(true);
@@ -373,7 +377,7 @@ public class ManagerGryScript : MonoBehaviour
             timerFal = setTimer;
         }
         byte czas = (byte)(czasMiędzyFalami - timerFal);
-        if(czas != bufferTimerFal)
+        if (czas != bufferTimerFal)
         {
             bufferTimerFal = czas;
             PomocniczeFunkcje.mainMenu.UstawTextUI("timer", czas.ToString());
@@ -588,8 +592,16 @@ public class ManagerGryScript : MonoBehaviour
     }
     #endregion
     #region Koniec poziomu
-    private void KoniecPoziomuZakończony(bool sukces = true)
+    public void KoniecPoziomuZakończony(bool sukces = true)
     {
+        if (aktualnyPoziomEpoki == 255)  //Ukończenie poziomu samouczka
+        {
+            ManagerSamouczekScript.mssInstance.OpuśćSamouczek();
+            aktualnyPoziomEpoki = 1;
+            poziomZakonczony = true;
+            iloscAktywnychWrogów = 0;
+            return;
+        }
         if (sukces)
         {
             if (aktualnyPoziomEpoki == PomocniczeFunkcje.odblokowanyPoziomEpoki)

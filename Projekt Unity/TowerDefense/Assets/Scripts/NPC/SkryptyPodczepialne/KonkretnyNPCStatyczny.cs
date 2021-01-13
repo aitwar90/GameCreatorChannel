@@ -428,6 +428,10 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         this.AktualneŻycie = this.maksymalneŻycie;
         kosztNaprawy = 0;
         RysujHPBar();
+        if(PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)   //Jeśli samouczek
+        {
+            ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = 1;
+        }
     }
     public override void UstawJezykNPC(string coZmieniam, string podmianaWartosci)
     {

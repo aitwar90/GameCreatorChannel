@@ -322,6 +322,10 @@ public class SpawnBudynki : MonoBehaviour
         knpcs = null;
         aktualnyObiekt = null;
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
+        if(PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
+        {
+            ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = 1;
+        }
     }
     public void WybierzBudynekDoPostawienia()  //Wybór obiektu budynku do postawienia
     {
