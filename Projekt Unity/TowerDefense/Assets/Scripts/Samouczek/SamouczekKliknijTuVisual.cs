@@ -3,14 +3,14 @@ using UnityEngine.UI;
 public class SamouczekKliknijTuVisual : MonoBehaviour
 {
     public Image image;
-    private byte t = 255;
+    private float t = 0.5f;
     private RectTransform rect;
     public bool mryganie = false;
     // Start is called before the first frame update
     void Awake()
     {
         rect = this.GetComponent<RectTransform>();
-        Debug.Log("RectTransform.position = "+rect.position);   //Tego należy użyć
+        //Debug.Log("RectTransform.position = "+rect.position);   //Tego należy użyć
         //Debug.Log("RectTransform.sizeDelta = "+rect.sizeDelta);
         //Debug.Log("RectTransform.anchoredPosition = "+rect.anchoredPosition);
     }
@@ -18,6 +18,7 @@ public class SamouczekKliknijTuVisual : MonoBehaviour
     {
         if (!this.gameObject.activeInHierarchy)
         {
+            mryganie = true;
             this.gameObject.SetActive(true);
         }
     }
@@ -25,21 +26,32 @@ public class SamouczekKliknijTuVisual : MonoBehaviour
     {
         if (this.gameObject.activeInHierarchy)
         {
+            Mrygaj(true);
             this.gameObject.SetActive(false);
+        }
+    }
+    void Update()
+    {
+        if(mryganie)
+        {
+            Mrygaj();
         }
     }
     private void Mrygaj(bool wylMryg = false)
     {
         if (!wylMryg)
         {
-            if (t > 255)
+            if (t >= 1)
             {
-                t = 50;
+                t = .1f;
             }
-            t++;
+            t += Time.deltaTime;
         }
         else
-            t = 255;
+        {
+            t = 1;
+            mryganie = false;
+        }
         Color c = image.color;
         c.a = t;
         image.color = c;
