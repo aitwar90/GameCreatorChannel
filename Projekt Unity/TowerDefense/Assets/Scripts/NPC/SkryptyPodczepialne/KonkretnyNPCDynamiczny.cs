@@ -321,24 +321,46 @@ public class KonkretnyNPCDynamiczny : NPCClass
             }
             */
             //Debug.Log("Has Path = " + agent.hasPath + " ostatni target pozycja " + ostatniTargetPozycja + " agent.destination = " + agent.destination);
-            StartCoroutine(WyliczŚciezkę(UnityEngine.Random.Range(0f, 0.5f), x, z));
+            if(głównyIndex == -1)
+            {
+                GenerujŚcieżke(x, z);
+            }
+            else
+            {
+                StartCoroutine(WyliczŚciezkę(UnityEngine.Random.Range(0f, 0.5f), x, z));
+            }
         }
     }
     private IEnumerator WyliczŚciezkę(float f, float x, float z)
     {
         yield return new WaitForSeconds(f);
-        ścieżka = new NavMeshPath();
+        GenerujŚcieżke(x, z);
+    }
+    private void GenerujŚcieżke(float x, float z)
+    {
+        if(ścieżka == null)
+            ścieżka = new NavMeshPath();
         bool czyOdnalzazłemŚcieżkę = agent.CalculatePath(new Vector3(x, 0, z), ścieżka);
         if (ścieżka.status == NavMeshPathStatus.PathComplete)
         {
             agent.SetPath(ścieżka);
+            /*
+            GameObject goo = new GameObject("waypoints");
+            for(ushort i = 0; i < ścieżka.corners.Length; i++)
+            {
+                GameObject gooo = new GameObject(i+" i");
+                Transform t = gooo.GetComponent<Transform>();
+                t.position = ścieżka.corners[i];
+                t.SetParent(goo.transform);
+            }
             //if (ostatniTargetPozycja != docelowaPozycja)
             //    ostatniTargetPozycja = docelowaPozycja;
+            */
         }
         else
         {
             cel = WyszukajNajbliższyObiekt() as KonkretnyNPCStatyczny;
-            ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
+            //ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
         }
     }
     public void ResetujŚcieżki()
