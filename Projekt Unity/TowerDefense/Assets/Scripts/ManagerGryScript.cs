@@ -304,7 +304,7 @@ public class ManagerGryScript : MonoBehaviour
             Debug.Log("Poziom epoki nie został odblokowany");
             return;
         }
-        else if ((byte)aktualnaEpoka > PomocniczeFunkcje.odblokowanyPoziomEpoki && aktualnyPoziomEpoki != 255)
+        else if ((byte)aktualnaEpoka > PomocniczeFunkcje.odblokowaneEpoki && aktualnyPoziomEpoki != 255)
         {
             Debug.Log("Epoka nie została odblokowana");
             return;
@@ -604,9 +604,9 @@ public class ManagerGryScript : MonoBehaviour
         }
         if (sukces)
         {
-            if (aktualnyPoziomEpoki == PomocniczeFunkcje.odblokowanyPoziomEpoki)
+            if (aktualnyPoziomEpoki >= PomocniczeFunkcje.odblokowanyPoziomEpoki)
             {
-                if (aktualnyPoziomEpoki % 100 == 0 && (byte)aktualnaEpoka == PomocniczeFunkcje.odblokowanyPoziomEpoki)
+                if (aktualnyPoziomEpoki % 100 == 0 && (byte)aktualnaEpoka == PomocniczeFunkcje.odblokowaneEpoki)
                 {
                     //Jeśli epoki są gotowe to tu są odblokowywane
                     //PomocniczeFunkcje.odblokowaneEpoki++;
@@ -646,7 +646,7 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = false;
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("GameOver Panel", false);
         poziomZakonczony = false;
-        PomocniczeFunkcje.mainMenu.ResetSceny();
+        PomocniczeFunkcje.mainMenu.ResetSceny((sbyte)aktualnyPoziomEpoki);
     }
     #endregion
     #region Metody ogólne

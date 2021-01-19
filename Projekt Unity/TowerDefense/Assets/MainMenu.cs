@@ -73,6 +73,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     private static MainMenu singelton = null;
     private bool odpalonyPanel = false;
     private RectTransform rectHpBar;
+    private sbyte kPoziomDoZaladowania = -1;
     #endregion
     #region Getery i setery
     public sbyte UstawLubPobierzOstatniIdexJezyka
@@ -444,10 +445,21 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public void ResetSceny(bool ładowaćNowąScene = true)
     {
         int unSceneIdx = ObslugaScenScript.indeksAktualnejSceny;
-            PomocniczeFunkcje.ResetujWszystko();
-            SceneManager.UnloadSceneAsync(unSceneIdx);
-            if (ładowaćNowąScene)
-                StartCoroutine(CzekajAz());
+        PomocniczeFunkcje.ResetujWszystko();
+        SceneManager.UnloadSceneAsync(unSceneIdx);
+        if (ładowaćNowąScene)
+            StartCoroutine(CzekajAz());
+    }
+    public void ResetSceny(sbyte aktualnyPoziomEpoki)
+    {
+        int unSceneIdx = ObslugaScenScript.indeksAktualnejSceny;
+        PomocniczeFunkcje.ResetujWszystko();
+        SceneManager.UnloadSceneAsync(unSceneIdx);
+        if (aktualnyPoziomEpoki != kPoziomDoZaladowania)
+        {
+            kPoziomDoZaladowania = aktualnyPoziomEpoki;
+            StartCoroutine(CzekajAz());
+        }
     }
     public IEnumerator CzekajAz()
     {
@@ -500,8 +512,12 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         {
             ManagerSamouczekScript.mssInstance.OpuśćSamouczek(false);
         }
-        byte poziom = (byte)int.Parse(poziomWEpoce.text);
-        PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki = poziom;
+        byte poziom = 0;
+        if (kPoziomDoZaladowania < 0) //Jeśli scena ma zostać ładowana przy pomocy danych z poScenie   
+        {
+            poziom = (byte)int.Parse(poziomWEpoce.text);
+            PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki = poziom;
+        }
         poziom = (byte)int.Parse(actWybEpoka.text);
         Epoki e = Epoki.None;
         e += poziom;
@@ -520,6 +536,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         lastPosCam = MoveCameraScript.bazowePolozenieKameryGry;
         poGraj.SetActive(false);
         PrzełączUI(false);
+        kPoziomDoZaladowania = -1;
     }
     public void OdpalSamouczek()
     {
@@ -539,7 +556,6 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         else
         {
             //Reset scene
-            Debug.Log("113");
             ResetSceny();
         }
         PomocniczeFunkcje.oCam.transform.position = MoveCameraScript.bazowePolozenieKameryGry;
@@ -970,7 +986,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     public void QuitGame()
     {
-        PomocniczeFunkcje.ZapiszDane();
+        if(!ManagerSamouczekScript.byloZaladowane)
+            PomocniczeFunkcje.ZapiszDane();
         Application.Quit();
     }
     #endregion

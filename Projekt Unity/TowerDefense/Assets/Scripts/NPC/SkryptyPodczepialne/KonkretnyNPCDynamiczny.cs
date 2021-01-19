@@ -31,6 +31,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private Animator anima;
     private bool[] bufferAnima = new bool[] { false, false, false }; //isDeath, haveTarget, inRange
     private string nId;
+    private bool czekamNaZatwierdzenieŚcieżki = false;
     #endregion
 
     #region Zmienne chronione
@@ -142,7 +143,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 głównyIndex++;
                 break;
             case 1:
-                if (cel != null)
+                if (cel != null && !czekamNaZatwierdzenieŚcieżki)
                 {
                     ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
                 }
@@ -313,20 +314,13 @@ public class KonkretnyNPCDynamiczny : NPCClass
         //Logika nav mesha
         if (agent.enabled && !agent.hasPath /*|| this.ostatniTargetPozycja != docelowaPozycja*/)
         {
-            /*
-            if (agent.hasPath)
-            {
-                agent.ResetPath();
-                //Debug.Log("Resetuję ścieżkę");
-            }
-            */
-            //Debug.Log("Has Path = " + agent.hasPath + " ostatni target pozycja " + ostatniTargetPozycja + " agent.destination = " + agent.destination);
             if(głównyIndex == -1)
             {
                 GenerujŚcieżke(x, z);
             }
-            else
+            else if(!czekamNaZatwierdzenieŚcieżki)
             {
+                czekamNaZatwierdzenieŚcieżki = true;
                 StartCoroutine(WyliczŚciezkę(UnityEngine.Random.Range(0f, 0.5f), x, z));
             }
         }
@@ -344,6 +338,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         if (ścieżka.status == NavMeshPathStatus.PathComplete)
         {
             agent.SetPath(ścieżka);
+            czekamNaZatwierdzenieŚcieżki = false;
             /*
             GameObject goo = new GameObject("waypoints");
             for(ushort i = 0; i < ścieżka.corners.Length; i++)

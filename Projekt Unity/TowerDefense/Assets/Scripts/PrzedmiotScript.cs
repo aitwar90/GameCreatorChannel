@@ -41,7 +41,7 @@ public class PrzedmiotScript : MonoBehaviour
                         Skrzynka s = PomocniczeFunkcje.managerGryScript.ZwróćSkrzynkeOIndeksie(i);
                         if (s.ReuseTimer)
                         {
-                            s.OdejmnijCzas(Random.Range(minParam, maxParam + 1));
+                            s.OdejmnijCzas(Random.Range(-minParam, -maxParam - 1));
                             czyUzylem = true;
                         }
                     }
