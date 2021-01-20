@@ -276,7 +276,6 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
         PomocniczeFunkcje.spawnBudynki.InicjacjaPaneluBudynków();
         PomocniczeFunkcje.mainMenu.WygenerujIPosortujTablice(); //Generuje i sortuje tablice budynków do wybudowania
-        //PomocniczeFunkcje.ZapiszDane();
         ObslTimerFal(0);
         /*
         Transform go = new GameObject("R").transform;
