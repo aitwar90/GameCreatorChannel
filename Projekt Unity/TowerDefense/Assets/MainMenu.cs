@@ -323,7 +323,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             PanelStatyczny ps = (PanelStatyczny)panelStatyczny;
             ps.KNPCS = knpcs;
             RectTransform r = ps.GetComponent<RectTransform>();
-            if (s[1] == "True")  //Odblokuj naprawe budynku
+            if (s[1] == "True" && ui_down.activeInHierarchy)  //Odblokuj naprawe budynku
             {
                 ps.naprawButton.interactable = true;
             }
@@ -644,8 +644,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     public void WłączWyłączPanelBudynków(int idx)
     {
-        if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki < 255 ||
-        samouczekPanel.GetComponent<ManagerSamouczekScript>().PozwólZamknąćPanelBudynków())
+        if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki < 255)
         {
             PrzesuńBudynki(0, true);
             if (idx == 0)    //Panel z wieżami
@@ -664,6 +663,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 }
                 EnDisButtonsOfBuildingsInPanel(ref idxWież, true);
                 lastPanelEnabledBuildings = 0;
+                ManagerSamouczekScript.mssInstance.WyłączVisual();
             }
             else if (idx == 1)   //Panel z murkami
             {
@@ -681,6 +681,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 }
                 EnDisButtonsOfBuildingsInPanel(ref idxMurów, true);
                 lastPanelEnabledBuildings = 1;
+                ManagerSamouczekScript.mssInstance.WyłączVisual();
             }
             else if (idx == 2)    //Panel z innymi budynkami
             {
@@ -698,6 +699,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 }
                 EnDisButtonsOfBuildingsInPanel(ref idxInne, true);
                 lastPanelEnabledBuildings = 2;
+                ManagerSamouczekScript.mssInstance.WyłączVisual();
             }
             else    //Wyłącz panel
             {
@@ -712,6 +714,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 PomocniczeFunkcje.UstawTimeScale(1);
                 lastPanelEnabledBuildings = -1;
                 iloscButtonow = 1;
+                ManagerSamouczekScript.mssInstance.WyłączVisual();
             }
         }
     }
@@ -769,6 +772,37 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 idxWież = wieże.ToArray();
             if (inne != null)
                 idxInne = inne.ToArray();
+        }
+    }
+    public void AktywujDezaktywujPrzyciskPaneliBudynku(byte i = 255, bool stan = false)
+    {
+        if (i == 255)
+        {
+            Button b = ui_down.transform.Find("kupno_wieza").GetComponent<Button>();
+            b.interactable = stan;
+            b = ui_down.transform.Find("kupno_mur").GetComponent<Button>();
+            b.interactable = stan;
+            b = ui_down.transform.Find("kupno_inne").GetComponent<Button>();
+            b.interactable = stan;
+        }
+        else
+        {
+            Button button;
+            switch (i)
+            {
+                case 0:
+                    button = ui_down.transform.Find("kupno_wieza").GetComponent<Button>();
+                    button.interactable = stan;
+                    break;
+                case 1:
+                    button = ui_down.transform.Find("kupno_mur").GetComponent<Button>();
+                    button.interactable = stan;
+                    break;
+                case 2:
+                    button = ui_down.transform.Find("kupno_inne").GetComponent<Button>();
+                    button.interactable = stan;
+                    break;
+            }
         }
     }
     #endregion
@@ -986,7 +1020,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     public void QuitGame()
     {
-        if(!ManagerSamouczekScript.byloZaladowane)
+        if (!ManagerSamouczekScript.byloZaladowane)
             PomocniczeFunkcje.ZapiszDane();
         Application.Quit();
     }

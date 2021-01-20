@@ -7,7 +7,7 @@ public class ManagerSamouczekScript : MonoBehaviour
     public static ManagerSamouczekScript mssInstance = null;
     private SamouczekInfoPanelScript sips = null;
     private SamouczekKliknijTuVisual sktv = null;
-    private byte idxProgresuSamouczka = 0;
+    public byte idxProgresuSamouczka = 0;
     private byte symulujManageraUpdate = 0;
     private bool sprawdzajCzyZaliczone = false;
     public TextAsset plikTekstowySamouczka;
@@ -49,6 +49,7 @@ public class ManagerSamouczekScript : MonoBehaviour
     public void ŁadujDaneSamouczek()
     {
         this.gameObject.SetActive(true);
+        idxProgresuSamouczka = 0;
         ManagerGryScript mgs = PomocniczeFunkcje.managerGryScript;
         if (!byloZaladowane)
         {
@@ -59,10 +60,16 @@ public class ManagerSamouczekScript : MonoBehaviour
             e2 = mgs.ekwipunekGracza[1].ilośćDanejNagrody;
             e3 = mgs.ekwipunekGracza[2].ilośćDanejNagrody;
             e4 = mgs.ekwipunekGracza[3].ilośćDanejNagrody;
+            skrzynki = new Skrzynka[4];
+            for(byte i = 0; i < 4; i++)
+            {
+                skrzynki[i] = mgs.skrzynki[i];
+            }
             thp = mgs.hpIdx;
             atkIdx = mgs.atkIdx;
             defidx = mgs.defIdx;
             byloZaladowane = true;
+            PomocniczeFunkcje.mainMenu.AktywujDezaktywujPrzyciskPaneliBudynku();
         }
         //Przypisanie nowych danych
         ManagerGryScript.iloscCoinów = 30;
@@ -89,6 +96,7 @@ public class ManagerSamouczekScript : MonoBehaviour
                 break;
             case 3: //Gracz otrzymał podstawowe informacje o interfejsie
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[3]);
+                PomocniczeFunkcje.mainMenu.AktywujDezaktywujPrzyciskPaneliBudynku(0, true);
                 break;
             case 4: //Gracz odpalił panel z budynkami wież
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[4]);
@@ -100,6 +108,7 @@ public class ManagerSamouczekScript : MonoBehaviour
                 break;
             case 6:
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[6]);
+                PomocniczeFunkcje.mainMenu.AktywujDezaktywujPrzyciskPaneliBudynku(1, true);
                 break;
             case 7:
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[7]);
@@ -377,6 +386,7 @@ public class ManagerSamouczekScript : MonoBehaviour
     {
         if (byloZaladowane)
         {
+            Debug.Log("Zwracam wartości z samouczka");
             ManagerGryScript mgs = PomocniczeFunkcje.managerGryScript;
             ManagerGryScript.iloscCoinów = tmpHajs;
             mgs.skrzynki = skrzynki;
@@ -384,10 +394,15 @@ public class ManagerSamouczekScript : MonoBehaviour
             mgs.ekwipunekGracza[1].ilośćDanejNagrody = e2;
             mgs.ekwipunekGracza[2].ilośćDanejNagrody = e3;
             mgs.ekwipunekGracza[3].ilośćDanejNagrody = e4;
+            for(byte i = 0; i < 4; i++)
+            {
+                mgs.skrzynki[i] = skrzynki[i];
+            }
             mgs.hpIdx = thp;
             mgs.atkIdx = atkIdx;
             mgs.defIdx = defidx;
             byloZaladowane = false;
+            PomocniczeFunkcje.mainMenu.AktywujDezaktywujPrzyciskPaneliBudynku(255, true);
         }
     }
     public void ZamknijPanel()
@@ -399,12 +414,8 @@ public class ManagerSamouczekScript : MonoBehaviour
             OpuśćSamouczek();
         }
     }
-    public bool PozwólZamknąćPanelBudynków()
+    public void WyłączVisual()
     {
-        /*
-        Należy tu podać indeksy, w których nie można zamknąć panelu z budynkami (gracz ma je postawić lub kupić)
-        */
-        //if(idxProgresuSamouczka != )
-        return true;
+        this.sktv.WyłączObiekt();
     }
 }
