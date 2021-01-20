@@ -35,6 +35,8 @@ public class PrzedmiotScript : MonoBehaviour
                     DodajNagrode(true);
                     break;
                 case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
+                    if(PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
+                        break;
                     bool czyUzylem = false;
                     for (byte i = 0; i < 4; i++)
                     {

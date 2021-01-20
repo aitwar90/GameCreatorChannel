@@ -644,78 +644,75 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     public void WłączWyłączPanelBudynków(int idx)
     {
-        if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki < 255)
+        PrzesuńBudynki(0, true);
+        if (idx == 0)    //Panel z wieżami
         {
-            PrzesuńBudynki(0, true);
-            if (idx == 0)    //Panel z wieżami
+            if (idxWież == null)
+                return;
+            WłączWyłączPanel("UI_BudynkiPanel", true);
+            WłączWyłączPanel("UI_LicznikCzasu", false);
+            PomocniczeFunkcje.UstawTimeScale(0);
+            if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 0)
             {
-                if (idxWież == null)
-                    return;
-                WłączWyłączPanel("UI_BudynkiPanel", true);
-                WłączWyłączPanel("UI_LicznikCzasu", false);
-                PomocniczeFunkcje.UstawTimeScale(0);
-                if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 0)
-                {
-                    if (lastPanelEnabledBuildings == 1)
-                        EnDisButtonsOfBuildingsInPanel(ref idxMurów, false);
-                    else if (lastPanelEnabledBuildings == 2)
-                        EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
-                }
-                EnDisButtonsOfBuildingsInPanel(ref idxWież, true);
-                lastPanelEnabledBuildings = 0;
-                ManagerSamouczekScript.mssInstance.WyłączVisual();
+                if (lastPanelEnabledBuildings == 1)
+                    EnDisButtonsOfBuildingsInPanel(ref idxMurów, false);
+                else if (lastPanelEnabledBuildings == 2)
+                    EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
             }
-            else if (idx == 1)   //Panel z murkami
+            EnDisButtonsOfBuildingsInPanel(ref idxWież, true);
+            lastPanelEnabledBuildings = 0;
+            ManagerSamouczekScript.mssInstance.WyłączVisual();
+        }
+        else if (idx == 1)   //Panel z murkami
+        {
+            if (idxMurów == null)
+                return;
+            WłączWyłączPanel("UI_BudynkiPanel", true);
+            WłączWyłączPanel("UI_LicznikCzasu", false);
+            PomocniczeFunkcje.UstawTimeScale(0);
+            if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 1)
             {
-                if (idxMurów == null)
-                    return;
-                WłączWyłączPanel("UI_BudynkiPanel", true);
-                WłączWyłączPanel("UI_LicznikCzasu", false);
-                PomocniczeFunkcje.UstawTimeScale(0);
-                if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 1)
-                {
-                    if (lastPanelEnabledBuildings == 0)
-                        EnDisButtonsOfBuildingsInPanel(ref idxWież, false);
-                    else if (lastPanelEnabledBuildings == 2)
-                        EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
-                }
-                EnDisButtonsOfBuildingsInPanel(ref idxMurów, true);
-                lastPanelEnabledBuildings = 1;
-                ManagerSamouczekScript.mssInstance.WyłączVisual();
+                if (lastPanelEnabledBuildings == 0)
+                    EnDisButtonsOfBuildingsInPanel(ref idxWież, false);
+                else if (lastPanelEnabledBuildings == 2)
+                    EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
             }
-            else if (idx == 2)    //Panel z innymi budynkami
-            {
-                if (idxInne == null)
-                    return;
-                WłączWyłączPanel("UI_BudynkiPanel", true);
-                WłączWyłączPanel("UI_LicznikCzasu", false);
-                PomocniczeFunkcje.UstawTimeScale(0);
-                if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 2)
-                {
-                    if (lastPanelEnabledBuildings == 1)
-                        EnDisButtonsOfBuildingsInPanel(ref idxMurów, false);
-                    else if (lastPanelEnabledBuildings == 0)
-                        EnDisButtonsOfBuildingsInPanel(ref idxWież, false);
-                }
-                EnDisButtonsOfBuildingsInPanel(ref idxInne, true);
-                lastPanelEnabledBuildings = 2;
-                ManagerSamouczekScript.mssInstance.WyłączVisual();
-            }
-            else    //Wyłącz panel
+            EnDisButtonsOfBuildingsInPanel(ref idxMurów, true);
+            lastPanelEnabledBuildings = 1;
+            ManagerSamouczekScript.mssInstance.WyłączVisual();
+        }
+        else if (idx == 2)    //Panel z innymi budynkami
+        {
+            if (idxInne == null)
+                return;
+            WłączWyłączPanel("UI_BudynkiPanel", true);
+            WłączWyłączPanel("UI_LicznikCzasu", false);
+            PomocniczeFunkcje.UstawTimeScale(0);
+            if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 2)
             {
                 if (lastPanelEnabledBuildings == 1)
                     EnDisButtonsOfBuildingsInPanel(ref idxMurów, false);
                 else if (lastPanelEnabledBuildings == 0)
                     EnDisButtonsOfBuildingsInPanel(ref idxWież, false);
-                else if (lastPanelEnabledBuildings == 2)
-                    EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
-                WłączWyłączPanel("UI_BudynkiPanel", false);
-                WłączWyłączPanel("UI_LicznikCzasu", true);
-                PomocniczeFunkcje.UstawTimeScale(1);
-                lastPanelEnabledBuildings = -1;
-                iloscButtonow = 1;
-                ManagerSamouczekScript.mssInstance.WyłączVisual();
             }
+            EnDisButtonsOfBuildingsInPanel(ref idxInne, true);
+            lastPanelEnabledBuildings = 2;
+            ManagerSamouczekScript.mssInstance.WyłączVisual();
+        }
+        else    //Wyłącz panel
+        {
+            if (lastPanelEnabledBuildings == 1)
+                EnDisButtonsOfBuildingsInPanel(ref idxMurów, false);
+            else if (lastPanelEnabledBuildings == 0)
+                EnDisButtonsOfBuildingsInPanel(ref idxWież, false);
+            else if (lastPanelEnabledBuildings == 2)
+                EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
+            WłączWyłączPanel("UI_BudynkiPanel", false);
+            WłączWyłączPanel("UI_LicznikCzasu", true);
+            PomocniczeFunkcje.UstawTimeScale(1);
+            lastPanelEnabledBuildings = -1;
+            iloscButtonow = 1;
+            ManagerSamouczekScript.mssInstance.WyłączVisual();
         }
     }
     private void EnDisButtonsOfBuildingsInPanel(ref ushort[] tabOfBuildToChange, bool willEnable = false)
@@ -812,11 +809,11 @@ public class MainMenu : MonoBehaviour, ICzekajAz
 
         if (wybranaNagroda > -1)
         {
-            PomocniczeFunkcje.managerGryScript.UzyciePrzedmiotu((byte)wybranaNagroda);
             if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
             {
                 ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = (sbyte)(wybranaNagroda + 2);
             }
+            PomocniczeFunkcje.managerGryScript.UzyciePrzedmiotu((byte)wybranaNagroda);
         }
         if (PomocniczeFunkcje.managerGryScript.ekwipunekGracza[wybranaNagroda].ilośćDanejNagrody == 0)
             wybranaNagroda = -1;
