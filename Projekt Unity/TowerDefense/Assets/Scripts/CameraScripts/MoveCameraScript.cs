@@ -14,7 +14,7 @@ public class MoveCameraScript : MonoBehaviour
     private float prędkoscPrzesunięciaKamery = 5f;
 #endif
 #if UNITY_ANDROID
-    private float prędkoscPrzesunięciaKamery = (!ManagerGryScript.odpalamNaUnityRemote) ? .1f : 0.05f;
+    private float prędkoscPrzesunięciaKamery = (!ManagerGryScript.odpalamNaUnityRemote) ? 6.0f : 0.05f;
 #endif
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
     private Vector3 pierwotnePołożenieKamery = Vector3.zero;
