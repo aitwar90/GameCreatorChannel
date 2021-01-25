@@ -178,19 +178,28 @@ public class SpawnBudynki : MonoBehaviour
         aktualnieWybranyIndeksObiektuTabZablokowany = tabWTablicy;
         if (czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].czyZablokowany)
         {
+            if (PomocniczeFunkcje.mainMenu.stawiajBudynek.interactable)
+                PomocniczeFunkcje.mainMenu.stawiajBudynek.interactable = false;
             //Odpal przycisk kupna
             if (ManagerGryScript.iloscCoinów >= wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().kosztBadania)
             {
                 PomocniczeFunkcje.mainMenu.kup.interactable = true;
-                PomocniczeFunkcje.mainMenu.stawiajBudynek.interactable = false;
             }
 
         }
         else
         {
-            //Odpal przycisk budowy
             PomocniczeFunkcje.mainMenu.kup.interactable = false;
-            PomocniczeFunkcje.mainMenu.stawiajBudynek.interactable = true;
+            //Odpal przycisk budowy
+            if (ManagerGryScript.iloscCoinów >= wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().kosztJednostki)
+            {
+                
+                PomocniczeFunkcje.mainMenu.stawiajBudynek.interactable = true;
+            }
+            else
+            {
+                PomocniczeFunkcje.mainMenu.stawiajBudynek.interactable = false;
+            }
         }
         KonkretnyNPCStatyczny knpcs = wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
         knpcs.UstawPanel(Vector2.negativeInfinity);
@@ -322,7 +331,7 @@ public class SpawnBudynki : MonoBehaviour
         knpcs = null;
         aktualnyObiekt = null;
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
-        if(PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
+        if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
         {
             ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = -3;
         }
