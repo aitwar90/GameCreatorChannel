@@ -79,7 +79,7 @@ public class MoveCameraScript : MonoBehaviour
             {
                 if (Input.mouseScrollDelta.y != 0)
                 {
-                    PomocniczeFunkcje.mainMenu.PrzesuńBudynki(Input.mouseScrollDelta.y);
+                    PomocniczeFunkcje.mainMenu.PrzesuńBudynki(Input.mouseScrollDelta.y*30);
                 }
             }
             else

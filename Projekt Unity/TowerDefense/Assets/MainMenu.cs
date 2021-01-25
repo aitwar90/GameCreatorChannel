@@ -48,7 +48,6 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public Button stawiajBudynek;
     private GameObject uiBudynkiPanel;
     private byte wielkosćButtonu = 100;
-    private byte offsetBB = 1;
     private byte iloscButtonow = 1;
     private RectTransform trBudynkówŁącze = null;
     private ushort[] idxWież = null;
@@ -625,15 +624,16 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         }
         Vector2 sOff = Vector2.zero;
         sOff.y += wartość;
-        Vector3 tmp = trBudynkówŁącze.anchoredPosition = trBudynkówŁącze.anchoredPosition + sOff;
-        short t = (short)(wartośćPrzesunięciaY - ((wielkosćButtonu + offsetBB) * iloscButtonow));
-        if (tmp.y <= wartośćPrzesunięciaY && tmp.y >= t)
+        byte offsetBB = 15;
+        Vector3 tmp = trBudynkówŁącze.anchoredPosition = trBudynkówŁącze.anchoredPosition + sOff;   //Wartość po przesunięciu obiektu o wartość
+        short t = (short)(wartośćPrzesunięciaY + ((wielkosćButtonu + offsetBB) * iloscButtonow));   //Obszar po Y wszystkich przycisków
+        if (tmp.y >= wartośćPrzesunięciaY && tmp.y <= t)
         {
             trBudynkówŁącze.anchoredPosition = tmp;
         }
         else
         {
-            if (tmp.y > wartośćPrzesunięciaY)
+            if (tmp.y < wartośćPrzesunięciaY)
             {
                 trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, wartośćPrzesunięciaY);
             }
@@ -712,7 +712,6 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             WłączWyłączPanel("UI_LicznikCzasu", true);
             PomocniczeFunkcje.UstawTimeScale(1);
             lastPanelEnabledBuildings = -1;
-            iloscButtonow = 1;
             ManagerSamouczekScript.mssInstance.WyłączVisual();
         }
     }
