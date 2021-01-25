@@ -617,24 +617,25 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     public void PrzesuńBudynki(float wartość, bool zresetuj = false)
     {
+        short wartośćPrzesunięciaY = -290;
         if (zresetuj)
         {
-            trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, -100);
+            trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, wartośćPrzesunięciaY);
             return;
         }
         Vector2 sOff = Vector2.zero;
         sOff.y += wartość;
         Vector3 tmp = trBudynkówŁącze.anchoredPosition = trBudynkówŁącze.anchoredPosition + sOff;
-        short t = (short)(-100 - ((wielkosćButtonu + offsetBB) * iloscButtonow));
-        if (tmp.y <= -100 && tmp.y >= t)
+        short t = (short)(wartośćPrzesunięciaY - ((wielkosćButtonu + offsetBB) * iloscButtonow));
+        if (tmp.y <= wartośćPrzesunięciaY && tmp.y >= t)
         {
             trBudynkówŁącze.anchoredPosition = tmp;
         }
         else
         {
-            if (tmp.y > -100)
+            if (tmp.y > wartośćPrzesunięciaY)
             {
-                trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, -100);
+                trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, wartośćPrzesunięciaY);
             }
             else
             {
@@ -728,7 +729,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         Button b = Resources.Load<Button>("UI/PrzyciskBudynku");
         wielkosćButtonu = (byte)b.GetComponent<RectTransform>().sizeDelta.y;
-        trBudynkówŁącze = GameObject.Find("Canvas/UIGry/UI_BudynkiPanel/RodzicButtonów").transform.GetComponent<RectTransform>();
+        trBudynkówŁącze = GameObject.Find("Canvas/UIGry/UI_BudynkiPanel/Maska/RodzicButtonów").transform.GetComponent<RectTransform>();
         StrukturaBudynkuWTab[] tab = PomocniczeFunkcje.spawnBudynki.ZablokowaneBudynki;
         List<ushort> murki = null;
         List<ushort> wieże = null;
