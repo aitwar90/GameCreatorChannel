@@ -49,11 +49,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wszystkieBudynki:
-  - {fileID: 8240789140282401236, guid: b8164cf752c70df46891bc4e4ac3bf67, type: 3}
   - {fileID: 480594667005852909, guid: 81d7c4ca18bcac044a4773011d34808d, type: 3}
+  - {fileID: 2470115191037545373, guid: 76e66e576ffa24a4e9e8878a36a41cc1, type: 3}
+  - {fileID: 5612464261149716406, guid: e754fc54de320ce4680ed474dc946650, type: 3}
+  - {fileID: 778129065396751486, guid: a9a477d9df9b7134cba18f481a984dd1, type: 3}
+  - {fileID: 8487378328093519379, guid: 02ae6fe7bba60f046978ed9e5ee6a996, type: 3}
   dropdawn: {fileID: 0}
   lockDropdownImage: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  enableLockDropdownImage: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  enableLockDropdownImage: {fileID: 10907, guid: 0000000000000000f000000000000000,
+    type: 0}
   aktualnyObiekt: {fileID: 0}
   zablokowanyBudynekIndex: -1
 --- !u!114 &8539881029944531422

@@ -20,8 +20,8 @@ public class SpawnBudynki : MonoBehaviour
     private Vector3 ostatniaPozycjaKursora = Vector3.zero;
     private Vector3 posClick = Vector3.zero;
     private Transform rodzicBudynkow = null;
-    private StrukturaBudynkuWTab[] czyBudynekZablokowany = null;
-    private short aktualnieWybranyIndeksObiektuTabZablokowany = -1;
+    public StrukturaBudynkuWTab[] czyBudynekZablokowany = null;
+    public short aktualnieWybranyIndeksObiektuTabZablokowany = -1;
     private bool kliknieteUI = false;
     #endregion
     #region Getery i Setery
@@ -133,15 +133,16 @@ public class SpawnBudynki : MonoBehaviour
             }
         }
     }
-    public void OdblokujBudynek(sbyte idxDoOdblokowania, bool czyOdblokowywuje = false)
+    public void OdblokujBudynek(bool czyOdblokowywuje = false)
     {
-        if (czyOdblokowywuje && idxDoOdblokowania > -1)
+        if (czyOdblokowywuje && aktualnieWybranyIndeksObiektuTabZablokowany > -1)
         {
-            KonkretnyNPCStatyczny statycznyBudynekDoOdbl = wszystkieBudynki[czyBudynekZablokowany[idxDoOdblokowania].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
+            KonkretnyNPCStatyczny statycznyBudynekDoOdbl = wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
             statycznyBudynekDoOdbl.Zablokowany = false;
             ManagerGryScript.iloscCoinów -= statycznyBudynekDoOdbl.kosztBadania;
-            czyBudynekZablokowany[idxDoOdblokowania].czyZablokowany = false;
+            czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].czyZablokowany = false;
             PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
+            Debug.Log("Odblokowuje budynek o indeksie "+aktualnieWybranyIndeksObiektuTabZablokowany);
         }
         ResetWybranegoObiektu();
     }
@@ -185,7 +186,6 @@ public class SpawnBudynki : MonoBehaviour
             {
                 PomocniczeFunkcje.mainMenu.kup.interactable = true;
             }
-
         }
         else
         {
@@ -193,7 +193,6 @@ public class SpawnBudynki : MonoBehaviour
             //Odpal przycisk budowy
             if (ManagerGryScript.iloscCoinów >= wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().kosztJednostki)
             {
-                
                 PomocniczeFunkcje.mainMenu.stawiajBudynek.interactable = true;
             }
             else
@@ -214,11 +213,17 @@ public class SpawnBudynki : MonoBehaviour
             materialWybranegoBudynku.color = Color.red;
         }
         knpcs = aktualnyObiekt.GetComponent<KonkretnyNPCStatyczny>();
+        /*
         if (knpcs.kosztJednostki > ManagerGryScript.iloscCoinów || knpcs.Zablokowany)
         {
+            if(knpcs.Zablokowany)
+                Debug.Log("Resetuje wybrany obiekt bo jest zablokowany");
+            else
+                Debug.Log("Brak funduszy");
             ResetWybranegoObiektu();
             return;
         }
+        */
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(true);
     }
     private void ZatwierdźBudynekWindows()
@@ -340,6 +345,7 @@ public class SpawnBudynki : MonoBehaviour
     {
         if (aktualnieWybranyIndeksObiektuTabZablokowany < 0)
         {
+            Debug.Log("aktualnieWybranyIndeksObiektuTabZablokowany < 0");
             ResetWybranegoObiektu();
             return;
         }

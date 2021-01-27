@@ -125,6 +125,7 @@ public class StrukturaDrzewa
 
     }
 }
+[System.Serializable]
 public class StrukturaBudynkuWTab
 {
     public bool czyZablokowany;
