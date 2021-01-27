@@ -976,6 +976,14 @@ public static class PomocniczeFunkcje
             }
         }
     }
+    public static void KasujZapis()
+    {
+        string ścieżka = ZwróćŚcieżkęZapisu("dataBaseTDv1.asc");
+        if(File.Exists(ścieżka))
+        {
+            File.Delete(ścieżka);
+        }
+    }
     #endregion
     /*
     Funkcja Tag z epoką zwraca informację o tagu dla audio clip jaki ma zostac załadowany do Audio Source
