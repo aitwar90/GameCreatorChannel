@@ -14,7 +14,7 @@ public class SpawnBudynki : MonoBehaviour
     public short zablokowanyBudynekIndex = -1;
     #endregion
     #region Zmienne prywatne
-    private Material materialWybranegoBudynku = null;
+    private MaterialyZKolorami[] materialWybranegoBudynku = null;
     private Color kolorOrginału;
     private KonkretnyNPCStatyczny knpcs = null;
     private Vector3 ostatniaPozycjaKursora = Vector3.zero;
@@ -23,6 +23,7 @@ public class SpawnBudynki : MonoBehaviour
     public StrukturaBudynkuWTab[] czyBudynekZablokowany = null;
     public short aktualnieWybranyIndeksObiektuTabZablokowany = -1;
     private bool kliknieteUI = false;
+    private byte aktualnyStanKoloru = 255;  //255 domyślny, 0 - czerwony, 1 - zielony
     #endregion
     #region Getery i Setery
     public Transform RodzicBudynków
@@ -142,7 +143,7 @@ public class SpawnBudynki : MonoBehaviour
             ManagerGryScript.iloscCoinów -= statycznyBudynekDoOdbl.kosztBadania;
             czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].czyZablokowany = false;
             PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
-            Debug.Log("Odblokowuje budynek o indeksie "+aktualnieWybranyIndeksObiektuTabZablokowany);
+            Debug.Log("Odblokowuje budynek o indeksie " + aktualnieWybranyIndeksObiektuTabZablokowany);
         }
         ResetWybranegoObiektu();
     }
@@ -206,11 +207,15 @@ public class SpawnBudynki : MonoBehaviour
     public void PostawBudynek(ref GameObject obiektDoRespawnu, Vector3 pos, Quaternion rotation)
     {
         aktualnyObiekt = Instantiate(obiektDoRespawnu, pos, rotation);
-        materialWybranegoBudynku = aktualnyObiekt.GetComponent<Renderer>().material;
+        Renderer[] mats = aktualnyObiekt.GetComponentsInChildren<Renderer>();
+        materialWybranegoBudynku = new MaterialyZKolorami[mats.Length];
+        for (byte i = 0; i < mats.Length; i++)
+        {
+            materialWybranegoBudynku[i] = new MaterialyZKolorami(mats[i].material, mats[i].material.color);
+        }
         if (materialWybranegoBudynku != null)
         {
-            kolorOrginału = materialWybranegoBudynku.color;
-            materialWybranegoBudynku.color = Color.red;
+            PodmieńNaCzerwony();
         }
         knpcs = aktualnyObiekt.GetComponent<KonkretnyNPCStatyczny>();
         /*
@@ -257,7 +262,7 @@ public class SpawnBudynki : MonoBehaviour
         knpcs.InicjacjaBudynku();
         PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcs, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
         //Ustawiam materiał
-        materialWybranegoBudynku.color = kolorOrginału;
+        PodmieńNaOrginalny();
         //Teraz nalezy umieścić budynek w odpowiednim miejscu tablicy PomocniczeFunkcje.tablicaWież
         short[] temp = PomocniczeFunkcje.ZwrócIndeksyWTablicy(posClick.x, posClick.z);
         byte s = (byte)Mathf.CeilToInt(knpcs.zasięgAtaku / PomocniczeFunkcje.distXZ);
@@ -378,18 +383,14 @@ public class SpawnBudynki : MonoBehaviour
         if (Mathf.Abs(sugerowanaPozycja.x - najbliższyBudynek.transform.position.x) < najbliższyBudynek.granicaX + knpcs.granicaX &&
         Mathf.Abs(sugerowanaPozycja.z - najbliższyBudynek.transform.position.z) < najbliższyBudynek.granicaZ + knpcs.granicaZ)
         {
-            if (materialWybranegoBudynku.color != Color.red)
-            {
-                materialWybranegoBudynku.color = Color.red;
-            }
+            PodmieńNaCzerwony();
             return false;
         }
         else    //Tu trzeba wykrywać obiekty terenu typu drzewa, kamienie itp
         {
 
         }
-        if (materialWybranegoBudynku != null && materialWybranegoBudynku.color != Color.green)
-            materialWybranegoBudynku.color = Color.green;
+        PodmieńNaZielony();
         return true;
     }
     private void ResetWybranegoObiektu()    //Resetuje ustawienie wybranego budynku
@@ -434,5 +435,69 @@ public class SpawnBudynki : MonoBehaviour
             return null;
         else
             return czyBudynekZablokowany[idx];
+    }
+    private void PodmieńNaCzerwony()
+    {
+        if (aktualnyStanKoloru != 0 && aktualnyObiekt == null)
+            return;
+        for (byte i = 0; i < materialWybranegoBudynku.Length; i++)
+        {
+            materialWybranegoBudynku[i].PodmienKolor(0);
+        }
+        aktualnyStanKoloru = 0;
+    }
+    private void PodmieńNaZielony()
+    {
+        if (aktualnyStanKoloru != 1 && aktualnyObiekt == null)
+            return;
+        for (byte i = 0; i < materialWybranegoBudynku.Length; i++)
+        {
+            materialWybranegoBudynku[i].PodmienKolor(1);
+        }
+        aktualnyStanKoloru = 1;
+    }
+    private void PodmieńNaOrginalny()
+    {
+        if (aktualnyStanKoloru != 255 && aktualnyObiekt == null)
+            return;
+        for (byte i = 0; i < materialWybranegoBudynku.Length; i++)
+        {
+            materialWybranegoBudynku[i].PodmienKolor();
+        }
+        aktualnyStanKoloru = 255;
+    }
+}
+public class MaterialyZKolorami
+{
+    private Material material;
+    private float colorx;
+    private float colory;
+    private float colorz;
+
+    public MaterialyZKolorami(Material _material, Color c)
+    {
+        this.material = _material;
+        this.colorx = c.r;
+        this.colory = c.g;
+        this.colorz = c.b;
+    }
+    public void PodmienKolor(byte kolor = 255)  //Jaki kolor ma podmienic
+    {
+        if (kolor == 255)    //Domyślne
+        {
+            this.material.color = new Color(this.colorx, this.colory, this.colorz);
+        }
+        else if (kolor == 0) //Pocmien na czerowny
+        {
+            this.material.color = Color.red;
+        }
+        else if (kolor == 1) //Podmień na zielony
+        {
+            this.material.color = Color.green;
+        }
+    }
+    ~MaterialyZKolorami()
+    {
+
     }
 }
