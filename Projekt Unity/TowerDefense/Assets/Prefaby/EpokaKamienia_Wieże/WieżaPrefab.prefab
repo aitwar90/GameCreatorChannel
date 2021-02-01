@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 222044500}
   m_LocalRotation: {x: -0.000001809995, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.05, y: 6.31, z: -0.02}
+  m_LocalPosition: {x: 0, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1735899730}
@@ -235,7 +235,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4212816613289137521}
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 8346848093088417841, guid: 1b6d5247463ecdf449371c48b33fa39c, type: 3}
 --- !u!23 &3421794229463795932
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -255,7 +255,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 5716b75595a31b7ee86bf5927f42d2ca, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -316,7 +316,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5536929656683569861}
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 4976646946553750010, guid: 1f09d0d43ac9eb54aacaee04c54d80ba, type: 3}
 --- !u!23 &7331717193931812183
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -336,7 +336,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 5716b75595a31b7ee86bf5927f42d2ca, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -406,14 +406,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb97c6dfecba79b40acc907f00e51742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nazwa: "Wie\u017Ca"
-  "maksymalne\u017Bycie": 250
+  nazwa: "Wie\u017Ca 4"
+  "maksymalne\u017Bycie": 5000
   typNPC: 2
   epokaNPC: 1
-  kosztJednostki: 1
-  "zadawaneObra\u017Cenia": 10
-  "zasi\u0119gAtaku": 0
-  "szybko\u015B\u0107Ataku": 0.5
+  kosztJednostki: 100
+  "zadawaneObra\u017Cenia": 45
+  "zasi\u0119gAtaku": 10
+  "szybko\u015B\u0107Ataku": 2
   "modyfikatorOtrzymywanychObra\u017Ce\u0144": 1
   "modyfikatorZadawanychObra\u017Ce\u0144": 1
   cel: {fileID: 0}
@@ -425,11 +425,12 @@ MonoBehaviour:
   "odbiteObra\u017Cenia": 1
   granicaX: 1.1
   granicaZ: 1.1
-  poziomBudynku: 1
-  kosztBadania: 0
-  "typAtakuWie\u017Cy": 1
-  blokowany: 1
-  obiektAtaku: {fileID: 6802195553192024197, guid: b1b921f0f68750a41be28bf2c07630fc, type: 3}
+  poziomBudynku: 12
+  kosztBadania: 2500
+  "typAtakuWie\u017Cy": 2
+  blokowany: 0
+  obiektAtaku: {fileID: 6802195553192024197, guid: b1b921f0f68750a41be28bf2c07630fc,
+    type: 3}
   efektyFxStart: {fileID: 0}
   efektyFxKoniec: {fileID: 0}
   "offWysoko\u015B\u0107": 2.5
