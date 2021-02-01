@@ -7,14 +7,64 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+<<<<<<< HEAD
+=======
+    - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
+        type: 3}
+      propertyPath: nazwa
+      value: "Wie\u017Ca 1"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
+        type: 3}
+      propertyPath: granicaX
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
+        type: 3}
+      propertyPath: granicaZ
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
+        type: 3}
+      propertyPath: blokowany
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
+        type: 3}
+      propertyPath: zablokowany
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
+        type: 3}
+      propertyPath: "zasi\u0119gAtaku"
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
+        type: 3}
+      propertyPath: kosztJednostki
+      value: 10
+      objectReference: {fileID: 0}
+>>>>>>> b61bddcb0a4b5f83ea418c2f8b9f70b17778b2db
     - target: {fileID: 2738474393216621962, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}
       propertyPath: m_Mesh
       value: 
+<<<<<<< HEAD
       objectReference: {fileID: -244157856078689483, guid: 6c5e7329056f4054688ab8883402cd2b,
         type: 3}
     - target: {fileID: 3421794229463795932, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}
+=======
+      objectReference: {fileID: -7725915849789499395, guid: 39fcc3ee4b9e7ce4f8fe7e9295005651,
+        type: 3}
+    - target: {fileID: 3421794229463795932, guid: 09c09c3864100f2979df9494dcdf3790,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3421794229463795932, guid: 09c09c3864100f2979df9494dcdf3790,
+        type: 3}
+>>>>>>> b61bddcb0a4b5f83ea418c2f8b9f70b17778b2db
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e2c22664714d1fcbdaed9a36301dfd80, type: 2}
@@ -27,10 +77,22 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
+<<<<<<< HEAD
       objectReference: {fileID: -2783439459533132654, guid: 1467b66f47d1088488e16cd9b76e90fd,
         type: 3}
     - target: {fileID: 7331717193931812183, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}
+=======
+      objectReference: {fileID: 5146211958106531642, guid: 90969b9a940149c498408ce9762bbb8f,
+        type: 3}
+    - target: {fileID: 7331717193931812183, guid: 09c09c3864100f2979df9494dcdf3790,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7331717193931812183, guid: 09c09c3864100f2979df9494dcdf3790,
+        type: 3}
+>>>>>>> b61bddcb0a4b5f83ea418c2f8b9f70b17778b2db
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e2c22664714d1fcbdaed9a36301dfd80, type: 2}
