@@ -5,6 +5,7 @@ public class PanelTextuWBudynkach : KontenerKomponentów
     public Text nazwaObiektu;
     public Text punktyŻyciaObiektu;
     public Text koszt;
+    public Text kosztBadania;
     public Text obrażenia;
     public Text wymaganyPoziom;
     public Text opis;
@@ -20,8 +21,31 @@ public class PanelTextuWBudynkach : KontenerKomponentów
         if (s[6] == "CZERWONY")
         {
             wymaganyPoziom.color = Color.red;
+            if (s.Length > 6)
+            {
+                int t = System.Int32.Parse(s[7]);
+                if (ManagerGryScript.iloscCoinów < t)
+                {
+                    kosztBadania.color = Color.red;
+                }
+                else
+                    kosztBadania.color = Color.white;
+            }
         }
         else
+        {
             wymaganyPoziom.color = Color.white;
+            if (s.Length > 6)
+            {
+                int t = System.Int32.Parse(s[7]);
+                if (ManagerGryScript.iloscCoinów < t)
+                {
+                    kosztBadania.color = Color.red;
+                }
+                else
+                    kosztBadania.color = Color.white;
+            }
+        }
+        kosztBadania.text = s[7];
     }
 }

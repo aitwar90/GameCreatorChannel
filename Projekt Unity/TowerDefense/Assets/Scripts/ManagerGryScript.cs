@@ -758,5 +758,9 @@ public class ManagerGryScript : MonoBehaviour
                 break;
         }
     }
+    public void KasujZapis()
+    {
+        PomocniczeFunkcje.KasujZapis();
+    }
     #endregion
 }

@@ -29,6 +29,8 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     public ParticleSystem efektyFxStart;
     [Tooltip("System cząstek wyzwalany kiedy nabój dosięga celu")]
     public ParticleSystem efektyFxKoniec;
+    [Tooltip("Określ przesunięcie atakującego obiektu względem pozycji obiektu")]
+    public float offWysokość = 1.5f;
     public Sprite obrazekDoBudynku = null;
     public Transform sprite = null;
     public string opisBudynku;
@@ -253,7 +255,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                 if (!instaObj.activeInHierarchy)
                 {
                     instaObj.SetActive(true);
-                    instaObj.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 1.0f, this.transform.position.z);
+                    instaObj.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + offWysokość, this.transform.position.z);
                     instaObj.transform.LookAt(cel.transform.position);
                     if (efektyFxStart != null)
                     {
@@ -341,7 +343,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     }
     public override void UstawPanel(Vector2 pos)
     {
-        if (pos.x == float.NegativeInfinity)
+        if (pos.x == float.NegativeInfinity)    //Jeśli odpalany jest panel budynku
         {
             string p = "-";
             string c = "ZIELONY";
@@ -356,14 +358,17 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                 p = "ERROR";
                 c = "CZERWONY";
             }
-            PomocniczeFunkcje.mainMenu.UstawPanelUI("PANEL_" + this.nazwa + "_" + this.maksymalneŻycie.ToString() + "_" + this.kosztJednostki.ToString() + "_" + this.zadawaneObrażenia + "_" + p + "_" + this.opisBudynku + "_" + c, Vector2.zero);
+            string kosztBadaniaS = "0";
+            if(this.zablokowany)
+                kosztBadaniaS = kosztBadania.ToString();
+            PomocniczeFunkcje.mainMenu.UstawPanelUI("PANEL_" + this.nazwa + "_" + this.maksymalneŻycie.ToString() + "_" + this.kosztJednostki.ToString() + "_" + this.zadawaneObrażenia + "_" + p + "_" + this.opisBudynku + "_" + c + "_"+kosztBadaniaS, Vector2.zero);
         }
         else
         {
             bool czyOdbl = false;
             if (this.AktualneŻycie < this.maksymalneŻycie)
                 czyOdbl = true;
-            string s = "STATYCZNY_" + czyOdbl.ToString() + "_" + this.nazwa + "_" + this.AktualneŻycie.ToString() + "/" + this.maksymalneŻycie.ToString() + "_" + kosztNaprawy.ToString() + "_" + zadawaneObrażenia.ToString() + "_" + opisBudynku;
+            string s = "STATYCZNY_" + czyOdbl.ToString() + "_" + this.nazwa + "_" + this.AktualneŻycie.ToString() + "/" + this.maksymalneŻycie.ToString() + "_" + kosztNaprawy.ToString() + "_" + zadawaneObrażenia.ToString() + "_" + opisBudynku+ "_"+"0";
             PomocniczeFunkcje.mainMenu.UstawPanelUI(s, pos, this);
             if (this.typBudynku == TypBudynku.Akademia)
             {

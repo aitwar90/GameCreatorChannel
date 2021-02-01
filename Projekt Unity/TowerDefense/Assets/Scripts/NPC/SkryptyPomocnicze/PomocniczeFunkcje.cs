@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -863,16 +863,22 @@ public static class PomocniczeFunkcje
                     s.ReuseTimer = ds._skrzynki[i].czyIstniejeSkrzynka;
                 }
             }
-            for (ushort i = 0; i < ds._zablokowaneBudynki.Length; i++)
+            for(byte i = 0; i < spawnBudynki.wszystkieBudynki.Length; i++)
             {
-                for (byte j = 0; j < spawnBudynki.wszystkieBudynki.Length; j++)
+                bool czyZnalazlem = false;
+                KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
+                for(byte j = 0; j < ds._zablokowaneBudynki.Length; j++)
                 {
-                    KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[j].GetComponent<KonkretnyNPCStatyczny>();
-                    if (knpcs.name == ds._zablokowaneBudynki[i].nazwa)
+                    if(knpcs.name == ds._zablokowaneBudynki[i].nazwa)
                     {
-                        knpcs.Zablokowany = knpcs.blokowany;
                         knpcs.Zablokowany = ds._zablokowaneBudynki[i].zablokowanie;
+                        czyZnalazlem = true;
+                        break;
                     }
+                }
+                if(!czyZnalazlem)
+                {
+                    knpcs.Zablokowany = knpcs.blokowany;
                 }
             }
             for (ushort i = 0; i < ds._ekwipunek.Length; i++)
@@ -968,6 +974,14 @@ public static class PomocniczeFunkcje
             {
                 managerGryScript.blokowanieOrientacji = daneO.blokadaOrientacji;
             }
+        }
+    }
+    public static void KasujZapis()
+    {
+        string ścieżka = ZwróćŚcieżkęZapisu("dataBaseTDv1.asc");
+        if(File.Exists(ścieżka))
+        {
+            File.Delete(ścieżka);
         }
     }
     #endregion
