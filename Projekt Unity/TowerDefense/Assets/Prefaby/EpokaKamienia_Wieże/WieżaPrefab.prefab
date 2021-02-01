@@ -386,7 +386,7 @@ Transform:
   m_GameObject: {fileID: 5936720593168581440}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 222044501}
   - {fileID: 5371833120471056942}
@@ -429,7 +429,8 @@ MonoBehaviour:
   kosztBadania: 0
   "typAtakuWie\u017Cy": 1
   blokowany: 1
-  obiektAtaku: {fileID: 6802195553192024197, guid: b1b921f0f68750a41be28bf2c07630fc, type: 3}
+  obiektAtaku: {fileID: 6802195553192024197, guid: b1b921f0f68750a41be28bf2c07630fc,
+    type: 3}
   efektyFxStart: {fileID: 0}
   efektyFxKoniec: {fileID: 0}
   "offWysoko\u015B\u0107": 2.5
