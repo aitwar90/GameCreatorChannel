@@ -7,13 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD:Projekt Unity/TowerDefense/Assets/Modele/Materialy/MaterialWieza1_2.mat
-  m_Name: MaterialWieza1_2
-  m_Shader: {fileID: 10703, guid: 0000000000000000f000000000000000, type: 0}
-=======
   m_Name: MaterialWieza1_2_1
   m_Shader: {fileID: 4800000, guid: 7d7f6923a417eacadaf313a81b3950f9, type: 3}
->>>>>>> b61bddcb0a4b5f83ea418c2f8b9f70b17778b2db:Projekt Unity/TowerDefense/Assets/Modele/EpokaKamienia/Tesktury/Wiezy/MaterialWieza1_2_1.mat
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1

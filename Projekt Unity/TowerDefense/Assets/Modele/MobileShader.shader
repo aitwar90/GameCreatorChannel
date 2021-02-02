@@ -4,7 +4,7 @@
     {
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
-        [NoScaleOffset]_BumpMap ("Bumpmap", 2D) = "bump" {}
+        //[NoScaleOffset]_BumpMap ("Bumpmap", 2D) = "bump" {}
     }
     SubShader
     {
@@ -19,12 +19,12 @@
         #pragma target 3.0
 
         sampler2D _MainTex;
-        sampler2D _BumpMap;
+        //sampler2D _BumpMap;
 
         struct Input
         {
             float2 uv_MainTex;
-            float2 uv_BumpMap;
+            //float2 uv_BumpMap;
         };
 
         fixed4 _Color;
@@ -43,7 +43,7 @@
             o.Albedo = c.rgb;
             // Metallic and smoothness come from slider variables
             //o.Alpha = c.a;
-            o.Normal = UnpackNormal (tex2D (_BumpMap, IN.uv_BumpMap));
+            //o.Normal = UnpackNormal (tex2D (_BumpMap, IN.uv_BumpMap));
         }
         ENDCG
     }
