@@ -99,7 +99,7 @@ public class StrukturaDoPoolowania
         this.listaObiektówPoolingu = _listaObiektówPoolingu;
     }
 }
-public class StrukturaDrzewa
+public class StrukturaDrzewa : IteratorForTreeBuildings
 {
     public StrukturaDrzewa PxPz;
     public StrukturaDrzewa PxMz;
@@ -107,6 +107,7 @@ public class StrukturaDrzewa
     public StrukturaDrzewa MxMz;
     public Component komponentGałęzi;
     public Vector3 pozycjaGałęzi;
+    private byte lastLeaf = 0;
     public StrukturaDrzewa()
     {
 
@@ -124,6 +125,68 @@ public class StrukturaDrzewa
     {
 
     }
+    /*
+    Obsługa iteratora po drzewie pozycji
+    */
+    public StrukturaDrzewa GetNextLeaf()
+    {
+        StrukturaDrzewa tSD = null;
+        switch (lastLeaf)
+        {
+            case 0:
+                tSD = PxPz;
+                break;
+            case 1:
+                tSD = PxMz;
+                break;
+            case 2:
+                tSD = MxPz;
+                break;
+            case 3:
+                tSD = MxMz;
+                break;
+        }
+        lastLeaf++;
+        return tSD;
+    }
+    public bool HasMore()
+    {
+        if (lastLeaf == 4)
+            return false;
+        return true;
+    }
+    /*
+    Metoda leci po wszystkich elementach drzewa
+    */
+    public void ExecuteAll(byte doSmoething = 0)
+    {
+        do
+        {
+            StrukturaDrzewa tSD = GetNextLeaf();
+            if (tSD != null)
+            {
+                tSD.ExecuteAll(doSmoething);
+            }
+        }
+        while (HasMore());
+        if (ReferenceEquals(komponentGałęzi.GetType(), typeof(KonkretnyNPCStatyczny)))
+        {
+            KonkretnyNPCStatyczny knpcs = (KonkretnyNPCStatyczny)komponentGałęzi;
+            switch (doSmoething)
+            {
+                case 0: //Heal me
+                knpcs.HealMe();
+                break;
+            }
+        }
+    }
+
+}
+public interface IteratorForTreeBuildings   //Interfejs służący do iteratora po drzewie pozycji budynków
+{
+    StrukturaDrzewa GetNextLeaf();
+    bool HasMore();
+    void ExecuteAll(byte doSmoething);  //Określenie metody jaka ma zostać wywołana
 }
 [System.Serializable]
 public class StrukturaBudynkuWTab
