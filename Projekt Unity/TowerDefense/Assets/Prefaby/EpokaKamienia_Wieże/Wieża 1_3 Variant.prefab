@@ -14,19 +14,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}
-<<<<<<< HEAD
-=======
-      propertyPath: granicaX
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
-        type: 3}
-      propertyPath: granicaZ
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
-        type: 3}
->>>>>>> b61bddcb0a4b5f83ea418c2f8b9f70b17778b2db
       propertyPath: kosztBadania
       value: 1000
       objectReference: {fileID: 0}
@@ -59,11 +46,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
-<<<<<<< HEAD
       objectReference: {fileID: -244157856078689483, guid: 6c5e7329056f4054688ab8883402cd2b,
-=======
-      objectReference: {fileID: -7725915849789499395, guid: 39fcc3ee4b9e7ce4f8fe7e9295005651,
->>>>>>> b61bddcb0a4b5f83ea418c2f8b9f70b17778b2db
         type: 3}
     - target: {fileID: 3421794229463795932, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}
@@ -79,11 +62,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
-<<<<<<< HEAD
       objectReference: {fileID: -2783439459533132654, guid: 1467b66f47d1088488e16cd9b76e90fd,
-=======
-      objectReference: {fileID: -8259417878425161692, guid: a84cc574313b89f41ad6b536c8a096bf,
->>>>>>> b61bddcb0a4b5f83ea418c2f8b9f70b17778b2db
         type: 3}
     - target: {fileID: 7331717193931812183, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}
