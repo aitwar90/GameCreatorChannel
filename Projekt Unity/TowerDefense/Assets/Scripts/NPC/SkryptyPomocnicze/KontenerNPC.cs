@@ -152,7 +152,10 @@ public class StrukturaDrzewa : IteratorForTreeBuildings
     public bool HasMore()
     {
         if (lastLeaf == 4)
+        {
+            lastLeaf = 0;
             return false;
+        }
         return true;
     }
     /*
