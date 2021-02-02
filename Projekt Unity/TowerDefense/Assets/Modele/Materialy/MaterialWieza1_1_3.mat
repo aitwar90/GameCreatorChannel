@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MaterialWieza1_1_2
+  m_Name: MaterialWieza1_1_3
   m_Shader: {fileID: 4800000, guid: 7d7f6923a417eacadaf313a81b3950f9, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -73,6 +73,6 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 0.6949685, b: 0.6949685, a: 1}
+    - _Color: {r: 0.80763274, g: 0.69411767, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
