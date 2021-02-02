@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2119430821601664505
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 641265521329595334, guid: 5683e9f8474d7a14f80b6ef1bb8d7863,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8a217a00638f9f84c9f6f39067d676c8, type: 2}
+    - target: {fileID: 6006971817651659852, guid: 5683e9f8474d7a14f80b6ef1bb8d7863,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6006971817651659852, guid: 5683e9f8474d7a14f80b6ef1bb8d7863,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6006971817651659852, guid: 5683e9f8474d7a14f80b6ef1bb8d7863,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6006971817651659852, guid: 5683e9f8474d7a14f80b6ef1bb8d7863,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6006971817651659852, guid: 5683e9f8474d7a14f80b6ef1bb8d7863,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6006971817651659852, guid: 5683e9f8474d7a14f80b6ef1bb8d7863,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6006971817651659852, guid: 5683e9f8474d7a14f80b6ef1bb8d7863,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6006971817651659852, guid: 5683e9f8474d7a14f80b6ef1bb8d7863,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6006971817651659852, guid: 5683e9f8474d7a14f80b6ef1bb8d7863,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6006971817651659852, guid: 5683e9f8474d7a14f80b6ef1bb8d7863,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6006971817651659852, guid: 5683e9f8474d7a14f80b6ef1bb8d7863,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8501085033424676954, guid: 5683e9f8474d7a14f80b6ef1bb8d7863,
+        type: 3}
+      propertyPath: m_Name
+      value: "Wie\u017Ca 2_2_9 Variant"
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5683e9f8474d7a14f80b6ef1bb8d7863, type: 3}

@@ -18,6 +18,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: "Wie\u017Ca 2_1 Variant"
       objectReference: {fileID: 0}
+    - target: {fileID: 7331717193931812183, guid: 09c09c3864100f2979df9494dcdf3790,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5716b75595a31b7ee86bf5927f42d2ca, type: 2}
     - target: {fileID: 8414854039527575382, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}
       propertyPath: m_RootOrder

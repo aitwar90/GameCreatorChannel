@@ -523,16 +523,12 @@ public class ManagerGryScript : MonoBehaviour
             knpcd[i].AktualneŻycie = 0;
             knpcd[i].NieŻyję = true;
         }
-        //Tu należy iterator uruchomić
-        PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(0);
-        /*
         KonkretnyNPCStatyczny[] knpcs = FindObjectsOfType(typeof(KonkretnyNPCStatyczny)) as KonkretnyNPCStatyczny[];
         for (ushort i = 0; i < knpcs.Length; i++)
         {
             if (knpcs[i].AktualneŻycie > 0)
                 knpcs[i].AktualneŻycie = knpcs[i].maksymalneŻycie;
         }
-        */
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
         PomocniczeFunkcje.mainMenu.UstawHPGłównegoPaska(1.0f);
         //Fragment wyłączający courutyny

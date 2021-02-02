@@ -275,7 +275,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                             s = PomocniczeFunkcje.TagZEpoka("AtakBAll", this.epokaNPC, this.tagRodzajDoDźwięków);
                             break;
                     }
-                    if (s != "")
+                    if(s != "")
                         PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, s, true);
                 }
                 else
@@ -359,16 +359,16 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                 c = "CZERWONY";
             }
             string kosztBadaniaS = "0";
-            if (this.zablokowany)
+            if(this.zablokowany)
                 kosztBadaniaS = kosztBadania.ToString();
-            PomocniczeFunkcje.mainMenu.UstawPanelUI("PANEL_" + this.nazwa + "_" + this.maksymalneŻycie.ToString() + "_" + this.kosztJednostki.ToString() + "_" + this.zadawaneObrażenia + "_" + p + "_" + this.opisBudynku + "_" + c + "_" + kosztBadaniaS, Vector2.zero);
+            PomocniczeFunkcje.mainMenu.UstawPanelUI("PANEL_" + this.nazwa + "_" + this.maksymalneŻycie.ToString() + "_" + this.kosztJednostki.ToString() + "_" + this.zadawaneObrażenia + "_" + p + "_" + this.opisBudynku + "_" + c + "_"+kosztBadaniaS, Vector2.zero);
         }
         else
         {
             bool czyOdbl = false;
             if (this.AktualneŻycie < this.maksymalneŻycie)
                 czyOdbl = true;
-            string s = "STATYCZNY_" + czyOdbl.ToString() + "_" + this.nazwa + "_" + this.AktualneŻycie.ToString() + "/" + this.maksymalneŻycie.ToString() + "_" + kosztNaprawy.ToString() + "_" + zadawaneObrażenia.ToString() + "_" + opisBudynku + "_" + "0";
+            string s = "STATYCZNY_" + czyOdbl.ToString() + "_" + this.nazwa + "_" + this.AktualneŻycie.ToString() + "/" + this.maksymalneŻycie.ToString() + "_" + kosztNaprawy.ToString() + "_" + zadawaneObrażenia.ToString() + "_" + opisBudynku+ "_"+"0";
             PomocniczeFunkcje.mainMenu.UstawPanelUI(s, pos, this);
             if (this.typBudynku == TypBudynku.Akademia)
             {
@@ -433,7 +433,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         this.AktualneŻycie = this.maksymalneŻycie;
         kosztNaprawy = 0;
         RysujHPBar();
-        if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)   //Jeśli samouczek
+        if(PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)   //Jeśli samouczek
         {
             ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = 1;
         }
@@ -445,14 +445,6 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         {
             this.opisBudynku = podmianaWartosci;
             return;
-        }
-    }
-    public void HealMe()
-    {
-        if (this.AktualneŻycie > 0)
-        {
-            this.AktualneŻycie = this.maksymalneŻycie;
-            RysujHPBar();
         }
     }
 }
