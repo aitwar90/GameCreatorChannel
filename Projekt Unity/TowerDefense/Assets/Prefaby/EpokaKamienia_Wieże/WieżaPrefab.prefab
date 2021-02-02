@@ -429,8 +429,7 @@ MonoBehaviour:
   kosztBadania: 2500
   "typAtakuWie\u017Cy": 2
   blokowany: 0
-  obiektAtaku: {fileID: 6802195553192024197, guid: b1b921f0f68750a41be28bf2c07630fc,
-    type: 3}
+  obiektAtaku: {fileID: 6802195553192024197, guid: b1b921f0f68750a41be28bf2c07630fc, type: 3}
   efektyFxStart: {fileID: 0}
   efektyFxKoniec: {fileID: 0}
   "offWysoko\u015B\u0107": 2.5
@@ -452,7 +451,7 @@ NavMeshObstacle:
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.3, z: 0}
   m_TimeToStationary: 0.5
 --- !u!135 &5630565500635788703
 SphereCollider:
@@ -465,5 +464,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.44
+  m_Radius: 1
   m_Center: {x: -0.00011527538, y: 0.84, z: 0.00012278557}
