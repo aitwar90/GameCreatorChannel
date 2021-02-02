@@ -7,13 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD:Projekt Unity/TowerDefense/Assets/Modele/Materialy/MaterialWieza2_1.mat
-  m_Name: MaterialWieza2_1
-  m_Shader: {fileID: 10703, guid: 0000000000000000f000000000000000, type: 0}
-=======
-  m_Name: MaterialWieza2_1_1
+  m_Name: MaterialWieza3_3_1
   m_Shader: {fileID: 4800000, guid: 7d7f6923a417eacadaf313a81b3950f9, type: 3}
->>>>>>> b61bddcb0a4b5f83ea418c2f8b9f70b17778b2db:Projekt Unity/TowerDefense/Assets/Modele/EpokaKamienia/Tesktury/Wiezy/MaterialWieza2_1_1.mat
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -45,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 4862ef555037df64d8aa0e53aabd85e6, type: 3}
+        m_Texture: {fileID: 2800000, guid: ee44d42f62d08ea4ab8c4475398a5312, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:

@@ -143,7 +143,6 @@ public class SpawnBudynki : MonoBehaviour
             ManagerGryScript.iloscCoinów -= statycznyBudynekDoOdbl.kosztBadania;
             czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].czyZablokowany = false;
             PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
-            Debug.Log("Odblokowuje budynek o indeksie " + aktualnieWybranyIndeksObiektuTabZablokowany);
         }
         ResetWybranegoObiektu();
     }
@@ -218,17 +217,7 @@ public class SpawnBudynki : MonoBehaviour
             PodmieńNaCzerwony();
         }
         knpcs = aktualnyObiekt.GetComponent<KonkretnyNPCStatyczny>();
-        /*
-        if (knpcs.kosztJednostki > ManagerGryScript.iloscCoinów || knpcs.Zablokowany)
-        {
-            if(knpcs.Zablokowany)
-                Debug.Log("Resetuje wybrany obiekt bo jest zablokowany");
-            else
-                Debug.Log("Brak funduszy");
-            ResetWybranegoObiektu();
-            return;
-        }
-        */
+
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(true);
     }
     private void ZatwierdźBudynekWindows()
