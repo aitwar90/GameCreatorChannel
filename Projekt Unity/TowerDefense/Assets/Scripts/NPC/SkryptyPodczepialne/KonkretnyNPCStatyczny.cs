@@ -250,7 +250,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         {
             aktualnyReuseAtaku += Time.deltaTime * 2;
             float f = szybkośćAtaku - aktualnyReuseAtaku;
-            if (f <= .1f)
+            if (f <= .2f)
             {
                 if (!instaObj.activeInHierarchy)
                 {
@@ -293,7 +293,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     else
                         f *= 10f;
 
-                    instaObj.transform.position = Vector3.Lerp(cel.transform.position, new Vector3(this.transform.position.x, this.transform.position.y + 0.8f, this.transform.position.z), f);
+                    instaObj.transform.position = Vector3.Lerp(cel.transform.position, new Vector3(this.transform.position.x, this.transform.position.y + offWysokość, this.transform.position.z), f);
                 }
             }
         }
