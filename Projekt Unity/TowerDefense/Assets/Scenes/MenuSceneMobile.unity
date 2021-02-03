@@ -2150,14 +2150,14 @@ MonoBehaviour:
       - m_Target: {fileID: 1289656726}
         m_TargetAssemblyTypeName: ManagerSamouczekScript, Assembly-CSharp
         m_MethodName: "Opu\u015B\u0107Samouczek"
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &262550911
 MonoBehaviour:
@@ -17516,7 +17516,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 437094945}
   m_Direction: 2
   m_Value: 0.5
-  m_Size: 0.26128408
+  m_Size: 0.26021
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
