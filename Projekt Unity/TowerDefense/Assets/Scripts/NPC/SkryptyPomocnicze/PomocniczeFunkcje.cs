@@ -592,7 +592,6 @@ public static class PomocniczeFunkcje
                 if (pObiekt.ZwróćMiWartośćParametru(1) > 0)
                 {
                     pObiekt.ObsluzAnimacje("haveTarget", true);
-                    pObiekt.UstawMiWartośćParametru(1, true);
                 }
             }
             else
@@ -620,7 +619,6 @@ public static class PomocniczeFunkcje
                     if (pObiekt.ZwróćMiWartośćParametru(1) > 0)
                     {
                         pObiekt.ObsluzAnimacje("haveTarget", ha);
-                        pObiekt.UstawMiWartośćParametru(1, ha);
                     }
                     return false;
                 }
@@ -629,7 +627,6 @@ public static class PomocniczeFunkcje
                     if (pObiekt.ZwróćMiWartośćParametru(1) == 1)
                     {
                         pObiekt.ObsluzAnimacje("haveTarget", false);
-                        pObiekt.UstawMiWartośćParametru(1, false);
                     }
                 }
             }
@@ -644,7 +641,6 @@ public static class PomocniczeFunkcje
                     if (pObiekt.ZwróćMiWartośćParametru(2) == 1)
                     {
                         pObiekt.ObsluzAnimacje("inRange", true);
-                        pObiekt.UstawMiWartośćParametru(1, true);
                     }
                 }
                 else
@@ -656,7 +652,6 @@ public static class PomocniczeFunkcje
                     if (pObiekt.ZwróćMiWartośćParametru(2) > 0)
                     {
                         pObiekt.ObsluzAnimacje("inRange", false);
-                        pObiekt.UstawMiWartośćParametru(1, false);
                     }
                 }
             }
@@ -683,7 +678,6 @@ public static class PomocniczeFunkcje
             sdp.listaObiektówPoolingu.Add(dodajDoTrupów);
             stosTrupów.Add(dodajDoTrupów.NID, sdp);
         }
-        dodajDoTrupów.transform.position = new Vector3(0, -20f, 0);
     }
     /*
     Funkcja zwraca obiekt, który został wygenerowany w jednej z poprzednich fal zgodny z życzeniem Generatora Fal

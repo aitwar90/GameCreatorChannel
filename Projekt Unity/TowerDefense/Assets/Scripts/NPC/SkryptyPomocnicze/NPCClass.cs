@@ -82,11 +82,11 @@ public abstract class NPCClass : MonoBehaviour
     {
         if (mainRenderer == null)
             mainRenderer = this.transform.GetComponent<Renderer>();
-        if(mainRenderer == null)
+        if (mainRenderer == null)
         {
             mainRenderer = this.GetComponentInChildren<Renderer>();
         }
-        if(odgłosyNPC == null)
+        if (odgłosyNPC == null)
         {
             odgłosyNPC = this.gameObject.AddComponent<AudioSource>();
         }
@@ -110,7 +110,7 @@ public abstract class NPCClass : MonoBehaviour
     protected virtual IEnumerator SkasujObject(float time)
     {
         yield return new WaitForSeconds(time);
-        if(this.odgłosyNPC.isPlaying)
+        if (this.odgłosyNPC.isPlaying)
             PomocniczeFunkcje.muzyka.WłączWyłączClip(ref odgłosyNPC, false);
         Destroy(this.gameObject);
     }
@@ -178,17 +178,29 @@ public abstract class NPCClass : MonoBehaviour
     }
     public void ObsluzAnimacje(string param, bool value)
     {
-        if(this.GetType() == typeof(KonkretnyNPCDynamiczny))
+        if (this.GetType() == typeof(KonkretnyNPCDynamiczny))
         {
-        //if (ReferenceEquals(this.GetType(), typeof(KonkretnyNPCDynamiczny)))
-        //{
+            //if (ReferenceEquals(this.GetType(), typeof(KonkretnyNPCDynamiczny)))
+            //{
             KonkretnyNPCDynamiczny knpcd = (KonkretnyNPCDynamiczny)this;
             Animator anim = null;
             anim = knpcd.GetAnimator;
-            
+
             if (anim != null)
             {
                 anim.SetBool(param, value);
+                if (param == "isDeath")
+                {
+                    UstawMiWartośćParametru(0, value);
+                }
+                else if (param == "haveTarget")
+                {
+                    UstawMiWartośćParametru(1, value);
+                }
+                else if (param == "inRange")
+                {
+                    UstawMiWartośćParametru(2, value);
+                }
             }
             else
             {
@@ -205,6 +217,18 @@ public abstract class NPCClass : MonoBehaviour
         if (anima != null)
         {
             anima.SetBool(param, value);
+            if (param == "isDeath")
+            {
+                UstawMiWartośćParametru(0, value);
+            }
+            else if (param == "haveTarget")
+            {
+                UstawMiWartośćParametru(1, value);
+            }
+            else if (param == "inRange")
+            {
+                UstawMiWartośćParametru(2, value);
+            }
         }
         else
         {
@@ -235,7 +259,7 @@ public abstract class NPCClass : MonoBehaviour
     }
     public virtual void UstawJezykNPC(string coZmieniam, string podmianaWartosci)
     {
-        if(coZmieniam == "nazwa")
+        if (coZmieniam == "nazwa")
         {
             this.nazwa = podmianaWartosci;
             return;
@@ -249,7 +273,7 @@ public abstract class NPCClass : MonoBehaviour
     {
         return -1;  //Zwrócenie parametru z animationController
     }
-    public virtual void UstawMiWartośćParametru(byte parametr, bool value)
+    protected virtual void UstawMiWartośćParametru(byte parametr, bool value)
     {
         //Ustawienie parametru w animation controller
     }

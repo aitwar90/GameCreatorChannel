@@ -106,12 +106,10 @@ public class KonkretnyNPCDynamiczny : NPCClass
         if (ZwróćMiWartośćParametru(1) == 0)
         {
             ObsluzAnimacje(ref anima, "haveTarget", false);
-            UstawMiWartośćParametru(1, false);
         }
         if (ZwróćMiWartośćParametru(2) == 0)
         {
             ObsluzAnimacje(ref anima, "inRange", false);
-            UstawMiWartośćParametru(2, false);
         }
         nId = this.name.Split('(').GetValue(0).ToString();
         RysujHPBar();
@@ -120,88 +118,91 @@ public class KonkretnyNPCDynamiczny : NPCClass
     // Update is called once per frame
     protected override void UpdateMe()
     {
-        switch (głównyIndex)
+        if (!this.NieŻyję)
         {
-            case -1:
-                if (cel == null)
-                {
-                    bool ff = PomocniczeFunkcje.ZwykłeAI(this);
-                    if (!ff && _obiektAtaku.activeInHierarchy)
+            switch (głównyIndex)
+            {
+                case -1:
+                    if (cel == null)
+                    {
+                        bool ff = PomocniczeFunkcje.ZwykłeAI(this);
+                        if (!ff && _obiektAtaku.activeInHierarchy)
+                        {
+                            _obiektAtaku.SetActive(false);
+                        }
+                    }
+                    ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
+                    głównyIndex++;
+                    break;
+                case 0:
+                    bool f = PomocniczeFunkcje.ZwykłeAI(this);
+                    if (!f && _obiektAtaku.activeInHierarchy)
                     {
                         _obiektAtaku.SetActive(false);
                     }
-                }
-                ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
-                głównyIndex++;
-                break;
-            case 0:
-                bool f = PomocniczeFunkcje.ZwykłeAI(this);
-                if (!f && _obiektAtaku.activeInHierarchy)
-                {
-                    _obiektAtaku.SetActive(false);
-                }
-                głównyIndex++;
-                break;
-            case 1:
-                if (cel != null && !czekamNaZatwierdzenieŚcieżki)
-                {
-                    ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
-                }
-                głównyIndex++;
-                break;
-            case 2: //Ustaw index tablicy dla npc i usuń stare wieże
-                short[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position.x, this.transform.position.z);
-                List<byte> sQt = new List<byte>();
-                bool c = false;
-                if (actXIdx > t[0])
-                {
-                    sQt.Add(0);
-                    c = true;
-                }
-                else if (actXIdx < t[0])
-                {
-                    sQt.Add(1);
-                    c = true;
-                }
-                if (actZIdx > t[1])
-                {
-                    sQt.Add(2);
-                    c = true;
-                }
-                else if (actZIdx < t[1])
-                {
-                    sQt.Add(3);
-                    c = true;
-                }
-                if (c)
-                {
-                    //Usunięcie starych wież
-                    ostatnieStrony = sQt.ToArray();
-                    UsuńMnieZTablicyWież(false, ostatnieStrony);
-                    czyDodawac = true;
-                    actXIdx = t[0];
-                    actZIdx = t[1];
-                    //Debug.Log("Nowe ustawienie X = "+actXIdx+" Z = "+actZIdx);
-                }
-                głównyIndex++;
-                break;
-            case 4: //Dodanie do nowych wież
-                if (czyDodawac)
-                {
-                    DodajMnieDoListyWrogowWiezy(actXIdx, actZIdx);
-                    czyDodawac = false;
-                }
-                głównyIndex++;
-                break;
-            case 5:
-                //Ustaw widoczniść paskaHP
-                if (sprite != null)
-                    sprite.parent.forward = -PomocniczeFunkcje.oCam.transform.forward;
-                głównyIndex = 0;
-                break;
-            default:
-                głównyIndex++;
-                break;
+                    głównyIndex++;
+                    break;
+                case 1:
+                    if (cel != null && !czekamNaZatwierdzenieŚcieżki)
+                    {
+                        ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
+                    }
+                    głównyIndex++;
+                    break;
+                case 2: //Ustaw index tablicy dla npc i usuń stare wieże
+                    short[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position.x, this.transform.position.z);
+                    List<byte> sQt = new List<byte>();
+                    bool c = false;
+                    if (actXIdx > t[0])
+                    {
+                        sQt.Add(0);
+                        c = true;
+                    }
+                    else if (actXIdx < t[0])
+                    {
+                        sQt.Add(1);
+                        c = true;
+                    }
+                    if (actZIdx > t[1])
+                    {
+                        sQt.Add(2);
+                        c = true;
+                    }
+                    else if (actZIdx < t[1])
+                    {
+                        sQt.Add(3);
+                        c = true;
+                    }
+                    if (c)
+                    {
+                        //Usunięcie starych wież
+                        ostatnieStrony = sQt.ToArray();
+                        UsuńMnieZTablicyWież(false, ostatnieStrony);
+                        czyDodawac = true;
+                        actXIdx = t[0];
+                        actZIdx = t[1];
+                        //Debug.Log("Nowe ustawienie X = "+actXIdx+" Z = "+actZIdx);
+                    }
+                    głównyIndex++;
+                    break;
+                case 4: //Dodanie do nowych wież
+                    if (czyDodawac)
+                    {
+                        DodajMnieDoListyWrogowWiezy(actXIdx, actZIdx);
+                        czyDodawac = false;
+                    }
+                    głównyIndex++;
+                    break;
+                case 5:
+                    //Ustaw widoczniść paskaHP
+                    if (sprite != null)
+                        sprite.parent.forward = -PomocniczeFunkcje.oCam.transform.forward;
+                    głównyIndex = 0;
+                    break;
+                default:
+                    głównyIndex++;
+                    break;
+            }
         }
     }
     public override sbyte ZwróćMiWartośćParametru(byte i)
@@ -221,7 +222,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         }
         return toRet;
     }
-    public override void UstawMiWartośćParametru(byte parametr, bool value)
+    protected override void UstawMiWartośćParametru(byte parametr, bool value)
     {
         switch (parametr)
         {
@@ -263,7 +264,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     protected override void UsuńJednostkę()
     {
-        PomocniczeFunkcje.muzyka.WłączTymczasowyClip(PomocniczeFunkcje.TagZEpoka("ŚmiercNPC", this.epokaNPC, this.tagRodzajDoDźwięków), this.transform.position);
+        PomocniczeFunkcje.muzyka.WłączWyłączClip(true,PomocniczeFunkcje.TagZEpoka("ŚmiercNPC", this.epokaNPC, this.tagRodzajDoDźwięków), true);
+        ObsluzAnimacje(ref anima, "isDeath", true);
         this.AktualneŻycie = -1;
 
         if (this.rysujPasekŻycia)
@@ -306,7 +308,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 StartCoroutine(SkasujObject(3.0f));
             }
         }
-        WłWyłObj(false);
+        this.agent.isStopped = true;
+        StartCoroutine(WyłObjTimer());
     }
     private void ObsłużNavMeshAgent(float x, float z)
     {
@@ -314,16 +317,21 @@ public class KonkretnyNPCDynamiczny : NPCClass
         //Logika nav mesha
         if (agent.enabled && !agent.hasPath /*|| this.ostatniTargetPozycja != docelowaPozycja*/)
         {
-            if(głównyIndex == -1)
+            if (głównyIndex == -1)
             {
                 GenerujŚcieżke(x, z);
             }
-            else if(!czekamNaZatwierdzenieŚcieżki)
+            else if (!czekamNaZatwierdzenieŚcieżki)
             {
                 czekamNaZatwierdzenieŚcieżki = true;
                 StartCoroutine(WyliczŚciezkę(UnityEngine.Random.Range(0f, 0.5f), x, z));
             }
         }
+    }
+    private IEnumerator WyłObjTimer()
+    {
+        yield return new WaitForSeconds(4.0f);
+        WłWyłObj(false);
     }
     private IEnumerator WyliczŚciezkę(float f, float x, float z)
     {
@@ -332,7 +340,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     private void GenerujŚcieżke(float x, float z)
     {
-        if(ścieżka == null)
+        if (ścieżka == null)
             ścieżka = new NavMeshPath();
         bool czyOdnalzazłemŚcieżkę = agent.CalculatePath(new Vector3(x, 0, z), ścieżka);
         if (ścieżka.status == NavMeshPathStatus.PathComplete)
@@ -366,12 +374,15 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         if (enab)
         {
+            this.gameObject.SetActive(enab);
+            agent.enabled = enab;
+            this.agent.isStopped = !enab;
+            ObsluzAnimacje(ref anima, "isDeath", !enab);
+            this.anima.Rebind();
             sprite.localScale = new Vector3(1, 1, 1);
-            this.gameObject.SetActive(true);
             short[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position.x, this.transform.position.z);
             actXIdx = t[0];
             actZIdx = t[1];
-            //ObsluzAnimacje(ref anima, "isDeath", false);
             this.RysujHPBar();
             if (this.odgłosyNPC != null)
             {
@@ -381,17 +392,20 @@ public class KonkretnyNPCDynamiczny : NPCClass
             anima.speed = 1.0f;
             głównyIndex = -1;
         }
-        agent.enabled = enab;
         if (!enab)
         {
             //ObsluzAnimacje(ref anima, "isDeath", true);
-            sprite.parent.gameObject.SetActive(false);
+            sprite.parent.gameObject.SetActive(enab);
+            ObsluzAnimacje(ref anima, "inRange", false);
+            ObsluzAnimacje(ref anima, "haveTarget", false);
             anima.speed = 0.0f;
-            this.gameObject.SetActive(false);
             if (this.odgłosyNPC != null)
             {
                 PomocniczeFunkcje.muzyka.ustawGłośność -= this.UstawGłośnośćNPC;
             }
+            this.transform.position = new Vector3(0, -20, 0);
+            agent.enabled = enab;
+            this.gameObject.SetActive(enab);
         }
     }
     public override void ResetujŚciezkę(KonkretnyNPCStatyczny taWiezaPierwszyRaz = null)
