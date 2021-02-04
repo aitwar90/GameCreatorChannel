@@ -734,7 +734,6 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public void WygenerujIPosortujTablice() //Tworzy i sortuje tablicę budynków, które gracz może postawić
     {
         Button b = Resources.Load<Button>("UI/PrzyciskBudynku");
-        Debug.Log(this.GetComponent<CanvasScaler>().scaleFactor +" = Scale factor");
         wielkosćButtonu = (byte)b.GetComponent<RectTransform>().sizeDelta.y;
         trBudynkówŁącze = GameObject.Find("Canvas/UIGry/UI_BudynkiPanel/Maska/RodzicButtonów").transform.GetComponent<RectTransform>();
         StrukturaBudynkuWTab[] tab = PomocniczeFunkcje.spawnBudynki.ZablokowaneBudynki;
