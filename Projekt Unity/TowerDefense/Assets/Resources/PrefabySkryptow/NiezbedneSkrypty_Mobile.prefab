@@ -149,21 +149,27 @@ MonoBehaviour:
   - nazwa: "AtakNPCDystans_EpokaKamienia_Kamie\u0144"
     clip: {fileID: 8300000, guid: 57878b9a59007ea45b57ff120a84a146, type: 3}
   - nazwa: "AtakNPCZwarcie_EpokaKamienia_Kamie\u0144"
-    clip: {fileID: 8300000, guid: 57878b9a59007ea45b57ff120a84a146, type: 3}
+    clip: {fileID: 8300000, guid: 69afaf46f42554e32867a3585d5fbcff, type: 3}
+  - nazwa: "AtakNPCZwarcie_EpokaKamienia_Kamie\u0144"
+    clip: {fileID: 8300000, guid: 0fe865c4f1a759859ad994e0824ac8ea, type: 3}
+  - nazwa: "AtakNPCZwarcie_EpokaKamienia_Kamie\u0144"
+    clip: {fileID: 8300000, guid: e642d7da553f7949291f3d85b7e5453f, type: 3}
   - nazwa: "Idle_EpokaKamienia_Kamie\u0144"
     clip: {fileID: 8300000, guid: 57878b9a59007ea45b57ff120a84a146, type: 3}
   - nazwa: "Poruszanie_EpokaKamienia_Kamie\u0144"
     clip: {fileID: 8300000, guid: 82e252f096395fd8bbb6424e1424fd06, type: 3}
   - nazwa: PostawB
-    clip: {fileID: 8300000, guid: e073c30b8cf38b9ed99e3f2fa5caef6c, type: 3}
-  - nazwa: PostawB
     clip: {fileID: 8300000, guid: 70cf4c5d7d9ccab029606950c2e6d63f, type: 3}
+  - nazwa: PostawB
+    clip: {fileID: 8300000, guid: e073c30b8cf38b9ed99e3f2fa5caef6c, type: 3}
   - nazwa: "\u015AmiercB_EpokaKamienia_W\u0142\xF3cznia"
     clip: {fileID: 8300000, guid: 57878b9a59007ea45b57ff120a84a146, type: 3}
   - nazwa: "\u015AmiercNPC_EpokaKamienia_Kamie\u0144"
     clip: {fileID: 8300000, guid: 2ab97e116c1cde33e83b9bc85ab4ee64, type: 3}
   - nazwa: "\u015AmiercNPC_EpokaKamienia_Kamie\u0144"
     clip: {fileID: 8300000, guid: b011e0251f119361a8aa46b29ad2067f, type: 3}
+  - nazwa: "\u015AmiercNPC_EpokaKamienia_Kamie\u0144"
+    clip: {fileID: 8300000, guid: 88978835abb08e429994d8e4fc9b0919, type: 3}
   - nazwa: "T\u0142o_None"
     clip: {fileID: 8300000, guid: ab447f0f3fb6e112e80157664b6f1e87, type: 3}
   - nazwa: "T\u0142o_None_PoMenu"
