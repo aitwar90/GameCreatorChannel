@@ -386,7 +386,6 @@ public class ManagerSamouczekScript : MonoBehaviour
     {
         if (byloZaladowane)
         {
-            Debug.Log("Zwracam wartości z samouczka");
             ManagerGryScript mgs = PomocniczeFunkcje.managerGryScript;
             ManagerGryScript.iloscCoinów = tmpHajs;
             mgs.skrzynki = skrzynki;

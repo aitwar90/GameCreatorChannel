@@ -58,19 +58,19 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     #endregion
     #region Obiekty ładowane
     public Slider sliderDźwięku;
-    private GameObject menu;
-    private GameObject uiGry;
-    private GameObject optionsMenu;
-    private GameObject poGraj;
-    private GameObject reklamyPanel;
-    private GameObject ui_down;
-    private GameObject goPanel;
+    private Canvas menu;
+    private Canvas uiGry;
+    private Canvas optionsMenu;
+    private Canvas poGraj;
+    private Canvas reklamyPanel;
+    private Canvas ui_down;
+    private Canvas goPanel;
     private GameObject samouczekPanel;
     private Button przyciskWznów;
     private Vector3 lastPosCam = Vector3.zero;
     private sbyte wybranaNagroda = -1;
     public sbyte lastIdxJezyka = 0;
-    private static MainMenu singelton = null;
+    public static MainMenu singelton = null;
     private bool odpalonyPanel = false;
     private RectTransform rectHpBar;
     private sbyte kPoziomDoZaladowania = -1;
@@ -115,7 +115,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         get
         {
-            return menu.activeInHierarchy;
+            return menu.enabled;
         }
     }
     public sbyte OdpalonyPanelBudynków
@@ -138,17 +138,17 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             return;
         }
         this.poziomWEpoce.characterValidation = InputField.CharacterValidation.Integer;
-        menu = this.transform.Find("Menu/MainMenu").gameObject;
-        uiGry = this.transform.Find("UIGry").gameObject;
-        optionsMenu = this.transform.Find("Menu/OptionsMenu").gameObject;
-        poGraj = this.transform.Find("Menu/PoGraj").gameObject;
-        reklamyPanel = this.transform.Find("Menu/PanelSkrzynki").gameObject;
-        ui_down = uiGry.transform.Find("ui_down").gameObject;
+        menu = this.transform.Find("Menu/MainMenu").GetComponent<Canvas>();
+        uiGry = this.transform.Find("UIGry").GetComponent<Canvas>();
+        optionsMenu = this.transform.Find("Menu/OptionsMenu").GetComponent<Canvas>();
+        poGraj = this.transform.Find("Menu/PoGraj").GetComponent<Canvas>();
+        reklamyPanel = this.transform.Find("Menu/PanelSkrzynki").GetComponent<Canvas>();
+        ui_down = uiGry.transform.Find("ui_down").GetComponent<Canvas>();
         przyciskWznów = this.transform.Find("Menu/MainMenu/ResumeButton").GetComponent<Button>();
         actWybEpoka = this.transform.Find("Menu/PoGraj/AktualnieWybEpoka").GetComponent<Text>();
         uiBudynkiPanel = uiGry.transform.Find("UI_BudynkiPanel").gameObject;
         rectHpBar = uiGry.transform.Find("PasekZyciaGłównegoBudynku/Green").GetComponent<RectTransform>();
-        goPanel = uiGry.transform.Find("GameOver Panel").gameObject;
+        goPanel = uiGry.transform.Find("GameOver Panel").GetComponent<Canvas>();
         licznikCzasuDoFali = uiGry.transform.Find("UI_LicznikCzasu/img_licznik/KompTextLicznikCzasu").GetComponent<Text>();
         samouczekPanel = uiGry.transform.Find("SamouczekPanel").gameObject;
         epokaNizej.interactable = false;
@@ -161,41 +161,40 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.oCam = Camera.main;
         nastepnyPoziom.interactable = false;
         rekZaWyzszaNagrode.gameObject.SetActive(false);
-        WłączWyłączPanel(new string[] {goPanel.name, uiBudynkiPanel.name, ui_down.name, uiGry.name, optionsMenu.name,
-        reklamyPanel.name, poGraj.name, samouczekPanel.name, "Cretidsy"}, false);
+        WłączWyłączPanel(new string[] {goPanel.transform.name, uiBudynkiPanel.transform.name, ui_down.transform.name, uiGry.transform.name, optionsMenu.transform.name,
+        reklamyPanel.transform.name, poGraj.transform.name, samouczekPanel.name, "Cretidsy"}, false);
     }
-
     #region Obsługa paneli UI, Czy mogę przesuwać kamerę (), Pasek HP
     public void WłączWyłączPanel(string panel, bool czyWłączyć)
     {
         if (panel == menu.name)
         {
-            menu.SetActive(czyWłączyć);
+            menu.enabled = czyWłączyć;
         }
         else if (panel == uiGry.name)
         {
-            uiGry.SetActive(czyWłączyć);
+            uiGry.enabled = czyWłączyć;
         }
         else if (panel == optionsMenu.name)
         {
-            optionsMenu.SetActive(czyWłączyć);
+            optionsMenu.enabled = czyWłączyć;
         }
         else if (panel == poGraj.name)
         {
-            poGraj.SetActive(czyWłączyć);
+            poGraj.enabled = czyWłączyć;
         }
         else if (panel == reklamyPanel.name)
         {
-            reklamyPanel.SetActive(czyWłączyć);
+            reklamyPanel.enabled = czyWłączyć;
         }
         else if (ui_down.name == panel)
         {
-            ui_down.SetActive(czyWłączyć);
+            ui_down.enabled = czyWłączyć;
             licznikCzasuDoFali.transform.parent.gameObject.SetActive(czyWłączyć);
         }
         else if (goPanel.name == panel)
         {
-            goPanel.SetActive(czyWłączyć);
+            goPanel.enabled = czyWłączyć;
         }
         else if (uiBudynkiPanel.name == panel)
         {
@@ -211,7 +210,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         }
         else if (panel == "Cretidsy") //Powinno być ostatnie (kto odpala creditsy xD)
         {
-            this.transform.Find("Menu/Cretidsy").gameObject.SetActive(czyWłączyć);
+            this.transform.Find("Menu/Cretidsy").GetComponent<Canvas>().enabled = czyWłączyć;
         }
     }
     public void WłączWyłączPanel(string[] panel, bool czyWłączyć)
@@ -220,32 +219,32 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         {
             if (panel[i] == menu.name)
             {
-                menu.SetActive(czyWłączyć);
+                menu.enabled = czyWłączyć;
             }
             else if (panel[i] == uiGry.name)
             {
-                uiGry.SetActive(czyWłączyć);
+                uiGry.enabled = czyWłączyć;
             }
             else if (panel[i] == optionsMenu.name)
             {
-                optionsMenu.SetActive(czyWłączyć);
+                optionsMenu.enabled = czyWłączyć;
             }
             else if (panel[i] == poGraj.name)
             {
-                poGraj.SetActive(czyWłączyć);
+                poGraj.enabled = czyWłączyć;
             }
             else if (panel[i] == reklamyPanel.name)
             {
-                reklamyPanel.SetActive(czyWłączyć);
+                reklamyPanel.enabled = czyWłączyć;
             }
             else if (ui_down.name == panel[i])
             {
-                ui_down.SetActive(czyWłączyć);
+                ui_down.enabled = czyWłączyć;
                 licznikCzasuDoFali.transform.parent.gameObject.SetActive(czyWłączyć);
             }
             else if (goPanel.name == panel[i])
             {
-                goPanel.SetActive(czyWłączyć);
+                goPanel.enabled = czyWłączyć;
             }
             else if (uiBudynkiPanel.name == panel[i])
             {
@@ -257,19 +256,20 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             }
             else if (panel[i] == samouczekPanel.name)
             {
+                Debug.Log("Odpalam lub nie samouczek Panel");
                 samouczekPanel.SetActive(czyWłączyć);
             }
             else if (panel[i] == "Cretidsy") //Powinno być ostatnie (kto odpala creditsy xD)
             {
-                this.transform.Find("Menu/Cretidsy").gameObject.SetActive(czyWłączyć);
+                this.transform.Find("Menu/Cretidsy").GetComponent<Canvas>().enabled = czyWłączyć;
             }
         }
     }
     public void PrzełączUI(bool aktywujeMenu)
     {
         przyciskWznów.interactable = true;
-        menu.SetActive(aktywujeMenu);
-        uiGry.SetActive(!aktywujeMenu);
+        menu.enabled = aktywujeMenu;
+        uiGry.enabled = !aktywujeMenu;
         menu.transform.parent.GetComponent<Image>().enabled = aktywujeMenu;
         if (aktywujeMenu)
         {
@@ -323,7 +323,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             PanelStatyczny ps = (PanelStatyczny)panelStatyczny;
             ps.KNPCS = knpcs;
             RectTransform r = ps.GetComponent<RectTransform>();
-            if (s[1] == "True" && ui_down.activeInHierarchy)  //Odblokuj naprawe budynku
+            if (s[1] == "True" && ui_down.enabled)  //Odblokuj naprawe budynku
             {
                 ps.naprawButton.interactable = true;
             }
@@ -355,9 +355,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     public bool CzyMogePrzesuwaćKamere()
     {
-        if (uiGry.activeInHierarchy)
+        if (uiGry.enabled)
         {
-            if (CzyOdpaloneMenu || goPanel.activeInHierarchy || CzyAktywnyPanelZBudynkami())
+            if (CzyOdpaloneMenu || goPanel.enabled || CzyAktywnyPanelZBudynkami())
             {
                 return false;
             }
@@ -428,8 +428,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         if (czyOdpalamPoScenie)
         {
-            menu.SetActive(false);
-            poGraj.SetActive(true);
+            menu.enabled = false;
+            poGraj.enabled = true;
 
             poziomWEpoce.text = PomocniczeFunkcje.odblokowanyPoziomEpoki.ToString();
             actWybEpoka.text = PomocniczeFunkcje.odblokowaneEpoki.ToString();
@@ -437,8 +437,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         }
         else
         {
-            menu.SetActive(true);
-            poGraj.SetActive(false);
+            menu.enabled = true;
+            poGraj.enabled = false;
             PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Tło_None");
         }
     }
@@ -534,7 +534,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         }
         PomocniczeFunkcje.oCam.transform.position = MoveCameraScript.bazowePolozenieKameryGry;
         lastPosCam = MoveCameraScript.bazowePolozenieKameryGry;
-        poGraj.SetActive(false);
+        poGraj.enabled = false;
         PrzełączUI(false);
         kPoziomDoZaladowania = -1;
     }
@@ -560,9 +560,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         }
         PomocniczeFunkcje.oCam.transform.position = MoveCameraScript.bazowePolozenieKameryGry;
         lastPosCam = MoveCameraScript.bazowePolozenieKameryGry;
-        poGraj.SetActive(false);
+        poGraj.enabled = false;
         PrzełączUI(false);
-        samouczekPanel.GetComponent<ManagerSamouczekScript>().ŁadujDaneSamouczek();
+        ManagerSamouczekScript.mssInstance.ŁadujDaneSamouczek();
     }
     public void UstawEpokeWyzejNizej(bool czyWyzej)
     {
@@ -903,8 +903,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     #region Obsluga Opcje i Creditsy
     public void OptionsMenu(bool actButton)
     {
-        menu.SetActive(!actButton);
-        optionsMenu.SetActive(actButton);
+        menu.enabled = !actButton;
+        optionsMenu.enabled = actButton;
         if (!actButton)
         {
             PomocniczeFunkcje.ZapisDanychOpcje();
@@ -937,13 +937,13 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         if (!wł)
         {
             WłączWyłączPanel("Cretidsy", false);
-            WłączWyłączPanel(menu.name, true);
+            WłączWyłączPanel(menu.transform.name, true);
             PomocniczeFunkcje.muzyka.WłączWyłączClip(ref PomocniczeFunkcje.muzyka.muzykaTła, true, "Tło_None");
         }
         else
         {
             WłączWyłączPanel("Cretidsy", true);
-            WłączWyłączPanel(menu.name, false);
+            WłączWyłączPanel(menu.transform.name, false);
             PomocniczeFunkcje.muzyka.WłączWyłączClip(ref PomocniczeFunkcje.muzyka.muzykaTła, true, "Tło_None_PoMenu");
         }
     }
@@ -980,12 +980,12 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         WłączWyłączPanelBudynków(-1);
         PomocniczeFunkcje.spawnBudynki.AktIdxBudZab = -1;
-        WłączWyłączPanel(uiBudynkiPanel.name, false);
+        WłączWyłączPanel(uiBudynkiPanel.transform.name, false);
     }
     public void WłWyłPanelReklam(bool czyWłPanel)
     {
-        menu.SetActive(!czyWłPanel);
-        reklamyPanel.SetActive(czyWłPanel);
+        menu.enabled = !czyWłPanel;// SetActive(!czyWłPanel);
+        reklamyPanel.enabled = czyWłPanel; // SetActive(czyWłPanel);
     }
     public void OdpalButtonyAkademii(bool czyOdpalac = true)
     {

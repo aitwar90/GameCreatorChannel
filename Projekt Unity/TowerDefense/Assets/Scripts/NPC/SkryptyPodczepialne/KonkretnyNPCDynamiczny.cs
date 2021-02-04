@@ -27,7 +27,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private short actZIdx = 32767;
     private bool czyDodawac = false;
     private byte[] ostatnieStrony = null;
-    private GameObject _obiektAtaku = null;
+    private Renderer _obiektAtaku = null;
     private Animator anima;
     private bool[] bufferAnima = new bool[] { false, false, false }; //isDeath, haveTarget, inRange
     private string nId;
@@ -100,7 +100,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         }
         if (obiektAtakuDystansowego != null)
         {
-            _obiektAtaku = Instantiate(obiektAtakuDystansowego, this.transform.position, this.transform.rotation);
+            _obiektAtaku = Instantiate(obiektAtakuDystansowego, this.transform.position, this.transform.rotation).GetComponent<Renderer>();
             _obiektAtaku.transform.SetParent(this.transform);
         }
         if (ZwróćMiWartośćParametru(1) == 0)
@@ -112,6 +112,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
             ObsluzAnimacje(ref anima, "inRange", false);
         }
         nId = this.name.Split('(').GetValue(0).ToString();
+        SetGłównyIndexDiffValue();
         RysujHPBar();
     }
 
@@ -126,9 +127,9 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     if (cel == null)
                     {
                         bool ff = PomocniczeFunkcje.ZwykłeAI(this);
-                        if (!ff && _obiektAtaku.activeInHierarchy)
+                        if (!ff && _obiektAtaku.enabled)
                         {
-                            _obiektAtaku.SetActive(false);
+                            _obiektAtaku.enabled = false;
                         }
                     }
                     ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
@@ -136,9 +137,9 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     break;
                 case 0:
                     bool f = PomocniczeFunkcje.ZwykłeAI(this);
-                    if (!f && _obiektAtaku.activeInHierarchy)
+                    if (!f && _obiektAtaku.enabled)
                     {
-                        _obiektAtaku.SetActive(false);
+                        _obiektAtaku.enabled = false;
                     }
                     głównyIndex++;
                     break;
@@ -372,13 +373,13 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     public void WłWyłObj(bool enab = false)
     {
+        this.mainRenderer.enabled = enab;
         if (enab)
         {
-            this.gameObject.SetActive(enab);
             agent.enabled = enab;
             this.agent.isStopped = !enab;
+            anima.Rebind();
             ObsluzAnimacje(ref anima, "isDeath", !enab);
-            this.anima.Rebind();
             sprite.localScale = new Vector3(1, 1, 1);
             short[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position.x, this.transform.position.z);
             actXIdx = t[0];
@@ -388,24 +389,20 @@ public class KonkretnyNPCDynamiczny : NPCClass
             {
                 PomocniczeFunkcje.muzyka.ustawGłośność += this.UstawGłośnośćNPC;
             }
+            SetGłównyIndexDiffValue();
             this._obiektAtaku.transform.position = this.transform.position;
-            anima.speed = 1.0f;
-            głównyIndex = -1;
         }
         if (!enab)
         {
-            //ObsluzAnimacje(ref anima, "isDeath", true);
             sprite.parent.gameObject.SetActive(enab);
             ObsluzAnimacje(ref anima, "inRange", false);
             ObsluzAnimacje(ref anima, "haveTarget", false);
-            anima.speed = 0.0f;
             if (this.odgłosyNPC != null)
             {
                 PomocniczeFunkcje.muzyka.ustawGłośność -= this.UstawGłośnośćNPC;
             }
             this.transform.position = new Vector3(0, -20, 0);
             agent.enabled = enab;
-            this.gameObject.SetActive(enab);
         }
     }
     public override void ResetujŚciezkę(KonkretnyNPCStatyczny taWiezaPierwszyRaz = null)
@@ -436,11 +433,11 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 bool czyPrzetwarzac = ((czyWZwarciu && mainRenderer.isVisible) || !czyWZwarciu) ? true : false;
                 if (_obiektAtaku != null)
                 {
-                    if (!_obiektAtaku.activeInHierarchy)
+                    if (!_obiektAtaku.enabled)
                     {
                         if (czyPrzetwarzac)
                         {
-                            _obiektAtaku.SetActive(true);
+                            _obiektAtaku.enabled = true;
                             if (czyWZwarciu && mainRenderer.isVisible)
                             {
                                 if (efektyFxStart != null && czyPrzetwarzac)
@@ -481,9 +478,9 @@ public class KonkretnyNPCDynamiczny : NPCClass
             }
             return;
         }
-        if (_obiektAtaku.activeInHierarchy)
+        if (_obiektAtaku.enabled)
         {
-            _obiektAtaku.SetActive(false);
+            _obiektAtaku.enabled = false;
         }
         this.transform.LookAt(cel.transform.position);
         aktualnyReuseAtaku = 0.0f;
@@ -601,5 +598,9 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 }
             }
         }
+    }
+    public void SetGłównyIndexDiffValue()
+    {
+        głównyIndex = (sbyte)Random.Range(-5, -1);
     }
 }
