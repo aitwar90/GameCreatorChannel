@@ -266,7 +266,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     public void PrzełączUI(bool aktywujeMenu)
     {
-        przyciskWznów.interactable = true;
+        if(PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki != 255)
+            przyciskWznów.interactable = true;
+        else
+            przyciskWznów.interactable = false;
         menu.enabled = aktywujeMenu;
         uiGry.enabled = !aktywujeMenu;
         menu.transform.parent.GetComponent<Image>().enabled = aktywujeMenu;
