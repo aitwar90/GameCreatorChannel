@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8539881029944531416}
   - component: {fileID: 8539881029944531417}
   - component: {fileID: 8539881029944531422}
-  - component: {fileID: 8539881029944531419}
   - component: {fileID: 8539881029944531418}
   - component: {fileID: 8539881029944531413}
   - component: {fileID: 2907112035805632259}
@@ -59,9 +58,6 @@ MonoBehaviour:
   - {fileID: 4166892618449982742, guid: 651d8ca132a62fb689911afa7bbd0cae, type: 3}
   - {fileID: 2813910264796934108, guid: 189d9f1dadced896698d66c6709f5646, type: 3}
   - {fileID: 972000032674761840, guid: 0d8ee9022d4eb7bc2b8713ffdd2ffaca, type: 3}
-  dropdawn: {fileID: 0}
-  lockDropdownImage: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  enableLockDropdownImage: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   aktualnyObiekt: {fileID: 0}
   zablokowanyBudynekIndex: -1
   czyBudynekZablokowany: []
@@ -99,18 +95,6 @@ MonoBehaviour:
   defIdx: 0
   toNieOstatniaFala: 0
   blokowanieOrientacji: 1
---- !u!114 &8539881029944531419
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8539881029944531423}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2c2205e656d0e4b6ac7517893f69fd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8539881029944531418
 MonoBehaviour:
   m_ObjectHideFlags: 0

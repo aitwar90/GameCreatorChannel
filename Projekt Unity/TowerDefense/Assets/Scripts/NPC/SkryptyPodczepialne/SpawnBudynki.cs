@@ -7,9 +7,6 @@ public class SpawnBudynki : MonoBehaviour
 {
     #region Zmienne publiczne
     public GameObject[] wszystkieBudynki;
-    public Dropdown dropdawn;
-    public Sprite lockDropdownImage;
-    public Sprite enableLockDropdownImage;
     public GameObject aktualnyObiekt = null;
     public short zablokowanyBudynekIndex = -1;
     #endregion
