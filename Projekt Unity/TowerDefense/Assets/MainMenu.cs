@@ -256,7 +256,6 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             }
             else if (panel[i] == samouczekPanel.name)
             {
-                Debug.Log("Odpalam lub nie samouczek Panel");
                 samouczekPanel.SetActive(czyWłączyć);
             }
             else if (panel[i] == "Cretidsy") //Powinno być ostatnie (kto odpala creditsy xD)
