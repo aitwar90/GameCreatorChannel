@@ -38,8 +38,8 @@ public class ManagerGryScript : MonoBehaviour
     public static bool odpalamNaUnityRemote = false;
     #endregion
     #region Particles
-    [Tooltip("Particle dla konkretnych etapów gry: \n [0] - Gracz wygrał")]
-    public ParticleSystem[] particleSystems;
+    [Tooltip("Particle dla konkretnych etapów gry na Canvasie: \n [0] - Gracz wygrał")]
+    public UiParticles.UiParticles[] particleSystems;
     #endregion
     #region Prywatne zmienne
     KonkretnyNPCStatyczny knpcsBazy = null;
@@ -329,7 +329,7 @@ public class ManagerGryScript : MonoBehaviour
             baza.transform.SetParent(PomocniczeFunkcje.spawnBudynki.RodzicBudynków);
             if (particleSystems != null && particleSystems.Length > 0)
             {
-                GameObject go = GameObject.Instantiate(particleSystems[0].GetComponent<ParticleSystem>().gameObject, PomocniczeFunkcje.oCam.transform.position, Quaternion.identity);
+               particleSystems[0].IsEnabeld = true;
             }
         }
     }
@@ -375,12 +375,6 @@ public class ManagerGryScript : MonoBehaviour
             else
             {
                 timerFal = 0;
-                if (particleSystems != null && particleSystems.Length > 0)
-                {
-                    Vector3 poss = Vector3.zero;
-                    
-                    GameObject go = GameObject.Instantiate(particleSystems[0].GetComponent<ParticleSystem>().gameObject, poss, Quaternion.identity);
-                }
                 PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
             }
         }
@@ -634,6 +628,10 @@ public class ManagerGryScript : MonoBehaviour
                 {
                     PomocniczeFunkcje.odblokowanyPoziomEpoki++;
                 }
+            }
+            if(particleSystems[0] != null && particleSystems.Length > 0)
+            {
+                particleSystems[0].IsEnabeld = true;
             }
             PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
             PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
