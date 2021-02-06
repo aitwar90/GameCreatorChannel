@@ -447,4 +447,9 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             return;
         }
     }
+    public void HealMe()
+    {
+        if(this.AktualneŻycie > 0)
+            this.AktualneŻycie = this.maksymalneŻycie;
+    }
 }

@@ -37,7 +37,10 @@ public class ManagerGryScript : MonoBehaviour
     [HideInInspector] public ushort defIdx;
     public static bool odpalamNaUnityRemote = false;
     #endregion
-
+    #region Particles
+    [Tooltip("Particle dla konkretnych etapów gry: \n [0] - Gracz wygrał")]
+    public ParticleSystem[] particleSystems;
+    #endregion
     #region Prywatne zmienne
     KonkretnyNPCStatyczny knpcsBazy = null;
     private byte idxOfManagerGryScript = 0;
@@ -324,6 +327,10 @@ public class ManagerGryScript : MonoBehaviour
             knpcsBazy.InicjacjaBudynku();
             PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcsBazy, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
             baza.transform.SetParent(PomocniczeFunkcje.spawnBudynki.RodzicBudynków);
+            if (particleSystems != null && particleSystems.Length > 0)
+            {
+                GameObject go = GameObject.Instantiate(particleSystems[0].GetComponent<ParticleSystem>().gameObject, PomocniczeFunkcje.oCam.transform.position, Quaternion.identity);
+            }
         }
     }
     private void SprawdźCzyScenaZostałaZaładowana()
@@ -368,6 +375,12 @@ public class ManagerGryScript : MonoBehaviour
             else
             {
                 timerFal = 0;
+                if (particleSystems != null && particleSystems.Length > 0)
+                {
+                    Vector3 poss = Vector3.zero;
+                    
+                    GameObject go = GameObject.Instantiate(particleSystems[0].GetComponent<ParticleSystem>().gameObject, poss, Quaternion.identity);
+                }
                 PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
             }
         }
@@ -523,6 +536,8 @@ public class ManagerGryScript : MonoBehaviour
             knpcd[i].AktualneŻycie = 0;
             knpcd[i].NieŻyję = true;
         }
+        PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(0);
+        /*
         KonkretnyNPCStatyczny[] knpcs = FindObjectsOfType(typeof(KonkretnyNPCStatyczny)) as KonkretnyNPCStatyczny[];
         for (ushort i = 0; i < knpcs.Length; i++)
         {
@@ -531,6 +546,7 @@ public class ManagerGryScript : MonoBehaviour
         }
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
         PomocniczeFunkcje.mainMenu.UstawHPGłównegoPaska(1.0f);
+        */
         //Fragment wyłączający courutyny
         StopAllCoroutines();
         ObslTimerFal(0);
@@ -603,6 +619,10 @@ public class ManagerGryScript : MonoBehaviour
         }
         if (sukces)
         {
+            if (particleSystems != null && particleSystems.Length > 0)
+            {
+                GameObject go = GameObject.Instantiate(particleSystems[0].GetComponent<ParticleSystem>().gameObject, PomocniczeFunkcje.oCam.transform.position, Quaternion.identity);
+            }
             if (aktualnyPoziomEpoki >= PomocniczeFunkcje.odblokowanyPoziomEpoki)
             {
                 if (aktualnyPoziomEpoki % 100 == 0 && (byte)aktualnaEpoka == PomocniczeFunkcje.odblokowaneEpoki)
