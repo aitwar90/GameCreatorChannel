@@ -345,32 +345,36 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     {
         if (pos.x == float.NegativeInfinity)    //Jeśli odpalany jest panel budynku
         {
-            string p = "-";
-            string c = "ZIELONY";
-            if (PomocniczeFunkcje.odblokowaneEpoki == (byte)this.epokaNPC)
+            string p = "";
+            string c = ";ZIELONY";
+            if (PomocniczeFunkcje.odblokowaneEpoki >= (byte)this.epokaNPC)
             {
                 if (PomocniczeFunkcje.odblokowanyPoziomEpoki < this.poziomBudynku)
-                    c = "CZERWONY";
-                p = this.poziomBudynku.ToString();
+                    c = ";CZERWONY";
+                p = ";"+this.poziomBudynku.ToString()+";";
             }
-            else if (PomocniczeFunkcje.odblokowaneEpoki < (byte)this.epokaNPC)
+            else
             {
-                p = "ERROR";
-                c = "CZERWONY";
+                p = ";ERROR;";
+                c = ";CZERWONY";
             }
             string kosztBadaniaS = "0";
             if (this.zablokowany)
             {
                 kosztBadaniaS = kosztBadania.ToString();
             }
-            PomocniczeFunkcje.mainMenu.UstawPanelUI("PANEL_" + this.nazwa + "_" + this.maksymalneŻycie.ToString() + "_" + this.kosztJednostki.ToString() + "_" + this.zadawaneObrażenia + "_" + p + "_" + this.opisBudynku + "_" + c + "_" + kosztBadaniaS, Vector2.zero);
+            PomocniczeFunkcje.mainMenu.UstawPanelUI("PANEL;" + this.nazwa + 
+            ";" + this.maksymalneŻycie.ToString() + ";" + this.kosztJednostki.ToString() + 
+            ";" + kosztBadaniaS + ";" + this.zadawaneObrażenia + 
+            p + this.opisBudynku + c, 
+            Vector2.zero);
         }
         else
         {
             bool czyOdbl = false;
             if (this.AktualneŻycie < this.maksymalneŻycie)
                 czyOdbl = true;
-            string s = "STATYCZNY_" + czyOdbl.ToString() + "_" + this.nazwa + "_" + this.AktualneŻycie.ToString() + "/" + this.maksymalneŻycie.ToString() + "_" + kosztNaprawy.ToString() + "_" + zadawaneObrażenia.ToString() + "_" + opisBudynku + "_" + "0";
+            string s = "STATYCZNY;" + czyOdbl.ToString() + ";" + this.nazwa + ";" + this.AktualneŻycie.ToString() + "/" + this.maksymalneŻycie.ToString() + ";" + kosztNaprawy.ToString() + ";" + zadawaneObrażenia.ToString() + ";" + opisBudynku + ";" + "0";
             PomocniczeFunkcje.mainMenu.UstawPanelUI(s, pos, this);
             if (this.typBudynku == TypBudynku.Akademia)
             {
@@ -451,7 +455,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     }
     public void HealMe()
     {
-        if(this.AktualneŻycie > 0)
+        if (this.AktualneŻycie > 0)
             this.AktualneŻycie = this.maksymalneŻycie;
     }
 }

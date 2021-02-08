@@ -12,41 +12,43 @@ public class PanelTextuWBudynkach : KontenerKomponentów
 
     public override void UstawDane(string[] s)
     {
+        bool wyłączKupIPostaw = false;
         nazwaObiektu.text = s[0];
         punktyŻyciaObiektu.text = s[1];
         koszt.text = s[2];
-        obrażenia.text = s[3];
-        wymaganyPoziom.text = s[4];
-        opis.text = s[5];
-        if (s[6] == "CZERWONY")
+        kosztBadania.text = s[3];
+        obrażenia.text = s[4];
+        if (s[5] != "ERROR")
+            wymaganyPoziom.text = s[5];
+        else
+            wymaganyPoziom.text = "-";
+        opis.text = s[6];
+        if (s[7] == "CZERWONY")
         {
+            wyłączKupIPostaw = true;
             wymaganyPoziom.color = Color.red;
-            if (s.Length > 6)
+            int t = System.Int32.Parse(s[4]);
+            if (ManagerGryScript.iloscCoinów < t)
             {
-                int t = System.Int32.Parse(s[7]);
-                if (ManagerGryScript.iloscCoinów < t)
-                {
-                    kosztBadania.color = Color.red;
-                }
-                else
-                    kosztBadania.color = Color.white;
+                kosztBadania.color = Color.red;
             }
         }
         else
         {
             wymaganyPoziom.color = Color.white;
-            if (s.Length > 6)
+            int t = System.Int32.Parse(s[4]);
+            if (ManagerGryScript.iloscCoinów < t)
             {
-                Debug.Log(s[7]);
-                int t = System.Int32.Parse(s[7]);
-                if (ManagerGryScript.iloscCoinów < t)
-                {
-                    kosztBadania.color = Color.red;
-                }
-                else
-                    kosztBadania.color = Color.white;
+                wyłączKupIPostaw = true;
+                kosztBadania.color = Color.red;
             }
         }
-        kosztBadania.text = s[7];
+        if (wyłączKupIPostaw)
+        {
+
+            //Wyłącz opcję kupna
+            PomocniczeFunkcje.mainMenu.kup.interactable = false;
+            PomocniczeFunkcje.mainMenu.stawiajBudynek.interactable = false;
+        }
     }
 }
