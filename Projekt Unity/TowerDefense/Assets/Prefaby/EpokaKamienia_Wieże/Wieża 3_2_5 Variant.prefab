@@ -7,65 +7,61 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb,
-        type: 3}
+    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb,
-        type: 3}
+    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb,
-        type: 3}
+    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb,
-        type: 3}
+    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb,
-        type: 3}
+    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb,
-        type: 3}
+    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb,
-        type: 3}
+    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb,
-        type: 3}
+    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb,
-        type: 3}
+    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb,
-        type: 3}
+    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb,
-        type: 3}
+    - target: {fileID: 1945617531554195313, guid: bf2bdad54ff1b3244949e9fc139780cb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4441919295165655911, guid: bf2bdad54ff1b3244949e9fc139780cb,
-        type: 3}
+    - target: {fileID: 4441919295165655911, guid: bf2bdad54ff1b3244949e9fc139780cb, type: 3}
       propertyPath: m_Name
-      value: "Wie\u017Ca 3_2_4 Variant"
+      value: "Wie\u017Ca 3_2_5 Variant"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6966280455147578716, guid: bf2bdad54ff1b3244949e9fc139780cb, type: 3}
+      propertyPath: kosztBadania
+      value: 3750
+      objectReference: {fileID: 0}
+    - target: {fileID: 6966280455147578716, guid: bf2bdad54ff1b3244949e9fc139780cb, type: 3}
+      propertyPath: poziomBudynku
+      value: 75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf2bdad54ff1b3244949e9fc139780cb, type: 3}

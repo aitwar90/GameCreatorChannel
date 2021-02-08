@@ -7,73 +7,67 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 583960381763401469, guid: 72bbc1d4440d5e34ba026062228c0aac,
-        type: 3}
+    - target: {fileID: 583960381763401469, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
       propertyPath: m_Name
       value: "Wie\u017Ca 3_2_6 Variant"
       objectReference: {fileID: 0}
-    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac,
-        type: 3}
+    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac,
-        type: 3}
+    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac,
-        type: 3}
+    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac,
-        type: 3}
+    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac,
-        type: 3}
+    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac,
-        type: 3}
+    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac,
-        type: 3}
+    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac,
-        type: 3}
+    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac,
-        type: 3}
+    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac,
-        type: 3}
+    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac,
-        type: 3}
+    - target: {fileID: 3368202247227489003, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4595552618872969450, guid: 72bbc1d4440d5e34ba026062228c0aac,
-        type: 3}
+    - target: {fileID: 4595552618872969450, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 9992b57a0293a69439a108cc7cf0ea6e, type: 2}
-    - target: {fileID: 8432274020066147681, guid: 72bbc1d4440d5e34ba026062228c0aac,
-        type: 3}
+    - target: {fileID: 6130324766725552326, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
+      propertyPath: kosztBadania
+      value: 4000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6130324766725552326, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
+      propertyPath: poziomBudynku
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432274020066147681, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e00711150cb0bfb4f95cb119ba866b3a, type: 2}

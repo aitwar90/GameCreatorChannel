@@ -352,6 +352,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         else if (s[0] == "PANEL")
         {
             PanelTextuWBudynkach ps = (PanelTextuWBudynkach)panelBudynki;
+            Debug.Log(s[8]);
             ps.UstawDane(new string[] { s[1], s[2], s[3], s[4], s[5], s[6], s[7], s[8] });
         }
     }

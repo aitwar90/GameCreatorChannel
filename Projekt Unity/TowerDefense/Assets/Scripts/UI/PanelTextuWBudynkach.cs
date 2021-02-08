@@ -37,6 +37,7 @@ public class PanelTextuWBudynkach : KontenerKomponentów
             wymaganyPoziom.color = Color.white;
             if (s.Length > 6)
             {
+                Debug.Log(s[7]);
                 int t = System.Int32.Parse(s[7]);
                 if (ManagerGryScript.iloscCoinów < t)
                 {

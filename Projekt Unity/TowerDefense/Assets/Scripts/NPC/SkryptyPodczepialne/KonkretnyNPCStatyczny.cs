@@ -360,7 +360,9 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             }
             string kosztBadaniaS = "0";
             if (this.zablokowany)
+            {
                 kosztBadaniaS = kosztBadania.ToString();
+            }
             PomocniczeFunkcje.mainMenu.UstawPanelUI("PANEL_" + this.nazwa + "_" + this.maksymalneŻycie.ToString() + "_" + this.kosztJednostki.ToString() + "_" + this.zadawaneObrażenia + "_" + p + "_" + this.opisBudynku + "_" + c + "_" + kosztBadaniaS, Vector2.zero);
         }
         else
