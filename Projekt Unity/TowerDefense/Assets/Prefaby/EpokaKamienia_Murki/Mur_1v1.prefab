@@ -11,6 +11,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d7b18b0976b96d44d830190131186f27, type: 2}
+    - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
+      propertyPath: nazwa
+      value: Kamienny Mur III
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
+      propertyPath: poziom
+      value: 75
+      objectReference: {fileID: 0}
     - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
         type: 3}
       propertyPath: m_RootOrder
