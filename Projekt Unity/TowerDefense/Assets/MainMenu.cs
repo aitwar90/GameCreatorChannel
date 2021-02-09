@@ -260,7 +260,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             }
             else if (panel[i] == "Cretidsy") //Powinno być ostatnie (kto odpala creditsy xD)
             {
-                this.transform.Find("Menu/Cretidsy").GetComponent<Canvas>().enabled = czyWłączyć;
+                this.transform.Find("Menu/Cretidsy").gameObject.SetActive(czyWłączyć);
             }
         }
     }
