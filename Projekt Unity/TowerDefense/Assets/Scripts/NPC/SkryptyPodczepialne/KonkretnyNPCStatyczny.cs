@@ -347,11 +347,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     }
     public override byte ZwrócOdbiteObrażenia()
     {
-        if (this.szybkośćAtaku > 0)
-        {
-            return (byte)Mathf.CeilToInt(odbiteObrażenia * this.modyfikatorZadawanychObrażeń);
-        }
-        return 0;
+        return (byte)Mathf.CeilToInt(odbiteObrażenia * this.modyfikatorZadawanychObrażeń);
     }
     public override float PobierzGranice()
     {
