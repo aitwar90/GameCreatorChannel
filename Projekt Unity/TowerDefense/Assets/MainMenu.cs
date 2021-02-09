@@ -1026,7 +1026,6 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     public void KliknalemButtonRozwoju(int indeksButtonu)   //1 - Zycie, 2 - Atak, 3 - Obrona
     {
-        Debug.Log("Kliknąłem buttopn rozwoju");
         PomocniczeFunkcje.managerGryScript.RozwójBudynkow((byte)indeksButtonu);
     }
     public void QuitGame()

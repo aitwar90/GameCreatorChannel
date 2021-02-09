@@ -347,7 +347,11 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     }
     public override byte ZwrócOdbiteObrażenia()
     {
-        return (byte)Mathf.CeilToInt(odbiteObrażenia * this.modyfikatorZadawanychObrażeń);
+        if (this.szybkośćAtaku > 0)
+        {
+            return (byte)Mathf.CeilToInt(odbiteObrażenia * this.modyfikatorZadawanychObrażeń);
+        }
+        return 0;
     }
     public override float PobierzGranice()
     {
@@ -475,9 +479,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         switch (whatUpgrade)
         {
             case 0: //HP
-            Debug.Log("Doszedłem do dodaje życie przed "+this.maksymalneŻycie);
                 this.maksymalneŻycie = (short)(this.maksymalneŻycie + 10 * PomocniczeFunkcje.managerGryScript.hpIdx);
-                Debug.Log("Doszedłem do dodaje życie po "+this.maksymalneŻycie);
                 break;
             case 1: //Attack
                 this.modyfikatorZadawanychObrażeń = PomocniczeFunkcje.WyliczModyfikatorObrazeń(this.modyfikatorZadawanychObrażeń, PomocniczeFunkcje.managerGryScript.atkIdx);

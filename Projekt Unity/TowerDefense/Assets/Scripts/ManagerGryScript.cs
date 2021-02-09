@@ -140,15 +140,19 @@ public class ManagerGryScript : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
                     zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
                     if (zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
                     {
                         zaznaczonyObiekt.UstawPanel(Input.mousePosition);
+                        if(zaznaczonyObiekt.szybkośćAtaku != -1)    //Nie jest to akademia
+                        {
+                            PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
+                        }
                     }
                     else if (PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
                     {
                         PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
+                        PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
                     }
                 }
             }
@@ -156,15 +160,19 @@ public class ManagerGryScript : MonoBehaviour
             {
                 if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
                 {
-                    PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
                     zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
                     if (zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
                     {
                         zaznaczonyObiekt.UstawPanel(Input.GetTouch(0).position);
+                        if(zaznaczonyObiekt.szybkośćAtaku != -1)    //Nie jest to akademia
+                        {
+                            PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
+                        }
                     }
                     else if (PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
                     {
                         PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
+                        PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
                     }
                 }
             }
@@ -753,7 +761,6 @@ public class ManagerGryScript : MonoBehaviour
         switch (idxRozwojuBudynku)
         {
             case 1: //Max HP
-                Debug.Log("Dodaje życie");
                 hpIdx++;
                 PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(1);
                 break;
