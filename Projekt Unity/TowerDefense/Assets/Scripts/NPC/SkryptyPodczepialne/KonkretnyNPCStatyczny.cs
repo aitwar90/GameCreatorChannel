@@ -38,7 +38,9 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     private List<NPCClass> wrogowieWZasiegu = null;
     private byte idxAct = 0;
     private ushort kosztNaprawy = 0;
-    private GameObject instaObj;
+    private Stack<MagazynObiektówAtaków> instaObjOff = null;
+    private MagazynObiektówAtaków[] tabActAtakObj = null;
+    private bool instaObjIsActive = false;
     [HideInInspector, SerializeField] private bool zablokowany = true;
     #endregion
 
@@ -61,9 +63,9 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     {
         get
         {
-            if(this.epokaNPC == Epoki.None)
+            if (this.epokaNPC == Epoki.None)
                 return -1;
-            return (byte)(this.epokaNPC - 1)*100 + this.poziom;
+            return (byte)(this.epokaNPC - 1) * 100 + this.poziom;
         }
     }
     #endregion
@@ -78,12 +80,6 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         this.nastawienieNPC = NastawienieNPC.Przyjazne;
         if (sprite == null)
             sprite = this.transform.Find("HpGreen");
-        if (obiektAtaku != null)
-        {
-            instaObj = Instantiate(obiektAtaku, this.transform.position, Quaternion.identity);
-            instaObj.transform.position = new Vector3(instaObj.transform.position.x, instaObj.transform.position.y + 0.8f, instaObj.transform.position.z);
-            instaObj.transform.SetParent(this.transform);
-        }
         if (this.odgłosyNPC != null)
         {
             PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, "PostawB", true);
@@ -92,6 +88,10 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         {
             StartCoroutine(CzekajAz());
         }
+        if (this.typAtakuWieży == TypAtakuWieży.wszyscyWZasiegu)
+            tabActAtakObj = new MagazynObiektówAtaków[6];
+        else
+            tabActAtakObj = new MagazynObiektówAtaków[1];
         RysujHPBar();
     }
     public void MetodaDoOdpaleniaPoWyczekaniu()
@@ -133,14 +133,6 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                 if (cel == null && wrogowieWZasiegu != null && wrogowieWZasiegu.Count > 0)
                 {
                     ZnajdźNowyCel();
-                }
-                else if (cel != null && (wrogowieWZasiegu == null || wrogowieWZasiegu.Count == 0))
-                {
-                    cel = null;
-                    if (instaObj.activeInHierarchy)
-                    {
-                        instaObj.SetActive(false);
-                    }
                 }
                 idxAct++;
                 break;
@@ -202,7 +194,9 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                 tNVO.enabled = false;
             cel = null;
             wrogowieWZasiegu = null;
-            StartCoroutine(SkasujObject(5.0f));
+            tabActAtakObj = null;
+            instaObjOff.Clear();
+            StartCoroutine(SkasujObject(2.0f));
         }
         if (this.odgłosyNPC != null)
         {
@@ -255,35 +249,39 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     {
         if (this.aktualnyReuseAtaku < szybkośćAtaku)
         {
-            aktualnyReuseAtaku += Time.deltaTime * 2;
+            aktualnyReuseAtaku += Time.deltaTime;
             float f = szybkośćAtaku - aktualnyReuseAtaku;
             if (f <= .2f)
             {
-                if (!instaObj.activeInHierarchy)
+                if (!instaObjIsActive)
                 {
-                    instaObj.SetActive(true);
-                    instaObj.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + offWysokość, this.transform.position.z);
-                    instaObj.transform.LookAt(cel.transform.position);
-                    if (efektyFxStart != null)
-                    {
-                        efektyFxStart.transform.position = this.transform.position;
-                        efektyFxStart.Play();
-                    }
+                    instaObjIsActive = true;
                     string s = "";
                     switch (typAtakuWieży)
                     {
                         case TypAtakuWieży.jedenTarget:
+                            tabActAtakObj[0] = GetInstaObjFromStack(cel.transform.position.x, cel.transform.position.z);
                             s = PomocniczeFunkcje.TagZEpoka("AtakBJeden", this.epokaNPC, this.tagRodzajDoDźwięków);
                             break;
                         case TypAtakuWieży.wybuch:
+                            tabActAtakObj[0] = GetInstaObjFromStack(cel.transform.position.x, cel.transform.position.z);
                             s = PomocniczeFunkcje.TagZEpoka("AtakBObszar", this.epokaNPC, this.tagRodzajDoDźwięków);
                             break;
                         case TypAtakuWieży.wszyscyWZasiegu:
+                            for (byte i = 0; i < wrogowieWZasiegu.Count && i < 6; i++)
+                            {
+                                tabActAtakObj[i] = GetInstaObjFromStack(wrogowieWZasiegu[i].transform.position.x, wrogowieWZasiegu[i].transform.position.x);
+                            }
                             s = PomocniczeFunkcje.TagZEpoka("AtakBAll", this.epokaNPC, this.tagRodzajDoDźwięków);
                             break;
                     }
                     if (s != "")
                         PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, s, true);
+                    if (efektyFxStart != null)
+                    {
+                        efektyFxStart.transform.position = this.transform.position;
+                        efektyFxStart.Play();
+                    }
                 }
                 else
                 {
@@ -297,22 +295,25 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                         }
                         PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, PomocniczeFunkcje.TagZEpoka("TrafienieB", this.epokaNPC, this.tagRodzajDoDźwięków), true);
                     }
-                    else
-                        f *= 10f;
-
-                    instaObj.transform.position = Vector3.Lerp(cel.transform.position, new Vector3(this.transform.position.x, this.transform.position.y + offWysokość, this.transform.position.z), f);
+                    for (byte i = 0; i < tabActAtakObj.Length; i++)
+                    {
+                        tabActAtakObj[i].SetActPos(f);
+                    }
                 }
             }
         }
         else
         {
-            instaObj.SetActive(false);
+            for (byte i = 0; i < tabActAtakObj.Length; i++)
+            {
+                DodajDoMagazynuObiektówAtaku(ref tabActAtakObj[i]);
+                tabActAtakObj[i].DeactivateObj();
+            }
             this.aktualnyReuseAtaku = 0;
             switch (typAtakuWieży)
             {
                 case TypAtakuWieży.jedenTarget: //Jeden Target
                     cel.ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń)));
-                    //Debug.Log("Cel.AktualneŻycie "+cel.AktualneŻycie);
                     break;
                 case TypAtakuWieży.wybuch: //Wybuch
                     Collider[] tabZasięgu = new Collider[4];
@@ -358,7 +359,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             {
                 if (PomocniczeFunkcje.odblokowanyPoziomEpoki < this.poziom)
                     c = ";CZERWONY";
-                p = ";"+this.poziom.ToString()+";";
+                p = ";" + this.poziom.ToString() + ";";
             }
             else
             {
@@ -370,10 +371,10 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             {
                 kosztBadaniaS = kosztBadania.ToString();
             }
-            PomocniczeFunkcje.mainMenu.UstawPanelUI("PANEL;" + this.nazwa + 
-            ";" + this.maksymalneŻycie.ToString() + ";" + this.kosztJednostki.ToString() + 
-            ";" + kosztBadaniaS + ";" + this.zadawaneObrażenia + 
-            p + this.opisBudynku + c, 
+            PomocniczeFunkcje.mainMenu.UstawPanelUI("PANEL;" + this.nazwa +
+            ";" + this.maksymalneŻycie.ToString() + ";" + this.kosztJednostki.ToString() +
+            ";" + kosztBadaniaS + ";" + this.zadawaneObrażenia +
+            p + this.opisBudynku + c,
             Vector2.zero);
         }
         else
@@ -464,5 +465,33 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     {
         if (this.AktualneŻycie > 0)
             this.AktualneŻycie = this.maksymalneŻycie;
+    }
+    private void DodajDoMagazynuObiektówAtaku(ref MagazynObiektówAtaków moa)
+    {
+        if (instaObjOff == null)
+        {
+            instaObjOff = new Stack<MagazynObiektówAtaków>();
+        }
+        instaObjOff.Push(moa);
+    }
+    private MagazynObiektówAtaków GetInstaObjFromStack(float x, float z)
+    {
+        if (instaObjOff != null && instaObjOff.Count > 0)
+        {
+            instaObjOff.Peek().ActivateObj(x, z);
+            return instaObjOff.Pop();
+        }
+        else
+        {
+            if (obiektAtaku == null)
+            {
+                Debug.Log("Obiekt ataku jest null");
+                return null;
+            }
+            GameObject gos = GameObject.Instantiate(obiektAtaku, this.transform.position + new Vector3(0, offWysokość, 0), Quaternion.identity);
+            gos.transform.SetParent(this.transform);
+            MagazynObiektówAtaków moa = new MagazynObiektówAtaków(x, z, this.transform.position.x, offWysokość, this.transform.position.z, gos.transform);
+            return moa;
+        }
     }
 }

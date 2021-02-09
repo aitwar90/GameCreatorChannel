@@ -8,12 +8,44 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1003358169707427119, guid: e503fe52d0c6d5d4c8ea16bd71f40d1c, type: 3}
+      propertyPath: nazwa
+      value: Ulepszona Meta V
+      objectReference: {fileID: 0}
+    - target: {fileID: 1003358169707427119, guid: e503fe52d0c6d5d4c8ea16bd71f40d1c, type: 3}
+      propertyPath: poziom
+      value: 95
+      objectReference: {fileID: 0}
+    - target: {fileID: 1003358169707427119, guid: e503fe52d0c6d5d4c8ea16bd71f40d1c, type: 3}
       propertyPath: kosztBadania
       value: 25000
       objectReference: {fileID: 0}
     - target: {fileID: 1003358169707427119, guid: e503fe52d0c6d5d4c8ea16bd71f40d1c, type: 3}
+      propertyPath: "zasi\u0119gAtaku"
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1003358169707427119, guid: e503fe52d0c6d5d4c8ea16bd71f40d1c, type: 3}
       propertyPath: poziomBudynku
       value: 95
+      objectReference: {fileID: 0}
+    - target: {fileID: 1003358169707427119, guid: e503fe52d0c6d5d4c8ea16bd71f40d1c, type: 3}
+      propertyPath: kosztJednostki
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1003358169707427119, guid: e503fe52d0c6d5d4c8ea16bd71f40d1c, type: 3}
+      propertyPath: "szybko\u015B\u0107Ataku"
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1003358169707427119, guid: e503fe52d0c6d5d4c8ea16bd71f40d1c, type: 3}
+      propertyPath: "maksymalne\u017Bycie"
+      value: 25000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1003358169707427119, guid: e503fe52d0c6d5d4c8ea16bd71f40d1c, type: 3}
+      propertyPath: "odbiteObra\u017Cenia"
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1003358169707427119, guid: e503fe52d0c6d5d4c8ea16bd71f40d1c, type: 3}
+      propertyPath: "zadawaneObra\u017Cenia"
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3313129383113076872, guid: e503fe52d0c6d5d4c8ea16bd71f40d1c, type: 3}
       propertyPath: m_Materials.Array.data[0]

@@ -60,12 +60,40 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 9992b57a0293a69439a108cc7cf0ea6e, type: 2}
     - target: {fileID: 6130324766725552326, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
+      propertyPath: nazwa
+      value: Meta IV
+      objectReference: {fileID: 0}
+    - target: {fileID: 6130324766725552326, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
+      propertyPath: poziom
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 6130324766725552326, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
       propertyPath: kosztBadania
-      value: 4000
+      value: 7250
+      objectReference: {fileID: 0}
+    - target: {fileID: 6130324766725552326, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
+      propertyPath: "zasi\u0119gAtaku"
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6130324766725552326, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
       propertyPath: poziomBudynku
       value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 6130324766725552326, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
+      propertyPath: kosztJednostki
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 6130324766725552326, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
+      propertyPath: "szybko\u015B\u0107Ataku"
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6130324766725552326, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
+      propertyPath: "maksymalne\u017Bycie"
+      value: 15000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6130324766725552326, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
+      propertyPath: "zadawaneObra\u017Cenia"
+      value: 68
       objectReference: {fileID: 0}
     - target: {fileID: 8432274020066147681, guid: 72bbc1d4440d5e34ba026062228c0aac, type: 3}
       propertyPath: m_Materials.Array.data[0]

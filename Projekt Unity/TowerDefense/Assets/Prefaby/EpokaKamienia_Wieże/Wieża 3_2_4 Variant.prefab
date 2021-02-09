@@ -60,12 +60,40 @@ PrefabInstance:
       value: "Wie\u017Ca 3_2_4 Variant"
       objectReference: {fileID: 0}
     - target: {fileID: 7148346565117513878, guid: 1e2a8a9e48fefdc4cb4bb6d4ac3850bd, type: 3}
+      propertyPath: nazwa
+      value: Ulepszona Meta III
+      objectReference: {fileID: 0}
+    - target: {fileID: 7148346565117513878, guid: 1e2a8a9e48fefdc4cb4bb6d4ac3850bd, type: 3}
+      propertyPath: poziom
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 7148346565117513878, guid: 1e2a8a9e48fefdc4cb4bb6d4ac3850bd, type: 3}
       propertyPath: kosztBadania
-      value: 3500
+      value: 8500
+      objectReference: {fileID: 0}
+    - target: {fileID: 7148346565117513878, guid: 1e2a8a9e48fefdc4cb4bb6d4ac3850bd, type: 3}
+      propertyPath: "zasi\u0119gAtaku"
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7148346565117513878, guid: 1e2a8a9e48fefdc4cb4bb6d4ac3850bd, type: 3}
       propertyPath: poziomBudynku
       value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 7148346565117513878, guid: 1e2a8a9e48fefdc4cb4bb6d4ac3850bd, type: 3}
+      propertyPath: kosztJednostki
+      value: 450
+      objectReference: {fileID: 0}
+    - target: {fileID: 7148346565117513878, guid: 1e2a8a9e48fefdc4cb4bb6d4ac3850bd, type: 3}
+      propertyPath: "szybko\u015B\u0107Ataku"
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7148346565117513878, guid: 1e2a8a9e48fefdc4cb4bb6d4ac3850bd, type: 3}
+      propertyPath: "maksymalne\u017Bycie"
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7148346565117513878, guid: 1e2a8a9e48fefdc4cb4bb6d4ac3850bd, type: 3}
+      propertyPath: "zadawaneObra\u017Cenia"
+      value: 31
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e2a8a9e48fefdc4cb4bb6d4ac3850bd, type: 3}

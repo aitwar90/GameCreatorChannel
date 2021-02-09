@@ -187,6 +187,36 @@ public interface IteratorForTreeBuildings   //Interfejs służący do iteratora 
     bool HasMore();
     void ExecuteAll(byte doSmoething);  //Określenie metody jaka ma zostać wywołana
 }
+public class MagazynObiektówAtaków
+{
+    private Vector3 dotPos;
+    private Vector3 sPos;
+    private Transform objInstatiate;
+
+    public MagazynObiektówAtaków(float _docelowyX, float _docelowyZ, float _startowyX, float _startowyY, float _startowyZ, Transform _objInstatiate)
+    {
+        dotPos.y = 0.25f;
+        sPos = new Vector3(_startowyX, _startowyY, _startowyZ);
+        objInstatiate = _objInstatiate;
+        ActivateObj(_docelowyX, _docelowyZ);
+    }
+    public void SetActPos(float f)
+    {
+        objInstatiate.position = Vector3.Lerp(dotPos, sPos, f);
+    }
+    public void ActivateObj(float x, float z)
+    {
+        objInstatiate.gameObject.SetActive(true);
+        dotPos.x = x;
+        dotPos.z = z;
+        objInstatiate.rotation = Quaternion.LookRotation(dotPos);
+    }
+    public void DeactivateObj()
+    {
+        objInstatiate.position = sPos;
+        objInstatiate.gameObject.SetActive(false);
+    }
+}
 [System.Serializable]
 public class StrukturaBudynkuWTab
 {

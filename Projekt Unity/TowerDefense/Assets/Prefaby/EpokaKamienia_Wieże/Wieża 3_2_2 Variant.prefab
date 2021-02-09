@@ -8,12 +8,40 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 313446091270257834, guid: 2fa0faf2fada46e41aeb8f768117bceb, type: 3}
+      propertyPath: nazwa
+      value: Ulepszona Meta II
+      objectReference: {fileID: 0}
+    - target: {fileID: 313446091270257834, guid: 2fa0faf2fada46e41aeb8f768117bceb, type: 3}
+      propertyPath: poziom
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 313446091270257834, guid: 2fa0faf2fada46e41aeb8f768117bceb, type: 3}
       propertyPath: kosztBadania
-      value: 3000
+      value: 4500
       objectReference: {fileID: 0}
     - target: {fileID: 313446091270257834, guid: 2fa0faf2fada46e41aeb8f768117bceb, type: 3}
       propertyPath: poziomBudynku
       value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 313446091270257834, guid: 2fa0faf2fada46e41aeb8f768117bceb, type: 3}
+      propertyPath: kosztJednostki
+      value: 575
+      objectReference: {fileID: 0}
+    - target: {fileID: 313446091270257834, guid: 2fa0faf2fada46e41aeb8f768117bceb, type: 3}
+      propertyPath: "szybko\u015B\u0107Ataku"
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 313446091270257834, guid: 2fa0faf2fada46e41aeb8f768117bceb, type: 3}
+      propertyPath: "maksymalne\u017Bycie"
+      value: 7500
+      objectReference: {fileID: 0}
+    - target: {fileID: 313446091270257834, guid: 2fa0faf2fada46e41aeb8f768117bceb, type: 3}
+      propertyPath: "odbiteObra\u017Cenia"
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 313446091270257834, guid: 2fa0faf2fada46e41aeb8f768117bceb, type: 3}
+      propertyPath: "zadawaneObra\u017Cenia"
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 6435776588947255953, guid: 2fa0faf2fada46e41aeb8f768117bceb, type: 3}
       propertyPath: m_Name

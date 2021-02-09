@@ -8,12 +8,44 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1889467842329780323, guid: 2a2147cfef717d34a89bcc2a36a38f17, type: 3}
+      propertyPath: nazwa
+      value: Meta III
+      objectReference: {fileID: 0}
+    - target: {fileID: 1889467842329780323, guid: 2a2147cfef717d34a89bcc2a36a38f17, type: 3}
+      propertyPath: poziom
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 1889467842329780323, guid: 2a2147cfef717d34a89bcc2a36a38f17, type: 3}
       propertyPath: kosztBadania
-      value: 3250
+      value: 8000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1889467842329780323, guid: 2a2147cfef717d34a89bcc2a36a38f17, type: 3}
+      propertyPath: "zasi\u0119gAtaku"
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1889467842329780323, guid: 2a2147cfef717d34a89bcc2a36a38f17, type: 3}
       propertyPath: poziomBudynku
       value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 1889467842329780323, guid: 2a2147cfef717d34a89bcc2a36a38f17, type: 3}
+      propertyPath: kosztJednostki
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 1889467842329780323, guid: 2a2147cfef717d34a89bcc2a36a38f17, type: 3}
+      propertyPath: "szybko\u015B\u0107Ataku"
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1889467842329780323, guid: 2a2147cfef717d34a89bcc2a36a38f17, type: 3}
+      propertyPath: "maksymalne\u017Bycie"
+      value: 8000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1889467842329780323, guid: 2a2147cfef717d34a89bcc2a36a38f17, type: 3}
+      propertyPath: "odbiteObra\u017Cenia"
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1889467842329780323, guid: 2a2147cfef717d34a89bcc2a36a38f17, type: 3}
+      propertyPath: "zadawaneObra\u017Cenia"
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 5129971367152397912, guid: 2a2147cfef717d34a89bcc2a36a38f17, type: 3}
       propertyPath: m_Name
