@@ -218,7 +218,7 @@ public class MagazynObiektówAtaków
         objInstatiate.gameObject.SetActive(true);
         dotPos.x = x;
         dotPos.z = z;
-        objInstatiate.rotation = Quaternion.LookRotation(dotPos);
+        objInstatiate.rotation = Quaternion.LookRotation(dotPos, Vector3.up);
     }
     public void DeactivateObj()
     {

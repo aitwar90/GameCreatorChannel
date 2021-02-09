@@ -251,7 +251,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         {
             aktualnyReuseAtaku += Time.deltaTime;
             float f = szybkośćAtaku - aktualnyReuseAtaku;
-            if (f <= .2f)
+            if (f <= .1f)
             {
                 if (!instaObjIsActive)
                 {
@@ -270,7 +270,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                         case TypAtakuWieży.wszyscyWZasiegu:
                             for (byte i = 0; i < wrogowieWZasiegu.Count && i < 10; i++)
                             {
-                                tabActAtakObj[i] = GetInstaObjFromStack(wrogowieWZasiegu[i].transform.position.x, wrogowieWZasiegu[i].transform.position.x);
+                                tabActAtakObj[i] = GetInstaObjFromStack(wrogowieWZasiegu[i].transform.position.x, wrogowieWZasiegu[i].transform.position.z);
                             }
                             s = PomocniczeFunkcje.TagZEpoka("AtakBAll", this.epokaNPC, this.tagRodzajDoDźwięków);
                             break;
@@ -299,7 +299,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     {
                         if (tabActAtakObj[i] == null)
                             break;
-                        tabActAtakObj[i].SetActPos(f);
+                        tabActAtakObj[i].SetActPos(f*10.0f);
                     }
                 }
             }
@@ -312,8 +312,10 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     break;
                 DodajDoMagazynuObiektówAtaku(ref tabActAtakObj[i]);
                 tabActAtakObj[i].DeactivateObj();
+                tabActAtakObj[i] = null;
             }
             this.aktualnyReuseAtaku = 0;
+            instaObjIsActive = false;
             switch (typAtakuWieży)
             {
                 case TypAtakuWieży.jedenTarget: //Jeden Target
@@ -497,8 +499,9 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     {
         if (instaObjOff != null && instaObjOff.Count > 0)
         {
-            instaObjOff.Peek().ActivateObj(x, z);
-            return instaObjOff.Pop();
+            MagazynObiektówAtaków moa = instaObjOff.Pop();
+            moa.ActivateObj(x, z);
+            return moa;
         }
         else
         {
