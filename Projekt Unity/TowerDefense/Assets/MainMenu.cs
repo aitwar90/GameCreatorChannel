@@ -47,7 +47,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     #region Panel budynków
     public Button stawiajBudynek;
     private GameObject uiBudynkiPanel;
-    private byte wielkosćButtonu = 100;
+    private byte wielkosćButtonu = 0;
     private byte iloscButtonow = 1;
     private RectTransform trBudynkówŁącze = null;
     private ushort[] idxWież = null;
@@ -266,7 +266,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     public void PrzełączUI(bool aktywujeMenu)
     {
-        if(PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki != 255)
+        if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki != 255)
             przyciskWznów.interactable = true;
         else
             przyciskWznów.interactable = false;
@@ -627,7 +627,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         }
         Vector2 sOff = Vector2.zero;
         sOff.y += wartość;
-        byte offsetBB = 15;
+        byte offsetBB = 50;
         Vector3 tmp = trBudynkówŁącze.anchoredPosition = trBudynkówŁącze.anchoredPosition + sOff;   //Wartość po przesunięciu obiektu o wartość
         short t = (short)(wartośćPrzesunięciaY + ((wielkosćButtonu + offsetBB) * iloscButtonow));   //Obszar po Y wszystkich przycisków
         if (tmp.y >= wartośćPrzesunięciaY && tmp.y <= t)
@@ -725,21 +725,27 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     private void EnDisButtonsOfBuildingsInPanel(ref ushort[] tabOfBuildToChange, bool willEnable = false)
     {
         StrukturaBudynkuWTab[] tab = PomocniczeFunkcje.spawnBudynki.ZablokowaneBudynki;
+        if (wielkosćButtonu == 0)
+        {
+            RectTransform rt = tab[tabOfBuildToChange[0]].przycisk.GetComponent<RectTransform>();
+            wielkosćButtonu = (byte)(Mathf.CeilToInt(rt.sizeDelta.y * rt.localScale.y));
+        }
         for (ushort i = 0; i < tabOfBuildToChange.Length; i++)
         {
             tab[tabOfBuildToChange[i]].przycisk.gameObject.SetActive(willEnable);
         }
-        iloscButtonow = (byte)tabOfBuildToChange.Length;
+
+        iloscButtonow = (byte)(tabOfBuildToChange.Length-2);
     }
     public void WygenerujIPosortujTablice() //Tworzy i sortuje tablicę budynków, które gracz może postawić
     {
         Button b = Resources.Load<Button>("UI/PrzyciskBudynku");
-        wielkosćButtonu = (byte)b.GetComponent<RectTransform>().sizeDelta.y;
         trBudynkówŁącze = GameObject.Find("Canvas/UIGry/UI_BudynkiPanel/Maska/RodzicButtonów").transform.GetComponent<RectTransform>();
         StrukturaBudynkuWTab[] tab = PomocniczeFunkcje.spawnBudynki.ZablokowaneBudynki;
         List<ushort> murki = null;
         List<ushort> wieże = null;
         List<ushort> inne = null;
+
         for (ushort i = 0; i < tab.Length; i++)
         {
             Button tb = GameObject.Instantiate(b);
