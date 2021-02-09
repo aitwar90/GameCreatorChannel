@@ -210,7 +210,9 @@ MonoBehaviour:
   clipyAudio:
   - nazwa: AmbientWGrze_EpokaKamienia
     clip: {fileID: 8300000, guid: 6cebb28d7666019ad926827bd07e9808, type: 3}
-  - nazwa: "AtakBAll_EpokaKamienia_W\u0142\xF3cznia"
+  - nazwa: "AtakBAll_EpokaKamienia_Strza\u0142a"
+    clip: {fileID: 8300000, guid: 7b1224c2047b99a48a0782bc1cf7c0c1, type: 3}
+  - nazwa: "AtakBJeden_EpokaKamienia_Strza\u0142a"
     clip: {fileID: 8300000, guid: 7b1224c2047b99a48a0782bc1cf7c0c1, type: 3}
   - nazwa: "AtakBJeden_EpokaKamienia_W\u0142\xF3cznia"
     clip: {fileID: 8300000, guid: 7b1224c2047b99a48a0782bc1cf7c0c1, type: 3}
