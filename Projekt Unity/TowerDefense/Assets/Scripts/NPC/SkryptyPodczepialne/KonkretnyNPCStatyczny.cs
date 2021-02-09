@@ -89,7 +89,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             StartCoroutine(CzekajAz());
         }
         if (this.typAtakuWieży == TypAtakuWieży.wszyscyWZasiegu)
-            tabActAtakObj = new MagazynObiektówAtaków[6];
+            tabActAtakObj = new MagazynObiektówAtaków[10];
         else
             tabActAtakObj = new MagazynObiektówAtaków[1];
         RysujHPBar();
@@ -268,7 +268,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                             s = PomocniczeFunkcje.TagZEpoka("AtakBObszar", this.epokaNPC, this.tagRodzajDoDźwięków);
                             break;
                         case TypAtakuWieży.wszyscyWZasiegu:
-                            for (byte i = 0; i < wrogowieWZasiegu.Count && i < 6; i++)
+                            for (byte i = 0; i < wrogowieWZasiegu.Count && i < 10; i++)
                             {
                                 tabActAtakObj[i] = GetInstaObjFromStack(wrogowieWZasiegu[i].transform.position.x, wrogowieWZasiegu[i].transform.position.x);
                             }
@@ -297,6 +297,8 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     }
                     for (byte i = 0; i < tabActAtakObj.Length; i++)
                     {
+                        if (tabActAtakObj[i] == null)
+                            break;
                         tabActAtakObj[i].SetActPos(f);
                     }
                 }
@@ -306,6 +308,8 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         {
             for (byte i = 0; i < tabActAtakObj.Length; i++)
             {
+                if (tabActAtakObj[i] == null)
+                    break;
                 DodajDoMagazynuObiektówAtaku(ref tabActAtakObj[i]);
                 tabActAtakObj[i].DeactivateObj();
             }
@@ -465,6 +469,21 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     {
         if (this.AktualneŻycie > 0)
             this.AktualneŻycie = this.maksymalneŻycie;
+    }
+    public void UpgradeMe(int whatUpgrade)
+    {
+        switch (whatUpgrade)
+        {
+            case 0: //HP
+                this.maksymalneŻycie = (short)(this.maksymalneŻycie + 10 * PomocniczeFunkcje.managerGryScript.hpIdx);
+                break;
+            case 1: //Attack
+                this.modyfikatorZadawanychObrażeń = PomocniczeFunkcje.WyliczModyfikatorObrazeń(this.modyfikatorZadawanychObrażeń, PomocniczeFunkcje.managerGryScript.atkIdx);
+                break;
+            case 2: //Defence
+                this.modyfikatorOtrzymywanychObrażeń = PomocniczeFunkcje.WyliczModyfikatorObrazeń(this.modyfikatorOtrzymywanychObrażeń, PomocniczeFunkcje.managerGryScript.defIdx);
+                break;
+        }
     }
     private void DodajDoMagazynuObiektówAtaku(ref MagazynObiektówAtaków moa)
     {

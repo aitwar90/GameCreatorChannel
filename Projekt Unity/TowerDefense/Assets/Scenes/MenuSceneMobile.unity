@@ -22647,7 +22647,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 437094945}
   m_Direction: 2
   m_Value: 0.50000006
-  m_Size: 0.28890017
+  m_Size: 0.2800097
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -23248,10 +23248,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8539881029944531422, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
-      propertyPath: bazy.Array.data[0]
-      value: 
-      objectReference: {fileID: 6607723662127755433, guid: a0c85e2276b00894d99e3b7ef7265cff, type: 3}
     - target: {fileID: 8539881029944531422, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
       propertyPath: particleSystems.Array.data[0]
       value: 

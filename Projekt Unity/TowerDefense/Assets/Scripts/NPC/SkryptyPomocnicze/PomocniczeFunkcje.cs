@@ -18,7 +18,7 @@ public static class PomocniczeFunkcje
     public static MuzykaScript muzyka = null;                   //Referencja do klasy odpowiedzialnej za przechowywanie klipów audio
     public static List<InformacjeDlaPolWież>[,] tablicaWież = null; //Lista pól do obsługi wież na terenie
     public static float distXZ = 5;                             //Dystans klatki dla tablicy wież
-    public static ushort odblokowanyPoziomEpoki = 1;            //Ile poziomów najnowszej epoki odblokował gracz
+    public static ushort odblokowanyPoziomEpoki = 36;            //Ile poziomów najnowszej epoki odblokował gracz
     public static byte odblokowaneEpoki = 1;                    //Jakie epoki odblokował gracz        
     public static ushort aktualneGranicaTab = 0;                //Odległość między krawędzią terenu a obszarem działania gracza     
     public static Camera oCam = null;                           //Referencja do głównej kamery (optymalizacyjna zmienna)

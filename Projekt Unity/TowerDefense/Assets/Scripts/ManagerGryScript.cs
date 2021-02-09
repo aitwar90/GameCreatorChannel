@@ -750,29 +750,19 @@ public class ManagerGryScript : MonoBehaviour
     }
     public void RozwójBudynkow(byte idxRozwojuBudynku)
     {
-        KonkretnyNPCStatyczny[] knpcs = FindObjectsOfType(typeof(KonkretnyNPCStatyczny)) as KonkretnyNPCStatyczny[];
         switch (idxRozwojuBudynku)
         {
             case 1: //Max HP
                 hpIdx++;
-                for (ushort i = 0; i < knpcs.Length; i++)
-                {
-                    knpcs[i].maksymalneŻycie = (short)(knpcs[i].maksymalneŻycie + 10 * hpIdx);
-                }
+                PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(1);
                 break;
             case 2: //Max atak
                 atkIdx++;
-                for (ushort i = 0; i < knpcs.Length; i++)
-                {
-                    knpcs[i].modyfikatorZadawanychObrażeń = PomocniczeFunkcje.WyliczModyfikatorObrazeń(knpcs[i].modyfikatorZadawanychObrażeń, atkIdx);
-                }
+                PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(2);
                 break;
             case 3: //Max obrona
                 defIdx++;
-                for (ushort i = 0; i < knpcs.Length; i++)
-                {
-                    knpcs[i].modyfikatorOtrzymywanychObrażeń = PomocniczeFunkcje.WyliczModyfikatorObrazeń(knpcs[i].modyfikatorOtrzymywanychObrażeń, defIdx);
-                }
+                PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(3);
                 break;
         }
     }

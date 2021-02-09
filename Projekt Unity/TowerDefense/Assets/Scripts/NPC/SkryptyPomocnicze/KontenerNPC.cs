@@ -177,6 +177,15 @@ public class StrukturaDrzewa : IteratorForTreeBuildings
                 case 0: //Heal me
                 knpcs.HealMe();
                 break;
+                case 1: //UpgradeMe HP
+                knpcs.UpgradeMe(0);
+                break;
+                case 2: //UpgradeMe Atak
+                knpcs.UpgradeMe(1);
+                break;
+                case 3: //UpgradeMe Defence
+                knpcs.UpgradeMe(1);
+                break;
             }
         }
     }

@@ -25,7 +25,7 @@ PrefabInstance:
       objectReference: {fileID: 7455529891099371364, guid: 07f75a400bee59a48bae42ba540ad3b5, type: 3}
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790, type: 3}
       propertyPath: "zasi\u0119gAtaku"
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790, type: 3}
       propertyPath: "typAtakuWie\u017Cy"
