@@ -15,8 +15,6 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     public float granicaX = 0.5f;
     [Tooltip("Granica obiektu po osi Z")]
     public float granicaZ = 0.5f;
-    [Tooltip("Poziom na którym budynek może zostać odblokowany")]
-    public byte poziomBudynku = 1;
     [Tooltip("Koszt badania odblokowania budynku")]
     public ushort kosztBadania = 0;
     [Tooltip("Typ ataku wieży")]
@@ -349,9 +347,9 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             string c = ";ZIELONY";
             if (PomocniczeFunkcje.odblokowaneEpoki >= (byte)this.epokaNPC)
             {
-                if (PomocniczeFunkcje.odblokowanyPoziomEpoki < this.poziomBudynku)
+                if (PomocniczeFunkcje.odblokowanyPoziomEpoki < this.poziom)
                     c = ";CZERWONY";
-                p = ";"+this.poziomBudynku.ToString()+";";
+                p = ";"+this.poziom.ToString()+";";
             }
             else
             {

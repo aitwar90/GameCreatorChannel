@@ -29,6 +29,9 @@ public abstract class NPCClass : MonoBehaviour
     public AudioSource odgłosyNPC = null;
     [Tooltip("Tag rodzaj do dźwięków jest dokładniejszym określeniem jaki rodzaj powinien zostać odtworzony z bazy dźwięków. Przykład _łuk")]
     public string tagRodzajDoDźwięków;
+    [Tooltip("Poziom na którym budynek może zostać odblokowany, lub wróg móc pojawić")]
+    public byte poziom = 1;
+
     #endregion
 
     #region Zmienny prywatne

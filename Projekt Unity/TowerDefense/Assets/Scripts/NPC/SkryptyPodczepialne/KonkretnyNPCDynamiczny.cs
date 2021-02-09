@@ -12,7 +12,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     public byte ileCoinówZaZabicie = 1;
     [Tooltip("Obiekt będący wystrzałem od NPC")]
     public GameObject obiektAtakuDystansowego;
-    [Tooltip("System cząstek wyzwalany kiedy następuje wystrzał z wieży")]
+    [Tooltip("System cząstek wyzwalany kiedy następuje atak")]
     public ParticleSystem efektyFxStart;
     [Tooltip("System cząstek wyzwalany kiedy nabój dosięga celu")]
     public ParticleSystem efektyFxKoniec;
