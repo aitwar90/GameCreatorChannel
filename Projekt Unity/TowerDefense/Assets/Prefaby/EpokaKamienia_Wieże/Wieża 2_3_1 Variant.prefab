@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 5257790275599030590, guid: f752f59385ddafdbea24f0ced21f99fc,
         type: 3}
       propertyPath: m_Name
-      value: "Wie\u017Ca 2_3_1 Varian"
+      value: "Wie\u017Ca 2_3_1 Variant"
       objectReference: {fileID: 0}
     - target: {fileID: 7949850190005359912, guid: f752f59385ddafdbea24f0ced21f99fc,
         type: 3}

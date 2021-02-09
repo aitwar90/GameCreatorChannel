@@ -1,11 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 public class SpawnBudynki : MonoBehaviour
 {
     #region Zmienne publiczne
+    [Header("Uwaga automatyczne ładowanie obiektów do tablicy wymaga: \n aby był dodany obrazek do budynku")]
     public GameObject[] wszystkieBudynki;
     public GameObject aktualnyObiekt = null;
     public short zablokowanyBudynekIndex = -1;
@@ -452,6 +453,148 @@ public class SpawnBudynki : MonoBehaviour
         }
         aktualnyStanKoloru = 255;
     }
+    #region Obsługa Custom Edytora
+#if UNITY_EDITOR
+    public void SortujPoEpoceIPoziomie()
+    {
+        List<KonkretnyNPCStatyczny> wieże = new List<KonkretnyNPCStatyczny>();
+        List<KonkretnyNPCStatyczny> murki = new List<KonkretnyNPCStatyczny>();
+        List<KonkretnyNPCStatyczny> reszta = new List<KonkretnyNPCStatyczny>();
+        for (ushort i = 0; i < this.wszystkieBudynki.Length; i++)
+        {
+            KonkretnyNPCStatyczny knpcs = wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
+            if (knpcs.typBudynku == TypBudynku.Wieża)
+            {
+                wieże.Add(knpcs);
+            }
+            else if (knpcs.typBudynku == TypBudynku.Mur)
+            {
+                murki.Add(knpcs);
+            }
+            else
+            {
+                reszta.Add(knpcs);
+            }
+        }
+        KonkretnyNPCStatyczny[] wieżki = wieże.ToArray();
+        KonkretnyNPCStatyczny[] mury = murki.ToArray();
+        KonkretnyNPCStatyczny[] resztki = reszta.ToArray();
+        if (wieżki.Length > 0)
+        {
+            QuickSort(ref wieżki, 0, wieżki.Length - 1);
+        }
+        if (mury.Length > 0)
+        {
+            QuickSort(ref mury, 0, mury.Length - 1);
+        }
+        if (resztki.Length > 0)
+        {
+            QuickSort(ref resztki, 0, resztki.Length - 1);
+        }
+        //Scalenie tablic
+        GameObject[] allBudynkiPoSorcie = new GameObject[wieżki.Length + mury.Length + resztki.Length];
+        for (ushort i = 0, j = 0, k = 0; i < allBudynkiPoSorcie.Length; i++)
+        {
+            if (k == 2)
+            {
+                if (j < wieżki.Length)
+                {
+                    allBudynkiPoSorcie[i] = wieżki[j].gameObject;
+                    j++;
+                }
+                else
+                {
+                    Debug.Log("Za dużo obrotów");
+                    break;
+                }
+            }
+            else if (k == 1)
+            {
+                if (j < mury.Length)
+                {
+                    allBudynkiPoSorcie[i] = mury[j].gameObject;
+                    j++;
+                }
+                else
+                {
+                    k++;
+                    j = 0;
+                    i--;
+                }
+            }
+            else if (k == 0)
+            {
+                if (j < resztki.Length)
+                {
+                    allBudynkiPoSorcie[i] = resztki[j].gameObject;
+                    j++;
+                }
+                else
+                {
+                    k++;
+                    j = 0;
+                    i--;
+                }
+            }
+        }
+        this.wszystkieBudynki = allBudynkiPoSorcie;
+    }
+    private void QuickSort(ref KonkretnyNPCStatyczny[] tab, int lewy, int prawy)
+    {
+        int i = lewy;
+        int j = prawy;
+        int środek = (tab[Mathf.FloorToInt((lewy + prawy) / 2)].ZwrócPoziomOgólny);
+
+        while (i < j)
+        {
+            while (tab[i].ZwrócPoziomOgólny < środek) i++;
+            while (tab[j].ZwrócPoziomOgólny > środek) j--;
+
+            if (i <= j)
+            {
+                //Przestaw
+                var tmp = tab[i];
+                tab[i++] = tab[j];
+                tab[j--] = tmp;
+            }
+        }
+        if (lewy < j)
+        {
+            QuickSort(ref tab, lewy, j);
+        }
+        if (i < prawy)
+        {
+            QuickSort(ref tab, i, prawy);
+        }
+    }
+    public void ZaladujWszystkieKonkrenyDoTablicy()
+    {
+        string[] foldersToSearch = AssetDatabase.GetSubFolders("Assets/Prefaby");
+        List<GameObject> allPrefabs = GetAssets<GameObject>(foldersToSearch, "t:prefab");
+        List<GameObject> prefabsToWszystkieBudynki = new List<GameObject>();
+        for(int i = 0; i < allPrefabs.Count; i++)
+        {
+            if(allPrefabs[i].TryGetComponent(out KonkretnyNPCStatyczny npc))
+            {
+                if(npc.obrazekDoBudynku != null)
+                    prefabsToWszystkieBudynki.Add(allPrefabs[i]);
+            }            
+        }
+        this.wszystkieBudynki = prefabsToWszystkieBudynki.ToArray();
+    }
+    private List<T> GetAssets<T>(string[] _foldersToSearch, string _filter) where T : UnityEngine.Object
+    {
+        string[] guids = AssetDatabase.FindAssets(_filter, _foldersToSearch);
+        List<T> a = new List<T>();
+        for(int i = 0; i < guids.Length; i++)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guids[i]);
+            a.Add(AssetDatabase.LoadAssetAtPath<T>(path));
+        }
+        return a;
+    }
+#endif
+    #endregion
 }
 public class MaterialyZKolorami
 {

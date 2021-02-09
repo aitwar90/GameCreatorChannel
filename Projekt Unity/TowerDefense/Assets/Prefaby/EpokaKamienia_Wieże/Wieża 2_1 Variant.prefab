@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
+        type: 3}
+      propertyPath: epokaNPC
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2738474393216621962, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}
       propertyPath: m_Mesh

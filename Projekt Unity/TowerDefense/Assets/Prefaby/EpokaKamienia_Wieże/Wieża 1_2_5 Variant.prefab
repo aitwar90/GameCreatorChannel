@@ -65,7 +65,7 @@ PrefabInstance:
     - target: {fileID: 4089070633773080933, guid: 6949413190692d844a93fea7361c4a28,
         type: 3}
       propertyPath: m_Name
-      value: "Wie\u017Ca 1_2_4 Variant"
+      value: "Wie\u017Ca 1_2_5 Variant"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6949413190692d844a93fea7361c4a28, type: 3}

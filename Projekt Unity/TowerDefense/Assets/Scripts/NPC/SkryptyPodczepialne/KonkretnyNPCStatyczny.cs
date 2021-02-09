@@ -57,6 +57,15 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             zablokowany = value;
         }
     }
+    public int ZwrócPoziomOgólny
+    {
+        get
+        {
+            if(this.epokaNPC == Epoki.None)
+                return -1;
+            return (byte)(this.epokaNPC - 1)*100 + this.poziom;
+        }
+    }
     #endregion
     public void InicjacjaBudynku()
     {

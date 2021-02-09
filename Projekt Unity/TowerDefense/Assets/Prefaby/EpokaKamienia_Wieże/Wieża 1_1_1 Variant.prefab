@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 868982115952718351, guid: 6f5a33f5978d2866ba98c6b47d975cf7,
         type: 3}
       propertyPath: m_Name
-      value: "Wie\u017Ca 1_1_1"
+      value: "Wie\u017Ca 1_1_1 Variant"
       objectReference: {fileID: 0}
     - target: {fileID: 3074789110754672153, guid: 6f5a33f5978d2866ba98c6b47d975cf7,
         type: 3}
@@ -72,5 +72,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e2c22664714d1fcbdaed9a36301dfd80, type: 2}
+    - target: {fileID: 5838586633130834996, guid: 6f5a33f5978d2866ba98c6b47d975cf7,
+        type: 3}
+      propertyPath: epokaNPC
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f5a33f5978d2866ba98c6b47d975cf7, type: 3}
