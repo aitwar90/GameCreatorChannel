@@ -753,6 +753,7 @@ public class ManagerGryScript : MonoBehaviour
         switch (idxRozwojuBudynku)
         {
             case 1: //Max HP
+                Debug.Log("Dodaje życie");
                 hpIdx++;
                 PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(1);
                 break;

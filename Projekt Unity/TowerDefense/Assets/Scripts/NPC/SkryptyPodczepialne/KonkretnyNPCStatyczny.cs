@@ -475,7 +475,9 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         switch (whatUpgrade)
         {
             case 0: //HP
+            Debug.Log("Doszedłem do dodaje życie przed "+this.maksymalneŻycie);
                 this.maksymalneŻycie = (short)(this.maksymalneŻycie + 10 * PomocniczeFunkcje.managerGryScript.hpIdx);
+                Debug.Log("Doszedłem do dodaje życie po "+this.maksymalneŻycie);
                 break;
             case 1: //Attack
                 this.modyfikatorZadawanychObrażeń = PomocniczeFunkcje.WyliczModyfikatorObrazeń(this.modyfikatorZadawanychObrażeń, PomocniczeFunkcje.managerGryScript.atkIdx);
