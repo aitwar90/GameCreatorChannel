@@ -165,6 +165,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         reklamyPanel.name, poGraj.name, samouczekPanel.name, "Cretidsy"}, false);
     }
     #region Obsługa paneli UI, Czy mogę przesuwać kamerę (), Pasek HP
+    ///<summary>Metoda włącza lub wyłącza panel zgodny z podanymi parametrami.</summary>
+    ///<param name="panel">Nazwa panelu, którego widoczność ma zostać zmodyfikowana.</param>
+    ///<param name="czyWłączyć">Parametr określa co ma zostać zrobione z panelem wysłanym w parametrze "panel".</param>
     public void WłączWyłączPanel(string panel, bool czyWłączyć)
     {
         if (panel == menu.name)
@@ -213,6 +216,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             this.transform.Find("Menu/Cretidsy").GetComponent<Canvas>().enabled = czyWłączyć;
         }
     }
+    ///<summary>Metoda włącza lub wyłącza panel zgodny z podanymi parametrami.</summary>
+    ///<param name="panel">Tablica nazw paneli, którego widoczność ma zostać zmodyfikowana.</param>
+    ///<param name="czyWłączyć">Parametry określające co ma zostać zrobione z panelami wysłanymi w parametrach "panel".</param>
     public void WłączWyłączPanel(string[] panel, bool czyWłączyć)
     {
         for (byte i = 0; i < panel.Length; i++)
@@ -264,6 +270,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             }
         }
     }
+    ///<summary>Metoda przełącza UI między Menu a UIGry.</summary>
+    ///<param name="aktywujeMenu">Czy ma zostać odpalone menu?</param>
     public void PrzełączUI(bool aktywujeMenu)
     {
         if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki != 255)
@@ -287,11 +295,15 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             PomocniczeFunkcje.muzyka.WłączWyłączClip(true, PomocniczeFunkcje.TagZEpoka("AmbientWGrze", PomocniczeFunkcje.managerGryScript.aktualnaEpoka));
         }
     }
+    ///<summary>Metoda ustawia wartość paska HP głównego budynku.</summary>
+    ///<param name="wartoscX">Wartość wyrażona (1-0) określająca stan HP (1 - pełne zdrowie, 0 - główny budynek zniszczony).</param>
     public void UstawHPGłównegoPaska(float wartoscX)
     {
         rectHpBar.localScale = new Vector3(wartoscX, 1, 1);
     }
-
+    ///<summary>Metoda ustawia wartość tekstową dla zadanego parametru.</summary>
+    ///<param name="nazwaTekstu">Do jakiego komponentu tekstowego ma zostać przypisana wartość tekst.</param>
+    ///<param name="tekst">Przypisywany tekst.</param>
     public void UstawTextUI(string nazwaTekstu, string tekst)
     {
         if (nazwaTekstu == "timer")
@@ -307,6 +319,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             ilośćFal.text = tekst;
         }
     }
+    ///<summary>Metoda logicznie obsługuje jaki panel ma zostać odpalony oraz jakie informacje do paneli mają zostać wysłane.</summary>
+    ///<param name="parametry">Lista wartości parametrów, którę będą przypisane do odpalanego panelu.</param>
+    ///<param name="pos">Pozycja, gdzie dany panel powinien zostać odpalony.</param>
+    ///<param name="knpcs">Jeśli ma zostać odpalony panel klikniętego budynku postawionego w świecie to przesyła referencję danego budynku.</param>
     public void UstawPanelUI(string parametry, Vector2 pos, KonkretnyNPCStatyczny knpcs = null)
     {
         if (odpalonyPanel)
@@ -355,6 +371,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             ps.UstawDane(new string[] { s[1], s[2], s[3], s[4], s[5], s[6], s[7], s[8] });
         }
     }
+    ///<summary>Funkcja zwraca informację czy kamera może zostać przemieszczona.</summary>
     public bool CzyMogePrzesuwaćKamere()
     {
         if (uiGry.activeInHierarchy)
@@ -370,6 +387,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             return false;
         }
     }
+    ///<summary>Funkcja zwraca informację o danej pozycji na ekranie szukanego obiektu.</summary>
+    ///<param name="nazwaSzukanegoObiektu">Nazwa obiektu, którego pozycji szukasz.</param>
     public Vector2 ZwrocRectTransformObiektu(string nazwaSzukanegoObiektu)
     {
         Vector2 zwracanaPos = Vector2.zero;
@@ -426,6 +445,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     #endregion
     #region Po Scenie
+    ///<summary>Metoda aktywuje panel PoScenie i deaktywuje Menu panel, lub odwrotnie.</summary>
+    ///<param name="czyOdpalamPoScenie">Czy kliknałem Play?.</param>
     public void OdpalPoScenie(bool czyOdpalamPoScenie)
     {
         if (czyOdpalamPoScenie)
@@ -444,6 +465,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Tło_None");
         }
     }
+    ///<summary>Metoda resetuje dane podczas przełączania sceny (EXIT - nie jest obsługiwana przy samouczku).</summary>
+    ///<param name="ładowaćNowąScene">Czy mam ładować nową scenę.</param>
     public void ResetSceny(bool ładowaćNowąScene = true)
     {
         int unSceneIdx = ObslugaScenScript.indeksAktualnejSceny;
@@ -452,6 +475,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         if (ładowaćNowąScene)
             StartCoroutine(CzekajAz());
     }
+    ///<summary>Metoda resetuje dane podczas przełączania sceny (EXIT - obsługuje tylko samouczek).</summary>
+    ///<param name="aktualnyPoziomEpoki">Jesli poziom epoki jest większy niż 100 aktywuję samouczek.</param>
     public void ResetSceny(sbyte aktualnyPoziomEpoki)
     {
         int unSceneIdx = ObslugaScenScript.indeksAktualnejSceny;
@@ -463,11 +488,13 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             StartCoroutine(CzekajAz());
         }
     }
+    ///<summary>Funckja czeka, aż załadowana będzie tylko scena Menu.</summary>
     public IEnumerator CzekajAz()
     {
         yield return new WaitUntil(() => SceneManager.sceneCount == 1);
         MetodaDoOdpaleniaPoWyczekaniu();
     }
+    ///<summary>Metoda roztrzyga, jaka scena powinna zostać załadowana (Samouczek czy normalna).</summary>
     public void MetodaDoOdpaleniaPoWyczekaniu()
     {
         if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki > 100)
@@ -479,6 +506,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             OdpalPoziom();
         }
     }
+    ///<summary>Funkcja zwraca informację o ustawionej epoce w panelu poGraj.</summary>
+    ///<param name="ustawionaEpoka">Aktualnie ustawiona epoka w poGraj.</param>
     private byte DajMiMaxPoziom(string ustawionaEpoka)
     {
         int ustEpoka = int.Parse(ustawionaEpoka);
@@ -508,6 +537,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             }
         }
     }
+    ///<summary>Metoda rozpoczyna ładowanie sceny gry.</summary>
     public void OdpalPoziom()
     {
         if (ManagerSamouczekScript.byloZaladowane)
@@ -540,6 +570,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         PrzełączUI(false);
         kPoziomDoZaladowania = -1;
     }
+    ///<summary>Metoda rozpoczyna ładowanie sceny samouczka.</summary>
     public void OdpalSamouczek()
     {
         PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki = 255;
@@ -566,6 +597,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         PrzełączUI(false);
         ManagerSamouczekScript.mssInstance.ŁadujDaneSamouczek();
     }
+    ///<summary>Metoda ustawia wizualnie wartość po kliknięciu na button poGraj modyfikujący epokę.</summary>
+    ///<param name="czyWyzej">Czy kliknięty button zwięsza wybraną epokę?</param>
     public void UstawEpokeWyzejNizej(bool czyWyzej)
     {
         int actEpok = int.Parse(actWybEpoka.text);
@@ -588,6 +621,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             }
         }
     }
+    ///<summary>Metoda ustawia wizualnie wartość po kliknięciu na button poGraj modyfikujący poziom.</summary>
+    ///<param name="czyWyzej">Czy kliknięty button zwięsza wybrany poziom?</param>
     public void LVLNizejWyzej(bool czyWyzej)
     {
         int t = int.Parse(poziomWEpoce.text);
@@ -610,6 +645,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     #endregion
     #region Budynki interfejs
+    ///<summary>Funckja zwraca informację czy Panel z Budynkami jest aktywny.</summary>
     public bool CzyAktywnyPanelZBudynkami()
     {
         if (uiBudynkiPanel.activeInHierarchy)
@@ -617,6 +653,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         else
             return false;
     }
+    ///<summary>Metoda obsługuje przesunięcie panelu z przyciskami budynków w panelu budynków.</summary>
+    ///<param name="wartość">Wartość przesunięcia panelu z przyciskami.</param>
+    ///<param name="zresetuj">Czy przyciski mają wrócić do pierwotnej pozycji.</param>
     public void PrzesuńBudynki(float wartość, bool zresetuj = false)
     {
         short wartośćPrzesunięciaY = -290;
@@ -646,6 +685,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             }
         }
     }
+    ///<summary>Metoda włącza, wyłącza lub przełącza panel z budynkami.</summary>
+    ///<param name="idx">Odpalany panel z budynkami (0 - wieże), (1 - mury), (2 - Inne), (inny - wyłącza panel).</param>
     public void WłączWyłączPanelBudynków(int idx)
     {
         PrzesuńBudynki(0, true);
@@ -722,6 +763,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             ManagerSamouczekScript.mssInstance.WyłączVisual();
         }
     }
+    ///<summary>Metoda włącza przyciski budynków danego panelu.</summary>
+    ///<param name="tabOfBuildToChange">Tablica indeksów przycisków.</param>
+    ///<param name="willEnable">Informacja czy przyciski danej tablicy mają zostać włączone lub wyłączone zgodnie z tym parametrem.</param>
     private void EnDisButtonsOfBuildingsInPanel(ref ushort[] tabOfBuildToChange, bool willEnable = false)
     {
         StrukturaBudynkuWTab[] tab = PomocniczeFunkcje.spawnBudynki.ZablokowaneBudynki;
@@ -737,6 +781,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
 
         iloscButtonow = (byte)(tabOfBuildToChange.Length-2);
     }
+    ///<summary>Metoda generuje i sortuje tablice przycisków budynków do panelu budynków.</summary>
     public void WygenerujIPosortujTablice() //Tworzy i sortuje tablicę budynków, które gracz może postawić
     {
         Button b = Resources.Load<Button>("UI/PrzyciskBudynku");
@@ -784,6 +829,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 idxInne = inne.ToArray();
         }
     }
+    ///<summary>Metoda blokuje lub odblokowywuje przyciski potrzebne do odpalenia panelu budynków.</summary>
+    ///<param name="i">Parametr określający, który przycisk ma zostać zablokowany lub odblokowany.</param>
+    ///<param name="stan">Czy ma zostać odblokowany czy zablokowany.</param>
     public void AktywujDezaktywujPrzyciskPaneliBudynku(byte i = 255, bool stan = false)
     {
         if (i == 255)
@@ -817,9 +865,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     #endregion
     #region Rklamy, Skrzynki i ekwipunek
+    ///<summary>Metoda rozpoczyna działanie nagrody po kliknięciu przycisku.</summary>
     public void UżyjKlikniętegoPrzedmiotu()
     {
-
         if (wybranaNagroda > -1)
         {
             if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
@@ -831,6 +879,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         if (PomocniczeFunkcje.managerGryScript.ekwipunekGracza[wybranaNagroda].ilośćDanejNagrody == 0)
             wybranaNagroda = -1;
     }
+    ///<summary>Metoda ustawia przycisk nagrody.</summary>
+    ///<param name="idxButtonaNagrody">Parametr określający, który przycisk ma zostać ustawiony (0-monety), (1-cud ocalenia), (2-dodatkowa nagroda), (3-skrócenie czasu skrzynki).</param>
+    ///<param name="ilość">Parametr określający ilość nagrody.</param>
     public void UstawButtonNagrody(byte idxButtonaNagrody, ushort ilość)  //Wyszukuje nazwę w opcjach dropdawna
     {
         bool czyAktywuje = (ilość <= 0) ? false : true;
@@ -840,20 +891,27 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         }
         przyciskiNagród[idxButtonaNagrody].GetComponentInChildren<Text>().text = ilość.ToString();
     }
+    ///<summary>Metoda rozpoczyna proces odtwarzania reklamy w Panelu Skrzynki.</summary>
+    ///<param name="idx">Indeks klikniętej skrzynki.</param>
     public void KliknąłemReklame(int idx)
     {
         PomocniczeFunkcje.managerGryScript.KlikniętaReklamaButtonSkrzynki((byte)idx);
     }
+    ///<summary>Metoda rozpoczyna losowanie nagrody z Panelu Skrzynki.</summary>
+    ///<param name="idx">Indeks klikniętej skrzynki.</param>
     public void SkrzynkaKlik(int idx)
     {
         PomocniczeFunkcje.managerGryScript.KliknietyPrzycisk();
         buttonSkrzynki[idx].skrzynkaB.interactable = false;
     }
+    ///<summary>Rozpoczyna działanie otrzymania dodatkowej nagrody za skończony poziom z poziomu gry za obejrzenie reklamy</summary>
     public void KliknietyPrzyciskRewardZPoziomuZReklama()
     {
         rekZaWyzszaNagrode.gameObject.SetActive(false);
         PomocniczeFunkcje.managerGryScript.KliknietyButtonZwiekszeniaNagrodyPoLvlu();
     }
+    ///<summary>Metoda rozpoczyna proces użycia danej nagrody podanej w parametrze (DaneGry).</summary>
+    ///<param name="nagroda">Indeks klikniętej nagrody (0-monety), (1-cud ocalenia), (2-dodatkowa nagroda), (3-skrócenie czasu skrzynki).</param>
     public void WybierzWybranyPrzedmiot(int nagroda)
     {
         if (PomocniczeFunkcje.managerGryScript.ekwipunekGracza[nagroda].ilośćDanejNagrody > 0)
@@ -862,6 +920,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         }
         UżyjKlikniętegoPrzedmiotu();
     }
+    ///<summary>Metoda ustawia przyciski nagród (Dane Gry) przy starcie poziomu.</summary>
+    ///<param name="ps">Referencja tablicy możliwych nagród gracza.</param>
     public void UstawDropDownEkwipunku(ref PrzedmiotScript[] ps)
     {
         for (byte i = 0; i < przyciskiNagród.Length; i++)
@@ -909,6 +969,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     #endregion
     #region Obsluga Opcje i Creditsy
+    ///<summary>Metoda włącza i wyłącza panel opcji.</summary>
+    ///<param name="actButton">Czy odpalać opcje?</param>
     public void OptionsMenu(bool actButton)
     {
         WłączWyłączPanel(menu.name, !actButton);
@@ -918,6 +980,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             PomocniczeFunkcje.ZapisDanychOpcje();
         }
     }
+    ///<summary>Metoda rozpoczyna zmianę jezyka interfejsu.</summary>
     public void ZmieńJęzyk()
     {
         lastIdxJezyka++;
@@ -925,6 +988,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             lastIdxJezyka = 0;
         PomocniczeFunkcje.managerGryScript.ZmianaJęzyka((byte)lastIdxJezyka);
     }
+    ///<summary>Metoda aktywuje lub deaktywuje licznik FPS.</summary>
     public void WłączWyłączLicznikFPS()
     {
         if (lFPS.gameObject.activeSelf)
@@ -936,10 +1000,14 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             lFPS.gameObject.SetActive(true);
         }
     }
+    ///<summary>Metoda aktualizuje licznik FPS.</summary>
+    ///<param name="val">Wartość jaka zostanie wyświetlona w liczniku FPS</param>
     public void UstawWartoscFPS(short val)
     {
         lFPS.text = "FPS: " + val;
     }
+    ///<summary>Metoda włącza lub wyłącza panel Creditsy.</summary>
+    ///<param name="wł">Włączyć creditsy?</param>
     public void ObsluzCreditsy(bool wł)
     {
         if (!wł)
@@ -955,12 +1023,14 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             PomocniczeFunkcje.muzyka.WłączWyłączClip(ref PomocniczeFunkcje.muzyka.muzykaTła, true, "Tło_None_PoMenu");
         }
     }
+    ///<summary>Metoda ustawia głośność dźwięków aplikacji.</summary>
     public void UstawGłośność()
     {
         PomocniczeFunkcje.muzyka.UstawGłośnośćGry(sliderDźwięku.value);
     }
     #endregion
     #region Klikniety lub odpalony Przycisk
+    ///<summary>Metoda rozpoczyna proces kupna budynku.</summary>
     public void KliknijPrzyciskKupnaBudynku()
     {
         kup.interactable = false;
@@ -970,6 +1040,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = 10;
         }
     }
+    ///<summary>Metoda rozpoczyna proces ustawiania budynku.</summary>
     public void KliknijPrzyciskPostawBudynek()
     {
         if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
@@ -984,17 +1055,22 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         stawiajBudynek.interactable = false;
         WłączWyłączPanelBudynków(-1);
     }
+    ///<summary>Metoda wyłącza Panel budynków.</summary>
     public void WyłączPanelBudynków()
     {
         WłączWyłączPanelBudynków(-1);
         PomocniczeFunkcje.spawnBudynki.AktIdxBudZab = -1;
         WłączWyłączPanel(uiBudynkiPanel.transform.name, false);
     }
+    ///<summary>Metoda włącza lub wyłącza panel Reklam.</summary>
+    ///<param name="czyWłPanel">Włączyć panel reklam?</param>
     public void WłWyłPanelReklam(bool czyWłPanel)
     {
         WłączWyłączPanel(menu.name, !czyWłPanel);
         WłączWyłączPanel(reklamyPanel.name, czyWłPanel);
     }
+    ///<summary>Metoda włącza lub wyłącza przyciski służące do ulepszania budynków.</summary>
+    ///<param name="czyOdpalac">Włączyć przyciski?</param>
     public void OdpalButtonyAkademii(bool czyOdpalac = true)
     {
         if (buttonAZycie.gameObject.activeInHierarchy != czyOdpalac)
@@ -1016,18 +1092,24 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             }
         }
     }
+    ///<summary>Metoda rozpoczyna proces obrotu przygotowanego do postawienia budynku.</summary>
     public void ObrótBudynku()
     {
         PomocniczeFunkcje.spawnBudynki.ObróćBudynek();
     }
+    ///<summary>Metoda aktywuje lub deaktywuje przycisk obrotu budynku.</summary>
+    ///<param name="wartośćPrzycisku">Wartość przypisania do Set.Active()</param>
     public void UstawPrzyciskObrotu(bool wartośćPrzycisku)
     {
         rotacjaBudynku.gameObject.SetActive(wartośćPrzycisku);
     }
+    ///<summary>Metoda rozpoczyna proces wzmacniania budynków przy pomocy akademii.</summary>
+    ///<param name="indeksButtonu">Indeks, które ulepszenie jest wybrane: 1 - Zycie, 2 - Atak, 3 - Obrona</param>
     public void KliknalemButtonRozwoju(int indeksButtonu)   //1 - Zycie, 2 - Atak, 3 - Obrona
     {
         PomocniczeFunkcje.managerGryScript.RozwójBudynkow((byte)indeksButtonu);
     }
+    ///<summary>Wyłącz aplikację.</summary>
     public void QuitGame()
     {
         if (!ManagerSamouczekScript.byloZaladowane)
