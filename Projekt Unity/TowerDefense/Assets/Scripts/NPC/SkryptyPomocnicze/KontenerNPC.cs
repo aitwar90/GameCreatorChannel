@@ -202,6 +202,13 @@ public class MagazynObiektówAtaków
     private Vector3 sPos;
     private Transform objInstatiate;
 
+    ///<summary>Stworzenie obiektu ataku wieży.</summary>
+    ///<param name="_docelowyX">Pozycja na osi X celu do którego ma dążyć obiekt ataku.</param>
+    ///<param name="_docelowyZ">Pozycja na osi Z celu do którego ma dążyć obiekt ataku.</param>
+    ///<param name="_startowyX">Pozycja na osi X startowej pozycji obiektu ataku.</param>
+    ///<param name="_startowyY">Pozycja na osi Y startowej pozycji obiektu ataku.</param>
+    ///<param name="_startowyZ">Pozycja na osi Z startowej pozycji obiektu ataku.</param>
+    ///<param name="_objInstatiate">Referencja komponentu Transform generowanego obiektu ataku.</param>
     public MagazynObiektówAtaków(float _docelowyX, float _docelowyZ, float _startowyX, float _startowyY, float _startowyZ, Transform _objInstatiate)
     {
         dotPos.y = 0.25f;
@@ -209,10 +216,15 @@ public class MagazynObiektówAtaków
         objInstatiate = _objInstatiate;
         ActivateObj(_docelowyX, _docelowyZ);
     }
+    ///<summary>Ustaw pozycję obiektu ataku</summary>
+    ///<param name="f">Parametr 0-1 określający % położenia między docelową a startową pozycją obiektu ataku</param>
     public void SetActPos(float f)
     {
         objInstatiate.position = Vector3.Lerp(dotPos, sPos, f);
     }
+    ///<summary>Aktywacja obiektu ataku</summary>
+    ///<param name="x">Pozycja na osi X docelowej pozycji obiektu ataku.</param>
+    ///<param name="z">Pozycja na osi Z docelowej pozycji obiektu ataku.</param>
     public void ActivateObj(float x, float z)
     {
         objInstatiate.gameObject.SetActive(true);
@@ -220,6 +232,7 @@ public class MagazynObiektówAtaków
         dotPos.z = z;
         objInstatiate.rotation = Quaternion.LookRotation(sPos - dotPos);
     }
+    ///<summary>Dezaktywacja obiektu ataku.</summary>
     public void DeactivateObj()
     {
         objInstatiate.position = sPos;
@@ -232,6 +245,8 @@ public class MagazynWZasięguWieży
     private MagazynWZasięguWieży child = null;
     private KonkretnyNPCDynamiczny nPCDynamiczny;
 
+    ///<summary>Stworzenie obiektu korzenia struktury.</summary>
+    /// <param name="_knpcd">Referencja korzenia tworzonej struktury.</param>
     public MagazynWZasięguWieży(ref KonkretnyNPCDynamiczny _knpcd)
     {
         parent = null;
@@ -245,6 +260,8 @@ public class MagazynWZasięguWieży
         _parent.child = this;
     }
     ~MagazynWZasięguWieży() { }
+    ///<summary>Usunięcie ze struktury danego w parametrze NPC celów wieży.</summary>
+    /// <param name="npc">Referencja kasowanego obiektu ze struktury.</param>
     public MagazynWZasięguWieży DeleteMe(ref NPCClass npc)
     {
         if (ReferenceEquals(npc.GetType(), typeof(KonkretnyNPCDynamiczny)))
@@ -292,6 +309,8 @@ public class MagazynWZasięguWieży
         }
         return null;
     }
+    ///<summary>Dodaj do struktury Konkretny NPC Dynamiczny jako cele wieży.</param>
+    /// <param name="knpcd">Referencja dodawanego obiektu do struktury.</param>
     public void AddMagazyn(ref KonkretnyNPCDynamiczny knpcd)
     {
         if(knpcd == this.nPCDynamiczny) //Jestem już w kolekcji
@@ -307,6 +326,8 @@ public class MagazynWZasięguWieży
             this.child.AddMagazyn(ref knpcd);
         }
     }
+    ///<summary>Zwróć ze struktury ilość obiektów celów dostępnych dla wieży.</summary>
+    /// <param name="ilość">Ilość zwracanych obiektów ze struktury.</param>
     public KonkretnyNPCDynamiczny[] ZwróćMiKonkretneNpc(byte ilość = 1)
     {
         byte tIlosc = 0;
