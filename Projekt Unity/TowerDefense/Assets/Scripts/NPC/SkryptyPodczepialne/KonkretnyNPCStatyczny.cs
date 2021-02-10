@@ -451,9 +451,12 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             iloscWrogowWZasiegu--;
         }
     }
-    public void Napraw()
+    ///<summary>Metoda naprawiająca budynek.</summary>
+    ///<param name="payForRepair">Czy gracz płaci za naprawę budynku.</param>
+    public void Napraw(bool payForRepair = true)
     {
-        ManagerGryScript.iloscCoinów -= kosztNaprawy;
+        if(payForRepair)
+            ManagerGryScript.iloscCoinów -= kosztNaprawy;
         this.AktualneŻycie = this.maksymalneŻycie;
         kosztNaprawy = 0;
         RysujHPBar();
@@ -471,11 +474,13 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             return;
         }
     }
+    ///<summary>Metoda naprawiająca budynek bez opłacania.</summary>
     public void HealMe()
     {
-        if (this.AktualneŻycie > 0)
-            this.AktualneŻycie = this.maksymalneŻycie;
+        Napraw(false);
     }
+    ///<summary>Metoda ulepszająca budynki przez Akademię.</summary>
+    ///<param name="whatUpgrade">Parametr określający co ma zostać ulepszone (0 - MaxHP), (1 - Atak), (2 - Obrona).</param>
     public void UpgradeMe(int whatUpgrade)
     {
         switch (whatUpgrade)
@@ -499,6 +504,9 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         }
         instaObjOff.Push(moa);
     }
+    ///<summary>Funkcja zwraca obiekt ataku ze stotu, lub go generuje jeśli stos jest pusty.</summary>
+    ///<param name="x">Parametr określający pozycję docelową ataku na osi X.</param>
+    ///<param name="z">Parametr określający pozycję docelową ataku na osi Z.</param>
     private MagazynObiektówAtaków GetInstaObjFromStack(float x, float z)
     {
         if (instaObjOff != null && instaObjOff.Count > 0)

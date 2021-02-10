@@ -50,8 +50,11 @@ public class InformacjeDlaPolWież
     {
 
     }
-    public InformacjeDlaPolWież(byte _odlOdGranicy, KonkretnyNPCStatyczny _wieża,
-    byte[] _strona = null)
+    ///<summary>Stworzenie obiektu Informacji dla wież.</summary>
+    ///<param name="_odlOdGranicy">Parametr określający odległość mierzoną w polach między środkowym polem na którym stoi wieża, a polem teraz tworzonym.</param>
+    ///<param name="_wieża">Wieża do której przynależy pole.</param>
+    ///<param name="_strona">Jeśli odległość od granicy jest różna niż -1 to podawane są tu strony graniczne: (-X) = 0, (+X) = 1, (-Z) = 2, (+Z) = 3.</param>
+    public InformacjeDlaPolWież(byte _odlOdGranicy, KonkretnyNPCStatyczny _wieża, byte[] _strona = null)
     {
         this.odlOdGranicy = _odlOdGranicy;
         this.wieża = _wieża;
@@ -61,6 +64,8 @@ public class InformacjeDlaPolWież
     {
 
     }
+    ///<summary>Zwraca informację o tym, czy wieża posiada na tym polu graniczną stronę.</summary>
+     ///<param name="szukanaStrona">Wskazanie parametru szukane strony. (-X = 0), (+X = 1), (-Z = 2), (+Z = 3)</param>
     public bool ZwrócCzyWieżaPosiadaStrone(byte szukanaStrona)
     {
         if (strona != null)
