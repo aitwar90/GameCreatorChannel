@@ -265,7 +265,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     protected override void UsuńJednostkę()
     {
-        PomocniczeFunkcje.muzyka.WłączWyłączClip(true,PomocniczeFunkcje.TagZEpoka("ŚmiercNPC", this.epokaNPC, this.tagRodzajDoDźwięków), true);
+        PomocniczeFunkcje.muzyka.WłączWyłączClip(true, PomocniczeFunkcje.TagZEpoka("ŚmiercNPC", this.epokaNPC, this.tagRodzajDoDźwięków), true);
         ObsluzAnimacje(ref anima, "isDeath", true);
         this.AktualneŻycie = -1;
 
@@ -295,6 +295,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
         string s = "DYNAMICZNY_" + this.nazwa.ToString() + "_" + this.AktualneŻycie.ToString() + "/" + this.maksymalneŻycie.ToString() + "_" + this.zadawaneObrażenia.ToString();
         PomocniczeFunkcje.mainMenu.UstawPanelUI(s, pos);
     }
+    ///<summary>Czyści dane przy kasowaniu wroga.</summary>
+    ///<param name="wymuszonaKasacja">Czy kasacja jest wynikiem użycia cudu ocalenia?.</param>
     public void WyczyscDaneDynamic(bool wymuszonaKasacja = false)
     {
         PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek -= ResetujŚciezkę;
@@ -312,6 +314,9 @@ public class KonkretnyNPCDynamiczny : NPCClass
         this.agent.isStopped = true;
         StartCoroutine(WyłObjTimer());
     }
+    ///<summary>Metoda generuje trasę dla wroga. Określa logikę postępowania i rozdziela zadania.</summary>
+    ///<param name="x">Pozycja na osi X zadanego celu, do którego NPC ma dążyć.</param>
+    ///<param name="z">Pozycja na osi Z zadanego celu, do którego NPC ma dążyć.</param>
     private void ObsłużNavMeshAgent(float x, float z)
     {
         //https://www.binpress.com/unity-3d-ai-navmesh-navigation/
@@ -329,16 +334,24 @@ public class KonkretnyNPCDynamiczny : NPCClass
             }
         }
     }
+    ///<summary>Dezaktywacja obiektu po 4sec.</summary>
     private IEnumerator WyłObjTimer()
     {
         yield return new WaitForSeconds(4.0f);
         WłWyłObj(false);
     }
+    ///<summary>Metoda generuje trasę dla wroga po określonym czasie.</summary>
+    ///<param name="f">Czas w sec, po których ma zostać wygenerowana nowa ścieżka dla NPC.</param>
+    ///<param name="x">Pozycja na osi X zadanego celu, do którego NPC ma dążyć.</param>
+    ///<param name="z">Pozycja na osi Z zadanego celu, do którego NPC ma dążyć.</param>
     private IEnumerator WyliczŚciezkę(float f, float x, float z)
     {
         yield return new WaitForSeconds(f);
         GenerujŚcieżke(x, z);
     }
+    ///<summary>Metoda generuje trasę dla wroga.</summary>
+    ///<param name="x">Pozycja na osi X zadanego celu, do którego NPC ma dążyć.</param>
+    ///<param name="z">Pozycja na osi Z zadanego celu, do którego NPC ma dążyć.</param>
     private void GenerujŚcieżke(float x, float z)
     {
         if (ścieżka == null)
@@ -367,10 +380,13 @@ public class KonkretnyNPCDynamiczny : NPCClass
             //ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
         }
     }
+    ///<summary>Resetuje ścieżkę agenta navMesh jednostki.</summary>
     public void ResetujŚcieżki()
     {
         this.agent.ResetPath();
     }
+    ///<summary>Metoda aktywuje lub dezaktywuje NPC.</summary>
+    ///<param name="enab">Czy obiekt ma zostać aktywowany?</param>
     public void WłWyłObj(bool enab = false)
     {
         this.mainRenderer.enabled = enab;
@@ -413,6 +429,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         }
         ResetujŚcieżki();
     }
+    ///<summary>Dodaję komponent NavMeshAgent do NPC.</summary>
     private void DodajNavMeshAgent()
     {
         agent = this.gameObject.AddComponent<NavMeshAgent>();
@@ -422,6 +439,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         AtakujCel(wZwarciu);
     }
+    ///<summary>Obsłuż atak NPC.</summary>
+    ///<param name="czyWZwarciu">Czy obiekt atakuje z bliska?</param>
     private void AtakujCel(bool czyWZwarciu)
     {
         if (aktualnyReuseAtaku < szybkośćAtaku)
@@ -488,6 +507,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         if (czyWZwarciu)
             this.ZmianaHP(cel.ZwrócOdbiteObrażenia());
     }
+    ///<summary>Funkcja zwraca najbliższy obiekt (Konkretny NPC Statyczny) postawiony przez gracza względem NPC.</summary>
     public KonkretnyNPCStatyczny WyszukajNajbliższyObiekt()
     {
         Component knpcs = PomocniczeFunkcje.WyszukajWDrzewie(ref PomocniczeFunkcje.korzeńDrzewaPozycji, this.transform.position);
@@ -500,6 +520,11 @@ public class KonkretnyNPCDynamiczny : NPCClass
             return (KonkretnyNPCStatyczny)knpcs;
         }
     }
+    ///<summary>Metoda dodaje NPC do struktury, która przechowuje informację o zasięgu danych wież i jakie jednostki się znajdują w ich zasięgu.</summary>
+    ///<param name="x">Pierwszy indeks tablicy przekształcony na element PomocniczeFunkce.tablicaWież.</param>
+    ///<param name="z">Drugi indeks tablicy przekształcony na element PomocniczeFunkce.tablicaWież.</param>
+    ///<param name="pierwszyRaz">Czy następuje pierwsze dodanie (Postawienie budynku przez gracza).</param>
+    ///<param name="taWiezaPierwszyRaz">Referencja do nowo postawionej wieży (jeśli pierwszyRaz = true).</param>
     private void DodajMnieDoListyWrogowWiezy(short x, short z, bool pierwszyRaz = false, KonkretnyNPCStatyczny taWiezaPierwszyRaz = null)
     {
         if (PomocniczeFunkcje.SprawdźCzyWykraczaPozaZakresTablicy(x, z))
@@ -555,6 +580,9 @@ public class KonkretnyNPCDynamiczny : NPCClass
         }
         ostatnieStrony = null;
     }
+    ///<summary>Metoda kasuje NPC ze struktury, która przechowuje informację o zasięgu danych wież i jakie jednostki się znajdują w ich zasięgu.</summary>
+    ///<param name="czyCalkowicie">Czy metoda ma usunąć tę jednostkę całkowicie z pamięci wież (np w przypadku śmierci).</param>
+    ///<param name="sQ">Tablica okreslająca stronę przesunięcia się wroga w tablicy wież względem ostatniej pozycji: (-X = 0), (+X = 1), (-Z = 2), (+Z = 3).</param>
     private void UsuńMnieZTablicyWież(bool czyCalkowicie = false, byte[] sQ = null)
     {
         if (PomocniczeFunkcje.SprawdźCzyWykraczaPozaZakresTablicy(actXIdx, actZIdx) || PomocniczeFunkcje.tablicaWież[actXIdx, actZIdx] == null
@@ -599,6 +627,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
             }
         }
     }
+    ///<summary>Metoda ustawia losową wartość zmiennej głównyIndex między -5 a -1 dla optymalizacji.</summary>
     public void SetGłównyIndexDiffValue()
     {
         głównyIndex = (sbyte)Random.Range(-5, -1);

@@ -71,6 +71,8 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         }
     }
     #endregion
+
+    ///<summary>Metoda ustawia niezbędne dane dla stawianego budynku.</summary>
     public void InicjacjaBudynku()
     {
         UnityEngine.AI.NavMeshObstacle tmp = null;
@@ -96,10 +98,12 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             tabActAtakObj = new MagazynObiektówAtaków[1];
         RysujHPBar();
     }
+    ///<summary>Metoda odtwarza dźwięk stawianego budynku.</summary>
     public void MetodaDoOdpaleniaPoWyczekaniu()
     {
         PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, "PostawB", true);
     }
+    ///<summary>Metoda czeka póki nie zostanie zainicjowany Component AudioSource odgłosyNPC.</summary>
     public IEnumerator CzekajAz()
     {
         yield return new WaitUntil(() => this.odgłosyNPC != null);
@@ -228,6 +232,9 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         }
     }
 #endif
+    ///<summary>Usuń wroga z tablicy PomocniczeFunkcje.tablicaWież.</summary>
+    ///<param name="x">Indeks pozycji wroga na osi X względem podziału PomocniczeFunkcje.tablicaWież (parametr 1).</param>
+    ///<param name="z">Indeks pozycji wroga na osi Z względem podziału PomocniczeFunkcje.tablicaWież (parametr 2).</param>
     private void UsuńMnieZListy(short x, short z)
     {
         if (PomocniczeFunkcje.tablicaWież[x, z] == null)
@@ -405,6 +412,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             }
         }
     }
+    ///<summary>Znajdź nowy cel do ataku dla wiezy.</summary>
     public void ZnajdźNowyCel()
     {
         if (rootEnemy != null)
@@ -417,6 +425,8 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         }
         cel = null;
     }
+    ///<summary>Dodaj wroga ze struktury wrogów.</summary>
+    ///<param name="knpcd">Referencja wroga, który ma zostać dodany do struktury wrogów.</param>
     public void DodajDoWrogów(KonkretnyNPCDynamiczny knpcd)
     {
         if (rootEnemy == null)
@@ -430,6 +440,8 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             iloscWrogowWZasiegu++;
         }
     }
+    ///<summary>Usuń wroga ze struktury wrogów.</summary>
+    ///<param name="knpcd">Referencja wroga, który ma zostać usunięty ze struktury wrogów.</param>
     public void UsuńZWrogów(NPCClass knpcd)
     {
         if (rootEnemy == null)

@@ -251,13 +251,16 @@ public class MagazynWZasięguWieży
     private KonkretnyNPCDynamiczny nPCDynamiczny;
 
     ///<summary>Stworzenie obiektu korzenia struktury.</summary>
-    /// <param name="_knpcd">Referencja korzenia tworzonej struktury.</param>
+    ///<param name="_knpcd">Referencja korzenia tworzonej struktury.</param>
     public MagazynWZasięguWieży(ref KonkretnyNPCDynamiczny _knpcd)
     {
         parent = null;
         child = null;
         nPCDynamiczny = _knpcd;
     }
+    ///<summary>Stworzenie obiektu struktury (nie roota).</summary>
+    ///<param name="_parent">Rodzic tworzonego obiektu.</param>
+    ///<param name="_knpcd">Referencja korzenia tworzonej struktury.</param>
     private MagazynWZasięguWieży(MagazynWZasięguWieży _parent, KonkretnyNPCDynamiczny _knpcd)
     {
         parent = _parent;
@@ -266,7 +269,7 @@ public class MagazynWZasięguWieży
     }
     ~MagazynWZasięguWieży() { }
     ///<summary>Usunięcie ze struktury danego w parametrze NPC celów wieży.</summary>
-    /// <param name="npc">Referencja kasowanego obiektu ze struktury.</param>
+    ///<param name="npc">Referencja kasowanego obiektu ze struktury.</param>
     public MagazynWZasięguWieży DeleteMe(ref NPCClass npc)
     {
         if (ReferenceEquals(npc.GetType(), typeof(KonkretnyNPCDynamiczny)))
@@ -315,7 +318,7 @@ public class MagazynWZasięguWieży
         return null;
     }
     ///<summary>Dodaj do struktury Konkretny NPC Dynamiczny jako cele wieży.</param>
-    /// <param name="knpcd">Referencja dodawanego obiektu do struktury.</param>
+    ///<param name="knpcd">Referencja dodawanego obiektu do struktury.</param>
     public void AddMagazyn(ref KonkretnyNPCDynamiczny knpcd)
     {
         if(knpcd == this.nPCDynamiczny) //Jestem już w kolekcji
@@ -360,16 +363,23 @@ public class StrukturaBudynkuWTab
     public bool czyZablokowany;
     public ushort indexBudynku;
     public UnityEngine.UI.Button przycisk;
+
+    ///<summary>Konstruktor StrukturaBudynkuWTab (określa indeks budynku w tablicy wszystkieBudynki oraz czy budynek jest zablokowany).</summary>
+    ///<param name="_czyZablokowany">Czy budynek o zadanym indeksie w tablicy jest zablokowany.</param>
+    ///<param name="_idxBudunkuWTablicyBudynków">Indeks budynku w tablicy wszystkieBudynki w SpawnBudynki.cs.</param>
     public StrukturaBudynkuWTab(bool _czyZablokowany, ushort _idxBudunkuWTablicyBudynków)
     {
         this.czyZablokowany = _czyZablokowany;
         this.indexBudynku = _idxBudunkuWTablicyBudynków;
     }
+    ///<summary>Metoda ustawia przycisk w panelu budynków i dodaje metodę do obsługi generowanego przycisku.</summary>
+    ///<param name="_przycisk">Wygenerowany przycisk do przypisania (RodzicButtonów).</param>
     public void DajButton(ref UnityEngine.UI.Button _przycisk)
     {
         przycisk = _przycisk;
         przycisk.onClick.AddListener(OnClick);
     }
+    ///<summary>Metoda przypisywana do przycisku w Panelu Budynków.</summary>
     void OnClick()
     {
         PomocniczeFunkcje.spawnBudynki.KliknietyBudynekWPanelu((short)indexBudynku);

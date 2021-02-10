@@ -107,8 +107,12 @@ public abstract class NPCClass : MonoBehaviour
             UpdateMe();
         }
     }
+    ///<summary>Odświeża pasek HP NPC.</summary>
     protected abstract void RysujHPBar();
+    ///<summary>Obsługuje usunięcie NPC. Zwalnia pamięć i usuwa obiekt lub dodaje go do pullingu.</summary>
     protected abstract void UsuńJednostkę();
+    ///<summary>Odpala i ustawia panel obiektu NPC (Panel Statyczny, Dynamiczny i Info o budynku w panelu Budynków).</summary>
+    ///<param name="pos">Pozycja, gdzie ma zostać odpalony panel z budynkami. Podanie jako parametr Vector2.negativeInfinity odpala Panel z budynkami.</param>
     public abstract void UstawPanel(Vector2 pos);
     protected virtual IEnumerator SkasujObject(float time)
     {
@@ -117,6 +121,8 @@ public abstract class NPCClass : MonoBehaviour
             PomocniczeFunkcje.muzyka.WłączWyłączClip(ref odgłosyNPC, false);
         Destroy(this.gameObject);
     }
+    ///<summary>Zmienia wartość HP obiektu.</summary>
+    ///<param name="deltaHP">Wartość określająca zmianę NPC. Parametr mniejszy od 0 leczy jednostkę.</param>
     public virtual void ZmianaHP(short deltaHP)
     {
         if (!nieŻyję)
@@ -136,12 +142,15 @@ public abstract class NPCClass : MonoBehaviour
             RysujHPBar();
         }
     }
+    ///<summary>Wywołanie metody obsługuje atak jednostki.</summary>
+    ///<param name="wZwarciu">Czy NPC atakuje w zwarciu.</param>
     public abstract void Atakuj(bool wZwarciu);
-
+    ///<summary>Odbija obrażenia w atakującego.</summary>
     public virtual byte ZwrócOdbiteObrażenia()
     {
         return 0;
     }
+    ///<summary>Wylicza średnią granicę wielkości obiektu i zwraca ją.</summary>
     public virtual float PobierzGranice()
     {
         return 0.2f;
@@ -150,11 +159,16 @@ public abstract class NPCClass : MonoBehaviour
     {
 
     }
+    ///<summary>Wywołanie metody wymusza ponowne wyliczenie ścieżki agenta dla jednostki.</summary>
+    ///<param name="taWiezaPierwszyRaz">Czy wymuszenie ścieżki jest spowodowane postawieniem przez gracza budynku.</param>
     public virtual void ResetujŚciezkę(KonkretnyNPCStatyczny taWiezaPierwszyRaz = null)
     {
 
     }
     #region Ustawianie zmiennych w animatorze
+    ///<summary>Prześlij parametry potrzebne do obsługi animacji do Unity.</summary>
+    ///<param name="paramsT">Tablica nazw parametrów, które mają ulec zmianie.</param>
+    ///<param name="values">Tablica wartości dla parametrów.</param>
     public void ObsluzAnimacje(string[] paramsT, bool[] values)
     {
         if (ReferenceEquals(this.GetType(), typeof(KonkretnyNPCStatyczny)))
@@ -179,6 +193,9 @@ public abstract class NPCClass : MonoBehaviour
             Debug.Log("Nie odnalazlem typu");
         }
     }
+    ///<summary>Prześlij parametry potrzebne do obsługi animacji do Unity.</summary>
+    ///<param name="param">Nazwa parametru, który ma ulec zmianie.</param>
+    ///<param name="value">Wartość, na jaką ma zostać zmieniony parametr.</param>
     public void ObsluzAnimacje(string param, bool value)
     {
         if (this.GetType() == typeof(KonkretnyNPCDynamiczny))
@@ -215,6 +232,10 @@ public abstract class NPCClass : MonoBehaviour
             Debug.Log("Nie odnalazlem typu");
         }
     }
+    ///<summary>Prześlij parametry potrzebne do obsługi animacji do Unity.</summary>
+    ///<param name="anima">Animator komponent, w którym mają być modyfikowane parametry.</param>
+    ///<param name="param">Nazwa parametru, który ma ulec zmianie.</param>
+    ///<param name="value">Wartość, na jaką ma zostać zmieniony parametr.</param>
     public void ObsluzAnimacje(ref Animator anima, string param, bool value)
     {
         if (anima != null)
@@ -238,6 +259,10 @@ public abstract class NPCClass : MonoBehaviour
             Debug.Log("Animator nie został zadałdoany");
         }
     }
+    ///<summary>Prześlij parametry potrzebne do obsługi animacji do Unity.</summary>
+    ///<param name="anima">Animator komponent, w którym mają być modyfikowane parametry.</param>
+    ///<param name="param">Nazwa parametru, który ma ulec zmianie.</param>
+    ///<param name="value">Wartość, na jaką ma zostać zmieniony parametr.</param>
     public void ObsluzAnimacje(ref Animator anima, string param, int value)
     {
         if (anima != null)
@@ -249,6 +274,10 @@ public abstract class NPCClass : MonoBehaviour
             Debug.Log("Animator nie został zadałdoany");
         }
     }
+    ///<summary>Prześlij parametry potrzebne do obsługi animacji do Unity.</summary>
+    ///<param name="anima">Animator komponent, w którym mają być modyfikowane parametry.</param>
+    ///<param name="param">Nazwa parametru, który ma ulec zmianie.</param>
+    ///<param name="value">Wartość, na jaką ma zostać zmieniony parametr.</param>
     public void ObsluzAnimacje(ref Animator anima, string param, float value)
     {
         if (anima != null)
@@ -260,6 +289,9 @@ public abstract class NPCClass : MonoBehaviour
             Debug.Log("Animator nie został zadałdoany");
         }
     }
+    ///<summary>Ustaw opis do panelu budynku w przypadku zmiany języka przez gracza.</summary>
+    ///<param name="coZmieniam">Określa co ma zostać zmienione.</param>
+    ///<param name="podmianaWartosci">Wartość ma zostać przypisana dla podanego parametru coZmieniam.</param>
     public virtual void UstawJezykNPC(string coZmieniam, string podmianaWartosci)
     {
         if (coZmieniam == "nazwa")
@@ -268,14 +300,21 @@ public abstract class NPCClass : MonoBehaviour
             return;
         }
     }
+    ///<summary>Ustaw wartość głośności AudioSource NPC.</summary>
+    ///<param name="wartość">Wartość zostanie przypisana do AudioSource NPC (0-1).</param>
     public void UstawGłośnośćNPC(float wartość)
     {
         odgłosyNPC.volume = wartość;
     }
+    ///<summary>Zwróć stan parametru z AnimatorController podanego w parametrze.</summary>
+    ///<param name="i">Parametr, którego wartość ma zostać zwrócona: (0-isDeath, 1-haveTarget, 2-inRange).</param>
     public virtual sbyte ZwróćMiWartośćParametru(byte i)
     {
         return -1;  //Zwrócenie parametru z animationController
     }
+    ///<summary>Ustawia wartość parametru w AnimatorController.</summary>
+    ///<param name="parametr">Parametr, którego wartość ma zostać przypisana: (0-isDeath, 1-haveTarget, 2-inRange).</param>
+    ///<param name="value">Przypisanie tej wartości zadanemu parametrowi.</param>
     protected virtual void UstawMiWartośćParametru(byte parametr, bool value)
     {
         //Ustawienie parametru w animation controller

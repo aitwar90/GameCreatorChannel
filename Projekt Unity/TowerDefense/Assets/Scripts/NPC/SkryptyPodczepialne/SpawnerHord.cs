@@ -9,7 +9,7 @@ public class SpawnerHord : MonoBehaviour
 {
     [Tooltip("Miejsca w których mogą zostać wygenerowani przewciwnicy")]
     public Transform[] spawnPunkty;
-    [Tooltip("Ilość przeciwników w ostatnio wygenerowanej fali")]
+    //[Tooltip("Ilość przeciwników w ostatnio wygenerowanej fali")]
     private ushort ostatniaIlośćWFali = 0;
     private ushort maxIlośćNaFalę = 1;
     public static byte actFala = 0;
@@ -17,6 +17,9 @@ public class SpawnerHord : MonoBehaviour
     public static byte actualHPBars = 0;
     public NPCClass cel;
     public Transform rodzicNPC = null;
+
+    ///<summary>Metoda określa aktualną ilość spawnowanych jednostek wroga na podstawie epoki i jej poziomu.</summary>
+    ///<param name="e">Epoka poziomu.</param>
     private void ObsłużFale(Epoki e)
     {
         byte aktPozEpoki = PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki;
@@ -97,6 +100,9 @@ public class SpawnerHord : MonoBehaviour
             ostatniaIlośćWFali = 0;
         }
     }
+    ///<summary>Metoda określa warunki krańcowe dla danego poziomu oraz epoki.</summary>
+    ///<param name="ep">Epoka poziomu.</param>
+    ///<param name="poziomEpoki">Wewnętrzny poziom danej epoki (1-100).</param>
     public void UstawHorde(Epoki ep, byte poziomEpoki)
     {
         switch (ep)
@@ -182,6 +188,8 @@ public class SpawnerHord : MonoBehaviour
                 break;
         }
     }
+    ///<summary>Funkcja przetwarza i ustawia generowanie fali wrogów, oraz zwraca informację czy fala została wygenerowana.</summary>
+    ///<param name="e">Epoka, której wrogowie mają zostać wygenerowani.</param>
     public bool GenerujSpawn(Epoki e)
     {
         if (ostatniaIlośćWFali >= maxIlośćNaFalę || PomocniczeFunkcje.managerGryScript == null)
@@ -242,6 +250,9 @@ public class SpawnerHord : MonoBehaviour
             return true;
         }
     }
+    ///<summary>Funkcja zwraca pozycję wroga podczas jego generowania (nadaje jej pewną losowość).</summary>
+    ///<param name="pos">Pozycja w świecie punktu spawnu.</param>
+    ///<param name="offsets">Możliwe przesunięcie wględem punktu pos.</param>
     private Vector3 OkreślPozucjeZOffsetem(Vector3 pos, float offsets)
     {
         float vx = UnityEngine.Random.Range(pos.x - offsets, pos.x + offsets);
@@ -262,6 +273,9 @@ public class SpawnerHord : MonoBehaviour
             PomocniczeFunkcje.DodajDoDrzewaPozycji(cel, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
         }
     }
+    ///<summary>Metoda ustawia początkowe dane dla wygenerowanego lub aktywowanego wroga.</summary>
+    ///<param name="knpcd">Referencja (KonkretnyNPCDynamiczny) ustawianego wroga.</param>
+    ///<param name="czyPullowany">Czy wróg został wygenerowany (false), czy przeniesiony i aktywowany (true).</param>
     private void UstawWroga(KonkretnyNPCDynamiczny knpcd, bool czyPullowany = false)
     {
         knpcd.NastawienieNonPlayerCharacter = NastawienieNPC.Wrogie;
@@ -275,11 +289,18 @@ public class SpawnerHord : MonoBehaviour
             knpcd.WłWyłObj(true);
         }
     }
+    ///<summary>Metoda generuje lub aktuwyje jednostkę wroga po określonym czasie.</summary>
+    ///<param name="możliwiNPC">Lista możliwych NPC do wygenerowania.</param>
+    ///<param name="j">Indeks tablicy punktu spawnu gdzie ma zostać wygenerowany wróg.</param>
+    ///<param name="_time">Czas w sec po którym ma zostać wygenerowany wróg.</param>
     private IEnumerator SpawnujMnieCorutine(List<KonkretnyNPCDynamiczny> możliwiNPC, ushort j, float _time)
     {
         yield return new WaitForSeconds(_time);
         SpawnujMnie(ref możliwiNPC, j);
     }
+    ///<summary>Metoda generuje lub aktuwyje jednostkę wroga.</summary>
+    ///<param name="możliwiNPC">Lista możliwych NPC do wygenerowania.</param>
+    ///<param name="j">Indeks tablicy punktu spawnu gdzie ma zostać wygenerowany wróg.</param>
     private void SpawnujMnie(ref List<KonkretnyNPCDynamiczny> możliwiNPC, ushort j)
     {
         bool czyPool = true;
@@ -301,6 +322,7 @@ public class SpawnerHord : MonoBehaviour
         KonkretnyNPCDynamiczny knpcd = go.GetComponent<KonkretnyNPCDynamiczny>();
         UstawWroga(knpcd, czyPool);
     }
+    ///<summary>Metoda wywołuje ponowną kalkulację ścieżek NavMesha dla jednostek znajdujących się na planszy.</summary>
     public void WywołajResetujŚcieżki()
     {
         if (PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek != null)
@@ -312,6 +334,7 @@ public class SpawnerHord : MonoBehaviour
             Debug.Log("Delegatura jest null");
         }
     }
+    ///<summary>Metoda kasuje wszystkie wrogie jednostki znajdujące się na planszy.</summary>
     public void UsunWszystkieJednostki()
     {
         for (int i = rodzicNPC.childCount - 1; i >= 0; i--)
@@ -323,6 +346,7 @@ public class SpawnerHord : MonoBehaviour
         ResetSpawnedHord();
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
     }
+    ///<summary>Zwróć informację o tym, czy została już wygenerowana ostatnia fala na danym poziomie.</summary>
     public bool CzyOstatniaFala()
     {
         if(actFala < iloscFalNaKoncu)
@@ -330,12 +354,14 @@ public class SpawnerHord : MonoBehaviour
         else
             return true;
     }
+    ///<summary>Resetuj parametry podczas przeładowania sceny klasy SpawnerHord.</summary>
     public void ResetSpawnedHord()
     {
         iloscFalNaKoncu = 0;
         actFala = 0;
         actualHPBars = 0;
     }
+    ///<summary>Załaduj tablicę punktów spawnu wrogów.</summary>
     public void ŁadowanieTablicy()
     {
         spawnPunkty = new Transform[this.transform.childCount];
