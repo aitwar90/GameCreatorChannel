@@ -175,17 +175,17 @@ public class StrukturaDrzewa : IteratorForTreeBuildings
             switch (doSmoething)
             {
                 case 0: //Heal me
-                knpcs.HealMe();
-                break;
+                    knpcs.HealMe();
+                    break;
                 case 1: //UpgradeMe HP
-                knpcs.UpgradeMe(0);
-                break;
+                    knpcs.UpgradeMe(0);
+                    break;
                 case 2: //UpgradeMe Atak
-                knpcs.UpgradeMe(1);
-                break;
+                    knpcs.UpgradeMe(1);
+                    break;
                 case 3: //UpgradeMe Defence
-                knpcs.UpgradeMe(1);
-                break;
+                    knpcs.UpgradeMe(1);
+                    break;
             }
         }
     }
@@ -224,6 +224,122 @@ public class MagazynObiektówAtaków
     {
         objInstatiate.position = sPos;
         objInstatiate.gameObject.SetActive(false);
+    }
+}
+public class MagazynWZasięguWieży
+{
+    public MagazynWZasięguWieży parent = null;
+    public MagazynWZasięguWieży child = null;
+    public KonkretnyNPCDynamiczny nPCDynamiczny;
+
+    private MagazynWZasięguWieży(MagazynWZasięguWieży _parent, KonkretnyNPCDynamiczny _knpcd)
+    {
+        parent = _parent;
+        nPCDynamiczny = _knpcd;
+        _parent.child = this;
+    }
+    ~MagazynWZasięguWieży() { }
+    public MagazynWZasięguWieży DeleteMe(ref NPCClass npc)
+    {
+        if (ReferenceEquals(npc.GetType(), typeof(KonkretnyNPCDynamiczny)))
+        {
+            KonkretnyNPCDynamiczny nKnpcd = (KonkretnyNPCDynamiczny)npc;
+            MagazynWZasięguWieży tmpMagazynDoSkasowania = null;
+            if (SprawdźMnie(ref nKnpcd, out tmpMagazynDoSkasowania))
+            {
+                if(tmpMagazynDoSkasowania == null)  //Nie jest to root
+                    return null;
+                if (tmpMagazynDoSkasowania.parent != null)
+                {
+                    if (tmpMagazynDoSkasowania.child == null)
+                    {
+                        tmpMagazynDoSkasowania.parent.child = null;
+                        return null;
+                    }
+                    else
+                    {
+                        tmpMagazynDoSkasowania.parent.child = tmpMagazynDoSkasowania.child;
+                    }
+                    return null;
+                }   
+                else    //Jeśli parent jest null czyli to root
+                {
+                    if(tmpMagazynDoSkasowania.child != null)
+                    {
+                        tmpMagazynDoSkasowania.child.parent = null;
+                        return tmpMagazynDoSkasowania.child;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            return null;
+        }
+    }
+    public MagazynWZasięguWieży AddMagazyn(ref KonkretnyNPCDynamiczny knpcd)
+    {
+        if (!SprawdźMnie(ref knpcd, out MagazynWZasięguWieży nParent))
+        {
+            if (nParent != null)
+            {
+                MagazynWZasięguWieży mwz = new MagazynWZasięguWieży(nParent, knpcd);
+                return null;
+            }
+            else
+            {
+                MagazynWZasięguWieży mwz = new MagazynWZasięguWieży(null, knpcd);
+                return mwz;
+            }
+        }
+        return null;
+    }
+    private bool SprawdźMnie(ref KonkretnyNPCDynamiczny materiałPorównawczy, out MagazynWZasięguWieży właściwyMagazyn)
+    {
+        if (materiałPorównawczy == nPCDynamiczny)
+        {
+            właściwyMagazyn = this;
+            return true;
+        }
+        else if (child != null)
+        {
+            child.SprawdźMnie(ref materiałPorównawczy, out właściwyMagazyn);
+        }
+        else if (child == null)
+        {
+            właściwyMagazyn = this;
+            return false;
+        }
+        właściwyMagazyn = null;
+        return false;
+    }
+    public KonkretnyNPCDynamiczny[] ZwróćMiKonkretneNpc(byte ilość = 1)
+    {
+        byte tIlosc = 0;
+        System.Collections.Generic.Stack<KonkretnyNPCDynamiczny> stos = new System.Collections.Generic.Stack<KonkretnyNPCDynamiczny>();
+        MagazynWZasięguWieży tMag = this;
+        while(tIlosc < ilość)
+        {
+            tIlosc++;
+            stos.Push(tMag.nPCDynamiczny);
+            if(tMag.child != null)
+            {
+                tMag = tMag.child;
+            }
+            else
+            {
+                break;
+            }
+        }
+        return stos.ToArray();
     }
 }
 [System.Serializable]

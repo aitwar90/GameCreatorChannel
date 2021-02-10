@@ -35,6 +35,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     #endregion
 
     #region Zmienny prywatne
+    private MagazynWZasięguWieży rootEnemy = null;
     private List<NPCClass> wrogowieWZasiegu = null;
     private byte idxAct = 0;
     private ushort kosztNaprawy = 0;
@@ -414,6 +415,20 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     }
     public void DodajDoWrogów(KonkretnyNPCDynamiczny knpcd)
     {
+        MagazynWZasięguWieży mzw = rootEnemy.AddMagazyn(ref knpcd);
+        if(mzw != null)
+        {
+            rootEnemy = mzw;
+        }
+        /*
+        if(rootEnemy == null)
+        {
+            rootEnemy.AddMagazyn(ref knpcd);
+        }
+        else
+        {
+
+        }
         if (wrogowieWZasiegu == null)
         {
             wrogowieWZasiegu = new List<NPCClass>();
@@ -426,9 +441,21 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             }
         }
         wrogowieWZasiegu.Add(knpcd);
+        */
     }
     public void UsuńZWrogów(NPCClass knpcd)
     {
+        if(rootEnemy == null)
+        {
+            return;
+        }
+        else
+        {
+            MagazynWZasięguWieży mzw = rootEnemy.DeleteMe(ref knpcd);
+            if(mzw != null)
+                rootEnemy = mzw;
+        }
+        /*
         if (wrogowieWZasiegu == null || wrogowieWZasiegu.Count == 0)
         {
             return;
@@ -446,6 +473,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             }
         }
         wrogowieWZasiegu = temp;
+        */
     }
     public void Napraw()
     {
