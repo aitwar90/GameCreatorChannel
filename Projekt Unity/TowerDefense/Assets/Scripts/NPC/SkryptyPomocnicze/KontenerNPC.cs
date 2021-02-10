@@ -228,9 +228,9 @@ public class MagazynObiektówAtaków
 }
 public class MagazynWZasięguWieży
 {
-    public MagazynWZasięguWieży parent = null;
-    public MagazynWZasięguWieży child = null;
-    public KonkretnyNPCDynamiczny nPCDynamiczny;
+    private MagazynWZasięguWieży parent = null;
+    private MagazynWZasięguWieży child = null;
+    private KonkretnyNPCDynamiczny nPCDynamiczny;
 
     public MagazynWZasięguWieży(ref KonkretnyNPCDynamiczny _knpcd)
     {
@@ -301,7 +301,6 @@ public class MagazynWZasięguWieży
         if(this.child == null)
         {
             this.child = new MagazynWZasięguWieży(this, knpcd);
-            Debug.Log("Dodałem do magazynu");
         }
         else
         {
