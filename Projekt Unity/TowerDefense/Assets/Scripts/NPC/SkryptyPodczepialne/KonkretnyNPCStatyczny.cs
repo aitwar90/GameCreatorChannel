@@ -36,7 +36,8 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
 
     #region Zmienny prywatne
     private MagazynWZasięguWieży rootEnemy = null;
-    private List<NPCClass> wrogowieWZasiegu = null;
+    private KonkretnyNPCDynamiczny[] wrogowieWZasiegu = null;
+    public byte iloscWrogowWZasiegu = 0;
     private byte idxAct = 0;
     private ushort kosztNaprawy = 0;
     private Stack<MagazynObiektówAtaków> instaObjOff = null;
@@ -131,7 +132,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         switch (idxAct)
         {
             case 0:
-                if (cel == null && wrogowieWZasiegu != null && wrogowieWZasiegu.Count > 0)
+                if (cel == null && rootEnemy != null)
                 {
                     ZnajdźNowyCel();
                 }
@@ -194,7 +195,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             if (tNVO != null)
                 tNVO.enabled = false;
             cel = null;
-            wrogowieWZasiegu = null;
+            rootEnemy = null;
             tabActAtakObj = null;
             instaObjOff.Clear();
             StartCoroutine(SkasujObject(2.0f));
@@ -256,6 +257,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             {
                 if (!instaObjIsActive)
                 {
+                    wrogowieWZasiegu = rootEnemy.ZwróćMiKonkretneNpc(iloscWrogowWZasiegu);
                     instaObjIsActive = true;
                     string s = "";
                     switch (typAtakuWieży)
@@ -269,7 +271,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                             s = PomocniczeFunkcje.TagZEpoka("AtakBObszar", this.epokaNPC, this.tagRodzajDoDźwięków);
                             break;
                         case TypAtakuWieży.wszyscyWZasiegu:
-                            for (byte i = 0; i < wrogowieWZasiegu.Count && i < 10; i++)
+                            for (byte i = 0; i < wrogowieWZasiegu.Length && i < 10; i++)
                             {
                                 tabActAtakObj[i] = GetInstaObjFromStack(wrogowieWZasiegu[i].transform.position.x, wrogowieWZasiegu[i].transform.position.z);
                             }
@@ -300,7 +302,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     {
                         if (tabActAtakObj[i] == null)
                             break;
-                        tabActAtakObj[i].SetActPos(f*10.0f);
+                        tabActAtakObj[i].SetActPos(f * 10.0f);
                     }
                 }
             }
@@ -332,7 +334,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     }
                     break;
                 case TypAtakuWieży.wszyscyWZasiegu: //Wszystkie cele
-                    for (byte i = 0; i < wrogowieWZasiegu.Count; i++)
+                    for (byte i = 0; i < wrogowieWZasiegu.Length; i++)
                     {
                         wrogowieWZasiegu[i].ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń)));
                     }
@@ -343,9 +345,11 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             {
                 //Debug.Log("No to jedziemy");
                 //Znajdź nowy target
-                UsuńZWrogów(cel);
+                //UsuńZWrogów(cel);
                 ZnajdźNowyCel();
             }
+            if (wrogowieWZasiegu != null)
+                wrogowieWZasiegu = null;
         }
     }
     public override byte ZwrócOdbiteObrażenia()
@@ -403,11 +407,11 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     }
     public void ZnajdźNowyCel()
     {
-        if (wrogowieWZasiegu != null)
+        if (rootEnemy != null)
         {
-            if (wrogowieWZasiegu.Count > 0)
+            if (rootEnemy != null)
             {
-                cel = wrogowieWZasiegu[0];
+                cel = (NPCClass)rootEnemy.ZwróćMiKonkretneNpc(1).GetValue(0);
                 return;
             }
         }
@@ -415,65 +419,37 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     }
     public void DodajDoWrogów(KonkretnyNPCDynamiczny knpcd)
     {
-        MagazynWZasięguWieży mzw = rootEnemy.AddMagazyn(ref knpcd);
-        if(mzw != null)
+        if (rootEnemy == null)
         {
-            rootEnemy = mzw;
-        }
-        /*
-        if(rootEnemy == null)
-        {
-            rootEnemy.AddMagazyn(ref knpcd);
+            rootEnemy = new MagazynWZasięguWieży(ref knpcd);
+            iloscWrogowWZasiegu++;
         }
         else
         {
-
+            rootEnemy.AddMagazyn(ref knpcd);
+            iloscWrogowWZasiegu++;
         }
-        if (wrogowieWZasiegu == null)
-        {
-            wrogowieWZasiegu = new List<NPCClass>();
-        }
-        for (byte i = 0; i < wrogowieWZasiegu.Count; i++)
-        {
-            if (wrogowieWZasiegu[i] == knpcd)
-            {
-                return;
-            }
-        }
-        wrogowieWZasiegu.Add(knpcd);
-        */
     }
     public void UsuńZWrogów(NPCClass knpcd)
     {
-        if(rootEnemy == null)
+        if (rootEnemy == null)
         {
             return;
         }
         else
         {
             MagazynWZasięguWieży mzw = rootEnemy.DeleteMe(ref knpcd);
-            if(mzw != null)
-                rootEnemy = mzw;
-        }
-        /*
-        if (wrogowieWZasiegu == null || wrogowieWZasiegu.Count == 0)
-        {
-            return;
-        }
-        List<NPCClass> temp = new List<NPCClass>();
-        for (ushort i = 0; i < wrogowieWZasiegu.Count; i++)
-        {
-            if (wrogowieWZasiegu[i] == knpcd)
+            if (mzw != null)
             {
-                continue;
+                if (rootEnemy == mzw)
+                    rootEnemy = null;
+                else
+                {
+                    rootEnemy = mzw;
+                }
             }
-            else
-            {
-                temp.Add(wrogowieWZasiegu[i]);
-            }
+            iloscWrogowWZasiegu--;
         }
-        wrogowieWZasiegu = temp;
-        */
     }
     public void Napraw()
     {

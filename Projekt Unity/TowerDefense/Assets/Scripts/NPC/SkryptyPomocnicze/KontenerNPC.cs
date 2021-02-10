@@ -232,6 +232,12 @@ public class MagazynWZasięguWieży
     public MagazynWZasięguWieży child = null;
     public KonkretnyNPCDynamiczny nPCDynamiczny;
 
+    public MagazynWZasięguWieży(ref KonkretnyNPCDynamiczny _knpcd)
+    {
+        parent = null;
+        child = null;
+        nPCDynamiczny = _knpcd;
+    }
     private MagazynWZasięguWieży(MagazynWZasięguWieży _parent, KonkretnyNPCDynamiczny _knpcd)
     {
         parent = _parent;
@@ -244,82 +250,63 @@ public class MagazynWZasięguWieży
         if (ReferenceEquals(npc.GetType(), typeof(KonkretnyNPCDynamiczny)))
         {
             KonkretnyNPCDynamiczny nKnpcd = (KonkretnyNPCDynamiczny)npc;
-            MagazynWZasięguWieży tmpMagazynDoSkasowania = null;
-            if (SprawdźMnie(ref nKnpcd, out tmpMagazynDoSkasowania))
+            if(this.nPCDynamiczny == nKnpcd)
             {
-                if(tmpMagazynDoSkasowania == null)  //Nie jest to root
-                    return null;
-                if (tmpMagazynDoSkasowania.parent != null)
+                if(this.parent == null) //To jest root
                 {
-                    if (tmpMagazynDoSkasowania.child == null)
+                    if(this.child != null)
                     {
-                        tmpMagazynDoSkasowania.parent.child = null;
-                        return null;
+                        this.child.parent = null;
+                        return this.child;
                     }
                     else
                     {
-                        tmpMagazynDoSkasowania.parent.child = tmpMagazynDoSkasowania.child;
-                    }
-                    return null;
-                }   
-                else    //Jeśli parent jest null czyli to root
-                {
-                    if(tmpMagazynDoSkasowania.child != null)
-                    {
-                        tmpMagazynDoSkasowania.child.parent = null;
-                        return tmpMagazynDoSkasowania.child;
-                    }
-                    else
-                    {
-                        return null;
+                        return this;
                     }
                 }
+                else    //To nie jest root
+                {
+                    if(this.child != null)
+                    {
+                        this.child.parent = this.parent;
+                        this.parent.child = this.child;
+                    }
+                    else
+                    {
+                        this.parent.child = null;
+                    }
+                    return null;
+                }
             }
-            else
+            else    //To nie jest ten node
             {
-                return null;
+                if(this.child != null)
+                    this.child.DeleteMe(ref npc);
+                else
+                    return null;
             }
         }
         else
         {
             return null;
         }
-    }
-    public MagazynWZasięguWieży AddMagazyn(ref KonkretnyNPCDynamiczny knpcd)
-    {
-        if (!SprawdźMnie(ref knpcd, out MagazynWZasięguWieży nParent))
-        {
-            if (nParent != null)
-            {
-                MagazynWZasięguWieży mwz = new MagazynWZasięguWieży(nParent, knpcd);
-                return null;
-            }
-            else
-            {
-                MagazynWZasięguWieży mwz = new MagazynWZasięguWieży(null, knpcd);
-                return mwz;
-            }
-        }
         return null;
     }
-    private bool SprawdźMnie(ref KonkretnyNPCDynamiczny materiałPorównawczy, out MagazynWZasięguWieży właściwyMagazyn)
+    public void AddMagazyn(ref KonkretnyNPCDynamiczny knpcd)
     {
-        if (materiałPorównawczy == nPCDynamiczny)
+        if(knpcd == this.nPCDynamiczny) //Jestem już w kolekcji
         {
-            właściwyMagazyn = this;
-            return true;
+            return;
         }
-        else if (child != null)
+        if(this.child == null)
         {
-            child.SprawdźMnie(ref materiałPorównawczy, out właściwyMagazyn);
+            this.child = new MagazynWZasięguWieży(this, knpcd);
+            Debug.Log("Dodałem do magazynu");
         }
-        else if (child == null)
+        else
         {
-            właściwyMagazyn = this;
-            return false;
+            this.child.AddMagazyn(ref knpcd);
         }
-        właściwyMagazyn = null;
-        return false;
     }
     public KonkretnyNPCDynamiczny[] ZwróćMiKonkretneNpc(byte ilość = 1)
     {
