@@ -9,14 +9,14 @@ public class ManagerSamouczekScript : MonoBehaviour
     private SamouczekKliknijTuVisual sktv = null;
     public byte idxProgresuSamouczka = 0;
     private byte symulujManageraUpdate = 0;
-    private bool sprawdzajCzyZaliczone = false;
+    public bool sprawdzajCzyZaliczone = false;
     public TextAsset plikTekstowySamouczka;
     private string[] zaladujTextKonkretne = null;
     private ushort tmpHajs = 0;
     private Skrzynka[] skrzynki = null;
     private byte e1 = 0, e2 = 0, e3 = 0, e4 = 0;
     private ushort thp = 0, atkIdx = 0, defidx = 0;
-    private sbyte zmiennaPomocnicza = -1;
+    public sbyte zmiennaPomocnicza = -1;
     public static bool byloZaladowane = false;
     public sbyte ZmiennaPomocnicza
     {
@@ -323,7 +323,6 @@ public class ManagerSamouczekScript : MonoBehaviour
                         WywolajProgress();
                         sprawdzajCzyZaliczone = false;
                         zmiennaPomocnicza = -1;
-                        sprawdzajCzyZaliczone = false;
                     }
                     break;
 
@@ -416,5 +415,13 @@ public class ManagerSamouczekScript : MonoBehaviour
     public void WyłączVisual()
     {
         this.sktv.WyłączObiekt();
+    }
+    ///<summary>Sprawdź, czy test zgadza się z określoną wartością.</summary>
+    ///<param name="i">Sprawdza czy parametr jest zgodny z aktualnym stanem progresu samouczka.</param>
+    public bool CzyZgadzaSięIDXGłówny(sbyte i)
+    {
+        if(i == idxProgresuSamouczka)
+            return true;
+        return false;
     }
 }

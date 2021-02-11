@@ -258,7 +258,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     {
         if (this.aktualnyReuseAtaku < szybkośćAtaku)
         {
-            aktualnyReuseAtaku += Time.deltaTime*2.0f;
+            aktualnyReuseAtaku += Time.deltaTime * 2.0f;
             float f = szybkośćAtaku - aktualnyReuseAtaku;
             if (f <= .1f)
             {
@@ -488,7 +488,10 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         RysujHPBar();
         if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)   //Jeśli samouczek
         {
-            ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = 1;
+            if (ManagerSamouczekScript.mssInstance.CzyZgadzaSięIDXGłówny(2))    //Naprawa głównego budynku
+            {
+                ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = 1;
+            }
         }
     }
     public override void UstawJezykNPC(string coZmieniam, string podmianaWartosci)

@@ -144,7 +144,7 @@ public class ManagerGryScript : MonoBehaviour
                     if (zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
                     {
                         zaznaczonyObiekt.UstawPanel(Input.mousePosition);
-                        if(zaznaczonyObiekt.szybkośćAtaku != -1)    //Nie jest to akademia
+                        if (zaznaczonyObiekt.szybkośćAtaku != -1)    //Nie jest to akademia
                         {
                             PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
                         }
@@ -164,7 +164,7 @@ public class ManagerGryScript : MonoBehaviour
                     if (zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
                     {
                         zaznaczonyObiekt.UstawPanel(Input.GetTouch(0).position);
-                        if(zaznaczonyObiekt.szybkośćAtaku != -1)    //Nie jest to akademia
+                        if (zaznaczonyObiekt.szybkośćAtaku != -1)    //Nie jest to akademia
                         {
                             PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
                         }
@@ -227,7 +227,10 @@ public class ManagerGryScript : MonoBehaviour
                     bool czyLFala = PomocniczeFunkcje.spawnerHord.CzyOstatniaFala();
                     if (aktualnyPoziomEpoki == 255 && !poziomZakonczony && czyLFala && iloscAktywnychWrogów <= 0)
                     {
-                        ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = -100;
+                        if (ManagerSamouczekScript.mssInstance.CzyZgadzaSięIDXGłówny(16))
+                        {
+                            ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = -100;
+                        }
                     }
                     else if (!poziomZakonczony && czyLFala && iloscAktywnychWrogów <= 0)
                     {
@@ -337,7 +340,7 @@ public class ManagerGryScript : MonoBehaviour
             baza.transform.SetParent(PomocniczeFunkcje.spawnBudynki.RodzicBudynków);
             if (particleSystems != null && particleSystems.Length > 0)
             {
-               particleSystems[0].IsEnabeld = true;
+                particleSystems[0].IsEnabeld = true;
             }
         }
     }
@@ -383,6 +386,8 @@ public class ManagerGryScript : MonoBehaviour
             else
             {
                 timerFal = 0;
+                if(aktualnyPoziomEpoki == 255 && iloscAktywnychWrogów > 0)
+                    return;
                 PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
             }
         }
@@ -637,7 +642,7 @@ public class ManagerGryScript : MonoBehaviour
                     PomocniczeFunkcje.odblokowanyPoziomEpoki++;
                 }
             }
-            if(particleSystems[0] != null && particleSystems.Length > 0)
+            if (particleSystems[0] != null && particleSystems.Length > 0)
             {
                 particleSystems[0].IsEnabeld = true;
             }

@@ -330,7 +330,11 @@ public class SpawnBudynki : MonoBehaviour
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
         if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
         {
-            ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = -3;
+            if (ManagerSamouczekScript.mssInstance.CzyZgadzaSięIDXGłówny(6) ||
+            ManagerSamouczekScript.mssInstance.CzyZgadzaSięIDXGłówny(10))
+            {
+                ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = -3;
+            }
         }
     }
     public void WybierzBudynekDoPostawienia()  //Wybór obiektu budynku do postawienia
@@ -572,13 +576,13 @@ public class SpawnBudynki : MonoBehaviour
         string[] foldersToSearch = AssetDatabase.GetSubFolders("Assets/Prefaby");
         List<GameObject> allPrefabs = GetAssets<GameObject>(foldersToSearch, "t:prefab");
         List<GameObject> prefabsToWszystkieBudynki = new List<GameObject>();
-        for(int i = 0; i < allPrefabs.Count; i++)
+        for (int i = 0; i < allPrefabs.Count; i++)
         {
-            if(allPrefabs[i].TryGetComponent(out KonkretnyNPCStatyczny npc))
+            if (allPrefabs[i].TryGetComponent(out KonkretnyNPCStatyczny npc))
             {
-                if(npc.obrazekDoBudynku != null)
+                if (npc.obrazekDoBudynku != null)
                     prefabsToWszystkieBudynki.Add(allPrefabs[i]);
-            }            
+            }
         }
         this.wszystkieBudynki = prefabsToWszystkieBudynki.ToArray();
     }
@@ -586,7 +590,7 @@ public class SpawnBudynki : MonoBehaviour
     {
         string[] guids = AssetDatabase.FindAssets(_filter, _foldersToSearch);
         List<T> a = new List<T>();
-        for(int i = 0; i < guids.Length; i++)
+        for (int i = 0; i < guids.Length; i++)
         {
             string path = AssetDatabase.GUIDToAssetPath(guids[i]);
             a.Add(AssetDatabase.LoadAssetAtPath<T>(path));

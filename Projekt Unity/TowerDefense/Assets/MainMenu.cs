@@ -779,7 +779,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             tab[tabOfBuildToChange[i]].przycisk.gameObject.SetActive(willEnable);
         }
 
-        iloscButtonow = (byte)(tabOfBuildToChange.Length-2);
+        iloscButtonow = (byte)(tabOfBuildToChange.Length - 2);
     }
     ///<summary>Metoda generuje i sortuje tablice przycisków budynków do panelu budynków.</summary>
     public void WygenerujIPosortujTablice() //Tworzy i sortuje tablicę budynków, które gracz może postawić
@@ -872,7 +872,13 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         {
             if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
             {
-                ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = (sbyte)(wybranaNagroda + 2);
+                if (ManagerSamouczekScript.mssInstance.CzyZgadzaSięIDXGłówny(12)
+                || ManagerSamouczekScript.mssInstance.CzyZgadzaSięIDXGłówny(13) ||
+                ManagerSamouczekScript.mssInstance.CzyZgadzaSięIDXGłówny(14) ||
+                ManagerSamouczekScript.mssInstance.CzyZgadzaSięIDXGłówny(15))
+                {
+                    ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = (sbyte)(wybranaNagroda + 2);
+                }
             }
             PomocniczeFunkcje.managerGryScript.UzyciePrzedmiotu((byte)wybranaNagroda);
         }
@@ -1037,7 +1043,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.spawnBudynki.OdblokujBudynek(true);
         if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
         {
-            ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = 10;
+            if (ManagerSamouczekScript.mssInstance.CzyZgadzaSięIDXGłówny(8))
+            {
+                ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = 10;
+            }
         }
     }
     ///<summary>Metoda rozpoczyna proces ustawiania budynku.</summary>
