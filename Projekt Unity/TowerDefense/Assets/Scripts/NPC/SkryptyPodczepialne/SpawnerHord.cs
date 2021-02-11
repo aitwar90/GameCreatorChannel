@@ -282,11 +282,7 @@ public class SpawnerHord : MonoBehaviour
         PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek += knpcd.ResetujŚciezkę;
         if (czyPullowany)
         {
-            knpcd.AktualneŻycie = knpcd.maksymalneŻycie;
-            knpcd.RysujPasekŻycia = true;
-            knpcd.NieŻyję = false;
-            knpcd.SetGłównyIndex = -1;
-            knpcd.WłWyłObj(true);
+            knpcd.UstawWartościPoPoolowaniu();
         }
     }
     ///<summary>Metoda generuje lub aktuwyje jednostkę wroga po określonym czasie.</summary>

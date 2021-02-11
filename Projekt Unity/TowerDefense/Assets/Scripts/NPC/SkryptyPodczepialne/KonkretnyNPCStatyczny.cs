@@ -145,7 +145,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             case 1:
                 if (cel != null)
                 {
-                    Atakuj(false);
+                    Atakuj();
                 }
                 idxAct++;
                 break;
@@ -254,17 +254,16 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         }
         PomocniczeFunkcje.tablicaWież[x, z] = tInf;
     }
-    public override void Atakuj(bool wZwarciu)
+    public override void Atakuj()
     {
         if (this.aktualnyReuseAtaku < szybkośćAtaku)
         {
-            aktualnyReuseAtaku += Time.deltaTime;
+            aktualnyReuseAtaku += Time.deltaTime*2.0f;
             float f = szybkośćAtaku - aktualnyReuseAtaku;
             if (f <= .1f)
             {
                 if (!instaObjIsActive)
                 {
-                    wrogowieWZasiegu = rootEnemy.ZwróćMiKonkretneNpc(iloscWrogowWZasiegu);
                     instaObjIsActive = true;
                     string s = "";
                     switch (typAtakuWieży)
@@ -278,6 +277,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                             s = PomocniczeFunkcje.TagZEpoka("AtakBObszar", this.epokaNPC, this.tagRodzajDoDźwięków);
                             break;
                         case TypAtakuWieży.wszyscyWZasiegu:
+                            wrogowieWZasiegu = rootEnemy.ZwróćMiKonkretneNpc(iloscWrogowWZasiegu);
                             for (byte i = 0; i < wrogowieWZasiegu.Length && i < 10; i++)
                             {
                                 tabActAtakObj[i] = GetInstaObjFromStack(wrogowieWZasiegu[i].transform.position.x, wrogowieWZasiegu[i].transform.position.z);
@@ -314,7 +314,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                 }
             }
         }
-        else
+        else  //
         {
             for (byte i = 0; i < tabActAtakObj.Length; i++)
             {
@@ -330,6 +330,13 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             {
                 case TypAtakuWieży.jedenTarget: //Jeden Target
                     cel.ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń)));
+                    if (cel.NieŻyję)
+                    {
+                        //Debug.Log("No to jedziemy");
+                        //Znajdź nowy target
+                        UsuńZWrogów(cel);
+                        ZnajdźNowyCel();
+                    }
                     break;
                 case TypAtakuWieży.wybuch: //Wybuch
                     Collider[] tabZasięgu = new Collider[4];
@@ -339,21 +346,28 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                         NPCClass klasa = tabZasięgu[i].GetComponent<NPCClass>();
                         klasa.ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń)));
                     }
+                    if (cel.NieŻyję)
+                    {
+                        //Debug.Log("No to jedziemy");
+                        //Znajdź nowy target
+                        UsuńZWrogów(cel);
+                        ZnajdźNowyCel();
+                    }
                     break;
                 case TypAtakuWieży.wszyscyWZasiegu: //Wszystkie cele
                     for (byte i = 0; i < wrogowieWZasiegu.Length; i++)
                     {
                         wrogowieWZasiegu[i].ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń)));
                     }
+                    if (cel.NieŻyję)
+                    {
+                        //Debug.Log("No to jedziemy");
+                        //Znajdź nowy target
+                        //UsuńZWrogów(cel);
+                        ZnajdźNowyCel();
+                    }
                     break;
 
-            }
-            if (cel.NieŻyję)
-            {
-                //Debug.Log("No to jedziemy");
-                //Znajdź nowy target
-                //UsuńZWrogów(cel);
-                ZnajdźNowyCel();
             }
             if (wrogowieWZasiegu != null)
                 wrogowieWZasiegu = null;
@@ -413,7 +427,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         }
     }
     ///<summary>Znajdź nowy cel do ataku dla wiezy.</summary>
-    public void ZnajdźNowyCel()
+    private void ZnajdźNowyCel()
     {
         if (rootEnemy != null)
         {
@@ -467,7 +481,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     ///<param name="payForRepair">Czy gracz płaci za naprawę budynku.</param>
     public void Napraw(bool payForRepair = true)
     {
-        if(payForRepair)
+        if (payForRepair)
             ManagerGryScript.iloscCoinów -= kosztNaprawy;
         this.AktualneŻycie = this.maksymalneŻycie;
         kosztNaprawy = 0;

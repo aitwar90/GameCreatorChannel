@@ -143,8 +143,7 @@ public abstract class NPCClass : MonoBehaviour
         }
     }
     ///<summary>Wywołanie metody obsługuje atak jednostki.</summary>
-    ///<param name="wZwarciu">Czy NPC atakuje w zwarciu.</param>
-    public abstract void Atakuj(bool wZwarciu);
+    public abstract void Atakuj();
     ///<summary>Odbija obrażenia w atakującego.</summary>
     public virtual byte ZwrócOdbiteObrażenia()
     {

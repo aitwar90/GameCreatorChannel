@@ -65,7 +65,7 @@ public class InformacjeDlaPolWież
 
     }
     ///<summary>Zwraca informację o tym, czy wieża posiada na tym polu graniczną stronę.</summary>
-     ///<param name="szukanaStrona">Wskazanie parametru szukane strony. (-X = 0), (+X = 1), (-Z = 2), (+Z = 3)</param>
+    ///<param name="szukanaStrona">Wskazanie parametru szukane strony. (-X = 0), (+X = 1), (-Z = 2), (+Z = 3)</param>
     public bool ZwrócCzyWieżaPosiadaStrone(byte szukanaStrona)
     {
         if (strona != null)
@@ -206,6 +206,13 @@ public class MagazynObiektówAtaków
     private Vector3 dotPos;
     private Vector3 sPos;
     private Transform objInstatiate;
+    public bool CzyAktywny
+    {
+        get
+        {
+            return objInstatiate.gameObject.activeInHierarchy;
+        }
+    }
 
     ///<summary>Stworzenie obiektu ataku wieży.</summary>
     ///<param name="_docelowyX">Pozycja na osi X celu do którego ma dążyć obiekt ataku.</param>
@@ -216,10 +223,18 @@ public class MagazynObiektówAtaków
     ///<param name="_objInstatiate">Referencja komponentu Transform generowanego obiektu ataku.</param>
     public MagazynObiektówAtaków(float _docelowyX, float _docelowyZ, float _startowyX, float _startowyY, float _startowyZ, Transform _objInstatiate)
     {
-        dotPos.y = 0.25f;
+        dotPos.y = 1.0f;
         sPos = new Vector3(_startowyX, _startowyY, _startowyZ);
         objInstatiate = _objInstatiate;
         ActivateObj(_docelowyX, _docelowyZ);
+    }
+    ///<summary>Aktualizacja danych o startowej pozycji rozpoczynającej atak.</summary>
+    ///<param name="przesuniecieLocalX">Pozycja na osi X włóczni względem rodzica.</param>
+    ///<param name="przesuniecieLocalZ">Pozycja na osi Z włóczni względem rodzica.</param>
+    public void ResetPos(float przesuniecieLocalX, float przesuniecieLocalZ = 1.0f)
+    {
+        objInstatiate.localPosition = new Vector3(przesuniecieLocalX, 1.0f, przesuniecieLocalZ);
+        sPos = new Vector3(objInstatiate.position.x, objInstatiate.position.y, objInstatiate.position.z);
     }
     ///<summary>Ustaw pozycję obiektu ataku</summary>
     ///<param name="f">Parametr 0-1 określający % położenia między docelową a startową pozycją obiektu ataku</param>
@@ -238,9 +253,16 @@ public class MagazynObiektówAtaków
         objInstatiate.rotation = Quaternion.LookRotation(sPos - dotPos);
     }
     ///<summary>Dezaktywacja obiektu ataku.</summary>
-    public void DeactivateObj()
+    public void DeactivateObj(bool czyLocal = false)
     {
-        objInstatiate.position = sPos;
+        if (!czyLocal)
+        {
+            objInstatiate.position = sPos;
+        }
+        else
+        {
+            objInstatiate.localPosition = sPos;
+        }
         objInstatiate.gameObject.SetActive(false);
     }
 }
@@ -275,11 +297,11 @@ public class MagazynWZasięguWieży
         if (ReferenceEquals(npc.GetType(), typeof(KonkretnyNPCDynamiczny)))
         {
             KonkretnyNPCDynamiczny nKnpcd = (KonkretnyNPCDynamiczny)npc;
-            if(this.nPCDynamiczny == nKnpcd)
+            if (this.nPCDynamiczny == nKnpcd)
             {
-                if(this.parent == null) //To jest root
+                if (this.parent == null) //To jest root
                 {
-                    if(this.child != null)
+                    if (this.child != null)
                     {
                         this.child.parent = null;
                         return this.child;
@@ -291,7 +313,7 @@ public class MagazynWZasięguWieży
                 }
                 else    //To nie jest root
                 {
-                    if(this.child != null)
+                    if (this.child != null)
                     {
                         this.child.parent = this.parent;
                         this.parent.child = this.child;
@@ -305,7 +327,7 @@ public class MagazynWZasięguWieży
             }
             else    //To nie jest ten node
             {
-                if(this.child != null)
+                if (this.child != null)
                     this.child.DeleteMe(ref npc);
                 else
                     return null;
@@ -321,11 +343,11 @@ public class MagazynWZasięguWieży
     ///<param name="knpcd">Referencja dodawanego obiektu do struktury.</param>
     public void AddMagazyn(ref KonkretnyNPCDynamiczny knpcd)
     {
-        if(knpcd == this.nPCDynamiczny) //Jestem już w kolekcji
+        if (knpcd == this.nPCDynamiczny) //Jestem już w kolekcji
         {
             return;
         }
-        if(this.child == null)
+        if (this.child == null)
         {
             this.child = new MagazynWZasięguWieży(this, knpcd);
         }
@@ -341,11 +363,11 @@ public class MagazynWZasięguWieży
         byte tIlosc = 0;
         System.Collections.Generic.Stack<KonkretnyNPCDynamiczny> stos = new System.Collections.Generic.Stack<KonkretnyNPCDynamiczny>();
         MagazynWZasięguWieży tMag = this;
-        while(tIlosc < ilość)
+        while (tIlosc < ilość)
         {
             tIlosc++;
             stos.Push(tMag.nPCDynamiczny);
-            if(tMag.child != null)
+            if (tMag.child != null)
             {
                 tMag = tMag.child;
             }

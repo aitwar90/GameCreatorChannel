@@ -10,13 +10,18 @@ public class KonkretnyNPCDynamiczny : NPCClass
 {
     #region Zmienne publiczne
     public byte ileCoinówZaZabicie = 1;
-    [Tooltip("Obiekt będący wystrzałem od NPC")]
-    public GameObject obiektAtakuDystansowego;
     [Tooltip("System cząstek wyzwalany kiedy następuje atak")]
     public ParticleSystem efektyFxStart;
     [Tooltip("System cząstek wyzwalany kiedy nabój dosięga celu")]
     public ParticleSystem efektyFxKoniec;
     public Transform sprite = null;
+    [Header("Ustaw broń przeciwnika"), Tooltip("Pozycja broni")]
+    public Transform posRęki;
+    [Tooltip("Obiekt będący wystrzałem od NPC")]
+    public GameObject obiektAtakuDystansowego;
+    [Header("Ustaw NavMeshAgent")]
+    [Tooltip("Prędkość poruszania się npc")]
+    public float prędkość = 1.0f;
     #endregion
     #region Zmienny prywatne
     public bool rysujPasekŻycia = false;
@@ -27,11 +32,13 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private short actZIdx = 32767;
     private bool czyDodawac = false;
     private byte[] ostatnieStrony = null;
-    private Renderer _obiektAtaku = null;
+    private MagazynObiektówAtaków _obiektAtaku = null;
+    private Renderer _obiektAtakuAnimacja = null;
     private Animator anima;
     private bool[] bufferAnima = new bool[] { false, false, false }; //isDeath, haveTarget, inRange
     private string nId;
     private bool czekamNaZatwierdzenieŚcieżki = false;
+    private bool czyAtakJestAktywny = false;
     #endregion
 
     #region Zmienne chronione
@@ -100,8 +107,17 @@ public class KonkretnyNPCDynamiczny : NPCClass
         }
         if (obiektAtakuDystansowego != null)
         {
-            _obiektAtaku = Instantiate(obiektAtakuDystansowego, this.transform.position, this.transform.rotation).GetComponent<Renderer>();
-            _obiektAtaku.transform.SetParent(this.transform);
+            _obiektAtakuAnimacja = Instantiate(obiektAtakuDystansowego, posRęki.position, posRęki.rotation).GetComponent<Renderer>();
+            _obiektAtakuAnimacja.transform.localScale = posRęki.localScale;
+            _obiektAtakuAnimacja.transform.SetParent(posRęki);
+            if (this.typNPC == TypNPC.WalczyNaDystans)
+            {
+                GameObject go = Instantiate(obiektAtakuDystansowego, posRęki.position, posRęki.rotation);
+                go.transform.localScale = posRęki.localScale;
+                go.transform.SetParent(this.transform);
+                _obiektAtaku = new MagazynObiektówAtaków(0, 0f, 0.0f, go.transform.localPosition.x, go.transform.localPosition.z, go.transform);
+                _obiektAtaku.DeactivateObj(true);
+            }
         }
         if (ZwróćMiWartośćParametru(1) == 0)
         {
@@ -127,9 +143,9 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     if (cel == null)
                     {
                         bool ff = PomocniczeFunkcje.ZwykłeAI(this);
-                        if (!ff && _obiektAtaku.enabled)
+                        if (!ff && _obiektAtaku.CzyAktywny)
                         {
-                            _obiektAtaku.enabled = false;
+                            _obiektAtaku.DeactivateObj();
                         }
                     }
                     ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
@@ -137,9 +153,9 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     break;
                 case 0:
                     bool f = PomocniczeFunkcje.ZwykłeAI(this);
-                    if (!f && _obiektAtaku.enabled)
+                    if (!f && _obiektAtaku.CzyAktywny)
                     {
-                        _obiektAtaku.enabled = false;
+                        _obiektAtaku.DeactivateObj(true);
                     }
                     głównyIndex++;
                     break;
@@ -406,7 +422,9 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 PomocniczeFunkcje.muzyka.ustawGłośność += this.UstawGłośnośćNPC;
             }
             SetGłównyIndexDiffValue();
-            this._obiektAtaku.transform.position = this.transform.position;
+            if (this._obiektAtaku != null)
+                this._obiektAtaku.DeactivateObj(true);
+            this._obiektAtakuAnimacja.enabled = true;
         }
         if (!enab)
         {
@@ -433,50 +451,54 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private void DodajNavMeshAgent()
     {
         agent = this.gameObject.AddComponent<NavMeshAgent>();
-        agent.stoppingDistance = (zasięgAtaku == 0) ? 1.5f : zasięgAtaku;
+        agent.stoppingDistance = (zasięgAtaku == 0) ? .25f : zasięgAtaku;
+        agent.speed = prędkość;
+        this.agent.radius = 0.1f;
+        this.agent.height = 0.9f;
     }
-    public override void Atakuj(bool wZwarciu)
+    public override void Atakuj()
     {
-        AtakujCel(wZwarciu);
+        AtakujCel();
     }
     ///<summary>Obsłuż atak NPC.</summary>
-    ///<param name="czyWZwarciu">Czy obiekt atakuje z bliska?</param>
-    private void AtakujCel(bool czyWZwarciu)
+    private void AtakujCel()
     {
         if (aktualnyReuseAtaku < szybkośćAtaku)
         {
-            aktualnyReuseAtaku += Time.deltaTime * 2f;
+            aktualnyReuseAtaku += Time.deltaTime;
             float f = szybkośćAtaku - aktualnyReuseAtaku;
-            if (f <= 0.1f)
+            if (f <= 0.1f)   //Jeśli strzela to się zaczyna
             {
-                bool czyPrzetwarzac = ((czyWZwarciu && mainRenderer.isVisible) || !czyWZwarciu) ? true : false;
-                if (_obiektAtaku != null)
+                if (_obiektAtaku == null) return;
+                bool czyWidze = mainRenderer.isVisible;
+                if (!czyAtakJestAktywny)
                 {
-                    if (!_obiektAtaku.enabled)
+                    czyAtakJestAktywny = true;
+                    if (typNPC == TypNPC.WalczyNaDystans)
                     {
-                        if (czyPrzetwarzac)
+                        _obiektAtaku.ActivateObj(cel.transform.position.x, cel.transform.position.z);
+                        _obiektAtakuAnimacja.enabled = !czyAtakJestAktywny;
+                    }
+                    if (czyWidze)
+                    {
+                        if (efektyFxStart != null)
                         {
-                            _obiektAtaku.enabled = true;
-                            if (czyWZwarciu && mainRenderer.isVisible)
-                            {
-                                if (efektyFxStart != null && czyPrzetwarzac)
-                                {
-                                    efektyFxStart.transform.position = this.transform.position;
-                                    efektyFxStart.Play();
-                                }
-                                _obiektAtaku.transform.LookAt(cel.transform.position);
-                            }
+                            efektyFxStart.transform.position = this.transform.position;
+                            efektyFxStart.Play();
                         }
                         PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, (this.typNPC == TypNPC.WalczyNaDystans || this.typNPC == TypNPC.WalczynaDystansIWZwarciu) ?
-                        PomocniczeFunkcje.TagZEpoka("AtakNPCDystans", this.epokaNPC, this.tagRodzajDoDźwięków) :
-                        PomocniczeFunkcje.TagZEpoka("AtakNPCZwarcie", this.epokaNPC, this.tagRodzajDoDźwięków), true);
+                            PomocniczeFunkcje.TagZEpoka("AtakNPCDystans", this.epokaNPC, this.tagRodzajDoDźwięków) :
+                            PomocniczeFunkcje.TagZEpoka("AtakNPCZwarcie", this.epokaNPC, this.tagRodzajDoDźwięków), true);
                     }
-                    else
+                }
+                else
+                {
+                    if (f < 0)
                     {
-                        if (f < 0)
+                        f = 0;
+                        if (czyWidze)
                         {
-                            f = 0;
-                            if (efektyFxKoniec != null && czyPrzetwarzac)
+                            if (efektyFxKoniec != null)
                             {
                                 efektyFxKoniec.transform.position = cel.transform.position;
                                 efektyFxKoniec.Play();
@@ -485,27 +507,28 @@ public class KonkretnyNPCDynamiczny : NPCClass
                             PomocniczeFunkcje.TagZEpoka("TrafienieNPC", this.epokaNPC, this.tagRodzajDoDźwięków) :
                             PomocniczeFunkcje.TagZEpoka("TrafienieNPC", this.epokaNPC, this.tagRodzajDoDźwięków), true);
                         }
-                        else
-                        {
-                            f *= 10f;
-                        }
-                        if (czyPrzetwarzac)
-                            _obiektAtaku.transform.position = Vector3.Lerp(cel.transform.position, this.transform.position, f);
+                    }
+                    else if (typNPC == TypNPC.WalczyNaDystans && czyWidze)
+                    {
+                        _obiektAtaku.SetActPos(f);
+                        //_obiektAtaku.transform.position = Vector3.Lerp(cel.transform.position, posRęki.position, f);
                     }
                 }
-
             }
             return;
         }
-        if (_obiektAtaku.enabled)
-        {
-            _obiektAtaku.enabled = false;
-        }
+        //Następuje zadawanie obrażeń
+        czyAtakJestAktywny = false;
         this.transform.LookAt(cel.transform.position);
         aktualnyReuseAtaku = 0.0f;
         cel.ZmianaHP((short)Mathf.FloorToInt((zadawaneObrażenia * this.modyfikatorZadawanychObrażeń)));
-        if (czyWZwarciu)
+        if (this.typNPC == TypNPC.WalczyWZwarciu)
             this.ZmianaHP(cel.ZwrócOdbiteObrażenia());
+        else
+        {
+            _obiektAtaku.DeactivateObj();
+            _obiektAtakuAnimacja.enabled = !czyAtakJestAktywny;
+        }
     }
     ///<summary>Funkcja zwraca najbliższy obiekt (Konkretny NPC Statyczny) postawiony przez gracza względem NPC.</summary>
     public KonkretnyNPCStatyczny WyszukajNajbliższyObiekt()
@@ -631,5 +654,14 @@ public class KonkretnyNPCDynamiczny : NPCClass
     public void SetGłównyIndexDiffValue()
     {
         głównyIndex = (sbyte)Random.Range(-5, -1);
+    }
+    ///<summary>Ustawia wartości dla NPC po ponownym odpaleniu.</summary>
+    public void UstawWartościPoPoolowaniu()
+    {
+        AktualneŻycie = maksymalneŻycie;
+        RysujPasekŻycia = true;
+        NieŻyję = false;
+        SetGłównyIndexDiffValue();
+        WłWyłObj(true);
     }
 }

@@ -637,7 +637,7 @@ public static class PomocniczeFunkcje
                 if (d <= pObiekt.zasięgAtaku)
                 {
                     //Atakuj
-                    pObiekt.Atakuj((cObiekt.typNPC == TypNPC.WalczyWZwarciu) ? true : false);
+                    pObiekt.Atakuj();
                     if (pObiekt.ZwróćMiWartośćParametru(2) == 1)
                     {
                         pObiekt.ObsluzAnimacje("inRange", true);

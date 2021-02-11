@@ -160,7 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aktualnaEpoka: 1
   aktualnyPoziomEpoki: 1
-  "czasMi\u0119dzyFalami": 30
+  "czasMi\u0119dzyFalami": 5
   zaznaczonyObiekt: {fileID: 0}
   bazy:
   - {fileID: 6607723662127755433, guid: a0c85e2276b00894d99e3b7ef7265cff, type: 3}
@@ -172,13 +172,12 @@ MonoBehaviour:
   skrzynki: []
   plikJezykowy: {fileID: 4900000, guid: aa2e13c07c2c82e478f40ebcda33e5f5, type: 3}
   wszystkieRodzajeWrogichJednostek:
-  - {fileID: 6773174147869840242, guid: 828f681922577fe40acd6b9ad4cae326, type: 3}
-  - {fileID: 123216872998805141, guid: a8fe9acb1e0f9f74c81a0ac4738f9efe, type: 3}
+  - {fileID: 3287102806458154673, guid: 413ecb2ef19c41a448dfd791ffaff219, type: 3}
+  - {fileID: 2290084241084326406, guid: dd1612c3f583e4248a39f415778f1e92, type: 3}
   hpIdx: 0
   atkIdx: 0
   defIdx: 0
-  particleSystems:
-  - {fileID: 0}
+  particleSystems: []
   toNieOstatniaFala: 0
   blokowanieOrientacji: 1
 --- !u!114 &8539881029944531418
