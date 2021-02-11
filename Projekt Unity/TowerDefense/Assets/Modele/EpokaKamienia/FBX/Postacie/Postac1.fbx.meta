@@ -18,106 +18,16 @@ ModelImporter:
   - first:
       74: -448239265334008587
     second: Armature.001|Walk
-  - first:
-      74: -6755806216925098934
-    second: Atak_Ruch
-  - first:
-      74: -2649685534437150518
-    second: Atak_Uzbrojenie
-  - first:
-      74: 6274595976854743176
-    second: Idle
-  - first:
-      74: 5157411008585331769
-    second: "\u015Amier\u0107"
-  - first:
-      74: 6029007735175630814
-    second: Walk
-  - first:
-      74: -3617548769221503093
-    second: Atak_Ruch //// Postac1.001
-  - first:
-      74: 646714392199984825
-    second: Atak_Uzbrojenie //// Postac1.001
-  - first:
-      74: -368041568889528567
-    second: Idle //// Postac1.001
-  - first:
-      74: -2073591187143875538
-    second: "\u015Amier\u0107 //// Postac1.001"
-  - first:
-      74: 3925433485456826509
-    second: Walk //// Postac1.001
-  - first:
-      74: -1519159090777117121
-    second: Atak_Ruch //// Postac1.001
-  - first:
-      74: -2815112179734412106
-    second: Atak_Uzbrojenie //// Postac1.001
-  - first:
-      74: -6327248927884356304
-    second: Idle //// Postac1.001
-  - first:
-      74: 3046664722386429282
-    second: "\u015Amier\u0107 //// Postac1.001"
-  - first:
-      74: 7621007321980188526
-    second: Walk //// Postac1.001
-  - first:
-      74: -1757832874846146511
-    second: Atak_Ruch //// Postac1.001
-  - first:
-      74: -5428736847397156873
-    second: Atak_Uzbrojenie //// Postac1.001
-  - first:
-      74: -701445586844848994
-    second: Idle //// Postac1.001
-  - first:
-      74: -1220298560976425366
-    second: "\u015Amier\u0107 //// Postac1.001"
-  - first:
-      74: -1682489781887660694
-    second: Walk //// Postac1.001
-  - first:
-      74: 782823112087705319
-    second: Atak_Ruch //// Postac1.001
-  - first:
-      74: 1434967028892817728
-    second: Atak_Uzbrojenie //// Postac1.001
-  - first:
-      74: 303008211338971465
-    second: Idle //// Postac1.001
-  - first:
-      74: 689109106434966675
-    second: "\u015Amier\u0107 //// Postac1.001"
-  - first:
-      74: -8420652471499801880
-    second: Walk //// Postac1.001
-  - first:
-      74: -6300666157898095920
-    second: Atak_Ruch //// Postac1.001
-  - first:
-      74: -7417310301148327825
-    second: Atak_Uzbrojenie //// Postac1.001
-  - first:
-      74: 2131117709364187891
-    second: Idle //// Postac1.001
-  - first:
-      74: 1815737542419623550
-    second: "\u015Amier\u0107 //// Postac1.001"
-  - first:
-      74: 8802938404783588989
-    second: Walk //// Postac1.001
   externalObjects: {}
   materials:
-    materialImportMode: 0
+    materialImportMode: 2
     materialName: 0
     materialSearch: 1
     materialLocation: 1
   animations:
-    legacyGenerateAnimations: 1
+    legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleCurves: 0
+    resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
@@ -137,23 +47,23 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Atak_Ruch
-      takeName: Postac1.001|Armature.001|Armature.001|AtakRuch|Armature.001|AtakRuch
+      name: Armature.001|AtakRuch
+      takeName: Armature.001|AtakRuch
       internalID: 0
-      firstFrame: 2
-      lastFrame: 64
+      firstFrame: 0
+      lastFrame: 65
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
-      loopBlendOrientation: 1
+      loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 1
+      keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
@@ -166,37 +76,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Atak_Uzbrojenie
-      takeName: Postac1.001|Armature.001|Armature.001|AtakUzbrojenie|Armature.001|AtakUzbro
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 83
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 1
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 1
-      keepOriginalPositionY: 0
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Idle
-      takeName: Postac1.001|Armature.001|Armature.001|Idle|Armature.001|Idle
+      name: Armature.001|Idle
+      takeName: Armature.001|Idle
       internalID: 0
       firstFrame: 1
       lastFrame: 45
@@ -206,13 +87,13 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 1
-      keepOriginalPositionY: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
       mirror: 0
@@ -224,8 +105,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: "\u015Amier\u0107"
-      takeName: Postac1.001|Armature.001|Armature.001|Smierc|Armature.001|Smierc
+      name: Armature.001|Smierc
+      takeName: Armature.001|Smierc
       internalID: 0
       firstFrame: 0
       lastFrame: 47
@@ -253,10 +134,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Walk
-      takeName: Postac1.001|Armature.001|Armature.001|Walk|Armature.001|Walk
+      name: Armature.001|Walk
+      takeName: Armature.001|Walk
       internalID: 0
-      firstFrame: 0
+      firstFrame: 1
       lastFrame: 40
       wrapMode: 0
       orientationOffsetY: 0
@@ -264,7 +145,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -285,24 +166,24 @@ ModelImporter:
   meshes:
     lODScreenPercentages: []
     globalScale: 1
-    meshCompression: 2
+    meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
-    sortHierarchyByName: 0
-    importVisibility: 0
+    sortHierarchyByName: 1
+    importVisibility: 1
     importBlendShapes: 1
-    importCameras: 0
-    importLights: 0
+    importCameras: 1
+    importLights: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
-    weldVertices: 0
+    weldVertices: 1
     bakeAxisConversion: 0
     preserveHierarchy: 0
-    skinWeightsMode: 1
-    maxBonesPerVertex: 1
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
     minBoneWeight: 0.001
     meshOptimizationFlags: -1
     indexFormat: 0
@@ -317,7 +198,7 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
-    tangentImportMode: 1
+    tangentImportMode: 3
     normalCalculationMode: 4
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
@@ -336,15 +217,15 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: Postac1.001
+    rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 1
+    hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 1
+  avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   additionalBone: 0
   userData: 
