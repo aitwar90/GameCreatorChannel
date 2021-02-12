@@ -108,12 +108,12 @@ public class KonkretnyNPCDynamiczny : NPCClass
         if (obiektAtakuDystansowego != null)
         {
             _obiektAtakuAnimacja = Instantiate(obiektAtakuDystansowego, posRęki.position, posRęki.rotation).GetComponent<Renderer>();
-            _obiektAtakuAnimacja.transform.localScale = posRęki.localScale;
+            //_obiektAtakuAnimacja.transform.localScale = posRęki.localScale;
             _obiektAtakuAnimacja.transform.SetParent(posRęki);
             if (this.typNPC == TypNPC.WalczyNaDystans)
             {
                 GameObject go = Instantiate(obiektAtakuDystansowego, posRęki.position, posRęki.rotation);
-                go.transform.localScale = posRęki.localScale;
+                //go.transform.localScale = posRęki.localScale;
                 go.transform.SetParent(this.transform);
                 _obiektAtaku = new MagazynObiektówAtaków(0, 0f, 0.0f, go.transform.localPosition.x, go.transform.localPosition.z, go.transform);
                 _obiektAtaku.DeactivateObj(true);
