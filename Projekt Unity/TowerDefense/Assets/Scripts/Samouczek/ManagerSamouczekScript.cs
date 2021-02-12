@@ -7,16 +7,16 @@ public class ManagerSamouczekScript : MonoBehaviour
     public static ManagerSamouczekScript mssInstance = null;
     private SamouczekInfoPanelScript sips = null;
     private SamouczekKliknijTuVisual sktv = null;
-    public byte idxProgresuSamouczka = 0;
+    private byte idxProgresuSamouczka = 0;
     private byte symulujManageraUpdate = 0;
-    public bool sprawdzajCzyZaliczone = false;
+    private bool sprawdzajCzyZaliczone = false;
     public TextAsset plikTekstowySamouczka;
     private string[] zaladujTextKonkretne = null;
     private ushort tmpHajs = 0;
     private Skrzynka[] skrzynki = null;
     private byte e1 = 0, e2 = 0, e3 = 0, e4 = 0;
     private ushort thp = 0, atkIdx = 0, defidx = 0;
-    public sbyte zmiennaPomocnicza = -1;
+    private sbyte zmiennaPomocnicza = -1;
     public static bool byloZaladowane = false;
     public sbyte ZmiennaPomocnicza
     {
