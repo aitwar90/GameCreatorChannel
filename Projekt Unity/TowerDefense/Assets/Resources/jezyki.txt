@@ -48,6 +48,8 @@ PlayButtonInside,Graj,Play;
 PowtórzButton,Powtórz Poziom,Repead level;
 RotacjaBudynku,Obrót,Rotate;
 title_gameplay,Rozgrywka,Game;
+WinTXT,WYGRANA,WINNER;
+LoseTXT,PRZEGRANA,LOST;
 KosztBudynek,KOSZT NAPRAWY:,REPAIR COST:;
 Skrzynka4,Skrzynka4,Box 4;
 Budynek (1)=nazwa,Mur Standard,Simple Wall;

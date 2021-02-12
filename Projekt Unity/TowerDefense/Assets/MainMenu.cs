@@ -35,6 +35,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public Text ilośćCoinów;
     public Text ilośćFal;
     public Text lFPS;
+    public Text winTXT;
+    public Text loseTXT;
     private Text actWybEpoka;
     private Text licznikCzasuDoFali;
     public InputField poziomWEpoce;
@@ -162,7 +164,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         nastepnyPoziom.interactable = false;
         rekZaWyzszaNagrode.gameObject.SetActive(false);
         WłączWyłączPanel(new string[] {goPanel.name, uiBudynkiPanel.name, ui_down.name, uiGry.name, optionsMenu.name,
-        reklamyPanel.name, poGraj.name, samouczekPanel.name, "Cretidsy"}, false);
+        reklamyPanel.name, poGraj.name, winTXT.name, loseTXT.name, samouczekPanel.name, "Cretidsy"}, 
+        false);
     }
     #region Obsługa paneli UI, Czy mogę przesuwać kamerę (), Pasek HP
     ///<summary>Metoda włącza lub wyłącza panel zgodny z podanymi parametrami.</summary>
@@ -207,13 +210,21 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         {
             licznikCzasuDoFali.transform.parent.gameObject.SetActive(czyWłączyć);
         }
+        else if (panel == winTXT.name)
+        {
+            winTXT.gameObject.SetActive(czyWłączyć);
+        }
+        else if (panel == loseTXT.name)
+        {
+            loseTXT.gameObject.SetActive(czyWłączyć);
+        }
         else if (panel == samouczekPanel.name)
         {
             samouczekPanel.SetActive(czyWłączyć);
         }
         else if (panel == "Cretidsy") //Powinno być ostatnie (kto odpala creditsy xD)
         {
-            this.transform.Find("Menu/Cretidsy").GetComponent<Canvas>().enabled = czyWłączyć;
+            this.transform.Find("Menu/Cretidsy").gameObject.SetActive(czyWłączyć);
         }
     }
     ///<summary>Metoda włącza lub wyłącza panel zgodny z podanymi parametrami.</summary>
@@ -259,6 +270,14 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             else if (panel[i] == "UI_LicznikCzasu")
             {
                 licznikCzasuDoFali.transform.parent.gameObject.SetActive(czyWłączyć);
+            }
+            else if (panel[i] == winTXT.name)
+            {
+                winTXT.gameObject.SetActive(czyWłączyć);
+            }
+            else if (panel[i] == loseTXT.name)
+            {
+                loseTXT.gameObject.SetActive(czyWłączyć);
             }
             else if (panel[i] == samouczekPanel.name)
             {
@@ -415,15 +434,17 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             case "skrócenieCzasuSkrzynki":
                 zwracanaPos = przyciskiNagród[3].GetComponent<RectTransform>().position;
                 break;
-            case "buttonAŻycie":
-                zwracanaPos = buttonAZycie.GetComponent<RectTransform>().position;
-                break;
-            case "buttonAAtak":
-                zwracanaPos = buttonAAtak.GetComponent<RectTransform>().position;
-                break;
-            case "buttonAObrona":
-                zwracanaPos = buttonAObrona.GetComponent<RectTransform>().position;
-                break;
+            /*
+        case "buttonAŻycie":
+            zwracanaPos = buttonAZycie.GetComponent<RectTransform>().position;
+            break;
+        case "buttonAAtak":
+            zwracanaPos = buttonAAtak.GetComponent<RectTransform>().position;
+            break;
+        case "buttonAObrona":
+            zwracanaPos = buttonAObrona.GetComponent<RectTransform>().position;
+            break;
+            */
             case "kupnoWieża":
                 zwracanaPos = ui_down.transform.Find("kupno_wieza").GetComponent<RectTransform>().position;
                 break;

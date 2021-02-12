@@ -650,6 +650,11 @@ public class ManagerGryScript : MonoBehaviour
             PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
             OdblokujKolejnaSkrzynke();
             PomocniczeFunkcje.ZapiszDane();
+            PomocniczeFunkcje.mainMenu.WłączWyłączPanel("WinTXT", true);
+        }
+        else
+        {
+            PomocniczeFunkcje.mainMenu.WłączWyłączPanel("LoseTXT", true);
         }
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("GameOver Panel", true);
@@ -674,7 +679,7 @@ public class ManagerGryScript : MonoBehaviour
             }
         }
         PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = false;
-        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("GameOver Panel", false);
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] {"GameOver Panel", "WinTXT", "LoseTXT"}, false);
         poziomZakonczony = false;
         PomocniczeFunkcje.mainMenu.ResetSceny((sbyte)aktualnyPoziomEpoki);
     }
