@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: d7b18b0976b96d44d830190131186f27, type: 2}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: nazwa
-      value: Kamienny Mur I
+      value: Kamienny Mur III
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: poziom
@@ -34,7 +34,7 @@ PrefabInstance:
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: obrazekDoBudynku
       value: 
-      objectReference: {fileID: 21300000, guid: e390aaa7c0a52ab4f9a909baa5405b7c, type: 3}
+      objectReference: {fileID: 21300000, guid: 85158cfdcf4a9dd4b8cb784375ca88a5, type: 3}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: "odbiteObra\u017Cenia"
       value: 4

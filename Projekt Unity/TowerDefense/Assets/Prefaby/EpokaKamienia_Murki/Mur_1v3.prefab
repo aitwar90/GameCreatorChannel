@@ -56,6 +56,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: d44c20d34d0084347bf679d9a4b906fa, type: 2}
     - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
+      propertyPath: nazwa
+      value: Kamienny Mur I
+      objectReference: {fileID: 0}
+    - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
       propertyPath: poziom
       value: 25
       objectReference: {fileID: 0}
@@ -75,6 +79,10 @@ PrefabInstance:
       propertyPath: "maksymalne\u017Bycie"
       value: 5000
       objectReference: {fileID: 0}
+    - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
+      propertyPath: obrazekDoBudynku
+      value: 
+      objectReference: {fileID: 21300000, guid: e7d962e96409be346897fa250f6b37fa, type: 3}
     - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
       propertyPath: "odbiteObra\u017Cenia"
       value: 2
