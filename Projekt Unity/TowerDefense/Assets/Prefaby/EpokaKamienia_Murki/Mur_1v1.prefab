@@ -13,74 +13,77 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: d7b18b0976b96d44d830190131186f27, type: 2}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: nazwa
-      value: Kamienny Mur III
+      value: Kamienny Mur I
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: poziom
       value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
+      propertyPath: opisBudynku
+      value: Wzmocniony kamienny mur
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
+      propertyPath: kosztJednostki
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
+      propertyPath: "maksymalne\u017Bycie"
+      value: 20000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: obrazekDoBudynku
       value: 
-      objectReference: {fileID: 21300000, guid: e390aaa7c0a52ab4f9a909baa5405b7c,
-        type: 3}
-    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
-        type: 3}
+      objectReference: {fileID: 21300000, guid: e390aaa7c0a52ab4f9a909baa5405b7c, type: 3}
+    - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
+      propertyPath: "odbiteObra\u017Cenia"
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
-        type: 3}
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
-        type: 3}
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
-        type: 3}
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
-        type: 3}
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
-        type: 3}
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
-        type: 3}
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
-        type: 3}
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
-        type: 3}
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
-        type: 3}
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
-        type: 3}
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5199389168166684428, guid: c2b6a5871752d79708d4ec3a7686bc86,
-        type: 3}
+    - target: {fileID: 5199389168166684428, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: m_Name
       value: Mur_1v1
       objectReference: {fileID: 0}
