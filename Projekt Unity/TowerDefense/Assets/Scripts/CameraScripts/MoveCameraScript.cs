@@ -240,7 +240,7 @@ public class MoveCameraScript : MonoBehaviour
             Vector2 przyb1Prev = przybliżenie1.deltaPosition - przybliżenie2.deltaPosition;
             float różnicaPrzybliżenia = DodajElementyWektora(ref przyb1Prev) * prędkoscPrzesunięciaKamery;
             Vector3 eNP = this.transform.position + (this.transform.forward * różnicaPrzybliżenia);
-            if (Mathf.Abs(eNP.y - bazowePolozenieKameryGry.y) < 3)
+            if (Mathf.Abs(eNP.y - bazowePolozenieKameryGry.y) < 2.5)
             {
                 transform.position = eNP;
                 ostatniaPozycjaKamery = eNP;

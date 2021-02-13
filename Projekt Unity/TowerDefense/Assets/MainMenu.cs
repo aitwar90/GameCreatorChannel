@@ -127,6 +127,30 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             return lastPanelEnabledBuildings;
         }
     }
+    public PanelDynamiczny GetKontenerKomponentówDynamic
+    {
+        get
+        {
+            if(panelDynamiczny.gameObject.activeInHierarchy)
+            {
+                return (PanelDynamiczny)panelDynamiczny;
+            }
+            else
+                return null;
+        }
+    }
+    public PanelStatyczny GetKontenerKomponentówStatic
+    {
+        get
+        {
+            if(panelStatyczny.gameObject.activeInHierarchy)
+            {
+                return (PanelStatyczny)panelStatyczny;
+            }
+            else
+                return null;
+        }
+    }
     #endregion
     void Awake()
     {

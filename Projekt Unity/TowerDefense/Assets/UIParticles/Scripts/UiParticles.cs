@@ -49,7 +49,7 @@ namespace UiParticles
         [SerializeField]
         [Tooltip("If true, particles ignore timescale")]
         private bool m_IgnoreTimescale = false;
-        private bool isEnabeld = true;
+        private bool isEnabeld = false;
         private float actTimer = 0;
         #endregion
 

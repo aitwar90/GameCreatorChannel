@@ -266,7 +266,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             rysujPasekŻycia = false;
             sprite.parent.gameObject.SetActive(false);
-            if(SpawnerHord.actualHPBars > 0)
+            if (SpawnerHord.actualHPBars > 0)
                 SpawnerHord.actualHPBars--;
         }
         if (rysujPasekŻycia)
@@ -279,6 +279,20 @@ public class KonkretnyNPCDynamiczny : NPCClass
             Vector2 pozycjaPostaci = Camera.main.WorldToScreenPoint(tempPos);
             GUI.Box(new Rect(pozycjaPostaci.x - 30, Screen.height - pozycjaPostaci.y - 30, 60, 20), this.AktualneŻycie + " / " + maksymalneŻycie);
             */
+        }
+        if (MainMenu.singelton.OdpalonyPanel)
+        {
+            if (PomocniczeFunkcje.managerGryScript.zaznaczonyObiekt != null)
+            {
+                if (PomocniczeFunkcje.managerGryScript.zaznaczonyObiekt.GetInstanceID() == this.GetInstanceID())
+                {
+                    PanelDynamiczny ps = MainMenu.singelton.GetKontenerKomponentówDynamic;
+                    if (ps != null)
+                    {
+                        ps.UstawDaneDynamiczne(0, AktualneŻycie.ToString() + "/" + this.maksymalneŻycie.ToString());
+                    }
+                }
+            }
         }
     }
     protected override void UsuńJednostkę()
@@ -467,7 +481,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         if (aktualnyReuseAtaku < szybkośćAtaku)
         {
-            aktualnyReuseAtaku += Time.deltaTime*5.0f;
+            aktualnyReuseAtaku += Time.deltaTime * 5.0f;
             float f = szybkośćAtaku - aktualnyReuseAtaku;
             if (f <= 0.2f)   //Jeśli strzela to się zaczyna
             {
@@ -513,7 +527,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     }
                     else if (typNPC == TypNPC.WalczyNaDystans && czyWidze)
                     {
-                        _obiektAtaku.SetActPos(f*5.0f);
+                        _obiektAtaku.SetActPos(f * 5.0f);
                         //_obiektAtaku.transform.position = Vector3.Lerp(cel.transform.position, posRęki.position, f);
                     }
                 }

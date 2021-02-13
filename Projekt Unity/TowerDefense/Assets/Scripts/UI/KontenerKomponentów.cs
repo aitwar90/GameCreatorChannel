@@ -8,4 +8,12 @@ public abstract class KontenerKomponentów : MonoBehaviour
     {
 
     }
+    public virtual void UstawDaneDynamiczne(byte[] coZmienic, string[] naCo)
+    {
+
+    }
+    public virtual void UstawDaneDynamiczne(byte coZmienic, string naCo)
+    {
+        
+    }
 }

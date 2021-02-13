@@ -143,7 +143,10 @@ public static class PomocniczeFunkcje
         }
         else if (tempITeren > -1)
         {
-            return null;
+            if(CzyKliknalemUI() && !mainMenu.OdpalonyPanel)
+                return lastClass;
+            else
+                return null;
         }
         else
             return lastClass;
