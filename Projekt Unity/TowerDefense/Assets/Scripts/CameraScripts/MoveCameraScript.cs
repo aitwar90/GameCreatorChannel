@@ -5,7 +5,7 @@ public class MoveCameraScript : MonoBehaviour
     #region Zmienne publiczne
     [Range(1, 50), Tooltip("Promień odległości dla przeunięcia kamery od środka sceny")]
     public byte maxPrzesuniecieKamery = 25;
-    public static Vector3 bazowePolozenieKameryGry = new Vector3(52.0f, 10.0f, 41.0f);
+    public static Vector3 bazowePolozenieKameryGry = new Vector3(52.0f, 6.5f, 43.0f);
     #endregion
 
     #region Zmienne prywatne
