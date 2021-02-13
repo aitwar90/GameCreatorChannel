@@ -49,7 +49,6 @@ namespace UiParticles
         [SerializeField]
         [Tooltip("If true, particles ignore timescale")]
         private bool m_IgnoreTimescale = false;
-        private bool isEnabeld = false;
         private float actTimer = 0;
         #endregion
 
@@ -69,21 +68,6 @@ namespace UiParticles
             {
                 if (SetPropertyUtility.SetClass(ref m_ParticleSystem, value))
                     SetAllDirty();
-            }
-        }
-        /// <summary>
-        /// Its should enabeld
-        /// </summary>
-        ///	<value>Czy włączyć particle</value>
-        public bool IsEnabeld
-        {
-            get
-            {
-                return isEnabeld;
-            }
-            set
-            {
-                isEnabeld = value;
             }
         }
         /// <summary>
@@ -135,6 +119,7 @@ namespace UiParticles
             base.Awake();
             ParticleSystem = _particleSystem;
             m_ParticleSystemRenderer = _particleSystemRenderer;
+            this.gameObject.SetActive(false);
         }
 
 
@@ -157,8 +142,8 @@ namespace UiParticles
 
         protected virtual void Update()
         {
-            if (isEnabeld)
-            {
+            //if (isEnabeld)
+            //{
                 if (!m_IgnoreTimescale)
                 {
                     if (ParticleSystem != null && ParticleSystem.isPlaying)
@@ -176,10 +161,9 @@ namespace UiParticles
                             }
                             else
                             {
-                                ParticleSystem.Clear();
-                                ParticleSystem.Stop();
-                                isEnabeld = false;
                                 actTimer = 0.0f;
+                                ParticleSystem.Clear();
+                                this.gameObject.SetActive(false);
                             }
                         }
                         SetVerticesDirty();
@@ -193,7 +177,7 @@ namespace UiParticles
                         {
                             if (actTimer == 0.0f)
                             {
-                                ParticleSystem.Simulate(Time.unscaledDeltaTime, true, true);
+                                ParticleSystem.Simulate(0, true, true);
                                 ParticleSystem.Play();
                             }
                             if (actTimer < ParticleSystem.main.duration)
@@ -202,10 +186,9 @@ namespace UiParticles
                             }
                             else
                             {
-                                ParticleSystem.Clear();
-                                ParticleSystem.Stop();
-                                isEnabeld = false;
                                 actTimer = 0.0f;
+                                ParticleSystem.Clear();
+                                this.gameObject.SetActive(false);
                             }
                         }
                         SetVerticesDirty();
@@ -215,7 +198,7 @@ namespace UiParticles
                 // disable default particle renderer, we using our custom
                 if (m_ParticleSystemRenderer != null && m_ParticleSystemRenderer.enabled)
                     m_ParticleSystemRenderer.enabled = false;
-            }
+            //}
         }
 
 

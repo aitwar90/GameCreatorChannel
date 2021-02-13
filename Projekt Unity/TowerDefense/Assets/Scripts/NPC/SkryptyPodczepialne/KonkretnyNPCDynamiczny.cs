@@ -316,6 +316,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
             PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
         }
+        this.agent.isStopped = true;
         WyczyscDaneDynamic();
         UsuńMnieZTablicyWież(true);
         actXIdx = 32767;
@@ -451,7 +452,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 PomocniczeFunkcje.muzyka.ustawGłośność -= this.UstawGłośnośćNPC;
             }
             this.transform.position = new Vector3(0, -20, 0);
-            agent.isStopped = !enabled;
             agent.enabled = enab;
         }
     }

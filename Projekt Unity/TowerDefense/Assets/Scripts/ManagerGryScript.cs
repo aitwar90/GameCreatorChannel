@@ -39,7 +39,7 @@ public class ManagerGryScript : MonoBehaviour
     #endregion
     #region Particles
     [Tooltip("Particle dla konkretnych etapów gry na Canvasie: \n [0] - Gracz wygrał")]
-    public UiParticles.UiParticles[] particleSystems;
+    public GameObject[] particleSystems;
     #endregion
     #region Prywatne zmienne
     KonkretnyNPCStatyczny knpcsBazy = null;
@@ -624,7 +624,7 @@ public class ManagerGryScript : MonoBehaviour
         {
             if (particleSystems != null && particleSystems.Length > 0)
             {
-                GameObject go = GameObject.Instantiate(particleSystems[0].GetComponent<ParticleSystem>().gameObject, PomocniczeFunkcje.oCam.transform.position, Quaternion.identity);
+                particleSystems[0].SetActive(true);
             }
             if (aktualnyPoziomEpoki >= PomocniczeFunkcje.odblokowanyPoziomEpoki)
             {
@@ -639,10 +639,6 @@ public class ManagerGryScript : MonoBehaviour
                 }
             }
             //  Obsługa Particle system
-            if (particleSystems[0] != null && particleSystems.Length > 0)
-            {
-                particleSystems[0].IsEnabeld = true;
-            }
             PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
             PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
             OdblokujKolejnaSkrzynke();
