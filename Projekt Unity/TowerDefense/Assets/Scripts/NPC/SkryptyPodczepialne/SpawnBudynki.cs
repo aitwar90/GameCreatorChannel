@@ -326,6 +326,7 @@ public class SpawnBudynki : MonoBehaviour
         materialWybranegoBudynku = null;
         aktualnieWybranyIndeksObiektuTabZablokowany = -1;
         knpcs = null;
+        aktualnyObiekt.GetComponent<Collider>().enabled = true;
         aktualnyObiekt = null;
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
         if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
@@ -341,7 +342,6 @@ public class SpawnBudynki : MonoBehaviour
     {
         if (aktualnieWybranyIndeksObiektuTabZablokowany < 0)
         {
-            Debug.Log("aktualnieWybranyIndeksObiektuTabZablokowany < 0");
             ResetWybranegoObiektu();
             return;
         }
@@ -376,10 +376,6 @@ public class SpawnBudynki : MonoBehaviour
         {
             PodmieńNaCzerwony();
             return false;
-        }
-        else    //Tu trzeba wykrywać obiekty terenu typu drzewa, kamienie itp
-        {
-
         }
         PodmieńNaZielony();
         return true;

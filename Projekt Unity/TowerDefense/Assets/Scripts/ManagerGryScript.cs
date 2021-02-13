@@ -338,10 +338,6 @@ public class ManagerGryScript : MonoBehaviour
             knpcsBazy.InicjacjaBudynku();
             PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcsBazy, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
             baza.transform.SetParent(PomocniczeFunkcje.spawnBudynki.RodzicBudynków);
-            if (particleSystems != null && particleSystems.Length > 0)
-            {
-                particleSystems[0].IsEnabeld = true;
-            }
         }
     }
     private void SprawdźCzyScenaZostałaZaładowana()
@@ -642,6 +638,7 @@ public class ManagerGryScript : MonoBehaviour
                     PomocniczeFunkcje.odblokowanyPoziomEpoki++;
                 }
             }
+            //  Obsługa Particle system
             if (particleSystems[0] != null && particleSystems.Length > 0)
             {
                 particleSystems[0].IsEnabeld = true;

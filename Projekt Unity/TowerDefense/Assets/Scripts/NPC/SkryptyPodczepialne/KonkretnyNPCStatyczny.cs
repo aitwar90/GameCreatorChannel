@@ -96,6 +96,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             tabActAtakObj = new MagazynObiektówAtaków[10];
         else
             tabActAtakObj = new MagazynObiektówAtaków[1];
+        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.02f, this.transform.position.z);
         RysujHPBar();
     }
     ///<summary>Metoda odtwarza dźwięk stawianego budynku.</summary>
@@ -277,12 +278,15 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                             s = PomocniczeFunkcje.TagZEpoka("AtakBObszar", this.epokaNPC, this.tagRodzajDoDźwięków);
                             break;
                         case TypAtakuWieży.wszyscyWZasiegu:
-                            wrogowieWZasiegu = rootEnemy.ZwróćMiKonkretneNpc(iloscWrogowWZasiegu);
-                            for (byte i = 0; i < wrogowieWZasiegu.Length && i < 10; i++)
+                            if (rootEnemy != null)
                             {
-                                tabActAtakObj[i] = GetInstaObjFromStack(wrogowieWZasiegu[i].transform.position.x, wrogowieWZasiegu[i].transform.position.z);
+                                wrogowieWZasiegu = rootEnemy.ZwróćMiKonkretneNpc(iloscWrogowWZasiegu);
+                                for (byte i = 0; i < wrogowieWZasiegu.Length && i < 10; i++)
+                                {
+                                    tabActAtakObj[i] = GetInstaObjFromStack(wrogowieWZasiegu[i].transform.position.x, wrogowieWZasiegu[i].transform.position.z);
+                                }
+                                s = PomocniczeFunkcje.TagZEpoka("AtakBAll", this.epokaNPC, this.tagRodzajDoDźwięków);
                             }
-                            s = PomocniczeFunkcje.TagZEpoka("AtakBAll", this.epokaNPC, this.tagRodzajDoDźwięków);
                             break;
                     }
                     if (s != "")
@@ -355,22 +359,23 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     }
                     break;
                 case TypAtakuWieży.wszyscyWZasiegu: //Wszystkie cele
-                    for (byte i = 0; i < wrogowieWZasiegu.Length; i++)
+                    if (rootEnemy != null)
                     {
-                        wrogowieWZasiegu[i].ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń)));
-                    }
-                    if (cel.NieŻyję)
-                    {
-                        //Debug.Log("No to jedziemy");
-                        //Znajdź nowy target
-                        //UsuńZWrogów(cel);
-                        ZnajdźNowyCel();
+                        for (byte i = 0; i < wrogowieWZasiegu.Length; i++)
+                        {
+                            wrogowieWZasiegu[i].ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń)));
+                        }
+                        if (cel.NieŻyję)
+                        {
+                            //Debug.Log("No to jedziemy");
+                            //Znajdź nowy target
+                            //UsuńZWrogów(cel);
+                            ZnajdźNowyCel();
+                        }
                     }
                     break;
 
             }
-            if (wrogowieWZasiegu != null)
-                wrogowieWZasiegu = null;
         }
     }
     public override byte ZwrócOdbiteObrażenia()
@@ -389,7 +394,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             string c = ";ZIELONY";
             if (PomocniczeFunkcje.odblokowaneEpoki >= (byte)this.epokaNPC)
             {
-                if (PomocniczeFunkcje.odblokowanyPoziomEpoki < this.poziom)
+                if (PomocniczeFunkcje.odblokowanyPoziomEpoki < this.poziom || PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki < this.poziom)
                     c = ";CZERWONY";
                 p = ";" + this.poziom.ToString() + ";";
             }

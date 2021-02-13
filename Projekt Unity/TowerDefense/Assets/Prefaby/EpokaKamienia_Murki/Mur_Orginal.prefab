@@ -422,10 +422,11 @@ MonoBehaviour:
   poziom: 90
   "aktualne\u017Bycie": 32767
   nastawienieNPC: 0
+  aktualnyReuseAtaku: 0
   typBudynku: 0
   "odbiteObra\u017Cenia": 15
   granicaX: 1
-  granicaZ: 0.5
+  granicaZ: 0.05
   kosztBadania: 15000
   "typAtakuWie\u017Cy": 0
   blokowany: 1
@@ -447,7 +448,7 @@ SphereCollider:
   m_GameObject: {fileID: 5199389168166684428}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 1.5
   m_Center: {x: 0, y: 1.1, z: 0}

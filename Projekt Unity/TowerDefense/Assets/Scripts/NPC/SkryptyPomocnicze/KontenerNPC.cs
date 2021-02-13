@@ -250,7 +250,7 @@ public class MagazynObiektówAtaków
         objInstatiate.gameObject.SetActive(true);
         dotPos.x = x;
         dotPos.z = z;
-        objInstatiate.rotation = Quaternion.LookRotation(sPos - dotPos);
+        objInstatiate.rotation = Quaternion.LookRotation(dotPos - sPos);
     }
     ///<summary>Dezaktywacja obiektu ataku.</summary>
     public void DeactivateObj(bool czyLocal = false)

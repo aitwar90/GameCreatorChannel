@@ -72,6 +72,10 @@ PrefabInstance:
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5063593765251101683, guid: 570c799b1bcb3ae42a27440bd3e6d36a, type: 3}
+      propertyPath: "zasi\u0119gAtaku"
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5063593765251101683, guid: 570c799b1bcb3ae42a27440bd3e6d36a, type: 3}
       propertyPath: poziomBudynku
       value: 10
       objectReference: {fileID: 0}
@@ -83,6 +87,10 @@ PrefabInstance:
       propertyPath: "maksymalne\u017Bycie"
       value: 800
       objectReference: {fileID: 0}
+    - target: {fileID: 5063593765251101683, guid: 570c799b1bcb3ae42a27440bd3e6d36a, type: 3}
+      propertyPath: obrazekDoBudynku
+      value: 
+      objectReference: {fileID: 21300000, guid: 81011c11bab3cba468dd77108104d188, type: 3}
     - target: {fileID: 5063593765251101683, guid: 570c799b1bcb3ae42a27440bd3e6d36a, type: 3}
       propertyPath: "zadawaneObra\u017Cenia"
       value: 35

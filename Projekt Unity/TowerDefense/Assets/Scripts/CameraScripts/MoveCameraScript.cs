@@ -42,10 +42,10 @@ public class MoveCameraScript : MonoBehaviour
         ostatniaPozycjaKamery = pierwotnePołożenieKamery;
         szerokośćObrazu = Screen.width;
         wysokśćObrazu = Screen.height;
-        #if UNITY_ANDROID
-        if(Input.mousePresent)
+#if UNITY_ANDROID
+        if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
             prędkoscPrzesunięciaKamery = 6.0f;
-        #endif
+#endif
     }
 
     // Update is called once per frame
@@ -81,7 +81,7 @@ public class MoveCameraScript : MonoBehaviour
             {
                 if (Input.mouseScrollDelta.y != 0)
                 {
-                    PomocniczeFunkcje.mainMenu.PrzesuńBudynki(Input.mouseScrollDelta.y*30);
+                    PomocniczeFunkcje.mainMenu.PrzesuńBudynki(Input.mouseScrollDelta.y * 30);
                 }
             }
             else
@@ -118,6 +118,10 @@ public class MoveCameraScript : MonoBehaviour
             if (SprawdźCzyMogęPrzesunąćKamerę(newPos))
             {
                 this.transform.position = newPos;
+                if (MainMenu.singelton.OdpalonyPanel)
+                {
+                    MainMenu.singelton.UstawPanelUI("", Vector2.zero);
+                }
             }
         }
         else if (Input.mousePosition.x < 0 + granica)
@@ -126,6 +130,10 @@ public class MoveCameraScript : MonoBehaviour
             if (SprawdźCzyMogęPrzesunąćKamerę(newPos))
             {
                 this.transform.position = newPos;
+                if (MainMenu.singelton.OdpalonyPanel)
+                {
+                    MainMenu.singelton.UstawPanelUI("", Vector2.zero);
+                }
             }
         }
         if (Input.mousePosition.y > wysokśćObrazu - granica)
@@ -134,6 +142,10 @@ public class MoveCameraScript : MonoBehaviour
             if (SprawdźCzyMogęPrzesunąćKamerę(newPos))
             {
                 this.transform.position = newPos;
+                if (MainMenu.singelton.OdpalonyPanel)
+                {
+                    MainMenu.singelton.UstawPanelUI("", Vector2.zero);
+                }
             }
         }
         else if (Input.mousePosition.y < 0 + granica)
@@ -142,6 +154,10 @@ public class MoveCameraScript : MonoBehaviour
             if (SprawdźCzyMogęPrzesunąćKamerę(newPos))
             {
                 this.transform.position = newPos;
+                if (MainMenu.singelton.OdpalonyPanel)
+                {
+                    MainMenu.singelton.UstawPanelUI("", Vector2.zero);
+                }
             }
         }
     }
@@ -153,6 +169,10 @@ public class MoveCameraScript : MonoBehaviour
             if (SprawdźCzyMogęPrzesunąćKamerę(posDotyk))
             {
                 this.transform.position = posDotyk;
+                if (MainMenu.singelton.OdpalonyPanel)
+                {
+                    MainMenu.singelton.UstawPanelUI("", Vector2.zero);
+                }
             }
         }
         else if (Input.GetKey(KeyCode.S))
@@ -161,6 +181,10 @@ public class MoveCameraScript : MonoBehaviour
             if (SprawdźCzyMogęPrzesunąćKamerę(posDotyk))
             {
                 this.transform.position = posDotyk;
+                if (MainMenu.singelton.OdpalonyPanel)
+                {
+                    MainMenu.singelton.UstawPanelUI("", Vector2.zero);
+                }
             }
         }
         if (Input.GetKey(KeyCode.A))
@@ -169,6 +193,10 @@ public class MoveCameraScript : MonoBehaviour
             if (SprawdźCzyMogęPrzesunąćKamerę(posDotyk))
             {
                 this.transform.position = posDotyk;
+                if (MainMenu.singelton.OdpalonyPanel)
+                {
+                    MainMenu.singelton.UstawPanelUI("", Vector2.zero);
+                }
             }
         }
         else if (Input.GetKey(KeyCode.D))
@@ -177,6 +205,10 @@ public class MoveCameraScript : MonoBehaviour
             if (SprawdźCzyMogęPrzesunąćKamerę(posDotyk))
             {
                 this.transform.position = posDotyk;
+                if (MainMenu.singelton.OdpalonyPanel)
+                {
+                    MainMenu.singelton.UstawPanelUI("", Vector2.zero);
+                }
             }
         }
     }
@@ -191,10 +223,10 @@ public class MoveCameraScript : MonoBehaviour
             if (dotyk.phase == TouchPhase.Moved) //Jeśli wykrywa przesunięcie palcem po ekranie
             {
                 Vector2 dPos = dotyk.deltaPosition * this.prędkoscPrzesunięciaKamery;
-                Vector3 tmp = new Vector3(this.transform.position.x + dPos.x, 0, this.transform.position.z + dPos.y);
+                Vector3 tmp = new Vector3(this.transform.position.x + dPos.x, this.transform.position.y, this.transform.position.z + dPos.y);
                 if (SprawdźCzyMogęPrzesunąćKamerę(tmp))
                 {
-                    tmp.y = bazowePolozenieKameryGry.y;
+                    tmp.y = (ostatniaPozycjaKamery.y > 2.0) ? ostatniaPozycjaKamery.y : bazowePolozenieKameryGry.y;
                     this.transform.position = tmp;
                 }
             }
@@ -204,11 +236,19 @@ public class MoveCameraScript : MonoBehaviour
             Touch przybliżenie1 = Input.GetTouch(0);
             Touch przybliżenie2 = Input.GetTouch(1);
             //Przesuniecie w lewo deltaposition.x jest - w prawo + w góre y + w dół -
+            //Debug.Log("Przybliżenie deltaPosition 1 "+przybliżenie1.deltaPosition+" Przyblizenie 2 delta position = "+przybliżenie2.deltaPosition);
             Vector2 przyb1Prev = przybliżenie1.deltaPosition - przybliżenie2.deltaPosition;
             float różnicaPrzybliżenia = DodajElementyWektora(ref przyb1Prev) * prędkoscPrzesunięciaKamery;
             Vector3 eNP = this.transform.position + (this.transform.forward * różnicaPrzybliżenia);
             if (Mathf.Abs(eNP.y - bazowePolozenieKameryGry.y) < 3)
+            {
                 transform.position = eNP;
+                ostatniaPozycjaKamery = eNP;
+            }
+            if (MainMenu.singelton.OdpalonyPanel)
+            {
+                MainMenu.singelton.UstawPanelUI("", Vector2.zero);
+            }
         }
     }
     private float DodajElementyWektora(ref Vector2 v)

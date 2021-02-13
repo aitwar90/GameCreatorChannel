@@ -266,6 +266,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             rysujPasekŻycia = false;
             sprite.parent.gameObject.SetActive(false);
+            if(SpawnerHord.actualHPBars > 0)
+                SpawnerHord.actualHPBars--;
         }
         if (rysujPasekŻycia)
         {
@@ -327,7 +329,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 StartCoroutine(SkasujObject(3.0f));
             }
         }
-        this.agent.isStopped = true;
         StartCoroutine(WyłObjTimer());
     }
     ///<summary>Metoda generuje trasę dla wroga. Określa logikę postępowania i rozdziela zadania.</summary>
@@ -436,6 +437,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 PomocniczeFunkcje.muzyka.ustawGłośność -= this.UstawGłośnośćNPC;
             }
             this.transform.position = new Vector3(0, -20, 0);
+            agent.isStopped = !enabled;
             agent.enabled = enab;
         }
     }

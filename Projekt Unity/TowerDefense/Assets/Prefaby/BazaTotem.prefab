@@ -109,13 +109,14 @@ MonoBehaviour:
   cel: {fileID: 0}
   "odg\u0142osyNPC": {fileID: 0}
   "tagRodzajDoD\u017Awi\u0119k\xF3w": _Drewno
+  poziom: 1
   "aktualne\u017Bycie": 32767
   nastawienieNPC: 0
+  aktualnyReuseAtaku: 0
   typBudynku: 3
   "odbiteObra\u017Cenia": 1
-  granicaX: 1.5
-  granicaZ: 1.5
-  poziomBudynku: 1
+  granicaX: 0.8
+  granicaZ: 0.8
   kosztBadania: 0
   "typAtakuWie\u017Cy": 0
   blokowany: 1
@@ -126,6 +127,7 @@ MonoBehaviour:
   obrazekDoBudynku: {fileID: 0}
   sprite: {fileID: 0}
   opisBudynku: "To g\u0142\xF3wny budynek gracza"
+  iloscWrogowWZasiegu: 0
   zablokowany: 1
 --- !u!135 &671457483241777074
 SphereCollider:

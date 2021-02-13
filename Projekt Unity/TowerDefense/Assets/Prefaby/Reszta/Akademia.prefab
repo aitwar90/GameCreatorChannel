@@ -243,6 +243,7 @@ MonoBehaviour:
   poziom: 1
   "aktualne\u017Bycie": 32767
   nastawienieNPC: 0
+  aktualnyReuseAtaku: 0
   typBudynku: 2
   "odbiteObra\u017Cenia": 0
   granicaX: 1
@@ -257,7 +258,8 @@ MonoBehaviour:
   obrazekDoBudynku: {fileID: 0}
   sprite: {fileID: 3113172145578377462}
   opisBudynku: Akademia
-  zablokowany: 0
+  iloscWrogowWZasiegu: 0
+  zablokowany: 1
 --- !u!135 &7275247995621654197
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -267,7 +269,7 @@ SphereCollider:
   m_GameObject: {fileID: 4771659129934228991}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 1.93
   m_Center: {x: 0, y: 0, z: 0}

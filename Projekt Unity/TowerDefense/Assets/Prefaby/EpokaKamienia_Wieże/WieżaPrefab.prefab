@@ -501,13 +501,14 @@ MonoBehaviour:
   cel: {fileID: 0}
   "odg\u0142osyNPC": {fileID: 0}
   "tagRodzajDoD\u017Awi\u0119k\xF3w": "_Kamie\u0144"
+  poziom: 1
   "aktualne\u017Bycie": 32767
   nastawienieNPC: 0
+  aktualnyReuseAtaku: 0
   typBudynku: 1
   "odbiteObra\u017Cenia": 1
   granicaX: 1.1
   granicaZ: 1.1
-  poziomBudynku: 12
   kosztBadania: 2500
   "typAtakuWie\u017Cy": 2
   blokowany: 0
@@ -518,6 +519,7 @@ MonoBehaviour:
   obrazekDoBudynku: {fileID: 0}
   sprite: {fileID: 938875737}
   opisBudynku: "Wie\u017Ca"
+  iloscWrogowWZasiegu: 0
   zablokowany: 1
 --- !u!208 &1234044047
 NavMeshObstacle:
@@ -544,7 +546,7 @@ SphereCollider:
   m_GameObject: {fileID: 5936720593168581440}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 1
   m_Center: {x: -0.00011527538, y: 0.84, z: 0.00012278557}
