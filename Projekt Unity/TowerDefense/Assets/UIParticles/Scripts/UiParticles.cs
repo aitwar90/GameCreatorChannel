@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using UnityEditor;
 
 namespace UiParticles
 {
@@ -119,7 +120,10 @@ namespace UiParticles
             base.Awake();
             ParticleSystem = _particleSystem;
             m_ParticleSystemRenderer = _particleSystemRenderer;
-            this.gameObject.SetActive(false);
+            if (EditorApplication.isPlaying)
+            {
+                this.gameObject.SetActive(false);
+            }
         }
 
 
@@ -144,60 +148,60 @@ namespace UiParticles
         {
             //if (isEnabeld)
             //{
-                if (!m_IgnoreTimescale)
+            if (!m_IgnoreTimescale)
+            {
+                if (ParticleSystem != null && ParticleSystem.isPlaying)
                 {
-                    if (ParticleSystem != null && ParticleSystem.isPlaying)
+                    if (!ParticleSystem.main.loop)
                     {
-                        if (!ParticleSystem.main.loop)
+                        if (actTimer == 0.0f)
                         {
-                            if (actTimer == 0.0f)
-                            {
-                                ParticleSystem.Simulate(0.0f, true, true);
-                                ParticleSystem.Play();
-                            }
-                            if (actTimer < ParticleSystem.main.duration)
-                            {
-                                actTimer += Time.deltaTime;
-                            }
-                            else
-                            {
-                                actTimer = 0.0f;
-                                ParticleSystem.Clear();
-                                this.gameObject.SetActive(false);
-                            }
+                            ParticleSystem.Simulate(0.0f, true, true);
+                            ParticleSystem.Play();
                         }
-                        SetVerticesDirty();
+                        if (actTimer < ParticleSystem.main.duration)
+                        {
+                            actTimer += Time.deltaTime;
+                        }
+                        else
+                        {
+                            actTimer = 0.0f;
+                            ParticleSystem.Clear();
+                            this.gameObject.SetActive(false);
+                        }
                     }
+                    SetVerticesDirty();
                 }
-                else
+            }
+            else
+            {
+                if (ParticleSystem != null)
                 {
-                    if (ParticleSystem != null)
+                    if (!ParticleSystem.main.loop)
                     {
-                        if (!ParticleSystem.main.loop)
+                        if (actTimer == 0.0f)
                         {
-                            if (actTimer == 0.0f)
-                            {
-                                ParticleSystem.Simulate(0, true, true);
-                                ParticleSystem.Play();
-                            }
-                            if (actTimer < ParticleSystem.main.duration)
-                            {
-                                actTimer += Time.deltaTime;
-                            }
-                            else
-                            {
-                                actTimer = 0.0f;
-                                ParticleSystem.Clear();
-                                this.gameObject.SetActive(false);
-                            }
+                            ParticleSystem.Simulate(0, true, true);
+                            ParticleSystem.Play();
                         }
-                        SetVerticesDirty();
+                        if (actTimer < ParticleSystem.main.duration)
+                        {
+                            actTimer += Time.deltaTime;
+                        }
+                        else
+                        {
+                            actTimer = 0.0f;
+                            ParticleSystem.Clear();
+                            this.gameObject.SetActive(false);
+                        }
                     }
+                    SetVerticesDirty();
                 }
+            }
 
-                // disable default particle renderer, we using our custom
-                if (m_ParticleSystemRenderer != null && m_ParticleSystemRenderer.enabled)
-                    m_ParticleSystemRenderer.enabled = false;
+            // disable default particle renderer, we using our custom
+            if (m_ParticleSystemRenderer != null && m_ParticleSystemRenderer.enabled)
+                m_ParticleSystemRenderer.enabled = false;
             //}
         }
 
