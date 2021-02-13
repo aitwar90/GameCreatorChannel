@@ -42,7 +42,7 @@ public abstract class NPCClass : MonoBehaviour
     [SerializeField] private short aktualneŻycie = 32767;
     public NastawienieNPC nastawienieNPC;
     protected Renderer mainRenderer;
-    protected float aktualnyReuseAtaku = 0.0f;
+    public float aktualnyReuseAtaku = 0.0f;
     protected bool nieŻyję = false;
     #endregion
 

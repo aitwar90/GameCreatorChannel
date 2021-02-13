@@ -265,6 +265,16 @@ public class MagazynObiektówAtaków
         }
         objInstatiate.gameObject.SetActive(false);
     }
+    ///<summary>Zaktualizuj startową pozycję dla ammo</summary>
+    ///<param name="x">Pozycja jaka ma zostać ustawiona dla ammo po osi OX</param>
+    ///<param name="y">Pozycja jaka ma zostać ustawiona dla ammo po osi OY</param>
+    ///<param name="z">Pozycja jaka ma zostać ustawiona dla ammo po osi OZ</param>
+    public void UpdateSrartPos(float x, float y, float z)
+    {
+        sPos.x = x;
+        sPos.y = y;
+        sPos.z = z;
+    }
 }
 public class MagazynWZasięguWieży
 {

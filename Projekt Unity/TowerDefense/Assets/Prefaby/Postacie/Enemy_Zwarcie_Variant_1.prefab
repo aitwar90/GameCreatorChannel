@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1607423460581608338, guid: 413ecb2ef19c41a448dfd791ffaff219,
+        type: 3}
+      propertyPath: m_Name
+      value: Enemy_Zwarcie_Variant_1 Variant
+      objectReference: {fileID: 0}
     - target: {fileID: 2798409077448827913, guid: 413ecb2ef19c41a448dfd791ffaff219,
         type: 3}
       propertyPath: m_RootOrder
@@ -82,6 +87,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_Distance_Variant_1 Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219,
+        type: 3}
+      propertyPath: typNPC
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219,
+        type: 3}
+      propertyPath: "zasi\u0119gAtaku"
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219,
+        type: 3}
+      propertyPath: "szybko\u015B\u0107Ataku"
+      value: 2.133
+      objectReference: {fileID: 0}
+    - target: {fileID: 5468860227935079250, guid: 413ecb2ef19c41a448dfd791ffaff219,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: a0398dc22673028438c0b56fc8ea8c21, type: 2}
     - target: {fileID: 8085613820618030707, guid: 413ecb2ef19c41a448dfd791ffaff219,
         type: 3}
       propertyPath: m_Controller

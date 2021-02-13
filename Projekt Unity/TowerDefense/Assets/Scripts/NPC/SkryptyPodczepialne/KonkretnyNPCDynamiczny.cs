@@ -108,15 +108,15 @@ public class KonkretnyNPCDynamiczny : NPCClass
         if (obiektAtakuDystansowego != null)
         {
             _obiektAtakuAnimacja = Instantiate(obiektAtakuDystansowego, posRęki.position, posRęki.rotation).GetComponent<Renderer>();
-            //_obiektAtakuAnimacja.transform.localScale = posRęki.localScale;
+            _obiektAtakuAnimacja.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
             _obiektAtakuAnimacja.transform.SetParent(posRęki);
             if (this.typNPC == TypNPC.WalczyNaDystans)
             {
                 GameObject go = Instantiate(obiektAtakuDystansowego, posRęki.position, posRęki.rotation);
-                //go.transform.localScale = posRęki.localScale;
+                go.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                 go.transform.SetParent(this.transform);
                 _obiektAtaku = new MagazynObiektówAtaków(0, 0f, 0.0f, go.transform.localPosition.x, go.transform.localPosition.z, go.transform);
-                _obiektAtaku.DeactivateObj(true);
+                _obiektAtaku.DeactivateObj(true);//
             }
         }
         if (ZwróćMiWartośćParametru(1) == 0)
@@ -465,9 +465,9 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         if (aktualnyReuseAtaku < szybkośćAtaku)
         {
-            aktualnyReuseAtaku += Time.deltaTime;
+            aktualnyReuseAtaku += Time.deltaTime*5.0f;
             float f = szybkośćAtaku - aktualnyReuseAtaku;
-            if (f <= 0.1f)   //Jeśli strzela to się zaczyna
+            if (f <= 0.2f)   //Jeśli strzela to się zaczyna
             {
                 if (_obiektAtaku == null) return;
                 bool czyWidze = mainRenderer.isVisible;
@@ -476,6 +476,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     czyAtakJestAktywny = true;
                     if (typNPC == TypNPC.WalczyNaDystans)
                     {
+                        _obiektAtaku.UpdateSrartPos(posRęki.position.x, posRęki.position.y, posRęki.position.z);
                         _obiektAtaku.ActivateObj(cel.transform.position.x, cel.transform.position.z);
                         _obiektAtakuAnimacja.enabled = !czyAtakJestAktywny;
                     }
@@ -510,7 +511,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     }
                     else if (typNPC == TypNPC.WalczyNaDystans && czyWidze)
                     {
-                        _obiektAtaku.SetActPos(f);
+                        _obiektAtaku.SetActPos(f*5.0f);
                         //_obiektAtaku.transform.position = Vector3.Lerp(cel.transform.position, posRęki.position, f);
                     }
                 }
@@ -526,6 +527,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
             this.ZmianaHP(cel.ZwrócOdbiteObrażenia());
         else
         {
+            _obiektAtaku.UpdateSrartPos(posRęki.position.x, posRęki.position.y, posRęki.position.z);
             _obiektAtaku.DeactivateObj();
             _obiektAtakuAnimacja.enabled = !czyAtakJestAktywny;
         }

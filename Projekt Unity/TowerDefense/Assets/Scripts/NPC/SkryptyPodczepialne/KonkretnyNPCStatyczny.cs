@@ -258,7 +258,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     {
         if (this.aktualnyReuseAtaku < szybkośćAtaku)
         {
-            aktualnyReuseAtaku += Time.deltaTime * 2.0f;
+            aktualnyReuseAtaku += Time.deltaTime * 3.0f;
             float f = szybkośćAtaku - aktualnyReuseAtaku;
             if (f <= .1f)
             {
