@@ -512,11 +512,12 @@ MonoBehaviour:
   kosztBadania: 2500
   "typAtakuWie\u017Cy": 2
   blokowany: 0
-  obiektAtaku: {fileID: 6802195553192024197, guid: b1b921f0f68750a41be28bf2c07630fc, type: 3}
+  obiektAtaku: {fileID: 6802195553192024197, guid: b1b921f0f68750a41be28bf2c07630fc,
+    type: 3}
   efektyFxStart: {fileID: 0}
   efektyFxKoniec: {fileID: 0}
   "offWysoko\u015B\u0107": 2.2
-  obrazekDoBudynku: {fileID: 0}
+  obrazekDoBudynku: {fileID: 21300000, guid: 86fb05faad2b2604f84f2b4e842b8baf, type: 3}
   sprite: {fileID: 938875737}
   opisBudynku: "Wie\u017Ca"
   iloscWrogowWZasiegu: 0

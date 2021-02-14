@@ -70,6 +70,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}
+      propertyPath: obrazekDoBudynku
+      value: 
+      objectReference: {fileID: 21300000, guid: b8bc52120545bcf4aa138945de46c77c,
+        type: 3}
+    - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
+        type: 3}
       propertyPath: "zadawaneObra\u017Cenia"
       value: 15
       objectReference: {fileID: 0}
