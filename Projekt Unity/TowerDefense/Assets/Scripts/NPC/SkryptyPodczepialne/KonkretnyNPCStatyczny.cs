@@ -538,21 +538,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         {
             case 0: //HP
                 this.maksymalneŻycie = (short)(this.maksymalneŻycie + 10 * PomocniczeFunkcje.managerGryScript.hpIdx);
-                kosztNaprawy = (ushort)((1 - (this.AktualneŻycie / this.maksymalneŻycie)) * kosztJednostki * 1.05);
-                if (MainMenu.singelton.OdpalonyPanel)
-                {
-                    if (PomocniczeFunkcje.managerGryScript.zaznaczonyObiekt != null)
-                    {
-                        if (PomocniczeFunkcje.managerGryScript.zaznaczonyObiekt.GetInstanceID() == this.GetInstanceID())
-                        {
-                            PanelStatyczny ps = MainMenu.singelton.GetKontenerKomponentówStatic;
-                            if (ps != null)
-                            {
-                                ps.UstawDaneDynamiczne(new byte[] { 0, 1 }, new string[] { AktualneŻycie.ToString() + "/" + this.maksymalneŻycie.ToString(), kosztNaprawy.ToString() });
-                            }
-                        }
-                    }
-                }
+                RysujHPBar();
                 break;
             case 1: //Attack
                 this.modyfikatorZadawanychObrażeń = PomocniczeFunkcje.WyliczModyfikatorObrazeń(this.modyfikatorZadawanychObrażeń, PomocniczeFunkcje.managerGryScript.atkIdx);
