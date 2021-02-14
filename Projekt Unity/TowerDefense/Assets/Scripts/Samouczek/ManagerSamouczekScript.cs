@@ -72,7 +72,7 @@ public class ManagerSamouczekScript : MonoBehaviour
             PomocniczeFunkcje.mainMenu.AktywujDezaktywujPrzyciskPaneliBudynku();
         }
         //Przypisanie nowych danych
-        ManagerGryScript.iloscCoinów = 30;
+        ManagerGryScript.iloscCoinów = 50;
         for (byte i = 0; i < mgs.ekwipunekGracza.Length; i++)
         {
             mgs.ekwipunekGracza[i].ilośćDanejNagrody = 0;
@@ -193,7 +193,7 @@ public class ManagerSamouczekScript : MonoBehaviour
                     {
                         UstawIkonkePomocnicza("naprawBudynek", 0, 0);
                     }
-                    else if (PomocniczeFunkcje.mainMenu.OdpalonyPanel)
+                    else if (PomocniczeFunkcje.mainMenu.OdpalonyPanel || (!PomocniczeFunkcje.mainMenu.OdpalonyPanel && zmiennaPomocnicza != 1 && sktv.gameObject.activeInHierarchy))
                     {
                         sktv.WyłączObiekt();
                     }

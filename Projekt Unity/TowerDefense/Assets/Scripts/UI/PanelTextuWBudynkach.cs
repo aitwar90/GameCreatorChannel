@@ -27,21 +27,30 @@ public class PanelTextuWBudynkach : KontenerKomponentów
         {
             wyłączKupIPostaw = true;
             wymaganyPoziom.color = Color.red;
-            int t = System.Int32.Parse(s[4]);
-            if (ManagerGryScript.iloscCoinów < t)
-            {
-                kosztBadania.color = Color.red;
-            }
         }
         else
         {
             wymaganyPoziom.color = Color.white;
-            int t = System.Int32.Parse(s[4]);
-            if (ManagerGryScript.iloscCoinów < t)
-            {
-                wyłączKupIPostaw = true;
-                kosztBadania.color = Color.red;
-            }
+        }
+        int t = System.Int32.Parse(s[3]);
+        if (ManagerGryScript.iloscCoinów < t)
+        {
+            kosztBadania.color = Color.red;
+            wyłączKupIPostaw = true;
+        }
+        else
+        {
+            kosztBadania.color = Color.white;
+        }
+        t = System.Int32.Parse(s[2]);
+        if (ManagerGryScript.iloscCoinów < t)
+        {
+            koszt.color = Color.red;
+            wyłączKupIPostaw = true;
+        }
+        else
+        {
+            koszt.color = Color.white;
         }
         if (wyłączKupIPostaw)
         {

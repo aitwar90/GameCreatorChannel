@@ -130,7 +130,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             GUI.Box(new Rect(pozycjaPostaci.x - 40, Screen.height - pozycjaPostaci.y - 30, 80, 20), this.AktualneŻycie + " / " + maksymalneŻycie);
         */
         }
-        kosztNaprawy = (ushort)((1 - (this.AktualneŻycie / this.maksymalneŻycie)) * kosztJednostki * 1.05);
+        kosztNaprawy = (ushort)((1 - (this.AktualneŻycie / (float)this.maksymalneŻycie)) * kosztJednostki * 1.05);
         if (MainMenu.singelton.OdpalonyPanel)
         {
             if (PomocniczeFunkcje.managerGryScript.zaznaczonyObiekt != null)
@@ -431,7 +431,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         else
         {
             bool czyOdbl = false;
-            if (this.AktualneŻycie < this.maksymalneŻycie)
+            if (this.AktualneŻycie < this.maksymalneŻycie && ManagerGryScript.iloscCoinów >= this.kosztNaprawy)
                 czyOdbl = true;
             string s = "STATYCZNY;" + czyOdbl.ToString() + ";" + this.nazwa + ";" + this.AktualneŻycie.ToString() + "/" + this.maksymalneŻycie.ToString() + ";" + kosztNaprawy.ToString() + ";" + zadawaneObrażenia.ToString() + ";" + opisBudynku + ";" + "0";
             PomocniczeFunkcje.mainMenu.UstawPanelUI(s, pos, this);
@@ -501,7 +501,10 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     public void Napraw(bool payForRepair = true)
     {
         if (payForRepair)
+        {
             ManagerGryScript.iloscCoinów -= kosztNaprawy;
+            MainMenu.singelton.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
+        }
         this.AktualneŻycie = this.maksymalneŻycie;
         kosztNaprawy = 0;
         RysujHPBar();
