@@ -84,6 +84,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7259105081598042840, guid: a0146259cd24cbe43b677319db1ec206,
         type: 3}
+      propertyPath: kosztBadania
+      value: 9000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7259105081598042840, guid: a0146259cd24cbe43b677319db1ec206,
+        type: 3}
+      propertyPath: kosztJednostki
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7259105081598042840, guid: a0146259cd24cbe43b677319db1ec206,
+        type: 3}
       propertyPath: "szybko\u015B\u0107Ataku"
       value: 0.8
       objectReference: {fileID: 0}
@@ -102,6 +112,11 @@ PrefabInstance:
         type: 3}
       propertyPath: "odbiteObra\u017Cenia"
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7259105081598042840, guid: a0146259cd24cbe43b677319db1ec206,
+        type: 3}
+      propertyPath: "zadawaneObra\u017Cenia"
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0146259cd24cbe43b677319db1ec206, type: 3}

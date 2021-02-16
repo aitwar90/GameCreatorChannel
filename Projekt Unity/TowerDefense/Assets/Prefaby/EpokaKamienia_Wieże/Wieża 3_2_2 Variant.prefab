@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 313446091270257834, guid: 2fa0faf2fada46e41aeb8f768117bceb,
         type: 3}
+      propertyPath: "zasi\u0119gAtaku"
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 313446091270257834, guid: 2fa0faf2fada46e41aeb8f768117bceb,
+        type: 3}
       propertyPath: poziomBudynku
       value: 60
       objectReference: {fileID: 0}

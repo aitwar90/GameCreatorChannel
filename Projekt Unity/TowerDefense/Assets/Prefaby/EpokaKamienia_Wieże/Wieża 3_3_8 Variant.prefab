@@ -30,6 +30,21 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4084355138332104809, guid: 9be08faa916898340973447a1c35a58c,
         type: 3}
+      propertyPath: kosztBadania
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084355138332104809, guid: 9be08faa916898340973447a1c35a58c,
+        type: 3}
+      propertyPath: "zasi\u0119gAtaku"
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084355138332104809, guid: 9be08faa916898340973447a1c35a58c,
+        type: 3}
+      propertyPath: kosztJednostki
+      value: 6000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084355138332104809, guid: 9be08faa916898340973447a1c35a58c,
+        type: 3}
       propertyPath: "maksymalne\u017Bycie"
       value: 3500
       objectReference: {fileID: 0}
