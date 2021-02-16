@@ -7,91 +7,114 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: nazwa
       value: Ulepszona Diva III
       objectReference: {fileID: 0}
-    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: poziom
       value: 25
       objectReference: {fileID: 0}
-    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: kosztBadania
       value: 1250
       objectReference: {fileID: 0}
-    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: "zasi\u0119gAtaku"
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: poziomBudynku
       value: 25
       objectReference: {fileID: 0}
-    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: kosztJednostki
       value: 80
       objectReference: {fileID: 0}
-    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: "szybko\u015B\u0107Ataku"
-      value: 0.5
+      value: 0.9
       objectReference: {fileID: 0}
-    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: "maksymalne\u017Bycie"
       value: 2000
       objectReference: {fileID: 0}
-    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: obrazekDoBudynku
       value: 
-      objectReference: {fileID: 21300000, guid: db299d4d381026a488c586d09681267a, type: 3}
-    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+      objectReference: {fileID: 21300000, guid: db299d4d381026a488c586d09681267a,
+        type: 3}
+    - target: {fileID: 3211242156920928379, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: "zadawaneObra\u017Cenia"
-      value: 50
+      value: 37
       objectReference: {fileID: 0}
-    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 6286343684335729238, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8185699695572284992, guid: 8ff4d75492526cb47b4ffa4d72b24f2e, type: 3}
+    - target: {fileID: 8185699695572284992, guid: 8ff4d75492526cb47b4ffa4d72b24f2e,
+        type: 3}
       propertyPath: m_Name
       value: "Wie\u017Ca 3_1_5 Variant"
       objectReference: {fileID: 0}
