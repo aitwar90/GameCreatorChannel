@@ -410,7 +410,7 @@ public class ManagerGryScript : MonoBehaviour
             idx++;
             for (ushort i = 0; i < fLines.Length; i++)
             {
-                string[] pFrazy = fLines[i].Split(',');
+                string[] pFrazy = fLines[i].Split('|');
                 if (idx >= pFrazy.Length)
                 {
                     continue;
@@ -694,11 +694,11 @@ public class ManagerGryScript : MonoBehaviour
                 string zapisywanaFraza = "";
                 if (wszystkieFrazy[i].transform.name != "Text")
                 {
-                    zapisywanaFraza = zapisywanaFraza + wszystkieFrazy[i].transform.name + ",";
+                    zapisywanaFraza = zapisywanaFraza + wszystkieFrazy[i].transform.name + "|";
                 }
                 else
                 {
-                    zapisywanaFraza = zapisywanaFraza + wszystkieFrazy[i].transform.parent.name + ",";
+                    zapisywanaFraza = zapisywanaFraza + wszystkieFrazy[i].transform.parent.name + "|";
                 }
                 zapisywanaFraza = zapisywanaFraza + wszystkieFrazy[i].text + ";";
                 writer.WriteLine(zapisywanaFraza);
@@ -709,11 +709,11 @@ public class ManagerGryScript : MonoBehaviour
                 string zapisywanaFraza = "";
                 if (allTe[i].transform.name != "Text")
                 {
-                    zapisywanaFraza = zapisywanaFraza + allTe[i].transform.name + ",";
+                    zapisywanaFraza = zapisywanaFraza + allTe[i].transform.name + "|";
                 }
                 else
                 {
-                    zapisywanaFraza = zapisywanaFraza + allTe[i].transform.parent.name + ",";
+                    zapisywanaFraza = zapisywanaFraza + allTe[i].transform.parent.name + "|";
                 }
                 zapisywanaFraza = zapisywanaFraza + allTe[i].text + ";";
                 writer.WriteLine(zapisywanaFraza);
@@ -724,10 +724,10 @@ public class ManagerGryScript : MonoBehaviour
                 {
                     string zapisywanaFraza = "";
                     KonkretnyNPCStatyczny knpcs = PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
-                    zapisywanaFraza = zapisywanaFraza + knpcs.gameObject.name + "=nazwa,";
+                    zapisywanaFraza = zapisywanaFraza + knpcs.gameObject.name + "=nazwa|";
                     zapisywanaFraza = zapisywanaFraza + knpcs.nazwa + ";";
                     writer.WriteLine(zapisywanaFraza);
-                    zapisywanaFraza = knpcs.gameObject.name + "=opis,";
+                    zapisywanaFraza = knpcs.gameObject.name + "=opis|";
                     zapisywanaFraza = zapisywanaFraza + knpcs.opisBudynku + ";";
                     writer.WriteLine(zapisywanaFraza);
                 }
@@ -741,7 +741,7 @@ public class ManagerGryScript : MonoBehaviour
                 for (ushort i = 0; i < wszystkieRodzajeWrogichJednostek.Length; i++)
                 {
                     string zapisywanaFraza = "";
-                    zapisywanaFraza = zapisywanaFraza + wszystkieRodzajeWrogichJednostek[i].name + "=nazwa,";
+                    zapisywanaFraza = zapisywanaFraza + wszystkieRodzajeWrogichJednostek[i].name + "=nazwa|";
                     zapisywanaFraza = zapisywanaFraza + wszystkieRodzajeWrogichJednostek[i].nazwa + ";";
                     writer.WriteLine(zapisywanaFraza);
                 }
@@ -751,7 +751,7 @@ public class ManagerGryScript : MonoBehaviour
                 for (ushort i = 0; i < ekwipunekGracza.Length; i++)
                 {
                     string zapisywanaFraza = "";
-                    zapisywanaFraza = zapisywanaFraza + ekwipunekGracza[i].gameObject.name + ",";
+                    zapisywanaFraza = zapisywanaFraza + ekwipunekGracza[i].gameObject.name + "|";
                     zapisywanaFraza = zapisywanaFraza + ekwipunekGracza[i].nazwaPrzedmiotu + ";";
                     writer.WriteLine(zapisywanaFraza);
                 }
