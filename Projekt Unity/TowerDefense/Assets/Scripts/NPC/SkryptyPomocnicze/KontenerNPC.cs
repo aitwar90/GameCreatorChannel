@@ -245,24 +245,19 @@ public class MagazynObiektówAtaków
     ///<summary>Aktywacja obiektu ataku</summary>
     ///<param name="x">Pozycja na osi X docelowej pozycji obiektu ataku.</param>
     ///<param name="z">Pozycja na osi Z docelowej pozycji obiektu ataku.</param>
-    public void ActivateObj(float x, float z)
+    ///<param name="aktywuj">Czy obiekt ma zostać włączony (tylko w przypadku wież).</param>
+    public void ActivateObj(float x, float z, bool aktywuj = true)
     {
-        objInstatiate.gameObject.SetActive(true);
+        if(aktywuj)
+            objInstatiate.gameObject.SetActive(true);
         dotPos.x = x;
         dotPos.z = z;
         objInstatiate.rotation = Quaternion.LookRotation(dotPos - sPos);
     }
     ///<summary>Dezaktywacja obiektu ataku.</summary>
-    public void DeactivateObj(bool czyLocal = false)
+    public void DeactivateObj()
     {
-        if (!czyLocal)
-        {
-            objInstatiate.position = sPos;
-        }
-        else
-        {
-            objInstatiate.localPosition = sPos;
-        }
+        objInstatiate.position = sPos;
         objInstatiate.gameObject.SetActive(false);
     }
     ///<summary>Zaktualizuj startową pozycję dla ammo</summary>
@@ -274,6 +269,21 @@ public class MagazynObiektówAtaków
         sPos.x = x;
         sPos.y = y;
         sPos.z = z;
+    }
+    ///<summary>Ustaw pozycję broni po powrocie dla wrogów.</summary>
+    ///<param name="x">Lokalna pozycja na którą ma wrócić broń w osi X.</param>
+    ///<param name="y">Lokalna pozycja na którą ma wrócić broń w osi Y.</param>
+    ///<param name="z">Lokalna pozycja na którą ma wrócić broń w osi Z.</param>
+    ///<param name="qx">Lokalna rotacja która ma zostać przypisana dla Quaterniona X.</param>
+    ///<param name="qy">Lokalna rotacja która ma zostać przypisana dla Quaterniona Y.</param>
+    ///<param name="qz">Lokalna rotacja która ma zostać przypisana dla Quaterniona Z.</param>
+    ///<param name="qw">Lokalna rotacja która ma zostać przypisana dla Quaterniona W.</param>
+    public void BackWeapon(float x, float y, float z, float qx, float qy, float qz, float qw)
+    {
+        Quaternion q = new Quaternion(qx,qy, qz, qw);
+        Vector3 setPos = new Vector3(x, y, z);
+        objInstatiate.localPosition = setPos;
+        objInstatiate.localRotation = q;
     }
 }
 public class MagazynWZasięguWieży

@@ -216,7 +216,8 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             cel = null;
             rootEnemy = null;
             tabActAtakObj = null;
-            instaObjOff.Clear();
+            if(instaObjOff != null)
+                instaObjOff.Clear();
             StartCoroutine(SkasujObject(2.0f));
         }
         if (this.odgłosyNPC != null)

@@ -33,7 +33,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private bool czyDodawac = false;
     private byte[] ostatnieStrony = null;
     private MagazynObiektówAtaków _obiektAtaku = null;
-    private Renderer _obiektAtakuAnimacja = null;
     private Animator anima;
     private bool[] bufferAnima = new bool[] { false, false, false }; //isDeath, haveTarget, inRange
     private string nId;
@@ -107,17 +106,10 @@ public class KonkretnyNPCDynamiczny : NPCClass
         }
         if (obiektAtakuDystansowego != null)
         {
-            _obiektAtakuAnimacja = Instantiate(obiektAtakuDystansowego, posRęki.position, posRęki.rotation).GetComponent<Renderer>();
-            _obiektAtakuAnimacja.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-            _obiektAtakuAnimacja.transform.SetParent(posRęki);
-            if (this.typNPC == TypNPC.WalczyNaDystans)
-            {
-                GameObject go = Instantiate(obiektAtakuDystansowego, posRęki.position, posRęki.rotation);
-                go.transform.localScale = new Vector3(0.5f, 0.5f, -0.5f);
-                go.transform.SetParent(this.transform);
-                _obiektAtaku = new MagazynObiektówAtaków(0, 0f, 0.0f, go.transform.localPosition.x, go.transform.localPosition.z, go.transform);
-                _obiektAtaku.DeactivateObj(true);//
-            }
+            GameObject go = Instantiate(obiektAtakuDystansowego, posRęki.position, posRęki.rotation);
+            go.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            go.transform.SetParent(posRęki);
+            _obiektAtaku = new MagazynObiektówAtaków(0, 0f, 0.0f, go.transform.localPosition.x, go.transform.localPosition.z, go.transform);
         }
         if (ZwróćMiWartośćParametru(1) == 0)
         {
@@ -137,6 +129,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         if (!this.NieŻyję)
         {
+            PomocniczeFunkcje.ZwykłeAI(this);
             switch (głównyIndex)
             {
                 case -1:
@@ -151,14 +144,12 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
                     głównyIndex++;
                     break;
+                    /*
                 case 0:
-                    bool f = PomocniczeFunkcje.ZwykłeAI(this);
-                    if (!f && _obiektAtaku.CzyAktywny)
-                    {
-                        _obiektAtaku.DeactivateObj(true);
-                    }
+                    PomocniczeFunkcje.ZwykłeAI(this);
                     głównyIndex++;
                     break;
+                    */
                 case 1:
                     if (cel != null && !czekamNaZatwierdzenieŚcieżki)
                     {
@@ -202,6 +193,12 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     }
                     głównyIndex++;
                     break;
+                    /*
+                case 3: 
+                    PomocniczeFunkcje.ZwykłeAI(this);
+                    głównyIndex++;
+                    break;
+                    */
                 case 4: //Dodanie do nowych wież
                     if (czyDodawac)
                     {
@@ -439,8 +436,10 @@ public class KonkretnyNPCDynamiczny : NPCClass
             }
             SetGłównyIndexDiffValue();
             if (this._obiektAtaku != null)
-                this._obiektAtaku.DeactivateObj(true);
-            this._obiektAtakuAnimacja.enabled = true;
+            {
+                this._obiektAtaku.BackWeapon(posRęki.localPosition.x, posRęki.localPosition.y, posRęki.localPosition.z, posRęki.localRotation.x, posRęki.localRotation.y, posRęki.localRotation.z, posRęki.localRotation.w);
+                this._obiektAtaku.UpdateSrartPos(posRęki.position.x, posRęki.position.y, posRęki.position.z);
+            }
         }
         if (!enab)
         {
@@ -481,9 +480,9 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         if (aktualnyReuseAtaku < szybkośćAtaku)
         {
-            aktualnyReuseAtaku += Time.deltaTime * 5.0f;
+            aktualnyReuseAtaku += Time.deltaTime;
             float f = szybkośćAtaku - aktualnyReuseAtaku;
-            if (f <= 0.2f)   //Jeśli strzela to się zaczyna
+            if (f <= 0.1f)   //Jeśli strzela to się zaczyna
             {
                 if (_obiektAtaku == null) return;
                 bool czyWidze = mainRenderer.isVisible;
@@ -493,8 +492,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     if (typNPC == TypNPC.WalczyNaDystans)
                     {
                         _obiektAtaku.UpdateSrartPos(posRęki.position.x, posRęki.position.y, posRęki.position.z);
-                        _obiektAtaku.ActivateObj(cel.transform.position.x, cel.transform.position.z);
-                        _obiektAtakuAnimacja.enabled = !czyAtakJestAktywny;
+                        _obiektAtaku.ActivateObj(cel.transform.position.x, cel.transform.position.z, false);
                     }
                     if (czyWidze)
                     {
@@ -527,7 +525,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     }
                     else if (typNPC == TypNPC.WalczyNaDystans && czyWidze)
                     {
-                        _obiektAtaku.SetActPos(f * 5.0f);
+                        _obiektAtaku.SetActPos(f * 10.0f);
                         //_obiektAtaku.transform.position = Vector3.Lerp(cel.transform.position, posRęki.position, f);
                     }
                 }
@@ -543,9 +541,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
             this.ZmianaHP(cel.ZwrócOdbiteObrażenia());
         else
         {
-            _obiektAtaku.UpdateSrartPos(posRęki.position.x, posRęki.position.y, posRęki.position.z);
-            _obiektAtaku.DeactivateObj();
-            _obiektAtakuAnimacja.enabled = !czyAtakJestAktywny;
+            _obiektAtaku.BackWeapon(posRęki.localPosition.x, posRęki.localPosition.y, posRęki.localPosition.z, posRęki.localRotation.x, posRęki.localRotation.y, posRęki.localRotation.z, posRęki.localRotation.w);
         }
     }
     ///<summary>Funkcja zwraca najbliższy obiekt (Konkretny NPC Statyczny) postawiony przez gracza względem NPC.</summary>
