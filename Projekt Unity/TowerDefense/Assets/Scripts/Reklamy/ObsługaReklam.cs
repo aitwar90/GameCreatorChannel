@@ -92,7 +92,7 @@ public class ObsługaReklam : MonoBehaviour
                 break;
         }
 
-#elif UNITY_IPHONE
+#elif UNITY_IOS
             string adUnitId = "ca-app-pub-3940256099942544/2934735716"; //Testowy
 #else
             string adUnitId = "unexpected_platform";

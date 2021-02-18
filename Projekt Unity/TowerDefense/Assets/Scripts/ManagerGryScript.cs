@@ -126,8 +126,11 @@ public class ManagerGryScript : MonoBehaviour
             zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
             if(zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
             {
-                PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
                  zaznaczonyObiekt.UstawPanel(Input.mousePosition);
+                 if (zaznaczonyObiekt.szybkośćAtaku != -1)    //Nie jest to akademia
+                    {
+                        PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
+                    }
             }
             else if(PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
            {
@@ -135,7 +138,7 @@ public class ManagerGryScript : MonoBehaviour
             }
         }
 #endif
-#if UNITY_ANDROID
+#if UNITY_ANDROID || UNITY_IOS
             if (Input.mousePresent)
             {
                 if (Input.GetMouseButtonDown(0))
@@ -382,7 +385,7 @@ public class ManagerGryScript : MonoBehaviour
             else
             {
                 timerFal = 0;
-                if(aktualnyPoziomEpoki == 255 && iloscAktywnychWrogów > 0)
+                if (aktualnyPoziomEpoki == 255 && iloscAktywnychWrogów > 0)
                     return;
                 PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
             }
@@ -672,7 +675,7 @@ public class ManagerGryScript : MonoBehaviour
             }
         }
         PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = false;
-        PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] {"GameOver Panel", "WinTXT", "LoseTXT"}, false);
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] { "GameOver Panel", "WinTXT", "LoseTXT" }, false);
         poziomZakonczony = false;
         PomocniczeFunkcje.mainMenu.ResetSceny((sbyte)aktualnyPoziomEpoki);
     }

@@ -119,7 +119,7 @@ public class SpawnBudynki : MonoBehaviour
 #if UNITY_STANDALONE
             ObsluzMysz();
 #endif
-#if UNITY_ANDROID
+#if UNITY_ANDROID || UNITY_IOS
                 if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
                 {
                     ObsluzMysz();

@@ -5,7 +5,7 @@
      string myLog = "*begin log";
      //string filename = "";
      bool doShow = true;
-     #if UNITY_ANDROID
+     #if UNITY_ANDROID || UNITY_IOS
      int kChars = 700;
      void OnEnable() { Application.logMessageReceived += Log; }
      void OnDisable() { Application.logMessageReceived -= Log; }

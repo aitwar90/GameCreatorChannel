@@ -120,10 +120,11 @@ namespace UiParticles
             base.Awake();
             ParticleSystem = _particleSystem;
             m_ParticleSystemRenderer = _particleSystemRenderer;
-            if (EditorApplication.isPlaying)
-            {
+            //if (EditorApplication.isPlaying)
+            //{
                 this.gameObject.SetActive(false);
-            }
+            //}
+
         }
 
 
