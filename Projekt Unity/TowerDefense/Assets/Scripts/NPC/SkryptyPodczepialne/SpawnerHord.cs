@@ -25,7 +25,7 @@ public class SpawnerHord : MonoBehaviour
         byte aktPozEpoki = PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki;
         if (e == Epoki.EpokaKamienia)
         {
-            if(aktPozEpoki == 255)  //Samouczek
+            if (aktPozEpoki == 255)  //Samouczek
             {
                 ostatniaIlośćWFali = 1;
             }
@@ -44,7 +44,7 @@ public class SpawnerHord : MonoBehaviour
             {
                 ostatniaIlośćWFali += 3;
             }
-           else
+            else
             {
                 ostatniaIlośćWFali += (ushort)(3 + (aktPozEpoki - 44));
             }
@@ -57,7 +57,7 @@ public class SpawnerHord : MonoBehaviour
             }
             else
             {
-               ostatniaIlośćWFali += (ushort)(3 + (aktPozEpoki - 43));
+                ostatniaIlośćWFali += (ushort)(3 + (aktPozEpoki - 43));
             }
         }
         else if (e == Epoki.EpokaNowożytna)
@@ -108,18 +108,20 @@ public class SpawnerHord : MonoBehaviour
         switch (ep)
         {
             case Epoki.EpokaKamienia:
-                if(poziomEpoki == 255)  //Samouczek
+                if (poziomEpoki == 255)  //Samouczek
                 {
                     maxIlośćNaFalę = 1;
                     iloscFalNaKoncu = 1;
                 }
                 if (poziomEpoki < 50)
                 {
+                    ResortTabSpawnerPont();
                     maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
                     iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / 3.0f));
                 }
                 else
                 {
+                    ResortTabSpawnerPont();
                     maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
                     iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / (3 + (poziomEpoki - 45))));
                 }
@@ -135,6 +137,7 @@ public class SpawnerHord : MonoBehaviour
                     maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
                     iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / (3 + (poziomEpoki - 44))));
                 }
+                ResortTabSpawnerPont();
                 break;
             case Epoki.EpokaŚredniowiecza:
                 if (poziomEpoki < 50)
@@ -147,6 +150,7 @@ public class SpawnerHord : MonoBehaviour
                     maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
                     iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / (3 + (poziomEpoki - 43))));
                 }
+                ResortTabSpawnerPont();
                 break;
             case Epoki.EpokaNowożytna:
                 if (poziomEpoki < 50)
@@ -159,6 +163,7 @@ public class SpawnerHord : MonoBehaviour
                     maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
                     iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / (3 + (poziomEpoki - 42))));
                 }
+                ResortTabSpawnerPont();
                 break;
             case Epoki.EpokaWspołczesna:
                 if (poziomEpoki < 50)
@@ -171,6 +176,7 @@ public class SpawnerHord : MonoBehaviour
                     maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
                     iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / (3 + (poziomEpoki - 41))));
                 }
+                ResortTabSpawnerPont();
                 break;
             case Epoki.EpokaPrzyszła:
                 if (poziomEpoki < 50)
@@ -183,6 +189,7 @@ public class SpawnerHord : MonoBehaviour
                     maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
                     iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / (3 + (poziomEpoki - 40))));
                 }
+                ResortTabSpawnerPont();
                 break;
             default:
                 break;
@@ -345,7 +352,7 @@ public class SpawnerHord : MonoBehaviour
     ///<summary>Zwróć informację o tym, czy została już wygenerowana ostatnia fala na danym poziomie.</summary>
     public bool CzyOstatniaFala()
     {
-        if(actFala < iloscFalNaKoncu)
+        if (actFala < iloscFalNaKoncu)
             return false;
         else
             return true;
@@ -361,9 +368,29 @@ public class SpawnerHord : MonoBehaviour
     public void ŁadowanieTablicy()
     {
         spawnPunkty = new Transform[this.transform.childCount];
-        for(ushort i = 0; i < this.transform.childCount; i++)
+        for (ushort i = 0; i < this.transform.childCount; i++)
         {
             spawnPunkty[i] = this.transform.GetChild(i).transform;
         }
+    }
+    ///<summary>Metoda ustawia losowo tablicę spawnowanych punktów.<summary>
+    public void ResortTabSpawnerPont()
+    {
+        sbyte dlTablicy = (sbyte)(spawnPunkty.Length);
+        List<byte> allIdx = new List<byte>();
+        for(byte i = 0; i < dlTablicy; i++)
+        {
+            allIdx.Add(i);
+        }
+        dlTablicy -= 1;
+        List<Transform> t = new List<Transform>();
+        do
+        {
+            byte nIdx = (byte)Random.Range(0, allIdx.Count);
+            t.Add(spawnPunkty[allIdx[nIdx]]);
+            allIdx.RemoveAt(nIdx);
+            dlTablicy--;
+        } while(dlTablicy >= 0);
+        spawnPunkty = t.ToArray();
     }
 }

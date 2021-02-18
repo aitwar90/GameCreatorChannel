@@ -21,5 +21,9 @@ public class SpawnerHordEditor : Editor
         {
             myTarget.ŁadowanieTablicy();
         }
+        if(GUILayout.Button("Rozlosuj spawn punkty"))
+        {
+            myTarget.ResortTabSpawnerPont();
+        }
     }
 }
