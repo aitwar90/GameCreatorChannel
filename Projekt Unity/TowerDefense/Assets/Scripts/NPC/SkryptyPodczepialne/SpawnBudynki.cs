@@ -413,7 +413,25 @@ public class SpawnBudynki : MonoBehaviour
             numer = (numer < 0) ? (-1) * numer : numer;
             Vector3 vet = aktualnyObiekt.transform.rotation.eulerAngles;
             vet.y += numer * 45;
+            if (numer != 2)
+            {
+                ushort actY = (ushort)(vet.y / 45);
+                if (actY % 2 == 1 && actY != (ushort)(vet.y / 45))
+                {
+                    float tmpGranicaX = knpcs.granicaX;
+                    knpcs.granicaX = knpcs.granicaZ;
+                    knpcs.granicaZ = tmpGranicaX;
+                }
+            }
+            else
+            {
+                float tmpGranicaX = knpcs.granicaX;
+                knpcs.granicaX = knpcs.granicaZ;
+                knpcs.granicaZ = tmpGranicaX;
+            }
+            //
             aktualnyObiekt.transform.rotation = Quaternion.Euler(vet);
+            //Zamiana granic
         }
     }
     public StrukturaBudynkuWTab ZwrócMiStruktureBudynku(short idx)
