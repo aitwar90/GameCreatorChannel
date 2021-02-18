@@ -91,9 +91,8 @@ public static class PListProcessor
     private static List<string> ReadSKAdNetworkIdentifiersFromXML()
     {
         List<string> skAdNetworkItems = new List<string>();
-
         string path = Path.Combine(Application.dataPath,
-            "GoogleMobileAds/Editor/GoogleMobileAdsSKAdNetworkItems.xml");
+            "Scripts/Reklamy/ReklamyGoogle/GoogleMobileAds/Editor/GoogleMobileAdsSKAdNetworkItems.xml");
 
         try
         {

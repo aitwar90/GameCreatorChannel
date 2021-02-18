@@ -12,7 +12,7 @@ public class MoveCameraScript : MonoBehaviour
 #if UNITY_STANDALONE
     private float prędkoscPrzesunięciaKamery = 5f;
 #endif
-#if UNITY_ANDROID
+#if UNITY_ANDROID || UNITY_IOS
     private float prędkoscPrzesunięciaKamery = 0.05f;
 #endif
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
@@ -42,7 +42,7 @@ public class MoveCameraScript : MonoBehaviour
         ostatniaPozycjaKamery = pierwotnePołożenieKamery;
         szerokośćObrazu = Screen.width;
         wysokśćObrazu = Screen.height;
-#if UNITY_ANDROID
+#if UNITY_ANDROID || UNITY_IOS
         if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
             prędkoscPrzesunięciaKamery = 6.0f;
 #endif
@@ -57,7 +57,7 @@ public class MoveCameraScript : MonoBehaviour
 #if UNITY_STANDALONE
         ObsłużMysz();
 #endif
-#if UNITY_ANDROID
+#if UNITY_ANDROID || UNITY_IOS
             if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
             {
                 ObsłużMysz();
@@ -76,7 +76,7 @@ public class MoveCameraScript : MonoBehaviour
                 PomocniczeFunkcje.mainMenu.PrzesuńBudynki(Input.mouseScrollDelta.y);
             }
 #endif
-#if UNITY_ANDROID
+#if UNITY_ANDROID || UNITY_IOS
             if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
             {
                 if (Input.mouseScrollDelta.y != 0)
