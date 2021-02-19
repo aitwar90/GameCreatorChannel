@@ -966,6 +966,7 @@ public static class PomocniczeFunkcje
                 mainMenu.lastIdxJezyka = daneO.indeksJezyka;
                 mainMenu.sliderDźwięku.value = daneO.głośność;
                 mainMenu.CzyLFPSOn = daneO.czyLicznikFPSOn;
+                mainMenu.UstawGłośność();
             }
             if (managerGryScript != null)
             {

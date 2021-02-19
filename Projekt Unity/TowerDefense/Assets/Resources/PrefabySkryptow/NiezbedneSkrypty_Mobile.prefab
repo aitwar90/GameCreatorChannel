@@ -229,12 +229,14 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: e642d7da553f7949291f3d85b7e5453f, type: 3}
   - nazwa: "Idle_EpokaKamienia_Kamie\u0144"
     clip: {fileID: 8300000, guid: 57878b9a59007ea45b57ff120a84a146, type: 3}
+  - nazwa: KlikUI
+    clip: {fileID: 8300000, guid: 42206c8250787866ba9ca3ca77656d0b, type: 3}
   - nazwa: "Poruszanie_EpokaKamienia_Kamie\u0144"
     clip: {fileID: 8300000, guid: 82e252f096395fd8bbb6424e1424fd06, type: 3}
   - nazwa: PostawB
-    clip: {fileID: 8300000, guid: 70cf4c5d7d9ccab029606950c2e6d63f, type: 3}
-  - nazwa: PostawB
     clip: {fileID: 8300000, guid: e073c30b8cf38b9ed99e3f2fa5caef6c, type: 3}
+  - nazwa: PostawB
+    clip: {fileID: 8300000, guid: 70cf4c5d7d9ccab029606950c2e6d63f, type: 3}
   - nazwa: "\u015AmiercB_EpokaKamienia_W\u0142\xF3cznia"
     clip: {fileID: 8300000, guid: 57878b9a59007ea45b57ff120a84a146, type: 3}
   - nazwa: "\u015AmiercNPC_EpokaKamienia_Kamie\u0144"
@@ -251,6 +253,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 40dff6472471f3b4eb0a65a89f5f83d2, type: 3}
   - nazwa: "TrafienieNPC_EpokaKamienia_Kamie\u0144"
     clip: {fileID: 8300000, guid: 7b1224c2047b99a48a0782bc1cf7c0c1, type: 3}
+  aktValVolume: 0
 --- !u!114 &2907112035805632259
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,5 +12,13 @@ public class MuzykaScriptEditor : Editor
         {
             myTarget.SortujAlfabetyczniePoNazwie();
         }
+        if(GUILayout.Button("Dodaj Listener do buttonów"))
+        {
+            myTarget.DodajDoButtonów();
+        }
+        if(GUILayout.Button("Usun Listener do buttonów"))
+        {
+            myTarget.UsunZButtonow();
+        }
     }
 }

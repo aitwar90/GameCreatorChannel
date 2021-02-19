@@ -2,29 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-
+#if UNITY_EDITOR
+using UnityEditor.Events;
+using UnityEngine.Events;
+#endif
 public class MuzykaScript : MonoBehaviour, ICzekajAz
 {
     // Start is called before the first frame update
+    public static MuzykaScript singleton = null;
     public AudioSource muzykaTła;
     [Tooltip("Nazwa musi mieć szablon x_y_z przy czym x oznacza przeznaczenie clipu zaś y epokę. Tło oznacza pierwszy utwór przeznaczony dla tła. Typy: Tło, AmbientWGrze, AtakNPCDystans, AtakNPCZwarcie, AtakBJeden, AtakBObszar, AtakBAll, ŚmiercNPC, ŚmiercB, Poruszanie, Idle, TrafienieB, TrafienieNPC, PostawB. Przykład AtakBObszar_EpokaKamienia_Kamień (W przypadku tła i ambient nie ma specjalnych rodzajów)")]
     public StrukturaAudio[] clipyAudio;
     public delegate void UstawGłośność(float wartość);
     public UstawGłośność ustawGłośność;
-    private float aktValVolume = 0.0f;
+    public float aktValVolume = 0.0f;
     private byte[] indeksyMuzyki = null;
     public float ZwrócVol
     {
-        get 
+        get
         {
             return aktValVolume;
         }
     }
     void Awake()
     {
-        if (clipyAudio != null && clipyAudio.Length > 0)
+        if (singleton == null)
         {
-            ustawGłośność += UstawGłośnośćTła;
+            if (clipyAudio != null && clipyAudio.Length > 0)
+            {
+                ustawGłośność += UstawGłośnośćTła;
+            }
+            singleton = this;
+        }
+        else
+        {
+            Destroy(this);
         }
     }
     void Start()
@@ -95,8 +107,7 @@ public class MuzykaScript : MonoBehaviour, ICzekajAz
     }
     public void WłączTymczasowyClip(string typ, Vector3 pos)
     {
-        AudioClip clip = ZwróćSzukanyClip(typ);
-        AudioSource.PlayClipAtPoint(clip, pos, aktValVolume);
+        AudioSource.PlayClipAtPoint(ZwróćSzukanyClip(typ), pos, aktValVolume);
     }
     public void WłączWyłączClip(string typ, ref AudioSource ado, bool czyOneShoot = false, string nazwaAktualnegoKlipu = "") //Ta metoda pozwala na wybranie klipu z wyłączeniem nazwy aktualnie granej
     {
@@ -105,7 +116,7 @@ public class MuzykaScript : MonoBehaviour, ICzekajAz
         {
             ado.PlayOneShot(ado.clip);
         }
-        else if(ado.clip != null)
+        else if (ado.clip != null)
         {
             ado.Play();
         }
@@ -118,7 +129,7 @@ public class MuzykaScript : MonoBehaviour, ICzekajAz
             {
                 if (clipyAudio[indeksyMuzyki[i]].nazwa == typ)
                 {
-                    if (indeksyMuzyki[i] == indeksyMuzyki[indeksyMuzyki.Length-1])  //Jeśli typ jest jedyny i ostatni w tablicy
+                    if (indeksyMuzyki[i] == indeksyMuzyki[indeksyMuzyki.Length - 1])  //Jeśli typ jest jedyny i ostatni w tablicy
                     {
                         return clipyAudio[indeksyMuzyki[i]].clip;
                     }
@@ -149,6 +160,50 @@ public class MuzykaScript : MonoBehaviour, ICzekajAz
         IComparer comp = new SortujWGNazwy();
         System.Array.Sort(clipyAudio, comp);
     }
+    public void DodajMnieJakoListenerClick()
+    {
+        WłączTymczasowyClip("KlikUI", muzykaTła.transform.position);
+    }
+    #if UNITY_EDITOR
+    public void DodajDoButtonów()
+    {
+        UnityEngine.UI.Button[] btn = FindObjectsOfType(typeof(UnityEngine.UI.Button)) as UnityEngine.UI.Button[];
+        for (ushort i = 0; i < btn.Length; i++)
+        {
+            UnityEvent ue = btn[i].onClick;
+            UnityAction action = new UnityAction(DodajMnieJakoListenerClick);
+            int ilCout = ue.GetPersistentEventCount();
+            bool znalazlem = false;
+            for(byte j = 0; j < ilCout; j++)
+            {
+                if(ue.GetPersistentMethodName(j) == "DodajMnieJakoListenerClick")
+                {
+                    znalazlem = true;
+                    break;
+                }
+            }
+            if(!znalazlem)
+                UnityEventTools.AddPersistentListener(ue, action);
+        }
+    }
+    public void UsunZButtonow()
+    {
+        UnityEngine.UI.Button[] btn = FindObjectsOfType(typeof(UnityEngine.UI.Button)) as UnityEngine.UI.Button[];
+        for (ushort i = 0; i < btn.Length; i++)
+        {
+            UnityEvent ue = btn[i].onClick;
+            UnityAction action = new UnityAction(DodajMnieJakoListenerClick);
+            int ilCout = ue.GetPersistentEventCount();
+            for(sbyte j = (sbyte)(ilCout-1); j >= 0; j--)
+            {
+                if(ue.GetPersistentMethodName(j) == "DodajMnieJakoListenerClick")
+                {
+                    UnityEventTools.RemovePersistentListener(ue, j);
+                }
+            }
+        }
+    }
+    #endif
 }
 [System.Serializable]
 public struct StrukturaAudio
