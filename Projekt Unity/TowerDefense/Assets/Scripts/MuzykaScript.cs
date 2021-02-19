@@ -15,7 +15,7 @@ public class MuzykaScript : MonoBehaviour, ICzekajAz
     public StrukturaAudio[] clipyAudio;
     public delegate void UstawGłośność(float wartość);
     public UstawGłośność ustawGłośność;
-    public float aktValVolume = 0.0f;
+    private float aktValVolume = 0.0f;
     private byte[] indeksyMuzyki = null;
     public float ZwrócVol
     {

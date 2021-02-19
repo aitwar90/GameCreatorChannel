@@ -388,6 +388,7 @@ public class ManagerGryScript : MonoBehaviour
                 if (aktualnyPoziomEpoki == 255 && iloscAktywnychWrogów > 0)
                     return;
                 PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
+                MuzykaScript.singleton.WłączWyłączClip(true, "Bitwa");
             }
         }
         else
@@ -397,6 +398,10 @@ public class ManagerGryScript : MonoBehaviour
         byte czas = (byte)(czasMiędzyFalami - timerFal);
         if (czas != bufferTimerFal)
         {
+            if(czas == czasMiędzyFalami-1)
+            {
+                MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_"+this.aktualnaEpoka.ToString());
+            }
             bufferTimerFal = czas;
             PomocniczeFunkcje.mainMenu.UstawTextUI("timer", czas.ToString());
         }
@@ -647,10 +652,12 @@ public class ManagerGryScript : MonoBehaviour
             OdblokujKolejnaSkrzynke();
             PomocniczeFunkcje.ZapiszDane();
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("WinTXT", true);
+            MuzykaScript.singleton.WłączWyłączClip(true, "Zwycięstwo");
         }
         else
         {
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("LoseTXT", true);
+            MuzykaScript.singleton.WłączWyłączClip(true, "Przegrana");
         }
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("GameOver Panel", true);
