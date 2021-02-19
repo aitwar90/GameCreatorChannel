@@ -294,7 +294,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     protected override void UsuńJednostkę()
     {
-        PomocniczeFunkcje.muzyka.WłączWyłączClip(true, PomocniczeFunkcje.TagZEpoka("ŚmiercNPC", this.epokaNPC, this.tagRodzajDoDźwięków), true);
+        MuzykaScript.singleton.WłączTymczasowyClip(PomocniczeFunkcje.TagZEpoka("ŚmiercNPC", this.epokaNPC, this.tagRodzajDoDźwięków), this.transform.position);
         ObsluzAnimacje(ref anima, "isDeath", true);
         this.AktualneŻycie = -1;
 

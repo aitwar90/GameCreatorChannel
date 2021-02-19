@@ -471,7 +471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bea51f6deedbe249832c3fb4cc83245, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nazwa: "Zwyk\u0142y przeciwnik"
+  nazwa: "W\u0142\xF3cznik"
   "maksymalne\u017Bycie": 75
   typNPC: 2
   epokaNPC: 1
@@ -483,7 +483,7 @@ MonoBehaviour:
   "modyfikatorZadawanychObra\u017Ce\u0144": 1
   cel: {fileID: 0}
   "odg\u0142osyNPC": {fileID: 0}
-  "tagRodzajDoD\u017Awi\u0119k\xF3w": "_Kamie\u0144"
+  "tagRodzajDoD\u017Awi\u0119k\xF3w": "_W\u0142\xF3cznia"
   poziom: 1
   "aktualne\u017Bycie": 32767
   nastawienieNPC: 1

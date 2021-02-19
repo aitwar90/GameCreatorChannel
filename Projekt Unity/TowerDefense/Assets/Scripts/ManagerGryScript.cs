@@ -281,7 +281,6 @@ public class ManagerGryScript : MonoBehaviour
     #region Metody podczas ładowania i kasowania sceny
     private void ŁadowanieDanych()
     {
-        PomocniczeFunkcje.muzyka.WłączWyłączClip(PomocniczeFunkcje.TagZEpoka("AmbientWGrze", aktualnaEpoka), ref PomocniczeFunkcje.muzyka.muzykaTła, false, (PomocniczeFunkcje.muzyka.muzykaTła.clip != null) ? PomocniczeFunkcje.muzyka.muzykaTła.clip.name : "");
         PomocniczeFunkcje.spawnerHord = FindObjectOfType(typeof(SpawnerHord)) as SpawnerHord;
         PomocniczeFunkcje.spawnerHord.UstawHorde(aktualnaEpoka, aktualnyPoziomEpoki);
         Terrain terr = FindObjectOfType(typeof(Terrain)) as Terrain;
@@ -393,14 +392,15 @@ public class ManagerGryScript : MonoBehaviour
         }
         else
         {
+            MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_"+aktualnaEpoka.ToString(), false);
             timerFal = setTimer;
         }
         byte czas = (byte)(czasMiędzyFalami - timerFal);
         if (czas != bufferTimerFal)
         {
-            if(czas == czasMiędzyFalami-1)
+            if(czasMiędzyFalami-1 == czas)
             {
-                MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_"+this.aktualnaEpoka.ToString());
+                MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_"+aktualnaEpoka.ToString(), false);
             }
             bufferTimerFal = czas;
             PomocniczeFunkcje.mainMenu.UstawTextUI("timer", czas.ToString());
@@ -559,7 +559,7 @@ public class ManagerGryScript : MonoBehaviour
         PomocniczeFunkcje.mainMenu.UstawHPGłównegoPaska(1.0f);
         */
         //Fragment wyłączający courutyny
-        StopAllCoroutines();
+        //StopAllCoroutines();
         ObslTimerFal(0);
     }
     public void KliknietyPrzycisk() //Kliknięty przycisk potwierdzający użycie skrzynki

@@ -219,14 +219,24 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 7b1224c2047b99a48a0782bc1cf7c0c1, type: 3}
   - nazwa: "AtakBObszar_EpokaKamienia_W\u0142\xF3cznia"
     clip: {fileID: 8300000, guid: 7b1224c2047b99a48a0782bc1cf7c0c1, type: 3}
-  - nazwa: "AtakNPCDystans_EpokaKamienia_Kamie\u0144"
-    clip: {fileID: 8300000, guid: 57878b9a59007ea45b57ff120a84a146, type: 3}
-  - nazwa: "AtakNPCZwarcie_EpokaKamienia_Kamie\u0144"
-    clip: {fileID: 8300000, guid: 69afaf46f42554e32867a3585d5fbcff, type: 3}
-  - nazwa: "AtakNPCZwarcie_EpokaKamienia_Kamie\u0144"
+  - nazwa: "AtakNPCDystans_EpokaKamienia_W\u0142\xF3cznia"
+    clip: {fileID: 8300000, guid: fd512bb17ec72cfcfbba9375c06cd0cc, type: 3}
+  - nazwa: "AtakNPCDystans_EpokaKamienia_W\u0142\xF3cznia"
+    clip: {fileID: 8300000, guid: d773e859016d20b908885c8e75041581, type: 3}
+  - nazwa: "AtakNPCDystans_EpokaKamienia_W\u0142\xF3cznia"
+    clip: {fileID: 8300000, guid: 34465d640ff4f2561a461dadae7fa205, type: 3}
+  - nazwa: "AtakNPCDystans_EpokaKamienia_W\u0142\xF3cznia"
     clip: {fileID: 8300000, guid: 0fe865c4f1a759859ad994e0824ac8ea, type: 3}
-  - nazwa: "AtakNPCZwarcie_EpokaKamienia_Kamie\u0144"
-    clip: {fileID: 8300000, guid: e642d7da553f7949291f3d85b7e5453f, type: 3}
+  - nazwa: "AtakNPCZwarcie_EpokaKamienia_W\u0142\xF3cznia"
+    clip: {fileID: 8300000, guid: 69afaf46f42554e32867a3585d5fbcff, type: 3}
+  - nazwa: "AtakNPCZwarcie_EpokaKamienia_W\u0142\xF3cznia"
+    clip: {fileID: 8300000, guid: 0fe865c4f1a759859ad994e0824ac8ea, type: 3}
+  - nazwa: "AtakNPCZwarcie_EpokaKamienia_W\u0142\xF3cznia"
+    clip: {fileID: 8300000, guid: 3e60948aa9db858b9824b0f9140a4af7, type: 3}
+  - nazwa: "AtakNPCZwarcie_EpokaKamienia_W\u0142\xF3cznia"
+    clip: {fileID: 8300000, guid: 3962091e1875f1e109dd1f5b5d243103, type: 3}
+  - nazwa: "AtakNPCZwarcie_EpokaKamienia_W\u0142\xF3cznia"
+    clip: {fileID: 8300000, guid: 4c589b436b602c5b2b1fa0337fcf21a1, type: 3}
   - nazwa: Bitwa
     clip: {fileID: 8300000, guid: b50c3d3eed43bcaec9163be8ff8658e3, type: 3}
   - nazwa: "Idle_EpokaKamienia_Kamie\u0144"
@@ -236,30 +246,37 @@ MonoBehaviour:
   - nazwa: "Poruszanie_EpokaKamienia_Kamie\u0144"
     clip: {fileID: 8300000, guid: 82e252f096395fd8bbb6424e1424fd06, type: 3}
   - nazwa: PostawB
-    clip: {fileID: 8300000, guid: 70cf4c5d7d9ccab029606950c2e6d63f, type: 3}
-  - nazwa: PostawB
     clip: {fileID: 8300000, guid: e073c30b8cf38b9ed99e3f2fa5caef6c, type: 3}
+  - nazwa: PostawB
+    clip: {fileID: 8300000, guid: 70cf4c5d7d9ccab029606950c2e6d63f, type: 3}
   - nazwa: Przegrana
     clip: {fileID: 8300000, guid: d8b1dd236056c9b65ae80515a015791d, type: 3}
   - nazwa: "\u015AmiercB_EpokaKamienia_W\u0142\xF3cznia"
-    clip: {fileID: 8300000, guid: 57878b9a59007ea45b57ff120a84a146, type: 3}
-  - nazwa: "\u015AmiercNPC_EpokaKamienia_Kamie\u0144"
+    clip: {fileID: 8300000, guid: 3877f7792c3d6fcfeb11dcda647d1c4b, type: 3}
+  - nazwa: "\u015AmiercNPC_EpokaKamienia_W\u0142\xF3cznia"
+    clip: {fileID: 8300000, guid: 09c8a4417eae510bebefeb05b331bba6, type: 3}
+  - nazwa: "\u015AmiercNPC_EpokaKamienia_W\u0142\xF3cznia"
+    clip: {fileID: 8300000, guid: 1a5862201f5eb705a81a1a3661e26a91, type: 3}
+  - nazwa: "\u015AmiercNPC_EpokaKamienia_W\u0142\xF3cznia"
+    clip: {fileID: 8300000, guid: e0bab9f21679040a299d58eca888b76e, type: 3}
+  - nazwa: "\u015AmiercNPC_EpokaKamienia_W\u0142\xF3cznia"
     clip: {fileID: 8300000, guid: 2ab97e116c1cde33e83b9bc85ab4ee64, type: 3}
-  - nazwa: "\u015AmiercNPC_EpokaKamienia_Kamie\u0144"
-    clip: {fileID: 8300000, guid: b011e0251f119361a8aa46b29ad2067f, type: 3}
-  - nazwa: "\u015AmiercNPC_EpokaKamienia_Kamie\u0144"
+  - nazwa: "\u015AmiercNPC_EpokaKamienia_W\u0142\xF3cznia"
     clip: {fileID: 8300000, guid: 88978835abb08e429994d8e4fc9b0919, type: 3}
   - nazwa: "T\u0142o_None"
     clip: {fileID: 8300000, guid: c66a923431707f0f0932955e45d6e80f, type: 3}
   - nazwa: "T\u0142o_None_PoMenu"
     clip: {fileID: 8300000, guid: fefaa9ef0b0ed16b080147a979a23191, type: 3}
+  - nazwa: "TrafienieB_EpokaKamienia_Strza\u0142a"
+    clip: {fileID: 8300000, guid: 40dff6472471f3b4eb0a65a89f5f83d2, type: 3}
   - nazwa: "TrafienieB_EpokaKamienia_W\u0142\xF3cznia"
     clip: {fileID: 8300000, guid: 40dff6472471f3b4eb0a65a89f5f83d2, type: 3}
-  - nazwa: "TrafienieNPC_EpokaKamienia_Kamie\u0144"
-    clip: {fileID: 8300000, guid: 7b1224c2047b99a48a0782bc1cf7c0c1, type: 3}
+  - nazwa: "TrafienieNPC_EpokaKamienia_W\u0142\xF3cznia"
+    clip: {fileID: 8300000, guid: 76e459015c43a4bf788f401e4e888b3c, type: 3}
+  - nazwa: "TrafienieNPC_EpokaKamienia_W\u0142\xF3cznia"
+    clip: {fileID: 8300000, guid: d9fbd40df37d34b57a63581db411006c, type: 3}
   - nazwa: "Zwyci\u0119stwo"
     clip: {fileID: 8300000, guid: 6c93c4b0cf9d073819e44865aca50fd3, type: 3}
-  aktValVolume: 0
 --- !u!114 &2907112035805632259
 MonoBehaviour:
   m_ObjectHideFlags: 0
