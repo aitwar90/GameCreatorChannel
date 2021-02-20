@@ -493,7 +493,8 @@ MonoBehaviour:
   efektyFxKoniec: {fileID: 0}
   sprite: {fileID: 620486441882452171}
   "posR\u0119ki": {fileID: 7317703867155794523}
-  obiektAtakuDystansowego: {fileID: 8088413574859301168, guid: af531916b358b1348b62b2df1a07c733, type: 3}
+  obiektAtakuDystansowego: {fileID: 8088413574859301168, guid: af531916b358b1348b62b2df1a07c733,
+    type: 3}
   "pr\u0119dko\u015B\u0107": 1.5
   "rysujPasek\u017Bycia": 0
 --- !u!135 &8916957729661533474
@@ -532,13 +533,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1681663322964632724}
-  m_LocalRotation: {x: -0.037106637, y: -0.7301051, z: -0.028637234, w: 0.68172544}
-  m_LocalPosition: {x: -0.015200016, y: 0.0037001153, z: 0.01580008}
+  m_LocalRotation: {x: 0.10498867, y: -0.7019611, z: 0.60331297, w: 0.36365023}
+  m_LocalPosition: {x: -0.0258, y: -0.0128, z: 0.0025}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3248016002603701063}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 67.423, y: -91.126, z: 49.374}
 --- !u!1 &1845152543962223470
 GameObject:
   m_ObjectHideFlags: 0

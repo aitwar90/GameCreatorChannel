@@ -401,6 +401,7 @@ public class ManagerGryScript : MonoBehaviour
             if(czasMiędzyFalami-1 == czas)
             {
                 MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_"+aktualnaEpoka.ToString(), false);
+                SpawnerHord.actualHPBars = 0;
             }
             bufferTimerFal = czas;
             PomocniczeFunkcje.mainMenu.UstawTextUI("timer", czas.ToString());

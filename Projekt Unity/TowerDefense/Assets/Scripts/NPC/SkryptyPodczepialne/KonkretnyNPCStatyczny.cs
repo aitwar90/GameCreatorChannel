@@ -119,7 +119,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             //Jeśli to główna baza
             PomocniczeFunkcje.mainMenu.UstawHPGłównegoPaska((float)this.AktualneŻycie / this.maksymalneŻycie);
         }
-        if (mainRenderer.isVisible && sprite != null)
+        if (/*mainRenderer.isVisible &&*/ sprite != null)
         {
             float actScaleX = (float)this.AktualneŻycie / this.maksymalneŻycie;
             sprite.localScale = new Vector3(actScaleX, 1, 1);
