@@ -930,6 +930,7 @@ public static class PomocniczeFunkcje
         daneO.blokadaOrientacji = managerGryScript.blokowanieOrientacji;
         daneO.głośność = PomocniczeFunkcje.muzyka.muzykaTła.volume;
         daneO.czyLicznikFPSOn = PomocniczeFunkcje.mainMenu.CzyLFPSOn;
+        daneO.czyOdwracaćPrzesuwanie = MoveCameraScript.odwrócPrzesuwanie;
 
         string ścieżka = ZwróćŚcieżkęZapisu("daneOpcje.asc");
 
@@ -966,6 +967,8 @@ public static class PomocniczeFunkcje
                 mainMenu.lastIdxJezyka = daneO.indeksJezyka;
                 mainMenu.sliderDźwięku.value = daneO.głośność;
                 mainMenu.CzyLFPSOn = daneO.czyLicznikFPSOn;
+                MoveCameraScript.odwrócPrzesuwanie = daneO.czyOdwracaćPrzesuwanie;
+                mainMenu.SetToogleOdwrocenieKamery(daneO.czyOdwracaćPrzesuwanie);
                 mainMenu.UstawGłośność();
             }
             if (managerGryScript != null)
@@ -1045,5 +1048,6 @@ public struct DaneOpcji
     [SerializeField] public bool blokadaOrientacji;
     [SerializeField] public float głośność;
     [SerializeField] public bool czyLicznikFPSOn;
+    [SerializeField] public bool czyOdwracaćPrzesuwanie;
 }
 

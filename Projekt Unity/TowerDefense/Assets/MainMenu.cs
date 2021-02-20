@@ -335,7 +335,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         {
             PomocniczeFunkcje.UstawTimeScale(1);
             PomocniczeFunkcje.oCam.transform.position = lastPosCam;
-            PomocniczeFunkcje.muzyka.WłączWyłączClip(true, PomocniczeFunkcje.TagZEpoka("AmbientWGrze", PomocniczeFunkcje.managerGryScript.aktualnaEpoka));
+            if(ui_down.activeInHierarchy)
+                PomocniczeFunkcje.muzyka.WłączWyłączClip(true, PomocniczeFunkcje.TagZEpoka("AmbientWGrze", PomocniczeFunkcje.managerGryScript.aktualnaEpoka));
+            else
+                PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Bitwa");
         }
     }
     ///<summary>Metoda ustawia wartość paska HP głównego budynku.</summary>
@@ -1169,6 +1172,16 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         if (!ManagerSamouczekScript.byloZaladowane)
             PomocniczeFunkcje.ZapiszDane();
         Application.Quit();
+    }
+    public void WlWylToogleOdwrocenieKamery()
+    {
+        Toggle t = this.transform.Find("Menu/OptionsMenu/GrafikaPanel/CzyOdwrócićPrzesuwanie").GetComponent<Toggle>();
+        MoveCameraScript.odwrócPrzesuwanie = t.isOn;
+    }
+    public void SetToogleOdwrocenieKamery(bool value)
+    {
+        Toggle t = this.transform.Find("Menu/OptionsMenu/GrafikaPanel/CzyOdwrócićPrzesuwanie").GetComponent<Toggle>();
+        t.isOn = value;
     }
     #endregion
 }
