@@ -389,9 +389,25 @@ public class ManagerSamouczekScript : MonoBehaviour
             ManagerGryScript.iloscCoinów = tmpHajs;
             mgs.skrzynki = skrzynki;
             mgs.ekwipunekGracza[0].ilośćDanejNagrody = e1;
+            if(e1 > 0)
+            {
+                PomocniczeFunkcje.mainMenu.przyciskiNagród[0].interactable = true;
+            }
             mgs.ekwipunekGracza[1].ilośćDanejNagrody = e2;
+            if(e2 > 0)
+            {
+                PomocniczeFunkcje.mainMenu.przyciskiNagród[1].interactable = true;
+            }
             mgs.ekwipunekGracza[2].ilośćDanejNagrody = e3;
+            if(e3 > 0)
+            {
+                PomocniczeFunkcje.mainMenu.przyciskiNagród[2].interactable = true;
+            }
             mgs.ekwipunekGracza[3].ilośćDanejNagrody = e4;
+            if(e4 > 0)
+            {
+                PomocniczeFunkcje.mainMenu.przyciskiNagród[3].interactable = true;
+            }
             for(byte i = 0; i < 4; i++)
             {
                 mgs.skrzynki[i] = skrzynki[i];

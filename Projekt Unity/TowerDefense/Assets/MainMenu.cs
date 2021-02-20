@@ -890,6 +890,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             b.interactable = stan;
             b = ui_down.transform.Find("kupno_inne").GetComponent<Button>();
             b.interactable = stan;
+            for(byte j = 0; j < przyciskiNagród.Length; j++)
+            {
+                przyciskiNagród[j].interactable = false;
+            }
         }
         else
         {

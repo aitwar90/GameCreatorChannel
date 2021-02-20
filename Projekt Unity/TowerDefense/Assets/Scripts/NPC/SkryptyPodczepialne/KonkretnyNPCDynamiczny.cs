@@ -114,7 +114,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 go.transform.localScale = new Vector3(0.5f, 0.5f, -0.5f);
             else
                 go.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-            Debug.Log("Ustawiłem rotację na " + go.transform.localEulerAngles);
             _obiektAtaku = new MagazynObiektówAtaków(0, 0, 0, 0, 0, go.transform);
         }
         if (ZwróćMiWartośćParametru(1) == 0)
