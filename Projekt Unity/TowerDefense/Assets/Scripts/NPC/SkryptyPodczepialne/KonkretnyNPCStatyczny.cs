@@ -80,6 +80,9 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         {
             this.gameObject.AddComponent<UnityEngine.AI.NavMeshObstacle>();
         }
+        UpgradeMe(0);
+        UpgradeMe(1);
+        UpgradeMe(2);
         this.AktualneŻycie = this.maksymalneŻycie;
         this.nastawienieNPC = NastawienieNPC.Przyjazne;
         if (sprite == null)

@@ -35,7 +35,7 @@ public class ManagerGryScript : MonoBehaviour
     [HideInInspector] public ushort hpIdx;
     [HideInInspector] public ushort atkIdx;
     [HideInInspector] public ushort defIdx;
-    public static bool odpalamNaUnityRemote = true;
+    public static bool odpalamNaUnityRemote = false;
     #endregion
     #region Particles
     [Tooltip("Particle dla konkretnych etapów gry na Canvasie: \n [0] - Gracz wygrał")]
