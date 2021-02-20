@@ -397,8 +397,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             }
 
             ps.UstawDane(new string[] { s[2], s[3], s[4], s[5], s[6], s[7] });
-
-            r.position = pos;
+            r.position = SprawdźCzyNieWychodziZaObszarEkranu(pos, r.rect.width, r.rect.height);
             ps.gameObject.SetActive(true);
             odpalonyPanel = true;
         }
@@ -407,7 +406,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             PanelDynamiczny ps = (PanelDynamiczny)panelDynamiczny;
             RectTransform r = ps.GetComponent<RectTransform>();
             ps.UstawDane(new string[] { s[1], s[2], s[3] });
-            r.position = pos;
+            r.position = SprawdźCzyNieWychodziZaObszarEkranu(pos, r.rect.width, r.rect.height);
             ps.gameObject.SetActive(true);
             odpalonyPanel = true;
         }
@@ -416,6 +415,24 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             PanelTextuWBudynkach ps = (PanelTextuWBudynkach)panelBudynki;
             ps.UstawDane(new string[] { s[1], s[2], s[3], s[4], s[5], s[6], s[7], s[8] });
         }
+    }
+    ///<summary>Funkcja zwraca nowe położenie panelu, jeśli ten wykracza poza krawędź ekranu</summary>
+    ///<param name="currentKlikPos">Pozycja klikniętego punktu na ekranie.</param>
+    ///<param name="szerokość">Szerokość wyświetlanego panelu.</param>
+    ///<param name="wysokość">Wysokość wyświetlanego panelu.</param>
+    private Vector2 SprawdźCzyNieWychodziZaObszarEkranu(Vector2 currentKlikPos, float szerokość, float wysokość)
+    {
+        Vector2 scR = new Vector2(Screen.width, Screen.height);
+        if(currentKlikPos.y - wysokość < 0) //Dolna krawędź ekranu
+        {
+            currentKlikPos.y = wysokość + 5;
+        }
+        if(currentKlikPos.x + szerokość > scR.x)
+        {
+            currentKlikPos.x = scR.x - szerokość - 5;
+        }
+        return currentKlikPos;
+        
     }
     ///<summary>Funkcja zwraca informację czy kamera może zostać przemieszczona.</summary>
     public bool CzyMogePrzesuwaćKamere()
