@@ -5,7 +5,7 @@ public class MoveCameraScript : MonoBehaviour
     #region Zmienne publiczne
     [Range(1, 50), Tooltip("Promień odległości dla przeunięcia kamery od środka sceny")]
     public byte maxPrzesuniecieKamery = 25;
-    public static Vector3 bazowePolozenieKameryGry = new Vector3(52.0f, 6.5f, 43.0f);
+    public static Vector3 bazowePolozenieKameryGry = new Vector3(52.0f, 6.5f, 52.0f);   //z - 43
     #endregion
 
     #region Zmienne prywatne
@@ -114,7 +114,7 @@ public class MoveCameraScript : MonoBehaviour
     {
         if (Input.mousePosition.x > szerokośćObrazu - granica)
         {
-            Vector3 newPos = new Vector3(this.transform.position.x + prędkoscPrzesunięciaKamery * Time.deltaTime, this.transform.position.y, this.transform.position.z);
+            Vector3 newPos = new Vector3(this.transform.position.x - prędkoscPrzesunięciaKamery * Time.deltaTime, this.transform.position.y, this.transform.position.z);
             if (SprawdźCzyMogęPrzesunąćKamerę(newPos))
             {
                 this.transform.position = newPos;
@@ -126,7 +126,7 @@ public class MoveCameraScript : MonoBehaviour
         }
         else if (Input.mousePosition.x < 0 + granica)
         {
-            Vector3 newPos = new Vector3(this.transform.position.x - prędkoscPrzesunięciaKamery * Time.deltaTime, this.transform.position.y, this.transform.position.z);
+            Vector3 newPos = new Vector3(this.transform.position.x + prędkoscPrzesunięciaKamery * Time.deltaTime, this.transform.position.y, this.transform.position.z);
             if (SprawdźCzyMogęPrzesunąćKamerę(newPos))
             {
                 this.transform.position = newPos;
@@ -138,7 +138,7 @@ public class MoveCameraScript : MonoBehaviour
         }
         if (Input.mousePosition.y > wysokśćObrazu - granica)
         {
-            Vector3 newPos = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + prędkoscPrzesunięciaKamery * Time.deltaTime);
+            Vector3 newPos = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z - prędkoscPrzesunięciaKamery * Time.deltaTime);
             if (SprawdźCzyMogęPrzesunąćKamerę(newPos))
             {
                 this.transform.position = newPos;
@@ -150,7 +150,7 @@ public class MoveCameraScript : MonoBehaviour
         }
         else if (Input.mousePosition.y < 0 + granica)
         {
-            Vector3 newPos = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z - prędkoscPrzesunięciaKamery * Time.deltaTime);
+            Vector3 newPos = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + prędkoscPrzesunięciaKamery * Time.deltaTime);
             if (SprawdźCzyMogęPrzesunąćKamerę(newPos))
             {
                 this.transform.position = newPos;
@@ -165,7 +165,7 @@ public class MoveCameraScript : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W))
         {
-            Vector3 posDotyk = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + prędkoscPrzesunięciaKamery * Time.deltaTime);
+            Vector3 posDotyk = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z - prędkoscPrzesunięciaKamery * Time.deltaTime);
             if (SprawdźCzyMogęPrzesunąćKamerę(posDotyk))
             {
                 this.transform.position = posDotyk;
@@ -177,7 +177,7 @@ public class MoveCameraScript : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            Vector3 posDotyk = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z - prędkoscPrzesunięciaKamery * Time.deltaTime);
+            Vector3 posDotyk = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + prędkoscPrzesunięciaKamery * Time.deltaTime);
             if (SprawdźCzyMogęPrzesunąćKamerę(posDotyk))
             {
                 this.transform.position = posDotyk;
@@ -189,7 +189,7 @@ public class MoveCameraScript : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.A))
         {
-            Vector3 posDotyk = new Vector3(this.transform.position.x - prędkoscPrzesunięciaKamery * Time.deltaTime, this.transform.position.y, this.transform.position.z);
+            Vector3 posDotyk = new Vector3(this.transform.position.x + prędkoscPrzesunięciaKamery * Time.deltaTime, this.transform.position.y, this.transform.position.z);
             if (SprawdźCzyMogęPrzesunąćKamerę(posDotyk))
             {
                 this.transform.position = posDotyk;
@@ -201,7 +201,7 @@ public class MoveCameraScript : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            Vector3 posDotyk = new Vector3(this.transform.position.x + prędkoscPrzesunięciaKamery * Time.deltaTime, this.transform.position.y, this.transform.position.z);
+            Vector3 posDotyk = new Vector3(this.transform.position.x - prędkoscPrzesunięciaKamery * Time.deltaTime, this.transform.position.y, this.transform.position.z);
             if (SprawdźCzyMogęPrzesunąćKamerę(posDotyk))
             {
                 this.transform.position = posDotyk;

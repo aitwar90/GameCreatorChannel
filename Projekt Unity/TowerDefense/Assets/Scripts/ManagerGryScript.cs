@@ -334,7 +334,7 @@ public class ManagerGryScript : MonoBehaviour
         {
             ŁadowanieDanych();
             //Debug.Log("Ustawiam budynek główny");
-            GameObject baza = GameObject.Instantiate(bazy[idxEpokiBazyWTablicy], new Vector3(MoveCameraScript.bazowePolozenieKameryGry.x, 0.0f, MoveCameraScript.bazowePolozenieKameryGry.z + 5f), Quaternion.identity);
+            GameObject baza = GameObject.Instantiate(bazy[idxEpokiBazyWTablicy], new Vector3(MoveCameraScript.bazowePolozenieKameryGry.x, 0.0f, MoveCameraScript.bazowePolozenieKameryGry.z - 5f), Quaternion.identity);
             knpcsBazy = baza.GetComponent<KonkretnyNPCStatyczny>();
             PomocniczeFunkcje.celWrogów = knpcsBazy;
             knpcsBazy.InicjacjaBudynku();
