@@ -108,6 +108,14 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             GameObject go = Instantiate(obiektAtakuDystansowego, posRęki.position, posRęki.rotation);
             go.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            if(this.typNPC == TypNPC.WalczyNaDystans)
+            {
+                go.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            }
+            else
+            {
+                go.transform.localScale = new Vector3(0.5f, 0.5f, -0.5f);
+            }
             go.transform.SetParent(posRęki);
             _obiektAtaku = new MagazynObiektówAtaków(0, 0f, 0.0f, go.transform.localPosition.x, go.transform.localPosition.z, go.transform);
         }
@@ -294,7 +302,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     protected override void UsuńJednostkę()
     {
-        PomocniczeFunkcje.muzyka.WłączWyłączClip(true, PomocniczeFunkcje.TagZEpoka("ŚmiercNPC", this.epokaNPC, this.tagRodzajDoDźwięków), true);
+        MuzykaScript.singleton.WłączTymczasowyClip(PomocniczeFunkcje.TagZEpoka("ŚmiercNPC", this.epokaNPC, this.tagRodzajDoDźwięków), this.transform.position);
         ObsluzAnimacje(ref anima, "isDeath", true);
         this.AktualneŻycie = -1;
 

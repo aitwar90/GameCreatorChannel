@@ -184,8 +184,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         else    //Jeśli nastawienie jest przyjazne
         {
             //Podmień obiekt na zgruzowany
-
-            PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, PomocniczeFunkcje.TagZEpoka("ŚmiercB", this.epokaNPC, this.tagRodzajDoDźwięków));
+            MuzykaScript.singleton.WłączTymczasowyClip(PomocniczeFunkcje.TagZEpoka("ŚmiercB", this.epokaNPC, this.tagRodzajDoDźwięków), this.transform.position);
             PomocniczeFunkcje.SkasujElementDrzewa(ref PomocniczeFunkcje.korzeńDrzewaPozycji, this);
             Collider[] tablicaKoliderow = this.GetComponents<Collider>();
             for (byte i = 0; i < tablicaKoliderow.Length; i++)
