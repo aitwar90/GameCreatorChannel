@@ -255,7 +255,7 @@ MonoBehaviour:
   efektyFxStart: {fileID: 0}
   efektyFxKoniec: {fileID: 0}
   "offWysoko\u015B\u0107": 1.5
-  obrazekDoBudynku: {fileID: 0}
+  obrazekDoBudynku: {fileID: 21300000, guid: 5c0cd386342b7ae448b0843798140248, type: 3}
   sprite: {fileID: 3113172145578377462}
   opisBudynku: Akademia
   iloscWrogowWZasiegu: 0
