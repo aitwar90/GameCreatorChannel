@@ -254,27 +254,27 @@ MonoBehaviour:
   - nazwa: "\u015AmiercB_EpokaKamienia_W\u0142\xF3cznia"
     clip: {fileID: 8300000, guid: 3877f7792c3d6fcfeb11dcda647d1c4b, type: 3}
   - nazwa: "\u015AmiercNPC_EpokaKamienia_W\u0142\xF3cznia"
-    clip: {fileID: 8300000, guid: 09c8a4417eae510bebefeb05b331bba6, type: 3}
-  - nazwa: "\u015AmiercNPC_EpokaKamienia_W\u0142\xF3cznia"
-    clip: {fileID: 8300000, guid: 1a5862201f5eb705a81a1a3661e26a91, type: 3}
+    clip: {fileID: 8300000, guid: 88978835abb08e429994d8e4fc9b0919, type: 3}
   - nazwa: "\u015AmiercNPC_EpokaKamienia_W\u0142\xF3cznia"
     clip: {fileID: 8300000, guid: e0bab9f21679040a299d58eca888b76e, type: 3}
   - nazwa: "\u015AmiercNPC_EpokaKamienia_W\u0142\xF3cznia"
     clip: {fileID: 8300000, guid: 2ab97e116c1cde33e83b9bc85ab4ee64, type: 3}
   - nazwa: "\u015AmiercNPC_EpokaKamienia_W\u0142\xF3cznia"
-    clip: {fileID: 8300000, guid: 88978835abb08e429994d8e4fc9b0919, type: 3}
+    clip: {fileID: 8300000, guid: 09c8a4417eae510bebefeb05b331bba6, type: 3}
+  - nazwa: "\u015AmiercNPC_EpokaKamienia_W\u0142\xF3cznia"
+    clip: {fileID: 8300000, guid: 1a5862201f5eb705a81a1a3661e26a91, type: 3}
   - nazwa: "T\u0142o_None"
     clip: {fileID: 8300000, guid: c66a923431707f0f0932955e45d6e80f, type: 3}
   - nazwa: "T\u0142o_None_PoMenu"
     clip: {fileID: 8300000, guid: fefaa9ef0b0ed16b080147a979a23191, type: 3}
   - nazwa: "TrafienieB_EpokaKamienia_Strza\u0142a"
-    clip: {fileID: 8300000, guid: 40dff6472471f3b4eb0a65a89f5f83d2, type: 3}
+    clip: {fileID: 8300000, guid: d9fbd40df37d34b57a63581db411006c, type: 3}
   - nazwa: "TrafienieB_EpokaKamienia_W\u0142\xF3cznia"
-    clip: {fileID: 8300000, guid: 40dff6472471f3b4eb0a65a89f5f83d2, type: 3}
-  - nazwa: "TrafienieNPC_EpokaKamienia_W\u0142\xF3cznia"
     clip: {fileID: 8300000, guid: 76e459015c43a4bf788f401e4e888b3c, type: 3}
   - nazwa: "TrafienieNPC_EpokaKamienia_W\u0142\xF3cznia"
-    clip: {fileID: 8300000, guid: d9fbd40df37d34b57a63581db411006c, type: 3}
+    clip: {fileID: 8300000, guid: 40dff6472471f3b4eb0a65a89f5f83d2, type: 3}
+  - nazwa: "TrafienieNPC_EpokaKamienia_W\u0142\xF3cznia"
+    clip: {fileID: 8300000, guid: 40dff6472471f3b4eb0a65a89f5f83d2, type: 3}
   - nazwa: "Zwyci\u0119stwo"
     clip: {fileID: 8300000, guid: 6c93c4b0cf9d073819e44865aca50fd3, type: 3}
 --- !u!114 &2907112035805632259

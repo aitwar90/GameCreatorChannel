@@ -15332,7 +15332,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.8325639, y: 0}
   m_AnchorMax: {x: 1, y: 0.23126164}
-  m_AnchoredPosition: {x: -3, y: 1.0000305}
+  m_AnchoredPosition: {x: -3, y: 1}
   m_SizeDelta: {x: -6, y: -2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1205668218
@@ -23479,8 +23479,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 437094946}
   m_HandleRect: {fileID: 437094945}
   m_Direction: 2
-  m_Value: 0.5
-  m_Size: 0.088711485
+  m_Value: 0.50000006
+  m_Size: 0.08537322
   m_NumberOfSteps: 1
   m_OnValueChanged:
     m_PersistentCalls:
@@ -24112,10 +24112,6 @@ PrefabInstance:
     - target: {fileID: 8539881029944531423, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
       propertyPath: m_Name
       value: NiezbedneSkrypty_Mobile
-      objectReference: {fileID: 0}
-    - target: {fileID: 8539881029944531423, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
