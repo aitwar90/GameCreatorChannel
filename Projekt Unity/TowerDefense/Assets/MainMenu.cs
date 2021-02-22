@@ -113,6 +113,19 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             return lFPS.gameObject.activeSelf;
         }
     }
+    public bool CzyPostProcesing
+    {
+        set
+        {
+            Toggle t = this.transform.Find("Menu/OptionsMenu/GrafikaPanel/CzyPostProcessing").GetComponent<Toggle>();
+            t.isOn = value;
+            MoveCameraScript.mscInstance.UstawPostProcessing(value, true);
+        }
+        get
+        {
+            return this.transform.Find("Menu/OptionsMenu/GrafikaPanel/CzyPostProcessing").GetComponent<Toggle>().isOn;
+        }
+    }
     public bool CzyOdpaloneMenu
     {
         get

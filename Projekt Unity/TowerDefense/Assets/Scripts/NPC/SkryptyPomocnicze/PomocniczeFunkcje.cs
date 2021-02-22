@@ -931,6 +931,7 @@ public static class PomocniczeFunkcje
         daneO.głośność = PomocniczeFunkcje.muzyka.muzykaTła.volume;
         daneO.czyLicznikFPSOn = PomocniczeFunkcje.mainMenu.CzyLFPSOn;
         daneO.czyOdwracaćPrzesuwanie = MoveCameraScript.odwrócPrzesuwanie;
+        daneO.czyPostProcessing = mainMenu.CzyPostProcesing;
 
         string ścieżka = ZwróćŚcieżkęZapisu("daneOpcje.asc");
 
@@ -967,6 +968,7 @@ public static class PomocniczeFunkcje
                 mainMenu.lastIdxJezyka = daneO.indeksJezyka;
                 mainMenu.sliderDźwięku.value = daneO.głośność;
                 mainMenu.CzyLFPSOn = daneO.czyLicznikFPSOn;
+                MoveCameraScript.mscInstance.UstawPostProcessing(daneO.czyPostProcessing);
                 MoveCameraScript.odwrócPrzesuwanie = daneO.czyOdwracaćPrzesuwanie;
                 mainMenu.SetToogleOdwrocenieKamery(daneO.czyOdwracaćPrzesuwanie);
                 mainMenu.UstawGłośność();
@@ -1049,5 +1051,6 @@ public struct DaneOpcji
     [SerializeField] public float głośność;
     [SerializeField] public bool czyLicznikFPSOn;
     [SerializeField] public bool czyOdwracaćPrzesuwanie;
+    [SerializeField] public bool czyPostProcessing;
 }
 

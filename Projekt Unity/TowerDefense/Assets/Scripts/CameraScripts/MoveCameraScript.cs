@@ -2,11 +2,13 @@
 
 public class MoveCameraScript : MonoBehaviour
 {
+    public static MoveCameraScript mscInstance = null;
     #region Zmienne publiczne
     [Range(1, 50), Tooltip("Promień odległości dla przeunięcia kamery od środka sceny")]
     public byte maxPrzesuniecieKamery = 25;
     public static Vector3 bazowePolozenieKameryGry = new Vector3(52.0f, 6.5f, 52.0f);   //z - 43
     public static bool odwrócPrzesuwanie = false;   //Czy należy zmienić przesuwanie kamery (X - Z // Z - X)
+    public GameObject volume;
     #endregion
 
     #region Zmienne prywatne
@@ -43,7 +45,19 @@ public class MoveCameraScript : MonoBehaviour
         }
     }
     #endregion
-    // Start is called before the first frame update
+    void Awake()
+    {
+        if(mscInstance == null)
+        {
+            mscInstance = this;
+            if(volume == null)
+                volume = GameObject.Find("Volume");
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
     void Start()
     {
         pierwotnePołożenieKamery = bazowePolozenieKameryGry;
@@ -263,6 +277,16 @@ public class MoveCameraScript : MonoBehaviour
     {
         v = v.normalized;
         return (v.x + v.y) / 2.0f;
+    }
+    ///<summary>Ustawia wartość dla opcji Post-Processing.</summary>
+    ///<param name="c">Czy Post processing ma zostać włączony?</param>
+    ///<param name="czyPrzezOpcje">Czy zmiana jest wywoływana przez zmianę w opcjach przez użytkownika?</param>
+    public void UstawPostProcessing(bool c, bool czyPrzezOpcje = false)
+    {
+        volume.SetActive(c);
+        this.GetComponent<UnityEngine.Rendering.PostProcessing.PostProcessLayer>().enabled = c;
+        if(!czyPrzezOpcje)
+            PomocniczeFunkcje.mainMenu.CzyPostProcesing = c;
     }
     #endregion
 }
