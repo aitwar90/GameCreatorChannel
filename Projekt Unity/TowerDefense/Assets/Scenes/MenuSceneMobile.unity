@@ -24439,6 +24439,14 @@ PrefabInstance:
       propertyPath: particleSystems.Array.data[0]
       value: 
       objectReference: {fileID: 219638872}
+    - target: {fileID: 8539881029944531422, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
+      propertyPath: "fontyJezyk\xF3w.Array.data[0].idxJezyka.Array.data[0]"
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8539881029944531422, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
+      propertyPath: "fontyJezyk\xF3w.Array.data[0].idxJezyka.Array.data[1]"
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8539881029944531423, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
       propertyPath: m_Name
       value: NiezbedneSkrypty_Mobile

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8539881029944531423
+--- !u!1 &3463731109780786865
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,12 +8,12 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8539881029944531416}
-  - component: {fileID: 8539881029944531417}
-  - component: {fileID: 8539881029944531422}
-  - component: {fileID: 8539881029944531418}
-  - component: {fileID: 8539881029944531413}
-  - component: {fileID: 2907112035805632259}
+  - component: {fileID: 3463731109780786869}
+  - component: {fileID: 3463731109780786868}
+  - component: {fileID: 3463731110551857187}
+  - component: {fileID: 3463731109780786867}
+  - component: {fileID: 3463731110811243626}
+  - component: {fileID: 3463731109780786866}
   m_Layer: 0
   m_Name: NiezbedneSkrypty_Mobile
   m_TagString: Untagged
@@ -21,13 +21,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8539881029944531416
+--- !u!4 &3463731109780786869
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8539881029944531423}
+  m_GameObject: {fileID: 3463731109780786865}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -35,13 +35,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8539881029944531417
+--- !u!114 &3463731109780786868
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8539881029944531423}
+  m_GameObject: {fileID: 3463731109780786865}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 742bd31a08379dc41b757bf36e0c9bb1, type: 3}
@@ -147,13 +147,13 @@ MonoBehaviour:
   zablokowanyBudynekIndex: -1
   czyBudynekZablokowany: []
   aktualnieWybranyIndeksObiektuTabZablokowany: -1
---- !u!114 &8539881029944531422
+--- !u!114 &3463731110551857187
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8539881029944531423}
+  m_GameObject: {fileID: 3463731109780786865}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42ab19e0cfff9904dae065988a956972, type: 3}
@@ -182,29 +182,31 @@ MonoBehaviour:
   - {fileID: 0}
   "fontyJezyk\xF3w":
   - font: {fileID: 12800000, guid: 3b82c32d182a004458d40e744b6992bc, type: 3}
-    idxJezyka: 0001
+    idxJezyka: 02
+  - font: {fileID: 12800000, guid: 98ae6acf0d41f97b3849290e9fcfb4ac, type: 3}
+    idxJezyka: 0103
   toNieOstatniaFala: 0
   blokowanieOrientacji: 1
---- !u!114 &8539881029944531418
+--- !u!114 &3463731109780786867
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8539881029944531423}
+  m_GameObject: {fileID: 3463731109780786865}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f833196302ee4549485653e5fb785e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rodzajReklamy: 2
---- !u!114 &8539881029944531413
+--- !u!114 &3463731110811243626
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8539881029944531423}
+  m_GameObject: {fileID: 3463731109780786865}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53be69a70fc03e29ca5dfe6bb04dd9fb, type: 3}
@@ -280,13 +282,13 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 40dff6472471f3b4eb0a65a89f5f83d2, type: 3}
   - nazwa: "Zwyci\u0119stwo"
     clip: {fileID: 8300000, guid: 6c93c4b0cf9d073819e44865aca50fd3, type: 3}
---- !u!114 &2907112035805632259
+--- !u!114 &3463731109780786866
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8539881029944531423}
+  m_GameObject: {fileID: 3463731109780786865}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cf339594dd18da8489fde584b75d889, type: 3}

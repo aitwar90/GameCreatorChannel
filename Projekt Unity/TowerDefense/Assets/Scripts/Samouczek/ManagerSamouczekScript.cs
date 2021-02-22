@@ -18,6 +18,7 @@ public class ManagerSamouczekScript : MonoBehaviour
     private ushort thp = 0, atkIdx = 0, defidx = 0;
     private sbyte zmiennaPomocnicza = -1;
     public static bool byloZaladowane = false;
+    private Font fToLoad = null;
     public sbyte ZmiennaPomocnicza
     {
         get
@@ -80,7 +81,7 @@ public class ManagerSamouczekScript : MonoBehaviour
         mgs.hpIdx = 0;
         mgs.atkIdx = 0;
         mgs.defIdx = 0;
-        sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[0]);
+        sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[0], fToLoad);
     }
     public void WywolajProgress()
     {
@@ -88,34 +89,34 @@ public class ManagerSamouczekScript : MonoBehaviour
         switch (idxProgresuSamouczka)
         {
             case 1: //Gracz przesunął kamerę
-                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[1]);
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[1], fToLoad);
                 break;
             case 2: //Gracz otworzył i zamknął panel budynku
-                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[2]);
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[2], fToLoad);
                 PomocniczeFunkcje.celWrogów.ZmianaHP(20);
                 break;
             case 3: //Gracz otrzymał podstawowe informacje o interfejsie
-                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[3]);
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[3], fToLoad);
                 PomocniczeFunkcje.mainMenu.AktywujDezaktywujPrzyciskPaneliBudynku(0, true);
                 break;
             case 4: //Gracz odpalił panel z budynkami wież
-                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[4]);
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[4], fToLoad);
                 UstawIkonkePomocnicza("kupnoWieża", 0, 0);
                 break;
             case 5:
-                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[5]);
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[5], fToLoad);
                 UstawIkonkePomocnicza("stawiajBudynek", 0, 0);
                 break;
             case 6:
-                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[6]);
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[6], fToLoad);
                 PomocniczeFunkcje.mainMenu.AktywujDezaktywujPrzyciskPaneliBudynku(1, true);
                 break;
             case 7:
-                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[7]);
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[7], fToLoad);
                 UstawIkonkePomocnicza("kupnoMur", 0, 0);
                 break;
             case 8:
-                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[8]);
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[8], fToLoad);
                 UstawIkonkePomocnicza("kup", 0, 0);
                 break;
             case 9:
@@ -126,37 +127,37 @@ public class ManagerSamouczekScript : MonoBehaviour
                 UstawIkonkePomocnicza("rotacjaBudynku", 0, 0);
                 break;
             case 11:
-                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[9]);
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[9], fToLoad);
                 break;
             case 12:    //Rozpoczęcie omawiania nagród
-                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[10]);
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[10], fToLoad);
                 UstawIkonkePomocnicza("coinyNagroda", 0, 0);
                 PomocniczeFunkcje.managerGryScript.ekwipunekGracza[0].ilośćDanejNagrody = 1;
                 PomocniczeFunkcje.mainMenu.UstawButtonNagrody(0, 1);
                 break;
             case 13:    //Cud ocalenia
-                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[11]);
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[11], fToLoad);
                 UstawIkonkePomocnicza("cudOcalenia", 0, 0);
                 PomocniczeFunkcje.managerGryScript.ekwipunekGracza[1].ilośćDanejNagrody = 1;
                 PomocniczeFunkcje.mainMenu.UstawButtonNagrody(1, 1);
                 break;
             case 14:    //Dodatkowa nagroda
-                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[12]);
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[12], fToLoad);
                 UstawIkonkePomocnicza("dodatkowaNagroda", 0, 0);
                 PomocniczeFunkcje.managerGryScript.ekwipunekGracza[2].ilośćDanejNagrody = 1;
                 PomocniczeFunkcje.mainMenu.UstawButtonNagrody(2, 1);
                 break;
             case 15:    //Skrócenie czasu skrzynki
-                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[13]);
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[13], fToLoad);
                 UstawIkonkePomocnicza("skrócenieCzasuSkrzynki", 0, 0);
                 PomocniczeFunkcje.managerGryScript.ekwipunekGracza[3].ilośćDanejNagrody = 1;
                 PomocniczeFunkcje.mainMenu.UstawButtonNagrody(3, 1);
                 break;
             case 16:    //Objaśnienie timera
-                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[14]);
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[14], fToLoad);
                 break;
             case 17:
-                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[15]);
+                sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[15], fToLoad);
                 break;
             default:
                 Debug.Log("Nic nie robie");
@@ -350,12 +351,30 @@ public class ManagerSamouczekScript : MonoBehaviour
         if (plikTekstowySamouczka != null)
         {
             zaladujTextKonkretne = null;
-            sbyte jez = PomocniczeFunkcje.mainMenu.lastIdxJezyka;   //0 - Polski, 1 - Angielski
+            sbyte jez = PomocniczeFunkcje.mainMenu.lastIdxJezyka;   //0 - Polski, 1 - Angielski, 2 - Ukraiński
             List<string> listaOpisu = new List<string>();
             string fs = plikTekstowySamouczka.text;
             fs = fs.Replace("\n", "");
             fs = fs.Replace("\r", "");
             string[] fLines = fs.Split(';');
+            if (PomocniczeFunkcje.managerGryScript.fontyJezyków != null)
+            {
+                bool znalazlem = false;
+                for (byte i = 0; i < PomocniczeFunkcje.managerGryScript.fontyJezyków.Length; i++)
+                {
+                    for (byte j = 0; j < PomocniczeFunkcje.managerGryScript.fontyJezyków[i].idxJezyka.Length; j++)
+                    {
+                        if (PomocniczeFunkcje.managerGryScript.fontyJezyków[i].idxJezyka[j] == jez+1)
+                        {
+                            fToLoad = PomocniczeFunkcje.managerGryScript.fontyJezyków[i].font;
+                            znalazlem = true;
+                            break;
+                        }
+                    }
+                    if(znalazlem)
+                        break;
+                }
+            }
             for (ushort i = 0; i < fLines.Length; i++)
             {
                 if (fLines[i] == "")

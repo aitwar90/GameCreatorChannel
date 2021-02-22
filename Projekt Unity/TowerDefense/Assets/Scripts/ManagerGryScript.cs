@@ -420,7 +420,7 @@ public class ManagerGryScript : MonoBehaviour
             string[] fLines = fs.Split(';');
             idx++;
             Font f = null;
-            if (fontyJezyków != null && fontyJezyków.Length > idx)
+            if (fontyJezyków != null)
             {
                 bool znalazlem = false;
                 for (byte i = 0; i < fontyJezyków.Length; i++)

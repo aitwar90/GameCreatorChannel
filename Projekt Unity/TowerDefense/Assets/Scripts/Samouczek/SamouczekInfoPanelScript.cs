@@ -7,9 +7,11 @@ public class SamouczekInfoPanelScript : MonoBehaviour
     public Button przyciskDalejButtonu;
     private Image tłoEnabeld = null;
     private Scrollbar scrollbar = null;
-    public void ZaladujTekstPanelu(ref string opis)
+    public void ZaladujTekstPanelu(ref string opis, Font f)
     {
         wyśwTekstNaPanelu.text = opis;
+        if(f != null)
+            wyśwTekstNaPanelu.font = f;
         OdpalPanel();
     }
     private void OdpalPanel()
