@@ -40,6 +40,8 @@ public class ManagerGryScript : MonoBehaviour
     #region Particles
     [Tooltip("Particle dla konkretnych etapów gry na Canvasie: \n [0] - Gracz wygrał")]
     public GameObject[] particleSystems;
+    [Tooltip("Tablica fontów dla konkretnych jezyków")]
+    public FontDlaJezyków[] fontyJezyków;
     #endregion
     #region Prywatne zmienne
     KonkretnyNPCStatyczny knpcsBazy = null;
@@ -392,15 +394,15 @@ public class ManagerGryScript : MonoBehaviour
         }
         else
         {
-            MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_"+aktualnaEpoka.ToString(), false);
+            MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_" + aktualnaEpoka.ToString(), false);
             timerFal = setTimer;
         }
         byte czas = (byte)(czasMiędzyFalami - timerFal);
         if (czas != bufferTimerFal)
         {
-            if(czasMiędzyFalami-1 == czas)
+            if (czasMiędzyFalami - 1 == czas)
             {
-                MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_"+aktualnaEpoka.ToString(), false);
+                MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_" + aktualnaEpoka.ToString(), false);
                 SpawnerHord.actualHPBars = 0;
             }
             bufferTimerFal = czas;
@@ -417,6 +419,25 @@ public class ManagerGryScript : MonoBehaviour
             fs = fs.Replace("\r", "");
             string[] fLines = fs.Split(';');
             idx++;
+            Font f = null;
+            if (fontyJezyków != null && fontyJezyków.Length > idx)
+            {
+                bool znalazlem = false;
+                for (byte i = 0; i < fontyJezyków.Length; i++)
+                {
+                    for (byte j = 0; j < fontyJezyków[i].idxJezyka.Length; j++)
+                    {
+                        if (fontyJezyków[i].idxJezyka[j] == idx)
+                        {
+                            f = fontyJezyków[i].font;
+                            znalazlem = true;
+                            break;
+                        }
+                    }
+                    if(znalazlem)
+                        break;
+                }
+            }
             for (ushort i = 0; i < fLines.Length; i++)
             {
                 string[] pFrazy = fLines[i].Split('|');
@@ -433,6 +454,8 @@ public class ManagerGryScript : MonoBehaviour
                             if (pFrazy[0] == wszystkieFrazy[j].transform.name)
                             {
                                 wszystkieFrazy[j].text = pFrazy[idx];
+                                if (f != null)
+                                    wszystkieFrazy[j].font = f;
                                 break;
                             }
                         }
@@ -441,6 +464,8 @@ public class ManagerGryScript : MonoBehaviour
                             if (pFrazy[0] == wszystkieFrazy[j].transform.parent.name)
                             {
                                 wszystkieFrazy[j].text = pFrazy[idx];
+                                if (f != null)
+                                    wszystkieFrazy[j].font = f;
                                 break;
                             }
                         }

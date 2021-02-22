@@ -62,6 +62,7 @@ KliknijTuText|Kliknij tu|Click here;
 OpuszczamSamuczekTXT|Wył Samouczek|Disable Tutorial;
 SamouczekTextButton|Samouczek|Tutorial;
 PrzesunKamereToogleOpcje|Odwrócenie przesunięcia kamery|Inverse camera movement;
+PostProcessingToogleOpcje|Post-Processing|Post-Processing;
 Akademia=nazwa|Akademia|Academy;
 Akademia=opis|Budynek pozwalający na prowadzenie badań zwiększających parametry innych budynków.|A building that allows research to increase the capabilities of other buildings.;
 Mur_1v1=nazwa|Kamienny Mur II|Stone Wall III;

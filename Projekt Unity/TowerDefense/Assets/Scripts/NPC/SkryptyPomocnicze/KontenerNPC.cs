@@ -441,6 +441,12 @@ public interface ICzekajAz
     void MetodaDoOdpaleniaPoWyczekaniu();
     System.Collections.IEnumerator CzekajAz();
 }
+[System.Serializable]
+public struct FontDlaJezyków
+{
+    public Font font;
+    public byte[] idxJezyka;  //1-Polski, 2-Angielski, 3-Ukraiński
+}
 
 
 

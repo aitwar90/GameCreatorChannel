@@ -180,6 +180,9 @@ MonoBehaviour:
   defIdx: 0
   particleSystems:
   - {fileID: 0}
+  "fontyJezyk\xF3w":
+  - font: {fileID: 12800000, guid: 3b82c32d182a004458d40e744b6992bc, type: 3}
+    idxJezyka: 0001
   toNieOstatniaFala: 0
   blokowanieOrientacji: 1
 --- !u!114 &8539881029944531418
