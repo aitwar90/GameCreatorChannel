@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 
-public class ManagerGryScript : MonoBehaviour
+public class ManagerGryScript : MonoBehaviour, ICzekajAz
 {
     [Header("Podstawowe informacje dla gracza")]
     #region Zmienne publiczne
@@ -101,19 +101,7 @@ public class ManagerGryScript : MonoBehaviour
         {
             skrzynki[i] = new Skrzynka(ref PomocniczeFunkcje.mainMenu.buttonSkrzynki[i]);
         }
-        PomocniczeFunkcje.LadujDaneOpcje();
-        PomocniczeFunkcje.ŁadujDane();
-        //UtworzSzablonPlikuJezykowego();
-        if (blokowanieOrientacji)
-        {
-            Screen.orientation = ScreenOrientation.Landscape;
-            Screen.autorotateToLandscapeLeft = false;
-            Screen.autorotateToLandscapeRight = false;
-            Screen.autorotateToPortraitUpsideDown = false;
-            Screen.autorotateToPortrait = false;
-        }
-        PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunekGracza);
-        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
+        StartCoroutine(CzekajAz());
     }
     void Update()
     {
@@ -816,6 +804,27 @@ public class ManagerGryScript : MonoBehaviour
     public void KasujZapis()
     {
         PomocniczeFunkcje.KasujZapis();
+    }
+    public void MetodaDoOdpaleniaPoWyczekaniu()
+    {
+        PomocniczeFunkcje.LadujDaneOpcje();
+        PomocniczeFunkcje.ŁadujDane();
+        //UtworzSzablonPlikuJezykowego();
+        if (blokowanieOrientacji)
+        {
+            Screen.orientation = ScreenOrientation.Landscape;
+            Screen.autorotateToLandscapeLeft = false;
+            Screen.autorotateToLandscapeRight = false;
+            Screen.autorotateToPortraitUpsideDown = false;
+            Screen.autorotateToPortrait = false;
+        }
+        PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunekGracza);
+        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
+    }
+    public IEnumerator CzekajAz()
+    {
+        yield return new WaitForEndOfFrame();
+        MetodaDoOdpaleniaPoWyczekaniu();
     }
     #endregion
 }
