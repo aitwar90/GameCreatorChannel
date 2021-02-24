@@ -50,6 +50,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}
+      propertyPath: efektyFxKoniec
+      value: 
+      objectReference: {fileID: 1482312127040780371, guid: f4173efcb4b66c145858e0e0b25d95f7,
+        type: 3}
+    - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
+        type: 3}
       propertyPath: kosztJednostki
       value: 500
       objectReference: {fileID: 0}

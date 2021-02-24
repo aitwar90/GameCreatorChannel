@@ -137,7 +137,7 @@ PrefabInstance:
     - target: {fileID: 6829734291221770779, guid: 46214c9cb90e94a4b8b42e08db1b67d6,
         type: 3}
       propertyPath: "tagRodzajDoD\u017Awi\u0119k\xF3w"
-      value: "_W\u0142\u0142\xF3cznia"
+      value: "_W\u0142\xF3cznia"
       objectReference: {fileID: 0}
     - target: {fileID: 9141790789618857916, guid: 46214c9cb90e94a4b8b42e08db1b67d6,
         type: 3}

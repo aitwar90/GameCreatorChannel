@@ -19,6 +19,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4477308217809801003, guid: a0f32f421187e684d90086b138e31172,
         type: 3}
+      propertyPath: obiektAtaku
+      value: 
+      objectReference: {fileID: 7455529891099371364, guid: 9db9c66fa28aa8a4082d135d21bbb249,
+        type: 3}
+    - target: {fileID: 4477308217809801003, guid: a0f32f421187e684d90086b138e31172,
+        type: 3}
       propertyPath: kosztBadania
       value: 6000
       objectReference: {fileID: 0}

@@ -86,7 +86,7 @@ PrefabInstance:
         type: 3}
       propertyPath: obiektAtaku
       value: 
-      objectReference: {fileID: 7934573328416462504, guid: db22962c9bf67434fbf79c397f4ed863,
+      objectReference: {fileID: 7455529891099371364, guid: 9db9c66fa28aa8a4082d135d21bbb249,
         type: 3}
     - target: {fileID: 5536278793820345182, guid: ea92a4d5c91149044a9503cc025132df,
         type: 3}
@@ -128,6 +128,11 @@ PrefabInstance:
         type: 3}
       propertyPath: "zadawaneObra\u017Cenia"
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5536278793820345182, guid: ea92a4d5c91149044a9503cc025132df,
+        type: 3}
+      propertyPath: "tagRodzajDoD\u017Awi\u0119k\xF3w"
+      value: "_Strza\u0142a"
       objectReference: {fileID: 0}
     - target: {fileID: 7837087253918127865, guid: ea92a4d5c91149044a9503cc025132df,
         type: 3}

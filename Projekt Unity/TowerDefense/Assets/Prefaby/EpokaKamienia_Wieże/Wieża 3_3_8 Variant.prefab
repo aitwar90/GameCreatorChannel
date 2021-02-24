@@ -26,7 +26,7 @@ PrefabInstance:
         type: 3}
       propertyPath: obiektAtaku
       value: 
-      objectReference: {fileID: 7455529891099371364, guid: 07f75a400bee59a48bae42ba540ad3b5,
+      objectReference: {fileID: 7455529891099371364, guid: 9db9c66fa28aa8a4082d135d21bbb249,
         type: 3}
     - target: {fileID: 4084355138332104809, guid: 9be08faa916898340973447a1c35a58c,
         type: 3}
