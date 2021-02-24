@@ -218,7 +218,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             cel = null;
             rootEnemy = null;
             tabActAtakObj = null;
-            if(instaObjOff != null)
+            if (instaObjOff != null)
                 instaObjOff.Clear();
             StartCoroutine(SkasujObject(2.0f));
         }
@@ -278,7 +278,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         {
             aktualnyReuseAtaku += Time.deltaTime * 3.0f;
             float f = szybkośćAtaku - aktualnyReuseAtaku;
-            if (f <= .1f)
+            if (f <= .2f)
             {
                 if (!instaObjIsActive)
                 {
@@ -310,8 +310,17 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                         PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, s, true);
                     if (efektyFxStart != null)
                     {
-                        efektyFxStart.transform.position = this.transform.position;
-                        efektyFxStart.Play();
+                        ParticleSystem ps = PomocniczeFunkcje.managerGryScript.PobierzParticleSystem(ref efektyFxStart);
+                        if (ps == null)
+                        {
+                            ps = GameObject.Instantiate(efektyFxStart.gameObject, cel.transform.position, Quaternion.identity).GetComponent<ParticleSystem>();
+                        }
+                        else
+                        {
+                            ps.transform.position = cel.transform.position;
+                            ps.gameObject.SetActive(true);
+                        }
+                        ps.Play();
                     }
                 }
                 else
@@ -321,8 +330,17 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                         f = 0;
                         if (efektyFxKoniec != null)
                         {
-                            efektyFxKoniec.transform.position = cel.transform.position;
-                            efektyFxKoniec.Play();
+                            ParticleSystem ps = PomocniczeFunkcje.managerGryScript.PobierzParticleSystem(ref efektyFxKoniec);
+                            if (ps == null)
+                            {
+                                ps = GameObject.Instantiate(efektyFxKoniec.gameObject, cel.transform.position, Quaternion.identity).GetComponent<ParticleSystem>();
+                            }
+                            else
+                            {
+                                ps.transform.position = cel.transform.position;
+                                ps.gameObject.SetActive(true);
+                            }
+                            ps.Play();
                         }
                         PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, PomocniczeFunkcje.TagZEpoka("TrafienieB", this.epokaNPC, this.tagRodzajDoDźwięków), true);
                     }
@@ -330,7 +348,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     {
                         if (tabActAtakObj[i] == null)
                             break;
-                        tabActAtakObj[i].SetActPos(f * 10.0f);
+                        tabActAtakObj[i].SetActPos(f * 5.0f);
                     }
                 }
             }

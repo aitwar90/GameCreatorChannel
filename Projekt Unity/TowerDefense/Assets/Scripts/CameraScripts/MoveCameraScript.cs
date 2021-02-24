@@ -20,7 +20,7 @@ public class MoveCameraScript : MonoBehaviour
 #endif
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
     private Vector3 pierwotnePołożenieKamery = Vector3.zero;
-    private byte granica = 15;
+    private byte granica = 5;
     private int szerokośćObrazu;
     private int wysokśćObrazu;
     private Vector2 offs = Vector2.zero;

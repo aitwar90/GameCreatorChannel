@@ -54,6 +54,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     private byte aktualnyIndexTabFPS = 0;
     private bool poziomZakonczony = false;
     private byte bufferTimerFal = 255;
+    private List<Stack<ParticleSystem>> particleStack;
     #endregion
     #region Getery i Setery
     public Skrzynka ZwróćSkrzynkeOIndeksie(byte idx)
@@ -825,6 +826,62 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     {
         yield return new WaitForEndOfFrame();
         MetodaDoOdpaleniaPoWyczekaniu();
+    }
+    public void DodajDoTablicyStackowParticli(ref ParticleSystem ps)
+    {
+        if(particleStack == null)
+        {
+            particleStack = new List<Stack<ParticleSystem>>();
+        }
+        bool find = false;
+        sbyte idxCout0 = -1;
+        for(byte i = 0; i < particleStack.Count; i++)   //Próba wyszukania particli (szukanie następuje po ustawionym maxParticles)
+        {   
+            if(particleStack[i] != null && particleStack[i].Count > 0)
+            {
+                if(particleStack[i].Peek().main.maxParticles == ps.main.maxParticles)
+                {
+                    find = true;
+                    particleStack[i].Push(ps);
+                    return;
+                }
+            }
+            else if(idxCout0 == -1 && particleStack[i] != null && particleStack.Count == 0)
+            {
+                idxCout0 = (sbyte)i;
+            }
+        }
+        if(!find)   //Nie ma w liście danych particli
+        {
+            if(idxCout0 > -1)   //Było puste miejsce w tabliy
+            {
+                particleStack[idxCout0].Push(ps);
+                return;
+            }
+            else    //Nie było pustego miejsca w tablicy
+            {
+                Stack<ParticleSystem> psDoDodania = new Stack<ParticleSystem>();
+                psDoDodania.Push(ps);
+                particleStack.Add(psDoDodania);
+            }
+        }
+    }
+    public ParticleSystem PobierzParticleSystem(ref ParticleSystem szukanyParticle)
+    {
+        if(particleStack == null || particleStack.Count == 0)
+            return null;
+        for(byte i = 0; i < particleStack.Count; i++)
+        {
+            if(particleStack[i] != null && particleStack[i].Count > 0)
+            {
+                if(particleStack[i].Peek().main.maxParticles == szukanyParticle.main.maxParticles)
+                {
+                    return particleStack[i].Pop();
+                    
+                }
+            }
+        }
+        return null;
     }
     #endregion
 }
