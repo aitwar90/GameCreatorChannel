@@ -60,7 +60,7 @@ public class Skrzynka
         if (reuseTime)
         {
             pozostałyCzas = pozostałyCzas.AddMinutes(offTime);
-            Debug.Log("Dodałem minut = " + offTime + " i pozostały czas to " + pozostałyCzas.Hour + " h / " + pozostałyCzas.Minute + " m.");
+            //Debug.Log("Dodałem minut = " + offTime + " i pozostały czas to " + pozostałyCzas.Hour + " h / " + pozostałyCzas.Minute + " m.");
         }
     }
     public void RozpocznijOdliczanie()
