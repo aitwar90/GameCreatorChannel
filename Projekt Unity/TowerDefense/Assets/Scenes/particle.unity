@@ -457,6 +457,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1482312127040780371, guid: f4173efcb4b66c145858e0e0b25d95f7,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1482312127040780371, guid: f4173efcb4b66c145858e0e0b25d95f7,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1482312127040780371, guid: f4173efcb4b66c145858e0e0b25d95f7,
+        type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1482312127040780371, guid: f4173efcb4b66c145858e0e0b25d95f7,
+        type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 2631113633667618472, guid: f4173efcb4b66c145858e0e0b25d95f7,
         type: 3}
       propertyPath: m_Name
