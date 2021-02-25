@@ -40,7 +40,6 @@ SubShader {
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 return o;
             }
-           
             fixed4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i); // necessary only if any instanced properties are going to be accessed in the fragment Shader.
