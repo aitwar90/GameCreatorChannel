@@ -13,6 +13,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -8290321329913232191, guid: 2b228d012318a194188ab701f9cafb09,
         type: 3}
+    - target: {fileID: 1087409314443740609, guid: dd1612c3f583e4248a39f415778f1e92,
+        type: 3}
+      propertyPath: poziom
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1087409314443740609, guid: dd1612c3f583e4248a39f415778f1e92,
+        type: 3}
+      propertyPath: "maksymalne\u017Bycie"
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 1087409314443740609, guid: dd1612c3f583e4248a39f415778f1e92,
+        type: 3}
+      propertyPath: "zadawaneObra\u017Cenia"
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 1087409314443740609, guid: dd1612c3f583e4248a39f415778f1e92,
+        type: 3}
+      propertyPath: "ileCoin\xF3wZaZabicie"
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 2600994755281491749, guid: dd1612c3f583e4248a39f415778f1e92,
         type: 3}
       propertyPath: m_Name

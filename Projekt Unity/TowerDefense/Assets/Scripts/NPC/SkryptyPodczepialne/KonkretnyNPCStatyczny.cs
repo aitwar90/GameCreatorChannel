@@ -565,7 +565,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                 this.modyfikatorZadawanychObrażeń = PomocniczeFunkcje.WyliczModyfikatorObrazeń(this.modyfikatorZadawanychObrażeń, PomocniczeFunkcje.managerGryScript.atkIdx);
                 break;
             case 2: //Defence
-                this.modyfikatorOtrzymywanychObrażeń = PomocniczeFunkcje.WyliczModyfikatorObrazeń(this.modyfikatorOtrzymywanychObrażeń, PomocniczeFunkcje.managerGryScript.defIdx);
+                this.modyfikatorOtrzymywanychObrażeń = PomocniczeFunkcje.WyliczModyfikatorObrazeń(this.modyfikatorOtrzymywanychObrażeń, PomocniczeFunkcje.managerGryScript.defIdx, true);
                 break;
         }
     }

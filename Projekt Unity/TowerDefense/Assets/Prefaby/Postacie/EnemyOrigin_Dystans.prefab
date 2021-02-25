@@ -416,7 +416,7 @@ GameObject:
   - component: {fileID: 4413915691165636982}
   - component: {fileID: 8916957729661533474}
   m_Layer: 8
-  m_Name: EnemyOrigin
+  m_Name: EnemyOrigin_Dystans
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -472,11 +472,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nazwa: "W\u0142\xF3cznik"
-  "maksymalne\u017Bycie": 75
+  "maksymalne\u017Bycie": 50
   typNPC: 2
   epokaNPC: 1
   kosztJednostki: 1
-  "zadawaneObra\u017Cenia": 15
+  "zadawaneObra\u017Cenia": 7
   "zasi\u0119gAtaku": 3
   "szybko\u015B\u0107Ataku": 1.833
   "modyfikatorOtrzymywanychObra\u017Ce\u0144": 1

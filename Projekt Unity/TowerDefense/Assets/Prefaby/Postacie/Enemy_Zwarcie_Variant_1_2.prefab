@@ -13,6 +13,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -8290321329913232191, guid: 782d8da686cd6de449950f3f18456aef,
         type: 3}
+    - target: {fileID: 1087409314443740609, guid: dd1612c3f583e4248a39f415778f1e92,
+        type: 3}
+      propertyPath: poziom
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1087409314443740609, guid: dd1612c3f583e4248a39f415778f1e92,
+        type: 3}
+      propertyPath: "zadawaneObra\u017Cenia"
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1087409314443740609, guid: dd1612c3f583e4248a39f415778f1e92,
+        type: 3}
+      propertyPath: "ileCoin\xF3wZaZabicie"
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2600994755281491749, guid: dd1612c3f583e4248a39f415778f1e92,
         type: 3}
       propertyPath: m_Name

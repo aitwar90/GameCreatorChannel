@@ -126,6 +126,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             else if(PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
            {
                 PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
+                PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
             }
         }
 #endif

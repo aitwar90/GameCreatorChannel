@@ -67,6 +67,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4192460064056367595, guid: a266c1e4ca0ef9648a1bd8849608f322,
+        type: 3}
+      propertyPath: poziom
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4192460064056367595, guid: a266c1e4ca0ef9648a1bd8849608f322,
+        type: 3}
+      propertyPath: "maksymalne\u017Bycie"
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 4192460064056367595, guid: a266c1e4ca0ef9648a1bd8849608f322,
+        type: 3}
+      propertyPath: "zadawaneObra\u017Cenia"
+      value: 37
+      objectReference: {fileID: 0}
+    - target: {fileID: 4192460064056367595, guid: a266c1e4ca0ef9648a1bd8849608f322,
+        type: 3}
+      propertyPath: "ileCoin\xF3wZaZabicie"
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 4357238385186616396, guid: a266c1e4ca0ef9648a1bd8849608f322,
         type: 3}
       propertyPath: m_Mesh

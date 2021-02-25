@@ -67,6 +67,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_Zwarcie_Variant_3_2
       objectReference: {fileID: 0}
+    - target: {fileID: 2509490586735411884, guid: 3e28a66aa60db354d98a65332157c488,
+        type: 3}
+      propertyPath: poziom
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 2509490586735411884, guid: 3e28a66aa60db354d98a65332157c488,
+        type: 3}
+      propertyPath: "maksymalne\u017Bycie"
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 2509490586735411884, guid: 3e28a66aa60db354d98a65332157c488,
+        type: 3}
+      propertyPath: "zadawaneObra\u017Cenia"
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 2509490586735411884, guid: 3e28a66aa60db354d98a65332157c488,
+        type: 3}
+      propertyPath: "ileCoin\xF3wZaZabicie"
+      value: 55
+      objectReference: {fileID: 0}
     - target: {fileID: 2631537502441500427, guid: 3e28a66aa60db354d98a65332157c488,
         type: 3}
       propertyPath: m_Mesh

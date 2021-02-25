@@ -996,10 +996,10 @@ public static class PomocniczeFunkcje
         return aktTag + "_" + e.ToString() + rodzajObiektu;
     }
     //Wylicza wartość modyfikatora zadawanych i otrzymywanych obrażeń
-    public static float WyliczModyfikatorObrazeń(float bazowyModyfikator, ushort wartośćIndeksu)
+    public static float WyliczModyfikatorObrazeń(float bazowyModyfikator, ushort wartośćIndeksu, bool czyDefence = false)
     {
         float warMnoznika = Mathf.Pow(0.98f, wartośćIndeksu);
-        return bazowyModyfikator + (0.002f * warMnoznika); //Do +5% na 37 poziomie
+        return (czyDefence) ? bazowyModyfikator - (0.002f * warMnoznika) : bazowyModyfikator + (0.002f * warMnoznika); //Do +5% na 37 poziomie
     }
     public static void UstawTimeScale(float tScale)
     {

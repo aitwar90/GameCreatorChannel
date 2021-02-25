@@ -73,5 +73,30 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7140123040540036952, guid: be581025b75e3164aa54978003f8699a,
         type: 3}
+    - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219,
+        type: 3}
+      propertyPath: poziom
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219,
+        type: 3}
+      propertyPath: "zasi\u0119gAtaku"
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219,
+        type: 3}
+      propertyPath: "maksymalne\u017Bycie"
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219,
+        type: 3}
+      propertyPath: "zadawaneObra\u017Cenia"
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219,
+        type: 3}
+      propertyPath: "ileCoin\xF3wZaZabicie"
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 413ecb2ef19c41a448dfd791ffaff219, type: 3}
