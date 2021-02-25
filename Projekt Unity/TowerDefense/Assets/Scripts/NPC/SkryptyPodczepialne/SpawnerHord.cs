@@ -208,9 +208,11 @@ public class SpawnerHord : MonoBehaviour
             List<KonkretnyNPCDynamiczny> możliwiNPC = new List<KonkretnyNPCDynamiczny>();
             NPCClass[] npcs = PomocniczeFunkcje.managerGryScript.PobierzTabliceWrogow;
             byte iloscPunktówSpawnu = 1;
+            byte actPE = PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki;
+            if(actPE == 255) actPE = 1;
             for (byte i = 0; i < npcs.Length; i++)
             {
-                if (npcs[i].epokaNPC == e && npcs[i].poziom <= PomocniczeFunkcje.odblokowanyPoziomEpoki)
+                if (npcs[i].epokaNPC == e && npcs[i].poziom <= actPE)
                 {
                     możliwiNPC.Add((KonkretnyNPCDynamiczny)npcs[i]);
                 }

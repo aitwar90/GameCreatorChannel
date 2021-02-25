@@ -56,7 +56,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     private ushort[] idxMurów = null;
     private ushort[] idxInne = null;
     private sbyte lastPanelEnabledBuildings = -1;
-    private sbyte ostatniZaznaczonyObiektBudowania = -1;
+    //private sbyte ostatniZaznaczonyObiektBudowania = -1;
     #endregion
     #region Obiekty ładowane
     public Slider sliderDźwięku;
@@ -784,7 +784,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             }
             EnDisButtonsOfBuildingsInPanel(ref idxWież, true);
             lastPanelEnabledBuildings = 0;
-            ostatniZaznaczonyObiektBudowania = -1;
+            //ostatniZaznaczonyObiektBudowania = -1;
             ManagerSamouczekScript.mssInstance.WyłączVisual();
         }
         else if (idx == 1)   //Panel z murkami
@@ -803,7 +803,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             }
             EnDisButtonsOfBuildingsInPanel(ref idxMurów, true);
             lastPanelEnabledBuildings = 1;
-            ostatniZaznaczonyObiektBudowania = -1;
+            //ostatniZaznaczonyObiektBudowania = -1;
             ManagerSamouczekScript.mssInstance.WyłączVisual();
         }
         else if (idx == 2)    //Panel z innymi budynkami
@@ -822,7 +822,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             }
             EnDisButtonsOfBuildingsInPanel(ref idxInne, true);
             lastPanelEnabledBuildings = 2;
-            ostatniZaznaczonyObiektBudowania = -1;
+            //ostatniZaznaczonyObiektBudowania = -1;
             ManagerSamouczekScript.mssInstance.WyłączVisual();
         }
         else    //Wyłącz panel
@@ -837,7 +837,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             WłączWyłączPanel("UI_LicznikCzasu", true);
             PomocniczeFunkcje.UstawTimeScale(1);
             lastPanelEnabledBuildings = -1;
-            ostatniZaznaczonyObiektBudowania = -1;
+            //ostatniZaznaczonyObiektBudowania = -1;
             ManagerSamouczekScript.mssInstance.WyłączVisual();
         }
     }

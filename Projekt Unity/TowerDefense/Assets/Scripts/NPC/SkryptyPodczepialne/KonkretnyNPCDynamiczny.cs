@@ -134,7 +134,10 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         if (!this.NieŻyję)
         {
-            PomocniczeFunkcje.ZwykłeAI(this);
+            if (czyAtakJestAktywny && this.typNPC == TypNPC.WalczyNaDystans)
+            {
+                Atakuj();
+            }
             switch (głównyIndex)
             {
                 case -1:
@@ -149,12 +152,13 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
                     głównyIndex++;
                     break;
-                /*
-            case 0:
-                PomocniczeFunkcje.ZwykłeAI(this);
-                głównyIndex++;
-                break;
-                */
+
+                case 0:
+                    if (!czyAtakJestAktywny)
+                        PomocniczeFunkcje.ZwykłeAI(this);
+                    głównyIndex++;
+                    break;
+
                 case 1:
                     if (cel != null && !czekamNaZatwierdzenieŚcieżki)
                     {
@@ -198,12 +202,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     }
                     głównyIndex++;
                     break;
-                /*
-            case 3: 
-                PomocniczeFunkcje.ZwykłeAI(this);
-                głównyIndex++;
-                break;
-                */
                 case 4: //Dodanie do nowych wież
                     if (czyDodawac)
                     {
@@ -485,7 +483,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         if (aktualnyReuseAtaku < szybkośćAtaku)
         {
-            aktualnyReuseAtaku += Time.deltaTime;
+            aktualnyReuseAtaku += Time.deltaTime * 5.0f;
             float f = szybkośćAtaku - aktualnyReuseAtaku;
             if (f <= 0.1f)   //Jeśli strzela to się zaczyna
             {
