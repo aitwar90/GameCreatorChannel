@@ -617,8 +617,9 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     }
     public void KliknietyButtonZwiekszeniaNagrodyPoLvlu()
     {
-        ushort c = (ushort)(((byte)aktualnaEpoka) * 10 + aktualnyPoziomEpoki);
+        ushort c = (ushort)(((byte)aktualnaEpoka) * 500 + aktualnyPoziomEpoki*5);
         or.OtwórzReklame(1, c);
+        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
     }
     public void UzyciePrzedmiotu(byte idxOfItem)
     {
@@ -667,6 +668,8 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
             OdblokujKolejnaSkrzynke();
             PomocniczeFunkcje.ZapiszDane();
+            iloscCoinów += (ushort)(((byte)aktualnaEpoka) * 500 + aktualnyPoziomEpoki*5);
+            PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("WinTXT", true);
             MuzykaScript.singleton.WłączWyłączClip(true, "Zwycięstwo");
         }

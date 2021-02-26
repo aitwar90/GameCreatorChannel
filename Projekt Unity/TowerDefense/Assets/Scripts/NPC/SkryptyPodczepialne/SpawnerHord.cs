@@ -20,18 +20,18 @@ public class SpawnerHord : MonoBehaviour
 
     ///<summary>Metoda określa aktualną ilość spawnowanych jednostek wroga na podstawie epoki i jej poziomu.</summary>
     ///<param name="e">Epoka poziomu.</param>
-    private void ObsłużFale(Epoki e)
+    ///<param name="aktPozEpoki">Aktualny poziom epoki.</param>
+    private void ObsłużFale(Epoki e, byte aktPozEpoki)
     {
-        byte aktPozEpoki = PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki;
         if (e == Epoki.EpokaKamienia)
         {
-            if (aktPozEpoki == 255)  //Samouczek
+            if (aktPozEpoki == 0)  //Samouczek
             {
                 ostatniaIlośćWFali = 1;
             }
             else if (aktPozEpoki < 50)
             {
-                ostatniaIlośćWFali += 3;
+                ostatniaIlośćWFali += (ushort)(3+(aktPozEpoki/10f));
             }
             else
             {
@@ -42,7 +42,7 @@ public class SpawnerHord : MonoBehaviour
         {
             if (aktPozEpoki < 50)
             {
-                ostatniaIlośćWFali += 3;
+                ostatniaIlośćWFali += (ushort)(3+(aktPozEpoki/10f));
             }
             else
             {
@@ -53,7 +53,7 @@ public class SpawnerHord : MonoBehaviour
         {
             if (aktPozEpoki < 50)
             {
-                ostatniaIlośćWFali += 3;
+                ostatniaIlośćWFali += (ushort)(3+(aktPozEpoki/10f));
             }
             else
             {
@@ -64,7 +64,7 @@ public class SpawnerHord : MonoBehaviour
         {
             if (aktPozEpoki < 50)
             {
-                ostatniaIlośćWFali += 3;
+                ostatniaIlośćWFali += (ushort)(3+(aktPozEpoki/10f));
             }
             else
             {
@@ -75,7 +75,7 @@ public class SpawnerHord : MonoBehaviour
         {
             if (aktPozEpoki < 50)
             {
-                ostatniaIlośćWFali += 3;
+                ostatniaIlośćWFali += (ushort)(3+(aktPozEpoki/10f));
             }
             else
             {
@@ -86,7 +86,7 @@ public class SpawnerHord : MonoBehaviour
         {
             if (aktPozEpoki < 50)
             {
-                ostatniaIlośćWFali += 3;
+                ostatniaIlośćWFali += (ushort)(3+(aktPozEpoki/10f));
             }
             else
             {
@@ -208,9 +208,11 @@ public class SpawnerHord : MonoBehaviour
             List<KonkretnyNPCDynamiczny> możliwiNPC = new List<KonkretnyNPCDynamiczny>();
             NPCClass[] npcs = PomocniczeFunkcje.managerGryScript.PobierzTabliceWrogow;
             byte iloscPunktówSpawnu = 1;
+            byte actPE = PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki;
+            if(actPE == 255) actPE = 0;
             for (byte i = 0; i < npcs.Length; i++)
             {
-                if (npcs[i].epokaNPC == e && npcs[i].poziom <= PomocniczeFunkcje.odblokowanyPoziomEpoki)
+                if (npcs[i].epokaNPC == e && npcs[i].poziom <= actPE)
                 {
                     możliwiNPC.Add((KonkretnyNPCDynamiczny)npcs[i]);
                 }
@@ -222,7 +224,7 @@ public class SpawnerHord : MonoBehaviour
             }
             if (ostatniaIlośćWFali < maxIlośćNaFalę)
             {
-                ObsłużFale(e);
+                ObsłużFale(e, actPE);
                 if (ostatniaIlośćWFali > maxIlośćNaFalę)
                 {
                     ostatniaIlośćWFali = maxIlośćNaFalę;

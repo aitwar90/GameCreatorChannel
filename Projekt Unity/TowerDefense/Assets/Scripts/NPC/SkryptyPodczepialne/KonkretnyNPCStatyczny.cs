@@ -187,6 +187,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         else    //Jeśli nastawienie jest przyjazne
         {
             //Podmień obiekt na zgruzowany
+            this.AktualneŻycie = -1;
             MuzykaScript.singleton.WłączTymczasowyClip(PomocniczeFunkcje.TagZEpoka("ŚmiercB", this.epokaNPC, this.tagRodzajDoDźwięków), this.transform.position);
             PomocniczeFunkcje.SkasujElementDrzewa(ref PomocniczeFunkcje.korzeńDrzewaPozycji, this);
             Collider[] tablicaKoliderow = this.GetComponents<Collider>();
