@@ -17,13 +17,15 @@ public class MoveCameraScript : MonoBehaviour
 #endif
 #if UNITY_ANDROID || UNITY_IOS
     private float prędkoscPrzesunięciaKamery = 0.05f;
+    private static readonly float[] zoomBounds = new float[]{30f, 80f};
 #endif
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
     private Vector3 pierwotnePołożenieKamery = Vector3.zero;
     private byte granica = 5;
     private int szerokośćObrazu;
     private int wysokśćObrazu;
-    private Vector2 offs = Vector2.zero;
+    public bool wasZoomingLastFrame;
+    private Vector2[] lastZoomPositions;
     #endregion
     #region Getery i setery
     public float PrędkośćPrzesunięciaKamery
@@ -253,12 +255,30 @@ public class MoveCameraScript : MonoBehaviour
                 }
             }
         }
-        if (Input.touchCount == 2)   //Oddalenie i przybliżenie kamery
+        else if (Input.touchCount == 2)   //Oddalenie i przybliżenie kamery
         {
             Touch przybliżenie1 = Input.GetTouch(0);
             Touch przybliżenie2 = Input.GetTouch(1);
+            //https://kylewbanks.com/blog/unity3d-panning-and-pinch-to-zoom-camera-with-touch-and-mouse-input
+            Vector2[] newPositions = new Vector2[]{przybliżenie1.position, przybliżenie2.position};
+            if(!wasZoomingLastFrame)
+            {
+                lastZoomPositions = newPositions;
+                wasZoomingLastFrame = true;
+            }
+            else
+            {
+                float newDistance = Vector2.Distance(newPositions[0], newPositions[1]);
+                float oldDistance = Vector2.Distance(lastZoomPositions[0], lastZoomPositions[1]);
+                float offset = newDistance - oldDistance;
+
+                ZoomingMeNew(offset, prędkoscPrzesunięciaKamery);
+                lastZoomPositions = newPositions;
+            }
+            //Mój sposób    
             //Przesuniecie w lewo deltaposition.x jest - w prawo + w góre y + w dół -
             //Debug.Log("Przybliżenie deltaPosition 1 "+przybliżenie1.deltaPosition+" Przyblizenie 2 delta position = "+przybliżenie2.deltaPosition);
+            /*
             Vector2 przyb1Prev = przybliżenie1.deltaPosition - przybliżenie2.deltaPosition;
             float różnicaPrzybliżenia = DodajElementyWektora(ref przyb1Prev) * prędkoscPrzesunięciaKamery;
             Vector3 eNP = this.transform.position + (this.transform.forward * różnicaPrzybliżenia);
@@ -267,11 +287,21 @@ public class MoveCameraScript : MonoBehaviour
                 transform.position = eNP;
                 ostatniaPozycjaKamery = eNP;
             }
+            */
             if (MainMenu.singelton.OdpalonyPanel)
             {
                 MainMenu.singelton.UstawPanelUI("", Vector2.zero);
             }
         }
+        else
+            wasZoomingLastFrame = false;
+    }
+    void ZoomingMeNew(float offset, float speed)
+    {
+        if(offset == 0)
+            return;
+
+        PomocniczeFunkcje.oCam.fieldOfView = Mathf.Clamp(PomocniczeFunkcje.oCam.fieldOfView - (offset*speed), zoomBounds[0], zoomBounds[1]);
     }
     private float DodajElementyWektora(ref Vector2 v)
     {
