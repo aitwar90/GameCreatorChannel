@@ -239,7 +239,7 @@ MonoBehaviour:
   "modyfikatorZadawanychObra\u017Ce\u0144": 1
   cel: {fileID: 0}
   "odg\u0142osyNPC": {fileID: 0}
-  "tagRodzajDoD\u017Awi\u0119k\xF3w": "_Kamie\u0144"
+  "tagRodzajDoD\u017Awi\u0119k\xF3w": "_W\u0142\xF3cznia"
   poziom: 1
   "aktualne\u017Bycie": 32767
   nastawienieNPC: 0
@@ -257,9 +257,10 @@ MonoBehaviour:
   "offWysoko\u015B\u0107": 1.5
   obrazekDoBudynku: {fileID: 21300000, guid: 5c0cd386342b7ae448b0843798140248, type: 3}
   sprite: {fileID: 3113172145578377462}
-  opisBudynku: Akademia
+  opisBudynku: "Budynek pozwalaj\u0105cy na prowadzenie bada\u0144 zwi\u0119kszaj\u0105cych
+    parametry innych budynk\xF3w."
   iloscWrogowWZasiegu: 0
-  zablokowany: 1
+  zablokowany: 0
 --- !u!135 &7275247995621654197
 SphereCollider:
   m_ObjectHideFlags: 0

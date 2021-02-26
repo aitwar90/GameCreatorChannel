@@ -160,7 +160,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     break;
 
                 case 1:
-                    if (cel != null && !czekamNaZatwierdzenieŚcieżki)
+                    if (cel != null && (!czekamNaZatwierdzenieŚcieżki || this.agent.velocity != Vector3.zero))
                     {
                         ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
                     }
@@ -353,6 +353,14 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         //https://www.binpress.com/unity-3d-ai-navmesh-navigation/
         //Logika nav mesha
+        if (bufferAnima[0] == false && bufferAnima[2] == false)  //Żyję i nie jestem jeszcze w zasięgu ataku
+        {
+            if (this.agent.velocity == Vector3.zero && !this.agent.isStopped)
+            {
+                GenerujŚcieżke(x, z);
+                return;
+            }
+        }
         if (agent.enabled && !agent.hasPath /*|| this.ostatniTargetPozycja != docelowaPozycja*/)
         {
             if (głównyIndex == -1)

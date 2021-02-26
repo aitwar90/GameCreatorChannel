@@ -107,7 +107,13 @@ public class MuzykaScript : MonoBehaviour, ICzekajAz
     }
     public void WłączTymczasowyClip(string typ, Vector3 pos)
     {
-        AudioSource.PlayClipAtPoint(ZwróćSzukanyClip(typ), pos, aktValVolume);
+        AudioClip ac = ZwróćSzukanyClip(typ);
+        if(ac == null)
+        {
+            Debug.Log("Zabrakło klipu dla tagu = "+typ);
+            return;
+        }
+        AudioSource.PlayClipAtPoint(ac, pos, aktValVolume);
     }
     public void WłączWyłączClip(string typ, ref AudioSource ado, bool czyOneShoot = false, string nazwaAktualnegoKlipu = "") //Ta metoda pozwala na wybranie klipu z wyłączeniem nazwy aktualnie granej
     {

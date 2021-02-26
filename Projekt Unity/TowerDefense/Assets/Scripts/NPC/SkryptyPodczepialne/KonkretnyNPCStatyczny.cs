@@ -380,7 +380,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     break;
                 case TypAtakuWieży.wybuch: //Wybuch
                     Collider[] tabZasięgu = new Collider[4];
-                    int iloscCol = Physics.OverlapSphereNonAlloc(cel.transform.position, 1.0f, tabZasięgu, (1 << 8), QueryTriggerInteraction.Collide);
+                    int iloscCol = Physics.OverlapSphereNonAlloc(cel.transform.position, 2.5f, tabZasięgu, (1 << 8), QueryTriggerInteraction.Collide);
                     for (byte i = 0; i < iloscCol; i++)
                     {
                         NPCClass klasa = tabZasięgu[i].GetComponent<NPCClass>();
