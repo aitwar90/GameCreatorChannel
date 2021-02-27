@@ -72,5 +72,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: "Wie\u017Ca 1_3_1 Variant"
       objectReference: {fileID: 0}
+    - target: {fileID: 7410396701425347295, guid: 87915fda98ec92a1a93b913b321d7c3d,
+        type: 3}
+      propertyPath: zablokowany
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7410396701425347295, guid: 87915fda98ec92a1a93b913b321d7c3d,
+        type: 3}
+      propertyPath: "maksymalne\u017Bycie"
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87915fda98ec92a1a93b913b321d7c3d, type: 3}

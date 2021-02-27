@@ -546,11 +546,18 @@ public class KonkretnyNPCDynamiczny : NPCClass
         }
         //Następuje zadawanie obrażeń
         czyAtakJestAktywny = false;
-        this.transform.LookAt(cel.transform.position);
         aktualnyReuseAtaku = 0.0f;
-        cel.ZmianaHP((short)Mathf.FloorToInt((zadawaneObrażenia * this.modyfikatorZadawanychObrażeń)));
+        if (cel != null)
+        {
+            this.transform.LookAt(cel.transform.position);
+            cel.ZmianaHP((short)Mathf.FloorToInt((zadawaneObrażenia * this.modyfikatorZadawanychObrażeń)));
+        }
         if (this.typNPC == TypNPC.WalczyWZwarciu)
+        {
+            if (cel == null)
+                return;
             this.ZmianaHP(cel.ZwrócOdbiteObrażenia());
+        }
         else
         {
             _obiektAtaku.BackWeapon();

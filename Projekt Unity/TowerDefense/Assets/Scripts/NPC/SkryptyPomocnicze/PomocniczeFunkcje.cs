@@ -636,7 +636,7 @@ public static class PomocniczeFunkcje
             else
             {
                 float gObiektuAtakowanego = cObiekt.PobierzGranice();
-                float d = Vector3.Distance(pObiekt.transform.position, cObiekt.transform.position) - 0.25f - gObiektuAtakowanego;
+                float d = Vector3.Distance(pObiekt.transform.position, cObiekt.transform.position) - 0.9f - gObiektuAtakowanego;
                 if (d <= pObiekt.zasięgAtaku)
                 {
                     //Atakuj

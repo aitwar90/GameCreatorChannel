@@ -12,6 +12,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 44e934e4a0fbe524995bdc26224fb258, type: 2}
+    - target: {fileID: 4452607732564558024, guid: 44f0137452334e249bc33cdd26425ded,
+        type: 3}
+      propertyPath: zablokowany
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452607732564558024, guid: 44f0137452334e249bc33cdd26425ded,
+        type: 3}
+      propertyPath: "maksymalne\u017Bycie"
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5073266327078372069, guid: 44f0137452334e249bc33cdd26425ded,
         type: 3}
       propertyPath: m_RootOrder

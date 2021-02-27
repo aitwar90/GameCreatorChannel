@@ -77,5 +77,15 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 8a217a00638f9f84c9f6f39067d676c8, type: 2}
+    - target: {fileID: 7972757224011941476, guid: 3c922ef3036552b40bef15f96555a909,
+        type: 3}
+      propertyPath: zablokowany
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7972757224011941476, guid: 3c922ef3036552b40bef15f96555a909,
+        type: 3}
+      propertyPath: "maksymalne\u017Bycie"
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c922ef3036552b40bef15f96555a909, type: 3}
