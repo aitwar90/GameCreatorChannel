@@ -1,95 +1,75 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5744642150836531195
+--- !u!1001 &2864042498253660016
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1176680508660683556, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176680508660683556, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 38.09
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176680508660683556, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176680508660683556, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 28.31
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176680508660683556, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176680508660683556, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176680508660683556, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176680508660683556, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176680508660683556, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176680508660683556, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1176680508660683556, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2346550299323385392, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
+    - target: {fileID: 1135121305, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d44c20d34d0084347bf679d9a4b906fa, type: 2}
-    - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: nazwa
-      value: Kamienny Mur I
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: poziom
-      value: 25
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: kosztBadania
-      value: 1000
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: poziomBudynku
-      value: 25
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: kosztJednostki
-      value: 250
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: "maksymalne\u017Bycie"
-      value: 5000
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: obrazekDoBudynku
-      value: 
-      objectReference: {fileID: 21300000, guid: e7d962e96409be346897fa250f6b37fa, type: 3}
-    - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
-      propertyPath: "odbiteObra\u017Cenia"
-      value: 2
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7545622804863881893, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5199389168166684428, guid: c2b6a5871752d79708d4ec3a7686bc86,
+        type: 3}
       propertyPath: m_Name
       value: Mur_1v3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
