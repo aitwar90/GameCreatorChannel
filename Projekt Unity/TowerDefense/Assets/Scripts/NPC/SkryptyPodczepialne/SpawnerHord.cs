@@ -10,8 +10,8 @@ public class SpawnerHord : MonoBehaviour
     [Tooltip("Miejsca w których mogą zostać wygenerowani przewciwnicy")]
     public Transform[] spawnPunkty;
     //[Tooltip("Ilość przeciwników w ostatnio wygenerowanej fali")]
-    private ushort ostatniaIlośćWFali = 0;
-    private ushort maxIlośćNaFalę = 1;
+    public ushort ostatniaIlośćWFali = 0;
+    public ushort maxIlośćNaFalę = 1;
     public static byte actFala = 0;
     public static byte iloscFalNaKoncu = 0;
     public static byte actualHPBars = 0;
@@ -29,70 +29,14 @@ public class SpawnerHord : MonoBehaviour
             {
                 ostatniaIlośćWFali = 1;
             }
-            else if (aktPozEpoki < 50)
-            {
-                ostatniaIlośćWFali += (ushort)(3+(aktPozEpoki/10f));
-            }
             else
             {
-                ostatniaIlośćWFali += (ushort)(3 + (aktPozEpoki - 45));
+                ostatniaIlośćWFali += (ushort)(3+(aktPozEpoki/10f));
             }
         }
-        else if (e == Epoki.EpokaStarożytna)
+        else if((byte)e > 1)
         {
-            if (aktPozEpoki < 50)
-            {
-                ostatniaIlośćWFali += (ushort)(3+(aktPozEpoki/10f));
-            }
-            else
-            {
-                ostatniaIlośćWFali += (ushort)(3 + (aktPozEpoki - 44));
-            }
-        }
-        else if (e == Epoki.EpokaŚredniowiecza)
-        {
-            if (aktPozEpoki < 50)
-            {
-                ostatniaIlośćWFali += (ushort)(3+(aktPozEpoki/10f));
-            }
-            else
-            {
-                ostatniaIlośćWFali += (ushort)(3 + (aktPozEpoki - 43));
-            }
-        }
-        else if (e == Epoki.EpokaNowożytna)
-        {
-            if (aktPozEpoki < 50)
-            {
-                ostatniaIlośćWFali += (ushort)(3+(aktPozEpoki/10f));
-            }
-            else
-            {
-                ostatniaIlośćWFali += (ushort)(3 + (aktPozEpoki - 42));
-            }
-        }
-        else if (e == Epoki.EpokaWspołczesna)
-        {
-            if (aktPozEpoki < 50)
-            {
-                ostatniaIlośćWFali += (ushort)(3+(aktPozEpoki/10f));
-            }
-            else
-            {
-                ostatniaIlośćWFali += (ushort)(3 + (aktPozEpoki - 41));
-            }
-        }
-        else if (e == Epoki.EpokaPrzyszła)
-        {
-            if (aktPozEpoki < 50)
-            {
-                ostatniaIlośćWFali += (ushort)(3+(aktPozEpoki/10f));
-            }
-            else
-            {
-                ostatniaIlośćWFali = 50;
-                ostatniaIlośćWFali += (ushort)(3 + (aktPozEpoki - 40));
-            }
+            ostatniaIlośćWFali += (ushort)(3+(aktPozEpoki/10f) + (byte)e);
         }
         else
         {
@@ -113,85 +57,24 @@ public class SpawnerHord : MonoBehaviour
                     maxIlośćNaFalę = 1;
                     iloscFalNaKoncu = 1;
                 }
-                if (poziomEpoki < 50)
+                else if(poziomEpoki < 9)
                 {
+                    iloscFalNaKoncu = (byte)(2+poziomEpoki/2f);
+                    maxIlośćNaFalę = (ushort)(iloscFalNaKoncu*(ushort)(3+(poziomEpoki/10f)));
                     ResortTabSpawnerPont();
-                    maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
-                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / 3.0f));
                 }
                 else
                 {
+                    iloscFalNaKoncu = (byte)(4+poziomEpoki/3f);
+                    maxIlośćNaFalę = (ushort)(Mathf.CeilToInt(poziomEpoki*0.5f) + 100);
                     ResortTabSpawnerPont();
-                    maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
-                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / (3 + (poziomEpoki - 45))));
                 }
-                break;
-            case Epoki.EpokaStarożytna:
-                if (poziomEpoki < 50)
-                {
-                    maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
-                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / 3.0f));
-                }
-                else
-                {
-                    maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
-                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / (3 + (poziomEpoki - 44))));
-                }
-                ResortTabSpawnerPont();
-                break;
-            case Epoki.EpokaŚredniowiecza:
-                if (poziomEpoki < 50)
-                {
-                    maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
-                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / 3.0f));
-                }
-                else
-                {
-                    maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
-                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / (3 + (poziomEpoki - 43))));
-                }
-                ResortTabSpawnerPont();
-                break;
-            case Epoki.EpokaNowożytna:
-                if (poziomEpoki < 50)
-                {
-                    maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
-                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / 3.0f));
-                }
-                else
-                {
-                    maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
-                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / (3 + (poziomEpoki - 42))));
-                }
-                ResortTabSpawnerPont();
-                break;
-            case Epoki.EpokaWspołczesna:
-                if (poziomEpoki < 50)
-                {
-                    maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
-                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / 3.0f));
-                }
-                else
-                {
-                    maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
-                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / (3 + (poziomEpoki - 41))));
-                }
-                ResortTabSpawnerPont();
-                break;
-            case Epoki.EpokaPrzyszła:
-                if (poziomEpoki < 50)
-                {
-                    maxIlośćNaFalę = (ushort)(11 + (Mathf.CeilToInt(poziomEpoki / 2.0f)));
-                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / 3.0f));
-                }
-                else
-                {
-                    maxIlośćNaFalę = (ushort)(36 + poziomEpoki);
-                    iloscFalNaKoncu = (byte)(Mathf.FloorToInt(maxIlośćNaFalę / (3 + (poziomEpoki - 40))));
-                }
-                ResortTabSpawnerPont();
                 break;
             default:
+                ResortTabSpawnerPont();
+                iloscFalNaKoncu = (byte)((byte)(ep)*2 + poziomEpoki);
+                maxIlośćNaFalę = (ushort)(((byte)ep*2) + ((iloscFalNaKoncu*(ushort)(3+(poziomEpoki/10f)))));
+                //maxIlośćNaFalę = (ushort)((byte)(ep)*2) + (iloscFalNaKoncu*(ushort)(3+(poziomEpoki/10f)));
                 break;
         }
     }
@@ -199,8 +82,9 @@ public class SpawnerHord : MonoBehaviour
     ///<param name="e">Epoka, której wrogowie mają zostać wygenerowani.</param>
     public bool GenerujSpawn(Epoki e)
     {
-        if (ostatniaIlośćWFali >= maxIlośćNaFalę || PomocniczeFunkcje.managerGryScript == null)
+        if (actFala > iloscFalNaKoncu || PomocniczeFunkcje.managerGryScript == null)
         {
+            Debug.Log("Przekraczam ilość fal");
             return false;
         }
         else
