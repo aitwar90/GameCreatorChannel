@@ -528,7 +528,7 @@ Terrain:
   m_DrawInstanced: 0
   m_DrawTreesAndFoliage: 1
   m_ReflectionProbeUsage: 0
-  m_MaterialTemplate: {fileID: 10652, guid: 0000000000000000f000000000000000, type: 0}
+  m_MaterialTemplate: {fileID: 2100000, guid: fc9dc92beec11a14690f79d0b9f71da6, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -1180,6 +1180,8 @@ MonoBehaviour:
   - {fileID: 1136237239}
   - {fileID: 1226942688}
   - {fileID: 1702730885}
+  "ostatniaIlo\u015B\u0107WFali": 0
+  "maxIlo\u015B\u0107NaFal\u0119": 1
   cel: {fileID: 0}
   rodzicNPC: {fileID: 480583918}
 --- !u!4 &1238469537

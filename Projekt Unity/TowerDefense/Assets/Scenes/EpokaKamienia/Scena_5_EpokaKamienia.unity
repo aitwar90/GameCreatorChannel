@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12732342, g: 0.13415185, b: 0.121079616, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4070,7 +4070,7 @@ Terrain:
   m_DrawInstanced: 0
   m_DrawTreesAndFoliage: 1
   m_ReflectionProbeUsage: 0
-  m_MaterialTemplate: {fileID: 10652, guid: 0000000000000000f000000000000000, type: 0}
+  m_MaterialTemplate: {fileID: 2100000, guid: fc9dc92beec11a14690f79d0b9f71da6, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -4878,6 +4878,8 @@ MonoBehaviour:
   - {fileID: 1658145251}
   - {fileID: 691479155}
   - {fileID: 959919191}
+  "ostatniaIlo\u015B\u0107WFali": 0
+  "maxIlo\u015B\u0107NaFal\u0119": 1
   cel: {fileID: 0}
   rodzicNPC: {fileID: 1288738065}
 --- !u!4 &1675084888
