@@ -76,6 +76,8 @@ public class Skrzynka
     {
         TimeSpan ts = pozostałyCzas.Subtract(DateTime.Now);
         byte minuty = (byte)ts.TotalMinutes;
-        return minuty.ToString();
+        byte hour = (byte)(minuty/60f);
+        minuty -= (byte)(hour*60);
+        return hour.ToString()+":"+minuty.ToString();
     }
 }
