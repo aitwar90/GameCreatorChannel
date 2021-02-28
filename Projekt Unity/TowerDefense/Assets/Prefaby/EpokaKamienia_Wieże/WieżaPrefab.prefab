@@ -24,8 +24,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 222044500}
   m_LocalRotation: {x: -0.000001809995, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 4, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.033, y: 3.09, z: 0.027}
+  m_LocalScale: {x: 0.5, y: 0.4, z: 1}
   m_Children:
   - {fileID: 1735899730}
   - {fileID: 938875737}
@@ -507,8 +507,8 @@ MonoBehaviour:
   aktualnyReuseAtaku: 0
   typBudynku: 1
   "odbiteObra\u017Cenia": 1
-  granicaX: 1.1
-  granicaZ: 1.1
+  granicaX: 0.75
+  granicaZ: 0.75
   kosztBadania: 2500
   "typAtakuWie\u017Cy": 2
   blokowany: 0

@@ -407,7 +407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nazwa: Wzmocniony Kamienny Mur III
-  "maksymalne\u017Bycie": 30000
+  "maksymalne\u017Bycie": 3500
   typNPC: 0
   epokaNPC: 1
   kosztJednostki: 1000

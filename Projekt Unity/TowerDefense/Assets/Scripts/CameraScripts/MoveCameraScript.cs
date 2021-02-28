@@ -132,6 +132,7 @@ public class MoveCameraScript : MonoBehaviour
             return false;
         }
         ostatniaPozycjaKamery = newPos;
+        PomocniczeFunkcje.kameraZostalaPrzesunieta = 2;
         return true;
     }
     void ObsłużMysz()       //Przesuwanie kamery przez najechanie kursorem myszy do krawędzi aplikacji

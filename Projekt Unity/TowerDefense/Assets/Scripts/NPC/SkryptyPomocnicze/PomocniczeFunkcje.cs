@@ -26,6 +26,8 @@ public static class PomocniczeFunkcje
     public static sbyte poHerbacie = -1;                        //Zmienna przechowująca informacje o tym, czy w tej klatce generowano promień dla tabHit
     private static RaycastHit[] tabHit = null;                  //Tablica trafień dla promienia
     private static short[] bufferpozycji = new short[2];        //Buffer pozycji wyliczanej dla jednostki przemieszczającej się po scenie gry
+    public static sbyte czyKliknąłemUI = -1;
+    public static byte kameraZostalaPrzesunieta = 2;            //0 - brak ruchu kamery, poprawiona isVisibility, 1 - brak ruchu kamery, niepoprawione isVisibility, 2 - ruch kamery
     #endregion
     #region Obsługa położenia myszy względem ekranu
     /*
@@ -128,6 +130,8 @@ public static class PomocniczeFunkcje
             {
                 if (rays[i].collider.CompareTag("Budynek") || rays[i].collider.CompareTag("NPC"))
                 {
+                    if (rays[i].collider.CompareTag("NPC"))
+                        Debug.Log("Kliknąłem NPC");
                     tempIBudynek = i;
                     break;
                 }
@@ -143,7 +147,7 @@ public static class PomocniczeFunkcje
         }
         else if (tempITeren > -1)
         {
-            if(CzyKliknalemUI() && !mainMenu.OdpalonyPanel)
+            if (CzyKliknalemUI() && !mainMenu.OdpalonyPanel)
                 return lastClass;
             else
                 return null;
@@ -175,6 +179,10 @@ public static class PomocniczeFunkcje
     */
     public static bool CzyKliknalemUI()
     {
+        if (czyKliknąłemUI == 0)
+            return false;
+        else if (czyKliknąłemUI == 1)
+            return true;
         int fingerID = -1;
         if (!Input.mousePresent && Input.touchCount > 0)
         {
@@ -187,10 +195,12 @@ public static class PomocniczeFunkcje
         }
         if (EventSystem.current.IsPointerOverGameObject(fingerID))
         {
+            czyKliknąłemUI = 1;
             return true;
         }
         else
         {
+            czyKliknąłemUI = 0;
             return false;
         }
     }
@@ -636,7 +646,7 @@ public static class PomocniczeFunkcje
             else
             {
                 float gObiektuAtakowanego = cObiekt.PobierzGranice();
-                float d = Vector3.Distance(pObiekt.transform.position, cObiekt.transform.position) - 0.9f - gObiektuAtakowanego;
+                float d = Vector3.Distance(pObiekt.transform.position, cObiekt.transform.position) - 0.25f - gObiektuAtakowanego;
                 if (d <= pObiekt.zasięgAtaku)
                 {
                     //Atakuj
@@ -860,20 +870,20 @@ public static class PomocniczeFunkcje
                     s.ReuseTimer = ds._skrzynki[i].czyIstniejeSkrzynka;
                 }
             }
-            for(byte i = 0; i < spawnBudynki.wszystkieBudynki.Length; i++)
+            for (byte i = 0; i < spawnBudynki.wszystkieBudynki.Length; i++)
             {
                 bool czyZnalazlem = false;
                 KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
-                for(byte j = 0; j < ds._zablokowaneBudynki.Length; j++)
+                for (byte j = 0; j < ds._zablokowaneBudynki.Length; j++)
                 {
-                    if(knpcs.name == ds._zablokowaneBudynki[j].nazwa)
+                    if (knpcs.name == ds._zablokowaneBudynki[j].nazwa)
                     {
                         knpcs.Zablokowany = ds._zablokowaneBudynki[j].zablokowanie;
                         czyZnalazlem = true;
                         break;
                     }
                 }
-                if(!czyZnalazlem)
+                if (!czyZnalazlem)
                 {
                     knpcs.Zablokowany = knpcs.blokowany;
                 }
@@ -982,7 +992,7 @@ public static class PomocniczeFunkcje
     public static void KasujZapis()
     {
         string ścieżka = ZwróćŚcieżkęZapisu("dataBaseTDv1.asc");
-        if(File.Exists(ścieżka))
+        if (File.Exists(ścieżka))
         {
             File.Delete(ścieżka);
         }

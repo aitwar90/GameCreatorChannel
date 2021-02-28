@@ -30,6 +30,12 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}
+      propertyPath: opisBudynku
+      value: "Wie\u017Ca o najs\u0142abszej konstrukcji tego typu, oraz najni\u017Cszych
+        obra\u017Ceniach zadawanych na tik."
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
+        type: 3}
       propertyPath: "zasi\u0119gAtaku"
       value: 7
       objectReference: {fileID: 0}
@@ -46,7 +52,7 @@ PrefabInstance:
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}
       propertyPath: "maksymalne\u017Bycie"
-      value: 1700
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}

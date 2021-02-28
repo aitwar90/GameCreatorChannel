@@ -44,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3439207120659774378, guid: 72b762e22eab6994998bfc1425d4cbe7,
         type: 3}
+      propertyPath: "maksymalne\u017Bycie"
+      value: 950
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439207120659774378, guid: 72b762e22eab6994998bfc1425d4cbe7,
+        type: 3}
       propertyPath: obrazekDoBudynku
       value: 
       objectReference: {fileID: 21300000, guid: d35c04c5031500e428c132372121ec1b,

@@ -268,6 +268,10 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     {
         if (PomocniczeFunkcje.poHerbacie > -1)
             PomocniczeFunkcje.ResetujDaneRaycast();
+        if(PomocniczeFunkcje.czyKliknąłemUI > -1)
+        {
+            PomocniczeFunkcje.czyKliknąłemUI = -1;
+        }
     }
     #endregion
     #region Metody podczas ładowania i kasowania sceny
@@ -617,7 +621,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     }
     public void KliknietyButtonZwiekszeniaNagrodyPoLvlu()
     {
-        ushort c = (ushort)(((byte)aktualnaEpoka) * 500 + aktualnyPoziomEpoki*5);
+        ushort c = (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki*15);
         or.OtwórzReklame(1, c);
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
     }
@@ -668,7 +672,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
             OdblokujKolejnaSkrzynke();
             PomocniczeFunkcje.ZapiszDane();
-            iloscCoinów += (ushort)(((byte)aktualnaEpoka) * 500 + aktualnyPoziomEpoki*5);
+            iloscCoinów += (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki*15);
             PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("WinTXT", true);
             MuzykaScript.singleton.WłączWyłączClip(true, "Zwycięstwo");

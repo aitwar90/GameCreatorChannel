@@ -253,7 +253,9 @@ public class MagazynObiektówAtaków
         dotPos.x = x;
         dotPos.z = z;
         if(dotPos.x != sPos.x || dotPos.z != sPos.z)
+        {
             objInstatiate.rotation = Quaternion.LookRotation(dotPos - sPos);
+        }
     }
     public void PrzełączSkalęLokalZ()
     {

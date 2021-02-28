@@ -154,7 +154,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     break;
 
                 case 0:
-                    if (!czyAtakJestAktywny)
+                    if (!czyAtakJestAktywny || this.typNPC != TypNPC.WalczyNaDystans)
                         PomocniczeFunkcje.ZwykłeAI(this);
                     głównyIndex++;
                     break;
@@ -256,18 +256,20 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     protected override void RysujHPBar()
     {
-        if (!rysujPasekŻycia && SpawnerHord.actualHPBars <= 20 && mainRenderer.isVisible)
+        if (!rysujPasekŻycia && SpawnerHord.actualHPBars <= 30 && mainRenderer.isVisible)
         {
             rysujPasekŻycia = true;
             sprite.parent.gameObject.SetActive(true);
             SpawnerHord.actualHPBars++;
+            Debug.Log("Rysuje "+SpawnerHord.actualHPBars);
         }
-        else if (rysujPasekŻycia && SpawnerHord.actualHPBars > 20)
+        else if (rysujPasekŻycia && SpawnerHord.actualHPBars > 30)
         {
             rysujPasekŻycia = false;
             sprite.parent.gameObject.SetActive(false);
             if (SpawnerHord.actualHPBars > 0)
                 SpawnerHord.actualHPBars--;
+            Debug.Log("Wyłączam rysowanie HP bar "+SpawnerHord.actualHPBars);
         }
         if (rysujPasekŻycia)
         {
@@ -338,6 +340,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
             if (this.nastawienieNPC == NastawienieNPC.Wrogie)
             {
                 PomocniczeFunkcje.DodajDoStosuTrupów(this);
+                //this.GetComponent<NavMeshObstacle>().enabled = false;
+                //this.GetComponent<SphereCollider>().enabled = false;
             }
             else
             {
@@ -433,6 +437,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
         if (enab)
         {
             agent.enabled = enab;
+            //this.GetComponent<NavMeshObstacle>().enabled = true;
+            //this.GetComponent<SphereCollider>().enabled = true;
             this.agent.isStopped = !enab;
             anima.Rebind();
             ObsluzAnimacje(ref anima, "isDeath", !enab);
@@ -477,10 +483,13 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private void DodajNavMeshAgent()
     {
         agent = this.gameObject.AddComponent<NavMeshAgent>();
-        agent.stoppingDistance = (zasięgAtaku == 0) ? .25f : zasięgAtaku;
+        agent.stoppingDistance = (zasięgAtaku == 0) ? 1f : zasięgAtaku;
         agent.speed = prędkość;
-        this.agent.radius = 0.1f;
-        this.agent.height = 0.9f;
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.LowQualityObstacleAvoidance;
+        agent.avoidancePriority = 99;
+        agent.autoTraverseOffMeshLink = false;
+        this.agent.radius = 0.07f;
+        this.agent.height = 0.1f;
     }
     public override void Atakuj()
     {
@@ -491,12 +500,16 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         if (aktualnyReuseAtaku < szybkośćAtaku)
         {
-            aktualnyReuseAtaku += Time.deltaTime * 5.0f;
+            if(czyAtakJestAktywny)
+            {
+                aktualnyReuseAtaku += (this.typNPC == TypNPC.WalczyNaDystans) ? Time.deltaTime : Time.deltaTime*5.0f;
+            }
+            else
+                aktualnyReuseAtaku += Time.deltaTime*5.0f;
             float f = szybkośćAtaku - aktualnyReuseAtaku;
-            if (f <= 0.1f)   //Jeśli strzela to się zaczyna
+            if (f <= 0.2f)   //Jeśli strzela to się zaczyna
             {
                 if (_obiektAtaku == null) return;
-                bool czyWidze = mainRenderer.isVisible;
                 if (!czyAtakJestAktywny)
                 {
                     czyAtakJestAktywny = true;
@@ -506,7 +519,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                         _obiektAtaku.ActivateObj(cel.transform.position.x, cel.transform.position.z, false);
                         _obiektAtaku.PrzełączSkalęLokalZ();
                     }
-                    if (czyWidze)
+                    if (SprawdźCzyWidocznaPozycja(posRęki.position.x, posRęki.position.z))
                     {
                         if (efektyFxStart != null)
                         {
@@ -523,7 +536,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     if (f < 0)
                     {
                         f = 0;
-                        if (czyWidze)
+                        if (SprawdźCzyWidocznaPozycja(posRęki.position.x, posRęki.position.z))
                         {
                             if (efektyFxKoniec != null)
                             {
@@ -535,9 +548,9 @@ public class KonkretnyNPCDynamiczny : NPCClass
                             PomocniczeFunkcje.TagZEpoka("TrafienieNPC", this.epokaNPC, this.tagRodzajDoDźwięków), true);
                         }
                     }
-                    else if (typNPC == TypNPC.WalczyNaDystans && czyWidze)
+                    else if (typNPC == TypNPC.WalczyNaDystans && SprawdźCzyWidocznaPozycja(posRęki.position.x, posRęki.position.z))
                     {
-                        _obiektAtaku.SetActPos(f * 10.0f);
+                        _obiektAtaku.SetActPos(f * 5.0f);
                         //_obiektAtaku.transform.position = Vector3.Lerp(cel.transform.position, posRęki.position, f);
                     }
                 }
@@ -560,6 +573,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         }
         else
         {
+            Debug.Log("Obiekt wraca na miejsce");
             _obiektAtaku.BackWeapon();
             _obiektAtaku.PrzełączSkalęLokalZ();
         }

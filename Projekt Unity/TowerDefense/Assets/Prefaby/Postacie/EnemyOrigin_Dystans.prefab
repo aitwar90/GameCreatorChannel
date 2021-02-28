@@ -453,7 +453,7 @@ MonoBehaviour:
   cel: {fileID: 0}
   "odg\u0142osyNPC": {fileID: 0}
   "tagRodzajDoD\u017Awi\u0119k\xF3w": "_W\u0142\xF3cznia"
-  poziom: 1
+  poziom: 2
   "aktualne\u017Bycie": 32767
   nastawienieNPC: 1
   aktualnyReuseAtaku: 0
@@ -462,8 +462,9 @@ MonoBehaviour:
   efektyFxKoniec: {fileID: 0}
   sprite: {fileID: 620486441882452171}
   "posR\u0119ki": {fileID: 7317703867155794523}
-  obiektAtakuDystansowego: {fileID: 8088413574859301168, guid: af531916b358b1348b62b2df1a07c733, type: 3}
-  "pr\u0119dko\u015B\u0107": 1.5
+  obiektAtakuDystansowego: {fileID: 8088413574859301168, guid: af531916b358b1348b62b2df1a07c733,
+    type: 3}
+  "pr\u0119dko\u015B\u0107": 1.65
   "rysujPasek\u017Bycia": 0
 --- !u!135 &8916957729661533474
 SphereCollider:
@@ -477,7 +478,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.1
-  m_Center: {x: 0, y: 0.3, z: 0}
+  m_Center: {x: 0, y: 0.43, z: 0}
 --- !u!1 &1681663322964632724
 GameObject:
   m_ObjectHideFlags: 0

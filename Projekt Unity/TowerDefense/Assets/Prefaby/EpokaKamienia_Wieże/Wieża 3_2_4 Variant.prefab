@@ -110,7 +110,7 @@ PrefabInstance:
     - target: {fileID: 7148346565117513878, guid: 1e2a8a9e48fefdc4cb4bb6d4ac3850bd,
         type: 3}
       propertyPath: "maksymalne\u017Bycie"
-      value: 10000
+      value: 650
       objectReference: {fileID: 0}
     - target: {fileID: 7148346565117513878, guid: 1e2a8a9e48fefdc4cb4bb6d4ac3850bd,
         type: 3}

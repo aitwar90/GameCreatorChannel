@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: d7b18b0976b96d44d830190131186f27, type: 2}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: nazwa
-      value: Kamienny Mur II
+      value: Kamienny Mur III
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: poziom
@@ -21,7 +21,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: opisBudynku
-      value: Wzmocniony kamienny mur
+      value: "Mur zbudowany z u\u0142o\u017Conych ociosanych ska\u0142 zapewniaj\u0105cy
+        dobr\u0105 ochron\u0119, przy znacznym koszcie budowy."
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: kosztBadania
@@ -33,7 +34,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: "maksymalne\u017Bycie"
-      value: 10000
+      value: 1500
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: obrazekDoBudynku

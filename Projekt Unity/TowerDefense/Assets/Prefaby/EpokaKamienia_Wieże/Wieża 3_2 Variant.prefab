@@ -30,6 +30,12 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}
+      propertyPath: opisBudynku
+      value: "Podstawowa wie\u017Ca mog\u0105ca atakowa\u0107 wszystkich b\u0119d\u0105cych
+        w zasiegu wybuchu."
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
+        type: 3}
       propertyPath: zablokowany
       value: 1
       objectReference: {fileID: 0}
@@ -72,7 +78,7 @@ PrefabInstance:
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}
       propertyPath: "maksymalne\u017Bycie"
-      value: 5000
+      value: 550
       objectReference: {fileID: 0}
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}

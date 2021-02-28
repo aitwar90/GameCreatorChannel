@@ -30,6 +30,12 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}
+      propertyPath: opisBudynku
+      value: "Typ wie\u017Cy Gamma charakteryzuje si\u0119 atakiem wszystkich wrog\xF3w
+        b\u0119d\u0105cych w zasi\u0119gu wie\u017Cy, ale te\u017C nisk\u0105 wytrzyma\u0142o\u015Bci\u0105."
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
+        type: 3}
       propertyPath: zablokowany
       value: 0
       objectReference: {fileID: 0}
@@ -66,7 +72,7 @@ PrefabInstance:
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}
       propertyPath: "maksymalne\u017Bycie"
-      value: 1500
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790,
         type: 3}

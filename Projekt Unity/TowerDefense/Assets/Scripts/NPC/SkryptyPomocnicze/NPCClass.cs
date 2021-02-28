@@ -44,6 +44,7 @@ public abstract class NPCClass : MonoBehaviour
     protected Renderer mainRenderer;
     public float aktualnyReuseAtaku = 0.0f;
     protected bool nieŻyję = false;
+    public sbyte jestemRenderowany = -1;
     #endregion
 
     #region Getery i setery
@@ -105,6 +106,22 @@ public abstract class NPCClass : MonoBehaviour
         else
         {
             UpdateMe();
+        }
+    }
+    void LateUpdate()
+    {
+        if (jestemRenderowany > -1 && PomocniczeFunkcje.kameraZostalaPrzesunieta > 0)
+        {
+            switch (PomocniczeFunkcje.kameraZostalaPrzesunieta)
+            {
+                case 1:
+                    jestemRenderowany = -1;
+                    PomocniczeFunkcje.kameraZostalaPrzesunieta--;
+                    break;
+                case 2:
+                    PomocniczeFunkcje.kameraZostalaPrzesunieta--;
+                    break;
+            }
         }
     }
     ///<summary>Odświeża pasek HP NPC.</summary>
@@ -319,5 +336,27 @@ public abstract class NPCClass : MonoBehaviour
         //Ustawienie parametru w animation controller
     }
     #endregion
-
+    #region visible i invisible
+    ///<summary>Określa czy pozycja wysłana jako parametr jest widoczna na ekranie.</param>
+    ///<param name="x">Sprawdzana pozycja na osi świata OX.</param>
+    ///<param name="z">Sprawdzana pozycja na osi świata OZ.</param>
+    protected bool SprawdźCzyWidocznaPozycja(float x, float z)
+    {
+        if (jestemRenderowany == 1)
+            return true;
+        else if (jestemRenderowany == 0)
+            return false;
+        Vector3 scrPoint = PomocniczeFunkcje.oCam.WorldToViewportPoint(this.transform.position);
+        if (scrPoint.z > 0 && scrPoint.y > 0 && scrPoint.x > 0 && scrPoint.x < 1 && scrPoint.y < 1)
+        {
+            jestemRenderowany = 1;
+            return true;
+        }
+        else
+        {
+            jestemRenderowany = 0;
+            return false;
+        }
+    }
+    #endregion
 }
