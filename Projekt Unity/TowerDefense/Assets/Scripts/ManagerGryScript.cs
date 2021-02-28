@@ -135,19 +135,22 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
-                    if (zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
+                    if (PomocniczeFunkcje.spawnBudynki.aktualnyObiekt == null)
                     {
-                        zaznaczonyObiekt.UstawPanel(Input.mousePosition);
-                        if (zaznaczonyObiekt.szybkośćAtaku != -1)    //Nie jest to akademia
+                        zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
+                        if (zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
                         {
+                            zaznaczonyObiekt.UstawPanel(Input.mousePosition);
+                            if (zaznaczonyObiekt.szybkośćAtaku != -1)    //Nie jest to akademia
+                            {
+                                PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
+                            }
+                        }
+                        else if (PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
+                        {
+                            PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
                             PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
                         }
-                    }
-                    else if (PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
-                    {
-                        PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
-                        PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
                     }
                 }
             }
@@ -155,19 +158,22 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             {
                 if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
                 {
-                    zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
-                    if (zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
+                    if (PomocniczeFunkcje.spawnBudynki.aktualnyObiekt == null)
                     {
-                        zaznaczonyObiekt.UstawPanel(Input.GetTouch(0).position);
-                        if (zaznaczonyObiekt.szybkośćAtaku != -1)    //Nie jest to akademia
+                        zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
+                        if (zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
                         {
+                            zaznaczonyObiekt.UstawPanel(Input.GetTouch(0).position);
+                            if (zaznaczonyObiekt.szybkośćAtaku != -1)    //Nie jest to akademia
+                            {
+                                PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
+                            }
+                        }
+                        else if (PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
+                        {
+                            PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
                             PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
                         }
-                    }
-                    else if (PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
-                    {
-                        PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
-                        PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
                     }
                 }
             }
@@ -268,7 +274,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     {
         if (PomocniczeFunkcje.poHerbacie > -1)
             PomocniczeFunkcje.ResetujDaneRaycast();
-        if(PomocniczeFunkcje.czyKliknąłemUI > -1)
+        if (PomocniczeFunkcje.czyKliknąłemUI > -1)
         {
             PomocniczeFunkcje.czyKliknąłemUI = -1;
         }
@@ -441,7 +447,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                             break;
                         }
                     }
-                    if(znalazlem)
+                    if (znalazlem)
                         break;
                 }
             }
@@ -633,7 +639,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     }
     public void KliknietyButtonZwiekszeniaNagrodyPoLvlu()
     {
-        ushort c = (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki*15);
+        ushort c = (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 15);
         or.OtwórzReklame(1, c);
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
     }
@@ -684,7 +690,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
             OdblokujKolejnaSkrzynke();
             PomocniczeFunkcje.ZapiszDane();
-            iloscCoinów += (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki*15);
+            iloscCoinów += (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 15);
             PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("WinTXT", true);
             MuzykaScript.singleton.WłączWyłączClip(true, "Zwycięstwo");
@@ -849,31 +855,31 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     }
     public void DodajDoTablicyStackowParticli(ref ParticleSystem ps)
     {
-        if(particleStack == null)
+        if (particleStack == null)
         {
             particleStack = new List<Stack<ParticleSystem>>();
         }
         bool find = false;
         sbyte idxCout0 = -1;
-        for(byte i = 0; i < particleStack.Count; i++)   //Próba wyszukania particli (szukanie następuje po ustawionym maxParticles)
-        {   
-            if(particleStack[i] != null && particleStack[i].Count > 0)
+        for (byte i = 0; i < particleStack.Count; i++)   //Próba wyszukania particli (szukanie następuje po ustawionym maxParticles)
+        {
+            if (particleStack[i] != null && particleStack[i].Count > 0)
             {
-                if(particleStack[i].Peek().main.maxParticles == ps.main.maxParticles)
+                if (particleStack[i].Peek().main.maxParticles == ps.main.maxParticles)
                 {
                     find = true;
                     particleStack[i].Push(ps);
                     return;
                 }
             }
-            else if(idxCout0 == -1 && particleStack[i] != null && particleStack.Count == 0)
+            else if (idxCout0 == -1 && particleStack[i] != null && particleStack.Count == 0)
             {
                 idxCout0 = (sbyte)i;
             }
         }
-        if(!find)   //Nie ma w liście danych particli
+        if (!find)   //Nie ma w liście danych particli
         {
-            if(idxCout0 > -1)   //Było puste miejsce w tabliy
+            if (idxCout0 > -1)   //Było puste miejsce w tabliy
             {
                 particleStack[idxCout0].Push(ps);
                 return;
@@ -888,16 +894,16 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     }
     public ParticleSystem PobierzParticleSystem(ref ParticleSystem szukanyParticle)
     {
-        if(particleStack == null || particleStack.Count == 0)
+        if (particleStack == null || particleStack.Count == 0)
             return null;
-        for(byte i = 0; i < particleStack.Count; i++)
+        for (byte i = 0; i < particleStack.Count; i++)
         {
-            if(particleStack[i] != null && particleStack[i].Count > 0)
+            if (particleStack[i] != null && particleStack[i].Count > 0)
             {
-                if(particleStack[i].Peek().main.maxParticles == szukanyParticle.main.maxParticles)
+                if (particleStack[i].Peek().main.maxParticles == szukanyParticle.main.maxParticles)
                 {
                     return particleStack[i].Pop();
-                    
+
                 }
             }
         }

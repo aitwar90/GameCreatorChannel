@@ -16,7 +16,7 @@ public class MoveCameraScript : MonoBehaviour
     private float prędkoscPrzesunięciaKamery = 5f;
 #endif
 #if UNITY_ANDROID || UNITY_IOS
-    private float prędkoscPrzesunięciaKamery = 0.05f;
+    private float prędkoscPrzesunięciaKamery = 0.035f;
     private static readonly float[] zoomBounds = new float[]{30f, 80f};
 #endif
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
@@ -68,7 +68,7 @@ public class MoveCameraScript : MonoBehaviour
         wysokśćObrazu = Screen.height;
 #if UNITY_ANDROID || UNITY_IOS
         if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
-            prędkoscPrzesunięciaKamery = 6.0f;
+            prędkoscPrzesunięciaKamery = 5.0f;
 #endif
     }
 
