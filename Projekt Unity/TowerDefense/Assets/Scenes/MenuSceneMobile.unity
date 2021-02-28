@@ -24459,7 +24459,7 @@ PrefabInstance:
     - target: {fileID: 3463731110551857187, guid: 627d163d711b7b2398876f39b5ef3e87,
         type: 3}
       propertyPath: "czasMi\u0119dzyFalami"
-      value: 5
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3463731110551857187, guid: 627d163d711b7b2398876f39b5ef3e87,
         type: 3}

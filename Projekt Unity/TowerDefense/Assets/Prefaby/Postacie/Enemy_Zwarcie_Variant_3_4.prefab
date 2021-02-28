@@ -75,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 2509490586735411884, guid: 3e28a66aa60db354d98a65332157c488,
         type: 3}
       propertyPath: "maksymalne\u017Bycie"
-      value: 500
+      value: 900
       objectReference: {fileID: 0}
     - target: {fileID: 2509490586735411884, guid: 3e28a66aa60db354d98a65332157c488,
         type: 3}
@@ -86,6 +86,16 @@ PrefabInstance:
         type: 3}
       propertyPath: "ileCoin\xF3wZaZabicie"
       value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2509490586735411884, guid: 3e28a66aa60db354d98a65332157c488,
+        type: 3}
+      propertyPath: "modyfikatorZadawanychObra\u017Ce\u0144"
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2509490586735411884, guid: 3e28a66aa60db354d98a65332157c488,
+        type: 3}
+      propertyPath: "modyfikatorOtrzymywanychObra\u017Ce\u0144"
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 2631537502441500427, guid: 3e28a66aa60db354d98a65332157c488,
         type: 3}

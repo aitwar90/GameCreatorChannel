@@ -441,13 +441,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nazwa: "W\u0142\xF3cznik"
-  "maksymalne\u017Bycie": 50
+  "maksymalne\u017Bycie": 100
   typNPC: 2
   epokaNPC: 1
   kosztJednostki: 1
   "zadawaneObra\u017Cenia": 7
   "zasi\u0119gAtaku": 3
-  "szybko\u015B\u0107Ataku": 1.833
+  "szybko\u015B\u0107Ataku": 1.832
   "modyfikatorOtrzymywanychObra\u017Ce\u0144": 1
   "modyfikatorZadawanychObra\u017Ce\u0144": 1
   cel: {fileID: 0}

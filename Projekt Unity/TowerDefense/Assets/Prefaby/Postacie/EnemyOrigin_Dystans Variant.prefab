@@ -81,17 +81,17 @@ PrefabInstance:
     - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219,
         type: 3}
       propertyPath: "zasi\u0119gAtaku"
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219,
         type: 3}
       propertyPath: "maksymalne\u017Bycie"
-      value: 100
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219,
         type: 3}
       propertyPath: "zadawaneObra\u017Cenia"
-      value: 35
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219,
         type: 3}
