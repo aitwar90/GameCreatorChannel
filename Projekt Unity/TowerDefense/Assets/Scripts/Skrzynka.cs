@@ -78,6 +78,6 @@ public class Skrzynka
         byte minuty = (byte)ts.TotalMinutes;
         byte hour = (byte)(minuty/60f);
         minuty -= (byte)(hour*60);
-        return hour.ToString()+":"+minuty.ToString();
+        return hour.ToString("00")+":"+minuty.ToString("00");
     }
 }
