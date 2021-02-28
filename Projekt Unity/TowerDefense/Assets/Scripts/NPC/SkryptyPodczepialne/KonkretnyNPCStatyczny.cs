@@ -161,7 +161,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                 idxAct++;
                 break;
             case 1:
-                if (SprawdźCzyWidocznaPozycja(this.transform.position.x, this.transform.position.z) && sprite != null)
+                if (SprawdźCzyWidocznaPozycja() && sprite != null)
                     sprite.parent.forward = -PomocniczeFunkcje.oCam.transform.forward;
                 idxAct = 0;
                 break;
@@ -306,7 +306,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     }
                     if (s != "")
                         PomocniczeFunkcje.muzyka.WłączWyłączClip(ref this.odgłosyNPC, true, s, true);
-                    if (SprawdźCzyWidocznaPozycja(this.transform.position.x, this.transform.position.z) && efektyFxStart != null)
+                    if (SprawdźCzyWidocznaPozycja() && efektyFxStart != null)
                     {
                         ParticleSystem ps = PomocniczeFunkcje.managerGryScript.PobierzParticleSystem(ref efektyFxStart);
                         if (ps == null)
@@ -326,7 +326,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     if (f < 0)
                     {
                         f = 0;
-                        if (SprawdźCzyWidocznaPozycja(this.transform.position.x, this.transform.position.z))
+                        if (SprawdźCzyWidocznaPozycja())
                         {
                             if (efektyFxKoniec != null)
                             {
@@ -349,7 +349,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     {
                         if (tabActAtakObj[i] == null)
                             break;
-                        if(SprawdźCzyWidocznaPozycja(this.transform.position.x, this.transform.position.z))
+                        if(SprawdźCzyWidocznaPozycja())
                             tabActAtakObj[i].SetActPos(f * 5.0f);
                     }
                 }

@@ -256,7 +256,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     protected override void RysujHPBar()
     {
-        if (!rysujPasekŻycia && SpawnerHord.actualHPBars <= 30 && mainRenderer.isVisible)
+        if (!rysujPasekŻycia && SpawnerHord.actualHPBars <= 30 && SprawdźCzyWidocznaPozycja())
         {
             rysujPasekŻycia = true;
             sprite.parent.gameObject.SetActive(true);
@@ -519,7 +519,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                         _obiektAtaku.ActivateObj(cel.transform.position.x, cel.transform.position.z, false);
                         _obiektAtaku.PrzełączSkalęLokalZ();
                     }
-                    if (SprawdźCzyWidocznaPozycja(posRęki.position.x, posRęki.position.z))
+                    if (SprawdźCzyWidocznaPozycja())
                     {
                         if (efektyFxStart != null)
                         {
@@ -536,7 +536,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     if (f < 0)
                     {
                         f = 0;
-                        if (SprawdźCzyWidocznaPozycja(posRęki.position.x, posRęki.position.z))
+                        if (SprawdźCzyWidocznaPozycja())
                         {
                             if (efektyFxKoniec != null)
                             {
@@ -548,7 +548,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                             PomocniczeFunkcje.TagZEpoka("TrafienieNPC", this.epokaNPC, this.tagRodzajDoDźwięków), true);
                         }
                     }
-                    else if (typNPC == TypNPC.WalczyNaDystans && SprawdźCzyWidocznaPozycja(posRęki.position.x, posRęki.position.z))
+                    else if (typNPC == TypNPC.WalczyNaDystans && SprawdźCzyWidocznaPozycja())
                     {
                         _obiektAtaku.SetActPos(f * 5.0f);
                         //_obiektAtaku.transform.position = Vector3.Lerp(cel.transform.position, posRęki.position, f);

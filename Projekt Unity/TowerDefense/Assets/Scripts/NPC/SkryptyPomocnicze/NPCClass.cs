@@ -44,7 +44,7 @@ public abstract class NPCClass : MonoBehaviour
     protected Renderer mainRenderer;
     public float aktualnyReuseAtaku = 0.0f;
     protected bool nieŻyję = false;
-    public sbyte jestemRenderowany = -1;
+    protected sbyte jestemRenderowany = -1;
     #endregion
 
     #region Getery i setery
@@ -338,9 +338,7 @@ public abstract class NPCClass : MonoBehaviour
     #endregion
     #region visible i invisible
     ///<summary>Określa czy pozycja wysłana jako parametr jest widoczna na ekranie.</param>
-    ///<param name="x">Sprawdzana pozycja na osi świata OX.</param>
-    ///<param name="z">Sprawdzana pozycja na osi świata OZ.</param>
-    protected bool SprawdźCzyWidocznaPozycja(float x, float z)
+    protected bool SprawdźCzyWidocznaPozycja()
     {
         if (jestemRenderowany == 1)
             return true;

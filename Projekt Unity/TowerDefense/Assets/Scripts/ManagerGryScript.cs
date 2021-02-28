@@ -279,6 +279,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     {
         PomocniczeFunkcje.spawnerHord = FindObjectOfType(typeof(SpawnerHord)) as SpawnerHord;
         PomocniczeFunkcje.spawnerHord.UstawHorde(aktualnaEpoka, aktualnyPoziomEpoki);
+        PomocniczeFunkcje.kameraZostalaPrzesunieta = 2;
         Terrain terr = FindObjectOfType(typeof(Terrain)) as Terrain;
         PomocniczeFunkcje.tablicaWież = new List<InformacjeDlaPolWież>[22, 22];
         PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 56) / 2.0f);
