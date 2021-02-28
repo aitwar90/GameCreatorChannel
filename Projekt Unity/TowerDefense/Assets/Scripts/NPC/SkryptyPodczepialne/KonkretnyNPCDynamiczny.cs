@@ -548,7 +548,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     }
                     else if (typNPC == TypNPC.WalczyNaDystans && SprawdźCzyWidocznaPozycja())
                     {
-                        _obiektAtaku.SetActPos(f * 7.5f);
+                        
+                        _obiektAtaku.SetActPos(f * 7.5f, (typNPC == TypNPC.WalczyNaDystans) ? true : false);
                         //_obiektAtaku.transform.position = Vector3.Lerp(cel.transform.position, posRęki.position, f);
                     }
                 }

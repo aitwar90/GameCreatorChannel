@@ -237,10 +237,15 @@ public class MagazynObiektówAtaków
         sPos = new Vector3(objInstatiate.position.x, objInstatiate.position.y, objInstatiate.position.z);
     }
     ///<summary>Ustaw pozycję obiektu ataku</summary>
-    ///<param name="f">Parametr 0-1 określający % położenia między docelową a startową pozycją obiektu ataku</param>
-    public void SetActPos(float f)
+    ///<param name="f">Parametr 0-1 określający % położenia między docelową a startową pozycją obiektu ataku.</param>
+    ///<param name="naprowadźLook">Czy ustawiać rotację?</param>
+    public void SetActPos(float f, bool naprowadźLook = false)
     {
         objInstatiate.position = Vector3.Lerp(dotPos, sPos, f);
+        if(naprowadźLook)
+        {
+            objInstatiate.rotation = Quaternion.LookRotation(dotPos - sPos);
+        }
     }
     ///<summary>Aktywacja obiektu ataku</summary>
     ///<param name="x">Pozycja na osi X docelowej pozycji obiektu ataku.</param>
