@@ -272,6 +272,18 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         {
             PomocniczeFunkcje.czyKliknąłemUI = -1;
         }
+        if (PomocniczeFunkcje.kameraZostalaPrzesunieta > 0)
+        {
+            switch (PomocniczeFunkcje.kameraZostalaPrzesunieta)
+            {
+                case 1:
+                    PomocniczeFunkcje.kameraZostalaPrzesunieta--;
+                    break;
+                case 2:
+                    PomocniczeFunkcje.kameraZostalaPrzesunieta--;
+                    break;
+            }
+        }
     }
     #endregion
     #region Metody podczas ładowania i kasowania sceny

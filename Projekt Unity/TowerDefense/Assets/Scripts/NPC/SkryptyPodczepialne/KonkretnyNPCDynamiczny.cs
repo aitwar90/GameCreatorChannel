@@ -256,13 +256,13 @@ public class KonkretnyNPCDynamiczny : NPCClass
     }
     protected override void RysujHPBar()
     {
-        if (!rysujPasekŻycia && SpawnerHord.actualHPBars <= 30 && SprawdźCzyWidocznaPozycja())
+        if (!rysujPasekŻycia && SpawnerHord.actualHPBars <= 25 && SprawdźCzyWidocznaPozycja())
         {
             rysujPasekŻycia = true;
             sprite.parent.gameObject.SetActive(true);
             SpawnerHord.actualHPBars++;
         }
-        else if (rysujPasekŻycia && SpawnerHord.actualHPBars > 30)
+        else if (rysujPasekŻycia && SpawnerHord.actualHPBars > 25)
         {
             rysujPasekŻycia = false;
             sprite.parent.gameObject.SetActive(false);
@@ -316,7 +316,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
             PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
         }
-        this.agent.isStopped = true;
+        if(this.agent != null)
+            this.agent.isStopped = true;
         WyczyscDaneDynamic();
         UsuńMnieZTablicyWież(true);
         actXIdx = 32767;
@@ -486,8 +487,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.LowQualityObstacleAvoidance;
         agent.avoidancePriority = 99;
         agent.autoTraverseOffMeshLink = false;
-        this.agent.radius = 0.07f;
-        this.agent.height = 0.1f;
+        this.agent.radius = 0.15f;
+        this.agent.height = 0.3f;
     }
     public override void Atakuj()
     {

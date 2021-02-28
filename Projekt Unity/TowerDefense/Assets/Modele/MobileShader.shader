@@ -11,16 +11,15 @@
 
 	struct appdata
 	{
-		float4 vertex : POSITION;
+		fixed4 vertex : POSITION;
 	};
 
 	struct v2f
 	{
-		float4 pos : POSITION;
+		fixed4 pos : POSITION;
 	};
-
-	uniform float _OutlineWidth;
-	uniform float4 _OutlineColor;
+	uniform fixed _OutlineWidth;
+	uniform fixed4 _OutlineColor;
     sampler2D _MainTex;
     ENDCG
     SubShader {
@@ -46,7 +45,7 @@
 
 			}
 
-			half4 frag(v2f i) : COLOR
+			fixed4 frag(v2f i) : COLOR
 			{
 				return _OutlineColor;
 			}
@@ -61,7 +60,7 @@
         // Use Shader model 3.0 target
         #pragma target 3.0
         struct Input {
-            float2 uv_MainTex;
+            fixed2 uv_MainTex;
         };
         UNITY_INSTANCING_BUFFER_START(Props)
            UNITY_DEFINE_INSTANCED_PROP(fixed4, _Color)

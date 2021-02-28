@@ -168,7 +168,11 @@ public class ObsługaReklam : MonoBehaviour
                 status = 0;
                 break;
             case 2:
-                PomocniczeFunkcje.managerGryScript.SkróćCzasSkrzynki();
+                if(iloscCoinówRew >= 0 && iloscCoinówRew < 4)
+                {
+                    PomocniczeFunkcje.managerGryScript.SkróćCzasSkrzynki((sbyte)iloscCoinówRew);
+                }
+                iloscCoinówRew = 100;
                 status = 0;
                 break;
         }

@@ -383,7 +383,6 @@ GameObject:
   - component: {fileID: 2091191617949585704}
   - component: {fileID: 5468860227935079250}
   - component: {fileID: 4413915691165636982}
-  - component: {fileID: 8458810275894078235}
   m_Layer: 8
   m_Name: EnemyOrigin_Dystans
   m_TagString: NPC
@@ -466,19 +465,6 @@ MonoBehaviour:
     type: 3}
   "pr\u0119dko\u015B\u0107": 1.65
   "rysujPasek\u017Bycia": 0
---- !u!135 &8458810275894078235
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1607423460581608338}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.125
-  m_Center: {x: 0, y: 0.34, z: 0}
 --- !u!1 &1681663322964632724
 GameObject:
   m_ObjectHideFlags: 0

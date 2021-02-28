@@ -108,22 +108,6 @@ public abstract class NPCClass : MonoBehaviour
             UpdateMe();
         }
     }
-    void LateUpdate()
-    {
-        if (jestemRenderowany > -1 && PomocniczeFunkcje.kameraZostalaPrzesunieta > 0)
-        {
-            switch (PomocniczeFunkcje.kameraZostalaPrzesunieta)
-            {
-                case 1:
-                    jestemRenderowany = -1;
-                    PomocniczeFunkcje.kameraZostalaPrzesunieta--;
-                    break;
-                case 2:
-                    PomocniczeFunkcje.kameraZostalaPrzesunieta--;
-                    break;
-            }
-        }
-    }
     ///<summary>Odświeża pasek HP NPC.</summary>
     protected abstract void RysujHPBar();
     ///<summary>Obsługuje usunięcie NPC. Zwalnia pamięć i usuwa obiekt lub dodaje go do pullingu.</summary>
@@ -340,21 +324,28 @@ public abstract class NPCClass : MonoBehaviour
     ///<summary>Określa czy pozycja wysłana jako parametr jest widoczna na ekranie.</param>
     protected bool SprawdźCzyWidocznaPozycja()
     {
-        if (jestemRenderowany == 1)
-            return true;
-        else if (jestemRenderowany == 0)
-            return false;
-        Vector3 scrPoint = PomocniczeFunkcje.oCam.WorldToViewportPoint(this.transform.position);
-        if (scrPoint.z > 0 && scrPoint.y > 0 && scrPoint.x > 0 && scrPoint.x < 1 && scrPoint.y < 1)
+        if (PomocniczeFunkcje.kameraZostalaPrzesunieta > 0)
         {
-            jestemRenderowany = 1;
-            return true;
+            Vector3 scrPoint = PomocniczeFunkcje.oCam.WorldToViewportPoint(this.transform.position);
+            if (scrPoint.z > 0 && scrPoint.y > 0 && scrPoint.x > 0 && scrPoint.x < 1 && scrPoint.y < 1)
+            {
+                jestemRenderowany = 1;
+                return true;
+            }
+            else
+            {
+                jestemRenderowany = 0;
+                return false;
+            }
         }
         else
         {
-            jestemRenderowany = 0;
-            return false;
+            if (jestemRenderowany == 1)
+                return true;
+            else if (jestemRenderowany == 0)
+                return false;
         }
+        return false;
     }
     #endregion
 }

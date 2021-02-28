@@ -128,7 +128,7 @@ public static class PomocniczeFunkcje
         {
             for (int i = poHerbacie - 1; i >= 0; i--)
             {
-                if (rays[i].collider.CompareTag("Budynek") || rays[i].collider.CompareTag("NPC"))
+                if (rays[i].collider.CompareTag("Budynek"))
                 {
                     tempIBudynek = i;
                     break;
