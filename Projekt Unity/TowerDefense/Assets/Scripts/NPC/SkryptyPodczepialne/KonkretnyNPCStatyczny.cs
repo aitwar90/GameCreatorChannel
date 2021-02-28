@@ -563,7 +563,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         switch (whatUpgrade)
         {
             case 0: //HP
-                this.maksymalneŻycie = (short)(this.maksymalneŻycie + 10 * PomocniczeFunkcje.managerGryScript.hpIdx);
+                this.maksymalneŻycie = (short)(this.maksymalneŻycie + 2 * PomocniczeFunkcje.managerGryScript.hpIdx);
                 RysujHPBar();
                 break;
             case 1: //Attack
