@@ -38,20 +38,23 @@ public class Skrzynka
     {
         if (reuseTime)
         {
-            if (pozostałyCzas.CompareTo(DateTime.Now) < 0)   //Reuse minęło
+            if (MainMenu.singelton.CzyOdpalonyPanelReklam)
             {
-                reuseTime = false;
-                button.interactable = true;
-                buttonReklamy.interactable = false;
-                this.czasReusu.text = "";
-            }
-            else
-            {
-                if (!buttonReklamy.interactable)
+                if (pozostałyCzas.CompareTo(DateTime.Now) < 0)   //Reuse minęło
                 {
-                    buttonReklamy.interactable = PomocniczeFunkcje.managerGryScript.CzyReklamaZaładowana;
+                    reuseTime = false;
+                    button.interactable = true;
+                    buttonReklamy.interactable = false;
+                    this.czasReusu.text = "";
                 }
-                this.czasReusu.text = OkreślCzasDoTekstu();
+                else
+                {
+                    if (!buttonReklamy.interactable)
+                    {
+                        buttonReklamy.interactable = PomocniczeFunkcje.managerGryScript.CzyReklamaZaładowana;
+                    }
+                    this.czasReusu.text = OkreślCzasDoTekstu();
+                }
             }
         }
     }

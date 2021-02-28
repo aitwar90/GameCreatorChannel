@@ -164,6 +164,13 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 return null;
         }
     }
+    public bool CzyOdpalonyPanelReklam
+    {
+        get
+        {
+            return reklamyPanel.activeInHierarchy;
+        }
+    }
     #endregion
     void Awake()
     {
