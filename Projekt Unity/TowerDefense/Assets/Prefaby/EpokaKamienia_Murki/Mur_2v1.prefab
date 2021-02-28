@@ -16,6 +16,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -2166038595968145987, guid: 07c4752a3b0feef4eab76cc9904287f8,
         type: 3}
+    - target: {fileID: 1858827942, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
+      propertyPath: m_Extents.x
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: nazwa
       value: Palisada

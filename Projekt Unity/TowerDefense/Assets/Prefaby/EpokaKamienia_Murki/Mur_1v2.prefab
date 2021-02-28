@@ -15,6 +15,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: aebcb9d397c72bf44b3ef41c98a2318b, type: 2}
+    - target: {fileID: 1858827942, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
+      propertyPath: m_Extents.x
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: nazwa
       value: Kamienny Mur II
