@@ -270,13 +270,14 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         }
         PomocniczeFunkcje.tablicaWież[x, z] = tInf;
     }
+    ///<summary>Metoda obsługuje atak wieży.</summary>
     public override void Atakuj()
     {
         if (this.aktualnyReuseAtaku < szybkośćAtaku)
         {
             aktualnyReuseAtaku += Time.deltaTime;
             float f = szybkośćAtaku - aktualnyReuseAtaku;
-            if (f <= .2f)
+            if (f <= .15f)
             {
                 if (!instaObjIsActive)
                 {
@@ -350,7 +351,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                         if (tabActAtakObj[i] == null)
                             break;
                         if(SprawdźCzyWidocznaPozycja())
-                            tabActAtakObj[i].SetActPos(f * 5.0f);
+                            tabActAtakObj[i].SetActPos(f * 7.5f);
                     }
                 }
             }

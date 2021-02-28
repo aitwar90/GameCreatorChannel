@@ -486,7 +486,6 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                                         {
                                             if (knpcs.nazwa == knpcsT[k].nazwa)
                                             {
-                                                Debug.Log("Podmieniam nazwe obiektom na mapie");
                                                 knpcsT[k].nazwa = pFrazy[idx];
                                                 kk = k;
                                                 break;

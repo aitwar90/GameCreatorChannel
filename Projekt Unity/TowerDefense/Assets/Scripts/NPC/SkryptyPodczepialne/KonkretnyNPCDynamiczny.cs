@@ -261,7 +261,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
             rysujPasekŻycia = true;
             sprite.parent.gameObject.SetActive(true);
             SpawnerHord.actualHPBars++;
-            Debug.Log("Rysuje "+SpawnerHord.actualHPBars);
         }
         else if (rysujPasekŻycia && SpawnerHord.actualHPBars > 30)
         {
@@ -269,7 +268,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
             sprite.parent.gameObject.SetActive(false);
             if (SpawnerHord.actualHPBars > 0)
                 SpawnerHord.actualHPBars--;
-            Debug.Log("Wyłączam rysowanie HP bar "+SpawnerHord.actualHPBars);
         }
         if (rysujPasekŻycia)
         {
@@ -507,7 +505,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
             else
                 aktualnyReuseAtaku += Time.deltaTime*5.0f;
             float f = szybkośćAtaku - aktualnyReuseAtaku;
-            if (f <= 0.2f)   //Jeśli strzela to się zaczyna
+            if (f <= .15f)   //Jeśli strzela to się zaczyna
             {
                 if (_obiektAtaku == null) return;
                 if (!czyAtakJestAktywny)
@@ -550,7 +548,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     }
                     else if (typNPC == TypNPC.WalczyNaDystans && SprawdźCzyWidocznaPozycja())
                     {
-                        _obiektAtaku.SetActPos(f * 5.0f);
+                        _obiektAtaku.SetActPos(f * 7.5f);
                         //_obiektAtaku.transform.position = Vector3.Lerp(cel.transform.position, posRęki.position, f);
                     }
                 }
@@ -573,7 +571,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
         }
         else
         {
-            Debug.Log("Obiekt wraca na miejsce");
             _obiektAtaku.BackWeapon();
             _obiektAtaku.PrzełączSkalęLokalZ();
         }

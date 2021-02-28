@@ -130,8 +130,6 @@ public static class PomocniczeFunkcje
             {
                 if (rays[i].collider.CompareTag("Budynek") || rays[i].collider.CompareTag("NPC"))
                 {
-                    if (rays[i].collider.CompareTag("NPC"))
-                        Debug.Log("Kliknąłem NPC");
                     tempIBudynek = i;
                     break;
                 }

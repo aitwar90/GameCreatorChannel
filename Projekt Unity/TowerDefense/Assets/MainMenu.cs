@@ -423,7 +423,6 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         }
         else if (s[0] == "DYNAMICZNY")
         {
-            Debug.Log("Odpalam dynamiczny panel");
             PanelDynamiczny ps = (PanelDynamiczny)panelDynamiczny;
             RectTransform r = ps.GetComponent<RectTransform>();
             ps.UstawDane(new string[] { s[1], s[2], s[3] });
