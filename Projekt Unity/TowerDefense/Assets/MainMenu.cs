@@ -1079,7 +1079,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public void ZmieńJęzyk()
     {
         lastIdxJezyka++;
-        if (lastIdxJezyka < 0 || lastIdxJezyka > 1)  //Tu należy zmienić liczbę jesli dodany zostanie nowy jezyk
+        //1 - Polski, 2 - Angielski, 3 - Rosyjski, 4 - Ukraiński
+        if (lastIdxJezyka < 0 || lastIdxJezyka > 3)  //Tu należy zmienić liczbę jesli dodany zostanie nowy jezyk
             lastIdxJezyka = 0;
         PomocniczeFunkcje.managerGryScript.ZmianaJęzyka((byte)lastIdxJezyka);
     }
