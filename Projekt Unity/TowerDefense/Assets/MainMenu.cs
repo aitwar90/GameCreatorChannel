@@ -77,6 +77,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     private RectTransform rectHpBar;
     private sbyte kPoziomDoZaladowania = -1;
     #endregion
+    #region Reklamy
+    public Image[] otwarteObrazki;
+    public Text tekstCoWygrales;
+    #endregion
     #region Getery i setery
     public sbyte UstawLubPobierzOstatniIdexJezyka
     {
@@ -1167,6 +1171,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         WłączWyłączPanel(menu.name, !czyWłPanel);
         WłączWyłączPanel(reklamyPanel.name, czyWłPanel);
+        if(!czyWłPanel) //Resetuj obrazki
+        {
+
+        }
     }
     ///<summary>Metoda włącza lub wyłącza przyciski służące do ulepszania budynków.</summary>
     ///<param name="czyOdpalac">Włączyć przyciski?</param>

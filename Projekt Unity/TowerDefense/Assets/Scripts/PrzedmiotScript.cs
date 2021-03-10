@@ -12,6 +12,24 @@ public class PrzedmiotScript : MonoBehaviour
     public byte liczbaItemówOtrzymywanych = 1;
     public byte ilośćDanejNagrody = 0;
     private byte timer = 0;
+    public void AktualizujNazwe()
+    {
+        switch (typPrzedmiotu)
+            {
+                case TypPrzedmiotu.Coiny:
+                    nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[0].GetComponentInChildren<Text>().text;
+                    break;
+                case TypPrzedmiotu.CudOcalenia:
+                    nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[1].GetComponentInChildren<Text>().text;
+                    break;
+                case TypPrzedmiotu.DodatkowaNagroda:
+                    nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[2].GetComponentInChildren<Text>().text;
+                    break;
+                case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
+                    nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[3].GetComponentInChildren<Text>().text;
+                    break;
+            }
+    }
     public void AktywujPrzedmiot()
     {
         if (ilośćDanejNagrody > 0)
@@ -61,7 +79,10 @@ public class PrzedmiotScript : MonoBehaviour
     {
         byte mP = (byte)(System.Enum.GetValues(typeof(TypPrzedmiotu)).Length);
         byte losowany = (byte)Random.Range(0, mP);
-        PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].ilośćDanejNagrody += (czyDodatkowa) ? (byte)(PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].liczbaItemówOtrzymywanych * 2) : PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].liczbaItemówOtrzymywanych;
+        PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].ilośćDanejNagrody += (czyDodatkowa) ? 
+        (byte)(PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].liczbaItemówOtrzymywanych * 2) : 
+        PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].liczbaItemówOtrzymywanych;
+        PomocniczeFunkcje.mainMenu.tekstCoWygrales.text = nazwaPrzedmiotu;
         return losowany;
     }
     public void Mrygaj()
