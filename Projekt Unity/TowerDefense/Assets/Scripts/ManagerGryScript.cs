@@ -295,6 +295,8 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     #region Metody podczas ładowania i kasowania sceny
     private void ŁadowanieDanych()
     {
+        if(iloscCoinów < 50)
+            iloscCoinów = 50;
         PomocniczeFunkcje.spawnerHord = FindObjectOfType(typeof(SpawnerHord)) as SpawnerHord;
         PomocniczeFunkcje.spawnerHord.UstawHorde(aktualnaEpoka, aktualnyPoziomEpoki);
         PomocniczeFunkcje.kameraZostalaPrzesunieta = 2;

@@ -835,7 +835,7 @@ public static class PomocniczeFunkcje
 
             fs.Close();
 
-            ManagerGryScript.iloscCoinów = (ushort)ds.ilośćMonet;
+            ManagerGryScript.iloscCoinów = (ds.ilośćMonet <= 50) ? (ushort)50 : (ushort)ds.ilośćMonet;
             odblokowaneEpoki = ds._odblokowanieEpoki;
             odblokowanyPoziomEpoki = ds._odblokowanyPoziomEpoki;
             managerGryScript.hpIdx = (ushort)ds.poziomHP;
