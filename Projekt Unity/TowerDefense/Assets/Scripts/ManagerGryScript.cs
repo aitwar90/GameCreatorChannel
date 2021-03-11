@@ -332,6 +332,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.mainMenu.WygenerujIPosortujTablice(); //Generuje i sortuje tablice budynków do wybudowania
         PomocniczeFunkcje.mainMenu.PrzesuńBudynki(0, true);
         PomocniczeFunkcje.mainMenu.ostatniStawianyBudynekButton.GetComponent<ObsłużPrzyciskOstatniegoStawianegoBudynku>().RestartPrzycisku();
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] {"ui_down", "UI_LicznikCzasu"}, true);
         for (byte i = 0; i < wartościDlaStatystyk.Length; i++)
         {
             wartościDlaStatystyk[i] = 0;
@@ -749,6 +750,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         }
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("GameOver Panel", true);
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] {"ui_down", "UI_LicznikCzasu"}, false);
         poziomZakonczony = true;
         iloscAktywnychWrogów = 0;
     }
