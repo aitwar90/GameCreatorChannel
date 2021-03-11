@@ -17,6 +17,7 @@ DodatkowaNagrodaTXTButton|Dod nagroda|Ad Reward|Дополнительная н�
 ZmianaJezyka|Zmień Język|Change language|Изменить язык|Змінити мову;
 CreditsyTextButton|Napisy|Credits|Титры|Титри;
 WzmotnijZycie|Dodaj Życie|Enchant health|Продлить жизнь|Додати життя;
+NagrodaTEXT|Nagroda:|Reward:|Награда:|Нагорода:;
 ReklamaZaWyzszaNagrode|Podwój nagrodę|Double reward|Удвоить награду|Подвоїти нагороду;
 WróćZPoGraj|Wróć|Back|Назад|Назад;
 WróćZPoGrajCredits|Wróć|Back|Назад|Назад;

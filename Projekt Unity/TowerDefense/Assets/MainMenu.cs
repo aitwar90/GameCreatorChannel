@@ -78,7 +78,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     private sbyte kPoziomDoZaladowania = -1;
     #endregion
     #region Reklamy
-    public Image[] otwarteObrazki;
+    public Sprite[] otwarteObrazki;
     public Text tekstCoWygrales;
     #endregion
     #region Getery i setery
@@ -1002,8 +1002,17 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         PomocniczeFunkcje.managerGryScript.KliknietyPrzycisk();
         buttonSkrzynki[idx].skrzynkaB.interactable = false;
+        //Kliknąłem skrzynkę
+        //StartCoroutine(PodmieńWartości(buttonSkrzynki[idx]. ))
     }
-    ///<summary>Rozpoczyna działanie otrzymania dodatkowej nagrody za skończony poziom z poziomu gry za obejrzenie reklamy</summary>
+    ///
+    ///<summary>Funkcja zmienia wartości dla obrazka i go podmienia</summary>
+    ///<param name="obrazek">Sprite jaki ma zostać podmieniony.</param>
+    private IEnumerator PodmieńWartości(Sprite obrazek)
+    {
+
+    }
+    /// ///<summary>Rozpoczyna działanie otrzymania dodatkowej nagrody za skończony poziom z poziomu gry za obejrzenie reklamy</summary>
     public void KliknietyPrzyciskRewardZPoziomuZReklama()
     {
         rekZaWyzszaNagrode.gameObject.SetActive(false);
