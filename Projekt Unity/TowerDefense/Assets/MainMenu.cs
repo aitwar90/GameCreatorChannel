@@ -1010,7 +1010,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     ///<param name="obrazek">Sprite jaki ma zostać podmieniony.</param>
     private IEnumerator PodmieńWartości(Sprite obrazek)
     {
-
+        yield return new WaitForSeconds(0.5f);
     }
     /// ///<summary>Rozpoczyna działanie otrzymania dodatkowej nagrody za skończony poziom z poziomu gry za obejrzenie reklamy</summary>
     public void KliknietyPrzyciskRewardZPoziomuZReklama()
