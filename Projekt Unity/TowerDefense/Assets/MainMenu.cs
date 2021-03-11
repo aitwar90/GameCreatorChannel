@@ -549,6 +549,13 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         statystykiScript.WyłączMnie();
     }
+    public void UstawFontDlaStatystyk(ref Font f)
+    {
+        for(byte i = 0; i <statystykiScript.wartościDlaTekstu.Length; i++)
+        {
+            statystykiScript.wartościDlaTekstu[i].font = f;
+        }
+    }
     #endregion
     #region Po Scenie
     ///<summary>Metoda aktywuje panel PoScenie i deaktywuje Menu panel, lub odwrotnie.</summary>

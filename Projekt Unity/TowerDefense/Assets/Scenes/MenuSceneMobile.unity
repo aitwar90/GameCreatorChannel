@@ -488,7 +488,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.22000001}
-  m_AnchoredPosition: {x: 1, y: -1.9997559}
+  m_AnchoredPosition: {x: 1, y: -1.9998169}
   m_SizeDelta: {x: 2, y: -4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &11754032
@@ -25505,8 +25505,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 437094946}
   m_HandleRect: {fileID: 437094945}
   m_Direction: 2
-  m_Value: 0.49999997
-  m_Size: 0.086565636
+  m_Value: 0.5
+  m_Size: 0.083695434
   m_NumberOfSteps: 1
   m_OnValueChanged:
     m_PersistentCalls:
@@ -26385,10 +26385,6 @@ PrefabInstance:
       propertyPath: particleSystems.Array.data[0]
       value: 
       objectReference: {fileID: 219638872}
-    - target: {fileID: 3463731110551857187, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
-      propertyPath: "warto\u015BciDlaStatystyk.Array.size"
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 3463731110811243626, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
       propertyPath: "muzykaT\u0142a"
       value: 
