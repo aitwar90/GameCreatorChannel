@@ -723,6 +723,10 @@ public static class PomocniczeFunkcje
         writer.WriteLine(s);
         writer.Close();
     }
+    public static void PrzypiszFontyDoNiemajacychPrzypisanychTextow(ref Font fontDoPrzypisania)
+    {
+        mainMenu.tekstCoWygrales.font = fontDoPrzypisania;
+    }
     /*
     Metoda przywraca podstawowe dane projektu (ładowanie nowej sceny np)
     */

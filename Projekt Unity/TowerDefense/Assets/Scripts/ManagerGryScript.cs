@@ -453,6 +453,10 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                         break;
                 }
             }
+            if(f != null)
+            {
+                PomocniczeFunkcje.PrzypiszFontyDoNiemajacychPrzypisanychTextow(ref f);
+            }
             for (ushort i = 0; i < fLines.Length; i++)
             {
                 string[] pFrazy = fLines[i].Split('|');

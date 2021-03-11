@@ -80,6 +80,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     #region Reklamy
     public Sprite[] otwarteObrazki;
     public Text tekstCoWygrales;
+    public AnimationClip animacjaOtwarciaSkrzynki;
     #endregion
     #region Getery i setery
     public sbyte UstawLubPobierzOstatniIdexJezyka
@@ -214,6 +215,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         WłączWyłączPanel(new string[] {goPanel.name, uiBudynkiPanel.name, ui_down.name, uiGry.name, optionsMenu.name,
         reklamyPanel.name, poGraj.name, winTXT.name, loseTXT.name, samouczekPanel.name, "Cretidsy"}, 
         false);
+        this.tekstCoWygrales.transform.parent.gameObject.SetActive(false);
     }
     #region Obsługa paneli UI, Czy mogę przesuwać kamerę (), Pasek HP
     ///<summary>Metoda włącza lub wyłącza panel zgodny z podanymi parametrami.</summary>
@@ -1003,14 +1005,30 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.managerGryScript.KliknietyPrzycisk();
         buttonSkrzynki[idx].skrzynkaB.interactable = false;
         //Kliknąłem skrzynkę
-        //StartCoroutine(PodmieńWartości(buttonSkrzynki[idx]. ))
+        StartCoroutine(PodmieńObrazekSkrzynki(buttonSkrzynki[idx].skrzynkaB.transform.parent.Find("Skrzynka_obrazek").GetComponent<Image>(), (byte)idx));
     }
     ///
     ///<summary>Funkcja zmienia wartości dla obrazka i go podmienia</summary>
     ///<param name="obrazek">Sprite jaki ma zostać podmieniony.</param>
-    private IEnumerator PodmieńWartości(Sprite obrazek)
+    private IEnumerator PodmieńObrazekSkrzynki(Image obrazek, byte idx)
     {
-        yield return new WaitForSeconds(0.5f);
+        Animation a = obrazek.GetComponent<Animation>();
+        a.clip = animacjaOtwarciaSkrzynki;
+        a.wrapMode = WrapMode.Once;
+        a.Play();
+        yield return new WaitUntil(() => !a.isPlaying);  //Czekaj na zakończenie animacji
+        obrazek.sprite = this.otwarteObrazki[1];
+        this.tekstCoWygrales.text = PomocniczeFunkcje.managerGryScript.ekwipunekGracza[idx].nazwaPrzedmiotu;
+        this.tekstCoWygrales.transform.parent.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        this.tekstCoWygrales.transform.parent.gameObject.SetActive(false);
+    }
+    private void ResetImagesSkrzynkiImage()
+    {
+        for(byte i = 0; i < buttonSkrzynki.Length; i++)
+        {
+            buttonSkrzynki[i].skrzynkaB.transform.parent.Find("Skrzynka_obrazek").GetComponent<Image>().sprite = this.otwarteObrazki[0];
+        }
     }
     /// ///<summary>Rozpoczyna działanie otrzymania dodatkowej nagrody za skończony poziom z poziomu gry za obejrzenie reklamy</summary>
     public void KliknietyPrzyciskRewardZPoziomuZReklama()
@@ -1182,7 +1200,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         WłączWyłączPanel(reklamyPanel.name, czyWłPanel);
         if(!czyWłPanel) //Resetuj obrazki
         {
-
+            ResetImagesSkrzynkiImage();
         }
     }
     ///<summary>Metoda włącza lub wyłącza przyciski służące do ulepszania budynków.</summary>
