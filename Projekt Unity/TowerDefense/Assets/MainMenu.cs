@@ -870,7 +870,12 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             tab[tabOfBuildToChange[i]].przycisk.gameObject.SetActive(willEnable);
         }
 
-        iloscButtonow = (byte)(tabOfBuildToChange.Length - 2);
+        if(tabOfBuildToChange.Length > 1)
+            iloscButtonow = (byte)(tabOfBuildToChange.Length - 2);
+        else if(tabOfBuildToChange.Length == 1)
+            iloscButtonow = (byte)(tabOfBuildToChange.Length - 1);
+        else
+            iloscButtonow = 0;
     }
     ///<summary>Metoda generuje i sortuje tablice przycisków budynków do panelu budynków.</summary>
     public void WygenerujIPosortujTablice() //Tworzy i sortuje tablicę budynków, które gracz może postawić
@@ -881,11 +886,18 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         List<ushort> murki = null;
         List<ushort> wieże = null;
         List<ushort> inne = null;
-
+        byte poziom = PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki;
         for (ushort i = 0; i < tab.Length; i++)
         {
-            Button tb = GameObject.Instantiate(b);
             KonkretnyNPCStatyczny knpcs = PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[tab[i].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
+            if(knpcs.poziom > poziom && poziom != 255)
+                continue;
+            else if(poziom == 255)
+            {
+                if(knpcs.poziom > 1)
+                    continue;
+            }
+            Button tb = GameObject.Instantiate(b);
             if (knpcs.obrazekDoBudynku != null)
             {
                 tb.image.sprite = knpcs.obrazekDoBudynku;
