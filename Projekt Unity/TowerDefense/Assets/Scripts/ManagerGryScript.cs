@@ -9,7 +9,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     [Header("Podstawowe informacje dla gracza")]
     #region Zmienne publiczne
     [Tooltip("Aktualna ilość monet")]
-    public static ushort iloscCoinów = 150;
+    public static ushort iloscCoinów = 300;
     [Tooltip("Aktualna epoka w której gra gracz")]
     public Epoki aktualnaEpoka;
     public byte aktualnyPoziomEpoki = 1;
@@ -205,6 +205,16 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         switch (idxOfManagerGryScript)  //Każdy idxOfManagerGryScript podzielny przez 5 bez reszty obsługuje timerFal
         {
             case 0:
+                if (czyScenaZostałaZaładowana)
+                {
+                    idxOfManagerGryScript++;
+                }
+                else
+                {
+                    SprawdźCzyScenaZostałaZaładowana();
+                }
+                break;
+            case 1:
                 if (PomocniczeFunkcje.mainMenu.CzyLFPSOn)
                 {
                     if (aktualnyIndexTabFPS < 30)
@@ -222,47 +232,40 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 }
                 idxOfManagerGryScript++;
                 break;
-            case 1:
-                if (czyScenaZostałaZaładowana)
+            case 2:
+                bool czyLFala = PomocniczeFunkcje.spawnerHord.CzyOstatniaFala();
+                if (aktualnyPoziomEpoki == 255 && !poziomZakonczony && czyLFala && iloscAktywnychWrogów <= 0)
                 {
-                    bool czyLFala = PomocniczeFunkcje.spawnerHord.CzyOstatniaFala();
-                    if (aktualnyPoziomEpoki == 255 && !poziomZakonczony && czyLFala && iloscAktywnychWrogów <= 0)
+                    if (ManagerSamouczekScript.mssInstance.CzyZgadzaSięIDXGłówny(16))
                     {
-                        if (ManagerSamouczekScript.mssInstance.CzyZgadzaSięIDXGłówny(16))
-                        {
-                            ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = -100;
-                        }
-                    }
-                    else if (!poziomZakonczony && czyLFala && iloscAktywnychWrogów <= 0)
-                    {
-                        //Lvl skończony wszystkie fale zostały pokonane
-                        KoniecPoziomuZakończony(true);
-                    }
-                    else if (knpcsBazy.AktualneŻycie <= 0)
-                    {
-                        KoniecPoziomuZakończony(false);
-                    }
-                    else if (!czyLFala)
-                    {
-                        if (iloscAktywnychWrogów == 0 && aktualnyPoziomEpoki != 255)
-                        {
-                            ObslTimerFal();
-                        }
-                        ObslMryganie();
+                        ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = -100;
                     }
                 }
-                else
+                else if (!poziomZakonczony && czyLFala && iloscAktywnychWrogów <= 0)
                 {
-                    SprawdźCzyScenaZostałaZaładowana();
+                    //Lvl skończony wszystkie fale zostały pokonane
+                    KoniecPoziomuZakończony(true);
+                }
+                else if (knpcsBazy.AktualneŻycie <= 0)
+                {
+                    KoniecPoziomuZakończony(false);
+                }
+                else if (!czyLFala)
+                {
+                    if (iloscAktywnychWrogów == 0 && aktualnyPoziomEpoki != 255)
+                    {
+                        ObslTimerFal();
+                    }
+                    ObslMryganie();
                 }
                 idxOfManagerGryScript++;
                 break;
-            case 5:
+            case 6:
                 for (byte i = 0; i < 4; i++)
                 {
                     skrzynki[i].SprawdźCzyReuseMinęło();
                 }
-                idxOfManagerGryScript = 0;
+                idxOfManagerGryScript = 1;
                 break;
             default:
                 idxOfManagerGryScript++;
@@ -295,7 +298,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     #region Metody podczas ładowania i kasowania sceny
     private void ŁadowanieDanych()
     {
-        if(iloscCoinów < 50)
+        if (iloscCoinów < 50)
             iloscCoinów = 50;
         PomocniczeFunkcje.spawnerHord = FindObjectOfType(typeof(SpawnerHord)) as SpawnerHord;
         PomocniczeFunkcje.spawnerHord.UstawHorde(aktualnaEpoka, aktualnyPoziomEpoki);
@@ -309,6 +312,8 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
         PomocniczeFunkcje.spawnBudynki.InicjacjaPaneluBudynków();
         PomocniczeFunkcje.mainMenu.WygenerujIPosortujTablice(); //Generuje i sortuje tablice budynków do wybudowania
+        PomocniczeFunkcje.mainMenu.PrzesuńBudynki(0, true);
+        PomocniczeFunkcje.mainMenu.ostatniStawianyBudynekButton.GetComponent<ObsłużPrzyciskOstatniegoStawianegoBudynku>().RestartPrzycisku();
         ObslTimerFal(0);
         /*
         Transform go = new GameObject("R").transform;
@@ -350,9 +355,11 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         else
         {
             ŁadowanieDanych();
-            //Debug.Log("Ustawiam budynek główny");
+            Debug.Log("Ustawiam budynek główny");
             GameObject baza = GameObject.Instantiate(bazy[idxEpokiBazyWTablicy], new Vector3(MoveCameraScript.bazowePolozenieKameryGry.x, 0.0f, MoveCameraScript.bazowePolozenieKameryGry.z - 5f), Quaternion.identity);
             knpcsBazy = baza.GetComponent<KonkretnyNPCStatyczny>();
+            if (knpcsBazy == null)
+                Debug.Log("Nie załądowałem KNPCS");
             PomocniczeFunkcje.celWrogów = knpcsBazy;
             knpcsBazy.InicjacjaBudynku();
             PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcsBazy, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
@@ -453,7 +460,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                         break;
                 }
             }
-            if(f != null)
+            if (f != null)
             {
                 PomocniczeFunkcje.PrzypiszFontyDoNiemajacychPrzypisanychTextow(ref f);
             }
@@ -577,7 +584,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                     }
                 }
             }
-            for(byte i = 0; i < 4; i++)
+            for (byte i = 0; i < 4; i++)
             {
                 this.ekwipunekGracza[i].AktualizujNazwe();
             }

@@ -172,8 +172,9 @@ public class SpawnBudynki : MonoBehaviour
             ResetWybranegoObiektu();
         }
     }
-    public void KliknietyBudynekWPanelu(short tabWTablicy)
+    public bool KliknietyBudynekWPanelu(short tabWTablicy)
     {
+        bool f = false;
         aktualnieWybranyIndeksObiektuTabZablokowany = tabWTablicy;
         if (czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].czyZablokowany)
         {
@@ -189,9 +190,12 @@ public class SpawnBudynki : MonoBehaviour
         {
             PomocniczeFunkcje.mainMenu.kup.interactable = false;
             //Odpal przycisk budowy
-            if (ManagerGryScript.iloscCoinów >= wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().kosztJednostki)
+            int koszt = wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().kosztJednostki;
+            if (ManagerGryScript.iloscCoinów >= koszt)
             {
                 PomocniczeFunkcje.mainMenu.stawiajBudynek.interactable = true;
+                if(ManagerGryScript.iloscCoinów - koszt - koszt > koszt)
+                    f = true;
             }
             else
             {
@@ -200,6 +204,7 @@ public class SpawnBudynki : MonoBehaviour
         }
         KonkretnyNPCStatyczny knpcs = wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
         knpcs.UstawPanel(Vector2.negativeInfinity);
+        return f;
     }
     public void PostawBudynek(ref GameObject obiektDoRespawnu, Vector3 pos, Quaternion rotation)
     {

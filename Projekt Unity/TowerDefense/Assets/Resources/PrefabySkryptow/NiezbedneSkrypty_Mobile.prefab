@@ -161,7 +161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aktualnaEpoka: 1
   aktualnyPoziomEpoki: 1
-  "czasMi\u0119dzyFalami": 30
+  "czasMi\u0119dzyFalami": 35
   zaznaczonyObiekt: {fileID: 0}
   bazy:
   - {fileID: 6607723662127755433, guid: a0c85e2276b00894d99e3b7ef7265cff, type: 3}

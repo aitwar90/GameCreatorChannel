@@ -21,6 +21,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public Button lvlWyzej;
     public Button epokaNizej;
     public Button epokaWyzej;
+    public Button ostatniStawianyBudynekButton;
     #endregion
     #region Akademia
     public Button buttonAZycie;
@@ -82,6 +83,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public Text tekstCoWygrales;
     public AnimationClip animacjaOtwarciaSkrzynki;
     #endregion
+    private short[] ostatniaWartośćPolozeniaPanelu = { 0, 0, 0 }; //Położenie wież, położenie murków, położenie reszty
     #region Getery i setery
     public sbyte UstawLubPobierzOstatniIdexJezyka
     {
@@ -149,7 +151,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         get
         {
-            if(panelDynamiczny.gameObject.activeInHierarchy)
+            if (panelDynamiczny.gameObject.activeInHierarchy)
             {
                 return (PanelDynamiczny)panelDynamiczny;
             }
@@ -161,7 +163,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         get
         {
-            if(panelStatyczny.gameObject.activeInHierarchy)
+            if (panelStatyczny.gameObject.activeInHierarchy)
             {
                 return (PanelStatyczny)panelStatyczny;
             }
@@ -213,7 +215,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         nastepnyPoziom.interactable = false;
         rekZaWyzszaNagrode.gameObject.SetActive(false);
         WłączWyłączPanel(new string[] {goPanel.name, uiBudynkiPanel.name, ui_down.name, uiGry.name, optionsMenu.name,
-        reklamyPanel.name, poGraj.name, winTXT.name, loseTXT.name, samouczekPanel.name, "Cretidsy"}, 
+        reklamyPanel.name, poGraj.name, winTXT.name, loseTXT.name, samouczekPanel.name, "Cretidsy"},
         false);
         this.tekstCoWygrales.transform.parent.gameObject.SetActive(false);
     }
@@ -361,7 +363,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         {
             PomocniczeFunkcje.UstawTimeScale(1);
             PomocniczeFunkcje.oCam.transform.position = lastPosCam;
-            if(ui_down.activeInHierarchy)
+            if (ui_down.activeInHierarchy)
                 PomocniczeFunkcje.muzyka.WłączWyłączClip(true, PomocniczeFunkcje.TagZEpoka("AmbientWGrze", PomocniczeFunkcje.managerGryScript.aktualnaEpoka));
             else
                 PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Bitwa");
@@ -449,16 +451,16 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     private Vector2 SprawdźCzyNieWychodziZaObszarEkranu(Vector2 currentKlikPos, float szerokość, float wysokość)
     {
         Vector2 scR = new Vector2(Screen.width, Screen.height);
-        if(currentKlikPos.y - wysokość < 0) //Dolna krawędź ekranu
+        if (currentKlikPos.y - wysokość < 0) //Dolna krawędź ekranu
         {
             currentKlikPos.y = wysokość + 5;
         }
-        if(currentKlikPos.x + szerokość > scR.x)
+        if (currentKlikPos.x + szerokość > scR.x)
         {
             currentKlikPos.x = scR.x - szerokość - 5;
         }
         return currentKlikPos;
-        
+
     }
     ///<summary>Funkcja zwraca informację czy kamera może zostać przemieszczona.</summary>
     public bool CzyMogePrzesuwaćKamere()
@@ -750,19 +752,32 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public void PrzesuńBudynki(float wartość, bool zresetuj = false)
     {
         short wartośćPrzesunięciaY = -290;
-        if (zresetuj)
+        if (zresetuj && wartość == 0)
         {
             trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, wartośćPrzesunięciaY);
             return;
         }
         Vector2 sOff = Vector2.zero;
         sOff.y += wartość;
-        byte offsetBB = 50;
-        Vector3 tmp = trBudynkówŁącze.anchoredPosition = trBudynkówŁącze.anchoredPosition + sOff;   //Wartość po przesunięciu obiektu o wartość
+        byte offsetBB = 10;
+        Vector3 tmp = trBudynkówŁącze.anchoredPosition + sOff;   //Wartość po przesunięciu obiektu o wartość
         short t = (short)(wartośćPrzesunięciaY + ((wielkosćButtonu + offsetBB) * iloscButtonow));   //Obszar po Y wszystkich przycisków
         if (tmp.y >= wartośćPrzesunięciaY && tmp.y <= t)
         {
             trBudynkówŁącze.anchoredPosition = tmp;
+            switch (lastPanelEnabledBuildings)
+            {
+                case 0: //ostatnio otwarty był panel z wieżami
+                    ostatniaWartośćPolozeniaPanelu[0] = (short)(tmp.y);
+                    break;
+                case 1: //ostatnio otwarty był panel z murkami
+                    ostatniaWartośćPolozeniaPanelu[1] = (short)(tmp.y);
+                    break;
+                case 2: //ostatnio otwarty był panel z innymi
+                    ostatniaWartośćPolozeniaPanelu[2] = (short)(tmp.y);
+                    break;
+
+            }
         }
         else
         {
@@ -780,7 +795,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     ///<param name="idx">Odpalany panel z budynkami (0 - wieże), (1 - mury), (2 - Inne), (inny - wyłącza panel).</param>
     public void WłączWyłączPanelBudynków(int idx)
     {
-        PrzesuńBudynki(0, true);
+        if (idx > -1 && idx < 3)
+            PrzesuńBudynki(ostatniaWartośćPolozeniaPanelu[idx], true);
+        else
+            PrzesuńBudynki(0, true);
         if (idx == 0)    //Panel z wieżami
         {
             if (idxWież == null)
@@ -870,9 +888,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             tab[tabOfBuildToChange[i]].przycisk.gameObject.SetActive(willEnable);
         }
 
-        if(tabOfBuildToChange.Length > 1)
+        if (tabOfBuildToChange.Length > 1)
             iloscButtonow = (byte)(tabOfBuildToChange.Length - 2);
-        else if(tabOfBuildToChange.Length == 1)
+        else if (tabOfBuildToChange.Length == 1)
             iloscButtonow = (byte)(tabOfBuildToChange.Length - 1);
         else
             iloscButtonow = 0;
@@ -890,6 +908,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         for (ushort i = 0; i < tab.Length; i++)
         {
             KonkretnyNPCStatyczny knpcs = PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[tab[i].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
+            /*
             if(knpcs.poziom > poziom && poziom != 255)
                 continue;
             else if(poziom == 255)
@@ -897,6 +916,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 if(knpcs.poziom > 1)
                     continue;
             }
+            */
             Button tb = GameObject.Instantiate(b);
             if (knpcs.obrazekDoBudynku != null)
             {
@@ -945,7 +965,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             b.interactable = stan;
             b = ui_down.transform.Find("kupno_inne").GetComponent<Button>();
             b.interactable = stan;
-            for(byte j = 0; j < przyciskiNagród.Length; j++)
+            for (byte j = 0; j < przyciskiNagród.Length; j++)
             {
                 przyciskiNagród[j].interactable = false;
             }
@@ -1037,7 +1057,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     private void ResetImagesSkrzynkiImage()
     {
-        for(byte i = 0; i < buttonSkrzynki.Length; i++)
+        for (byte i = 0; i < buttonSkrzynki.Length; i++)
         {
             buttonSkrzynki[i].skrzynkaB.transform.parent.Find("Skrzynka_obrazek").GetComponent<Image>().sprite = this.otwarteObrazki[0];
         }
@@ -1210,7 +1230,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         WłączWyłączPanel(menu.name, !czyWłPanel);
         WłączWyłączPanel(reklamyPanel.name, czyWłPanel);
-        if(!czyWłPanel) //Resetuj obrazki
+        if (!czyWłPanel) //Resetuj obrazki
         {
             ResetImagesSkrzynkiImage();
         }
