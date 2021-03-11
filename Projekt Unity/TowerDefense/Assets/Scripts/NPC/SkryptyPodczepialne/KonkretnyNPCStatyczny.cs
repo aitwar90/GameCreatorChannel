@@ -530,6 +530,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         {
             ManagerGryScript.iloscCoinów -= kosztNaprawy;
             MainMenu.singelton.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
+            PomocniczeFunkcje.managerGryScript.DodajDoWartościStatystyk(3, -kosztNaprawy);
         }
         this.AktualneŻycie = this.maksymalneŻycie;
         kosztNaprawy = 0;

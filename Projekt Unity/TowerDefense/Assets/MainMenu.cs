@@ -540,7 +540,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     ///<summary>Ustaw poszczególne wartości dla statystyk.</summary>
     ///<param name="tablicaWartości">Wartości dla poszczególnych elementów (0-Badania, 1-Rozwój z akademii, 2-Budowa budynków, 3-Naprawa budynków, 4-Zyski z pokonanych wrogów, 5-Ilość nagrody za ukończony poziom).</param>
-    public void UstawDaneStatystyk(int[] tablicaWartości)
+    public void UstawDaneStatystyk(ref int[] tablicaWartości)
     {
         statystykiScript.UstawWartościIOdpalMnie(ref tablicaWartości);
     }
@@ -921,7 +921,6 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         for (ushort i = 0; i < tab.Length; i++)
         {
             KonkretnyNPCStatyczny knpcs = PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[tab[i].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
-            /*
             if(knpcs.poziom > poziom && poziom != 255)
                 continue;
             else if(poziom == 255)
@@ -929,7 +928,6 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 if(knpcs.poziom > 1)
                     continue;
             }
-            */
             Button tb = GameObject.Instantiate(b);
             if (knpcs.obrazekDoBudynku != null)
             {
@@ -1257,7 +1255,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             buttonAZycie.gameObject.SetActive(czyOdpalac);
             buttonAAtak.gameObject.SetActive(czyOdpalac);
             buttonAObrona.gameObject.SetActive(czyOdpalac);
-            if (ManagerGryScript.iloscCoinów < 200)
+            if (ManagerGryScript.iloscCoinów < PomocniczeFunkcje.managerGryScript.kosztRozwojuAkademii)
             {
                 buttonAZycie.interactable = false;
                 buttonAAtak.interactable = false;

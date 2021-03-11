@@ -199,6 +199,7 @@ MonoBehaviour:
   hpIdx: 0
   atkIdx: 0
   defIdx: 0
+  kosztRozwojuAkademii: 300
   particleSystems:
   - {fileID: 0}
   "fontyJezyk\xF3w":

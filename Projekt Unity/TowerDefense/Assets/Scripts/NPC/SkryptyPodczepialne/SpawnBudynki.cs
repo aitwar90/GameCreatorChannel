@@ -139,6 +139,7 @@ public class SpawnBudynki : MonoBehaviour
             KonkretnyNPCStatyczny statycznyBudynekDoOdbl = wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
             statycznyBudynekDoOdbl.Zablokowany = false;
             ManagerGryScript.iloscCoinów -= statycznyBudynekDoOdbl.kosztBadania;
+            PomocniczeFunkcje.managerGryScript.DodajDoWartościStatystyk(0, -statycznyBudynekDoOdbl.kosztBadania);
             czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].czyZablokowany = false;
             PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
         }
@@ -318,6 +319,7 @@ public class SpawnBudynki : MonoBehaviour
             PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek(knpcs);
         //Pobranie coinów za postawiony budynek
         ManagerGryScript.iloscCoinów -= knpcs.kosztJednostki;
+        PomocniczeFunkcje.managerGryScript.DodajDoWartościStatystyk(2, -knpcs.kosztJednostki);
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
         //Debug.Log("Postawiłem budynek na X = "+temp[0]+" Z = "+temp[1]);
         // Kasowanie ustawień potrzebnych do postawienia budynku

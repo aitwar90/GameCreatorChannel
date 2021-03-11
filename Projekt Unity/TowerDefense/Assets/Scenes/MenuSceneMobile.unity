@@ -323,7 +323,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &11020844
 RectTransform:
   m_ObjectHideFlags: 0
@@ -465,7 +465,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &11208047
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1296,7 +1296,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 96132163}
-  - component: {fileID: 96132165}
   m_Layer: 5
   m_Name: Skrzynka2
   m_TagString: Untagged
@@ -1327,14 +1326,6 @@ RectTransform:
   m_AnchoredPosition: {x: -190, y: 0}
   m_SizeDelta: {x: 350, y: 490}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &96132165
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 96132162}
-  m_CullTransparentMesh: 0
 --- !u!1 &116084929
 GameObject:
   m_ObjectHideFlags: 0
@@ -1353,7 +1344,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &116084930
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1714,8 +1705,8 @@ RectTransform:
   m_Father: {fileID: 1369144506}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 45, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2175,7 +2166,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.000009371058, y: 0.000061035156}
-  m_SizeDelta: {x: 494.86, y: 6534.252}
+  m_SizeDelta: {x: 494.86, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &195373054
 MonoBehaviour:
@@ -8394,7 +8385,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &330081412
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8734,7 +8725,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &343383982
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9520,8 +9511,8 @@ RectTransform:
   m_Father: {fileID: 47266982}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.45634812}
-  m_AnchorMax: {x: 1, y: 0.5436519}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 62.98, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -10613,7 +10604,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 542050793}
-  - component: {fileID: 542050795}
   m_Layer: 5
   m_Name: Skrzynka1
   m_TagString: Untagged
@@ -10644,14 +10634,6 @@ RectTransform:
   m_AnchoredPosition: {x: -550, y: 0}
   m_SizeDelta: {x: 350, y: 490}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &542050795
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 542050792}
-  m_CullTransparentMesh: 0
 --- !u!1 &557231973
 GameObject:
   m_ObjectHideFlags: 0
@@ -12043,7 +12025,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &669355362
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13455,7 +13437,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 807415074}
-  - component: {fileID: 807415076}
   m_Layer: 5
   m_Name: Skrzynka4
   m_TagString: Untagged
@@ -13486,14 +13467,6 @@ RectTransform:
   m_AnchoredPosition: {x: 530, y: 0}
   m_SizeDelta: {x: 350, y: 490}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &807415076
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 807415073}
-  m_CullTransparentMesh: 0
 --- !u!1 &811738554
 GameObject:
   m_ObjectHideFlags: 0
@@ -14203,7 +14176,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &905512113
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16256,7 +16229,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1099388851
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17588,7 +17561,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1289656724
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18011,7 +17984,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -19200,7 +19173,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1399660429
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20304,7 +20277,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1501321161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21483,7 +21456,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1593552663
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22581,7 +22554,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1700058618
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23490,7 +23463,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1816130665
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24014,7 +23987,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1852659529}
-  - component: {fileID: 1852659531}
   m_Layer: 5
   m_Name: Skrzynka3
   m_TagString: Untagged
@@ -24045,14 +24017,6 @@ RectTransform:
   m_AnchoredPosition: {x: 170, y: 0}
   m_SizeDelta: {x: 350, y: 490}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &1852659531
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1852659528}
-  m_CullTransparentMesh: 0
 --- !u!1 &1887864671
 GameObject:
   m_ObjectHideFlags: 0
@@ -24248,7 +24212,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1926874337
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25542,7 +25506,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 437094945}
   m_Direction: 2
   m_Value: 0.49999997
-  m_Size: 0.08730374
+  m_Size: 0.086565636
   m_NumberOfSteps: 1
   m_OnValueChanged:
     m_PersistentCalls:
@@ -26421,6 +26385,10 @@ PrefabInstance:
       propertyPath: particleSystems.Array.data[0]
       value: 
       objectReference: {fileID: 219638872}
+    - target: {fileID: 3463731110551857187, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
+      propertyPath: "warto\u015BciDlaStatystyk.Array.size"
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3463731110811243626, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
       propertyPath: "muzykaT\u0142a"
       value: 
