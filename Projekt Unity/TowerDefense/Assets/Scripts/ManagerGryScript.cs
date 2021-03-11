@@ -54,6 +54,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     private byte aktualnyIndexTabFPS = 0;
     private bool poziomZakonczony = false;
     private byte bufferTimerFal = 255;
+    public int[] wartościDlaStatystyk = {0, 0, 0, 0, 0};
     private List<Stack<ParticleSystem>> particleStack;
     #endregion
     #region Getery i Setery
@@ -314,6 +315,10 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.mainMenu.WygenerujIPosortujTablice(); //Generuje i sortuje tablice budynków do wybudowania
         PomocniczeFunkcje.mainMenu.PrzesuńBudynki(0, true);
         PomocniczeFunkcje.mainMenu.ostatniStawianyBudynekButton.GetComponent<ObsłużPrzyciskOstatniegoStawianegoBudynku>().RestartPrzycisku();
+        for(byte i = 0; i < wartościDlaStatystyk.Length; i++)
+        {
+            wartościDlaStatystyk[i] = 0;
+        }
         ObslTimerFal(0);
         /*
         Transform go = new GameObject("R").transform;

@@ -84,6 +84,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public AnimationClip animacjaOtwarciaSkrzynki;
     #endregion
     private short[] ostatniaWartośćPolozeniaPanelu = { 0, 0, 0 }; //Położenie wież, położenie murków, położenie reszty
+    private StatystykiScript statystykiScript;
     #region Getery i setery
     public sbyte UstawLubPobierzOstatniIdexJezyka
     {
@@ -204,6 +205,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         goPanel = uiGry.transform.Find("GameOver Panel").gameObject;
         licznikCzasuDoFali = uiGry.transform.Find("UI_LicznikCzasu/img_licznik/KompTextLicznikCzasu").GetComponent<Text>();
         samouczekPanel = uiGry.transform.Find("SamouczekPanel").gameObject;
+        statystykiScript = goPanel.transform.Find("Statystyki").GetComponent<StatystykiScript>();
         epokaNizej.interactable = false;
         panelStatyczny.gameObject.SetActive(false);
         panelDynamiczny.gameObject.SetActive(false);
@@ -535,6 +537,17 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 break;
         }
         return zwracanaPos;
+    }
+    ///<summary>Ustaw poszczególne wartości dla statystyk.</summary>
+    ///<param name="tablicaWartości">Wartości dla poszczególnych elementów (0-Badania, 1-Rozwój z akademii, 2-Budowa budynków, 3-Naprawa budynków, 4-Zyski z pokonanych wrogów, 5-Ilość nagrody za ukończony poziom).</param>
+    public void UstawDaneStatystyk(int[] tablicaWartości)
+    {
+        statystykiScript.UstawWartościIOdpalMnie(ref tablicaWartości);
+    }
+    ///<summary>Wyłącz panel statystyk.</summary>
+    public void WyłączPanelStatystyk()
+    {
+        statystykiScript.WyłączMnie();
     }
     #endregion
     #region Po Scenie
