@@ -70,8 +70,6 @@ public class SpawnBudynki : MonoBehaviour
             go.transform.rotation = Quaternion.identity;
             rodzicBudynkow = go.transform;
         }
-
-        PomocniczeFunkcje.managerGryScript.ZmianaJęzyka((byte)PomocniczeFunkcje.mainMenu.lastIdxJezyka);
     }
     public void InicjacjaPaneluBudynków()
     {

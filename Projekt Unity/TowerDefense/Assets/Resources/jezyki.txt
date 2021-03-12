@@ -22,6 +22,13 @@ ReklamaZaWyzszaNagrode|Podwój nagrodę|Double reward|Удвоить награ�
 WróćZPoGraj|Wróć|Back|Назад|Назад;
 WróćZPoGrajCredits|Wróć|Back|Назад|Назад;
 WróćZPoGrajRek|Wróć|Back|Назад|Назад;
+BilansTXT|BILANS:|BALANCE:|БАЛАНС:|БАЛАНС:;
+BadaniaTXT|BADANIA:|INVENTIONS:|ИЗОБРЕТЕНИЯ:|ВИНАХОДИ;
+RozwójTXT|ROZWÓJ:|IMPROVERMENTS:|УЛУЧШЕНИЯ:|ПОЛІПШЕННЯ:;
+BudowaTXT|BUDOWA:|BUILDINGS:|ЗДАНИЯ:|БУДІВЕЛІ:;
+NaprawaTXT|NAPRAWA:|REPAIR:|РЕМОНТ:|РЕМОНТ:;
+ZyskZWrogówTXT|Z WROGÓW:|FROM ENEMY:|ОТ ВРАГА:|ВІД ВРАГА:;
+ZaPoziomTXT|ZA POZIOM:|FOR THE LEVEL:|ДЛЯ УРОВНЯ:|НА РІВЕНЬ:;
 QuitButton|Wyjdź|Quit|Выйти|Вихід;
 IlHPBudynek|PUNKTY ŻYCIA:|HEALTH POINTS|Очки жизни|Пункти життя:;
 ObrażeniaBudynek|OBRAŻENIA:|DAMAGE|Повреждения|Ушкодження:;

@@ -846,6 +846,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     {
         PomocniczeFunkcje.LadujDaneOpcje();
         PomocniczeFunkcje.ŁadujDane();
+        ZmianaJęzyka((byte)PomocniczeFunkcje.mainMenu.lastIdxJezyka);
         //UtworzSzablonPlikuJezykowego();
         if (blokowanieOrientacji)
         {
