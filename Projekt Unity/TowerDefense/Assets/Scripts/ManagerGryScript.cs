@@ -94,6 +94,15 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     #region Metody UNITY
     void Awake()
     {
+        PomocniczeFunkcje.managerGryScript = this;
+        PomocniczeFunkcje.spawnBudynki = FindObjectOfType(typeof(SpawnBudynki)) as SpawnBudynki;
+        PomocniczeFunkcje.mainMenu = FindObjectOfType(typeof(MainMenu)) as MainMenu;
+        PomocniczeFunkcje.muzyka = this.GetComponent<MuzykaScript>();
+        or = FindObjectOfType(typeof(ObsługaReklam)) as ObsługaReklam;
+        SpawnerHord.actualHPBars = 0;
+    }
+    void Start()
+    {
         if (blokowanieOrientacji)
         {
             Screen.orientation = ScreenOrientation.Landscape;
@@ -102,12 +111,6 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             Screen.autorotateToPortraitUpsideDown = false;
             Screen.autorotateToPortrait = false;
         }
-        PomocniczeFunkcje.managerGryScript = this;
-        PomocniczeFunkcje.spawnBudynki = FindObjectOfType(typeof(SpawnBudynki)) as SpawnBudynki;
-        PomocniczeFunkcje.mainMenu = FindObjectOfType(typeof(MainMenu)) as MainMenu;
-        PomocniczeFunkcje.muzyka = this.GetComponent<MuzykaScript>();
-        or = FindObjectOfType(typeof(ObsługaReklam)) as ObsługaReklam;
-        SpawnerHord.actualHPBars = 0;
         skrzynki = new Skrzynka[PomocniczeFunkcje.mainMenu.buttonSkrzynki.Length];
         for (byte i = 0; i < skrzynki.Length; i++)
         {
@@ -332,7 +335,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.mainMenu.WygenerujIPosortujTablice(); //Generuje i sortuje tablice budynków do wybudowania
         PomocniczeFunkcje.mainMenu.PrzesuńBudynki(0, true);
         PomocniczeFunkcje.mainMenu.ostatniStawianyBudynekButton.GetComponent<ObsłużPrzyciskOstatniegoStawianegoBudynku>().RestartPrzycisku();
-        PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] {"ui_down", "UI_LicznikCzasu"}, true);
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] { "ui_down", "UI_LicznikCzasu" }, true);
         for (byte i = 0; i < wartościDlaStatystyk.Length; i++)
         {
             wartościDlaStatystyk[i] = 0;
@@ -407,7 +410,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         idxOfManagerGryScript = 0;
         iloscAktywnychWrogów = 0;
         wartościDlaStatystyk = new int[] { 0, 0, 0, 0, 0, 0 };
-        
+
     }
     #endregion
     #region Metody do obsługi UI
@@ -750,7 +753,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         }
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("GameOver Panel", true);
-        PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] {"ui_down", "UI_LicznikCzasu"}, false);
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] { "ui_down", "UI_LicznikCzasu" }, false);
         poziomZakonczony = true;
         iloscAktywnychWrogów = 0;
     }

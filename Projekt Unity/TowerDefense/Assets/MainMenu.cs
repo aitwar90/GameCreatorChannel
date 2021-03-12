@@ -180,8 +180,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         }
     }
     #endregion
-    void Awake()
+    public void Awake()
     {
+        Debug.Log("Rozpoczynam działanie Akawe Canvas");
         if (singelton == null)
         {
             singelton = this;
@@ -191,6 +192,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             Destroy(this);
             return;
         }
+    }
+    void Start()
+    {
         this.poziomWEpoce.characterValidation = InputField.CharacterValidation.Integer;
         menu = this.transform.Find("Menu/MainMenu").gameObject;
         uiGry = this.transform.Find("UIGry").gameObject;
