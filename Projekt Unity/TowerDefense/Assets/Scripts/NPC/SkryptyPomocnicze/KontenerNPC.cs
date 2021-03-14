@@ -427,7 +427,13 @@ public class StrukturaBudynkuWTab
     ///<summary>Metoda przypisywana do przycisku w Panelu Budynków.</summary>
     void OnClick()
     {
-        PomocniczeFunkcje.spawnBudynki.KliknietyBudynekWPanelu((short)indexBudynku);
+        bool f = PomocniczeFunkcje.spawnBudynki.KliknietyBudynekWPanelu((short)indexBudynku);
+        if(f)   //Przycisk do ponownego postawienia buttonu
+        {
+            PomocniczeFunkcje.mainMenu.ostatniStawianyBudynekButton.GetComponent<ObsłużPrzyciskOstatniegoStawianegoBudynku>().PrzypiszDanePrzyciskowi((short)indexBudynku, 
+            PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[indexBudynku].GetComponent<KonkretnyNPCStatyczny>().kosztJednostki, 
+            przycisk.image.sprite);
+        }
     }
 }
 [System.Serializable]

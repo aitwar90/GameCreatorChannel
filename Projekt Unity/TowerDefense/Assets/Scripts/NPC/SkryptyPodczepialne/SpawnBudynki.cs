@@ -137,6 +137,7 @@ public class SpawnBudynki : MonoBehaviour
             KonkretnyNPCStatyczny statycznyBudynekDoOdbl = wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
             statycznyBudynekDoOdbl.Zablokowany = false;
             ManagerGryScript.iloscCoinów -= statycznyBudynekDoOdbl.kosztBadania;
+            PomocniczeFunkcje.managerGryScript.DodajDoWartościStatystyk(0, -statycznyBudynekDoOdbl.kosztBadania);
             czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].czyZablokowany = false;
             PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
         }
@@ -170,8 +171,9 @@ public class SpawnBudynki : MonoBehaviour
             ResetWybranegoObiektu();
         }
     }
-    public void KliknietyBudynekWPanelu(short tabWTablicy)
+    public bool KliknietyBudynekWPanelu(short tabWTablicy)
     {
+        bool f = false;
         aktualnieWybranyIndeksObiektuTabZablokowany = tabWTablicy;
         if (czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].czyZablokowany)
         {
@@ -187,9 +189,12 @@ public class SpawnBudynki : MonoBehaviour
         {
             PomocniczeFunkcje.mainMenu.kup.interactable = false;
             //Odpal przycisk budowy
-            if (ManagerGryScript.iloscCoinów >= wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().kosztJednostki)
+            int koszt = wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku].GetComponent<KonkretnyNPCStatyczny>().kosztJednostki;
+            if (ManagerGryScript.iloscCoinów >= koszt)
             {
                 PomocniczeFunkcje.mainMenu.stawiajBudynek.interactable = true;
+                if(ManagerGryScript.iloscCoinów - koszt - koszt > koszt)
+                    f = true;
             }
             else
             {
@@ -198,6 +203,7 @@ public class SpawnBudynki : MonoBehaviour
         }
         KonkretnyNPCStatyczny knpcs = wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
         knpcs.UstawPanel(Vector2.negativeInfinity);
+        return f;
     }
     public void PostawBudynek(ref GameObject obiektDoRespawnu, Vector3 pos, Quaternion rotation)
     {
@@ -311,6 +317,7 @@ public class SpawnBudynki : MonoBehaviour
             PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek(knpcs);
         //Pobranie coinów za postawiony budynek
         ManagerGryScript.iloscCoinów -= knpcs.kosztJednostki;
+        PomocniczeFunkcje.managerGryScript.DodajDoWartościStatystyk(2, -knpcs.kosztJednostki);
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
         //Debug.Log("Postawiłem budynek na X = "+temp[0]+" Z = "+temp[1]);
         // Kasowanie ustawień potrzebnych do postawienia budynku
@@ -382,6 +389,8 @@ public class SpawnBudynki : MonoBehaviour
     }
     private Vector3 WyrównajSpawn(Vector3 sugerowanePolozenie)
     {
+        //NOWE
+        /*
         float t = sugerowanePolozenie.x - (byte)sugerowanePolozenie.x;
         if(t < .25f)
             sugerowanePolozenie.x = (byte)sugerowanePolozenie.x;
@@ -396,8 +405,10 @@ public class SpawnBudynki : MonoBehaviour
             sugerowanePolozenie.z = (byte)sugerowanePolozenie.z + 0.5f;
         else
             sugerowanePolozenie.z = (byte)sugerowanePolozenie.z + 1;
-        //sugerowanePolozenie.x = Mathf.RoundToInt(sugerowanePolozenie.x);
-        //sugerowanePolozenie.z = Mathf.RoundToInt(sugerowanePolozenie.z);
+        */
+        //STARE
+        sugerowanePolozenie.x = Mathf.RoundToInt(sugerowanePolozenie.x);
+        sugerowanePolozenie.z = Mathf.RoundToInt(sugerowanePolozenie.z);
         return sugerowanePolozenie;
     }
     public void DestroyBuildings()

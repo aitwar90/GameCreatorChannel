@@ -9,7 +9,7 @@ public class Skrzynka
     public Button button;
     public Button buttonReklamy;
     public bool reuseTime = false;
-    private Text czasReusu;
+    public Text czasReusu;
     public bool ReuseTimer
     {
         get
@@ -38,23 +38,21 @@ public class Skrzynka
     {
         if (reuseTime)
         {
-            if (MainMenu.singelton.CzyOdpalonyPanelReklam)
+
+            if (pozostałyCzas.CompareTo(DateTime.Now) < 0)   //Reuse minęło
             {
-                if (pozostałyCzas.CompareTo(DateTime.Now) < 0)   //Reuse minęło
+                reuseTime = false;
+                button.interactable = true;
+                buttonReklamy.interactable = false;
+                this.czasReusu.text = "";
+            }
+            else
+            {
+                if (!buttonReklamy.interactable)
                 {
-                    reuseTime = false;
-                    button.interactable = true;
-                    buttonReklamy.interactable = false;
-                    this.czasReusu.text = "";
+                    buttonReklamy.interactable = PomocniczeFunkcje.managerGryScript.CzyReklamaZaładowana;
                 }
-                else
-                {
-                    if (!buttonReklamy.interactable)
-                    {
-                        buttonReklamy.interactable = PomocniczeFunkcje.managerGryScript.CzyReklamaZaładowana;
-                    }
-                    this.czasReusu.text = OkreślCzasDoTekstu();
-                }
+                this.czasReusu.text = OkreślCzasDoTekstu();
             }
         }
     }
@@ -76,8 +74,8 @@ public class Skrzynka
     {
         TimeSpan ts = pozostałyCzas.Subtract(DateTime.Now);
         byte minuty = (byte)ts.TotalMinutes;
-        byte hour = (byte)(minuty/60f);
-        minuty -= (byte)(hour*60);
-        return hour.ToString("00")+":"+minuty.ToString("00");
+        byte hour = (byte)(minuty / 60f);
+        minuty -= (byte)(hour * 60);
+        return hour.ToString("00") + ":" + minuty.ToString("00");
     }
 }

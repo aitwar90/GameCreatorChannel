@@ -17,7 +17,7 @@ public class MoveCameraScript : MonoBehaviour
 #endif
 #if UNITY_ANDROID || UNITY_IOS
     private float prędkoscPrzesunięciaKamery = 0.035f;
-    private static readonly float[] zoomBounds = new float[] { 30f, 80f };
+    private static readonly float[] zoomBounds = new float[]{30f, 80f};
 #endif
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
     private Vector3 pierwotnePołożenieKamery = Vector3.zero;
@@ -46,20 +46,13 @@ public class MoveCameraScript : MonoBehaviour
             odwrócPrzesuwanie = !odwrócPrzesuwanie;
         }
     }
-    public byte[] ZwrócGraniceZoomFOV
-    {
-        get
-        {
-            return new byte[] { (byte)zoomBounds[0], (byte)zoomBounds[1] };
-        }
-    }
     #endregion
     void Awake()
     {
-        if (mscInstance == null)
+        if(mscInstance == null)
         {
             mscInstance = this;
-            if (volume == null)
+            if(volume == null)
                 volume = GameObject.Find("Volume");
         }
         else
@@ -268,8 +261,8 @@ public class MoveCameraScript : MonoBehaviour
             Touch przybliżenie1 = Input.GetTouch(0);
             Touch przybliżenie2 = Input.GetTouch(1);
             //https://kylewbanks.com/blog/unity3d-panning-and-pinch-to-zoom-camera-with-touch-and-mouse-input
-            Vector2[] newPositions = new Vector2[] { przybliżenie1.position, przybliżenie2.position };
-            if (!wasZoomingLastFrame)
+            Vector2[] newPositions = new Vector2[]{przybliżenie1.position, przybliżenie2.position};
+            if(!wasZoomingLastFrame)
             {
                 lastZoomPositions = newPositions;
                 wasZoomingLastFrame = true;
@@ -306,10 +299,10 @@ public class MoveCameraScript : MonoBehaviour
     }
     void ZoomingMeNew(float offset, float speed)
     {
-        if (offset == 0)
+        if(offset == 0)
             return;
 
-        PomocniczeFunkcje.oCam.fieldOfView = Mathf.Clamp(PomocniczeFunkcje.oCam.fieldOfView - (offset * speed), zoomBounds[0], zoomBounds[1]);
+        PomocniczeFunkcje.oCam.fieldOfView = Mathf.Clamp(PomocniczeFunkcje.oCam.fieldOfView - (offset*speed), zoomBounds[0], zoomBounds[1]);
     }
     private float DodajElementyWektora(ref Vector2 v)
     {
@@ -323,7 +316,7 @@ public class MoveCameraScript : MonoBehaviour
     {
         volume.SetActive(c);
         this.GetComponent<UnityEngine.Rendering.PostProcessing.PostProcessLayer>().enabled = c;
-        if (!czyPrzezOpcje)
+        if(!czyPrzezOpcje)
             PomocniczeFunkcje.mainMenu.CzyPostProcesing = c;
     }
     #endregion

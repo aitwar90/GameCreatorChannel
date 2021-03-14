@@ -21,6 +21,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public Button lvlWyzej;
     public Button epokaNizej;
     public Button epokaWyzej;
+    public Button ostatniStawianyBudynekButton;
     #endregion
     #region Akademia
     public Button buttonAZycie;
@@ -82,6 +83,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public Text tekstCoWygrales;
     public AnimationClip animacjaOtwarciaSkrzynki;
     #endregion
+    private short[] ostatniaWartośćPolozeniaPanelu = { 0, 0, 0 }; //Położenie wież, położenie murków, położenie reszty
+    private StatystykiScript statystykiScript;
     #region Getery i setery
     public sbyte UstawLubPobierzOstatniIdexJezyka
     {
@@ -149,7 +152,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         get
         {
-            if(panelDynamiczny.gameObject.activeInHierarchy)
+            if (panelDynamiczny.gameObject.activeInHierarchy)
             {
                 return (PanelDynamiczny)panelDynamiczny;
             }
@@ -161,7 +164,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         get
         {
-            if(panelStatyczny.gameObject.activeInHierarchy)
+            if (panelStatyczny.gameObject.activeInHierarchy)
             {
                 return (PanelStatyczny)panelStatyczny;
             }
@@ -177,8 +180,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         }
     }
     #endregion
-    void Awake()
+    public void Awake()
     {
+        Debug.Log("Rozpoczynam działanie Akawe Canvas");
         if (singelton == null)
         {
             singelton = this;
@@ -188,6 +192,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             Destroy(this);
             return;
         }
+    }
+    void Start()
+    {
         this.poziomWEpoce.characterValidation = InputField.CharacterValidation.Integer;
         menu = this.transform.Find("Menu/MainMenu").gameObject;
         uiGry = this.transform.Find("UIGry").gameObject;
@@ -202,6 +209,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         goPanel = uiGry.transform.Find("GameOver Panel").gameObject;
         licznikCzasuDoFali = uiGry.transform.Find("UI_LicznikCzasu/img_licznik/KompTextLicznikCzasu").GetComponent<Text>();
         samouczekPanel = uiGry.transform.Find("SamouczekPanel").gameObject;
+        statystykiScript = goPanel.transform.Find("Statystyki").GetComponent<StatystykiScript>();
         epokaNizej.interactable = false;
         panelStatyczny.gameObject.SetActive(false);
         panelDynamiczny.gameObject.SetActive(false);
@@ -213,7 +221,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         nastepnyPoziom.interactable = false;
         rekZaWyzszaNagrode.gameObject.SetActive(false);
         WłączWyłączPanel(new string[] {goPanel.name, uiBudynkiPanel.name, ui_down.name, uiGry.name, optionsMenu.name,
-        reklamyPanel.name, poGraj.name, winTXT.name, loseTXT.name, samouczekPanel.name, "Cretidsy"}, 
+        reklamyPanel.name, poGraj.name, winTXT.name, loseTXT.name, samouczekPanel.name, "Cretidsy"},
         false);
         this.tekstCoWygrales.transform.parent.gameObject.SetActive(false);
     }
@@ -361,7 +369,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         {
             PomocniczeFunkcje.UstawTimeScale(1);
             PomocniczeFunkcje.oCam.transform.position = lastPosCam;
-            if(ui_down.activeInHierarchy)
+            if (ui_down.activeInHierarchy)
                 PomocniczeFunkcje.muzyka.WłączWyłączClip(true, PomocniczeFunkcje.TagZEpoka("AmbientWGrze", PomocniczeFunkcje.managerGryScript.aktualnaEpoka));
             else
                 PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Bitwa");
@@ -449,16 +457,16 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     private Vector2 SprawdźCzyNieWychodziZaObszarEkranu(Vector2 currentKlikPos, float szerokość, float wysokość)
     {
         Vector2 scR = new Vector2(Screen.width, Screen.height);
-        if(currentKlikPos.y - wysokość < 0) //Dolna krawędź ekranu
+        if (currentKlikPos.y - wysokość < 0) //Dolna krawędź ekranu
         {
             currentKlikPos.y = wysokość + 5;
         }
-        if(currentKlikPos.x + szerokość > scR.x)
+        if (currentKlikPos.x + szerokość > scR.x)
         {
             currentKlikPos.x = scR.x - szerokość - 5;
         }
         return currentKlikPos;
-        
+
     }
     ///<summary>Funkcja zwraca informację czy kamera może zostać przemieszczona.</summary>
     public bool CzyMogePrzesuwaćKamere()
@@ -533,6 +541,24 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 break;
         }
         return zwracanaPos;
+    }
+    ///<summary>Ustaw poszczególne wartości dla statystyk.</summary>
+    ///<param name="tablicaWartości">Wartości dla poszczególnych elementów (0-Badania, 1-Rozwój z akademii, 2-Budowa budynków, 3-Naprawa budynków, 4-Zyski z pokonanych wrogów, 5-Ilość nagrody za ukończony poziom).</param>
+    public void UstawDaneStatystyk(ref int[] tablicaWartości)
+    {
+        statystykiScript.UstawWartościIOdpalMnie(ref tablicaWartości);
+    }
+    ///<summary>Wyłącz panel statystyk.</summary>
+    public void WyłączPanelStatystyk()
+    {
+        statystykiScript.WyłączMnie();
+    }
+    public void UstawFontDlaStatystyk(ref Font f)
+    {
+        for(byte i = 0; i < statystykiScript.wartościDlaTekstu.Length; i++)
+        {
+            statystykiScript.wartościDlaTekstu[i].font = f;
+        }
     }
     #endregion
     #region Po Scenie
@@ -750,19 +776,32 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public void PrzesuńBudynki(float wartość, bool zresetuj = false)
     {
         short wartośćPrzesunięciaY = -290;
-        if (zresetuj)
+        if (zresetuj && wartość == 0)
         {
             trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, wartośćPrzesunięciaY);
             return;
         }
         Vector2 sOff = Vector2.zero;
         sOff.y += wartość;
-        byte offsetBB = 50;
-        Vector3 tmp = trBudynkówŁącze.anchoredPosition = trBudynkówŁącze.anchoredPosition + sOff;   //Wartość po przesunięciu obiektu o wartość
+        byte offsetBB = 10;
+        Vector3 tmp = trBudynkówŁącze.anchoredPosition + sOff;   //Wartość po przesunięciu obiektu o wartość
         short t = (short)(wartośćPrzesunięciaY + ((wielkosćButtonu + offsetBB) * iloscButtonow));   //Obszar po Y wszystkich przycisków
         if (tmp.y >= wartośćPrzesunięciaY && tmp.y <= t)
         {
             trBudynkówŁącze.anchoredPosition = tmp;
+            switch (lastPanelEnabledBuildings)
+            {
+                case 0: //ostatnio otwarty był panel z wieżami
+                    ostatniaWartośćPolozeniaPanelu[0] = (short)(tmp.y);
+                    break;
+                case 1: //ostatnio otwarty był panel z murkami
+                    ostatniaWartośćPolozeniaPanelu[1] = (short)(tmp.y);
+                    break;
+                case 2: //ostatnio otwarty był panel z innymi
+                    ostatniaWartośćPolozeniaPanelu[2] = (short)(tmp.y);
+                    break;
+
+            }
         }
         else
         {
@@ -780,7 +819,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     ///<param name="idx">Odpalany panel z budynkami (0 - wieże), (1 - mury), (2 - Inne), (inny - wyłącza panel).</param>
     public void WłączWyłączPanelBudynków(int idx)
     {
-        PrzesuńBudynki(0, true);
+        if (idx > -1 && idx < 3)
+            PrzesuńBudynki(ostatniaWartośćPolozeniaPanelu[idx], true);
+        else
+            PrzesuńBudynki(0, true);
         if (idx == 0)    //Panel z wieżami
         {
             if (idxWież == null)
@@ -870,7 +912,12 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             tab[tabOfBuildToChange[i]].przycisk.gameObject.SetActive(willEnable);
         }
 
-        iloscButtonow = (byte)(tabOfBuildToChange.Length - 2);
+        if (tabOfBuildToChange.Length > 1)
+            iloscButtonow = (byte)(tabOfBuildToChange.Length - 2);
+        else if (tabOfBuildToChange.Length == 1)
+            iloscButtonow = (byte)(tabOfBuildToChange.Length - 1);
+        else
+            iloscButtonow = 0;
     }
     ///<summary>Metoda generuje i sortuje tablice przycisków budynków do panelu budynków.</summary>
     public void WygenerujIPosortujTablice() //Tworzy i sortuje tablicę budynków, które gracz może postawić
@@ -881,11 +928,18 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         List<ushort> murki = null;
         List<ushort> wieże = null;
         List<ushort> inne = null;
-
+        byte poziom = PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki;
         for (ushort i = 0; i < tab.Length; i++)
         {
-            Button tb = GameObject.Instantiate(b);
             KonkretnyNPCStatyczny knpcs = PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[tab[i].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
+            if(knpcs.poziom > poziom && poziom != 255)
+                continue;
+            else if(poziom == 255)
+            {
+                if(knpcs.poziom > 1)
+                    continue;
+            }
+            Button tb = GameObject.Instantiate(b);
             if (knpcs.obrazekDoBudynku != null)
             {
                 tb.image.sprite = knpcs.obrazekDoBudynku;
@@ -933,7 +987,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             b.interactable = stan;
             b = ui_down.transform.Find("kupno_inne").GetComponent<Button>();
             b.interactable = stan;
-            for(byte j = 0; j < przyciskiNagród.Length; j++)
+            for (byte j = 0; j < przyciskiNagród.Length; j++)
             {
                 przyciskiNagród[j].interactable = false;
             }
@@ -1025,7 +1079,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     private void ResetImagesSkrzynkiImage()
     {
-        for(byte i = 0; i < buttonSkrzynki.Length; i++)
+        for (byte i = 0; i < buttonSkrzynki.Length; i++)
         {
             buttonSkrzynki[i].skrzynkaB.transform.parent.Find("Skrzynka_obrazek").GetComponent<Image>().sprite = this.otwarteObrazki[0];
         }
@@ -1198,7 +1252,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         WłączWyłączPanel(menu.name, !czyWłPanel);
         WłączWyłączPanel(reklamyPanel.name, czyWłPanel);
-        if(!czyWłPanel) //Resetuj obrazki
+        if (!czyWłPanel) //Resetuj obrazki
         {
             ResetImagesSkrzynkiImage();
         }
@@ -1212,7 +1266,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             buttonAZycie.gameObject.SetActive(czyOdpalac);
             buttonAAtak.gameObject.SetActive(czyOdpalac);
             buttonAObrona.gameObject.SetActive(czyOdpalac);
-            if (ManagerGryScript.iloscCoinów < 200)
+            if (ManagerGryScript.iloscCoinów < PomocniczeFunkcje.managerGryScript.kosztRozwojuAkademii)
             {
                 buttonAZycie.interactable = false;
                 buttonAAtak.interactable = false;

@@ -310,6 +310,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek -= ResetujŚciezkę;
         ManagerGryScript.iloscAktywnychWrogów--;
         ManagerGryScript.iloscCoinów += this.ileCoinówZaZabicie;
+        PomocniczeFunkcje.managerGryScript.DodajDoWartościStatystyk(4, this.ileCoinówZaZabicie);
         if (ManagerGryScript.iloscAktywnychWrogów == 0)
         {
             PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());

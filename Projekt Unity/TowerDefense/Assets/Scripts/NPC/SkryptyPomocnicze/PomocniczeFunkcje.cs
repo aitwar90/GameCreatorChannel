@@ -726,6 +726,7 @@ public static class PomocniczeFunkcje
     public static void PrzypiszFontyDoNiemajacychPrzypisanychTextow(ref Font fontDoPrzypisania)
     {
         mainMenu.tekstCoWygrales.font = fontDoPrzypisania;
+        mainMenu.UstawFontDlaStatystyk(ref fontDoPrzypisania);
     }
     /*
     Metoda przywraca podstawowe dane projektu (ładowanie nowej sceny np)
