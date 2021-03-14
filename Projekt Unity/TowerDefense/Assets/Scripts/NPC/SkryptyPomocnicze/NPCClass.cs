@@ -324,8 +324,56 @@ public abstract class NPCClass : MonoBehaviour
     ///<summary>Określa czy pozycja wysłana jako parametr jest widoczna na ekranie.</param>
     protected bool SprawdźCzyWidocznaPozycja()
     {
+        /*
+        (-20, 13.5) - (20, 13.5) - (-8, 5) - (8, 5)
+        (-4.2, 9) - (4.2, 9) - (-3.15, 6,6) - (3.15, 6.6)
+        */
         if (PomocniczeFunkcje.kameraZostalaPrzesunieta > 0)
         {
+            Camera oCam = PomocniczeFunkcje.oCam;
+            float camX = oCam.transform.position.x, camZ = oCam.transform.position.z;
+            float procentFov = (oCam.fieldOfView - 30f) / 50f;
+
+            float procentowaWartośćPoFovZD = Mathf.Lerp(13.5f, 9f, procentFov);
+            float procentowaWartośćPoFovZM = Mathf.Lerp(5.15f, 6.6f, procentFov);
+            float tz = this.transform.position.z;
+
+            if (tz < camZ + procentowaWartośćPoFovZM && tz > camZ + procentowaWartośćPoFovZD)    //Wyraczam poza zakres renderowanej kamery
+            {
+                jestemRenderowany = 0;
+                return false;
+            }
+            else
+            {
+                float procentowaWartośćPoFovXD = Mathf.Lerp(20f, 4.2f, procentFov);
+                float procentowaWartośćPoFovXM = Mathf.Lerp(8f, 3.15f, procentFov);
+                float tx = this.transform.position.x;
+                if(tx > camX + procentowaWartośćPoFovXD || tx < camX - procentowaWartośćPoFovXD)    //Wykraczam poza renderowany zakres
+                {
+                    jestemRenderowany = 0;
+                    return false;
+                }
+                else if(tx < camX + procentowaWartośćPoFovXM && tx > camX - procentowaWartośćPoFovXM)   //Jestem w kwadracie renderyjącym
+                {
+                    jestemRenderowany = 1;
+                    return true;
+                }
+                else    //Jestem w trójkącie (trapez bez kwadratu)
+                {
+                    procentFov = Mathf.Lerp(procentowaWartośćPoFovXD, procentowaWartośćPoFovXM, (tz-camZ+procentowaWartośćPoFovZM) / (camZ+procentowaWartośćPoFovZD));
+                    if(tx > camX + procentFov || tx < camX - procentFov)
+                    {
+                        jestemRenderowany = 0;
+                        return false;
+                    }
+                    else
+                    {
+                        jestemRenderowany = 1;
+                        return true;
+                    }
+                }
+            }
+            /*
             Vector3 scrPoint = PomocniczeFunkcje.oCam.WorldToViewportPoint(this.transform.position);
             if (scrPoint.z > 0 && scrPoint.y > 0 && scrPoint.x > 0 && scrPoint.x < 1 && scrPoint.y < 1)
             {
@@ -337,6 +385,7 @@ public abstract class NPCClass : MonoBehaviour
                 jestemRenderowany = 0;
                 return false;
             }
+            */
         }
         else
         {
