@@ -199,6 +199,7 @@ MonoBehaviour:
   hpIdx: 0
   atkIdx: 0
   defIdx: 0
+  kosztRozwojuAkademii: 300
   particleSystems:
   - {fileID: 0}
   "fontyJezyk\xF3w":
@@ -278,6 +279,8 @@ MonoBehaviour:
   - nazwa: Przegrana
     clip: {fileID: 8300000, guid: d8b1dd236056c9b65ae80515a015791d, type: 3}
   - nazwa: "\u015AmiercB_EpokaKamienia_W\u0142\xF3cznia"
+    clip: {fileID: 8300000, guid: 3877f7792c3d6fcfeb11dcda647d1c4b, type: 3}
+  - nazwa: "\u015AmiercB_EpokaKamienia_Kamie\u0144"
     clip: {fileID: 8300000, guid: 3877f7792c3d6fcfeb11dcda647d1c4b, type: 3}
   - nazwa: "\u015AmiercNPC_EpokaKamienia_W\u0142\xF3cznia"
     clip: {fileID: 8300000, guid: 88978835abb08e429994d8e4fc9b0919, type: 3}

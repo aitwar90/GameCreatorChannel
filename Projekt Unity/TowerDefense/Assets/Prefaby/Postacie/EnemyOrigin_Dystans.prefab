@@ -456,13 +456,12 @@ MonoBehaviour:
   "aktualne\u017Bycie": 32767
   nastawienieNPC: 1
   aktualnyReuseAtaku: 0
-  "ileCoin\xF3wZaZabicie": 1
+  "ileCoin\xF3wZaZabicie": 5
   efektyFxStart: {fileID: 0}
   efektyFxKoniec: {fileID: 0}
   sprite: {fileID: 620486441882452171}
   "posR\u0119ki": {fileID: 7317703867155794523}
-  obiektAtakuDystansowego: {fileID: 8088413574859301168, guid: af531916b358b1348b62b2df1a07c733,
-    type: 3}
+  obiektAtakuDystansowego: {fileID: 8088413574859301168, guid: af531916b358b1348b62b2df1a07c733, type: 3}
   "pr\u0119dko\u015B\u0107": 1.65
   "rysujPasek\u017Bycia": 0
 --- !u!1 &1681663322964632724
