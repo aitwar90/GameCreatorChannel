@@ -1,6 +1,4 @@
 ﻿ using UnityEngine;
- using UnityEngine.UI;
- using UnityEngine.EventSystems;
  public class ConsoleToGUI : MonoBehaviour
  {
      string myLog = "*begin log";
