@@ -21,6 +21,7 @@ public class SpawnBudynki : MonoBehaviour
     public StrukturaBudynkuWTab[] czyBudynekZablokowany = null;
     public short aktualnieWybranyIndeksObiektuTabZablokowany = -1;
     private bool kliknieteUI = false;
+    public Vector2 posCursor;
     private byte aktualnyStanKoloru = 255;  //255 domyślny, 0 - czerwony, 1 - zielony
     #endregion
     #region Getery i Setery
@@ -95,7 +96,7 @@ public class SpawnBudynki : MonoBehaviour
     {
         if (aktualnyObiekt != null && PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere())
         {
-            posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora, ref kliknieteUI);
+            posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora, ref kliknieteUI, ref posCursor);
         }
     }
     void LateUpdate()
@@ -111,6 +112,7 @@ public class SpawnBudynki : MonoBehaviour
             {
                 aktualnyObiekt.transform.position = posClick;
                 ostatniaPozycjaKursora = posClick;
+                PomocniczeFunkcje.mainMenu.UstawPosPanelBudowyBudynków(posCursor);
             }
             if (CzyMogęPostawićBudynek(posClick))
             {
@@ -244,8 +246,8 @@ public class SpawnBudynki : MonoBehaviour
         {
             posClick = WyrównajSpawn(posClick);
         }
-        PomocniczeFunkcje.mainMenu.UstawPosPanelBudowyBudynków(PomocniczeFunkcje.oCam.WorldToScreenPoint(posClick));
-        Debug.Log("Ustawiam posClick na "+posClick);
+        PomocniczeFunkcje.mainMenu.UstawPosPanelBudowyBudynków(posCursor);
+        Debug.Log("Ustawiam posClick na "+posCursor);
     }
     private void HelperZatwierdzenieBudynku()
     {
@@ -480,7 +482,7 @@ public class SpawnBudynki : MonoBehaviour
             materialWybranegoBudynku[i].PodmienKolor(1);
         }
         aktualnyStanKoloru = 1;
-        PomocniczeFunkcje.mainMenu.OdpalPanelBudyowyBudynków(knpcs.nazwa, PomocniczeFunkcje.oCam.WorldToViewportPoint(posClick));
+        PomocniczeFunkcje.mainMenu.OdpalPanelBudyowyBudynków(knpcs.nazwa, posCursor);
     }
     private void PodmieńNaOrginalny()
     {

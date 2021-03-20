@@ -183,7 +183,6 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     #endregion
     public void Awake()
     {
-        Debug.Log("Rozpoczynam działanie Akawe Canvas");
         if (singelton == null)
         {
             singelton = this;
@@ -1318,7 +1317,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     public void UstawPosPanelBudowyBudynków(Vector2 posClick)
     {
-        this.panelBudowyBudynków.localPosition = posClick;
+        this.panelBudowyBudynków.position = posClick;
     }
     public void DeaktywujPanelBudowyBudynków()
     {

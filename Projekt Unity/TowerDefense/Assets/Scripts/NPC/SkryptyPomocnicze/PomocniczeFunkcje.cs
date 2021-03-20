@@ -33,7 +33,7 @@ public static class PomocniczeFunkcje
     /*
     Metoda zwraca punkt styku promienia generowanego przez kursor a obiektem natrafiającym na collider
     */
-    public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos, ref bool hitUI)
+    public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos, ref bool hitUI, ref Vector2 posKursoraCanvas)
     {
         if (oCam == null)
         {
@@ -43,17 +43,20 @@ public static class PomocniczeFunkcje
 
 #if UNITY_STANDALONE
         posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        posKursoraCanvas = posK;
 #endif
 #if UNITY_ANDROID || UNITY_IOS
         if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
         {
             posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            posKursoraCanvas = posK;
         }
         else
         {
             if (Input.touchCount > 0)
             {
                 posK = Input.GetTouch(0).position;
+                posKursoraCanvas = posK;
             }
             else
             {
