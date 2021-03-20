@@ -234,7 +234,7 @@ public class SpawnBudynki : MonoBehaviour
             HelperZatwierdzenieBudynku();
         }
     }
-    private void ZatwierdźBudynekAndroid()
+    public void ZatwierdźBudynekAndroid()
     {
         HelperZatwierdzenieBudynku();
     }
@@ -244,6 +244,8 @@ public class SpawnBudynki : MonoBehaviour
         {
             posClick = WyrównajSpawn(posClick);
         }
+        PomocniczeFunkcje.mainMenu.UstawPosPanelBudowyBudynków(PomocniczeFunkcje.oCam.WorldToScreenPoint(posClick));
+        Debug.Log("Ustawiam posClick na "+posClick);
     }
     private void HelperZatwierdzenieBudynku()
     {
@@ -378,7 +380,7 @@ public class SpawnBudynki : MonoBehaviour
         PodmieńNaZielony();
         return true;
     }
-    private void ResetWybranegoObiektu()    //Resetuje ustawienie wybranego budynku
+    public void ResetWybranegoObiektu()    //Resetuje ustawienie wybranego budynku
     {
         materialWybranegoBudynku = null;
         knpcs = null;
@@ -386,6 +388,7 @@ public class SpawnBudynki : MonoBehaviour
         aktualnyObiekt = null;
         aktualnieWybranyIndeksObiektuTabZablokowany = -1;
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
+        PomocniczeFunkcje.mainMenu.DeaktywujPanelBudowyBudynków();
     }
     private Vector3 WyrównajSpawn(Vector3 sugerowanePolozenie)
     {
@@ -459,33 +462,40 @@ public class SpawnBudynki : MonoBehaviour
     }
     private void PodmieńNaCzerwony()
     {
-        if (aktualnyStanKoloru != 0 && aktualnyObiekt == null)
+        if (aktualnyStanKoloru == 0 || aktualnyObiekt == null)
             return;
         for (byte i = 0; i < materialWybranegoBudynku.Length; i++)
         {
             materialWybranegoBudynku[i].PodmienKolor(0);
         }
         aktualnyStanKoloru = 0;
+        PomocniczeFunkcje.mainMenu.DeaktywujPanelBudowyBudynków();
     }
     private void PodmieńNaZielony()
     {
-        if (aktualnyStanKoloru != 1 && aktualnyObiekt == null)
+        if (aktualnyStanKoloru == 1 || aktualnyObiekt == null)
             return;
         for (byte i = 0; i < materialWybranegoBudynku.Length; i++)
         {
             materialWybranegoBudynku[i].PodmienKolor(1);
         }
         aktualnyStanKoloru = 1;
+        PomocniczeFunkcje.mainMenu.OdpalPanelBudyowyBudynków(knpcs.nazwa, PomocniczeFunkcje.oCam.WorldToViewportPoint(posClick));
     }
     private void PodmieńNaOrginalny()
     {
-        if (aktualnyStanKoloru != 255 && aktualnyObiekt == null)
+        if (aktualnyStanKoloru == 255 || aktualnyObiekt == null)
             return;
         for (byte i = 0; i < materialWybranegoBudynku.Length; i++)
         {
             materialWybranegoBudynku[i].PodmienKolor();
         }
         aktualnyStanKoloru = 255;
+        PomocniczeFunkcje.mainMenu.DeaktywujPanelBudowyBudynków();
+    }
+    public void OdpalPanelBudowyBudynków()
+    {
+        
     }
     #region Obsługa Custom Edytora
 #if UNITY_EDITOR
@@ -650,7 +660,7 @@ public class MaterialyZKolorami
         {
             this.material.color = new Color(this.colorx, this.colory, this.colorz);
         }
-        else if (kolor == 0) //Pocmien na czerowny
+        else if (kolor == 0) //Podmien na czerowny
         {
             this.material.color = Color.red;
         }

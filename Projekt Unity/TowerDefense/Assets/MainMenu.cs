@@ -46,6 +46,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public KontenerKomponentów panelDynamiczny;
     public KontenerKomponentów panelStatyczny;
     public KontenerKomponentów panelBudynki;
+    private RectTransform panelBudowyBudynków;
     #endregion
     #region Panel budynków
     public Button stawiajBudynek;
@@ -210,6 +211,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         licznikCzasuDoFali = uiGry.transform.Find("UI_LicznikCzasu/img_licznik/KompTextLicznikCzasu").GetComponent<Text>();
         samouczekPanel = uiGry.transform.Find("SamouczekPanel").gameObject;
         statystykiScript = goPanel.transform.Find("Statystyki").GetComponent<StatystykiScript>();
+        panelBudowyBudynków = uiGry.transform.Find("PanelPostawBudynek").GetComponent<RectTransform>();
         epokaNizej.interactable = false;
         panelStatyczny.gameObject.SetActive(false);
         panelDynamiczny.gameObject.SetActive(false);
@@ -220,7 +222,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.oCam = Camera.main;
         nastepnyPoziom.interactable = false;
         rekZaWyzszaNagrode.gameObject.SetActive(false);
-        WłączWyłączPanel(new string[] {goPanel.name, uiBudynkiPanel.name, ui_down.name, uiGry.name, optionsMenu.name,
+        WłączWyłączPanel(new string[] {goPanel.name, panelBudowyBudynków.name, uiBudynkiPanel.name, ui_down.name, uiGry.name, optionsMenu.name,
         reklamyPanel.name, poGraj.name, winTXT.name, loseTXT.name, samouczekPanel.name, "Cretidsy"},
         false);
         this.tekstCoWygrales.transform.parent.gameObject.SetActive(false);
@@ -231,7 +233,11 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     ///<param name="czyWłączyć">Parametr określa co ma zostać zrobione z panelem wysłanym w parametrze "panel".</param>
     public void WłączWyłączPanel(string panel, bool czyWłączyć)
     {
-        if (panel == menu.name)
+        if (panel == panelBudowyBudynków.name)
+        {
+            panelBudowyBudynków.gameObject.SetActive(czyWłączyć);
+        }
+        else if (panel == menu.name)
         {
             menu.SetActive(czyWłączyć);
         }
@@ -299,6 +305,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             else if (panel[i] == uiGry.name)
             {
                 uiGry.SetActive(czyWłączyć);
+            }
+            else if (panel[i] == panelBudowyBudynków.name)
+            {
+                panelBudowyBudynków.gameObject.SetActive(czyWłączyć);
             }
             else if (panel[i] == optionsMenu.name)
             {
@@ -555,7 +565,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     public void UstawFontDlaStatystyk(ref Font f)
     {
-        for(byte i = 0; i < statystykiScript.wartościDlaTekstu.Length; i++)
+        for (byte i = 0; i < statystykiScript.wartościDlaTekstu.Length; i++)
         {
             statystykiScript.wartościDlaTekstu[i].font = f;
         }
@@ -932,11 +942,11 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         for (ushort i = 0; i < tab.Length; i++)
         {
             KonkretnyNPCStatyczny knpcs = PomocniczeFunkcje.spawnBudynki.wszystkieBudynki[tab[i].indexBudynku].GetComponent<KonkretnyNPCStatyczny>();
-            if(knpcs.poziom > poziom && poziom != 255)
+            if (knpcs.poziom > poziom && poziom != 255)
                 continue;
-            else if(poziom == 255)
+            else if (poziom == 255)
             {
-                if(knpcs.poziom > 1)
+                if (knpcs.poziom > 1)
                     continue;
             }
             Button tb = GameObject.Instantiate(b);
@@ -1296,6 +1306,24 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public void KliknalemButtonRozwoju(int indeksButtonu)   //1 - Zycie, 2 - Atak, 3 - Obrona
     {
         PomocniczeFunkcje.managerGryScript.RozwójBudynkow((byte)indeksButtonu);
+    }
+    public void OdpalPanelBudyowyBudynków(string nazwaStawianegoBudynku, Vector2 posClick)
+    {
+        if (!panelBudowyBudynków.gameObject.activeSelf)
+        {
+            WłączWyłączPanel(panelBudowyBudynków.name, true);
+            panelBudowyBudynków.transform.Find("NazwaBudynkuDoPostawienia").GetComponent<Text>().text = nazwaStawianegoBudynku;
+        }
+        UstawPosPanelBudowyBudynków(posClick);
+    }
+    public void UstawPosPanelBudowyBudynków(Vector2 posClick)
+    {
+        this.panelBudowyBudynków.localPosition = posClick;
+    }
+    public void DeaktywujPanelBudowyBudynków()
+    {
+        if (panelBudowyBudynków.gameObject.activeSelf)
+            WłączWyłączPanel(panelBudowyBudynków.name, false);
     }
     ///<summary>Wyłącz aplikację.</summary>
     public void QuitGame()
