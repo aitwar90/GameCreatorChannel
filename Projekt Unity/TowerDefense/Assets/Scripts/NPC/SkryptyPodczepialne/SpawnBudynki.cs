@@ -112,7 +112,6 @@ public class SpawnBudynki : MonoBehaviour
             {
                 aktualnyObiekt.transform.position = posClick;
                 ostatniaPozycjaKursora = posClick;
-                PomocniczeFunkcje.mainMenu.UstawPosPanelBudowyBudynków(posCursor);
             }
             if (CzyMogęPostawićBudynek(posClick))
             {
