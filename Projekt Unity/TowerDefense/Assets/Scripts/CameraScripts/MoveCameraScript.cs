@@ -90,7 +90,7 @@ public class MoveCameraScript : MonoBehaviour
                 float iGV = Input.GetAxisRaw("Vertical");
                 if (iGV != 0)
                 {
-                    PomocniczeFunkcje.mainMenu.PrzesuńBudynki(iGV);
+                    PomocniczeFunkcje.mainMenu.PrzesuńBudynki(-iGV*2.0f);
                 }
             }
         }
@@ -171,20 +171,23 @@ public class MoveCameraScript : MonoBehaviour
         bool przes = false;
         if (pion != 0)
         {
-            posDotykZ -= pion * 6f * Time.deltaTime;
+            posDotykZ += pion * 8f * Time.deltaTime;
             przes = true;
         }
         if (poziom != 0)
         {
-            posDotykX -= poziom * 6f * Time.deltaTime;
+            posDotykX -= poziom * 8f * Time.deltaTime;
             przes = true;
         }
         if(przes)
-            this.transform.position = new Vector3(posDotykX, this.transform.position.y, posDotykZ);
+        {
+            Vector3 v3 = new Vector3(posDotykX, this.transform.position.y, posDotykZ);
+            if(SprawdźCzyMogęPrzesunąćKamerę(v3))
+                this.transform.position = new Vector3(posDotykX, this.transform.position.y, posDotykZ);
+        }
         if(scrolwheel != 0)
         {
             ZoomingMeNew(scrolwheel, 3.0f);
-            Debug.Log("Przysuwam");
         }
     }
     void ObsłużMysz()       //Przesuwanie kamery przez najechanie kursorem myszy do krawędzi aplikacji

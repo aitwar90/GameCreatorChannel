@@ -101,6 +101,16 @@ public class SpawnBudynki : MonoBehaviour
     }
     void LateUpdate()
     {
+        //if(aktualnyObiekt != null)
+        //{
+            float rH = Input.GetAxis("StickRHorizontal");
+            float rV = Input.GetAxis("StickRVertical");
+            if(rH != 0)
+                Debug.Log("prawy horizontal");
+            if(rV != 0)
+                Debug.Log("prawy Vertical");
+        //}
+        /* UNITY_ANDROID
         if (aktualnyObiekt != null && PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere())
         {
             if (Input.GetMouseButton(2))
@@ -130,6 +140,7 @@ public class SpawnBudynki : MonoBehaviour
 //#endif
             }
         }
+        */
     }
     public void OdblokujBudynek(bool czyOdblokowywuje = false)
     {
