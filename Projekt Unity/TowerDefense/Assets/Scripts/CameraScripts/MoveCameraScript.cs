@@ -309,6 +309,7 @@ public class MoveCameraScript : MonoBehaviour
         v = v.normalized;
         return (v.x + v.y) / 2.0f;
     }
+    /* UNITY_ANDROID
     ///<summary>Ustawia wartość dla opcji Post-Processing.</summary>
     ///<param name="c">Czy Post processing ma zostać włączony?</param>
     ///<param name="czyPrzezOpcje">Czy zmiana jest wywoływana przez zmianę w opcjach przez użytkownika?</param>
@@ -319,5 +320,6 @@ public class MoveCameraScript : MonoBehaviour
         if(!czyPrzezOpcje)
             PomocniczeFunkcje.mainMenu.CzyPostProcesing = c;
     }
+    */
     #endregion
 }

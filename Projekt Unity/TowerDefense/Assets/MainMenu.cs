@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 public class MainMenu : MonoBehaviour, ICzekajAz
 {
     #region Zmienne przycisków
@@ -46,7 +45,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public KontenerKomponentów panelDynamiczny;
     public KontenerKomponentów panelStatyczny;
     public KontenerKomponentów panelBudynki;
-    private RectTransform panelBudowyBudynków;
+    //private RectTransform panelBudowyBudynków;    //UNITY_ANDROID
     #endregion
     #region Panel budynków
     public Button stawiajBudynek;
@@ -110,6 +109,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             odpalonyPanel = value;
         }
     }
+    /* UNITY_ANDROID
     public bool CzyLFPSOn
     {
         set
@@ -135,6 +135,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             return this.transform.Find("Menu/OptionsMenu/GrafikaPanel/CzyPostProcessing").GetComponent<Toggle>().isOn;
         }
     }
+    */
     public bool CzyOdpaloneMenu
     {
         get
@@ -210,7 +211,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         licznikCzasuDoFali = uiGry.transform.Find("UI_LicznikCzasu/img_licznik/KompTextLicznikCzasu").GetComponent<Text>();
         samouczekPanel = uiGry.transform.Find("SamouczekPanel").gameObject;
         statystykiScript = goPanel.transform.Find("Statystyki").GetComponent<StatystykiScript>();
-        panelBudowyBudynków = uiGry.transform.Find("PanelPostawBudynek").GetComponent<RectTransform>();
+        //panelBudowyBudynków = uiGry.transform.Find("PanelPostawBudynek").GetComponent<RectTransform>(); //Dla Androida
         epokaNizej.interactable = false;
         panelStatyczny.gameObject.SetActive(false);
         panelDynamiczny.gameObject.SetActive(false);
@@ -221,7 +222,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.oCam = Camera.main;
         nastepnyPoziom.interactable = false;
         rekZaWyzszaNagrode.gameObject.SetActive(false);
-        WłączWyłączPanel(new string[] {goPanel.name, panelBudowyBudynków.name, uiBudynkiPanel.name, ui_down.name, uiGry.name, optionsMenu.name,
+        WłączWyłączPanel(new string[] {goPanel.name,/* panelBudowyBudynków.name,*/ uiBudynkiPanel.name, ui_down.name, uiGry.name, optionsMenu.name, //UNITY_ANDROID
         reklamyPanel.name, poGraj.name, winTXT.name, loseTXT.name, samouczekPanel.name, "Cretidsy"},
         false);
         this.tekstCoWygrales.transform.parent.gameObject.SetActive(false);
@@ -232,14 +233,16 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     ///<param name="czyWłączyć">Parametr określa co ma zostać zrobione z panelem wysłanym w parametrze "panel".</param>
     public void WłączWyłączPanel(string panel, bool czyWłączyć)
     {
-        if (panel == panelBudowyBudynków.name)
-        {
-            panelBudowyBudynków.gameObject.SetActive(czyWłączyć);
-        }
-        else if (panel == menu.name)
+        if (panel == menu.name)
         {
             menu.SetActive(czyWłączyć);
         }
+        /*  UNITY_ANDROID
+        else if (panel == panelBudowyBudynków.name)
+        {
+            panelBudowyBudynków.gameObject.SetActive(czyWłączyć);
+        }
+        */
         else if (panel == uiGry.name)
         {
             uiGry.SetActive(czyWłączyć);
@@ -305,10 +308,12 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             {
                 uiGry.SetActive(czyWłączyć);
             }
+            /*  UNITY_ANDROID
             else if (panel[i] == panelBudowyBudynków.name)
             {
                 panelBudowyBudynków.gameObject.SetActive(czyWłączyć);
             }
+            */
             else if (panel[i] == optionsMenu.name)
             {
                 optionsMenu.SetActive(czyWłączyć);
@@ -576,19 +581,21 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public void OdpalPoScenie(bool czyOdpalamPoScenie)
     {
         if (czyOdpalamPoScenie)
-        {
+        {   //Odpalam po Scenie
             WłączWyłączPanel(menu.name, false);
             WłączWyłączPanel(poGraj.name, true);
 
             poziomWEpoce.text = PomocniczeFunkcje.odblokowanyPoziomEpoki.ToString();
             actWybEpoka.text = PomocniczeFunkcje.odblokowaneEpoki.ToString();
             PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Tło_None_PoMenu");
+            PomocniczeFunkcje.eSystem.SetSelectedGameObject(odpalPoziom.gameObject);
         }
         else
-        {
+        {   //Wracam do Menu
             WłączWyłączPanel(menu.name, true);
             WłączWyłączPanel(poGraj.name, false);
             PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Tło_None");
+            PomocniczeFunkcje.eSystem.SetSelectedGameObject(PomocniczeFunkcje.eSystem.firstSelectedGameObject);
         }
     }
     ///<summary>Metoda resetuje dane podczas przełączania sceny (EXIT - nie jest obsługiwana przy samouczku).</summary>
@@ -674,6 +681,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         if (kPoziomDoZaladowania < 0) //Jeśli scena ma zostać ładowana przy pomocy danych z poScenie   
         {
             poziom = (byte)int.Parse(poziomWEpoce.text);
+            if(poziom > PomocniczeFunkcje.odblokowanyPoziomEpoki)
+                poziom = (byte)PomocniczeFunkcje.odblokowanyPoziomEpoki;
             PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki = poziom;
         }
         poziom = (byte)int.Parse(actWybEpoka.text);
@@ -746,6 +755,12 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 poziomWEpoce.text = DajMiMaxPoziom(actEpok.ToString()).ToString();
             }
         }
+    }
+    public void SprawdźCzyZaWysoko()
+    {
+        int ustawionyPoziom = System.Int16.Parse(poziomWEpoce.text);
+        if(ustawionyPoziom > PomocniczeFunkcje.odblokowanyPoziomEpoki)
+            poziomWEpoce.text = PomocniczeFunkcje.odblokowanyPoziomEpoki.ToString("00");
     }
     ///<summary>Metoda ustawia wizualnie wartość po kliknięciu na button poGraj modyfikujący poziom.</summary>
     ///<param name="czyWyzej">Czy kliknięty button zwięsza wybrany poziom?</param>
@@ -1167,6 +1182,11 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         if (!actButton)
         {
             PomocniczeFunkcje.ZapisDanychOpcje();
+            PomocniczeFunkcje.eSystem.SetSelectedGameObject(PomocniczeFunkcje.eSystem.firstSelectedGameObject);
+        }
+        else
+        {
+            PomocniczeFunkcje.eSystem.SetSelectedGameObject(zmianaJezyka.gameObject);
         }
     }
     ///<summary>Metoda rozpoczyna zmianę jezyka interfejsu.</summary>
@@ -1178,6 +1198,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             lastIdxJezyka = 0;
         PomocniczeFunkcje.managerGryScript.ZmianaJęzyka((byte)lastIdxJezyka);
     }
+    /* UNITY_ANDROID
     ///<summary>Metoda aktywuje lub deaktywuje licznik FPS.</summary>
     public void WłączWyłączLicznikFPS()
     {
@@ -1196,6 +1217,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         lFPS.text = "FPS: " + val;
     }
+    */
     ///<summary>Metoda włącza lub wyłącza panel Creditsy.</summary>
     ///<param name="wł">Włączyć creditsy?</param>
     public void ObsluzCreditsy(bool wł)
@@ -1205,11 +1227,13 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             WłączWyłączPanel("Cretidsy", false);
             WłączWyłączPanel(menu.transform.name, true);
             PomocniczeFunkcje.muzyka.WłączWyłączClip(ref PomocniczeFunkcje.muzyka.muzykaTła, true, "Tło_None");
+            PomocniczeFunkcje.eSystem.SetSelectedGameObject(PomocniczeFunkcje.eSystem.firstSelectedGameObject);
         }
         else
         {
             WłączWyłączPanel("Cretidsy", true);
-            WłączWyłączPanel(menu.transform.name, false);
+            WłączWyłączPanel(menu.name, false);
+            PomocniczeFunkcje.eSystem.SetSelectedGameObject(this.transform.Find("Menu/Cretidsy/Wróć").gameObject);
             PomocniczeFunkcje.muzyka.WłączWyłączClip(ref PomocniczeFunkcje.muzyka.muzykaTła, true, "Tło_None_PoMenu");
         }
     }
@@ -1264,6 +1288,11 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         if (!czyWłPanel) //Resetuj obrazki
         {
             ResetImagesSkrzynkiImage();
+            PomocniczeFunkcje.eSystem.SetSelectedGameObject(PomocniczeFunkcje.eSystem.firstSelectedGameObject);
+        }
+        else
+        {
+            PomocniczeFunkcje.eSystem.SetSelectedGameObject(reklamyPanel.transform.Find("Wróć").gameObject);
         }
     }
     ///<summary>Metoda włącza lub wyłącza przyciski służące do ulepszania budynków.</summary>
@@ -1306,6 +1335,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         PomocniczeFunkcje.managerGryScript.RozwójBudynkow((byte)indeksButtonu);
     }
+    /*  UNITY_ANDROID
     public void OdpalPanelBudyowyBudynków(string nazwaStawianegoBudynku, Vector2 posClick)
     {
         if (!panelBudowyBudynków.gameObject.activeSelf)
@@ -1324,6 +1354,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         if (panelBudowyBudynków.gameObject.activeSelf)
             WłączWyłączPanel(panelBudowyBudynków.name, false);
     }
+    */
     ///<summary>Wyłącz aplikację.</summary>
     public void QuitGame()
     {

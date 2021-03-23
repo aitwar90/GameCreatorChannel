@@ -49,11 +49,11 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     KonkretnyNPCStatyczny knpcsBazy = null;
     private byte idxOfManagerGryScript = 0;
     private bool czyScenaZostałaZaładowana = false;
-    public bool toNieOstatniaFala = false;
+    //public bool toNieOstatniaFala = false; UNITY_ANDROID
     private ObsługaReklam or;
     private float timerFal;
-    private short valFPS = 0;
-    private byte aktualnyIndexTabFPS = 0;
+    //private short valFPS = 0; UNITY_ANDROID
+    //private byte aktualnyIndexTabFPS = 0; UNITY_ANDROID
     private bool poziomZakonczony = false;
     private byte bufferTimerFal = 255;
     private int[] wartościDlaStatystyk = { 0, 0, 0, 0, 0, 0 };
@@ -97,6 +97,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.managerGryScript = this;
         PomocniczeFunkcje.spawnBudynki = FindObjectOfType(typeof(SpawnBudynki)) as SpawnBudynki;
         PomocniczeFunkcje.mainMenu = FindObjectOfType(typeof(MainMenu)) as MainMenu;
+        PomocniczeFunkcje.eSystem = FindObjectOfType(typeof(UnityEngine.EventSystems.EventSystem)) as UnityEngine.EventSystems.EventSystem;
         PomocniczeFunkcje.muzyka = this.GetComponent<MuzykaScript>();
         or = FindObjectOfType(typeof(ObsługaReklam)) as ObsługaReklam;
         SpawnerHord.actualHPBars = 0;
@@ -229,24 +230,26 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                     idxOfManagerGryScript++;
                 }
                 break;
-            case 1:
-                if (PomocniczeFunkcje.mainMenu.CzyLFPSOn)
+            /*  UNITY_ANDROID
+        case 1:
+            if (PomocniczeFunkcje.mainMenu.CzyLFPSOn)
+            {
+                if (aktualnyIndexTabFPS < 30)
                 {
-                    if (aktualnyIndexTabFPS < 30)
-                    {
-                        valFPS += (short)(1f / Time.unscaledDeltaTime);
-                        aktualnyIndexTabFPS++;
-                    }
-                    else
-                    {
-                        valFPS = (short)(valFPS / 30f);
-                        PomocniczeFunkcje.mainMenu.UstawWartoscFPS(valFPS);
-                        valFPS = 0;
-                        aktualnyIndexTabFPS = 0;
-                    }
+                    valFPS += (short)(1f / Time.unscaledDeltaTime);
+                    aktualnyIndexTabFPS++;
                 }
-                idxOfManagerGryScript++;
-                break;
+                else
+                {
+                    valFPS = (short)(valFPS / 30f);
+                    PomocniczeFunkcje.mainMenu.UstawWartoscFPS(valFPS);
+                    valFPS = 0;
+                    aktualnyIndexTabFPS = 0;
+                }
+            }
+            idxOfManagerGryScript++;
+            break;
+            */
             case 2:
                 if (this.czyScenaZostałaZaładowana)
                 {

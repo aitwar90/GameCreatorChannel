@@ -943,11 +943,13 @@ public static class PomocniczeFunkcje
         DaneOpcji daneO = new DaneOpcji();
 
         daneO.indeksJezyka = mainMenu.lastIdxJezyka;
-        daneO.blokadaOrientacji = managerGryScript.blokowanieOrientacji;
         daneO.głośność = PomocniczeFunkcje.muzyka.muzykaTła.volume;
-        daneO.czyLicznikFPSOn = PomocniczeFunkcje.mainMenu.CzyLFPSOn;
+        /* UNITY_ANDROID
+        daneO.blokadaOrientacji = managerGryScript.blokowanieOrientacji;
         daneO.czyOdwracaćPrzesuwanie = MoveCameraScript.odwrócPrzesuwanie;
+        daneO.czyLicznikFPSOn = PomocniczeFunkcje.mainMenu.CzyLFPSOn;
         daneO.czyPostProcessing = mainMenu.CzyPostProcesing;
+        */
 
         string ścieżka = ZwróćŚcieżkęZapisu("daneOpcje.asc");
 
@@ -983,16 +985,20 @@ public static class PomocniczeFunkcje
             {
                 mainMenu.lastIdxJezyka = daneO.indeksJezyka;
                 mainMenu.sliderDźwięku.value = daneO.głośność;
+                /* UNITY_ANDROID
                 mainMenu.CzyLFPSOn = daneO.czyLicznikFPSOn;
                 MoveCameraScript.mscInstance.UstawPostProcessing(daneO.czyPostProcessing);
                 MoveCameraScript.odwrócPrzesuwanie = daneO.czyOdwracaćPrzesuwanie;
                 mainMenu.SetToogleOdwrocenieKamery(daneO.czyOdwracaćPrzesuwanie);
+                */
                 mainMenu.UstawGłośność();
             }
+            /* UNITY_ANDROID
             if (managerGryScript != null)
             {
                 managerGryScript.blokowanieOrientacji = daneO.blokadaOrientacji;
             }
+            */
         }
     }
     public static void KasujZapis()
@@ -1063,10 +1069,12 @@ public struct EkwiStruct
 public struct DaneOpcji
 {
     [SerializeField] public sbyte indeksJezyka;
-    [SerializeField] public bool blokadaOrientacji;
     [SerializeField] public float głośność;
+    /* UNITY_ANDROID
+    [SerializeField] public bool blokadaOrientacji;
     [SerializeField] public bool czyLicznikFPSOn;
     [SerializeField] public bool czyOdwracaćPrzesuwanie;
     [SerializeField] public bool czyPostProcessing;
+    */
 }
 

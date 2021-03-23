@@ -245,7 +245,7 @@ public class SpawnBudynki : MonoBehaviour
         {
             posClick = WyrównajSpawn(posClick);
         }
-        PomocniczeFunkcje.mainMenu.UstawPosPanelBudowyBudynków(posCursor);
+        //PomocniczeFunkcje.mainMenu.UstawPosPanelBudowyBudynków(posCursor);    UNITY_ANDROID
         Debug.Log("Ustawiam posClick na "+posCursor);
     }
     private void HelperZatwierdzenieBudynku()
@@ -389,7 +389,7 @@ public class SpawnBudynki : MonoBehaviour
         aktualnyObiekt = null;
         aktualnieWybranyIndeksObiektuTabZablokowany = -1;
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
-        PomocniczeFunkcje.mainMenu.DeaktywujPanelBudowyBudynków();
+        //PomocniczeFunkcje.mainMenu.DeaktywujPanelBudowyBudynków();
     }
     private Vector3 WyrównajSpawn(Vector3 sugerowanePolozenie)
     {
@@ -470,7 +470,7 @@ public class SpawnBudynki : MonoBehaviour
             materialWybranegoBudynku[i].PodmienKolor(0);
         }
         aktualnyStanKoloru = 0;
-        PomocniczeFunkcje.mainMenu.DeaktywujPanelBudowyBudynków();
+        //PomocniczeFunkcje.mainMenu.DeaktywujPanelBudowyBudynków();    UNITY_ANDROID
     }
     private void PodmieńNaZielony()
     {
@@ -481,7 +481,7 @@ public class SpawnBudynki : MonoBehaviour
             materialWybranegoBudynku[i].PodmienKolor(1);
         }
         aktualnyStanKoloru = 1;
-        PomocniczeFunkcje.mainMenu.OdpalPanelBudyowyBudynków(knpcs.nazwa, posCursor);
+        //PomocniczeFunkcje.mainMenu.OdpalPanelBudyowyBudynków(knpcs.nazwa, posCursor); UNITY_ANDROID
     }
     private void PodmieńNaOrginalny()
     {
@@ -492,7 +492,7 @@ public class SpawnBudynki : MonoBehaviour
             materialWybranegoBudynku[i].PodmienKolor();
         }
         aktualnyStanKoloru = 255;
-        PomocniczeFunkcje.mainMenu.DeaktywujPanelBudowyBudynków();
+        //PomocniczeFunkcje.mainMenu.DeaktywujPanelBudowyBudynków();    UNITY_ANDROID
     }
     public void OdpalPanelBudowyBudynków()
     {
