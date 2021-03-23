@@ -50,7 +50,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     private byte idxOfManagerGryScript = 0;
     private bool czyScenaZostałaZaładowana = false;
     //public bool toNieOstatniaFala = false; UNITY_ANDROID
-    private ObsługaReklam or;
+    // UNITY_ANDROID private ObsługaReklam or;
     private float timerFal;
     //private short valFPS = 0; UNITY_ANDROID
     //private byte aktualnyIndexTabFPS = 0; UNITY_ANDROID
@@ -75,6 +75,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             czyScenaZostałaZaładowana = value;
         }
     }
+    /* UNITY_ANDROID
     public bool CzyReklamaZaładowana
     {
         get
@@ -82,6 +83,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             return or.ZaładowanaReklamaJest;
         }
     }
+    */
     public ref NPCClass[] PobierzTabliceWrogow
     {
         get
@@ -99,7 +101,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.mainMenu = FindObjectOfType(typeof(MainMenu)) as MainMenu;
         PomocniczeFunkcje.eSystem = FindObjectOfType(typeof(UnityEngine.EventSystems.EventSystem)) as UnityEngine.EventSystems.EventSystem;
         PomocniczeFunkcje.muzyka = this.GetComponent<MuzykaScript>();
-        or = FindObjectOfType(typeof(ObsługaReklam)) as ObsługaReklam;
+        // UNITY_ANDROID or = FindObjectOfType(typeof(ObsługaReklam)) as ObsługaReklam;
         SpawnerHord.actualHPBars = 0;
     }
     void Start()
@@ -700,7 +702,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         ushort c = (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 15);
         DodajDoWartościStatystyk(5, c);
         PomocniczeFunkcje.mainMenu.UstawDaneStatystyk(ref wartościDlaStatystyk);
-        or.OtwórzReklame(1, c);
+        // UNITY_ANDROID or.OtwórzReklame(1, c);
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
     }
     public void UzyciePrzedmiotu(byte idxOfItem)

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 
 using UnityEngine;
-using GoogleMobileAds.Api;
+//using GoogleMobileAds.Api;
 
-using System;
-public class ObsługaReklam : MonoBehaviour
-{
+//using System;
+//public class ObsługaReklam : MonoBehaviour
+//{
     // Start is called before the first frame update
+    /* UNITY_ANDROID
     private RewardBasedVideoAd bazowaReklama;
     string reklamID = "";
     public RodzajReklamy rodzajReklamy;
@@ -23,6 +24,8 @@ public class ObsługaReklam : MonoBehaviour
             return zRek;
         }
     }
+    */
+    /* UNITY_ANDROID
     void Start()
     {
         /*
@@ -33,7 +36,7 @@ public class ObsługaReklam : MonoBehaviour
             .SetTestDeviceIds(deviceIds)
             .build();
         MobileAds.SetRequestConfiguration(requestConfiguration);
-        */
+        
         MobileAds.Initialize(initStatus => { });
         this.bazowaReklama = RewardBasedVideoAd.Instance;
 
@@ -152,14 +155,15 @@ public class ObsługaReklam : MonoBehaviour
         Debug.Log("3) HandleRewardBasedVideoStarted Reklama została odpalona");
         MonoBehaviour.print("HandleRewardBasedVideoStarted Reklama została odpalona");
     }
-
-    public void HandleRewardBasedVideoClosed(object sender, EventArgs args)
-    {
+    */
+    //public void HandleRewardBasedVideoClosed(object sender, EventArgs args)
+    //{
         /*
         Ta metoda jest wywoływana, gdy reklama pełnoekranowa zostanie zamknięta po dotknięciu przez użytkownika ikony zamknięcia lub kliknięciu przycisku Wstecz. 
         Jeśli Twoja aplikacja wstrzymała wyjście audio lub pętlę gry, jest to świetne miejsce, aby ją wznowić. 
         */
         //PomocniczeFunkcje.UstawTimeScale(1);
+        /*UNITY_ANDROID
         Debug.Log("4) HandleRewardBasedVideoClosed Reklama została zamknięta");
         switch (status)
         {
@@ -176,10 +180,11 @@ public class ObsługaReklam : MonoBehaviour
                 status = 0;
                 break;
         }
-        this.ŻądanieWideo();    //Rozpocznij ładowanie kolejnej reklamy
-        MonoBehaviour.print("HandleRewardBasedVideoClosed Reklama została zamknięta");
-    }
-
+        */
+        // UNITY_ANDROID this.ŻądanieWideo();    //Rozpocznij ładowanie kolejnej reklamy
+        //MonoBehaviour.print("HandleRewardBasedVideoClosed Reklama została zamknięta");
+    //}
+    /* UNITY_ANDROID
     public void HandleRewardBasedVideoRewarded(object sender, Reward args)
     {
         string type = args.Type;
@@ -190,20 +195,23 @@ public class ObsługaReklam : MonoBehaviour
             "HandleRewardBasedVideoRewarded reklama zwróciła nagrodę "
                         + amount.ToString() + " " + type);
     }
-    public void HandleRewardBasedVideoLeftApplication(object sender, EventArgs args)
-    {
+    */
+    //public void HandleRewardBasedVideoLeftApplication(object sender, EventArgs args)
+    //{
         /*
         Ta metoda jest wywoływana po OnAdOpened, gdy użytkownik kliknie otwarcie innej aplikacji (takiej jak sklep Google Play), uruchamiając bieżącą aplikację w tle.
         */
-        Debug.Log("6) HandleRewardBasedVideoLeftApplication reklama opuściła aplikację?");
-        MonoBehaviour.print("HandleRewardBasedVideoLeftApplication reklama opuściła aplikację?");
-    }
+        //Debug.Log("6) HandleRewardBasedVideoLeftApplication reklama opuściła aplikację?");
+        //MonoBehaviour.print("HandleRewardBasedVideoLeftApplication reklama opuściła aplikację?");
+    //}
+    /*  UNITY_ANDROID
     private void DodajNagrodęZaPoziom(ushort bazowaWartosc)
     {
         ManagerGryScript.iloscCoinów += (ushort)(bazowaWartosc * 2);
     }
-
-}
+`*/
+//}
+/* UNITY_ANDROID
 public enum RodzajReklamy
 {
     None = 0,
@@ -212,3 +220,4 @@ public enum RodzajReklamy
     RewardedVideo = 3,
     [HideInInspector] NativeAdvanced = 4
 }
+*/
