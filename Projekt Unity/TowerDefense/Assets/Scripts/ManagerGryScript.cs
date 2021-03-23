@@ -128,7 +128,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             /*
             Fragment kodu, który ma za zadanie zaznaczyć obiekt
             */
-#if UNITY_STANDALONE
+//#if UNITY_STANDALONE
         if (Input.GetMouseButtonDown(0))
         {
             zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
@@ -146,8 +146,8 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
             }
         }
-#endif
-#if UNITY_ANDROID || UNITY_IOS
+//#endif
+//#if UNITY_ANDROID || UNITY_IOS
             if (Input.mousePresent)
             {
                 if (Input.GetMouseButtonDown(0))
@@ -220,7 +220,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             }
         }
         */
-#endif
+//#endif
         switch (idxOfManagerGryScript)  //Każdy idxOfManagerGryScript podzielny przez 5 bez reszty obsługuje timerFal
         {
             case 0:
@@ -283,7 +283,8 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                         ObslMryganie();
                     }
                 }
-                idxOfManagerGryScript++;
+                //UNITY_ANDROID idxOfManagerGryScript++;
+                idxOfManagerGryScript = 0;
                 break;
                 /* UNITY_ANDROID
             case 5:

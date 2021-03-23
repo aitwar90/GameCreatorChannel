@@ -12,13 +12,13 @@ public class MoveCameraScript : MonoBehaviour
     #endregion
 
     #region Zmienne prywatne
-#if UNITY_STANDALONE
-    private float prędkoscPrzesunięciaKamery = 5f;
-#endif
-#if UNITY_ANDROID || UNITY_IOS
+    //#if UNITY_STANDALONE
+    //    private float prędkoscPrzesunięciaKamery = 5f;
+    //#endif
+    //#if UNITY_ANDROID || UNITY_IOS
     private float prędkoscPrzesunięciaKamery = 0.035f;
-    private static readonly float[] zoomBounds = new float[]{30f, 80f};
-#endif
+    private static readonly float[] zoomBounds = new float[] { 30f, 80f };
+    //#endif
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
     private Vector3 pierwotnePołożenieKamery = Vector3.zero;
     private byte granica = 5;
@@ -49,10 +49,10 @@ public class MoveCameraScript : MonoBehaviour
     #endregion
     void Awake()
     {
-        if(mscInstance == null)
+        if (mscInstance == null)
         {
             mscInstance = this;
-            if(volume == null)
+            if (volume == null)
                 volume = GameObject.Find("Volume");
         }
         else
@@ -75,13 +75,41 @@ public class MoveCameraScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PomocniczeFunkcje.mainMenu.CzyAktywnyPanelZBudynkami())
+        {
+            if (Input.touchCount == 1)
+            {
+                Touch dotyk = Input.GetTouch(0);
+                if (dotyk.phase == TouchPhase.Moved)
+                {
+                    PomocniczeFunkcje.mainMenu.PrzesuńBudynki(dotyk.deltaPosition.y);
+                }
+            }
+            else
+            {
+                float iGV = Input.GetAxisRaw("Vertical");
+                if (iGV != 0)
+                {
+                    PomocniczeFunkcje.mainMenu.PrzesuńBudynki(iGV);
+                }
+            }
+        }
+        else if (PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere())
+        {
+            float iGV = Input.GetAxisRaw("Vertical");
+            float iGH = Input.GetAxisRaw("Horizontal");
+            float scrWhl = Input.GetAxis("Mouse ScrollWheel");
+            ObsłużSwitch(iGV, iGH, scrWhl);
+
+        }
+        /* UNITY_ANDROID
         if (PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere() && PomocniczeFunkcje.spawnBudynki.aktualnyObiekt == null)
         {
             ObsluzKlawiature();
-#if UNITY_STANDALONE
-        ObsłużMysz();
-#endif
-#if UNITY_ANDROID || UNITY_IOS
+//#if UNITY_STANDALONE
+//        ObsłużMysz();
+//#endif
+//#if UNITY_ANDROID || UNITY_IOS
             if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
             {
                 ObsłużMysz();
@@ -90,17 +118,17 @@ public class MoveCameraScript : MonoBehaviour
             {
                 ObsłużTouchPad();
             }
-#endif
+//#endif
         }
         else if (PomocniczeFunkcje.mainMenu.CzyAktywnyPanelZBudynkami())
         {
-#if UNITY_STANDALONE
-            if(Input.mouseScrollDelta.y != 0)
-            {
-                PomocniczeFunkcje.mainMenu.PrzesuńBudynki(Input.mouseScrollDelta.y);
-            }
-#endif
-#if UNITY_ANDROID || UNITY_IOS
+//#if UNITY_STANDALONE
+//            if(Input.mouseScrollDelta.y != 0)
+//            {
+//                PomocniczeFunkcje.mainMenu.PrzesuńBudynki(Input.mouseScrollDelta.y);
+//            }
+//#endif
+//#if UNITY_ANDROID || UNITY_IOS
             if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
             {
                 if (Input.mouseScrollDelta.y != 0)
@@ -119,8 +147,9 @@ public class MoveCameraScript : MonoBehaviour
                     }
                 }
             }
-#endif
+//#endif
         }
+        */
     }
     #region Metody i funkcje obsługujące przemieszczanie kamery
     private bool SprawdźCzyMogęPrzesunąćKamerę(Vector3 newPos)
@@ -134,6 +163,29 @@ public class MoveCameraScript : MonoBehaviour
         ostatniaPozycjaKamery = newPos;
         PomocniczeFunkcje.kameraZostalaPrzesunieta = 2;
         return true;
+    }
+    void ObsłużSwitch(float pion, float poziom, float scrolwheel)
+    {
+        float posDotykZ = this.transform.position.z;
+        float posDotykX = this.transform.position.x;
+        bool przes = false;
+        if (pion != 0)
+        {
+            posDotykZ -= pion * 6f * Time.deltaTime;
+            przes = true;
+        }
+        if (poziom != 0)
+        {
+            posDotykX -= poziom * 6f * Time.deltaTime;
+            przes = true;
+        }
+        if(przes)
+            this.transform.position = new Vector3(posDotykX, this.transform.position.y, posDotykZ);
+        if(scrolwheel != 0)
+        {
+            ZoomingMeNew(scrolwheel, 3.0f);
+            Debug.Log("Przysuwam");
+        }
     }
     void ObsłużMysz()       //Przesuwanie kamery przez najechanie kursorem myszy do krawędzi aplikacji
     {
@@ -261,8 +313,8 @@ public class MoveCameraScript : MonoBehaviour
             Touch przybliżenie1 = Input.GetTouch(0);
             Touch przybliżenie2 = Input.GetTouch(1);
             //https://kylewbanks.com/blog/unity3d-panning-and-pinch-to-zoom-camera-with-touch-and-mouse-input
-            Vector2[] newPositions = new Vector2[]{przybliżenie1.position, przybliżenie2.position};
-            if(!wasZoomingLastFrame)
+            Vector2[] newPositions = new Vector2[] { przybliżenie1.position, przybliżenie2.position };
+            if (!wasZoomingLastFrame)
             {
                 lastZoomPositions = newPositions;
                 wasZoomingLastFrame = true;
@@ -299,10 +351,10 @@ public class MoveCameraScript : MonoBehaviour
     }
     void ZoomingMeNew(float offset, float speed)
     {
-        if(offset == 0)
+        if (offset == 0)
             return;
 
-        PomocniczeFunkcje.oCam.fieldOfView = Mathf.Clamp(PomocniczeFunkcje.oCam.fieldOfView - (offset*speed), zoomBounds[0], zoomBounds[1]);
+        PomocniczeFunkcje.oCam.fieldOfView = Mathf.Clamp(PomocniczeFunkcje.oCam.fieldOfView - (offset * speed), zoomBounds[0], zoomBounds[1]);
     }
     private float DodajElementyWektora(ref Vector2 v)
     {

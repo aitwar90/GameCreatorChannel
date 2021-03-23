@@ -115,10 +115,10 @@ public class SpawnBudynki : MonoBehaviour
             }
             if (CzyMogęPostawićBudynek(posClick))
             {
-#if UNITY_STANDALONE
-            ObsluzMysz();
-#endif
-#if UNITY_ANDROID || UNITY_IOS
+//#if UNITY_STANDALONE
+//            ObsluzMysz();
+//#endif
+//#if UNITY_ANDROID || UNITY_IOS
                 if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
                 {
                     ObsluzMysz();
@@ -127,7 +127,7 @@ public class SpawnBudynki : MonoBehaviour
                 {
                     ObsluzTouchPad();
                 }
-#endif
+//#endif
             }
         }
     }

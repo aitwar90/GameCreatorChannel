@@ -18,7 +18,7 @@ public static class PomocniczeFunkcje
     public static MuzykaScript muzyka = null;                   //Referencja do klasy odpowiedzialnej za przechowywanie klipów audio
     public static List<InformacjeDlaPolWież>[,] tablicaWież = null; //Lista pól do obsługi wież na terenie
     public static float distXZ = 5;                             //Dystans klatki dla tablicy wież
-    public static ushort odblokowanyPoziomEpoki = 1;            //Ile poziomów najnowszej epoki odblokował gracz
+    public static ushort odblokowanyPoziomEpoki = 50;            //Ile poziomów najnowszej epoki odblokował gracz
     public static byte odblokowaneEpoki = 1;                    //Jakie epoki odblokował gracz        
     public static ushort aktualneGranicaTab = 0;                //Odległość między krawędzią terenu a obszarem działania gracza     
     public static Camera oCam = null;                           //Referencja do głównej kamery (optymalizacyjna zmienna)
@@ -40,12 +40,12 @@ public static class PomocniczeFunkcje
             oCam = Camera.main;
         }
         Vector2 posK = Vector2.zero;
-
+/* UNITY_ANDROID
 #if UNITY_STANDALONE
         posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         posKursoraCanvas = posK;
 #endif
-#if UNITY_ANDROID || UNITY_IOS
+#if UNITY_ANDROID || UNITY_IOS */
         if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
         {
             posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
@@ -63,7 +63,7 @@ public static class PomocniczeFunkcje
                 return lastPos;
             }
         }
-#endif
+//#endif
         if (CzyKliknalemUI())
         {
             hitUI = true;
@@ -95,10 +95,11 @@ public static class PomocniczeFunkcje
             oCam = Camera.main;
         }
         Vector2 posK = Vector2.zero;
+        /* UNITY_ANDROID
 #if UNITY_STANDALONE
         posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 #endif
-#if UNITY_ANDROID || UNITY_IOS
+#if UNITY_ANDROID || UNITY_IOS */
         if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
         {
             posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
@@ -114,7 +115,7 @@ public static class PomocniczeFunkcje
                 return lastNPCCLass;
             }
         }
-#endif
+//#endif
         RaycastHit[] rh = ZwrócHity(ref oCam, posK);
         if (rh == null)
             return lastNPCCLass;
@@ -1055,12 +1056,14 @@ public struct EnOrDisBudynki
 public struct ZapisSkrzynek
 {
     [SerializeField] public bool czyAktywna;
+    /* UNITY_ANDROID
     [SerializeField] public byte godzina;
     [SerializeField] public byte minuta;
     [SerializeField] public int dzień;
     [SerializeField] public byte sekunda;
     [SerializeField] public byte miesiąc;
     [SerializeField] public int rok;
+    */
     [SerializeField] public bool czyIstniejeSkrzynka;
 
 }
