@@ -16,12 +16,13 @@ public class SpawnBudynki : MonoBehaviour
     private Color kolorOrginału;
     private KonkretnyNPCStatyczny knpcs = null;
     private Vector3 ostatniaPozycjaKursora = Vector3.zero;
-    private Vector3 posClick = Vector3.zero;
+    private Vector3 posClick = new Vector3(52.0f, 0.0f, 47.0f);
     private Transform rodzicBudynkow = null;
     public StrukturaBudynkuWTab[] czyBudynekZablokowany = null;
     public short aktualnieWybranyIndeksObiektuTabZablokowany = -1;
     private bool kliknieteUI = false;
     public Vector2 posCursor;
+    public Vector2 offsetPrzyPrzesuwaniuKamery;
     private byte aktualnyStanKoloru = 255;  //255 domyślny, 0 - czerwony, 1 - zielony
     #endregion
     #region Getery i Setery
@@ -101,15 +102,57 @@ public class SpawnBudynki : MonoBehaviour
     }
     void LateUpdate()
     {
-        //if(aktualnyObiekt != null)
-        //{
+        if (aktualnyObiekt != null)
+        {
+            if(Input.GetButtonDown("Cancel"))
+            {
+                ResetWybranegoObiektu();
+                return;
+            }
+            if (CzyMogęPostawićBudynek(posClick))
+            {
+                if (Input.GetButtonDown("LeftStickKlik"))    //Kliknąłem i nastąpi próba ustawienia
+                {
+                    ZatwierdźBudynekWindows();
+                    return;
+                }
+            }
+            //else
+            //{
             float rH = Input.GetAxis("StickRHorizontal");
             float rV = Input.GetAxis("StickRVertical");
-            if(rH != 0)
-                Debug.Log("prawy horizontal");
-            if(rV != 0)
-                Debug.Log("prawy Vertical");
-        //}
+            if (rV != 0 || offsetPrzyPrzesuwaniuKamery.y != 0)
+            {
+                if (offsetPrzyPrzesuwaniuKamery.y != 0)
+                {
+                    posClick.z -= offsetPrzyPrzesuwaniuKamery.y;
+                    offsetPrzyPrzesuwaniuKamery.y = 0;
+                }
+                else
+                {
+                    posClick.z += rV * Time.deltaTime * 4;
+                }
+                //posClick.z += (offsetPrzyPrzesuwaniuKamery.y != 0) ? offsetPrzyPrzesuwaniuKamery.y : rV*Time.deltaTime*4;
+            }
+            if (rH != 0 || offsetPrzyPrzesuwaniuKamery.x != 0)
+            {
+                if (offsetPrzyPrzesuwaniuKamery.x != 0)
+                {
+                    posClick.x += offsetPrzyPrzesuwaniuKamery.x;
+                    offsetPrzyPrzesuwaniuKamery.x = 0;
+                }
+                else
+                {
+                    posClick.x -= rH * Time.deltaTime * 4;
+                }
+            }
+            if (posClick != ostatniaPozycjaKursora)
+            {
+                aktualnyObiekt.transform.position = posClick;
+                ostatniaPozycjaKursora = posClick;
+            }
+            //}
+        }
         /* UNITY_ANDROID
         if (aktualnyObiekt != null && PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere())
         {
@@ -205,7 +248,7 @@ public class SpawnBudynki : MonoBehaviour
             if (ManagerGryScript.iloscCoinów >= koszt)
             {
                 PomocniczeFunkcje.mainMenu.stawiajBudynek.interactable = true;
-                if(ManagerGryScript.iloscCoinów - koszt - koszt > koszt)
+                if (ManagerGryScript.iloscCoinów - koszt - koszt > koszt)
                     f = true;
             }
             else
@@ -257,7 +300,6 @@ public class SpawnBudynki : MonoBehaviour
             posClick = WyrównajSpawn(posClick);
         }
         //PomocniczeFunkcje.mainMenu.UstawPosPanelBudowyBudynków(posCursor);    UNITY_ANDROID
-        Debug.Log("Ustawiam posClick na "+posCursor);
     }
     private void HelperZatwierdzenieBudynku()
     {
@@ -507,7 +549,7 @@ public class SpawnBudynki : MonoBehaviour
     }
     public void OdpalPanelBudowyBudynków()
     {
-        
+
     }
     #region Obsługa Custom Edytora
 #if UNITY_EDITOR

@@ -171,13 +171,15 @@ public class MoveCameraScript : MonoBehaviour
         bool przes = false;
         if (pion != 0)
         {
-            posDotykZ += pion * 8f * Time.deltaTime;
+            posDotykZ -= pion * 8f * Time.deltaTime;
             przes = true;
+            PomocniczeFunkcje.spawnBudynki.offsetPrzyPrzesuwaniuKamery.y = pion * 8f * Time.deltaTime;
         }
         if (poziom != 0)
         {
             posDotykX -= poziom * 8f * Time.deltaTime;
             przes = true;
+            PomocniczeFunkcje.spawnBudynki.offsetPrzyPrzesuwaniuKamery.x = -poziom * 8f * Time.deltaTime;
         }
         if(przes)
         {

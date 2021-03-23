@@ -227,6 +227,40 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         false);
         this.tekstCoWygrales.transform.parent.gameObject.SetActive(false);
     }
+    void LateUpdate()   //Obsługa INPUT SWITCH
+    {
+        if (!CzyOdpaloneMenu)    //Jesteśmy w grze
+        {
+            if (!CzyAktywnyPanelZBudynkami())    //Wyłączony panel z budynkami
+            {
+                PanelStatyczny ps = GetKontenerKomponentówStatic;
+                if (ps == null)   //Brak jakiegokolwiek panelu 
+                {
+                    if (PomocniczeFunkcje.spawnBudynki.aktualnyObiekt == null)   //Brak ustawianego budynku
+                    {
+                        if (Input.GetButtonDown("Cancel"))
+                        {
+                            PomocniczeFunkcje.eSystem.SetSelectedGameObject(wróćDoMenu.gameObject);
+                        }
+                    }
+                }
+                else    //Panel jest odpalony
+                {
+                    if (Input.GetButtonDown("Cancel"))  //Wyłącz Panel
+                    {
+                        UstawPanelUI("", Vector3.zero);
+                    }
+                    else if(Input.GetButtonDown("Submit"))  //Uzyj napraw
+                    {
+                        if(ps.naprawButton.interactable)
+                        {
+                            ps.NaprawBudynek();
+                        }
+                    }
+                }
+            }
+        }
+    }
     #region Obsługa paneli UI, Czy mogę przesuwać kamerę (), Pasek HP
     ///<summary>Metoda włącza lub wyłącza panel zgodny z podanymi parametrami.</summary>
     ///<param name="panel">Nazwa panelu, którego widoczność ma zostać zmodyfikowana.</param>
@@ -378,6 +412,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             lastPosCam = PomocniczeFunkcje.oCam.transform.position;
             PomocniczeFunkcje.oCam.transform.position = new Vector3(0.0f, 0.0f, -10.0f);
             PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Tło_None");
+            PomocniczeFunkcje.eSystem.SetSelectedGameObject(PomocniczeFunkcje.eSystem.firstSelectedGameObject);
         }
         else
         {
@@ -681,7 +716,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         if (kPoziomDoZaladowania < 0) //Jeśli scena ma zostać ładowana przy pomocy danych z poScenie   
         {
             poziom = (byte)int.Parse(poziomWEpoce.text);
-            if(poziom > PomocniczeFunkcje.odblokowanyPoziomEpoki)
+            if (poziom > PomocniczeFunkcje.odblokowanyPoziomEpoki)
                 poziom = (byte)PomocniczeFunkcje.odblokowanyPoziomEpoki;
             PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki = poziom;
         }
@@ -759,7 +794,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public void SprawdźCzyZaWysoko()
     {
         int ustawionyPoziom = System.Int16.Parse(poziomWEpoce.text);
-        if(ustawionyPoziom > PomocniczeFunkcje.odblokowanyPoziomEpoki)
+        if (ustawionyPoziom > PomocniczeFunkcje.odblokowanyPoziomEpoki)
             poziomWEpoce.text = PomocniczeFunkcje.odblokowanyPoziomEpoki.ToString("00");
     }
     ///<summary>Metoda ustawia wizualnie wartość po kliknięciu na button poGraj modyfikujący poziom.</summary>
