@@ -1070,12 +1070,14 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         }
         przyciskiNagród[idxButtonaNagrody].GetComponentInChildren<Text>().text = ilość.ToString();
     }
+    /* UNITY_ANDROID
     ///<summary>Metoda rozpoczyna proces odtwarzania reklamy w Panelu Skrzynki.</summary>
     ///<param name="idx">Indeks klikniętej skrzynki.</param>
     public void KliknąłemReklame(int idx)
     {
         PomocniczeFunkcje.managerGryScript.KlikniętaReklamaButtonSkrzynki((byte)idx);
     }
+    */
     ///<summary>Metoda rozpoczyna losowanie nagrody z Panelu Skrzynki.</summary>
     ///<param name="idx">Indeks klikniętej skrzynki.</param>
     public void SkrzynkaKlik(int idx)

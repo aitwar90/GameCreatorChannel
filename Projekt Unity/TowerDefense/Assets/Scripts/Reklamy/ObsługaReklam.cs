@@ -170,7 +170,7 @@ public class ObsługaReklam : MonoBehaviour
             case 2:
                 if(iloscCoinówRew >= 0 && iloscCoinówRew < 4)
                 {
-                    PomocniczeFunkcje.managerGryScript.SkróćCzasSkrzynki((sbyte)iloscCoinówRew);
+                   // UNITY_ANDROID PomocniczeFunkcje.managerGryScript.SkróćCzasSkrzynki((sbyte)iloscCoinówRew);
                 }
                 iloscCoinówRew = 100;
                 status = 0;

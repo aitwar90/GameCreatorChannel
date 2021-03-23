@@ -55,6 +55,7 @@ public class PrzedmiotScript : MonoBehaviour
                 case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
                     if(PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
                         break;
+                        /* UNITY_ANDROID
                     bool czyUzylem = false;
                     for (byte i = 0; i < 4; i++)
                     {
@@ -65,7 +66,7 @@ public class PrzedmiotScript : MonoBehaviour
                             czyUzylem = true;
                         }
                     }
-                    if (czyUzylem)
+                    if (czyUzylem) */
                         ilośćDanejNagrody--;
                     break;
             }

@@ -193,6 +193,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 }
             }
         }
+        /* UNITY_ANDROID
         if (Input.GetKeyDown(KeyCode.Space))
         {
             sbyte t = 120;
@@ -216,6 +217,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 }
             }
         }
+        */
 #endif
         switch (idxOfManagerGryScript)  //Każdy idxOfManagerGryScript podzielny przez 5 bez reszty obsługuje timerFal
         {
@@ -281,6 +283,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 }
                 idxOfManagerGryScript++;
                 break;
+                /* UNITY_ANDROID
             case 5:
                 if (MainMenu.singelton.CzyOdpalonyPanelReklam)
                 {
@@ -291,6 +294,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 }
                 idxOfManagerGryScript = 0;
                 break;
+                */
             default:
                 idxOfManagerGryScript++;
                 break;
@@ -654,6 +658,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         byte losowy = ekwipunekGracza[0].DodajNagrode();
         PomocniczeFunkcje.mainMenu.UstawButtonNagrody(losowy, ekwipunekGracza[losowy].ilośćDanejNagrody);
     }
+    /* UNITY_ANDROID
     public void SkróćCzasSkrzynki(sbyte idxS = -1)
     {
         if (idxS == -1)
@@ -675,13 +680,17 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             }
         }
     }
+    */
     private void OdblokujKolejnaSkrzynke()
     {
         for (byte i = 0; i < skrzynki.Length; i++)
         {
-            if (!skrzynki[i].ReuseTimer && !skrzynki[i].button.interactable)
+            if (/* UNITY_ANDROID !skrzynki[i].ReuseTimer && */ !skrzynki[i].button.interactable)
             {
+                /* UNITY_ANDROID
                 skrzynki[i].RozpocznijOdliczanie();
+                */
+                skrzynki[i].button.interactable = true;
                 break;
             }
         }
@@ -702,10 +711,12 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             PomocniczeFunkcje.mainMenu.UstawButtonNagrody(idxOfItem, ekwipunekGracza[idxOfItem].ilośćDanejNagrody);
         }
     }
+    /* UNITY_ANDROID
     public void KlikniętaReklamaButtonSkrzynki(byte idx)
     {
         or.OtwórzReklame(2, idx);
     }
+    */
     #endregion
     #region Koniec poziomu
     public void KoniecPoziomuZakończony(bool sukces = true)
@@ -738,10 +749,11 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             }
             //  Obsługa Particle system
             PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
-            PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
+            // UNITY_ANDROID PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
             OdblokujKolejnaSkrzynke();
             PomocniczeFunkcje.ZapiszDane();
-            ushort wartośćCoinówWygrana = (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 15);
+            ushort wartośćCoinówWygrana = (ushort)((((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 15)*2);
+            // UNITY_ANDROID ushort wartośćCoinówWygrana = (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 15);
             iloscCoinów += wartośćCoinówWygrana;
             DodajDoWartościStatystyk(5, wartośćCoinówWygrana);
             PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());

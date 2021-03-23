@@ -768,17 +768,19 @@ public static class PomocniczeFunkcje
         for (byte i = 0; i < 4; i++)
         {
             Skrzynka s = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i);
-            if (s.ReuseTimer || s.button.enabled)
+            if (/* UNITY_ANDROID s.ReuseTimer || */ s.button.enabled)
             {
                 ZapisSkrzynek t = new ZapisSkrzynek();
                 t.czyAktywna = s.button.interactable;
+                /* UNITY_ANDROID
                 t.dzień = s.pozostałyCzas.Day;
                 t.godzina = (byte)s.pozostałyCzas.Hour;
                 t.minuta = (byte)s.pozostałyCzas.Minute;
                 t.sekunda = (byte)s.pozostałyCzas.Second;
                 t.miesiąc = (byte)s.pozostałyCzas.Month;
                 t.rok = s.pozostałyCzas.Year;
-                if (t.czyAktywna || s.ReuseTimer)
+                */
+                if (t.czyAktywna /* UNITY_ANDROID || s.ReuseTimer*/)
                 {
                     t.czyIstniejeSkrzynka = true;
                 }
@@ -853,13 +855,14 @@ public static class PomocniczeFunkcje
             {
                 if (ds._skrzynki[i].czyIstniejeSkrzynka || ds._skrzynki[i].czyAktywna)
                 {
+                    Skrzynka s = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i);
+                    /* UNITY_ANDROID
                     int offsetD = ds._skrzynki[i].dzień - System.DateTime.Now.Day;
                     int offsetG = ds._skrzynki[i].godzina - System.DateTime.Now.Hour;
                     int offsetM = ds._skrzynki[i].minuta - System.DateTime.Now.Minute;
                     int offsetS = ds._skrzynki[i].sekunda - System.DateTime.Now.Second;
                     int offsetMSC = ds._skrzynki[i].miesiąc - System.DateTime.Now.Month;
                     int offsetR = ds._skrzynki[i].rok - System.DateTime.Now.Year;
-                    Skrzynka s = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i);
                     System.DateTime dT = System.DateTime.Now;
                     dT = dT.AddDays(offsetD);
                     //Debug.Log("dt godzina przed dodaniem "+dT.Hour);
@@ -870,10 +873,11 @@ public static class PomocniczeFunkcje
                     dT = dT.AddYears(offsetR);
                     dT = dT.AddMonths(offsetMSC);
                     s.pozostałyCzas = dT;
+                    */
                     //Debug.Log("dT.czas = "+dT.ToShortTimeString());
                     //Debug.Log("Dzień = "+offsetD+" godzina = "+offsetG+" minuta = "+offsetM+" sekunda = "+offsetS+" miesiąc = "+offsetMSC+" rok = "+offsetR);
                     s.button.interactable = ds._skrzynki[i].czyAktywna;
-                    s.ReuseTimer = ds._skrzynki[i].czyIstniejeSkrzynka;
+                    //s.ReuseTimer = ds._skrzynki[i].czyIstniejeSkrzynka;
                 }
             }
             for (byte i = 0; i < spawnBudynki.wszystkieBudynki.Length; i++)

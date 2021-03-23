@@ -5,11 +5,12 @@ using System;
 [System.Serializable]
 public class Skrzynka
 {
-    [SerializeField] public DateTime pozostałyCzas;
     public Button button;
+    /* UNITY_ANDROID
+    [SerializeField] public DateTime pozostałyCzas;
     public Button buttonReklamy;
     public bool reuseTime = false;
-    public Text czasReusu;
+    //public Text czasReusu;    UNITY_ANDROID
     public bool ReuseTimer
     {
         get
@@ -21,6 +22,7 @@ public class Skrzynka
             reuseTime = value;
         }
     }
+    */
     public Skrzynka()
     {
 
@@ -28,12 +30,13 @@ public class Skrzynka
     public Skrzynka(ref PrzyciskiSkrzynekIReklam s)
     {
         this.button = s.skrzynkaB;
-        this.buttonReklamy = s.reklamSkrzynkaB;
-        reuseTime = false;
+        //this.buttonReklamy = s.reklamSkrzynkaB; //UNITY_ANDROID
+        //reuseTime = false; UNITY_ANDROID
         this.button.interactable = false;
-        this.buttonReklamy.interactable = false;
-        this.czasReusu = this.buttonReklamy.transform.Find("TextTimer").GetComponent<Text>();
+        //this.buttonReklamy.interactable = false; UNITY_ANDROID
+        //this.czasReusu = this.buttonReklamy.transform.Find("TextTimer").GetComponent<Text>(); UNITY_ANDROID
     }
+    /* UNITY_ANDROID
     public void SprawdźCzyReuseMinęło()
     {
         if (reuseTime)
@@ -44,7 +47,7 @@ public class Skrzynka
                 reuseTime = false;
                 button.interactable = true;
                 buttonReklamy.interactable = false;
-                this.czasReusu.text = "";
+                //this.czasReusu.text = ""; UNITY_ANDROID
             }
             else
             {
@@ -52,7 +55,7 @@ public class Skrzynka
                 {
                     buttonReklamy.interactable = PomocniczeFunkcje.managerGryScript.CzyReklamaZaładowana;
                 }
-                this.czasReusu.text = OkreślCzasDoTekstu();
+                //this.czasReusu.text = OkreślCzasDoTekstu();   UNITY_ANDROID
             }
         }
     }
@@ -78,4 +81,5 @@ public class Skrzynka
         minuty -= (byte)(hour * 60);
         return hour.ToString("00") + ":" + minuty.ToString("00");
     }
+    */
 }
