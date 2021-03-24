@@ -85,6 +85,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     #endregion
     private short[] ostatniaWartośćPolozeniaPanelu = { 0, 0, 0 }; //Położenie wież, położenie murków, położenie reszty
     private StatystykiScript statystykiScript;
+    private RectTransform kursor;
+    short wartośćPrzesunięciaY = -265;
     #region Getery i setery
     public ushort ZwróćParametryButtonówWPanelu
     {
@@ -157,6 +159,13 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             return lastPanelEnabledBuildings;
         }
     }
+    public float[] ZwrócPozycjeKursora
+    {
+        get
+        {
+            return new float[] {kursor.anchoredPosition.x, kursor.anchoredPosition.y};
+        }
+    }
     public PanelDynamiczny GetKontenerKomponentówDynamic
     {
         get
@@ -218,7 +227,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         licznikCzasuDoFali = uiGry.transform.Find("UI_LicznikCzasu/img_licznik/KompTextLicznikCzasu").GetComponent<Text>();
         samouczekPanel = uiGry.transform.Find("SamouczekPanel").gameObject;
         statystykiScript = goPanel.transform.Find("Statystyki").GetComponent<StatystykiScript>();
+        kursor = this.transform.Find("UI_Pointer").GetComponent<RectTransform>();
         //panelBudowyBudynków = uiGry.transform.Find("PanelPostawBudynek").GetComponent<RectTransform>(); //Dla Androida
+        wartośćPrzesunięciaY = (short)uiBudynkiPanel.transform.Find("Maska/RodzicButtonów").GetComponent<RectTransform>().anchoredPosition.y;
         epokaNizej.interactable = false;
         panelStatyczny.gameObject.SetActive(false);
         panelDynamiczny.gameObject.SetActive(false);
@@ -836,12 +847,34 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         else
             return false;
     }
+    ///<summary>Przesunięcie kursora o zadaną wartość.</summary>
+    ///<param name="x">Przesuniecie kursora w osi X.</param>
+    ///<param name="y">Przesuniecie kursora w osi Y.</param>
+    ///<param name="scrX">Szerokość ekranu.</param>
+    ///<param name="scrY">Wysokość ekranu.</param>
+    public void PrzesunKursorO(float x, float y, int scrX = 1920, int scrY = 1080)
+    {
+        //Debug.Log("x = "+x+" y = "+y+" sctX = "+scrX+" scrY = "+scrY);
+        float actX = kursor.anchoredPosition.x;
+        float actY = kursor.anchoredPosition.y;
+        x += actX;
+        y += actY;
+
+        if(x > 0 && x < scrX)
+        {
+            actX = x;
+        }
+        if(y > 0 && y < scrY)
+        {
+            actY = y;
+        }
+        kursor.anchoredPosition = new Vector3(actX, actY, 0);
+    }
     ///<summary>Metoda obsługuje przesunięcie panelu z przyciskami budynków w panelu budynków.</summary>
     ///<param name="wartość">Wartość przesunięcia panelu z przyciskami.</param>
     ///<param name="zresetuj">Czy przyciski mają wrócić do pierwotnej pozycji.</param>
     public bool PrzesuńBudynki(float wartość, bool zresetuj = false)
     {
-        short wartośćPrzesunięciaY = -290;
         if (zresetuj && wartość == 0)
         {
             trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, wartośćPrzesunięciaY);

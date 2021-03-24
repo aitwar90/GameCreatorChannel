@@ -391,7 +391,6 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         else
         {
             ŁadowanieDanych();
-            //Debug.Log("Ustawiam budynek główny");
             GameObject baza = GameObject.Instantiate(bazy[idxEpokiBazyWTablicy], new Vector3(MoveCameraScript.bazowePolozenieKameryGry.x, 0.0f, MoveCameraScript.bazowePolozenieKameryGry.z - 5f), Quaternion.identity);
             knpcsBazy = baza.GetComponent<KonkretnyNPCStatyczny>();
             if (knpcsBazy == null)
@@ -442,7 +441,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         {
             if (timerFal < czasMiędzyFalami)
             {
-                timerFal += Time.deltaTime * 4.0f;
+                timerFal += Time.deltaTime * 3.0f;
             }
             else
             {

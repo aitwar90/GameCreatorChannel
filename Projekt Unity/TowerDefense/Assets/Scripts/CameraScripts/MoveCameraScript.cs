@@ -88,23 +88,13 @@ public class MoveCameraScript : MonoBehaviour
             }
             else
             {
-                /*
-                if(Input.GetButtonDown("LeftUP"))
-                {
-                    PomocniczeFunkcje.mainMenu.PrzesuńBudynki(-PomocniczeFunkcje.mainMenu.ZwróćParametryButtonówWPanelu);
-                }
-                else if(Input.GetButtonDown("LeftDOWN"))
-                {
-                    PomocniczeFunkcje.mainMenu.PrzesuńBudynki(PomocniczeFunkcje.mainMenu.ZwróćParametryButtonówWPanelu);
-                }
-                */
                 float iGV = Input.GetAxisRaw("Vertical");
                 if (iGV != 0)
                 {
-                    
+
                     if (przesuniecie)
                     {
-                        if(PomocniczeFunkcje.mainMenu.PrzesuńBudynki(-iGV * PomocniczeFunkcje.mainMenu.ZwróćParametryButtonówWPanelu))
+                        if (PomocniczeFunkcje.mainMenu.PrzesuńBudynki(-iGV * PomocniczeFunkcje.mainMenu.ZwróćParametryButtonówWPanelu))
                             przesuniecie = false;
                     }
                     else
@@ -121,11 +111,7 @@ public class MoveCameraScript : MonoBehaviour
         }
         else if (PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere())
         {
-            float iGV = Input.GetAxisRaw("Vertical");
-            float iGH = Input.GetAxisRaw("Horizontal");
-            float scrWhl = Input.GetAxis("Mouse ScrollWheel");
-            ObsłużSwitch(iGV, iGH, scrWhl);
-
+            ObsłużInputySwitch();
         }
         /* UNITY_ANDROID
         if (PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere() && PomocniczeFunkcje.spawnBudynki.aktualnyObiekt == null)
@@ -191,6 +177,8 @@ public class MoveCameraScript : MonoBehaviour
     }
     void ObsłużSwitch(float pion, float poziom, float scrolwheel)
     {
+        if (pion == 0 && poziom == 0 && scrolwheel == 0)
+            return;
         float posDotykZ = this.transform.position.z;
         float posDotykX = this.transform.position.x;
         bool przes = false;
@@ -215,6 +203,20 @@ public class MoveCameraScript : MonoBehaviour
         if (scrolwheel != 0)
         {
             ZoomingMeNew(scrolwheel, 3.0f);
+        }
+    }
+    void ObsłużInputySwitch()
+    {
+        float iGV = Input.GetAxisRaw("Vertical");
+        float iGH = Input.GetAxisRaw("Horizontal");
+        float scrWhl = Input.GetAxis("Mouse ScrollWheel");
+        ObsłużSwitch(iGV, iGH, scrWhl);
+        iGH = 0.0f; iGV = 0.0f;
+        iGV = Input.GetAxisRaw("StickRVertical")*4f;
+        iGH = Input.GetAxisRaw("StickRHorizontal")*4f;
+        if (iGH != 0 || iGV != 0)
+        {
+            PomocniczeFunkcje.mainMenu.PrzesunKursorO(-iGH, iGV, szerokośćObrazu, wysokśćObrazu);
         }
     }
     void ObsłużMysz()       //Przesuwanie kamery przez najechanie kursorem myszy do krawędzi aplikacji

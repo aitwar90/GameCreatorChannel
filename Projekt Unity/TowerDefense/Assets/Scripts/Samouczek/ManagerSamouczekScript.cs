@@ -340,6 +340,13 @@ public class ManagerSamouczekScript : MonoBehaviour
             }
         }
     }
+    void LateUpdate()
+    {
+        if(Input.GetButtonDown("LeftUP"))
+        {
+            PomocniczeFunkcje.eSystem.SetSelectedGameObject(this.transform.Find("OpuśćSamouczekButton").gameObject);
+        }
+    }
     private void UstawIkonkePomocnicza(string nazwaObiektu, float x, float y)//x i y to offsety
     {
         Vector2 p = PomocniczeFunkcje.mainMenu.ZwrocRectTransformObiektu(nazwaObiektu);
