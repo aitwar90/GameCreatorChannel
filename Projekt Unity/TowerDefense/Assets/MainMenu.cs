@@ -86,6 +86,13 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     private short[] ostatniaWartośćPolozeniaPanelu = { 0, 0, 0 }; //Położenie wież, położenie murków, położenie reszty
     private StatystykiScript statystykiScript;
     #region Getery i setery
+    public ushort ZwróćParametryButtonówWPanelu
+    {
+        get
+        {
+            return (ushort)(wielkosćButtonu + 10);
+        }
+    }
     public sbyte UstawLubPobierzOstatniIdexJezyka
     {
         get
@@ -832,13 +839,13 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     ///<summary>Metoda obsługuje przesunięcie panelu z przyciskami budynków w panelu budynków.</summary>
     ///<param name="wartość">Wartość przesunięcia panelu z przyciskami.</param>
     ///<param name="zresetuj">Czy przyciski mają wrócić do pierwotnej pozycji.</param>
-    public void PrzesuńBudynki(float wartość, bool zresetuj = false)
+    public bool PrzesuńBudynki(float wartość, bool zresetuj = false)
     {
         short wartośćPrzesunięciaY = -290;
         if (zresetuj && wartość == 0)
         {
             trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, wartośćPrzesunięciaY);
-            return;
+            return true;
         }
         Vector2 sOff = Vector2.zero;
         sOff.y += wartość;
@@ -861,6 +868,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                     break;
 
             }
+            return true;
         }
         else
         {
@@ -873,6 +881,16 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, t);
             }
         }
+        return false;
+    }
+    public void AutomatycznieUstawBudynkiWPanelu(Button zaznaczonyButton)
+    {
+        int idx = Mathf.FloorToInt((Mathf.Abs(zaznaczonyButton.GetComponent<RectTransform>().localPosition.y - 290)) / (wielkosćButtonu+10f));
+        //Debug.Log("idx = "+idx);
+        float prefOdl = ( -290 + (idx * (wielkosćButtonu+10))) - trBudynkówŁącze.anchoredPosition.y;
+        //Debug.Log("prefOdl = "+prefOdl);
+        PrzesuńBudynki(prefOdl);
+        //zaznaczonyButton.GetComponent<RectTransform>().localPosition.y 
     }
     ///<summary>Metoda włącza, wyłącza lub przełącza panel z budynkami.</summary>
     ///<param name="idx">Odpalany panel z budynkami (0 - wieże), (1 - mury), (2 - Inne), (inny - wyłącza panel).</param>
@@ -987,6 +1005,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         List<ushort> murki = null;
         List<ushort> wieże = null;
         List<ushort> inne = null;
+        List<ushort> polaczNavigation = new List<ushort>();
         byte poziom = PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki;
         for (ushort i = 0; i < tab.Length; i++)
         {
@@ -1003,25 +1022,64 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             {
                 tb.image.sprite = knpcs.obrazekDoBudynku;
             }
+
             tb.transform.SetParent(trBudynkówŁącze.transform);
             tab[i].DajButton(ref tb);
-
             switch (knpcs.typBudynku)
             {
                 case TypBudynku.Mur:
                     if (murki == null)
                         murki = new List<ushort>();
                     murki.Add(i);
+                    if(murki.Count > 1)
+                    {
+                        polaczNavigation.Add(i);
+                        polaczNavigation.Add(murki[murki.Count-2]);
+                    }
+                    else
+                    {
+                        Navigation n = new Navigation();
+                        n.mode = Navigation.Mode.None;
+                        n.mode = Navigation.Mode.Explicit;
+                        n.selectOnRight = stawiajBudynek.GetComponent<Button>();
+                        tb.navigation = n;
+                    }
                     break;
                 case TypBudynku.Wieża:
                     if (wieże == null)
                         wieże = new List<ushort>();
                     wieże.Add(i);
+                    if(wieże.Count > 1)
+                    {
+                        polaczNavigation.Add(i);
+                        polaczNavigation.Add(wieże[wieże.Count-2]);
+                    }
+                    else
+                    {
+                        Navigation n = new Navigation();
+                        n.mode = Navigation.Mode.None;
+                        n.mode = Navigation.Mode.Explicit;
+                        n.selectOnRight = stawiajBudynek.GetComponent<Button>();
+                        tb.navigation = n;
+                    }
                     break;
                 default:
                     if (inne == null)
                         inne = new List<ushort>();
                     inne.Add(i);
+                    if(inne.Count > 1)
+                    {
+                        polaczNavigation.Add(i);
+                        polaczNavigation.Add(inne[inne.Count-2]);
+                    }
+                    else
+                    {
+                        Navigation n = new Navigation();
+                        n.mode = Navigation.Mode.None;
+                        n.mode = Navigation.Mode.Explicit;
+                        n.selectOnRight = stawiajBudynek.GetComponent<Button>();
+                        tb.navigation = n;
+                    }
                     break;
             }
             tb.gameObject.SetActive(false);
@@ -1031,6 +1089,30 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 idxWież = wieże.ToArray();
             if (inne != null)
                 idxInne = inne.ToArray();
+        }
+        if(polaczNavigation.Count > 1)
+        {
+            for(ushort i = 0; i < polaczNavigation.Count; i+=2)
+            {
+                Navigation n1 = new Navigation();
+                Navigation n2 = new Navigation();
+                n1.mode = Navigation.Mode.None;
+                n2.mode = Navigation.Mode.None;
+                n1.mode = Navigation.Mode.Explicit;
+                n2.mode = Navigation.Mode.Explicit;
+                n1.selectOnRight = stawiajBudynek.GetComponent<Button>();
+                n2.selectOnRight = stawiajBudynek.GetComponent<Button>();
+                n2.selectOnDown = tab[polaczNavigation[i]].przycisk;
+                n2.selectOnUp = tab[polaczNavigation[i+1]].przycisk.navigation.selectOnUp;
+                n1.selectOnUp = tab[polaczNavigation[i+1]].przycisk;
+                /*
+                n1.selectOnUp = tab[polaczNavigation[i]].przycisk.navigation.selectOnUp;
+                n2.selectOnUp = tab[polaczNavigation[i]].przycisk;
+                n1.selectOnDown = tab[polaczNavigation[i+1]].przycisk;
+                */
+                tab[polaczNavigation[i+1]].przycisk.navigation = n2;
+                tab[polaczNavigation[i]].przycisk.navigation = n1;
+            }
         }
     }
     ///<summary>Metoda blokuje lub odblokowywuje przyciski potrzebne do odpalenia panelu budynków.</summary>

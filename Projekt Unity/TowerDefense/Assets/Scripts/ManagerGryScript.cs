@@ -442,7 +442,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         {
             if (timerFal < czasMiędzyFalami)
             {
-                timerFal += Time.deltaTime * 5.0f;
+                timerFal += Time.deltaTime * 4.0f;
             }
             else
             {

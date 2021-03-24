@@ -26,6 +26,7 @@ public class MoveCameraScript : MonoBehaviour
     private int wysokśćObrazu;
     public bool wasZoomingLastFrame;
     private Vector2[] lastZoomPositions;
+    bool przesuniecie = true;
     #endregion
     #region Getery i setery
     public float PrędkośćPrzesunięciaKamery
@@ -87,11 +88,35 @@ public class MoveCameraScript : MonoBehaviour
             }
             else
             {
+                /*
+                if(Input.GetButtonDown("LeftUP"))
+                {
+                    PomocniczeFunkcje.mainMenu.PrzesuńBudynki(-PomocniczeFunkcje.mainMenu.ZwróćParametryButtonówWPanelu);
+                }
+                else if(Input.GetButtonDown("LeftDOWN"))
+                {
+                    PomocniczeFunkcje.mainMenu.PrzesuńBudynki(PomocniczeFunkcje.mainMenu.ZwróćParametryButtonówWPanelu);
+                }
+                */
                 float iGV = Input.GetAxisRaw("Vertical");
                 if (iGV != 0)
                 {
-                    PomocniczeFunkcje.mainMenu.PrzesuńBudynki(-iGV*2.0f);
+                    
+                    if (przesuniecie)
+                    {
+                        if(PomocniczeFunkcje.mainMenu.PrzesuńBudynki(-iGV * PomocniczeFunkcje.mainMenu.ZwróćParametryButtonówWPanelu))
+                            przesuniecie = false;
+                    }
+                    else
+                    {
+                        PomocniczeFunkcje.mainMenu.AutomatycznieUstawBudynkiWPanelu(PomocniczeFunkcje.eSystem.currentSelectedGameObject.GetComponent<UnityEngine.UI.Button>());
+                    }
                 }
+                else if (!przesuniecie && iGV == 0)
+                {
+                    przesuniecie = true;
+                }
+
             }
         }
         else if (PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere())
@@ -181,13 +206,13 @@ public class MoveCameraScript : MonoBehaviour
             przes = true;
             PomocniczeFunkcje.spawnBudynki.offsetPrzyPrzesuwaniuKamery.x = -poziom * 8f * Time.deltaTime;
         }
-        if(przes)
+        if (przes)
         {
             Vector3 v3 = new Vector3(posDotykX, this.transform.position.y, posDotykZ);
-            if(SprawdźCzyMogęPrzesunąćKamerę(v3))
+            if (SprawdźCzyMogęPrzesunąćKamerę(v3))
                 this.transform.position = new Vector3(posDotykX, this.transform.position.y, posDotykZ);
         }
-        if(scrolwheel != 0)
+        if (scrolwheel != 0)
         {
             ZoomingMeNew(scrolwheel, 3.0f);
         }
