@@ -9,7 +9,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     [Header("Podstawowe informacje dla gracza")]
     #region Zmienne publiczne
     [Tooltip("Aktualna ilość monet")]
-    public static ushort iloscCoinów = 300;
+    public static ushort iloscCoinów = 2000;
     public static byte bonusDoObrażeń = 0;
     [Tooltip("Aktualna epoka w której gra gracz")]
     public Epoki aktualnaEpoka;
@@ -159,11 +159,6 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                         bool czyZjoy = false;
                         if (Input.GetButtonDown("RightStickKlik"))
                             czyZjoy = true;
-                        else
-                        {
-                            PomocniczeFunkcje.mainMenu.UstawKursorNa(Input.mousePosition.x, Input.mousePosition.y);
-                             Debug.Log("ggg");
-                        }
                         zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt, czyZjoy);
                         if (zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
                         {
@@ -193,7 +188,6 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                         else
                         {
                             PomocniczeFunkcje.mainMenu.UstawKursorNa(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y);
-                            Debug.Log("fff");
                         }
                         zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt, czyZjoy);
                         if (zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
@@ -471,7 +465,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                     return;
                 PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
                 MuzykaScript.singleton.WłączWyłączClip(true, "Bitwa");
-                UstawTenDomyslnyButton.UstawDomyślnyButton(9);
+                UstawTenDomyslnyButton.UstawDomyślnyButton(9, false, true);
                 PomocniczeFunkcje.mainMenu.OdpalKursor = true;
             }
         }
@@ -493,7 +487,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", iloscCoinów.ToString());
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
-        UstawTenDomyslnyButton.UstawDomyślnyButton((aktualnyPoziomEpoki < 255) ? (sbyte)7 : (sbyte)10);
+        UstawTenDomyslnyButton.UstawDomyślnyButton((aktualnyPoziomEpoki < 255) ? (sbyte)7 : (sbyte)10, false, true);
         MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_" + PomocniczeFunkcje.managerGryScript.aktualnaEpoka.ToString(), false);
         SpawnerHord.actualHPBars = 0;
         PomocniczeFunkcje.mainMenu.OdpalKursor = true;
@@ -781,6 +775,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             }
             //  Obsługa Particle system
             PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
+            PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
             UstawTenDomyslnyButton.ZaktualizujStan(8);
             UstawTenDomyslnyButton.UstawAktywnyButton(PomocniczeFunkcje.mainMenu.nastepnyPoziom.gameObject);
             // UNITY_ANDROID PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);

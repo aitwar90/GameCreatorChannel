@@ -483,6 +483,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             panelStatyczny.gameObject.SetActive(false);
             odpalonyPanel = false;
             OdpalKursor = true;
+            UstawTenDomyslnyButton.ZaktualizujStan(0, true);
+            UstawTenDomyslnyButton.OdpalOstatni();
+            OdpalButtonyAkademii(false);
         }
         if (parametry == "")
         {
@@ -1063,6 +1066,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     private void AktDisactButtonówPrzyPanelach(bool value)
     {
         wróćDoMenu.gameObject.SetActive(value);
+        ostatniStawianyBudynekButton.gameObject.SetActive(value);
         if (PomocniczeFunkcje.managerGryScript.zaznaczonyObiekt != null && PomocniczeFunkcje.managerGryScript.zaznaczonyObiekt.GetComponent<KonkretnyNPCStatyczny>().typBudynku == TypBudynku.Akademia)
         {
             buttonAAtak.gameObject.SetActive(value);

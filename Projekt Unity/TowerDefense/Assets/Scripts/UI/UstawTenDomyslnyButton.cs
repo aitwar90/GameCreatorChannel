@@ -5,7 +5,7 @@ using UnityEngine;
 public class UstawTenDomyslnyButton : MonoBehaviour
 {
     public GameObject[] domyślnyGO;
-    private static GameObject[,] ostatnieButtony = new GameObject[10, 2];
+    private static GameObject[,] ostatnieButtony = new GameObject[11, 2];
     private static GameObject[] sDO;
     /*
     MENU
@@ -43,7 +43,6 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                     {
                         PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
                         PomocniczeFunkcje.managerGryScript.zaznaczonyObiekt = null;
-                        aktualnyStanNaEkranie = wczesniejszyStan;
                         OdpalOstatni();
                     }
                     else if (Input.GetButtonDown("Submit"))  //Kliknij napraw
@@ -53,7 +52,7 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                         {
                             if (ps.naprawButton.interactable)
                             {
-                                ps.NaprawBudynek();
+                                UstawAktywnyButton(ps.gameObject);
                             }
                         }
                     }
@@ -61,7 +60,7 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                 case 6: //Odpalony Panel budowy budynków
                     if (Input.GetButtonDown("Cancel"))   //Zaznacz X
                     {
-                        GameObject goDoZaznaczenia = PomocniczeFunkcje.mainMenu.ZwróćGOPoNazwie("uiBudynkiPanel").transform.Find("Wróć").gameObject;
+                        GameObject goDoZaznaczenia = PomocniczeFunkcje.mainMenu.ZwróćGOPoNazwie("UI_BudynkiPanel").transform.Find("Wróć").gameObject;
                         if (goDoZaznaczenia == PomocniczeFunkcje.eSystem.currentSelectedGameObject)
                         {
                             OdpalWczesny();
@@ -71,6 +70,8 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                             UstawAktywnyButton(goDoZaznaczenia);
                         }
                     }
+                    else if (Input.GetButtonDown("AnulujZaznaczenie"))    //Kliknięty X   -> Ustawia domyślny button dla stanu
+                        UstawDomyślnyButton();
                     break;
                 case 7: //Rozbudowa czas gry
                     if (Input.GetButtonDown("Cancel"))   //Zaznacz Wróć do MENU
@@ -191,7 +192,7 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                     else if (Input.GetButtonDown("AnulujZaznaczenie"))    //Kliknięty X   -> Ustawia domyślny button dla stanu
                     {
                         GameObject go = PomocniczeFunkcje.mainMenu.ZwróćGOPoNazwie("SamouczekPanel").transform.Find("SamouczekInfoPanel/SamouczekDalej").gameObject;
-                        if(!go.activeInHierarchy)
+                        if (!go.activeInHierarchy)
                             UstawDomyślnyButton();
                         else
                             UstawAktywnyButton(go);
@@ -238,28 +239,32 @@ public class UstawTenDomyslnyButton : MonoBehaviour
         }
         else
         {
-            UstawAktywnyButton(sDO[aktualnyStanNaEkranie]);
+            OdpalWczesny();
         }
     }
     ///<summary>Metoda ustawia ostatnio aktywny przycisk</summary>
     ///<param name="ustIdx">Indeks stanu UI jaki ma zostać ustawiony (aktualnyStanNaEkranie = domyślnie -1)</param>
-    public static void UstawDomyślnyButton(sbyte ustIdx = -1, bool ustawPoprzedniStan = false)
+    public static void UstawDomyślnyButton(sbyte ustIdx = -1, bool weźPoprzedniStan = false, bool wymusZmiane = false)
     {
-        if (ustIdx > -1 || ustawPoprzedniStan)
+        if (ustIdx > -1)
         {
-            ZaktualizujStan((byte)ustIdx, ustawPoprzedniStan);
+            ZaktualizujStan((byte)ustIdx, weźPoprzedniStan, wymusZmiane);
         }
         UstawAktywnyButton(sDO[aktualnyStanNaEkranie]);
     }
     ///<summary>Metoda aktualizuje stan</summary>
     ///<param name="ustIdx">Indeks stanu UI jaki ma zostać ustawiony (aktualnyStanNaEkranie)</param>
-    public static void ZaktualizujStan(byte ustIdx, bool UstawPoprzedniStan = false)
+    public static void ZaktualizujStan(byte ustIdx, bool weźPoprzedniStan = false, bool wymusZmiane = false)
     {
-        if (UstawPoprzedniStan)
+        if (weźPoprzedniStan)
         {
-            byte tmp = aktualnyStanNaEkranie;
+            ustIdx = aktualnyStanNaEkranie;
             aktualnyStanNaEkranie = wczesniejszyStan;
-            wczesniejszyStan = tmp;
+            wczesniejszyStan = ustIdx;
+        }
+        else if (aktualnyStanNaEkranie == 5 && !wymusZmiane)
+        {
+            wczesniejszyStan = ustIdx;
         }
         else
         {
@@ -269,7 +274,7 @@ public class UstawTenDomyslnyButton : MonoBehaviour
     }
     public static void ResetujDanePrzycisków()
     {
-        ostatnieButtony = new GameObject[10, 2];
+        ostatnieButtony = new GameObject[11, 2];
         aktualnyStanNaEkranie = 0;
         wczesniejszyStan = 0;
     }

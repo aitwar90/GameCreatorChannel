@@ -335,20 +335,13 @@ public class ManagerSamouczekScript : MonoBehaviour
         }
         if (idxProgresuSamouczka == 16)    //Na jakim etapie timer ma zacząć być odliczany
         {
-            if (symulujManageraUpdate < 5)
+            if (symulujManageraUpdate < 3)
                 symulujManageraUpdate++;
             else
             {
                 PomocniczeFunkcje.managerGryScript.ObslTimerFal();
                 symulujManageraUpdate = 0;
             }
-        }
-    }
-    void LateUpdate()
-    {
-        if(Input.GetButtonDown("LeftUP"))
-        {
-            PomocniczeFunkcje.eSystem.SetSelectedGameObject(this.transform.Find("OpuśćSamouczekButton").gameObject);
         }
     }
     private void UstawIkonkePomocnicza(string nazwaObiektu, float x, float y)//x i y to offsety

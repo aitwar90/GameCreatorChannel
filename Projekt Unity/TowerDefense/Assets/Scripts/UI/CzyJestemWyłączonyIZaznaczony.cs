@@ -5,8 +5,9 @@ public class CzyJestemWyłączonyIZaznaczony : MonoBehaviour
     private Button ja;
     private Image image;
     private bool czyOznaczonyJestem = false;
+    byte idx = 0;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         ja = this.GetComponent<Button>();
         image = this.GetComponent<Image>();
@@ -15,24 +16,33 @@ public class CzyJestemWyłączonyIZaznaczony : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!this.ja.interactable)
+        if (idx == 5)
         {
-            if (!czyOznaczonyJestem)
+            if (!this.ja.interactable)
             {
-                if(PomocniczeFunkcje.eSystem.currentSelectedGameObject == this.gameObject)
+                GameObject go = PomocniczeFunkcje.eSystem.currentSelectedGameObject;
+                if (!czyOznaczonyJestem)
                 {
-                    czyOznaczonyJestem = true;
-                    image.color = this.ja.colors.selectedColor;
+                    if (go != null && go == this.ja.gameObject)
+                    {
+                        czyOznaczonyJestem = true;
+                        image.color = this.ja.colors.selectedColor;
+                    }
+                }
+                else
+                {
+                    if (go != null && go != this.ja.gameObject)
+                    {
+                        czyOznaczonyJestem = false;
+                        image.color = this.ja.colors.normalColor;
+                    }
                 }
             }
-            else
-            {
-                if(PomocniczeFunkcje.eSystem.currentSelectedGameObject != this.gameObject)
-                {
-                    czyOznaczonyJestem = false;
-                    image.color = this.ja.colors.normalColor;
-                }
-            }
+            idx = 0;
+        }
+        else
+        {
+            idx++;
         }
     }
 }

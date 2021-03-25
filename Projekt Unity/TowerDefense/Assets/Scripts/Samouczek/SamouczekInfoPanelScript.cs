@@ -40,7 +40,7 @@ public class SamouczekInfoPanelScript : MonoBehaviour
             PomocniczeFunkcje.UstawTimeScale(1);
             this.gameObject.SetActive(false);
             tłoEnabeld.enabled = false;
-            if(UstawTenDomyslnyButton.aktualnyStanNaEkranie == 7 || UstawTenDomyslnyButton.aktualnyStanNaEkranie == 9)
+            if(UstawTenDomyslnyButton.aktualnyStanNaEkranie == 10 || UstawTenDomyslnyButton.aktualnyStanNaEkranie == 9)
             {
                 PomocniczeFunkcje.mainMenu.OdpalKursor = true;
             }

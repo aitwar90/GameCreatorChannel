@@ -752,6 +752,7 @@ public static class PomocniczeFunkcje
         ObslugaScenScript.indeksAktualnejSceny = -1;
         managerGryScript.ResetManagerGryScript();
         spawnBudynki.DestroyBuildings();
+        UstawTenDomyslnyButton.ResetujDanePrzycisków();
         if (spawnerHord != null)
         {
             spawnerHord.UsunWszystkieJednostki();
