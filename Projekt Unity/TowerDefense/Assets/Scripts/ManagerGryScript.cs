@@ -10,6 +10,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     #region Zmienne publiczne
     [Tooltip("Aktualna ilość monet")]
     public static ushort iloscCoinów = 300;
+    public static byte bonusDoObrażeń = 0;
     [Tooltip("Aktualna epoka w której gra gracz")]
     public Epoki aktualnaEpoka;
     public byte aktualnyPoziomEpoki = 1;
@@ -128,7 +129,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             /*
             Fragment kodu, który ma za zadanie zaznaczyć obiekt
             */
-//#if UNITY_STANDALONE
+/*#if UNITY_STANDALONE
         if (Input.GetMouseButtonDown(0))
         {
             zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
@@ -147,6 +148,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             }
         }
 //#endif
+*/
 //#if UNITY_ANDROID || UNITY_IOS
             if (Input.mousePresent)
             {
@@ -394,7 +396,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             GameObject baza = GameObject.Instantiate(bazy[idxEpokiBazyWTablicy], new Vector3(MoveCameraScript.bazowePolozenieKameryGry.x, 0.0f, MoveCameraScript.bazowePolozenieKameryGry.z - 5f), Quaternion.identity);
             knpcsBazy = baza.GetComponent<KonkretnyNPCStatyczny>();
             if (knpcsBazy == null)
-                Debug.Log("Nie załądowałem KNPCS");
+                Debug.Log("Nie załadowałem KNPCS");
             PomocniczeFunkcje.celWrogów = knpcsBazy;
             knpcsBazy.InicjacjaBudynku();
             PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcsBazy, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
@@ -450,6 +452,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                     return;
                 PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
                 MuzykaScript.singleton.WłączWyłączClip(true, "Bitwa");
+                UstawTenDomyslnyButton.UstawDomyślnyButton(9);
             }
         }
         else
@@ -462,6 +465,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         {
             if (czasMiędzyFalami - 1 == czas)
             {
+                UstawTenDomyslnyButton.UstawDomyślnyButton(7);
                 MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_" + aktualnaEpoka.ToString(), false);
                 SpawnerHord.actualHPBars = 0;
             }
@@ -751,6 +755,8 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             }
             //  Obsługa Particle system
             PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
+            UstawTenDomyslnyButton.ZaktualizujStan(8);
+            UstawTenDomyslnyButton.UstawAktywnyButton(PomocniczeFunkcje.mainMenu.nastepnyPoziom.gameObject);
             // UNITY_ANDROID PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
             OdblokujKolejnaSkrzynke();
             PomocniczeFunkcje.ZapiszDane();
@@ -767,6 +773,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         {
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("LoseTXT", true);
             MuzykaScript.singleton.WłączWyłączClip(true, "Przegrana");
+            UstawTenDomyslnyButton.UstawDomyślnyButton(8);
         }
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("GameOver Panel", true);

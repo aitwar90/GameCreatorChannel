@@ -49,7 +49,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     #endregion
     #region Panel budynków
     public Button stawiajBudynek;
-    [HideInInspector]public GameObject uiBudynkiPanel;
+    private GameObject uiBudynkiPanel;
     private byte wielkosćButtonu = 0;
     private byte iloscButtonow = 1;
     private RectTransform trBudynkówŁącze = null;
@@ -245,31 +245,6 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         false);
         this.tekstCoWygrales.transform.parent.gameObject.SetActive(false);
     }
-    void LateUpdate()   //Obsługa INPUT SWITCH
-    {
-        if (!CzyOdpaloneMenu)    //Jesteśmy w grze
-        {
-            if (!CzyAktywnyPanelZBudynkami())    //Wyłączony panel z budynkami
-            {
-                if (Input.GetButtonDown("LeftDOWN")) //Kliknięty do dolnego panelu
-                {
-                    if (ui_down.activeSelf)
-                    {
-                        PomocniczeFunkcje.eSystem.SetSelectedGameObject(ui_down.transform.Find("kupno_wieza").gameObject);
-                    }
-                    Debug.Log("LeftDOWN");
-                }
-                else if (Input.GetButtonDown("LeftLEFT"))
-                {
-                    if (ui_down.activeSelf && ostatniStawianyBudynekButton.interactable)
-                    {
-                        PomocniczeFunkcje.eSystem.SetSelectedGameObject(ostatniStawianyBudynekButton.gameObject);
-                    }
-                    Debug.Log("LeftLEFT");
-                }
-            }
-        }
-    }
     #region Obsługa paneli UI, Czy mogę przesuwać kamerę (), Pasek HP
     ///<summary>Metoda włącza lub wyłącza panel zgodny z podanymi parametrami.</summary>
     ///<param name="panel">Nazwa panelu, którego widoczność ma zostać zmodyfikowana.</param>
@@ -404,6 +379,27 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             }
         }
     }
+    public GameObject ZwróćGOPoNazwie(string nazwa)
+    {
+        if (nazwa == samouczekPanel.name)
+        {
+            return samouczekPanel;
+        }
+        else if (nazwa == ui_down.name)
+        {
+            return ui_down;
+        }
+        else if (nazwa == goPanel.name)
+        {
+            return goPanel;
+        }
+        else if (nazwa == uiBudynkiPanel.name)
+        {
+            return uiBudynkiPanel;
+        }
+        else
+            return null;
+    }
     ///<summary>Metoda przełącza UI między Menu a UIGry.</summary>
     ///<param name="aktywujeMenu">Czy ma zostać odpalone menu?</param>
     public void PrzełączUI(bool aktywujeMenu)
@@ -531,7 +527,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         if (uiGry.activeInHierarchy)
         {
-            if (CzyOdpaloneMenu || goPanel.activeInHierarchy || CzyAktywnyPanelZBudynkami())
+            if (CzyOdpaloneMenu || goPanel.activeInHierarchy || CzyAktywnyPanelZBudynkami() || !CzyAktywnyButtonPozwalajacyNaPrzesuwaniekamery())
             {
                 return false;
             }
@@ -541,6 +537,27 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         {
             return false;
         }
+    }
+    private bool CzyAktywnyButtonPozwalajacyNaPrzesuwaniekamery()
+    {
+        string aktnazwaOb = PomocniczeFunkcje.eSystem.currentSelectedGameObject.name;
+        bool f = false;
+        switch (aktnazwaOb)
+        {
+            case "VirtualnyButton":
+                f = true;
+                break;
+            case "PowrótDoMenu":
+                f = true;
+                break;
+            case "RotacjaBudynku":
+                f = true;
+                break;
+            case "OstatniStawianyBudynek":
+                f = true;
+                break;
+        }
+        return f;
     }
     ///<summary>Funkcja zwraca informację o danej pozycji na ekranie szukanego obiektu.</summary>
     ///<param name="nazwaSzukanegoObiektu">Nazwa obiektu, którego pozycji szukasz.</param>
@@ -945,12 +962,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                     EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
             }
             EnDisButtonsOfBuildingsInPanel(ref idxWież, true);
-            //AktDisactButtonówPrzyPanelach(false);
-            lastPanelEnabledBuildings = 0;
-            wróćDoMenu.interactable = false;
-            buttonAZycie.interactable = false;
-            buttonAAtak.interactable = false;
-            buttonAObrona.interactable = false;
+            AktDisactButtonówPrzyPanelach(false);
             //ostatniZaznaczonyObiektBudowania = -1;
             ManagerSamouczekScript.mssInstance.WyłączVisual();
         }
@@ -969,7 +981,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                     EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
             }
             EnDisButtonsOfBuildingsInPanel(ref idxMurów, true);
-            //AktDisactButtonówPrzyPanelach(false);
+            AktDisactButtonówPrzyPanelach(false);
             lastPanelEnabledBuildings = 1;
             //ostatniZaznaczonyObiektBudowania = -1;
             ManagerSamouczekScript.mssInstance.WyłączVisual();
@@ -989,7 +1001,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                     EnDisButtonsOfBuildingsInPanel(ref idxWież, false);
             }
             EnDisButtonsOfBuildingsInPanel(ref idxInne, true);
-            //AktDisactButtonówPrzyPanelach(false);
+            AktDisactButtonówPrzyPanelach(false);
             lastPanelEnabledBuildings = 2;
             //ostatniZaznaczonyObiektBudowania = -1;
             ManagerSamouczekScript.mssInstance.WyłączVisual();
@@ -1004,7 +1016,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
             WłączWyłączPanel("UI_BudynkiPanel", false);
             WłączWyłączPanel("UI_LicznikCzasu", true);
-            //AktDisactButtonówPrzyPanelach(true);
+            AktDisactButtonówPrzyPanelach(true);
             PomocniczeFunkcje.UstawTimeScale(1);
             lastPanelEnabledBuildings = -1;
             //ostatniZaznaczonyObiektBudowania = -1;
@@ -1015,9 +1027,12 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     private void AktDisactButtonówPrzyPanelach(bool value)
     {
         wróćDoMenu.gameObject.SetActive(value);
-        buttonAAtak.gameObject.SetActive(value);
-        buttonAZycie.gameObject.SetActive(value);
-        buttonAObrona.gameObject.SetActive(value);
+        if (PomocniczeFunkcje.managerGryScript.zaznaczonyObiekt != null && PomocniczeFunkcje.managerGryScript.zaznaczonyObiekt.GetComponent<KonkretnyNPCStatyczny>().typBudynku == TypBudynku.Akademia)
+        {
+            buttonAAtak.gameObject.SetActive(value);
+            buttonAZycie.gameObject.SetActive(value);
+            buttonAObrona.gameObject.SetActive(value);
+        }
         this.uiGry.transform.Find("CudOcaleniaIkona").gameObject.SetActive(value);
     }
     ///<summary>Metoda włącza przyciski budynków danego panelu.</summary>
@@ -1055,11 +1070,15 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             if (c)
             {
                 UstawTenDomyslnyButton.UstawAktywnyButton(tab[vAkt].przycisk.gameObject);
+                tab[vAkt].przycisk.OnPointerClick(new UnityEngine.EventSystems.PointerEventData(PomocniczeFunkcje.eSystem));
             }
             else
             {
                 if (tabOfBuildToChange.Length > 0)
+                {
                     UstawTenDomyslnyButton.UstawAktywnyButton(tab[tabOfBuildToChange[0]].przycisk.gameObject);
+                    tab[tabOfBuildToChange[0]].przycisk.OnPointerClick(new UnityEngine.EventSystems.PointerEventData(PomocniczeFunkcje.eSystem));
+                }
                 else
                     UstawTenDomyslnyButton.UstawDomyślnyButton();
             }

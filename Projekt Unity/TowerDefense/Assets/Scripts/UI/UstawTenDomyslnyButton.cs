@@ -35,6 +35,8 @@ public class UstawTenDomyslnyButton : MonoBehaviour
         }
         else if (Input.anyKey)
         {
+            if (Input.GetButtonDown("AnulujZaznaczenie"))    //Kliknięty X   -> Ustawia domyślny button dla stanu
+                UstawDomyślnyButton();
             switch (aktualnyStanNaEkranie)
             {
                 case 5: //Odpalony Panel Statyczny
@@ -60,7 +62,7 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                 case 6: //Odpalony Panel budowy budynków
                     if (Input.GetButtonDown("Cancel"))   //Zaznacz X
                     {
-                        GameObject goDoZaznaczenia = PomocniczeFunkcje.mainMenu.uiBudynkiPanel.transform.Find("Wróć").gameObject;
+                        GameObject goDoZaznaczenia = PomocniczeFunkcje.mainMenu.ZwróćGOPoNazwie("uiBudynkiPanel").transform.Find("Wróć").gameObject;
                         if (goDoZaznaczenia == PomocniczeFunkcje.eSystem.currentSelectedGameObject)
                         {
                             OdpalWczesny();
@@ -77,11 +79,11 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                         GameObject goDoZaznaczenia;
                         if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)   //Samouczek
                         {
-                            goDoZaznaczenia = PomocniczeFunkcje.mainMenu.transform.Find("UIGry/SamouczekPanel/OpuśćSamouczekButton").gameObject;
+                            goDoZaznaczenia = PomocniczeFunkcje.mainMenu.ZwróćGOPoNazwie("SamouczekPanel").transform.Find("OpuśćSamouczekButton").gameObject;
                         }
                         else
                         {
-                            goDoZaznaczenia = PomocniczeFunkcje.mainMenu.wróćDoMenu.gameObject;
+                            goDoZaznaczenia = PomocniczeFunkcje.mainMenu.wróćDoMenu.gameObject; //Normalna gra
 
                         }
                         if (goDoZaznaczenia == PomocniczeFunkcje.eSystem.currentSelectedGameObject)
@@ -91,6 +93,22 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                         else
                         {
                             UstawAktywnyButton(goDoZaznaczenia);
+                        }
+                    }
+                    else if (Input.GetButtonDown("LeftRIGHT"))
+                    {
+                        GameObject go = PomocniczeFunkcje.mainMenu.ZwróćGOPoNazwie("ui_down").transform.Find("kupno_wieza").gameObject;
+                        UstawAktywnyButton(go);
+                    }
+                    else if (Input.GetButtonDown("LeftLEFT"))
+                    {
+                        if (PomocniczeFunkcje.mainMenu.rotacjaBudynku.gameObject.activeSelf)
+                        {
+                            UstawAktywnyButton(PomocniczeFunkcje.mainMenu.rotacjaBudynku.gameObject);
+                        }
+                        else if (PomocniczeFunkcje.mainMenu.ostatniStawianyBudynekButton.interactable)
+                        {
+                            UstawAktywnyButton(PomocniczeFunkcje.mainMenu.ostatniStawianyBudynekButton.gameObject);
                         }
                     }
                     break;
@@ -159,5 +177,11 @@ public class UstawTenDomyslnyButton : MonoBehaviour
             wczesniejszyStan = aktualnyStanNaEkranie;
             aktualnyStanNaEkranie = ustIdx;
         }
+    }
+    public static void ResetujDanePrzycisków()
+    {
+        ostatnieButtony = new GameObject[10, 2];
+        aktualnyStanNaEkranie = 0;
+        wczesniejszyStan = 0;
     }
 }

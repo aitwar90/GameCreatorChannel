@@ -15,20 +15,20 @@ public class PrzedmiotScript : MonoBehaviour
     public void AktualizujNazwe()
     {
         switch (typPrzedmiotu)
-            {
-                case TypPrzedmiotu.Coiny:
-                    nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[0].GetComponentInChildren<Text>().text;
-                    break;
-                case TypPrzedmiotu.CudOcalenia:
-                    nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[1].GetComponentInChildren<Text>().text;
-                    break;
-                case TypPrzedmiotu.DodatkowaNagroda:
-                    nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[2].GetComponentInChildren<Text>().text;
-                    break;
-                case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
-                    nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[3].GetComponentInChildren<Text>().text;
-                    break;
-            }
+        {
+            case TypPrzedmiotu.Coiny:
+                nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[0].GetComponentInChildren<Text>().text;
+                break;
+            case TypPrzedmiotu.CudOcalenia:
+                nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[1].GetComponentInChildren<Text>().text;
+                break;
+            case TypPrzedmiotu.DodatkowaNagroda:
+                nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[2].GetComponentInChildren<Text>().text;
+                break;
+            case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
+                nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[3].GetComponentInChildren<Text>().text;
+                break;
+        }
     }
     public void AktywujPrzedmiot()
     {
@@ -52,22 +52,23 @@ public class PrzedmiotScript : MonoBehaviour
                     ilośćDanejNagrody--;
                     DodajNagrode(true);
                     break;
-                case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
-                    if(PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
+                case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:    //Na SWITCH zwiększa zadawane obrażenia przez wieże o 20
+                    if(ManagerGryScript.bonusDoObrażeń > 200)   //Jeśli bonus jest większy niż 200 to nie aplikuj
                         break;
-                        /* UNITY_ANDROID
-                    bool czyUzylem = false;
-                    for (byte i = 0; i < 4; i++)
+                    ManagerGryScript.bonusDoObrażeń += 20;
+                    /* UNITY_ANDROID
+                bool czyUzylem = false;
+                for (byte i = 0; i < 4; i++)
+                {
+                    Skrzynka s = PomocniczeFunkcje.managerGryScript.ZwróćSkrzynkeOIndeksie(i);
+                    if (s.ReuseTimer)
                     {
-                        Skrzynka s = PomocniczeFunkcje.managerGryScript.ZwróćSkrzynkeOIndeksie(i);
-                        if (s.ReuseTimer)
-                        {
-                            s.OdejmnijCzas(Random.Range(-minParam, -maxParam - 1));
-                            czyUzylem = true;
-                        }
+                        s.OdejmnijCzas(Random.Range(-minParam, -maxParam - 1));
+                        czyUzylem = true;
                     }
-                    if (czyUzylem) */
-                        ilośćDanejNagrody--;
+                }
+                if (czyUzylem) */
+                    ilośćDanejNagrody--;
                     break;
             }
         }
@@ -80,8 +81,8 @@ public class PrzedmiotScript : MonoBehaviour
     {
         byte mP = (byte)(System.Enum.GetValues(typeof(TypPrzedmiotu)).Length);
         byte losowany = (byte)Random.Range(0, mP);
-        PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].ilośćDanejNagrody += (czyDodatkowa) ? 
-        (byte)(PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].liczbaItemówOtrzymywanych * 2) : 
+        PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].ilośćDanejNagrody += (czyDodatkowa) ?
+        (byte)(PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].liczbaItemówOtrzymywanych * 2) :
         PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].liczbaItemówOtrzymywanych;
         PomocniczeFunkcje.mainMenu.tekstCoWygrales.text = nazwaPrzedmiotu;
         return losowany;

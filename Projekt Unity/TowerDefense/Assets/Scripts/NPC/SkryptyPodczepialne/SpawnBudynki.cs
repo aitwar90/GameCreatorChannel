@@ -111,7 +111,7 @@ public class SpawnBudynki : MonoBehaviour
             }
             if (CzyMogęPostawićBudynek(posClick))
             {
-                if (Input.GetButtonDown("LeftStickKlik"))    //Kliknąłem i nastąpi próba ustawienia
+                if (Input.GetButtonDown("RightStickKlik"))    //Kliknąłem i nastąpi próba ustawienia
                 {
                     ZatwierdźBudynekWindows();
                     return;
