@@ -88,25 +88,14 @@ public class MoveCameraScript : MonoBehaviour
             }
             else
             {
-                float iGV = Input.GetAxisRaw("Vertical");
-                if (iGV != 0)
+                if (PomocniczeFunkcje.eSystem.currentSelectedGameObject != null && PomocniczeFunkcje.eSystem.currentSelectedGameObject.name == "PrzyciskBudynku(Clone)")
                 {
-
-                    if (przesuniecie)
-                    {
-                        if (PomocniczeFunkcje.mainMenu.PrzesuńBudynki(-iGV * PomocniczeFunkcje.mainMenu.ZwróćParametryButtonówWPanelu))
-                            przesuniecie = false;
-                    }
-                    else
+                    float iGV = Input.GetAxisRaw("Vertical");
+                    if (iGV != 0)
                     {
                         PomocniczeFunkcje.mainMenu.AutomatycznieUstawBudynkiWPanelu(PomocniczeFunkcje.eSystem.currentSelectedGameObject.GetComponent<UnityEngine.UI.Button>());
                     }
                 }
-                else if (!przesuniecie && iGV == 0)
-                {
-                    przesuniecie = true;
-                }
-
             }
         }
         else if (PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere())
@@ -212,11 +201,11 @@ public class MoveCameraScript : MonoBehaviour
         float scrWhl = Input.GetAxis("Mouse ScrollWheel");
         ObsłużSwitch(iGV, iGH, scrWhl);
         iGH = 0.0f; iGV = 0.0f;
-        iGV = Input.GetAxisRaw("StickRVertical")*4f;
-        iGH = Input.GetAxisRaw("StickRHorizontal")*4f;
+        iGV = Input.GetAxisRaw("StickRVertical") * 4f;
+        iGH = Input.GetAxisRaw("StickRHorizontal") * 4f;
         if (iGH != 0 || iGV != 0)
         {
-            PomocniczeFunkcje.mainMenu.PrzesunKursorO(-iGH, iGV, szerokośćObrazu, wysokśćObrazu);
+            PomocniczeFunkcje.mainMenu.PrzesunKursorO(iGH, -iGV, szerokośćObrazu, wysokśćObrazu);
         }
     }
     void ObsłużMysz()       //Przesuwanie kamery przez najechanie kursorem myszy do krawędzi aplikacji

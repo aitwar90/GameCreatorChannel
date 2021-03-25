@@ -49,7 +49,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     #endregion
     #region Panel budynków
     public Button stawiajBudynek;
-    private GameObject uiBudynkiPanel;
+    [HideInInspector]public GameObject uiBudynkiPanel;
     private byte wielkosćButtonu = 0;
     private byte iloscButtonow = 1;
     private RectTransform trBudynkówŁącze = null;
@@ -163,7 +163,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         get
         {
-            return new float[] {kursor.anchoredPosition.x, kursor.anchoredPosition.y};
+            return new float[] { kursor.anchoredPosition.x, kursor.anchoredPosition.y };
         }
     }
     public PanelDynamiczny GetKontenerKomponentówDynamic
@@ -251,30 +251,21 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         {
             if (!CzyAktywnyPanelZBudynkami())    //Wyłączony panel z budynkami
             {
-                PanelStatyczny ps = GetKontenerKomponentówStatic;
-                if (ps == null)   //Brak jakiegokolwiek panelu 
+                if (Input.GetButtonDown("LeftDOWN")) //Kliknięty do dolnego panelu
                 {
-                    if (PomocniczeFunkcje.spawnBudynki.aktualnyObiekt == null)   //Brak ustawianego budynku
+                    if (ui_down.activeSelf)
                     {
-                        if (Input.GetButtonDown("Cancel"))
-                        {
-                            PomocniczeFunkcje.eSystem.SetSelectedGameObject(wróćDoMenu.gameObject);
-                        }
+                        PomocniczeFunkcje.eSystem.SetSelectedGameObject(ui_down.transform.Find("kupno_wieza").gameObject);
                     }
+                    Debug.Log("LeftDOWN");
                 }
-                else    //Panel jest odpalony
+                else if (Input.GetButtonDown("LeftLEFT"))
                 {
-                    if (Input.GetButtonDown("Cancel"))  //Wyłącz Panel
+                    if (ui_down.activeSelf && ostatniStawianyBudynekButton.interactable)
                     {
-                        UstawPanelUI("", Vector3.zero);
+                        PomocniczeFunkcje.eSystem.SetSelectedGameObject(ostatniStawianyBudynekButton.gameObject);
                     }
-                    else if(Input.GetButtonDown("Submit"))  //Uzyj napraw
-                    {
-                        if(ps.naprawButton.interactable)
-                        {
-                            ps.NaprawBudynek();
-                        }
-                    }
+                    Debug.Log("LeftLEFT");
                 }
             }
         }
@@ -642,6 +633,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             actWybEpoka.text = PomocniczeFunkcje.odblokowaneEpoki.ToString();
             PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Tło_None_PoMenu");
             PomocniczeFunkcje.eSystem.SetSelectedGameObject(odpalPoziom.gameObject);
+            UstawTenDomyslnyButton.UstawDomyślnyButton(2);  //PoGraj
         }
         else
         {   //Wracam do Menu
@@ -649,6 +641,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             WłączWyłączPanel(poGraj.name, false);
             PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Tło_None");
             PomocniczeFunkcje.eSystem.SetSelectedGameObject(PomocniczeFunkcje.eSystem.firstSelectedGameObject);
+            UstawTenDomyslnyButton.UstawDomyślnyButton(0);  //PoGraj
         }
     }
     ///<summary>Metoda resetuje dane podczas przełączania sceny (EXIT - nie jest obsługiwana przy samouczku).</summary>
@@ -746,6 +739,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         {
             poziom = PomocniczeFunkcje.managerGryScript.GetComponent<ObslugaScenScript>().ZwróćIndeksScenyPoEpoce(e);
             SceneManager.LoadScene(poziom, LoadSceneMode.Additive);
+            UstawTenDomyslnyButton.UstawDomyślnyButton(7);  //Gra nie samouczek
         }
         else
         {
@@ -767,7 +761,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         {
             byte poziom = PomocniczeFunkcje.managerGryScript.GetComponent<ObslugaScenScript>().ZwróćScenęSamouczka();
             if (poziom < SceneManager.sceneCountInBuildSettings)
+            {
                 SceneManager.LoadScene(poziom, LoadSceneMode.Additive);
+                UstawTenDomyslnyButton.UstawDomyślnyButton(7);  //Odpal samouczek
+            }
             else
             {
                 Debug.Log("Nie odnalazłem sceny dla danej opcji");
@@ -860,11 +857,11 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         x += actX;
         y += actY;
 
-        if(x > 0 && x < scrX)
+        if (x > 0 && x < scrX)
         {
             actX = x;
         }
-        if(y > 0 && y < scrY)
+        if (y > 0 && y < scrY)
         {
             actY = y;
         }
@@ -918,9 +915,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     public void AutomatycznieUstawBudynkiWPanelu(Button zaznaczonyButton)
     {
-        int idx = Mathf.FloorToInt((Mathf.Abs(zaznaczonyButton.GetComponent<RectTransform>().localPosition.y - 290)) / (wielkosćButtonu+10f));
+        int idx = Mathf.FloorToInt((Mathf.Abs(zaznaczonyButton.GetComponent<RectTransform>().localPosition.y - 290)) / (wielkosćButtonu + 10f));
         //Debug.Log("idx = "+idx);
-        float prefOdl = ( -290 + (idx * (wielkosćButtonu+10))) - trBudynkówŁącze.anchoredPosition.y;
+        float prefOdl = (-290 + (idx * (wielkosćButtonu + 10))) - trBudynkówŁącze.anchoredPosition.y;
         //Debug.Log("prefOdl = "+prefOdl);
         PrzesuńBudynki(prefOdl);
         //zaznaczonyButton.GetComponent<RectTransform>().localPosition.y 
@@ -948,7 +945,12 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                     EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
             }
             EnDisButtonsOfBuildingsInPanel(ref idxWież, true);
+            //AktDisactButtonówPrzyPanelach(false);
             lastPanelEnabledBuildings = 0;
+            wróćDoMenu.interactable = false;
+            buttonAZycie.interactable = false;
+            buttonAAtak.interactable = false;
+            buttonAObrona.interactable = false;
             //ostatniZaznaczonyObiektBudowania = -1;
             ManagerSamouczekScript.mssInstance.WyłączVisual();
         }
@@ -967,6 +969,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                     EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
             }
             EnDisButtonsOfBuildingsInPanel(ref idxMurów, true);
+            //AktDisactButtonówPrzyPanelach(false);
             lastPanelEnabledBuildings = 1;
             //ostatniZaznaczonyObiektBudowania = -1;
             ManagerSamouczekScript.mssInstance.WyłączVisual();
@@ -986,6 +989,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                     EnDisButtonsOfBuildingsInPanel(ref idxWież, false);
             }
             EnDisButtonsOfBuildingsInPanel(ref idxInne, true);
+            //AktDisactButtonówPrzyPanelach(false);
             lastPanelEnabledBuildings = 2;
             //ostatniZaznaczonyObiektBudowania = -1;
             ManagerSamouczekScript.mssInstance.WyłączVisual();
@@ -1000,11 +1004,21 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
             WłączWyłączPanel("UI_BudynkiPanel", false);
             WłączWyłączPanel("UI_LicznikCzasu", true);
+            //AktDisactButtonówPrzyPanelach(true);
             PomocniczeFunkcje.UstawTimeScale(1);
             lastPanelEnabledBuildings = -1;
             //ostatniZaznaczonyObiektBudowania = -1;
             ManagerSamouczekScript.mssInstance.WyłączVisual();
+            UstawTenDomyslnyButton.UstawDomyślnyButton(7);
         }
+    }
+    private void AktDisactButtonówPrzyPanelach(bool value)
+    {
+        wróćDoMenu.gameObject.SetActive(value);
+        buttonAAtak.gameObject.SetActive(value);
+        buttonAZycie.gameObject.SetActive(value);
+        buttonAObrona.gameObject.SetActive(value);
+        this.uiGry.transform.Find("CudOcaleniaIkona").gameObject.SetActive(value);
     }
     ///<summary>Metoda włącza przyciski budynków danego panelu.</summary>
     ///<param name="tabOfBuildToChange">Tablica indeksów przycisków.</param>
@@ -1017,11 +1031,39 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             RectTransform rt = tab[tabOfBuildToChange[0]].przycisk.GetComponent<RectTransform>();
             wielkosćButtonu = (byte)(Mathf.CeilToInt(rt.sizeDelta.y * rt.localScale.y));
         }
+        short vAkt = -1;
+        bool c = false;
+        if (willEnable && ostatniStawianyBudynekButton.interactable)
+        {
+            vAkt = ostatniStawianyBudynekButton.GetComponent<ObsłużPrzyciskOstatniegoStawianegoBudynku>().indeks;
+        }
         for (ushort i = 0; i < tabOfBuildToChange.Length; i++)
         {
             tab[tabOfBuildToChange[i]].przycisk.gameObject.SetActive(willEnable);
+            if (willEnable)
+            {
+                if (tabOfBuildToChange[i] == vAkt)
+                {
+                    c = true;
+                }
+            }
         }
-
+        if (willEnable)
+        {
+            UstawTenDomyslnyButton.ZaktualizujStan(6);
+            //UstawTenDomyslnyButton.aktualnyStanNaEkranie = 6;   //Ustawiam na włączony Panel
+            if (c)
+            {
+                UstawTenDomyslnyButton.UstawAktywnyButton(tab[vAkt].przycisk.gameObject);
+            }
+            else
+            {
+                if (tabOfBuildToChange.Length > 0)
+                    UstawTenDomyslnyButton.UstawAktywnyButton(tab[tabOfBuildToChange[0]].przycisk.gameObject);
+                else
+                    UstawTenDomyslnyButton.UstawDomyślnyButton();
+            }
+        }
         if (tabOfBuildToChange.Length > 1)
             iloscButtonow = (byte)(tabOfBuildToChange.Length - 2);
         else if (tabOfBuildToChange.Length == 1)
@@ -1064,10 +1106,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                     if (murki == null)
                         murki = new List<ushort>();
                     murki.Add(i);
-                    if(murki.Count > 1)
+                    if (murki.Count > 1)
                     {
                         polaczNavigation.Add(i);
-                        polaczNavigation.Add(murki[murki.Count-2]);
+                        polaczNavigation.Add(murki[murki.Count - 2]);
                     }
                     else
                     {
@@ -1082,10 +1124,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                     if (wieże == null)
                         wieże = new List<ushort>();
                     wieże.Add(i);
-                    if(wieże.Count > 1)
+                    if (wieże.Count > 1)
                     {
                         polaczNavigation.Add(i);
-                        polaczNavigation.Add(wieże[wieże.Count-2]);
+                        polaczNavigation.Add(wieże[wieże.Count - 2]);
                     }
                     else
                     {
@@ -1100,10 +1142,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                     if (inne == null)
                         inne = new List<ushort>();
                     inne.Add(i);
-                    if(inne.Count > 1)
+                    if (inne.Count > 1)
                     {
                         polaczNavigation.Add(i);
-                        polaczNavigation.Add(inne[inne.Count-2]);
+                        polaczNavigation.Add(inne[inne.Count - 2]);
                     }
                     else
                     {
@@ -1123,9 +1165,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             if (inne != null)
                 idxInne = inne.ToArray();
         }
-        if(polaczNavigation.Count > 1)
+        if (polaczNavigation.Count > 1)
         {
-            for(ushort i = 0; i < polaczNavigation.Count; i+=2)
+            for (ushort i = 0; i < polaczNavigation.Count; i += 2)
             {
                 Navigation n1 = new Navigation();
                 Navigation n2 = new Navigation();
@@ -1136,14 +1178,14 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 n1.selectOnRight = stawiajBudynek.GetComponent<Button>();
                 n2.selectOnRight = stawiajBudynek.GetComponent<Button>();
                 n2.selectOnDown = tab[polaczNavigation[i]].przycisk;
-                n2.selectOnUp = tab[polaczNavigation[i+1]].przycisk.navigation.selectOnUp;
-                n1.selectOnUp = tab[polaczNavigation[i+1]].przycisk;
+                n2.selectOnUp = tab[polaczNavigation[i + 1]].przycisk.navigation.selectOnUp;
+                n1.selectOnUp = tab[polaczNavigation[i + 1]].przycisk;
                 /*
                 n1.selectOnUp = tab[polaczNavigation[i]].przycisk.navigation.selectOnUp;
                 n2.selectOnUp = tab[polaczNavigation[i]].przycisk;
                 n1.selectOnDown = tab[polaczNavigation[i+1]].przycisk;
                 */
-                tab[polaczNavigation[i+1]].przycisk.navigation = n2;
+                tab[polaczNavigation[i + 1]].przycisk.navigation = n2;
                 tab[polaczNavigation[i]].przycisk.navigation = n1;
             }
         }
@@ -1335,10 +1377,11 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         {
             PomocniczeFunkcje.ZapisDanychOpcje();
             PomocniczeFunkcje.eSystem.SetSelectedGameObject(PomocniczeFunkcje.eSystem.firstSelectedGameObject);
+            UstawTenDomyslnyButton.UstawDomyślnyButton(0);  //Opcje
         }
         else
         {
-            PomocniczeFunkcje.eSystem.SetSelectedGameObject(zmianaJezyka.gameObject);
+            UstawTenDomyslnyButton.UstawDomyślnyButton(1);  //Opcje
         }
     }
     ///<summary>Metoda rozpoczyna zmianę jezyka interfejsu.</summary>
@@ -1379,14 +1422,14 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             WłączWyłączPanel("Cretidsy", false);
             WłączWyłączPanel(menu.transform.name, true);
             PomocniczeFunkcje.muzyka.WłączWyłączClip(ref PomocniczeFunkcje.muzyka.muzykaTła, true, "Tło_None");
-            PomocniczeFunkcje.eSystem.SetSelectedGameObject(PomocniczeFunkcje.eSystem.firstSelectedGameObject);
+            UstawTenDomyslnyButton.UstawDomyślnyButton(0);  //Creditsy
         }
         else
         {
             WłączWyłączPanel("Cretidsy", true);
             WłączWyłączPanel(menu.name, false);
-            PomocniczeFunkcje.eSystem.SetSelectedGameObject(this.transform.Find("Menu/Cretidsy/Wróć").gameObject);
             PomocniczeFunkcje.muzyka.WłączWyłączClip(ref PomocniczeFunkcje.muzyka.muzykaTła, true, "Tło_None_PoMenu");
+            UstawTenDomyslnyButton.UstawDomyślnyButton(4);  //Creditsy
         }
     }
     ///<summary>Metoda ustawia głośność dźwięków aplikacji.</summary>
@@ -1408,6 +1451,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = 10;
             }
         }
+        UstawTenDomyslnyButton.OdpalWczesny();
     }
     ///<summary>Metoda rozpoczyna proces ustawiania budynku.</summary>
     public void KliknijPrzyciskPostawBudynek()
@@ -1440,10 +1484,11 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         if (!czyWłPanel) //Resetuj obrazki
         {
             ResetImagesSkrzynkiImage();
-            PomocniczeFunkcje.eSystem.SetSelectedGameObject(PomocniczeFunkcje.eSystem.firstSelectedGameObject);
+            UstawTenDomyslnyButton.UstawDomyślnyButton(0);  //Panel Skrzynki
         }
         else
         {
+            UstawTenDomyslnyButton.UstawDomyślnyButton(3);  //Panel Skrzynki
             PomocniczeFunkcje.eSystem.SetSelectedGameObject(reklamyPanel.transform.Find("Wróć").gameObject);
         }
     }
