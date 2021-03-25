@@ -2147,7 +2147,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &219638873
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8000,7 +8000,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 5.5307007, y: -95.18262}
+  m_AnchoredPosition: {x: 5.5307007, y: -88.18262}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &324749983
@@ -8133,7 +8133,7 @@ GameObject:
   - component: {fileID: 326408400}
   - component: {fileID: 326408399}
   m_Layer: 5
-  m_Name: "Obra\u017CeniaNPC"
+  m_Name: "Obra\u017CeniaNazwa"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8472,7 +8472,7 @@ GameObject:
   - component: {fileID: 334567718}
   - component: {fileID: 334567717}
   m_Layer: 5
-  m_Name: "Obra\u017CeniaBudynek"
+  m_Name: Ob
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9081,8 +9081,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -1.0888062, y: -292.7816}
-  m_SizeDelta: {x: 242.28, y: 117.9794}
+  m_AnchoredPosition: {x: -0.6942749, y: -290.8275}
+  m_SizeDelta: {x: 235.79, y: 114.0711}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &405383851
 MonoBehaviour:
@@ -9314,8 +9314,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -74.3107, y: -29.317627}
-  m_SizeDelta: {x: 92.0018, y: 39.5594}
+  m_AnchoredPosition: {x: -84.552704, y: -24.317627}
+  m_SizeDelta: {x: 112.4858, y: 39.5594}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &453331199
 MonoBehaviour:
@@ -11390,8 +11390,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -74.3107, y: 11.682373}
-  m_SizeDelta: {x: 92.0018, y: 39.5594}
+  m_AnchoredPosition: {x: -84.552704, y: 16.682373}
+  m_SizeDelta: {x: 112.4858, y: 39.5594}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &650567058
 MonoBehaviour:
@@ -13154,7 +13154,7 @@ GameObject:
   - component: {fileID: 866792509}
   - component: {fileID: 866792508}
   m_Layer: 5
-  m_Name: "Wr\xF3\u0107ZPoGrajRek"
+  m_Name: "Wr\xF3\u0107Z"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13636,7 +13636,7 @@ GameObject:
   - component: {fileID: 916086055}
   - component: {fileID: 916086054}
   m_Layer: 5
-  m_Name: "Obra\u017CeniaBudynek"
+  m_Name: "Obra\u017CeniaNazwa"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13658,8 +13658,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -48.55516, y: -214.98492}
-  m_SizeDelta: {x: 142.0573, y: 39.5594}
+  m_AnchoredPosition: {x: -59.791, y: -209.98492}
+  m_SizeDelta: {x: 119.59, y: 39.5594}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &916086054
 MonoBehaviour:
@@ -16004,7 +16004,7 @@ GameObject:
   - component: {fileID: 1219261309}
   - component: {fileID: 1219261308}
   m_Layer: 5
-  m_Name: "Wr\xF3\u0107ZPoGraj"
+  m_Name: "Wr\xF3\u0107Z"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16579,8 +16579,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -74.3107, y: 48.682373}
-  m_SizeDelta: {x: 92.0018, y: 39.5594}
+  m_AnchoredPosition: {x: -84.552704, y: 53.682373}
+  m_SizeDelta: {x: 112.4858, y: 39.5594}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1302058975
 MonoBehaviour:
@@ -17224,8 +17224,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -1.0894012, y: -45.182617}
-  m_SizeDelta: {x: 242.2782, y: 35.9743}
+  m_AnchoredPosition: {x: -1.0894012, y: -43.4635}
+  m_SizeDelta: {x: 242.2782, y: 32.5361}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1359456912
 MonoBehaviour:
@@ -18254,8 +18254,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -47.560654, y: -135.46393}
-  m_SizeDelta: {x: 142.0573, y: 39.5594}
+  m_AnchoredPosition: {x: -59.295, y: -130.46393}
+  m_SizeDelta: {x: 118.59, y: 39.5594}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1446127416
 MonoBehaviour:
@@ -18290,7 +18290,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "PUNKTY \u017BYCIA:"
+  m_Text: "\u017BYCIE:"
 --- !u!222 &1446127417
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21396,7 +21396,7 @@ GameObject:
   - component: {fileID: 1785778456}
   - component: {fileID: 1785778455}
   m_Layer: 5
-  m_Name: PlayButtonInside
+  m_Name: PlayButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22399,7 +22399,7 @@ GameObject:
   - component: {fileID: 1944595766}
   - component: {fileID: 1944595765}
   m_Layer: 5
-  m_Name: "Wr\xF3\u0107ZPoGrajCredits"
+  m_Name: "Wr\xF3\u0107Z"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23036,8 +23036,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -48.768356, y: -175.22443}
-  m_SizeDelta: {x: 142.0573, y: 39.5594}
+  m_AnchoredPosition: {x: -59.898, y: -170.22443}
+  m_SizeDelta: {x: 119.8, y: 39.5594}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1976946091
 MonoBehaviour:
@@ -24408,6 +24408,10 @@ PrefabInstance:
       propertyPath: particleSystems.Array.data[0]
       value: 
       objectReference: {fileID: 219638872}
+    - target: {fileID: 3463731110811243626, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
+      propertyPath: "muzykaT\u0142a"
+      value: 
+      objectReference: {fileID: 1958797334}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
 --- !u!114 &8539881029061961982 stripped

@@ -356,7 +356,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.mainMenu.WygenerujIPosortujTablice(); //Generuje i sortuje tablice budynków do wybudowania
         PomocniczeFunkcje.mainMenu.PrzesuńBudynki(0, true);
         PomocniczeFunkcje.mainMenu.ostatniStawianyBudynekButton.GetComponent<ObsłużPrzyciskOstatniegoStawianegoBudynku>().RestartPrzycisku();
-        if(aktualnyPoziomEpoki < 255)
+        if (aktualnyPoziomEpoki < 255)
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] { "ui_down", "UI_LicznikCzasu" }, true);
         else
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
@@ -534,6 +534,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 }
                 if (pFrazy[idx] != "")
                 {
+                    bool znalazlem = false;
                     for (ushort j = 0; j < wszystkieFrazy.Length; j++)
                     {
                         if (wszystkieFrazy[j].transform.name != "Text")
@@ -543,7 +544,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                                 wszystkieFrazy[j].text = pFrazy[idx];
                                 if (f != null)
                                     wszystkieFrazy[j].font = f;
-                                break;
+                                znalazlem = true;
                             }
                         }
                         else
@@ -553,8 +554,13 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                                 wszystkieFrazy[j].text = pFrazy[idx];
                                 if (f != null)
                                     wszystkieFrazy[j].font = f;
-                                break;
+                                znalazlem = true;
                             }
+                        }
+                        if(znalazlem && pFrazy[0] == "Akademia=nazwa")
+                        {
+                            znalazlem = false;
+                            break;
                         }
                     }
                     if (PomocniczeFunkcje.spawnBudynki != null)
