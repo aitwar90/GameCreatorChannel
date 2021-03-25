@@ -33,37 +33,37 @@ public static class PomocniczeFunkcje
     /*
     Metoda zwraca punkt styku promienia generowanego przez kursor a obiektem natrafiającym na collider
     */
-    public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos, ref bool hitUI, ref Vector2 posKursoraCanvas)
+    public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos, ref bool hitUI)
     {
         if (oCam == null)
         {
             oCam = Camera.main;
         }
         Vector2 posK = Vector2.zero;
-/* UNITY_ANDROID
-#if UNITY_STANDALONE
-        posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-        posKursoraCanvas = posK;
-#endif
-#if UNITY_ANDROID || UNITY_IOS */
+        /* UNITY_ANDROID
+        #if UNITY_STANDALONE
+                posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                posKursoraCanvas = posK;
+        #endif
+        #if UNITY_ANDROID || UNITY_IOS */
         if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
         {
             posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            posKursoraCanvas = posK;
+            mainMenu.UstawKursorNa(posK.x, posK.y);
         }
         else
         {
             if (Input.touchCount > 0)
             {
                 posK = Input.GetTouch(0).position;
-                posKursoraCanvas = posK;
+                mainMenu.UstawKursorNa(posK.x, posK.y);
             }
             else
             {
                 return lastPos;
             }
         }
-//#endif
+        //#endif
         if (CzyKliknalemUI())
         {
             hitUI = true;
@@ -88,34 +88,40 @@ public static class PomocniczeFunkcje
     /*
     Metoda zwraca informację o ewentualnym klikniętym obiekcie przez gracza
     */
-    public static NPCClass OkreślKlikniętyNPC(ref NPCClass lastNPCCLass)
+    public static NPCClass OkreślKlikniętyNPC(ref NPCClass lastNPCCLass, bool pobierzInfoVirtualnegoKursora = false)
     {
         if (oCam == null)
         {
             oCam = Camera.main;
         }
-        Vector2 posK = Vector2.zero;
+        float[] posKursora = mainMenu.ZwrócPozycjeKursora;
+        Vector2 posK = (pobierzInfoVirtualnegoKursora) ? new Vector2(posKursora[0], posKursora[1]) : Vector2.negativeInfinity;
         /* UNITY_ANDROID
 #if UNITY_STANDALONE
         posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 #endif
 #if UNITY_ANDROID || UNITY_IOS */
-        if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
+        if (posK.x == Mathf.NegativeInfinity)
         {
-            posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-        }
-        else
-        {
-            if (Input.touchCount > 0)
+            if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
             {
-                posK = Input.GetTouch(0).position;
+                posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                mainMenu.UstawKursorNa(posK.x, posK.y);
             }
             else
             {
-                return lastNPCCLass;
+                if (Input.touchCount > 0)
+                {
+                    posK = Input.GetTouch(0).position;
+                    mainMenu.UstawKursorNa(posK.x, posK.y);
+                }
+                else
+                {
+                    return lastNPCCLass;
+                }
             }
         }
-//#endif
+        //#endif
         RaycastHit[] rh = ZwrócHity(ref oCam, posK);
         if (rh == null)
             return lastNPCCLass;

@@ -21,7 +21,6 @@ public class SpawnBudynki : MonoBehaviour
     public StrukturaBudynkuWTab[] czyBudynekZablokowany = null;
     public short aktualnieWybranyIndeksObiektuTabZablokowany = -1;
     private bool kliknieteUI = false;
-    public Vector2 posCursor;
     public Vector2 offsetPrzyPrzesuwaniuKamery;
     private byte aktualnyStanKoloru = 255;  //255 domyślny, 0 - czerwony, 1 - zielony
     #endregion
@@ -97,7 +96,7 @@ public class SpawnBudynki : MonoBehaviour
     {
         if (aktualnyObiekt != null && PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere())
         {
-            posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora, ref kliknieteUI, ref posCursor);
+            posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora, ref kliknieteUI);
         }
     }
     void LateUpdate()
@@ -387,6 +386,7 @@ public class SpawnBudynki : MonoBehaviour
         aktualnyObiekt.GetComponent<Collider>().enabled = true;
         aktualnyObiekt = null;
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
+        PomocniczeFunkcje.mainMenu.OdpalKursor = true;
         if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
         {
             if (ManagerSamouczekScript.mssInstance.CzyZgadzaSięIDXGłówny(6) ||

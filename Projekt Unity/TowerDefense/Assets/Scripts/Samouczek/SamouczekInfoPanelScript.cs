@@ -44,6 +44,7 @@ public class SamouczekInfoPanelScript : MonoBehaviour
             {
                 PomocniczeFunkcje.mainMenu.OdpalKursor = true;
             }
+            UstawTenDomyslnyButton.UstawDomyślnyButton();
         }
     }
     public void UstawTłoEnabeld(Image img)

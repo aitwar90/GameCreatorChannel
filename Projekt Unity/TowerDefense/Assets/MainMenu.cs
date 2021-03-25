@@ -292,7 +292,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         else if (ui_down.name == panel)
         {
             ui_down.SetActive(czyWłączyć);
-            licznikCzasuDoFali.transform.parent.gameObject.SetActive(czyWłączyć);
+            //licznikCzasuDoFali.transform.parent.gameObject.SetActive(czyWłączyć);
         }
         else if (goPanel.name == panel)
         {
@@ -409,6 +409,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         {
             return uiBudynkiPanel;
         }
+        else if(nazwa == uiGry.name)
+        {
+            return uiGry;
+        }
         else
             return null;
     }
@@ -504,6 +508,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             ps.gameObject.SetActive(true);
             odpalonyPanel = true;
             OdpalKursor = false;
+            UstawTenDomyslnyButton.UstawDomyślnyButton(5);
         }
         else if (s[0] == "DYNAMICZNY")
         {
@@ -558,7 +563,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     private bool CzyAktywnyButtonPozwalajacyNaPrzesuwaniekamery()
     {
         if(PomocniczeFunkcje.eSystem.currentSelectedGameObject == null)
-            return false;
+            return true;
         string aktnazwaOb = PomocniczeFunkcje.eSystem.currentSelectedGameObject.name;
         bool f = false;
         switch (aktnazwaOb)
@@ -799,7 +804,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             if (poziom < SceneManager.sceneCountInBuildSettings)
             {
                 SceneManager.LoadScene(poziom, LoadSceneMode.Additive);
-                UstawTenDomyslnyButton.UstawDomyślnyButton(7);  //Odpal samouczek
+                UstawTenDomyslnyButton.UstawDomyślnyButton(10);  //Odpal samouczek
             }
             else
             {
@@ -902,6 +907,13 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             actY = y;
         }
         kursor.anchoredPosition = new Vector3(actX, actY, 0);
+    }
+    ///<summary>Ustaw położenie kursora zgodnie z podanymi parametrami.</summary>
+    ///<param name="x">Żądane położenie kursora na osi X.</param>
+    ///<param name="y">Żądane położenie kursora na osi Y.</param>
+    public void UstawKursorNa(float x, float y)
+    {
+        kursor.anchoredPosition = new Vector3(x, y, 0);
     }
     ///<summary>Metoda obsługuje przesunięcie panelu z przyciskami budynków w panelu budynków.</summary>
     ///<param name="wartość">Wartość przesunięcia panelu z przyciskami.</param>

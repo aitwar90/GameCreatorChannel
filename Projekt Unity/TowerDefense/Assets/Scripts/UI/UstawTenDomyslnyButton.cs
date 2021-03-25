@@ -20,6 +20,7 @@ public class UstawTenDomyslnyButton : MonoBehaviour
     7-Virtualny Button w grze rozbudowa
     8-Game Over Panel
     9-Virtualny Button w grze Walka
+    10-Samouczek
     */
     public static byte aktualnyStanNaEkranie = 0;
     private static byte wczesniejszyStan = 0;
@@ -35,8 +36,6 @@ public class UstawTenDomyslnyButton : MonoBehaviour
         }
         else if (Input.anyKey)
         {
-            if (Input.GetButtonDown("AnulujZaznaczenie"))    //Kliknięty X   -> Ustawia domyślny button dla stanu
-                UstawDomyślnyButton();
             switch (aktualnyStanNaEkranie)
             {
                 case 5: //Odpalony Panel Statyczny
@@ -76,6 +75,74 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                 case 7: //Rozbudowa czas gry
                     if (Input.GetButtonDown("Cancel"))   //Zaznacz Wróć do MENU
                     {
+                        GameObject goDoZaznaczenia = PomocniczeFunkcje.mainMenu.wróćDoMenu.gameObject; //Normalna gra
+                        if (goDoZaznaczenia == PomocniczeFunkcje.eSystem.currentSelectedGameObject)
+                        {
+                            OdpalWczesny();
+                        }
+                        else
+                        {
+                            UstawAktywnyButton(goDoZaznaczenia);
+                        }
+                    }
+                    else if (Input.GetButtonDown("LeftRIGHT"))
+                    {
+                        GameObject go = PomocniczeFunkcje.mainMenu.ZwróćGOPoNazwie("ui_down").transform.Find("kupno_wieza").gameObject;
+                        UstawAktywnyButton(go);
+                    }
+                    else if (Input.GetButtonDown("LeftLEFT"))
+                    {
+                        if (PomocniczeFunkcje.mainMenu.rotacjaBudynku.gameObject.activeSelf)
+                        {
+                            UstawAktywnyButton(PomocniczeFunkcje.mainMenu.rotacjaBudynku.gameObject);
+                        }
+                        else if (PomocniczeFunkcje.mainMenu.ostatniStawianyBudynekButton.interactable)
+                        {
+                            UstawAktywnyButton(PomocniczeFunkcje.mainMenu.ostatniStawianyBudynekButton.gameObject);
+                        }
+                    }
+                    else if (Input.GetButtonDown("PrzyciskY"))
+                    {
+                        GameObject go = PomocniczeFunkcje.mainMenu.ZwróćGOPoNazwie("UIGry").transform.Find("CudOcaleniaIkona").gameObject;
+                        if (go.GetComponent<UnityEngine.UI.Button>().interactable)
+                            UstawAktywnyButton(go);
+                    }
+                    else if (Input.GetButtonDown("LeftDOWN"))
+                    {
+                        UstawDomyślnyButton();
+                    }
+                    else if (Input.GetButtonDown("AnulujZaznaczenie"))    //Kliknięty X   -> Ustawia domyślny button dla stanu
+                        UstawDomyślnyButton();
+                    break;
+                case 9: //Bitwa
+                    if (Input.GetButtonDown("Cancel"))   //Zaznacz Wróć do MENU
+                    {
+                        GameObject goDoZaznaczenia = PomocniczeFunkcje.mainMenu.ZwróćGOPoNazwie("SamouczekPanel").transform.Find("OpuśćSamouczekButton").gameObject;
+                        if (goDoZaznaczenia == PomocniczeFunkcje.eSystem.currentSelectedGameObject)
+                        {
+                            OdpalWczesny();
+                        }
+                        else
+                        {
+                            UstawAktywnyButton(goDoZaznaczenia);
+                        }
+                    }
+                    else if (Input.GetButtonDown("PrzyciskY"))
+                    {
+                        GameObject go = PomocniczeFunkcje.mainMenu.ZwróćGOPoNazwie("UIGry").transform.Find("CudOcaleniaIkona").gameObject;
+                        if (go.GetComponent<UnityEngine.UI.Button>().interactable)
+                            UstawAktywnyButton(go);
+                    }
+                    else if (Input.GetButtonDown("LeftDOWN"))
+                    {
+                        UstawDomyślnyButton();
+                    }
+                    else if (Input.GetButtonDown("AnulujZaznaczenie"))    //Kliknięty X   -> Ustawia domyślny button dla stanu
+                        UstawDomyślnyButton();
+                    break;
+                case 10:    //Samouczek
+                    if (Input.GetButtonDown("Cancel"))   //Zaznacz Wróć do MENU
+                    {
                         GameObject goDoZaznaczenia;
                         if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)   //Samouczek
                         {
@@ -111,6 +178,28 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                             UstawAktywnyButton(PomocniczeFunkcje.mainMenu.ostatniStawianyBudynekButton.gameObject);
                         }
                     }
+                    else if (Input.GetButtonDown("PrzyciskY"))
+                    {
+                        GameObject go = PomocniczeFunkcje.mainMenu.ZwróćGOPoNazwie("UIGry").transform.Find("CudOcaleniaIkona").gameObject;
+                        if (go.GetComponent<UnityEngine.UI.Button>().interactable)
+                            UstawAktywnyButton(go);
+                    }
+                    else if (Input.GetButtonDown("LeftDOWN"))
+                    {
+                        UstawDomyślnyButton();
+                    }
+                    else if (Input.GetButtonDown("AnulujZaznaczenie"))    //Kliknięty X   -> Ustawia domyślny button dla stanu
+                    {
+                        GameObject go = PomocniczeFunkcje.mainMenu.ZwróćGOPoNazwie("SamouczekPanel").transform.Find("SamouczekInfoPanel/SamouczekDalej").gameObject;
+                        if(!go.activeInHierarchy)
+                            UstawDomyślnyButton();
+                        else
+                            UstawAktywnyButton(go);
+                    }
+                    break;
+                default:
+                    if (Input.GetButtonDown("AnulujZaznaczenie"))    //Kliknięty X   -> Ustawia domyślny button dla stanu
+                        UstawDomyślnyButton();
                     break;
             }
         }

@@ -152,14 +152,22 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             //#if UNITY_ANDROID || UNITY_IOS
             if (Input.mousePresent)
             {
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) || Input.GetButtonDown("RightStickKlik"))
                 {
                     if (PomocniczeFunkcje.spawnBudynki.aktualnyObiekt == null)
                     {
-                        zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
+                        bool czyZjoy = false;
+                        if (Input.GetButtonDown("RightStickKlik"))
+                            czyZjoy = true;
+                        else
+                        {
+                            PomocniczeFunkcje.mainMenu.UstawKursorNa(Input.mousePosition.x, Input.mousePosition.y);
+                             Debug.Log("ggg");
+                        }
+                        zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt, czyZjoy);
                         if (zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
                         {
-                            zaznaczonyObiekt.UstawPanel(Input.mousePosition);
+                            zaznaczonyObiekt.UstawPanel((czyZjoy) ? new Vector2(PomocniczeFunkcje.mainMenu.ZwrócPozycjeKursora[0], PomocniczeFunkcje.mainMenu.ZwrócPozycjeKursora[1]) : (Vector2)Input.mousePosition);
                             if (zaznaczonyObiekt.szybkośćAtaku != -1)    //Nie jest to akademia
                             {
                                 PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
@@ -175,14 +183,22 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             }
             else
             {
-                if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+                if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetButtonDown("RightStickKlik"))
                 {
                     if (PomocniczeFunkcje.spawnBudynki.aktualnyObiekt == null)
                     {
-                        zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
+                        bool czyZjoy = false;
+                        if (Input.GetButtonDown("RightStickKlik"))
+                            czyZjoy = true;
+                        else
+                        {
+                            PomocniczeFunkcje.mainMenu.UstawKursorNa(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y);
+                            Debug.Log("fff");
+                        }
+                        zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt, czyZjoy);
                         if (zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
                         {
-                            zaznaczonyObiekt.UstawPanel(Input.GetTouch(0).position);
+                            zaznaczonyObiekt.UstawPanel((czyZjoy) ? new Vector2(PomocniczeFunkcje.mainMenu.ZwrócPozycjeKursora[0], PomocniczeFunkcje.mainMenu.ZwrócPozycjeKursora[1]) : (Vector2)Input.GetTouch(0).position);
                             if (zaznaczonyObiekt.szybkośćAtaku != -1)    //Nie jest to akademia
                             {
                                 PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
@@ -342,12 +358,14 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.distXZ = (terr.terrainData.size.x - (PomocniczeFunkcje.aktualneGranicaTab * 2)) / PomocniczeFunkcje.tablicaWież.GetLength(0);
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
-        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
         PomocniczeFunkcje.spawnBudynki.InicjacjaPaneluBudynków();
         PomocniczeFunkcje.mainMenu.WygenerujIPosortujTablice(); //Generuje i sortuje tablice budynków do wybudowania
         PomocniczeFunkcje.mainMenu.PrzesuńBudynki(0, true);
         PomocniczeFunkcje.mainMenu.ostatniStawianyBudynekButton.GetComponent<ObsłużPrzyciskOstatniegoStawianegoBudynku>().RestartPrzycisku();
-        PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] { "ui_down", "UI_LicznikCzasu" }, true);
+        if(aktualnyPoziomEpoki < 255)
+            PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] { "ui_down", "UI_LicznikCzasu" }, true);
+        else
+            PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
         for (byte i = 0; i < wartościDlaStatystyk.Length; i++)
         {
             wartościDlaStatystyk[i] = 0;
@@ -475,7 +493,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", iloscCoinów.ToString());
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
-        UstawTenDomyslnyButton.UstawDomyślnyButton(7);
+        UstawTenDomyslnyButton.UstawDomyślnyButton((aktualnyPoziomEpoki < 255) ? (sbyte)7 : (sbyte)10);
         MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_" + PomocniczeFunkcje.managerGryScript.aktualnaEpoka.ToString(), false);
         SpawnerHord.actualHPBars = 0;
         PomocniczeFunkcje.mainMenu.OdpalKursor = true;

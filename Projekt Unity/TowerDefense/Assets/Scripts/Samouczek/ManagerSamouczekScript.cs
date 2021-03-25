@@ -84,6 +84,7 @@ public class ManagerSamouczekScript : MonoBehaviour
         mgs.defIdx = 0;
         sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[0], fToLoad);
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("UI_LicznikCzasu", false);
+        Debug.Log("Załadowałem samouczek");
     }
     public void WywolajProgress()
     {
