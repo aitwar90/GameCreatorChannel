@@ -129,27 +129,27 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             /*
             Fragment kodu, który ma za zadanie zaznaczyć obiekt
             */
-/*#if UNITY_STANDALONE
-        if (Input.GetMouseButtonDown(0))
-        {
-            zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
-            if(zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
-            {
-                 zaznaczonyObiekt.UstawPanel(Input.mousePosition);
-                 if (zaznaczonyObiekt.szybkośćAtaku != -1)    //Nie jest to akademia
+            /*#if UNITY_STANDALONE
+                    if (Input.GetMouseButtonDown(0))
                     {
-                        PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
+                        zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
+                        if(zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
+                        {
+                             zaznaczonyObiekt.UstawPanel(Input.mousePosition);
+                             if (zaznaczonyObiekt.szybkośćAtaku != -1)    //Nie jest to akademia
+                                {
+                                    PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
+                                }
+                        }
+                        else if(PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
+                       {
+                            PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
+                            PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
+                        }
                     }
-            }
-            else if(PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
-           {
-                PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
-                PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
-            }
-        }
-//#endif
-*/
-//#if UNITY_ANDROID || UNITY_IOS
+            //#endif
+            */
+            //#if UNITY_ANDROID || UNITY_IOS
             if (Input.mousePresent)
             {
                 if (Input.GetMouseButtonDown(0))
@@ -222,7 +222,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             }
         }
         */
-//#endif
+        //#endif
         switch (idxOfManagerGryScript)  //Każdy idxOfManagerGryScript podzielny przez 5 bez reszty obsługuje timerFal
         {
             case 0:
@@ -288,18 +288,18 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 //UNITY_ANDROID idxOfManagerGryScript++;
                 idxOfManagerGryScript = 0;
                 break;
-                /* UNITY_ANDROID
-            case 5:
-                if (MainMenu.singelton.CzyOdpalonyPanelReklam)
+            /* UNITY_ANDROID
+        case 5:
+            if (MainMenu.singelton.CzyOdpalonyPanelReklam)
+            {
+                for (byte i = 0; i < 4; i++)
                 {
-                    for (byte i = 0; i < 4; i++)
-                    {
-                        skrzynki[i].SprawdźCzyReuseMinęło();
-                    }
+                    skrzynki[i].SprawdźCzyReuseMinęło();
                 }
-                idxOfManagerGryScript = 0;
-                break;
-                */
+            }
+            idxOfManagerGryScript = 0;
+            break;
+            */
             default:
                 idxOfManagerGryScript++;
                 break;
@@ -353,6 +353,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             wartościDlaStatystyk[i] = 0;
         }
         ObslTimerFal(0);
+        PomocniczeFunkcje.mainMenu.OdpalKursor = true;
         /*
         Transform go = new GameObject("R").transform;
          for(byte i = 0; i < 22; i++)
@@ -453,6 +454,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
                 MuzykaScript.singleton.WłączWyłączClip(true, "Bitwa");
                 UstawTenDomyslnyButton.UstawDomyślnyButton(9);
+                PomocniczeFunkcje.mainMenu.OdpalKursor = true;
             }
         }
         else
@@ -463,15 +465,20 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         byte czas = (byte)(czasMiędzyFalami - timerFal);
         if (czas != bufferTimerFal)
         {
-            if (czasMiędzyFalami - 1 == czas)
-            {
-                UstawTenDomyslnyButton.UstawDomyślnyButton(7);
-                MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_" + aktualnaEpoka.ToString(), false);
-                SpawnerHord.actualHPBars = 0;
-            }
             bufferTimerFal = czas;
             PomocniczeFunkcje.mainMenu.UstawTextUI("timer", czas.ToString());
         }
+    }
+    ///<summary>Metoda wywoływana po tym jak fala zostanie zniszczona i czekamy na wywołanie kolejnej.</summary>
+    public void RozgrywkaPoWalkaPrzełącz()
+    {
+        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", iloscCoinów.ToString());
+        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
+        UstawTenDomyslnyButton.UstawDomyślnyButton(7);
+        MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_" + PomocniczeFunkcje.managerGryScript.aktualnaEpoka.ToString(), false);
+        SpawnerHord.actualHPBars = 0;
+        PomocniczeFunkcje.mainMenu.OdpalKursor = true;
     }
     public void ZmianaJęzyka(byte idx)
     {
@@ -645,6 +652,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             knpcd[i].NieŻyję = true;
         }
         PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(0);
+        RozgrywkaPoWalkaPrzełącz();
         /*
         KonkretnyNPCStatyczny[] knpcs = FindObjectsOfType(typeof(KonkretnyNPCStatyczny)) as KonkretnyNPCStatyczny[];
         for (ushort i = 0; i < knpcs.Length; i++)
@@ -760,7 +768,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             // UNITY_ANDROID PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
             OdblokujKolejnaSkrzynke();
             PomocniczeFunkcje.ZapiszDane();
-            ushort wartośćCoinówWygrana = (ushort)((((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 15)*2);
+            ushort wartośćCoinówWygrana = (ushort)((((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 15) * 2);
             // UNITY_ANDROID ushort wartośćCoinówWygrana = (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 15);
             iloscCoinów += wartośćCoinówWygrana;
             DodajDoWartościStatystyk(5, wartośćCoinówWygrana);
@@ -780,6 +788,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] { "ui_down", "UI_LicznikCzasu" }, false);
         poziomZakonczony = true;
         iloscAktywnychWrogów = 0;
+        PomocniczeFunkcje.mainMenu.OdpalKursor = false;
     }
     public void PrzejdźNaNastepnyPoziom(bool czyNowyPoziom = true)
     {

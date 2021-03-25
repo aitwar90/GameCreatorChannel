@@ -50,6 +50,7 @@ public class ManagerSamouczekScript : MonoBehaviour
     public void ŁadujDaneSamouczek()
     {
         this.gameObject.SetActive(true);
+        PomocniczeFunkcje.mainMenu.wróćDoMenu.gameObject.SetActive(false);
         idxProgresuSamouczka = 0;
         ManagerGryScript mgs = PomocniczeFunkcje.managerGryScript;
         if (!byloZaladowane)
@@ -82,6 +83,7 @@ public class ManagerSamouczekScript : MonoBehaviour
         mgs.atkIdx = 0;
         mgs.defIdx = 0;
         sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[0], fToLoad);
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("UI_LicznikCzasu", false);
     }
     public void WywolajProgress()
     {
@@ -316,6 +318,7 @@ public class ManagerSamouczekScript : MonoBehaviour
                         WywolajProgress();
                         sprawdzajCzyZaliczone = false;
                         zmiennaPomocnicza = -1;
+                        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("UI_LicznikCzasu", true);
                     }
                     break;
                 case 16:    //Licznik czasu
@@ -405,7 +408,8 @@ public class ManagerSamouczekScript : MonoBehaviour
         this.sips.gameObject.SetActive(false);
         this.sktv.gameObject.SetActive(false);
         this.gameObject.SetActive(false);
-        PomocniczeFunkcje.mainMenu.wróćDoMenu.interactable = true;
+        PomocniczeFunkcje.mainMenu.wróćDoMenu.gameObject.SetActive(true);
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("UI_LicznikCzasu", true);
     }
     private void ZwróćMiDane()
     {

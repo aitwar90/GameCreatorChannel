@@ -18,11 +18,13 @@ public class SamouczekInfoPanelScript : MonoBehaviour
     {
         if(!this.gameObject.activeInHierarchy)
         {
-            PomocniczeFunkcje.mainMenu.wróćDoMenu.interactable = false;
+            //PomocniczeFunkcje.mainMenu.wróćDoMenu.interactable = false;
+            PomocniczeFunkcje.mainMenu.OdpalKursor = true;
             PomocniczeFunkcje.UstawTimeScale(0);
             this.gameObject.SetActive(true);
             tłoEnabeld.enabled = true;
             PomocniczeFunkcje.eSystem.SetSelectedGameObject(przyciskDalejButtonu.gameObject);
+            PomocniczeFunkcje.mainMenu.OdpalKursor = false;
             if(scrollbar == null)
                 this.scrollbar = this.GetComponentInChildren<Scrollbar>();
             StartCoroutine(UpdateScrollbar());
@@ -34,10 +36,14 @@ public class SamouczekInfoPanelScript : MonoBehaviour
     {
         if(this.gameObject.activeInHierarchy)
         {
-            PomocniczeFunkcje.mainMenu.wróćDoMenu.interactable = true;
+            //PomocniczeFunkcje.mainMenu.wróćDoMenu.interactable = true;
             PomocniczeFunkcje.UstawTimeScale(1);
             this.gameObject.SetActive(false);
             tłoEnabeld.enabled = false;
+            if(UstawTenDomyslnyButton.aktualnyStanNaEkranie == 7 || UstawTenDomyslnyButton.aktualnyStanNaEkranie == 9)
+            {
+                PomocniczeFunkcje.mainMenu.OdpalKursor = true;
+            }
         }
     }
     public void UstawTłoEnabeld(Image img)

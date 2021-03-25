@@ -104,6 +104,10 @@ public class SpawnBudynki : MonoBehaviour
     {
         if (aktualnyObiekt != null)
         {
+            if(PomocniczeFunkcje.mainMenu.OdpalKursor)//Wyłącz kursor
+            {
+                PomocniczeFunkcje.mainMenu.OdpalKursor = false;
+            }
             if(Input.GetButtonDown("Cancel"))
             {
                 ResetWybranegoObiektu();

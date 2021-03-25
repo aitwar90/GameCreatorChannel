@@ -197,6 +197,17 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             return reklamyPanel.activeInHierarchy;
         }
     }
+    public bool OdpalKursor
+    {
+        get
+        {
+            return kursor.gameObject.activeSelf;
+        }
+        set
+        {
+            kursor.gameObject.SetActive(value);
+        }
+    }
     #endregion
     public void Awake()
     {
@@ -244,6 +255,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         reklamyPanel.name, poGraj.name, winTXT.name, loseTXT.name, samouczekPanel.name, "Cretidsy"},
         false);
         this.tekstCoWygrales.transform.parent.gameObject.SetActive(false);
+        OdpalKursor = false;
     }
     #region Obsługa paneli UI, Czy mogę przesuwać kamerę (), Pasek HP
     ///<summary>Metoda włącza lub wyłącza panel zgodny z podanymi parametrami.</summary>
@@ -410,6 +422,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             przyciskWznów.interactable = false;
         menu.SetActive(aktywujeMenu);
         uiGry.SetActive(!aktywujeMenu);
+        OdpalKursor = false;
         menu.transform.parent.GetComponent<Image>().enabled = aktywujeMenu;
         if (aktywujeMenu)
         {
@@ -427,6 +440,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 PomocniczeFunkcje.muzyka.WłączWyłączClip(true, PomocniczeFunkcje.TagZEpoka("AmbientWGrze", PomocniczeFunkcje.managerGryScript.aktualnaEpoka));
             else
                 PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Bitwa");
+            OdpalKursor = true;
         }
     }
     ///<summary>Metoda ustawia wartość paska HP głównego budynku.</summary>
@@ -464,6 +478,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             panelDynamiczny.gameObject.SetActive(false);
             panelStatyczny.gameObject.SetActive(false);
             odpalonyPanel = false;
+            OdpalKursor = true;
         }
         if (parametry == "")
         {
@@ -488,6 +503,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             r.position = SprawdźCzyNieWychodziZaObszarEkranu(pos, r.rect.width, r.rect.height);
             ps.gameObject.SetActive(true);
             odpalonyPanel = true;
+            OdpalKursor = false;
         }
         else if (s[0] == "DYNAMICZNY")
         {
@@ -497,6 +513,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             r.position = SprawdźCzyNieWychodziZaObszarEkranu(pos, r.rect.width, r.rect.height);
             ps.gameObject.SetActive(true);
             odpalonyPanel = true;
+            OdpalKursor = false;
         }
         else if (s[0] == "PANEL")
         {
@@ -540,6 +557,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     private bool CzyAktywnyButtonPozwalajacyNaPrzesuwaniekamery()
     {
+        if(PomocniczeFunkcje.eSystem.currentSelectedGameObject == null)
+            return false;
         string aktnazwaOb = PomocniczeFunkcje.eSystem.currentSelectedGameObject.name;
         bool f = false;
         switch (aktnazwaOb)
@@ -963,8 +982,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             }
             EnDisButtonsOfBuildingsInPanel(ref idxWież, true);
             AktDisactButtonówPrzyPanelach(false);
+            lastPanelEnabledBuildings = 0;
             //ostatniZaznaczonyObiektBudowania = -1;
             ManagerSamouczekScript.mssInstance.WyłączVisual();
+            OdpalKursor = false;
         }
         else if (idx == 1)   //Panel z murkami
         {
@@ -985,6 +1006,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             lastPanelEnabledBuildings = 1;
             //ostatniZaznaczonyObiektBudowania = -1;
             ManagerSamouczekScript.mssInstance.WyłączVisual();
+            OdpalKursor = false;
         }
         else if (idx == 2)    //Panel z innymi budynkami
         {
@@ -1005,6 +1027,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             lastPanelEnabledBuildings = 2;
             //ostatniZaznaczonyObiektBudowania = -1;
             ManagerSamouczekScript.mssInstance.WyłączVisual();
+            OdpalKursor = false;
         }
         else    //Wyłącz panel
         {
@@ -1022,6 +1045,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             //ostatniZaznaczonyObiektBudowania = -1;
             ManagerSamouczekScript.mssInstance.WyłączVisual();
             UstawTenDomyslnyButton.UstawDomyślnyButton(7);
+            OdpalKursor = true;
         }
     }
     private void AktDisactButtonówPrzyPanelach(bool value)
