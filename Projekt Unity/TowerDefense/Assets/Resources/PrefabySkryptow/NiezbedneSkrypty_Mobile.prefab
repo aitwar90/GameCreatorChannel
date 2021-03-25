@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3463731109780786869}
   - component: {fileID: 3463731109780786868}
   - component: {fileID: 3463731110551857187}
-  - component: {fileID: 3463731109780786867}
   - component: {fileID: 3463731110811243626}
   - component: {fileID: 3463731109780786866}
   m_Layer: 0
@@ -147,6 +146,7 @@ MonoBehaviour:
   zablokowanyBudynekIndex: -1
   czyBudynekZablokowany: []
   aktualnieWybranyIndeksObiektuTabZablokowany: -1
+  offsetPrzyPrzesuwaniuKamery: {x: 0, y: 0}
 --- !u!114 &3463731110551857187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,21 +207,7 @@ MonoBehaviour:
     idxJezyka: 02
   - font: {fileID: 12800000, guid: 98ae6acf0d41f97b3849290e9fcfb4ac, type: 3}
     idxJezyka: 0103
-  toNieOstatniaFala: 0
   blokowanieOrientacji: 1
---- !u!114 &3463731109780786867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3463731109780786865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f833196302ee4549485653e5fb785e4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rodzajReklamy: 2
 --- !u!114 &3463731110811243626
 MonoBehaviour:
   m_ObjectHideFlags: 0
