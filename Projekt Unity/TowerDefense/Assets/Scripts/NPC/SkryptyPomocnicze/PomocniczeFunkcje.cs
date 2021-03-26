@@ -3,6 +3,7 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine.EventSystems;
+using PlayerPrefsSwitch;
 
 public static class PomocniczeFunkcje
 {
@@ -764,6 +765,31 @@ public static class PomocniczeFunkcje
     */
     public static void ZapiszDane()
     {
+        string sDoZapisu = "";
+        for (byte i = 0; i < 4; i++)
+        {
+            Skrzynka s = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i);
+            sDoZapisu = sDoZapisu + s.button.interactable.ToString() + "_";
+        }
+        PlayerPrefs.SetString("ButtonySkrzynek", sDoZapisu);
+        sDoZapisu = "";
+        for (byte i = 0; i < managerGryScript.ekwipunekGracza.Length; i++)
+        {
+            sDoZapisu = sDoZapisu + managerGryScript.ekwipunekGracza[i].ilośćDanejNagrody.ToString() + "_";
+        }
+        PlayerPrefs.SetString("Ekwipunek", sDoZapisu);
+        //Zapis Data Save
+        PlayerPrefs.SetString("DataSave", ManagerGryScript.iloscCoinów.ToString() + "_" + odblokowaneEpoki.ToString() +
+        "_" + odblokowanyPoziomEpoki.ToString() + "_" + PomocniczeFunkcje.managerGryScript.hpIdx.ToString() + "_" +
+        PomocniczeFunkcje.managerGryScript.atkIdx.ToString() + "_" + PomocniczeFunkcje.managerGryScript.defIdx.ToString());
+        sDoZapisu = "_";
+        for (ushort i = 0; i < spawnBudynki.wszystkieBudynki.Length; i++)
+        {
+            KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
+            sDoZapisu = sDoZapisu + knpcs.name + "_" + knpcs.Zablokowany.ToString() + "_";
+        }
+        PlayerPrefs.SetString("BlokadaBudynków", sDoZapisu);
+        /*UNITY_ANDROID
         DataSave ds = new DataSave();
 
         ds.ilośćMonet = ManagerGryScript.iloscCoinów;
@@ -772,23 +798,23 @@ public static class PomocniczeFunkcje
         ds.poziomHP = PomocniczeFunkcje.managerGryScript.hpIdx;
         ds.poziomAtak = PomocniczeFunkcje.managerGryScript.atkIdx;
         ds.poziomDef = PomocniczeFunkcje.managerGryScript.defIdx;
+        /*UNITY_ANDROID
         List<ZapisSkrzynek> zsl = new List<ZapisSkrzynek>();
         for (byte i = 0; i < 4; i++)
         {
             Skrzynka s = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i);
-            if (/* UNITY_ANDROID s.ReuseTimer || */ s.button.enabled)
+            if ( s.ReuseTimer ||  s.button.enabled)
             {
                 ZapisSkrzynek t = new ZapisSkrzynek();
                 t.czyAktywna = s.button.interactable;
-                /* UNITY_ANDROID
                 t.dzień = s.pozostałyCzas.Day;
                 t.godzina = (byte)s.pozostałyCzas.Hour;
                 t.minuta = (byte)s.pozostałyCzas.Minute;
                 t.sekunda = (byte)s.pozostałyCzas.Second;
                 t.miesiąc = (byte)s.pozostałyCzas.Month;
                 t.rok = s.pozostałyCzas.Year;
-                */
-                if (t.czyAktywna /* UNITY_ANDROID || s.ReuseTimer*/)
+
+                if (t.czyAktywna || s.ReuseTimer)
                 {
                     t.czyIstniejeSkrzynka = true;
                 }
@@ -836,13 +862,81 @@ public static class PomocniczeFunkcje
         }
         bf.Serialize(fs, ds);
         fs.Close();
-
+        */
     }
     /*
     Metoda ładuje dane odnośnie postępów gracza w grze z pliku
     */
     public static void ŁadujDane()
     {
+        if (PlayerPrefs.HasKey("DataSave"))
+        {
+            string ładowaneDane = PlayerPrefs.GetString("DataSave");
+            string[] s = ładowaneDane.Split('_');
+
+            ManagerGryScript.iloscCoinów = (ushort)System.Int16.Parse(s[0]); if (ManagerGryScript.iloscCoinów < 70) { ManagerGryScript.iloscCoinów = 70; }
+            odblokowaneEpoki = (byte)System.Int16.Parse(s[1]);
+            odblokowanyPoziomEpoki = (byte)System.Int16.Parse(s[2]);
+            managerGryScript.hpIdx = (ushort)System.Int16.Parse(s[3]);
+            managerGryScript.atkIdx = (ushort)System.Int16.Parse(s[4]);
+            managerGryScript.defIdx = (ushort)System.Int16.Parse(s[5]);
+
+
+            ładowaneDane = PlayerPrefs.GetString("Ekwipunek");
+            s = ładowaneDane.Split('_');
+            for (byte i = 0; i < managerGryScript.ekwipunekGracza.Length; i++)
+            {
+                managerGryScript.ekwipunekGracza[i].ilośćDanejNagrody = (byte)System.Int16.Parse(s[i]);
+            }
+
+
+            ładowaneDane = PlayerPrefs.GetString("ButtonySkrzynek");
+            s = ładowaneDane.Split('_');
+            for (byte i = 0; i < 4; i++)
+            {
+                Skrzynka ss = managerGryScript.ZwróćSkrzynkeOIndeksie((byte)i);
+                ss.button.interactable = (s[i] == "True") ? true : false;
+            }
+
+
+            ładowaneDane = PlayerPrefs.GetString("BlokadaBudynków");
+            s = ładowaneDane.Split('_');
+            for (int i = 0; i < spawnBudynki.wszystkieBudynki.Length; i++)
+            {
+                KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
+                bool czyZnalazlem = false;
+                for (ushort j = 0; i < s.Length; j += 2)
+                {
+                    if (knpcs.name == s[j])
+                    {
+                        knpcs.Zablokowany = (s[j + 1] == "True") ? true : false;
+                        czyZnalazlem = true;
+                        break;
+                    }
+                }
+                if (!czyZnalazlem)
+                {
+                    knpcs.Zablokowany = knpcs.blokowany;
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("Nie odnalazłem zapisu");
+            for (byte j = 0; j < spawnBudynki.wszystkieBudynki.Length; j++)
+            {
+                KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[j].GetComponent<KonkretnyNPCStatyczny>();
+                knpcs.Zablokowany = knpcs.blokowany;
+            }
+            for (byte i = 0; i < managerGryScript.ekwipunekGracza.Length; i++)
+            {
+                managerGryScript.ekwipunekGracza[i].ilośćDanejNagrody = 0;
+            }
+            managerGryScript.hpIdx = 0;
+            managerGryScript.atkIdx = 0;
+            managerGryScript.defIdx = 0;
+        }
+        /*UNITY_ANDROID
         string ścieżka = ZwróćŚcieżkęZapisu("dataBaseTDv1.asc");
         if (File.Exists(ścieżka))
         {
@@ -881,7 +975,7 @@ public static class PomocniczeFunkcje
                     dT = dT.AddYears(offsetR);
                     dT = dT.AddMonths(offsetMSC);
                     s.pozostałyCzas = dT;
-                    */
+
                     //Debug.Log("dT.czas = "+dT.ToShortTimeString());
                     //Debug.Log("Dzień = "+offsetD+" godzina = "+offsetG+" minuta = "+offsetM+" sekunda = "+offsetS+" miesiąc = "+offsetMSC+" rok = "+offsetR);
                     s.button.interactable = ds._skrzynki[i].czyAktywna;
@@ -928,6 +1022,7 @@ public static class PomocniczeFunkcje
             managerGryScript.atkIdx = 0;
             managerGryScript.defIdx = 0;
         }
+        */
     }
     /*
     Funkcja zwraca ścieżkę zapisu plików
@@ -952,16 +1047,19 @@ public static class PomocniczeFunkcje
     */
     public static void ZapisDanychOpcje()
     {
+        string sDoZapisu = "_";
+        sDoZapisu = mainMenu.lastIdxJezyka.ToString() + "_" + PomocniczeFunkcje.muzyka.muzykaTła.volume.ToString();
+        PlayerPrefs.SetString("DaneOpcji", sDoZapisu);
+        /* UNITY_ANDROID
         DaneOpcji daneO = new DaneOpcji();
 
         daneO.indeksJezyka = mainMenu.lastIdxJezyka;
         daneO.głośność = PomocniczeFunkcje.muzyka.muzykaTła.volume;
-        /* UNITY_ANDROID
+        
         daneO.blokadaOrientacji = managerGryScript.blokowanieOrientacji;
         daneO.czyOdwracaćPrzesuwanie = MoveCameraScript.odwrócPrzesuwanie;
         daneO.czyLicznikFPSOn = PomocniczeFunkcje.mainMenu.CzyLFPSOn;
         daneO.czyPostProcessing = mainMenu.CzyPostProcesing;
-        */
 
         string ścieżka = ZwróćŚcieżkęZapisu("daneOpcje.asc");
 
@@ -978,12 +1076,27 @@ public static class PomocniczeFunkcje
         }
         bf.Serialize(fs, daneO);
         fs.Close();
+        */
     }
     /*
     Ładuje opcje gracza z pliku
     */
     public static void LadujDaneOpcje()
     {
+        if (PlayerPrefs.HasKey("DaneOpcji"))
+        {
+            string daneOpcje = PlayerPrefs.GetString("DaneOpcji");
+            string[] s = daneOpcje.Split('_');
+            mainMenu.lastIdxJezyka = (sbyte)System.Int16.Parse(s[0]);
+            mainMenu.sliderDźwięku.value = float.Parse(s[1]);
+        }
+        else
+        {
+            mainMenu.lastIdxJezyka = 1;
+            mainMenu.sliderDźwięku.value = 1.0f;
+        }
+        mainMenu.UstawGłośność();
+        /* UNITY_ANDROID
         string ścieżka = ZwróćŚcieżkęZapisu("daneOpcje.asc");
         if (File.Exists(ścieżka))
         {
@@ -1002,16 +1115,16 @@ public static class PomocniczeFunkcje
                 MoveCameraScript.mscInstance.UstawPostProcessing(daneO.czyPostProcessing);
                 MoveCameraScript.odwrócPrzesuwanie = daneO.czyOdwracaćPrzesuwanie;
                 mainMenu.SetToogleOdwrocenieKamery(daneO.czyOdwracaćPrzesuwanie);
-                */
+                
                 mainMenu.UstawGłośność();
             }
-            /* UNITY_ANDROID
+            
             if (managerGryScript != null)
             {
                 managerGryScript.blokowanieOrientacji = daneO.blokadaOrientacji;
             }
-            */
         }
+        */
     }
     public static void KasujZapis()
     {
@@ -1040,6 +1153,7 @@ public static class PomocniczeFunkcje
         Time.timeScale = tScale;
     }
 }
+
 [System.Serializable]
 public struct DataSave
 {

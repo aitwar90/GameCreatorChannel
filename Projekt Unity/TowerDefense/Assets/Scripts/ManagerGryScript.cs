@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
-
 public class ManagerGryScript : MonoBehaviour, ICzekajAz
 {
     [Header("Podstawowe informacje dla gracza")]
@@ -97,6 +96,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     #region Metody UNITY
     void Awake()
     {
+        PlayerPrefsSwitch.PlayerPrefsSwitch.Init();
         PomocniczeFunkcje.managerGryScript = this;
         PomocniczeFunkcje.spawnBudynki = FindObjectOfType(typeof(SpawnBudynki)) as SpawnBudynki;
         PomocniczeFunkcje.mainMenu = FindObjectOfType(typeof(MainMenu)) as MainMenu;
@@ -357,9 +357,14 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.mainMenu.PrzesuńBudynki(0, true);
         PomocniczeFunkcje.mainMenu.ostatniStawianyBudynekButton.GetComponent<ObsłużPrzyciskOstatniegoStawianegoBudynku>().RestartPrzycisku();
         if (aktualnyPoziomEpoki < 255)
+        {
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] { "ui_down", "UI_LicznikCzasu" }, true);
+            czasMiędzyFalami -= aktualnyPoziomEpoki;
+        }
         else
+        {
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
+        }
         for (byte i = 0; i < wartościDlaStatystyk.Length; i++)
         {
             wartościDlaStatystyk[i] = 0;
@@ -433,6 +438,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         poziomZakonczony = false;
         idxOfManagerGryScript = 0;
         iloscAktywnychWrogów = 0;
+        bonusDoObrażeń = 0;
         wartościDlaStatystyk = new int[] { 0, 0, 0, 0, 0, 0 };
 
     }
@@ -464,6 +470,8 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 if (aktualnyPoziomEpoki == 255 && iloscAktywnychWrogów > 0)
                     return;
                 PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
+                if(czasMiędzyFalami > 60)
+                    czasMiędzyFalami = 60f;
                 MuzykaScript.singleton.WłączWyłączClip(true, "Bitwa");
                 UstawTenDomyslnyButton.UstawDomyślnyButton(9, false, true);
                 PomocniczeFunkcje.mainMenu.OdpalKursor = true;

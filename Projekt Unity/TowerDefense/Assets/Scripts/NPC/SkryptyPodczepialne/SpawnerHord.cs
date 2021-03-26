@@ -93,7 +93,7 @@ public class SpawnerHord : MonoBehaviour
             NPCClass[] npcs = PomocniczeFunkcje.managerGryScript.PobierzTabliceWrogow;
             byte iloscPunktówSpawnu = 1;
             byte actPE = PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki;
-            if(actPE == 255) actPE = 0;
+            if(actPE == 255) {actPE = 0; PomocniczeFunkcje.mainMenu.WłączWyłączPanel("UI_LicznikCzasu", false); }
             for (byte i = 0; i < npcs.Length; i++)
             {
                 if (npcs[i].epokaNPC == e && npcs[i].poziom <= actPE)

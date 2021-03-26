@@ -2147,7 +2147,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &219638873
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24403,6 +24403,10 @@ PrefabInstance:
     - target: {fileID: 3463731109780786869, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3463731110551857187, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
+      propertyPath: "czasMi\u0119dzyFalami"
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 3463731110551857187, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
       propertyPath: particleSystems.Array.data[0]

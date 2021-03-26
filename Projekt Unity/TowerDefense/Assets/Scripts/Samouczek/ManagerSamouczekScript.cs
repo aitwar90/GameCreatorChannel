@@ -19,6 +19,7 @@ public class ManagerSamouczekScript : MonoBehaviour
     private sbyte zmiennaPomocnicza = -1;
     public static bool byloZaladowane = false;
     private Font fToLoad = null;
+    private ushort lastTimer = 0;
     public sbyte ZmiennaPomocnicza
     {
         get
@@ -72,6 +73,7 @@ public class ManagerSamouczekScript : MonoBehaviour
             defidx = mgs.defIdx;
             byloZaladowane = true;
             PomocniczeFunkcje.mainMenu.AktywujDezaktywujPrzyciskPaneliBudynku();
+            lastTimer = (ushort)PomocniczeFunkcje.managerGryScript.czasMiędzyFalami;
         }
         //Przypisanie nowych danych
         ManagerGryScript.iloscCoinów = 50;
@@ -84,7 +86,8 @@ public class ManagerSamouczekScript : MonoBehaviour
         mgs.defIdx = 0;
         sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[0], fToLoad);
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("UI_LicznikCzasu", false);
-        Debug.Log("Załadowałem samouczek");
+        lastTimer = (ushort)PomocniczeFunkcje.managerGryScript.czasMiędzyFalami;
+        PomocniczeFunkcje.managerGryScript.czasMiędzyFalami = 10f;
     }
     public void WywolajProgress()
     {
@@ -323,7 +326,7 @@ public class ManagerSamouczekScript : MonoBehaviour
                     }
                     break;
                 case 16:    //Licznik czasu
-                    if (zmiennaPomocnicza == -100)
+                    if (zmiennaPomocnicza == -100)  //Wróg został pokonany
                     {
                         WywolajProgress();
                         sprawdzajCzyZaliczone = false;
@@ -333,7 +336,7 @@ public class ManagerSamouczekScript : MonoBehaviour
 
             }
         }
-        if (idxProgresuSamouczka == 16)    //Na jakim etapie timer ma zacząć być odliczany
+        if (idxProgresuSamouczka == 16 )    //Na jakim etapie timer ma zacząć być odliczany
         {
             if (symulujManageraUpdate < 3)
                 symulujManageraUpdate++;
@@ -441,6 +444,7 @@ public class ManagerSamouczekScript : MonoBehaviour
             mgs.defIdx = defidx;
             byloZaladowane = false;
             PomocniczeFunkcje.mainMenu.AktywujDezaktywujPrzyciskPaneliBudynku(255, true);
+            PomocniczeFunkcje.managerGryScript.czasMiędzyFalami = lastTimer;
         }
     }
     public void ZamknijPanel()
