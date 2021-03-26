@@ -125,6 +125,7 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                         }
                         else
                         {
+                            PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
                             UstawAktywnyButton(goDoZaznaczenia);
                         }
                     }
@@ -133,10 +134,6 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                         GameObject go = PomocniczeFunkcje.mainMenu.ZwróćGOPoNazwie("UIGry").transform.Find("CudOcaleniaIkona").gameObject;
                         if (go.GetComponent<UnityEngine.UI.Button>().interactable)
                             UstawAktywnyButton(go);
-                    }
-                    else if (Input.GetButtonDown("LeftDOWN"))
-                    {
-                        UstawDomyślnyButton();
                     }
                     else if (Input.GetButtonDown("AnulujZaznaczenie"))    //Kliknięty X   -> Ustawia domyślny button dla stanu
                         UstawDomyślnyButton();

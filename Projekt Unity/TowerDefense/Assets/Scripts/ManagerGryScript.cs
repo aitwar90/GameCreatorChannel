@@ -470,7 +470,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 if (aktualnyPoziomEpoki == 255 && iloscAktywnychWrogów > 0)
                     return;
                 PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
-                if(czasMiędzyFalami > 60)
+                if (czasMiędzyFalami > 60)
                     czasMiędzyFalami = 60f;
                 MuzykaScript.singleton.WłączWyłączClip(true, "Bitwa");
                 UstawTenDomyslnyButton.UstawDomyślnyButton(9, false, true);
@@ -565,7 +565,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                                 znalazlem = true;
                             }
                         }
-                        if(znalazlem && pFrazy[0] == "Akademia=nazwa")
+                        if (znalazlem && pFrazy[0] == "Akademia=nazwa")
                         {
                             znalazlem = false;
                             break;
@@ -925,23 +925,28 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     }
     public void RozwójBudynkow(byte idxRozwojuBudynku)
     {
-        switch (idxRozwojuBudynku)
+        if (iloscCoinów >= kosztRozwojuAkademii)
         {
-            case 1: //Max HP
-                hpIdx++;
-                PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(1);
-                DodajDoWartościStatystyk(1, -kosztRozwojuAkademii);
-                break;
-            case 2: //Max atak
-                atkIdx++;
-                PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(2);
-                DodajDoWartościStatystyk(1, -kosztRozwojuAkademii);
-                break;
-            case 3: //Max obrona
-                defIdx++;
-                PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(3);
-                DodajDoWartościStatystyk(1, -kosztRozwojuAkademii);
-                break;
+            iloscCoinów -= kosztRozwojuAkademii;
+            PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", iloscCoinów.ToString());
+            switch (idxRozwojuBudynku)
+            {
+                case 1: //Max HP
+                    hpIdx++;
+                    PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(1);
+                    DodajDoWartościStatystyk(1, -kosztRozwojuAkademii);
+                    break;
+                case 2: //Max atak
+                    atkIdx++;
+                    PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(2);
+                    DodajDoWartościStatystyk(1, -kosztRozwojuAkademii);
+                    break;
+                case 3: //Max obrona
+                    defIdx++;
+                    PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(3);
+                    DodajDoWartościStatystyk(1, -kosztRozwojuAkademii);
+                    break;
+            }
         }
     }
     public void KasujZapis()
