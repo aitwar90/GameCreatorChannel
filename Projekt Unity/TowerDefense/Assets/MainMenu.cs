@@ -1065,7 +1065,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     private void AktDisactButtonówPrzyPanelach(bool value)
     {
-        wróćDoMenu.gameObject.SetActive(value);
+        if(PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki != 255)
+            wróćDoMenu.gameObject.SetActive(value);
         ostatniStawianyBudynekButton.gameObject.SetActive(value);
         if (PomocniczeFunkcje.managerGryScript.zaznaczonyObiekt != null && PomocniczeFunkcje.managerGryScript.zaznaczonyObiekt.GetComponent<KonkretnyNPCStatyczny>().typBudynku == TypBudynku.Akademia)
         {
