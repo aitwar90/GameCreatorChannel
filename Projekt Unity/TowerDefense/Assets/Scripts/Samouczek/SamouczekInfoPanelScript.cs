@@ -25,7 +25,7 @@ public class SamouczekInfoPanelScript : MonoBehaviour
         }
         PomocniczeFunkcje.UstawTimeScale(0);
         tłoEnabeld.enabled = true;
-        PomocniczeFunkcje.eSystem.SetSelectedGameObject(przyciskDalejButtonu.gameObject);
+        UstawTenDomyslnyButton.UstawAktywnyButton(przyciskDalejButtonu.gameObject);
         if (scrollbar == null)
             this.scrollbar = this.GetComponentInChildren<Scrollbar>();
         StartCoroutine(UpdateScrollbar());

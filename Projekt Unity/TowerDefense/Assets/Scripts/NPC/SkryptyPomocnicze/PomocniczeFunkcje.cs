@@ -789,6 +789,7 @@ public static class PomocniczeFunkcje
             sDoZapisu = sDoZapisu + knpcs.name + "_" + knpcs.Zablokowany.ToString() + "_";
         }
         PlayerPrefs.SetString("BlokadaBudynków", sDoZapisu);
+        PlayerPrefs.Save();
         /*UNITY_ANDROID
         DataSave ds = new DataSave();
 
@@ -1050,6 +1051,7 @@ public static class PomocniczeFunkcje
         string sDoZapisu = "_";
         sDoZapisu = mainMenu.lastIdxJezyka.ToString() + "_" + PomocniczeFunkcje.muzyka.muzykaTła.volume.ToString();
         PlayerPrefs.SetString("DaneOpcji", sDoZapisu);
+        PlayerPrefs.Save();
         /* UNITY_ANDROID
         DaneOpcji daneO = new DaneOpcji();
 
