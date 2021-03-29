@@ -126,23 +126,23 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             Fragment kodu, który ma za zadanie zaznaczyć obiekt
             */
 #if UNITY_STANDALONE
-        if (Input.GetMouseButtonDown(0))
-        {
-            zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
-            if(zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
+            if (Input.GetMouseButtonDown(0))
             {
-                 zaznaczonyObiekt.UstawPanel(Input.mousePosition);
-                 if (zaznaczonyObiekt.szybkośćAtaku != -1)    //Nie jest to akademia
+                zaznaczonyObiekt = PomocniczeFunkcje.OkreślKlikniętyNPC(ref zaznaczonyObiekt);
+                if (zaznaczonyObiekt != null && zaznaczonyObiekt.AktualneŻycie > 0 && !PomocniczeFunkcje.CzyKliknalemUI())
+                {
+                    zaznaczonyObiekt.UstawPanel(Input.mousePosition);
+                    if (zaznaczonyObiekt.szybkośćAtaku != -1)    //Nie jest to akademia
                     {
                         PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
                     }
+                }
+                else if (PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
+                {
+                    PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
+                    PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
+                }
             }
-            else if(PomocniczeFunkcje.mainMenu.OdpalonyPanel && !PomocniczeFunkcje.CzyKliknalemUI())
-           {
-                PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
-                PomocniczeFunkcje.mainMenu.OdpalButtonyAkademii(false);
-            }
-        }
 #endif
 #if UNITY_ANDROID || UNITY_IOS
             if (Input.mousePresent)
@@ -191,6 +191,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                     }
                 }
             }
+#endif
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -215,7 +216,6 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 }
             }
         }
-#endif
         switch (idxOfManagerGryScript)  //Każdy idxOfManagerGryScript podzielny przez 5 bez reszty obsługuje timerFal
         {
             case 0:

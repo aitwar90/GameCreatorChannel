@@ -17,8 +17,8 @@ public class MoveCameraScript : MonoBehaviour
 #endif
 #if UNITY_ANDROID || UNITY_IOS
     private float prędkoscPrzesunięciaKamery = 0.035f;
-    private static readonly float[] zoomBounds = new float[]{30f, 80f};
 #endif
+private static readonly float[] zoomBounds = new float[]{30f, 80f};
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
     private Vector3 pierwotnePołożenieKamery = Vector3.zero;
     private byte granica = 5;
