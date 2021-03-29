@@ -453,12 +453,23 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         {
             if (czasMiędzyFalami - 1 == czas)
             {
-                MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_" + aktualnaEpoka.ToString(), false);
+                //MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_" + aktualnaEpoka.ToString(), false);
                 SpawnerHord.actualHPBars = 0;
             }
             bufferTimerFal = czas;
             PomocniczeFunkcje.mainMenu.UstawTextUI("timer", czas.ToString());
         }
+    }
+    ///<summary>Metoda wywoływana po tym jak fala zostanie zniszczona i czekamy na wywołanie kolejnej.</summary>
+    public void RozgrywkaPoWalkaPrzełącz()
+    {
+        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", iloscCoinów.ToString());
+        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
+        //UstawTenDomyslnyButton.UstawDomyślnyButton((aktualnyPoziomEpoki < 255) ? (sbyte)7 : (sbyte)10, false, true); //UNITY_SWITCH
+        MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_" + PomocniczeFunkcje.managerGryScript.aktualnaEpoka.ToString(), false);
+        SpawnerHord.actualHPBars = 0;
+        //PomocniczeFunkcje.mainMenu.OdpalKursor = true; //UNITY_SWITCH
     }
     public void ZmianaJęzyka(byte idx)
     {
@@ -502,6 +513,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 }
                 if (pFrazy[idx] != "")
                 {
+                    bool znalazlem = false;
                     for (ushort j = 0; j < wszystkieFrazy.Length; j++)
                     {
                         if (wszystkieFrazy[j].transform.name != "Text")
@@ -511,7 +523,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                                 wszystkieFrazy[j].text = pFrazy[idx];
                                 if (f != null)
                                     wszystkieFrazy[j].font = f;
-                                break;
+                                znalazlem = true;
                             }
                         }
                         else
@@ -521,8 +533,13 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                                 wszystkieFrazy[j].text = pFrazy[idx];
                                 if (f != null)
                                     wszystkieFrazy[j].font = f;
-                                break;
+                                znalazlem = true;
                             }
+                        }
+                        if (znalazlem && pFrazy[0] == "Akademia=nazwa")
+                        {
+                            znalazlem = false;
+                            break;
                         }
                     }
                     if (PomocniczeFunkcje.spawnBudynki != null)
@@ -632,6 +649,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             knpcd[i].NieŻyję = true;
         }
         PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(0);
+        RozgrywkaPoWalkaPrzełącz();
         /*
         KonkretnyNPCStatyczny[] knpcs = FindObjectsOfType(typeof(KonkretnyNPCStatyczny)) as KonkretnyNPCStatyczny[];
         for (ushort i = 0; i < knpcs.Length; i++)
@@ -865,23 +883,28 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     }
     public void RozwójBudynkow(byte idxRozwojuBudynku)
     {
-        switch (idxRozwojuBudynku)
+        if (iloscCoinów >= kosztRozwojuAkademii)
         {
-            case 1: //Max HP
-                hpIdx++;
-                PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(1);
-                DodajDoWartościStatystyk(1, -kosztRozwojuAkademii);
-                break;
-            case 2: //Max atak
-                atkIdx++;
-                PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(2);
-                DodajDoWartościStatystyk(1, -kosztRozwojuAkademii);
-                break;
-            case 3: //Max obrona
-                defIdx++;
-                PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(3);
-                DodajDoWartościStatystyk(1, -kosztRozwojuAkademii);
-                break;
+            iloscCoinów -= kosztRozwojuAkademii;
+            PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", iloscCoinów.ToString());
+            switch (idxRozwojuBudynku)
+            {
+                case 1: //Max HP
+                    hpIdx++;
+                    PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(1);
+                    DodajDoWartościStatystyk(1, -kosztRozwojuAkademii);
+                    break;
+                case 2: //Max atak
+                    atkIdx++;
+                    PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(2);
+                    DodajDoWartościStatystyk(1, -kosztRozwojuAkademii);
+                    break;
+                case 3: //Max obrona
+                    defIdx++;
+                    PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(3);
+                    DodajDoWartościStatystyk(1, -kosztRozwojuAkademii);
+                    break;
+            }
         }
     }
     public void KasujZapis()

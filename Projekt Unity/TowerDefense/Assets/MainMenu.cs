@@ -746,6 +746,13 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 poziomWEpoce.text = DajMiMaxPoziom(actEpok.ToString()).ToString();
             }
         }
+    }   
+    ///<summary>Sprawdź, czy wpisana wartość wykracza poza zakres odblokowanych epok.</summary>
+    public void SprawdźCzyZaWysoko()
+    {
+        int ustawionyPoziom = System.Int16.Parse(poziomWEpoce.text);
+        if (ustawionyPoziom > PomocniczeFunkcje.odblokowanyPoziomEpoki)
+            poziomWEpoce.text = PomocniczeFunkcje.odblokowanyPoziomEpoki.ToString("00");
     }
     ///<summary>Metoda ustawia wizualnie wartość po kliknięciu na button poGraj modyfikujący poziom.</summary>
     ///<param name="czyWyzej">Czy kliknięty button zwięsza wybrany poziom?</param>

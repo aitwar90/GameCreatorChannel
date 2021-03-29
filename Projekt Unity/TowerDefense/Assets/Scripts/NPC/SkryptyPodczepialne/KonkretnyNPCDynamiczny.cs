@@ -313,9 +313,12 @@ public class KonkretnyNPCDynamiczny : NPCClass
         PomocniczeFunkcje.managerGryScript.DodajDoWartościStatystyk(4, this.ileCoinówZaZabicie);
         if (ManagerGryScript.iloscAktywnychWrogów == 0)
         {
+            PomocniczeFunkcje.managerGryScript.RozgrywkaPoWalkaPrzełącz();
+            /*
             PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
             PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
+            */
         }
         if(this.agent != null)
             this.agent.isStopped = true;
