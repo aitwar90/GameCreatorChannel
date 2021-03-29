@@ -434,16 +434,23 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             lastPosCam = PomocniczeFunkcje.oCam.transform.position;
             PomocniczeFunkcje.oCam.transform.position = new Vector3(0.0f, 0.0f, -10.0f);
             PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Tło_None");
-            PomocniczeFunkcje.eSystem.SetSelectedGameObject(PomocniczeFunkcje.eSystem.firstSelectedGameObject);
+            UstawTenDomyslnyButton.UstawDomyślnyButton(0);
+            //PomocniczeFunkcje.eSystem.SetSelectedGameObject(PomocniczeFunkcje.eSystem.firstSelectedGameObject);
         }
         else
         {
             PomocniczeFunkcje.UstawTimeScale(1);
             PomocniczeFunkcje.oCam.transform.position = lastPosCam;
             if (ui_down.activeInHierarchy)
+            {
                 PomocniczeFunkcje.muzyka.WłączWyłączClip(true, PomocniczeFunkcje.TagZEpoka("AmbientWGrze", PomocniczeFunkcje.managerGryScript.aktualnaEpoka));
+                UstawTenDomyslnyButton.UstawDomyślnyButton(7);
+            }
             else
+            {
                 PomocniczeFunkcje.muzyka.WłączWyłączClip(true, "Bitwa");
+                UstawTenDomyslnyButton.UstawDomyślnyButton(9);
+            }
             OdpalKursor = true;
         }
     }

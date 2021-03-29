@@ -12,7 +12,7 @@
      {
         // for onscreen...
          myLog = myLog + "\n" + logString;
-         if (myLog.Length > kChars) { myLog = myLog.Substring(myLog.Length - kChars); }
+         //if (myLog.Length > kChars) { myLog = myLog.Substring(myLog.Length - kChars); }
  /*
          // for the file ...
          if (filename == "")
