@@ -119,6 +119,11 @@ public class SpawnBudynki : MonoBehaviour
                     ZatwierdźBudynekWindows();
                     return;
                 }
+                else if(Input.mousePresent && Input.GetMouseButtonDown(0))
+                {
+                    ZatwierdźBudynekWindows();
+                    return;
+                }
             }
             //else
             //{

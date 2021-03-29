@@ -473,6 +473,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 if (czasMiędzyFalami > 60)
                     czasMiędzyFalami = 60f;
                 MuzykaScript.singleton.WłączWyłączClip(true, "Bitwa");
+                PomocniczeFunkcje.mainMenu.WłączWyłączPanel("UI_LicznikCzasu", false);
                 UstawTenDomyslnyButton.UstawDomyślnyButton(9, false, true);
                 PomocniczeFunkcje.mainMenu.OdpalKursor = true;
             }
@@ -495,6 +496,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", iloscCoinów.ToString());
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("UI_LicznikCzasu", true);
         UstawTenDomyslnyButton.UstawDomyślnyButton((aktualnyPoziomEpoki < 255) ? (sbyte)7 : (sbyte)10, false, true);
         MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_" + PomocniczeFunkcje.managerGryScript.aktualnaEpoka.ToString(), false);
         SpawnerHord.actualHPBars = 0;
