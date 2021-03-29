@@ -34,7 +34,7 @@ public class UstawTenDomyslnyButton : MonoBehaviour
         {
             PomocniczeFunkcje.eSystem.SetSelectedGameObject(domyślnyGO[aktualnyStanNaEkranie]);
         }
-        else if (Input.anyKey)
+        else if (Input.anyKeyDown)
         {
             switch (aktualnyStanNaEkranie)
             {

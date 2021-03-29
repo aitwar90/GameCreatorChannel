@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MenuSceneMobile.unity
+    guid: 942f70b9f941be64b9fb3565a7386a07
+  - enabled: 1
+    path: Assets/Scenes/EpokaKamienia/Scena_3_EpokaKamienia.unity
+    guid: e8e89b9415585d29598cae68471a4342
+  - enabled: 1
+    path: Assets/Scenes/EpokaKamienia/Scena_4_EpokaKamienia.unity
+    guid: f7a57660175e74e09881cbf7f54ec2b5
+  - enabled: 1
+    path: Assets/Scenes/EpokaKamienia/Scena_5_EpokaKamienia.unity
+    guid: b8719b17033765ec1a26eacc9954a211
+  - enabled: 1
+    path: Assets/Scenes/EpokaKamienia/Samouczek.unity
+    guid: 1b61d19cb06ec097fa725cdbde1f40f0
+  m_configObjects: {}

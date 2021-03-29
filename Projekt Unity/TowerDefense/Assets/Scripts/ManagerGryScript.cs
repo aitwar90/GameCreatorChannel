@@ -96,7 +96,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     #region Metody UNITY
     void Awake()
     {
-        PlayerPrefsSwitch.PlayerPrefsSwitch.Init();
+        //PlayerPrefsSwitch.PlayerPrefsSwitch.Init();
         PomocniczeFunkcje.managerGryScript = this;
         PomocniczeFunkcje.spawnBudynki = FindObjectOfType(typeof(SpawnBudynki)) as SpawnBudynki;
         PomocniczeFunkcje.mainMenu = FindObjectOfType(typeof(MainMenu)) as MainMenu;
