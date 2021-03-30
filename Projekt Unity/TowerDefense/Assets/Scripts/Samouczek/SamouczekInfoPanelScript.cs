@@ -16,18 +16,19 @@ public class SamouczekInfoPanelScript : MonoBehaviour
     }
     private void OdpalPanel()
     {
+        PomocniczeFunkcje.mainMenu.wróćDoMenu.interactable = false;
+            PomocniczeFunkcje.UstawTimeScale(0);
         if(!this.gameObject.activeInHierarchy)
         {
-            PomocniczeFunkcje.mainMenu.wróćDoMenu.interactable = false;
-            PomocniczeFunkcje.UstawTimeScale(0);
             this.gameObject.SetActive(true);
-            tłoEnabeld.enabled = true;
-            if(scrollbar == null)
-                this.scrollbar = this.GetComponentInChildren<Scrollbar>();
-            StartCoroutine(UpdateScrollbar());
             //1.0f;  //c
            //this.GetComponentInChildren<Scrollbar>().value = 1.0f;
         }
+        tłoEnabeld.enabled = true;
+            if(scrollbar == null)
+                this.scrollbar = this.GetComponentInChildren<Scrollbar>();
+            StartCoroutine(UpdateScrollbar());
+        MoveCameraScript.blokujKamere = true;
     }
     public void ZamknijPanel()
     {
@@ -38,6 +39,7 @@ public class SamouczekInfoPanelScript : MonoBehaviour
             this.gameObject.SetActive(false);
             tłoEnabeld.enabled = false;
         }
+        MoveCameraScript.blokujKamere = false;
     }
     public void UstawTłoEnabeld(Image img)
     {

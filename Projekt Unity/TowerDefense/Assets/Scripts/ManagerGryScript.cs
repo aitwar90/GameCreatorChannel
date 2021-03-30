@@ -437,11 +437,10 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             else
             {
                 timerFal = 0;
-                if (aktualnyPoziomEpoki == 255 && iloscAktywnychWrogów > 0)
-                    return;
+                if (aktualnyPoziomEpoki == 255 && iloscAktywnychWrogów > 0) return;
+                if (czasMiędzyFalami < 60f) czasMiędzyFalami = 60f;
                 PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
-                PomocniczeFunkcje.mainMenu.WłączWyłączPanel("UI_LicznikCzasu", false);
-                PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", false);
+                PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] { "UI_LicznikCzasu", "ui_down" }, false);
                 MuzykaScript.singleton.WłączWyłączClip(true, "Bitwa");
             }
         }
@@ -453,11 +452,6 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         byte czas = (byte)(czasMiędzyFalami - timerFal);
         if (czas != bufferTimerFal)
         {
-            if (czasMiędzyFalami - 1 == czas)
-            {
-                //MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_" + aktualnaEpoka.ToString(), false);
-                SpawnerHord.actualHPBars = 0;
-            }
             bufferTimerFal = czas;
             PomocniczeFunkcje.mainMenu.UstawTextUI("timer", czas.ToString());
         }
@@ -467,8 +461,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     {
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", iloscCoinów.ToString());
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
-        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
-        PomocniczeFunkcje.mainMenu.WłączWyłączPanel("UI_LicznikCzasu", true);
+        PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] { "UI_LicznikCzasu", "ui_down" }, true);
         //UstawTenDomyslnyButton.UstawDomyślnyButton((aktualnyPoziomEpoki < 255) ? (sbyte)7 : (sbyte)10, false, true); //UNITY_SWITCH
         MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_" + PomocniczeFunkcje.managerGryScript.aktualnaEpoka.ToString(), false);
         SpawnerHord.actualHPBars = 0;

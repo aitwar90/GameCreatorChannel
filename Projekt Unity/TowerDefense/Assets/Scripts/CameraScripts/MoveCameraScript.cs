@@ -9,6 +9,7 @@ public class MoveCameraScript : MonoBehaviour
     public static Vector3 bazowePolozenieKameryGry = new Vector3(52.0f, 6.5f, 52.0f);   //z - 43
     public static bool odwrócPrzesuwanie = false;   //Czy należy zmienić przesuwanie kamery (X - Z // Z - X)
     public GameObject volume;
+    public static bool blokujKamere = false;
     #endregion
 
     #region Zmienne prywatne
@@ -75,6 +76,8 @@ private static readonly float[] zoomBounds = new float[]{30f, 80f};
     // Update is called once per frame
     void Update()
     {
+        if(blokujKamere)
+            return;
         if (PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere() && PomocniczeFunkcje.spawnBudynki.aktualnyObiekt == null)
         {
             ObsluzKlawiature();
@@ -86,7 +89,7 @@ private static readonly float[] zoomBounds = new float[]{30f, 80f};
             {
                 ObsłużMysz();
             }
-            else
+            else 
             {
                 ObsłużTouchPad();
             }
@@ -241,9 +244,6 @@ private static readonly float[] zoomBounds = new float[]{30f, 80f};
     {
         if (Input.touchCount == 1)    //Przesuniecie kamery
         {
-            bool klik = false;
-            if (klik)
-                return;
             Touch dotyk = Input.GetTouch(0);
             if (dotyk.phase == TouchPhase.Moved) //Jeśli wykrywa przesunięcie palcem po ekranie
             {
