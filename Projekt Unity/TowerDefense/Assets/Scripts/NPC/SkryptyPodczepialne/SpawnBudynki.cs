@@ -112,6 +112,10 @@ public class SpawnBudynki : MonoBehaviour
             {
                 aktualnyObiekt.transform.position = posClick;
                 ostatniaPozycjaKursora = posClick;
+                if(Input.mousePresent)
+                {
+                    PrzesuwanieAktualnegoObiektu();
+                }
             }
             if (CzyMogęPostawićBudynek(posClick))
             {
@@ -246,7 +250,6 @@ public class SpawnBudynki : MonoBehaviour
             posClick = WyrównajSpawn(posClick);
         }
         PomocniczeFunkcje.mainMenu.UstawPosPanelBudowyBudynków(posCursor);
-        Debug.Log("Ustawiam posClick na "+posCursor);
     }
     private void HelperZatwierdzenieBudynku()
     {
