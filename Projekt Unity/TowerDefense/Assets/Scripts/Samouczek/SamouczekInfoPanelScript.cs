@@ -35,15 +35,15 @@ public class SamouczekInfoPanelScript : MonoBehaviour
         if (this.gameObject.activeInHierarchy)
         {
             //PomocniczeFunkcje.mainMenu.wróćDoMenu.interactable = true;
-            PomocniczeFunkcje.UstawTimeScale(1);
             this.gameObject.SetActive(false);
-            tłoEnabeld.enabled = false;
-            if (UstawTenDomyslnyButton.aktualnyStanNaEkranie == 10 || UstawTenDomyslnyButton.aktualnyStanNaEkranie == 9)
-            {
-                PomocniczeFunkcje.mainMenu.OdpalKursor = true;
-            }
-            UstawTenDomyslnyButton.UstawDomyślnyButton();
         }
+        tłoEnabeld.enabled = false;
+        PomocniczeFunkcje.UstawTimeScale(1);
+        if (UstawTenDomyslnyButton.aktualnyStanNaEkranie == 10 || UstawTenDomyslnyButton.aktualnyStanNaEkranie == 9)
+        {
+            PomocniczeFunkcje.mainMenu.OdpalKursor = true;
+        }
+        UstawTenDomyslnyButton.UstawDomyślnyButton();
     }
     public void UstawTłoEnabeld(Image img)
     {

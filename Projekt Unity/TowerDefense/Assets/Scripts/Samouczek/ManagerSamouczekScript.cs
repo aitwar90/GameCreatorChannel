@@ -219,6 +219,7 @@ public class ManagerSamouczekScript : MonoBehaviour
                     if (PomocniczeFunkcje.mainMenu.OdpalonyPanel)
                     {
                         PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
+                        UstawTenDomyslnyButton.UstawAktywnyButton(sips.przyciskDalejButtonu.gameObject);
                     }
                     break;
                 case 4:

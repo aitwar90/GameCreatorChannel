@@ -59,12 +59,14 @@ public class SpawnerHord : MonoBehaviour
                 }
                 else if(poziomEpoki < 9)
                 {
+                    PomocniczeFunkcje.managerGryScript.czasMiędzyFalami = 140f;
                     iloscFalNaKoncu = (byte)(2+poziomEpoki/2f);
                     maxIlośćNaFalę = (ushort)(iloscFalNaKoncu*(ushort)(3+(poziomEpoki/10f)));
                     ResortTabSpawnerPont();
                 }
                 else
                 {
+                    PomocniczeFunkcje.managerGryScript.czasMiędzyFalami = 100f;
                     iloscFalNaKoncu = (byte)(4+poziomEpoki/3f);
                     maxIlośćNaFalę = (ushort)(Mathf.CeilToInt(poziomEpoki*0.5f) + 100);
                     ResortTabSpawnerPont();

@@ -872,6 +872,7 @@ public static class PomocniczeFunkcje
     {
         if (PlayerPrefs.HasKey("DataSave"))
         {
+            //Debug.Log("Przeszedłem HasKey");
             string ładowaneDane = PlayerPrefs.GetString("DataSave");
             string[] s = ładowaneDane.Split('_');
 
@@ -1130,11 +1131,14 @@ public static class PomocniczeFunkcje
     }
     public static void KasujZapis()
     {
+        PlayerPrefs.DeleteAll();
+        /*
         string ścieżka = ZwróćŚcieżkęZapisu("dataBaseTDv1.asc");
         if (File.Exists(ścieżka))
         {
             File.Delete(ścieżka);
         }
+        */
     }
     #endregion
     /*

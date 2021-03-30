@@ -96,7 +96,9 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     #region Metody UNITY
     void Awake()
     {
-        //PlayerPrefsSwitch.PlayerPrefsSwitch.Init();
+        #if !UNITY_EDITOR
+        PlayerPrefsSwitch.PlayerPrefsSwitch.Init();
+        #endif
         PomocniczeFunkcje.managerGryScript = this;
         PomocniczeFunkcje.spawnBudynki = FindObjectOfType(typeof(SpawnBudynki)) as SpawnBudynki;
         PomocniczeFunkcje.mainMenu = FindObjectOfType(typeof(MainMenu)) as MainMenu;
@@ -121,6 +123,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             skrzynki[i] = new Skrzynka(ref PomocniczeFunkcje.mainMenu.buttonSkrzynki[i]);
         }
         StartCoroutine(CzekajAz());
+        //MetodaDoOdpaleniaPoWyczekaniu();
     }
     void Update()
     {
@@ -359,7 +362,6 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         if (aktualnyPoziomEpoki < 255)
         {
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] { "ui_down", "UI_LicznikCzasu" }, true);
-            czasMiędzyFalami -= aktualnyPoziomEpoki;
         }
         else
         {
@@ -474,7 +476,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                     czasMiędzyFalami = 60f;
                 MuzykaScript.singleton.WłączWyłączClip(true, "Bitwa");
                 PomocniczeFunkcje.mainMenu.WłączWyłączPanel("UI_LicznikCzasu", false);
-                UstawTenDomyslnyButton.UstawDomyślnyButton(9, false, true);
+                UstawTenDomyslnyButton.UstawDomyślnyButton(9, false);
                 PomocniczeFunkcje.mainMenu.OdpalKursor = true;
             }
         }
@@ -497,7 +499,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("UI_LicznikCzasu", true);
-        UstawTenDomyslnyButton.UstawDomyślnyButton((aktualnyPoziomEpoki < 255) ? (sbyte)7 : (sbyte)10, false, true);
+        UstawTenDomyslnyButton.UstawDomyślnyButton((aktualnyPoziomEpoki < 255) ? (sbyte)7 : (sbyte)10, false);
         MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_" + PomocniczeFunkcje.managerGryScript.aktualnaEpoka.ToString(), false);
         SpawnerHord.actualHPBars = 0;
         PomocniczeFunkcje.mainMenu.OdpalKursor = true;
@@ -958,8 +960,8 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     public void MetodaDoOdpaleniaPoWyczekaniu()
     {
         PomocniczeFunkcje.LadujDaneOpcje();
-        PomocniczeFunkcje.ŁadujDane();
         ZmianaJęzyka((byte)PomocniczeFunkcje.mainMenu.lastIdxJezyka);
+        PomocniczeFunkcje.ŁadujDane();
         //UtworzSzablonPlikuJezykowego();
         PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunekGracza);
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());

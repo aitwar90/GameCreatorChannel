@@ -441,10 +441,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         {
             PomocniczeFunkcje.UstawTimeScale(1);
             PomocniczeFunkcje.oCam.transform.position = lastPosCam;
-            if (ui_down.activeInHierarchy)
+            if (ui_down.activeSelf || !PomocniczeFunkcje.managerGryScript.CzyScenaZostałaZaładowana)
             {
                 PomocniczeFunkcje.muzyka.WłączWyłączClip(true, PomocniczeFunkcje.TagZEpoka("AmbientWGrze", PomocniczeFunkcje.managerGryScript.aktualnaEpoka));
-                UstawTenDomyslnyButton.UstawDomyślnyButton(7);
+                UstawTenDomyslnyButton.UstawDomyślnyButton((PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki < 255) ? (sbyte)7 : (sbyte)10);
             }
             else
             {
@@ -799,7 +799,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         }
         PomocniczeFunkcje.oCam.transform.position = MoveCameraScript.bazowePolozenieKameryGry;
         lastPosCam = MoveCameraScript.bazowePolozenieKameryGry;
-        poGraj.SetActive(false);
+        WłączWyłączPanel(poGraj.name, false);
         PrzełączUI(false);
         kPoziomDoZaladowania = -1;
     }
@@ -1455,7 +1455,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public void ZmieńJęzyk()
     {
         lastIdxJezyka++;
-        //1 - Polski, 2 - Angielski, 3 - Rosyjski, 4 - Ukraiński
+        //0 - Polski, 1 - Angielski, 2 - Rosyjski, 3 - Ukraiński
         if (lastIdxJezyka < 0 || lastIdxJezyka > 3)  //Tu należy zmienić liczbę jesli dodany zostanie nowy jezyk
             lastIdxJezyka = 0;
         PomocniczeFunkcje.managerGryScript.ZmianaJęzyka((byte)lastIdxJezyka);

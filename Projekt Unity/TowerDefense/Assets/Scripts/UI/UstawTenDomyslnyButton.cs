@@ -189,6 +189,7 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                     else if (Input.GetButtonDown("AnulujZaznaczenie"))    //Kliknięty X   -> Ustawia domyślny button dla stanu
                     {
                         GameObject go = PomocniczeFunkcje.mainMenu.ZwróćGOPoNazwie("SamouczekPanel").transform.Find("SamouczekInfoPanel/SamouczekDalej").gameObject;
+                        Debug.Log("go = "+go.name);
                         if (!go.activeInHierarchy)
                             UstawDomyślnyButton();
                         else
@@ -241,17 +242,17 @@ public class UstawTenDomyslnyButton : MonoBehaviour
     }
     ///<summary>Metoda ustawia ostatnio aktywny przycisk</summary>
     ///<param name="ustIdx">Indeks stanu UI jaki ma zostać ustawiony (aktualnyStanNaEkranie = domyślnie -1)</param>
-    public static void UstawDomyślnyButton(sbyte ustIdx = -1, bool weźPoprzedniStan = false, bool wymusZmiane = false)
+    public static void UstawDomyślnyButton(sbyte ustIdx = -1, bool weźPoprzedniStan = false)
     {
         if (ustIdx > -1)
         {
-            ZaktualizujStan((byte)ustIdx, weźPoprzedniStan, wymusZmiane);
+            ZaktualizujStan((byte)ustIdx, weźPoprzedniStan);
         }
         UstawAktywnyButton(sDO[aktualnyStanNaEkranie]);
     }
     ///<summary>Metoda aktualizuje stan</summary>
     ///<param name="ustIdx">Indeks stanu UI jaki ma zostać ustawiony (aktualnyStanNaEkranie)</param>
-    public static void ZaktualizujStan(byte ustIdx, bool weźPoprzedniStan = false, bool wymusZmiane = false)
+    public static void ZaktualizujStan(byte ustIdx, bool weźPoprzedniStan = false)
     {
         if (weźPoprzedniStan)
         {
@@ -259,7 +260,7 @@ public class UstawTenDomyslnyButton : MonoBehaviour
             aktualnyStanNaEkranie = wczesniejszyStan;
             wczesniejszyStan = ustIdx;
         }
-        else if (aktualnyStanNaEkranie == 5 && !wymusZmiane)
+        else if (aktualnyStanNaEkranie == 5)
         {
             wczesniejszyStan = ustIdx;
         }
@@ -268,6 +269,7 @@ public class UstawTenDomyslnyButton : MonoBehaviour
             wczesniejszyStan = aktualnyStanNaEkranie;
             aktualnyStanNaEkranie = ustIdx;
         }
+        //Debug.Log("Aktualny stan = "+aktualnyStanNaEkranie);
     }
     public static void ResetujDanePrzycisków()
     {
