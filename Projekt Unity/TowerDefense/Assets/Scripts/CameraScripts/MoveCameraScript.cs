@@ -13,13 +13,8 @@ public class MoveCameraScript : MonoBehaviour
     #endregion
 
     #region Zmienne prywatne
-#if UNITY_STANDALONE
     private float prędkoscPrzesunięciaKamery = 5f;
-#endif
-#if UNITY_ANDROID || UNITY_IOS
-    private float prędkoscPrzesunięciaKamery = 0.035f;
-#endif
-private static readonly float[] zoomBounds = new float[]{30f, 80f};
+    private static readonly float[] zoomBounds = new float[] { 30f, 80f };
     private Vector3 ostatniaPozycjaKamery = Vector3.zero;
     private Vector3 pierwotnePołożenieKamery = Vector3.zero;
     private byte granica = 5;
@@ -50,11 +45,14 @@ private static readonly float[] zoomBounds = new float[]{30f, 80f};
     #endregion
     void Awake()
     {
-        if(mscInstance == null)
+        if (mscInstance == null)
         {
             mscInstance = this;
-            if(volume == null)
+            if (volume == null)
                 volume = GameObject.Find("Volume");
+#if UNITY_ANDROID || UNITY_IOS
+    float prędkoscPrzesunięciaKamery = 0.035f;
+#endif
         }
         else
         {
@@ -76,7 +74,7 @@ private static readonly float[] zoomBounds = new float[]{30f, 80f};
     // Update is called once per frame
     void Update()
     {
-        if(blokujKamere)
+        if (blokujKamere)
             return;
         if (PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere() && PomocniczeFunkcje.spawnBudynki.aktualnyObiekt == null)
         {
@@ -261,8 +259,8 @@ private static readonly float[] zoomBounds = new float[]{30f, 80f};
             Touch przybliżenie1 = Input.GetTouch(0);
             Touch przybliżenie2 = Input.GetTouch(1);
             //https://kylewbanks.com/blog/unity3d-panning-and-pinch-to-zoom-camera-with-touch-and-mouse-input
-            Vector2[] newPositions = new Vector2[]{przybliżenie1.position, przybliżenie2.position};
-            if(!wasZoomingLastFrame)
+            Vector2[] newPositions = new Vector2[] { przybliżenie1.position, przybliżenie2.position };
+            if (!wasZoomingLastFrame)
             {
                 lastZoomPositions = newPositions;
                 wasZoomingLastFrame = true;
@@ -299,10 +297,10 @@ private static readonly float[] zoomBounds = new float[]{30f, 80f};
     }
     void ZoomingMeNew(float offset, float speed)
     {
-        if(offset == 0)
+        if (offset == 0)
             return;
 
-        PomocniczeFunkcje.oCam.fieldOfView = Mathf.Clamp(PomocniczeFunkcje.oCam.fieldOfView - (offset*speed), zoomBounds[0], zoomBounds[1]);
+        PomocniczeFunkcje.oCam.fieldOfView = Mathf.Clamp(PomocniczeFunkcje.oCam.fieldOfView - (offset * speed), zoomBounds[0], zoomBounds[1]);
     }
     private float DodajElementyWektora(ref Vector2 v)
     {
@@ -316,7 +314,7 @@ private static readonly float[] zoomBounds = new float[]{30f, 80f};
     {
         volume.SetActive(c);
         this.GetComponent<UnityEngine.Rendering.PostProcessing.PostProcessLayer>().enabled = c;
-        if(!czyPrzezOpcje)
+        if (!czyPrzezOpcje)
             PomocniczeFunkcje.mainMenu.CzyPostProcesing = c;
     }
     #endregion
