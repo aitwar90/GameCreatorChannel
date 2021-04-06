@@ -54,6 +54,11 @@ public class ManagerSamouczekScript : MonoBehaviour
         ManagerGryScript mgs = PomocniczeFunkcje.managerGryScript;
         if (!byloZaladowane)
         {
+            idxProgresuSamouczka = 0;
+            symulujManageraUpdate = 0;
+            sprawdzajCzyZaliczone = false;
+            zmiennaPomocnicza = -1;
+
             //Stworzenie danych tymczasowych zapisujących stan gracza
             tmpHajs = ManagerGryScript.iloscCoinów;
             skrzynki = mgs.skrzynki;
@@ -62,7 +67,7 @@ public class ManagerSamouczekScript : MonoBehaviour
             e3 = mgs.ekwipunekGracza[2].ilośćDanejNagrody;
             e4 = mgs.ekwipunekGracza[3].ilośćDanejNagrody;
             skrzynki = new Skrzynka[4];
-            for(byte i = 0; i < 4; i++)
+            for (byte i = 0; i < 4; i++)
             {
                 skrzynki[i] = mgs.skrzynki[i];
             }
@@ -260,7 +265,7 @@ public class ManagerSamouczekScript : MonoBehaviour
                     }
                     break;
                 case 9:
-                    if(zmiennaPomocnicza == 12) //Kliknięte postaw już murek
+                    if (zmiennaPomocnicza == 12) //Kliknięte postaw już murek
                     {
                         sktv.WyłączObiekt();
                         WywolajProgress();
@@ -364,14 +369,14 @@ public class ManagerSamouczekScript : MonoBehaviour
                 {
                     for (byte j = 0; j < PomocniczeFunkcje.managerGryScript.fontyJezyków[i].idxJezyka.Length; j++)
                     {
-                        if (PomocniczeFunkcje.managerGryScript.fontyJezyków[i].idxJezyka[j] == jez+1)
+                        if (PomocniczeFunkcje.managerGryScript.fontyJezyków[i].idxJezyka[j] == jez + 1)
                         {
                             fToLoad = PomocniczeFunkcje.managerGryScript.fontyJezyków[i].font;
                             znalazlem = true;
                             break;
                         }
                     }
-                    if(znalazlem)
+                    if (znalazlem)
                         break;
                 }
             }
@@ -392,7 +397,7 @@ public class ManagerSamouczekScript : MonoBehaviour
     public void OpuśćSamouczek(bool res = true)
     {
         ZwróćMiDane();
-        if(res)
+        if (res)
             PomocniczeFunkcje.mainMenu.ResetSceny(false);
         PomocniczeFunkcje.mainMenu.PrzełączUI(true);
         this.sips.gameObject.SetActive(false);
@@ -408,26 +413,26 @@ public class ManagerSamouczekScript : MonoBehaviour
             ManagerGryScript.iloscCoinów = tmpHajs;
             mgs.skrzynki = skrzynki;
             mgs.ekwipunekGracza[0].ilośćDanejNagrody = e1;
-            if(e1 > 0)
+            if (e1 > 0)
             {
                 PomocniczeFunkcje.mainMenu.przyciskiNagród[0].interactable = true;
             }
             mgs.ekwipunekGracza[1].ilośćDanejNagrody = e2;
-            if(e2 > 0)
+            if (e2 > 0)
             {
                 PomocniczeFunkcje.mainMenu.przyciskiNagród[1].interactable = true;
             }
             mgs.ekwipunekGracza[2].ilośćDanejNagrody = e3;
-            if(e3 > 0)
+            if (e3 > 0)
             {
                 PomocniczeFunkcje.mainMenu.przyciskiNagród[2].interactable = true;
             }
             mgs.ekwipunekGracza[3].ilośćDanejNagrody = e4;
-            if(e4 > 0)
+            if (e4 > 0)
             {
                 PomocniczeFunkcje.mainMenu.przyciskiNagród[3].interactable = true;
             }
-            for(byte i = 0; i < 4; i++)
+            for (byte i = 0; i < 4; i++)
             {
                 mgs.skrzynki[i] = skrzynki[i];
             }
@@ -455,7 +460,7 @@ public class ManagerSamouczekScript : MonoBehaviour
     ///<param name="i">Sprawdza czy parametr jest zgodny z aktualnym stanem progresu samouczka.</param>
     public bool CzyZgadzaSięIDXGłówny(sbyte i)
     {
-        if(i == idxProgresuSamouczka)
+        if (i == idxProgresuSamouczka)
             return true;
         return false;
     }
