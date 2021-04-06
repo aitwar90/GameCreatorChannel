@@ -13,7 +13,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     [Tooltip("Aktualna epoka w której gra gracz")]
     public Epoki aktualnaEpoka;
     public byte aktualnyPoziomEpoki = 1;
-
+    public static byte boostDoAtaku = 0;
     [Header("Informacje o graczu")]
     [Tooltip("Czas pomięczy kolejnymi falami hordy")]
     public float czasMiędzyFalami = 1;
@@ -409,6 +409,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         poziomZakonczony = false;
         idxOfManagerGryScript = 0;
         iloscAktywnychWrogów = 0;
+        boostDoAtaku = 0;
         wartościDlaStatystyk = new int[] { 0, 0, 0, 0, 0, 0 };
 
     }
@@ -699,7 +700,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     }
     public void KliknietyButtonZwiekszeniaNagrodyPoLvlu()
     {
-        ushort c = (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 15);
+        ushort c = (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 20);
         DodajDoWartościStatystyk(5, c);
         PomocniczeFunkcje.mainMenu.UstawDaneStatystyk(ref wartościDlaStatystyk);
         or.OtwórzReklame(1, c);
@@ -751,9 +752,9 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
             PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
             OdblokujKolejnaSkrzynke();
-            PomocniczeFunkcje.ZapiszDane();
-            ushort wartośćCoinówWygrana = (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 15);
+            ushort wartośćCoinówWygrana = (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 20);
             iloscCoinów += wartośćCoinówWygrana;
+            PomocniczeFunkcje.ZapiszDane();
             DodajDoWartościStatystyk(5, wartośćCoinówWygrana);
             PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("WinTXT", true);

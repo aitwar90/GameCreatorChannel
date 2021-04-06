@@ -53,9 +53,12 @@ public class PrzedmiotScript : MonoBehaviour
                     DodajNagrode(true);
                     break;
                 case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
-                    if(PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
-                        break;
-                    bool czyUzylem = false;
+                    if(ManagerGryScript.boostDoAtaku < 200)
+                    {
+                        ManagerGryScript.boostDoAtaku += 20;
+                        ilośćDanejNagrody--;
+                    }
+                    /*
                     for (byte i = 0; i < 4; i++)
                     {
                         Skrzynka s = PomocniczeFunkcje.managerGryScript.ZwróćSkrzynkeOIndeksie(i);
@@ -65,8 +68,7 @@ public class PrzedmiotScript : MonoBehaviour
                             czyUzylem = true;
                         }
                     }
-                    if (czyUzylem)
-                        ilośćDanejNagrody--;
+                    */     
                     break;
             }
         }

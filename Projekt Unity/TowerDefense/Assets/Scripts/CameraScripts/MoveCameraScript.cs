@@ -51,7 +51,7 @@ public class MoveCameraScript : MonoBehaviour
             if (volume == null)
                 volume = GameObject.Find("Volume");
 #if UNITY_ANDROID || UNITY_IOS
-    float prędkoscPrzesunięciaKamery = 0.035f;
+    prędkoscPrzesunięciaKamery = 0.035f;
 #endif
         }
         else

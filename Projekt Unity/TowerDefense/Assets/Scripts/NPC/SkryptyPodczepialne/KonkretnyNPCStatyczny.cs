@@ -371,7 +371,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             switch (typAtakuWieży)
             {
                 case TypAtakuWieży.jedenTarget: //Jeden Target
-                    cel.ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń)));
+                    cel.ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń + ManagerGryScript.boostDoAtaku)));
                     if (cel.NieŻyję)
                     {
                         //Debug.Log("No to jedziemy");
@@ -386,7 +386,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     for (byte i = 0; i < iloscCol; i++)
                     {
                         NPCClass klasa = tabZasięgu[i].GetComponent<NPCClass>();
-                        klasa.ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń)));
+                        klasa.ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń + ManagerGryScript.boostDoAtaku)));
                     }
                     if (cel.NieŻyję)
                     {
@@ -401,7 +401,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     {
                         for (byte i = 0; i < wrogowieWZasiegu.Length; i++)
                         {
-                            wrogowieWZasiegu[i].ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń)));
+                            wrogowieWZasiegu[i].ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń + ManagerGryScript.boostDoAtaku)));
                         }
                         /*
                         if (cel.NieŻyję)
