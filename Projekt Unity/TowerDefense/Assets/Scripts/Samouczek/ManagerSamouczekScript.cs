@@ -12,7 +12,7 @@ public class ManagerSamouczekScript : MonoBehaviour
     private bool sprawdzajCzyZaliczone = false;
     public TextAsset plikTekstowySamouczka;
     private string[] zaladujTextKonkretne = null;
-    private ushort tmpHajs = 0;
+    private int tmpHajs = 0;
     private Skrzynka[] skrzynki = null;
     private byte e1 = 0, e2 = 0, e3 = 0, e4 = 0;
     private ushort thp = 0, atkIdx = 0, defidx = 0;

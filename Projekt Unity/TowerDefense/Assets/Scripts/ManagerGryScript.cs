@@ -9,7 +9,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     [Header("Podstawowe informacje dla gracza")]
     #region Zmienne publiczne
     [Tooltip("Aktualna ilość monet")]
-    public static ushort iloscCoinów = 300;
+    public static int iloscCoinów = 9000000;
     [Tooltip("Aktualna epoka w której gra gracz")]
     public Epoki aktualnaEpoka;
     public byte aktualnyPoziomEpoki = 1;
@@ -32,11 +32,11 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     public TextAsset plikJezykowy;
     [Tooltip("Wszystkie dostępne jednostki w grze, które mogą mieć nastawienie wrogie")]
     public NPCClass[] wszystkieRodzajeWrogichJednostek;
-    [HideInInspector] public ushort hpIdx;
-    [HideInInspector] public ushort atkIdx;
-    [HideInInspector] public ushort defIdx;
+    [HideInInspector] public ushort hpIdx = 75;
+    [HideInInspector] public ushort atkIdx = 50;
+    [HideInInspector] public ushort defIdx = 50;
     [Tooltip("Ile ma kosztować rozwój w akademii")]
-    public ushort kosztRozwojuAkademii = 300;
+    public short kosztRozwojuAkademii = 300;
     public static bool odpalamNaUnityRemote = false;
     #endregion
     #region Particles
@@ -319,8 +319,8 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     #region Metody podczas ładowania i kasowania sceny
     private void ŁadowanieDanych()
     {
-        if (iloscCoinów < 50)
-            iloscCoinów = 50;
+        if (iloscCoinów < 100)
+            iloscCoinów = 100;
         PomocniczeFunkcje.spawnerHord = FindObjectOfType(typeof(SpawnerHord)) as SpawnerHord;
         PomocniczeFunkcje.spawnerHord.UstawHorde(aktualnaEpoka, aktualnyPoziomEpoki);
         PomocniczeFunkcje.kameraZostalaPrzesunieta = 2;
@@ -328,7 +328,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.tablicaWież = new List<InformacjeDlaPolWież>[22, 22];
         PomocniczeFunkcje.aktualneGranicaTab = (ushort)((terr.terrainData.size.x - 56) / 2.0f);
         PomocniczeFunkcje.distXZ = (terr.terrainData.size.x - (PomocniczeFunkcje.aktualneGranicaTab * 2)) / PomocniczeFunkcje.tablicaWież.GetLength(0);
-        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
+        //PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćFal", SpawnerHord.actFala.ToString() + "/" + SpawnerHord.iloscFalNaKoncu.ToString());
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
         PomocniczeFunkcje.spawnBudynki.InicjacjaPaneluBudynków();
@@ -700,11 +700,12 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     }
     public void KliknietyButtonZwiekszeniaNagrodyPoLvlu()
     {
-        ushort c = (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 20);
+        short c = (short)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 20);
         DodajDoWartościStatystyk(5, c);
         PomocniczeFunkcje.mainMenu.UstawDaneStatystyk(ref wartościDlaStatystyk);
-        or.OtwórzReklame(1, c);
-        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
+        //ZmodyfikujIlośćCoinów(c);
+        or.OtwórzReklame(1, (ushort)c);
+        //PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
     }
     public void UzyciePrzedmiotu(byte idxOfItem)
     {
@@ -752,11 +753,12 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
             PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
             OdblokujKolejnaSkrzynke();
-            ushort wartośćCoinówWygrana = (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 20);
-            iloscCoinów += wartośćCoinówWygrana;
+            short wartośćCoinówWygrana = (short)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 20);
+            ZmodyfikujIlośćCoinów(wartośćCoinówWygrana);
+            //iloscCoinów += wartośćCoinówWygrana;
             PomocniczeFunkcje.ZapiszDane();
             DodajDoWartościStatystyk(5, wartośćCoinówWygrana);
-            PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
+            //PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("WinTXT", true);
             PomocniczeFunkcje.mainMenu.UstawDaneStatystyk(ref wartościDlaStatystyk);
             MuzykaScript.singleton.WłączWyłączClip(true, "Zwycięstwo");
@@ -771,6 +773,30 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] { "ui_down", "UI_LicznikCzasu" }, false);
         poziomZakonczony = true;
         iloscAktywnychWrogów = 0;
+    }
+    public void ZmodyfikujIlośćCoinów(short zmianaWartosci)
+    {
+        const int maxCoin = 2147483647;
+        if (zmianaWartosci > 0)
+        {
+            if (maxCoin - zmianaWartosci > iloscCoinów)
+            {
+                iloscCoinów = maxCoin;
+                PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
+            }
+            else
+            {
+                iloscCoinów += zmianaWartosci;
+                PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
+            }
+        }
+        else
+        {
+            iloscCoinów += zmianaWartosci;
+            if(iloscCoinów < 0)
+                iloscCoinów = 0;
+            PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
+        }
     }
     public void PrzejdźNaNastepnyPoziom(bool czyNowyPoziom = true)
     {
@@ -882,7 +908,8 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     {
         if (iloscCoinów >= kosztRozwojuAkademii)
         {
-            iloscCoinów -= kosztRozwojuAkademii;
+            ZmodyfikujIlośćCoinów((short)-kosztRozwojuAkademii);
+            //iloscCoinów -= kosztRozwojuAkademii;
             PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", iloscCoinów.ToString());
             switch (idxRozwojuBudynku)
             {

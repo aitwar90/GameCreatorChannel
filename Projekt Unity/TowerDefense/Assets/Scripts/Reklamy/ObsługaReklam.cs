@@ -200,7 +200,8 @@ public class ObsługaReklam : MonoBehaviour
     }
     private void DodajNagrodęZaPoziom(ushort bazowaWartosc)
     {
-        ManagerGryScript.iloscCoinów += (ushort)(bazowaWartosc * 2);
+        PomocniczeFunkcje.managerGryScript.ZmodyfikujIlośćCoinów((short)(bazowaWartosc * 2));
+        //ManagerGryScript.iloscCoinów += (ushort)(bazowaWartosc * 2);
     }
 
 }
