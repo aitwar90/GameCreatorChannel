@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748174, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641263, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1471,7 +1471,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.35000002}
-  m_AnchoredPosition: {x: 0, y: -5.007065}
+  m_AnchoredPosition: {x: 0, y: -5.00708}
   m_SizeDelta: {x: 0, y: 9.0718}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &121878498
@@ -2282,7 +2282,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &219638873
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8927,6 +8927,7 @@ GameObject:
   m_Component:
   - component: {fileID: 373253078}
   - component: {fileID: 373253079}
+  - component: {fileID: 373253080}
   m_Layer: 5
   m_Name: "CzyOdwr\xF3ci\u0107Przesuwanie"
   m_TagString: Untagged
@@ -8974,7 +8975,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 2
+  m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -9014,7 +9015,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 373253080}
+        m_TargetAssemblyTypeName: "Obs\u0142ugaToogleUI, Assembly-CSharp"
+        m_MethodName: "W\u0142Wy\u0142Checkmark"
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
+--- !u!114 &373253080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373253077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1d22159436db24a8da3fffbb3dce83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obrazekCheckMark: {fileID: 1060255620}
 --- !u!1 &376143899
 GameObject:
   m_ObjectHideFlags: 0
@@ -10578,7 +10604,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -300}
+  m_AnchoredPosition: {x: 0, y: -265}
   m_SizeDelta: {x: 269.49, y: 530}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &534014605
@@ -10891,6 +10917,7 @@ GameObject:
   m_Component:
   - component: {fileID: 575611781}
   - component: {fileID: 575611782}
+  - component: {fileID: 575611783}
   m_Layer: 5
   m_Name: CzyPostProcessing
   m_TagString: Untagged
@@ -10938,7 +10965,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 2
+  m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -10978,7 +11005,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 575611783}
+        m_TargetAssemblyTypeName: "Obs\u0142ugaToogleUI, Assembly-CSharp"
+        m_MethodName: "W\u0142Wy\u0142Checkmark"
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
+--- !u!114 &575611783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575611780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1d22159436db24a8da3fffbb3dce83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obrazekCheckMark: {fileID: 665918590}
 --- !u!1 &589619805
 GameObject:
   m_ObjectHideFlags: 0
@@ -24575,6 +24627,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1913154592}
   - component: {fileID: 1913154593}
+  - component: {fileID: 1913154594}
   m_Layer: 5
   m_Name: ToggleFPS
   m_TagString: Untagged
@@ -24622,7 +24675,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 2
+  m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -24632,7 +24685,7 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: 6f3479833b845ae4a9131709a6c92738, type: 3}
+    m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}
     m_SelectedSprite: {fileID: 21300000, guid: 6f3479833b845ae4a9131709a6c92738, type: 3}
     m_DisabledSprite: {fileID: 0}
@@ -24662,7 +24715,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1913154594}
+        m_TargetAssemblyTypeName: "Obs\u0142ugaToogleUI, Assembly-CSharp"
+        m_MethodName: "W\u0142Wy\u0142Checkmark"
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
+--- !u!114 &1913154594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1913154591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1d22159436db24a8da3fffbb3dce83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obrazekCheckMark: {fileID: 23632564}
 --- !u!1 &1926874336
 GameObject:
   m_ObjectHideFlags: 0
@@ -25975,7 +26053,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 437094945}
   m_Direction: 2
   m_Value: 0.5
-  m_Size: 0.078352906
+  m_Size: 0.09026673
   m_NumberOfSteps: 1
   m_OnValueChanged:
     m_PersistentCalls:
