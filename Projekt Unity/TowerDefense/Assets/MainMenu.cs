@@ -791,7 +791,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     ///<param name="zresetuj">Czy przyciski mają wrócić do pierwotnej pozycji.</param>
     public void PrzesuńBudynki(float wartość, bool zresetuj = false)
     {
-        short wartośćPrzesunięciaY = -290;
+        short wartośćPrzesunięciaY = 280;
         if (zresetuj && wartość == 0)
         {
             trBudynkówŁącze.anchoredPosition = new Vector3(trBudynkówŁącze.anchoredPosition.x, wartośćPrzesunięciaY);
