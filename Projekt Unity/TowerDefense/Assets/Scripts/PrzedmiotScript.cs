@@ -53,9 +53,9 @@ public class PrzedmiotScript : MonoBehaviour
                     PomocniczeFunkcje.mainMenu.UstawButtonNagrody(t, PomocniczeFunkcje.managerGryScript.ekwipunekGracza[t].ilośćDanejNagrody);
                     break;
                 case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:    //Na SWITCH zwiększa zadawane obrażenia przez wieże o 20
-                    if(ManagerGryScript.bonusDoObrażeń > 200)   //Jeśli bonus jest większy niż 200 to nie aplikuj
+                    if(ManagerGryScript.bonusDoObrażeń > 30)   //Jeśli bonus jest większy niż 30 to nie aplikuj
                         break;
-                    ManagerGryScript.bonusDoObrażeń += 20;
+                    ManagerGryScript.bonusDoObrażeń += 10;
                     /* UNITY_ANDROID
                 bool czyUzylem = false;
                 for (byte i = 0; i < 4; i++)

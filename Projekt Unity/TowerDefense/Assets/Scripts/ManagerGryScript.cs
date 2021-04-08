@@ -712,8 +712,9 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     {
         if (deltaCoin > 0)
         {
-            const int maxVal = 2147483647;
-            if (maxVal - iloscCoinów < deltaCoin)
+            const int maxVal = 2000000000;
+            //const int maxVal = 2147483647;
+            if (iloscCoinów + deltaCoin > maxVal)
             {
                 iloscCoinów = maxVal;
             }
