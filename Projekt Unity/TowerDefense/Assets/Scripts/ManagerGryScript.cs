@@ -9,7 +9,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     [Header("Podstawowe informacje dla gracza")]
     #region Zmienne publiczne
     [Tooltip("Aktualna ilość monet")]
-    public static int iloscCoinów = 1000000;
+    public static int iloscCoinów = 1000;
     [Tooltip("Aktualna epoka w której gra gracz")]
     public Epoki aktualnaEpoka;
     public byte aktualnyPoziomEpoki = 1;
@@ -755,11 +755,11 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 }
                 else    //Ten else do usunięcia jesli zostanie dodanych więcej epok
                 {
-
-                    PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
                     PomocniczeFunkcje.odblokowanyPoziomEpoki++;
                 }
             }
+            if(aktualnyPoziomEpoki % 100 != 0)
+                PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
             //  Obsługa Particle system
             PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
             OdblokujKolejnaSkrzynke();
