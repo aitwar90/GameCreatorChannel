@@ -512,6 +512,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             string fs = plikJezykowy.text;
             fs = fs.Replace("\n", "");
             fs = fs.Replace("\r", "");
+            fs = fs.Replace("; ", ";");
             string[] fLines = fs.Split(';');
             idx++;
             Font f = null;
@@ -714,7 +715,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         else
         {
             iloscCoinów += deltaCoin;
-            if(iloscCoinów < 0)
+            if (iloscCoinów < 0)
                 iloscCoinów = 0;
         }
         PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", iloscCoinów.ToString());
@@ -811,9 +812,10 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 else    //Ten else do usunięcia jesli zostanie dodanych więcej epok
                 {
                     PomocniczeFunkcje.odblokowanyPoziomEpoki++;
-                    PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
                 }
             }
+            if(aktualnyPoziomEpoki % 100 != 0)
+                PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
             //  Obsługa Particle system
             PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
             UstawTenDomyslnyButton.ZaktualizujStan(8);

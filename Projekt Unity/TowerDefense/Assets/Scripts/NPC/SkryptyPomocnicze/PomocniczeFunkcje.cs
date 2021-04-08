@@ -786,9 +786,8 @@ public static class PomocniczeFunkcje
         for (ushort i = 0; i < spawnBudynki.wszystkieBudynki.Length; i++)
         {
             KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
-            sDoZapisu = sDoZapisu + knpcs.name + "_" + knpcs.Zablokowany.ToString() + "_";
+            PlayerPrefs.SetInt("BlokadaBudynków_"+knpcs.name, (knpcs.Zablokowany) ? 0 : 1);
         }
-        PlayerPrefs.SetString("BlokadaBudynków", sDoZapisu);
         PlayerPrefs.Save();
         /*UNITY_ANDROID
         DataSave ds = new DataSave();
@@ -906,6 +905,24 @@ public static class PomocniczeFunkcje
             for (int i = 0; i < spawnBudynki.wszystkieBudynki.Length; i++)
             {
                 KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
+                if(PlayerPrefs.HasKey("BlokadaBudynków_"+knpcs.name))
+                {
+                    int t = PlayerPrefs.GetInt("BlokadaBudynków_"+knpcs.name);
+                    //Zablokowany 0 odblokowany 1
+                    if(t == 1)
+                    {
+                        knpcs.Zablokowany = false;
+                    }
+                    else
+                    {
+                        knpcs.Zablokowany = true;
+                    }
+                }
+                else
+                {
+                    knpcs.Zablokowany = knpcs.blokowany;
+                }
+                /*
                 bool czyZnalazlem = false;
                 for (ushort j = 0; i < s.Length; j += 2)
                 {
@@ -920,6 +937,7 @@ public static class PomocniczeFunkcje
                 {
                     knpcs.Zablokowany = knpcs.blokowany;
                 }
+                */
             }
         }
         else
