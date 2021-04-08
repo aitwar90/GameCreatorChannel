@@ -49,7 +49,8 @@ public class PrzedmiotScript : MonoBehaviour
                     break;
                 case TypPrzedmiotu.DodatkowaNagroda:
                     ilośćDanejNagrody--;
-                    DodajNagrode(true);
+                    byte t = DodajNagrode(true);
+                    PomocniczeFunkcje.mainMenu.UstawButtonNagrody(t, PomocniczeFunkcje.managerGryScript.ekwipunekGracza[t].ilośćDanejNagrody);
                     break;
                 case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:    //Na SWITCH zwiększa zadawane obrażenia przez wieże o 20
                     if(ManagerGryScript.bonusDoObrażeń > 200)   //Jeśli bonus jest większy niż 200 to nie aplikuj
