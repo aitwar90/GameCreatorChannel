@@ -472,8 +472,8 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 if (aktualnyPoziomEpoki == 255 && iloscAktywnychWrogów > 0)
                     return;
                 PomocniczeFunkcje.spawnerHord.GenerujSpawn(aktualnaEpoka);
-                if (czasMiędzyFalami > 60)
-                    czasMiędzyFalami = 60f;
+                if (czasMiędzyFalami > 55)
+                    czasMiędzyFalami = 55f;
                 MuzykaScript.singleton.WłączWyłączClip(true, "Bitwa");
                 PomocniczeFunkcje.mainMenu.WłączWyłączPanel("UI_LicznikCzasu", false);
                 UstawTenDomyslnyButton.UstawDomyślnyButton(9, false);
