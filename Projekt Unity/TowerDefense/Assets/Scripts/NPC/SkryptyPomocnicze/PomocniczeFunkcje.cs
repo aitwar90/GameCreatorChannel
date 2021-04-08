@@ -876,7 +876,7 @@ public static class PomocniczeFunkcje
             string ładowaneDane = PlayerPrefs.GetString("DataSave");
             string[] s = ładowaneDane.Split('_');
 
-            ManagerGryScript.iloscCoinów = (ushort)System.Int16.Parse(s[0]); if (ManagerGryScript.iloscCoinów < 70) { ManagerGryScript.iloscCoinów = 70; }
+            ManagerGryScript.iloscCoinów = (int)System.Int32.Parse(s[0]); if (ManagerGryScript.iloscCoinów < 70) { ManagerGryScript.iloscCoinów = 70; }
             odblokowaneEpoki = (byte)System.Int16.Parse(s[1]);
             odblokowanyPoziomEpoki = (byte)System.Int16.Parse(s[2]);
             managerGryScript.hpIdx = (ushort)System.Int16.Parse(s[3]);
