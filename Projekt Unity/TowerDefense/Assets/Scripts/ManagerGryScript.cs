@@ -9,14 +9,14 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     [Header("Podstawowe informacje dla gracza")]
     #region Zmienne publiczne
     [Tooltip("Aktualna ilość monet")]
-    public static int iloscCoinów = 9000000;
+    public static int iloscCoinów = 1000;
     [Tooltip("Aktualna epoka w której gra gracz")]
     public Epoki aktualnaEpoka;
     public byte aktualnyPoziomEpoki = 1;
     public static byte boostDoAtaku = 0;
     [Header("Informacje o graczu")]
     [Tooltip("Czas pomięczy kolejnymi falami hordy")]
-    public float czasMiędzyFalami = 1;
+    public float czasMiędzyFalami = 50;
     public static short iloscAktywnychWrogów = 0;
 
     [Tooltip("Zaznaczony NPC")]
@@ -32,9 +32,9 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     public TextAsset plikJezykowy;
     [Tooltip("Wszystkie dostępne jednostki w grze, które mogą mieć nastawienie wrogie")]
     public NPCClass[] wszystkieRodzajeWrogichJednostek;
-    [HideInInspector] public ushort hpIdx = 75;
-    [HideInInspector] public ushort atkIdx = 50;
-    [HideInInspector] public ushort defIdx = 50;
+    [HideInInspector] public ushort hpIdx = 0;
+    [HideInInspector] public ushort atkIdx = 0;
+    [HideInInspector] public ushort defIdx = 0;
     [Tooltip("Ile ma kosztować rozwój w akademii")]
     public short kosztRozwojuAkademii = 300;
     public static bool odpalamNaUnityRemote = false;
@@ -746,11 +746,12 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 }
                 else    //Ten else do usunięcia jesli zostanie dodanych więcej epok
                 {
+                    
+                    PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
                     PomocniczeFunkcje.odblokowanyPoziomEpoki++;
                 }
             }
             //  Obsługa Particle system
-            PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
             PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
             OdblokujKolejnaSkrzynke();
             short wartośćCoinówWygrana = (short)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 20);
