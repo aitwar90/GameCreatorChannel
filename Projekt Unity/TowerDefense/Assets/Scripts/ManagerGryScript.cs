@@ -811,10 +811,10 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 else    //Ten else do usunięcia jesli zostanie dodanych więcej epok
                 {
                     PomocniczeFunkcje.odblokowanyPoziomEpoki++;
+                    PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
                 }
             }
             //  Obsługa Particle system
-            PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
             PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
             UstawTenDomyslnyButton.ZaktualizujStan(8);
             UstawTenDomyslnyButton.UstawAktywnyButton(PomocniczeFunkcje.mainMenu.nastepnyPoziom.gameObject);
