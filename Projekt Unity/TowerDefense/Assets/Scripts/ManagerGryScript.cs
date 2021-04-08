@@ -786,11 +786,12 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     }
     public void ZmodyfikujIlośćCoinów(short zmianaWartosci)
     {
-        const int maxCoin = 2147483647;
+        const int maxCoin = 2000000000;
         if (zmianaWartosci > 0)
         {
-            if (maxCoin - zmianaWartosci > iloscCoinów)
+            if (iloscCoinów + zmianaWartosci > maxCoin)
             {
+                Debug.Log("Wbijam w max");
                 iloscCoinów = maxCoin;
                 PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
             }
