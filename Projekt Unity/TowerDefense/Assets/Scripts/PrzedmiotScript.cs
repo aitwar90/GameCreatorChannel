@@ -55,9 +55,9 @@ public class PrzedmiotScript : MonoBehaviour
                     DodajNagrode();
                     break;
                 case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
-                    if(ManagerGryScript.boostDoAtaku < 200)
+                    if(ManagerGryScript.boostDoAtaku < 30)
                     {
-                        ManagerGryScript.boostDoAtaku += 20;
+                        ManagerGryScript.boostDoAtaku += 10;
                         ilośćDanejNagrody--;
                     }
                     /*
