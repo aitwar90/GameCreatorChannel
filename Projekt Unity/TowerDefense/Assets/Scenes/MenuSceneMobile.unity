@@ -2282,7 +2282,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &219638873
 RectTransform:
   m_ObjectHideFlags: 0
@@ -26052,8 +26052,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 437094946}
   m_HandleRect: {fileID: 437094945}
   m_Direction: 2
-  m_Value: 0.49999997
-  m_Size: 0.09466742
+  m_Value: 0.5
+  m_Size: 0.079481296
   m_NumberOfSteps: 1
   m_OnValueChanged:
     m_PersistentCalls:
@@ -26936,6 +26936,14 @@ PrefabInstance:
       propertyPath: particleSystems.Array.data[0]
       value: 
       objectReference: {fileID: 219638872}
+    - target: {fileID: 3463731110551857187, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
+      propertyPath: "fontyJezyk\xF3w.Array.data[1].idxJezyka.Array.size"
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3463731110551857187, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
+      propertyPath: "fontyJezyk\xF3w.Array.data[1].idxJezyka.Array.data[2]"
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3463731110811243626, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
       propertyPath: "muzykaT\u0142a"
       value: 

@@ -1,7 +1,7 @@
 EpokaTXT|Epoka:|Age:|Эпоха:|Епоха:;
 PoziomEpokiTXT|Poziom epoki:|Age level:|Уровень эпохи:|Рівень епохи:;
 Skrzynka3|Skrzynka 3|Box 3|Сундук:|Скриня:;
-PlayButton|Graj|Play|Играть|Грати///(PlayButtonInside);
+PlayButton|Graj|Play|Играть|Грати;
 SkrocenieCzasuSkrzynkiTXTButton|Szybsze otwarcie|Faster box|Ускоренное открытие|Швидше відкриття;
 OptionsButton|Opcje|Options|Настройки|Налааштування;
 ReklamyButtonMenu|Reklamy|Ads|Реклама|Реклама;

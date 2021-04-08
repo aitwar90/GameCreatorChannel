@@ -51,7 +51,8 @@ public class PrzedmiotScript : MonoBehaviour
                     break;
                 case TypPrzedmiotu.DodatkowaNagroda:
                     ilośćDanejNagrody--;
-                    DodajNagrode(true);
+                    DodajNagrode();
+                    DodajNagrode();
                     break;
                 case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
                     if(ManagerGryScript.boostDoAtaku < 200)
@@ -78,14 +79,14 @@ public class PrzedmiotScript : MonoBehaviour
             Debug.Log("Brak przedmiotu");
         }
     }
-    public byte DodajNagrode(bool czyDodatkowa = false)
+    public byte DodajNagrode()
     {
         byte mP = (byte)(System.Enum.GetValues(typeof(TypPrzedmiotu)).Length);
         byte losowany = (byte)Random.Range(0, mP);
-        PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].ilośćDanejNagrody += (czyDodatkowa) ? 
-        (byte)(PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].liczbaItemówOtrzymywanych * 2) : 
+        PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].ilośćDanejNagrody += 
         PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].liczbaItemówOtrzymywanych;
         PomocniczeFunkcje.mainMenu.tekstCoWygrales.text = nazwaPrzedmiotu;
+        PomocniczeFunkcje.mainMenu.UstawButtonNagrody(losowany, PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].ilośćDanejNagrody);
         return losowany;
     }
     public void Mrygaj()

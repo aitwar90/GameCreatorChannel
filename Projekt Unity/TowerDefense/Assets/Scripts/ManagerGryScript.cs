@@ -9,7 +9,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     [Header("Podstawowe informacje dla gracza")]
     #region Zmienne publiczne
     [Tooltip("Aktualna ilość monet")]
-    public static int iloscCoinów = 1000;
+    public static int iloscCoinów = 1000000;
     [Tooltip("Aktualna epoka w której gra gracz")]
     public Epoki aktualnaEpoka;
     public byte aktualnyPoziomEpoki = 1;
@@ -663,8 +663,8 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     }
     public void KliknietyPrzycisk() //Kliknięty przycisk potwierdzający użycie skrzynki
     {
-        byte losowy = ekwipunekGracza[0].DodajNagrode();
-        PomocniczeFunkcje.mainMenu.UstawButtonNagrody(losowy, ekwipunekGracza[losowy].ilośćDanejNagrody);
+        /*byte losowy = */ekwipunekGracza[0].DodajNagrode();
+        //PomocniczeFunkcje.mainMenu.UstawButtonNagrody(losowy, ekwipunekGracza[losowy].ilośćDanejNagrody);
     }
     public void SkróćCzasSkrzynki(sbyte idxS = -1)
     {
