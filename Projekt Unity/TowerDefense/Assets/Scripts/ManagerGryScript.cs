@@ -8,7 +8,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     [Header("Podstawowe informacje dla gracza")]
     #region Zmienne publiczne
     [Tooltip("Aktualna ilość monet")]
-    public static ushort iloscCoinów = 2000;
+    public static int iloscCoinów = 2000;
     public static byte bonusDoObrażeń = 0;
     [Tooltip("Aktualna epoka w której gra gracz")]
     public Epoki aktualnaEpoka;
@@ -96,9 +96,9 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     #region Metody UNITY
     void Awake()
     {
-        #if !UNITY_EDITOR
+#if !UNITY_EDITOR
         PlayerPrefsSwitch.PlayerPrefsSwitch.Init();
-        #endif
+#endif
         PomocniczeFunkcje.managerGryScript = this;
         PomocniczeFunkcje.spawnBudynki = FindObjectOfType(typeof(SpawnBudynki)) as SpawnBudynki;
         PomocniczeFunkcje.mainMenu = FindObjectOfType(typeof(MainMenu)) as MainMenu;
@@ -697,6 +697,28 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         //StopAllCoroutines();
         ObslTimerFal(0);
     }
+    public void UstawIlośćCoinów(short deltaCoin)
+    {
+        if (deltaCoin > 0)
+        {
+            const int maxVal = 2147483647;
+            if (maxVal - iloscCoinów < deltaCoin)
+            {
+                iloscCoinów = maxVal;
+            }
+            else
+            {
+                iloscCoinów += deltaCoin;
+            }
+        }
+        else
+        {
+            iloscCoinów += deltaCoin;
+            if(iloscCoinów < 0)
+                iloscCoinów = 0;
+        }
+        PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", iloscCoinów.ToString());
+    }
     public void KliknietyPrzycisk() //Kliknięty przycisk potwierdzający użycie skrzynki
     {
         byte losowy = ekwipunekGracza[0].DodajNagrode();
@@ -741,7 +763,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     }
     public void KliknietyButtonZwiekszeniaNagrodyPoLvlu()
     {
-        ushort c = (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 15);
+        ushort c = (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 25);
         DodajDoWartościStatystyk(5, c);
         PomocniczeFunkcje.mainMenu.UstawDaneStatystyk(ref wartościDlaStatystyk);
         // UNITY_ANDROID or.OtwórzReklame(1, c);
@@ -798,12 +820,11 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             UstawTenDomyslnyButton.UstawAktywnyButton(PomocniczeFunkcje.mainMenu.nastepnyPoziom.gameObject);
             // UNITY_ANDROID PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
             OdblokujKolejnaSkrzynke();
+            short wartośćCoinówWygrana = (short)((((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 20) * 2);
+            UstawIlośćCoinów(wartośćCoinówWygrana);
             PomocniczeFunkcje.ZapiszDane();
-            ushort wartośćCoinówWygrana = (ushort)((((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 15) * 2);
             // UNITY_ANDROID ushort wartośćCoinówWygrana = (ushort)(((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 15);
-            iloscCoinów += wartośćCoinówWygrana;
             DodajDoWartościStatystyk(5, wartośćCoinówWygrana);
-            PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("WinTXT", true);
             PomocniczeFunkcje.mainMenu.UstawDaneStatystyk(ref wartościDlaStatystyk);
             MuzykaScript.singleton.WłączWyłączClip(true, "Zwycięstwo");
@@ -931,8 +952,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     {
         if (iloscCoinów >= kosztRozwojuAkademii)
         {
-            iloscCoinów -= kosztRozwojuAkademii;
-            PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", iloscCoinów.ToString());
+            UstawIlośćCoinów((short)-kosztRozwojuAkademii);
             switch (idxRozwojuBudynku)
             {
                 case 1: //Max HP
