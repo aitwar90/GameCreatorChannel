@@ -471,8 +471,8 @@ PlayerSettings:
   switchSupportedLanguagesMask: 0
   switchLogoType: 0
   switchApplicationErrorCodeCategory: 
-  switchUserAccountSaveDataSize: 1048576
-  switchUserAccountSaveDataJournalSize: 1048576
+  switchUserAccountSaveDataSize: 16777216
+  switchUserAccountSaveDataJournalSize: 16777216
   switchApplicationAttribute: 0
   switchCardSpecSize: -1
   switchCardSpecClock: -1
