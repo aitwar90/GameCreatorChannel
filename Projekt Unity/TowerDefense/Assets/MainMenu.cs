@@ -1357,7 +1357,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         a.Play();
         yield return new WaitUntil(() => !a.isPlaying);  //Czekaj na zakończenie animacji
         obrazek.sprite = this.otwarteObrazki[1];
-        this.tekstCoWygrales.text = PomocniczeFunkcje.managerGryScript.ekwipunekGracza[idx].nazwaPrzedmiotu;
+        //this.tekstCoWygrales.text = PomocniczeFunkcje.managerGryScript.ekwipunekGracza[idx].nazwaPrzedmiotu;
         this.tekstCoWygrales.transform.parent.gameObject.SetActive(true);
         yield return new WaitForSeconds(3f);
         this.tekstCoWygrales.transform.parent.gameObject.SetActive(false);

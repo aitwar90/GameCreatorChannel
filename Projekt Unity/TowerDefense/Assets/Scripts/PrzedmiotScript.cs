@@ -84,7 +84,7 @@ public class PrzedmiotScript : MonoBehaviour
         PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].ilośćDanejNagrody += (czyDodatkowa) ?
         (byte)(PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].liczbaItemówOtrzymywanych * 2) :
         PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].liczbaItemówOtrzymywanych;
-        PomocniczeFunkcje.mainMenu.tekstCoWygrales.text = nazwaPrzedmiotu;
+        PomocniczeFunkcje.mainMenu.tekstCoWygrales.text = PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].nazwaPrzedmiotu;
         return losowany;
     }
     public void Mrygaj()
