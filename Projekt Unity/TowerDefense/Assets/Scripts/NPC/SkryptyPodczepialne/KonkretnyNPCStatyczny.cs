@@ -528,7 +528,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     {
         if (payForRepair)
         {
-            PomocniczeFunkcje.managerGryScript.ZmodyfikujIlośćCoinów((short)this.kosztNaprawy);
+            PomocniczeFunkcje.managerGryScript.ZmodyfikujIlośćCoinów((short)-this.kosztNaprawy);
             //ManagerGryScript.iloscCoinów -= kosztNaprawy;
             MainMenu.singelton.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
             PomocniczeFunkcje.managerGryScript.DodajDoWartościStatystyk(3, -kosztNaprawy);

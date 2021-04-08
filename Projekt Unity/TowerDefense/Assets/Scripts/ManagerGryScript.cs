@@ -319,8 +319,8 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     #region Metody podczas ładowania i kasowania sceny
     private void ŁadowanieDanych()
     {
-        if (iloscCoinów < 100)
-            iloscCoinów = 100;
+        if (iloscCoinów < 50)
+            iloscCoinów = 50;
         PomocniczeFunkcje.spawnerHord = FindObjectOfType(typeof(SpawnerHord)) as SpawnerHord;
         PomocniczeFunkcje.spawnerHord.UstawHorde(aktualnaEpoka, aktualnyPoziomEpoki);
         PomocniczeFunkcje.kameraZostalaPrzesunieta = 2;
@@ -448,7 +448,15 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         else
         {
             MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_" + aktualnaEpoka.ToString(), false);
-            timerFal = setTimer;
+            if (setTimer != 5.0f)
+            {
+                timerFal = setTimer;
+            }
+            else
+            {
+                if(czasMiędzyFalami - timerFal > setTimer)
+                    timerFal = czasMiędzyFalami - setTimer;
+            }
         }
         byte czas = (byte)(czasMiędzyFalami - timerFal);
         if (czas != bufferTimerFal)
@@ -663,7 +671,8 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     }
     public void KliknietyPrzycisk() //Kliknięty przycisk potwierdzający użycie skrzynki
     {
-        /*byte losowy = */ekwipunekGracza[0].DodajNagrode();
+        /*byte losowy = */
+        ekwipunekGracza[0].DodajNagrode();
         //PomocniczeFunkcje.mainMenu.UstawButtonNagrody(losowy, ekwipunekGracza[losowy].ilośćDanejNagrody);
     }
     public void SkróćCzasSkrzynki(sbyte idxS = -1)
@@ -746,7 +755,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 }
                 else    //Ten else do usunięcia jesli zostanie dodanych więcej epok
                 {
-                    
+
                     PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
                     PomocniczeFunkcje.odblokowanyPoziomEpoki++;
                 }
@@ -794,7 +803,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         else
         {
             iloscCoinów += zmianaWartosci;
-            if(iloscCoinów < 0)
+            if (iloscCoinów < 0)
                 iloscCoinów = 0;
             PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
         }

@@ -79,6 +79,7 @@ public class ManagerSamouczekScript : MonoBehaviour
         }
         //Przypisanie nowych danych
         ManagerGryScript.iloscCoinów = 50;
+        PomocniczeFunkcje.managerGryScript.ZmodyfikujIlośćCoinów(0);
         for (byte i = 0; i < mgs.ekwipunekGracza.Length; i++)
         {
             mgs.ekwipunekGracza[i].ilośćDanejNagrody = 0;

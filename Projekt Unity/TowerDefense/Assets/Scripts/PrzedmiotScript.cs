@@ -85,7 +85,7 @@ public class PrzedmiotScript : MonoBehaviour
         byte losowany = (byte)Random.Range(0, mP);
         PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].ilośćDanejNagrody += 
         PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].liczbaItemówOtrzymywanych;
-        PomocniczeFunkcje.mainMenu.tekstCoWygrales.text = nazwaPrzedmiotu;
+        PomocniczeFunkcje.mainMenu.tekstCoWygrales.text = PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].nazwaPrzedmiotu;
         PomocniczeFunkcje.mainMenu.UstawButtonNagrody(losowany, PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].ilośćDanejNagrody);
         return losowany;
     }

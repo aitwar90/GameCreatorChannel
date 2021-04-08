@@ -1088,7 +1088,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         a.Play();
         yield return new WaitUntil(() => !a.isPlaying);  //Czekaj na zakończenie animacji
         obrazek.sprite = this.otwarteObrazki[1];
-        this.tekstCoWygrales.text = PomocniczeFunkcje.managerGryScript.ekwipunekGracza[idx].nazwaPrzedmiotu;
+        //this.tekstCoWygrales.text = PomocniczeFunkcje.managerGryScript.ekwipunekGracza[idx].nazwaPrzedmiotu;
         this.tekstCoWygrales.transform.parent.gameObject.SetActive(true);
         yield return new WaitForSeconds(3f);
         this.tekstCoWygrales.transform.parent.gameObject.SetActive(false);
@@ -1239,6 +1239,12 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = 10;
             }
         }
+    }
+    ///<summary>Przyśpiesz falę.</summary>
+    public void OdpalFalę()
+    {
+        if(PomocniczeFunkcje.managerGryScript.czasMiędzyFalami > 5.0f)
+            PomocniczeFunkcje.managerGryScript.ObslTimerFal(5.0f);
     }
     ///<summary>Metoda rozpoczyna proces ustawiania budynku.</summary>
     public void KliknijPrzyciskPostawBudynek()
