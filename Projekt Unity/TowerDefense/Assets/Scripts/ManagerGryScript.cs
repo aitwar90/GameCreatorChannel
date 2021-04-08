@@ -482,8 +482,18 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         }
         else
         {
-            MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_" + aktualnaEpoka.ToString(), false);
-            timerFal = setTimer;
+            if (setTimer != 5.0f)
+            {
+                MuzykaScript.singleton.WłączWyłączClip(true, "AmbientWGrze_" + aktualnaEpoka.ToString(), false);
+                timerFal = setTimer;
+            }
+            else
+            {
+                if (czasMiędzyFalami - timerFal > setTimer)
+                {
+                    timerFal = czasMiędzyFalami - setTimer;
+                }
+            }
         }
         byte czas = (byte)(czasMiędzyFalami - timerFal);
         if (czas != bufferTimerFal)
@@ -814,7 +824,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                     PomocniczeFunkcje.odblokowanyPoziomEpoki++;
                 }
             }
-            if(aktualnyPoziomEpoki % 100 != 0)
+            if (aktualnyPoziomEpoki % 100 != 0)
                 PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
             //  Obsługa Particle system
             PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);

@@ -1270,6 +1270,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             b.interactable = stan;
             b = ui_down.transform.Find("kupno_inne").GetComponent<Button>();
             b.interactable = stan;
+            b = ui_down.transform.Find("Fala").GetComponent<Button>();
+            b.interactable = stan;
             for (byte j = 0; j < przyciskiNagród.Length; j++)
             {
                 przyciskiNagród[j].interactable = false;
@@ -1586,6 +1588,11 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public void ObrótBudynku()
     {
         PomocniczeFunkcje.spawnBudynki.ObróćBudynek();
+    }
+    ///<summary>Metoda skraca czas oczekiwania na najbliższą falę do 5 sec.</summary>
+    public void SkróćCzasDoFali()
+    {
+        PomocniczeFunkcje.managerGryScript.ObslTimerFal(5.0f);
     }
     ///<summary>Metoda aktywuje lub deaktywuje przycisk obrotu budynku.</summary>
     ///<param name="wartośćPrzycisku">Wartość przypisania do Set.Active()</param>
