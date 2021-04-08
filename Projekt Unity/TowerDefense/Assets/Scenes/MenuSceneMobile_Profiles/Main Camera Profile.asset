@@ -60,9 +60,9 @@ MonoBehaviour:
   m_Name: Main Camera Profile
   m_EditorClassIdentifier: 
   settings:
-  - {fileID: 3498046243553824130}
+  - {fileID: 5417731300261900956}
   - {fileID: -3445840256745933212}
---- !u!114 &3498046243553824130
+--- !u!114 &5417731300261900956
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -80,7 +80,7 @@ MonoBehaviour:
     value: 1
   gradingMode:
     overrideState: 0
-    value: 0
+    value: 1
   externalLut:
     overrideState: 0
     value: {fileID: 0}
@@ -139,40 +139,40 @@ MonoBehaviour:
     value: 0
   mixerRedOutRedIn:
     overrideState: 1
-    value: 62
+    value: 41
   mixerRedOutGreenIn:
     overrideState: 1
-    value: 0
+    value: 29
   mixerRedOutBlueIn:
     overrideState: 1
-    value: -27
+    value: 81
   mixerGreenOutRedIn:
     overrideState: 1
-    value: 4
+    value: -20
   mixerGreenOutGreenIn:
     overrideState: 1
-    value: 18
+    value: 89
   mixerGreenOutBlueIn:
     overrideState: 1
-    value: 11
+    value: 30
   mixerBlueOutRedIn:
     overrideState: 1
-    value: 13
+    value: -21
   mixerBlueOutGreenIn:
     overrideState: 1
-    value: -42
+    value: 15
   mixerBlueOutBlueIn:
     overrideState: 1
-    value: 92
+    value: 78
   lift:
-    overrideState: 1
+    overrideState: 0
     value: {x: 1, y: 1, z: 1, w: 0}
   gamma:
-    overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: 0.24096383}
+    overrideState: 0
+    value: {x: 1, y: 1, z: 1, w: 0}
   gain:
-    overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: 1}
+    overrideState: 0
+    value: {x: 1, y: 1, z: 1, w: 0}
   masterCurve:
     overrideState: 0
     value:
