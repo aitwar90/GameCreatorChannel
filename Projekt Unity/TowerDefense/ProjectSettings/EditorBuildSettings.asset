@@ -12,6 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/MenuSceneMobile.unity
     guid: 942f70b9f941be64b9fb3565a7386a07
   - enabled: 1
+    path: Assets/Scenes/EpokaKamienia/Scena_1_EpokaKamienia.unity
+    guid: 42ce3d00dff311fb6b8ae2e1935b98d6
+  - enabled: 1
+    path: Assets/Scenes/EpokaKamienia/Scena_2_EpokaKamienia.unity
+    guid: cdd768b84bd4ace55bf6f6dcfc1e2dfb
+  - enabled: 1
     path: Assets/Scenes/EpokaKamienia/Scena_3_EpokaKamienia.unity
     guid: e8e89b9415585d29598cae68471a4342
   - enabled: 1
