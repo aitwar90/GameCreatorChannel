@@ -38,6 +38,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private string nId;
     private bool czekamNaZatwierdzenieŚcieżki = false;
     private bool czyAtakJestAktywny = false;
+    private bool synchronizujęAnimację = false;
     #endregion
 
     #region Zmienne chronione
@@ -136,7 +137,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             if (czyAtakJestAktywny && this.typNPC == TypNPC.WalczyNaDystans)
             {
-                Atakuj();
+                if(!synchronizujęAnimację)
+                    Atakuj();
             }
             switch (głównyIndex)
             {
@@ -198,6 +200,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                         czyDodawac = true;
                         actXIdx = t[0];
                         actZIdx = t[1];
+                        SprawdźCzyWidocznaPozycja(true);
                         //Debug.Log("Nowe ustawienie X = "+actXIdx+" Z = "+actZIdx);
                     }
                     głównyIndex++;
@@ -503,9 +506,15 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 aktualnyReuseAtaku += (this.typNPC == TypNPC.WalczyNaDystans) ? Time.deltaTime : Time.deltaTime * 5.0f;
             }
             else
+            {
+                if(aktualnyReuseAtaku == 0 && this.typNPC == TypNPC.WalczyNaDystans)
+                {
+                    this.anima.Play("Atak1_Ruch_Rzut", -1, 0);
+                }
                 aktualnyReuseAtaku += Time.deltaTime * 5.0f;
+            }
             float f = szybkośćAtaku - aktualnyReuseAtaku;
-            if (f <= .15f)   //Jeśli strzela to się zaczyna
+            if (f <= .43f)   //Jeśli strzela to się zaczyna
             {
                 if (_obiektAtaku == null) return;
                 if (!czyAtakJestAktywny)
@@ -548,8 +557,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     }
                     else if (typNPC == TypNPC.WalczyNaDystans && SprawdźCzyWidocznaPozycja())
                     {
-
-                        _obiektAtaku.SetActPos(f * 7.5f, (typNPC == TypNPC.WalczyNaDystans) ? true : false);
+                        _obiektAtaku.SetActPos(f * 5f, (typNPC == TypNPC.WalczyNaDystans) ? true : false);
                         //_obiektAtaku.transform.position = Vector3.Lerp(cel.transform.position, posRęki.position, f);
                     }
                 }
@@ -557,24 +565,33 @@ public class KonkretnyNPCDynamiczny : NPCClass
             return;
         }
         //Następuje zadawanie obrażeń
-        czyAtakJestAktywny = false;
         aktualnyReuseAtaku = 0.0f;
         if (cel != null)
         {
             this.transform.LookAt(cel.transform.position);
             cel.ZmianaHP((short)Mathf.FloorToInt((zadawaneObrażenia * this.modyfikatorZadawanychObrażeń)));
+            czyAtakJestAktywny = false;
         }
         if (this.typNPC == TypNPC.WalczyWZwarciu)
         {
             if (cel == null)
                 return;
             this.ZmianaHP(cel.ZwrócOdbiteObrażenia());
+            czyAtakJestAktywny = false;
         }
         else
         {
+            synchronizujęAnimację = true;
+            StartCoroutine(SynchronizujAnimację());
             _obiektAtaku.BackWeapon();
             _obiektAtaku.PrzełączSkalęLokalZ();
         }
+    }
+    private IEnumerator SynchronizujAnimację()
+    {
+        yield return new WaitUntil(() => this.anima.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 || this.anima.IsInTransition(0));
+        synchronizujęAnimację = false;
+        czyAtakJestAktywny = false;
     }
     ///<summary>Funkcja zwraca najbliższy obiekt (Konkretny NPC Statyczny) postawiony przez gracza względem NPC.</summary>
     public KonkretnyNPCStatyczny WyszukajNajbliższyObiekt()

@@ -322,13 +322,13 @@ public abstract class NPCClass : MonoBehaviour
     #endregion
     #region visible i invisible
     ///<summary>Określa czy pozycja wysłana jako parametr jest widoczna na ekranie.</param>
-    protected bool SprawdźCzyWidocznaPozycja()
+    protected bool SprawdźCzyWidocznaPozycja(bool wymuś = false)
     {
         /*
         (-20, 13.5) - (20, 13.5) - (-8, 5) - (8, 5)
         (-4.2, 9) - (4.2, 9) - (-3.15, 6,6) - (3.15, 6.6)
         */
-        if (PomocniczeFunkcje.kameraZostalaPrzesunieta > 0)
+        if (PomocniczeFunkcje.kameraZostalaPrzesunieta > 0 || wymuś)
         {
             Camera oCam = PomocniczeFunkcje.oCam;
             float camX = oCam.transform.position.x, camZ = oCam.transform.position.z;
