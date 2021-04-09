@@ -156,7 +156,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     break;
 
                 case 0:
-                    if (!czyAtakJestAktywny || this.typNPC != TypNPC.WalczyNaDystans)
+                    if (!synchronizujęAnimację && (!czyAtakJestAktywny || this.typNPC != TypNPC.WalczyNaDystans))
                         PomocniczeFunkcje.ZwykłeAI(this);
                     głównyIndex++;
                     break;
@@ -514,7 +514,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 aktualnyReuseAtaku += Time.deltaTime * 5.0f;
             }
             float f = szybkośćAtaku - aktualnyReuseAtaku;
-            if (f <= .43f)   //Jeśli strzela to się zaczyna
+            if (f <= .25f)   //Jeśli strzela to się zaczyna
             {
                 if (_obiektAtaku == null) return;
                 if (!czyAtakJestAktywny)
@@ -557,7 +557,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     }
                     else if (typNPC == TypNPC.WalczyNaDystans && SprawdźCzyWidocznaPozycja())
                     {
-                        _obiektAtaku.SetActPos(f * 5f, (typNPC == TypNPC.WalczyNaDystans) ? true : false);
+                        _obiektAtaku.SetActPos(f * 4.5f, (typNPC == TypNPC.WalczyNaDystans) ? true : false);
                         //_obiektAtaku.transform.position = Vector3.Lerp(cel.transform.position, posRęki.position, f);
                     }
                 }
