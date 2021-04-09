@@ -301,6 +301,7 @@ public class MoveCameraScript : MonoBehaviour
             return;
 
         PomocniczeFunkcje.oCam.fieldOfView = Mathf.Clamp(PomocniczeFunkcje.oCam.fieldOfView - (offset * speed), zoomBounds[0], zoomBounds[1]);
+        PomocniczeFunkcje.kameraZostalaPrzesunieta = 2;
     }
     private float DodajElementyWektora(ref Vector2 v)
     {
