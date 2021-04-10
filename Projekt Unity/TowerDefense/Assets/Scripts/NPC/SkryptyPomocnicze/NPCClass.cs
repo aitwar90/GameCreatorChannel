@@ -45,6 +45,7 @@ public abstract class NPCClass : MonoBehaviour
     public float aktualnyReuseAtaku = 0.0f;
     protected bool nieŻyję = false;
     protected sbyte jestemRenderowany = -1;
+    protected float bazowyAtak = 0, bazowyDef = 0;
     #endregion
 
     #region Getery i setery
@@ -96,6 +97,8 @@ public abstract class NPCClass : MonoBehaviour
         }
         UstawGłośnośćNPC(PomocniczeFunkcje.muzyka.ZwrócVol);
         PomocniczeFunkcje.muzyka.ustawGłośność += UstawGłośnośćNPC;
+        bazowyAtak = this.modyfikatorZadawanychObrażeń;
+        bazowyDef = this.modyfikatorOtrzymywanychObrażeń;
     }
     void Update()
     {
