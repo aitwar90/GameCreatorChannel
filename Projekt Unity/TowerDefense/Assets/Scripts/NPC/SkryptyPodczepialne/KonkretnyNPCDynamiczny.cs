@@ -349,6 +349,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 StartCoroutine(SkasujObject(3.0f));
             }
         }
+        if(_obiektAtaku != null)
+            _obiektAtaku.DeactivateObj();
         StartCoroutine(WyłObjTimer());
     }
     ///<summary>Metoda generuje trasę dla wroga. Określa logikę postępowania i rozdziela zadania.</summary>
@@ -455,6 +457,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
             SetGłównyIndexDiffValue();
             if (this._obiektAtaku != null)
             {
+                this._obiektAtaku.ActivateObj(posRęki.position.x, posRęki.position.z, true);
                 this._obiektAtaku.BackWeapon();
                 this._obiektAtaku.UpdateSrartPos(posRęki.position.x, posRęki.position.y, posRęki.position.z);
             }
