@@ -355,6 +355,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 StartCoroutine(SkasujObject(3.0f));
             }
         }
+        _obiektAtaku.DeactivateObj();
         StartCoroutine(WyłObjTimer());
     }
     ///<summary>Metoda generuje trasę dla wroga. Określa logikę postępowania i rozdziela zadania.</summary>
@@ -462,6 +463,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
             if (this._obiektAtaku != null)
             {
                 this._obiektAtaku.BackWeapon();
+                this._obiektAtaku.ActivateObj(posRęki.position.x, posRęki.position.z, true);
                 this._obiektAtaku.UpdateSrartPos(posRęki.position.x, posRęki.position.y, posRęki.position.z);
             }
         }
@@ -573,18 +575,17 @@ public class KonkretnyNPCDynamiczny : NPCClass
         }
         //Następuje zadawanie obrażeń
         aktualnyReuseAtaku = 0.0f;
+        czyAtakJestAktywny = false;
         if (cel != null)
         {
             this.transform.LookAt(cel.transform.position);
             cel.ZmianaHP((short)Mathf.FloorToInt((zadawaneObrażenia * this.modyfikatorZadawanychObrażeń)));
-            czyAtakJestAktywny = false;
         }
-        if (this.typNPC == TypNPC.WalczyWZwarciu)
+        if (this.typNPC != TypNPC.WalczyNaDystans)
         {
             if (cel == null)
                 return;
             this.ZmianaHP(cel.ZwrócOdbiteObrażenia());
-            czyAtakJestAktywny = false;
         }
         else
         {
@@ -598,7 +599,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         yield return new WaitUntil(() => this.anima.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1);
         this.czySynchronizuje = false;
-        czyAtakJestAktywny = false;
     }
     ///<summary>Funkcja zwraca najbliższy obiekt (Konkretny NPC Statyczny) postawiony przez gracza względem NPC.</summary>
     public KonkretnyNPCStatyczny WyszukajNajbliższyObiekt()
