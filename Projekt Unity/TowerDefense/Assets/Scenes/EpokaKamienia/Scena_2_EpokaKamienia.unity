@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -442,8 +442,8 @@ Terrain:
   m_TerrainData: {fileID: 15600000, guid: 0283e66d1db04f50bb7f665eecbfcfa8, type: 2}
   m_TreeDistance: 5000
   m_TreeBillboardDistance: 50
-  m_TreeCrossFadeLength: 5
-  m_TreeMaximumFullLODCount: 50
+  m_TreeCrossFadeLength: 74.3
+  m_TreeMaximumFullLODCount: 10000
   m_DetailObjectDistance: 80
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 5
@@ -2130,6 +2130,8 @@ MonoBehaviour:
   - {fileID: 742983096}
   - {fileID: 1110176237}
   - {fileID: 308866508}
+  "ostatniaIlo\u015B\u0107WFali": 0
+  "maxIlo\u015B\u0107NaFal\u0119": 1
   cel: {fileID: 0}
   rodzicNPC: {fileID: 2103744889}
 --- !u!4 &1645168579
