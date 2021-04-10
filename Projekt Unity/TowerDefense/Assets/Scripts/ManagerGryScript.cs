@@ -454,7 +454,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             }
             else
             {
-                if(czasMiędzyFalami - timerFal > setTimer)
+                if (czasMiędzyFalami - timerFal > setTimer)
                     timerFal = czasMiędzyFalami - setTimer;
             }
         }
@@ -487,6 +487,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             string[] fLines = fs.Split(';');
             idx++;
             Font f = null;
+            KonkretnyNPCStatyczny bazaGłówna = null;
             if (fontyJezyków != null)
             {
                 bool znalazlem = false;
@@ -566,6 +567,10 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                                     {
                                         for (ushort k = 0; k < knpcsT.Length; k++)
                                         {
+                                            if(bazaGłówna == null && knpcsT[k].typBudynku == TypBudynku.Reszta)
+                                            {
+                                                bazaGłówna = knpcsT[k];
+                                            }
                                             if (knpcs.nazwa == knpcsT[k].nazwa)
                                             {
                                                 knpcsT[k].nazwa = pFrazy[idx];
@@ -622,7 +627,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                             }
                         }
                     }
-                    if (PomocniczeFunkcje.managerGryScript != null || pFrazy[idx] != "")
+                    if (PomocniczeFunkcje.managerGryScript != null)
                     {
                         for (ushort j = 0; j < PomocniczeFunkcje.managerGryScript.ekwipunekGracza.Length; j++)
                         {
@@ -632,6 +637,27 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                             }
                         }
                         PomocniczeFunkcje.mainMenu.UstawDropDownEkwipunku(ref ekwipunekGracza);
+                        for (byte j = 0; j < PomocniczeFunkcje.managerGryScript.bazy.Length; j++)
+                        {
+                            if (PomocniczeFunkcje.managerGryScript.bazy[j].name + "=nazwa" == pFrazy[0])
+                            {
+                                if(bazaGłówna != null)
+                                {
+                                    bazaGłówna.nazwa = pFrazy[idx];
+                                }
+                                KonkretnyNPCStatyczny baza = PomocniczeFunkcje.managerGryScript.bazy[j].GetComponent<KonkretnyNPCStatyczny>();
+                                baza.nazwa = pFrazy[idx];
+                            }
+                            else if (PomocniczeFunkcje.managerGryScript.bazy[j].name + "=opis" == pFrazy[0])
+                            {
+                                if(bazaGłówna != null)
+                                {
+                                    bazaGłówna.opisBudynku = pFrazy[idx];
+                                }
+                                KonkretnyNPCStatyczny baza = PomocniczeFunkcje.managerGryScript.bazy[j].GetComponent<KonkretnyNPCStatyczny>();
+                                baza.opisBudynku = pFrazy[idx];
+                            }
+                        }
                     }
                 }
             }
@@ -758,7 +784,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                     PomocniczeFunkcje.odblokowanyPoziomEpoki++;
                 }
             }
-            if(aktualnyPoziomEpoki % 100 != 0)
+            if (aktualnyPoziomEpoki % 100 != 0)
                 PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
             //  Obsługa Particle system
             PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
