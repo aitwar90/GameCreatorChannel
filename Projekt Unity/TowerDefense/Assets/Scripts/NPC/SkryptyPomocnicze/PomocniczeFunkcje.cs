@@ -18,7 +18,7 @@ public static class PomocniczeFunkcje
     public static MuzykaScript muzyka = null;                   //Referencja do klasy odpowiedzialnej za przechowywanie klipów audio
     public static List<InformacjeDlaPolWież>[,] tablicaWież = null; //Lista pól do obsługi wież na terenie
     public static float distXZ = 5;                             //Dystans klatki dla tablicy wież
-    public static ushort odblokowanyPoziomEpoki = (czyTestowe) ? (ushort)98 : (ushort)1;            //Ile poziomów najnowszej epoki odblokował gracz
+    public static ushort odblokowanyPoziomEpoki = (czyTestowe) ? (ushort)98 : (ushort)1;   //Ile poziomów najnowszej epoki odblokował gracz
     public static byte odblokowaneEpoki = 1;                    //Jakie epoki odblokował gracz        
     public static ushort aktualneGranicaTab = 0;                //Odległość między krawędzią terenu a obszarem działania gracza     
     public static Camera oCam = null;                           //Referencja do głównej kamery (optymalizacyjna zmienna)
@@ -27,7 +27,7 @@ public static class PomocniczeFunkcje
     private static RaycastHit[] tabHit = null;                  //Tablica trafień dla promienia
     private static short[] bufferpozycji = new short[2];        //Buffer pozycji wyliczanej dla jednostki przemieszczającej się po scenie gry
     public static sbyte czyKliknąłemUI = -1;
-    public static bool czyTestowe = false;
+    public static bool czyTestowe = true;
     public static byte kameraZostalaPrzesunieta = 2;            //0 - brak ruchu kamery, poprawiona isVisibility, 1 - brak ruchu kamery, niepoprawione isVisibility, 2 - ruch kamery
     #endregion
     #region Obsługa położenia myszy względem ekranu
@@ -846,7 +846,7 @@ public static class PomocniczeFunkcje
 
             ManagerGryScript.iloscCoinów = (czyTestowe) ? 1000000 : (ds.ilośćMonet <= 50) ? (int)50 : (int)ds.ilośćMonet;
             odblokowaneEpoki = ds._odblokowanieEpoki;
-            odblokowanyPoziomEpoki = ds._odblokowanyPoziomEpoki;
+            odblokowanyPoziomEpoki = (czyTestowe) ? (ushort)98 : ds._odblokowanyPoziomEpoki;
             managerGryScript.hpIdx = (czyTestowe) ? (ushort)75 : (ushort)ds.poziomHP;
             managerGryScript.atkIdx = (czyTestowe) ? (ushort)50 : (ushort)ds.poziomAtak;
             managerGryScript.defIdx = (czyTestowe) ? (ushort)50 : (ushort)ds.poziomDef;
@@ -913,6 +913,7 @@ public static class PomocniczeFunkcje
             {
                 managerGryScript.ekwipunekGracza[i].ilośćDanejNagrody = 0;
             }
+            odblokowanyPoziomEpoki = (czyTestowe) ? (ushort)98 : (ushort)1;
             managerGryScript.hpIdx = (czyTestowe) ? (ushort)75 : (ushort)0;
             managerGryScript.atkIdx = (czyTestowe) ? (ushort)50 : (ushort)0;
             managerGryScript.defIdx = (czyTestowe) ? (ushort)50 : (ushort)0;
