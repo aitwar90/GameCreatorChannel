@@ -435,6 +435,11 @@ public class StrukturaBudynkuWTab
             przycisk.image.sprite);
         }
     }
+    ///<summary>Metoda uznaje że tren przycisk został kliknięty.</summary>
+    public void Aktywuj()
+    {
+        OnClick();
+    }
 }
 [System.Serializable]
 public class PrzyciskiSkrzynekIReklam

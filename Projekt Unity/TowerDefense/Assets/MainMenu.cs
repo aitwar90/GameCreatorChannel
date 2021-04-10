@@ -923,9 +923,14 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             RectTransform rt = tab[tabOfBuildToChange[0]].przycisk.GetComponent<RectTransform>();
             wielkosćButtonu = (byte)(Mathf.CeilToInt(rt.sizeDelta.y * rt.localScale.y));
         }
+        short idsLast = ostatniStawianyBudynekButton.GetComponent<ObsłużPrzyciskOstatniegoStawianegoBudynku>().indeks;
         for (ushort i = 0; i < tabOfBuildToChange.Length; i++)
         {
             tab[tabOfBuildToChange[i]].przycisk.gameObject.SetActive(willEnable);
+            if(idsLast == tab[tabOfBuildToChange[i]].indexBudynku)
+            {
+                tab[tabOfBuildToChange[i]].Aktywuj();
+            }
         }
 
         if (tabOfBuildToChange.Length > 1)
