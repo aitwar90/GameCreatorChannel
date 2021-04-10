@@ -43,6 +43,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     private Stack<MagazynObiektówAtaków> instaObjOff = null;
     private MagazynObiektówAtaków[] tabActAtakObj = null;
     private bool instaObjIsActive = false;
+    private short bazowaIloscHP = 0;
     [HideInInspector, SerializeField] private bool zablokowany = true;
     #endregion
 
@@ -80,6 +81,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         {
             this.gameObject.AddComponent<UnityEngine.AI.NavMeshObstacle>();
         }
+        bazowaIloscHP = this.maksymalneŻycie;
         UpgradeMe(0);
         UpgradeMe(1);
         UpgradeMe(2);
@@ -565,14 +567,14 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         switch (whatUpgrade)
         {
             case 0: //HP
-                this.maksymalneŻycie = (short)(this.maksymalneŻycie + 2 * PomocniczeFunkcje.managerGryScript.hpIdx);
+                this.maksymalneŻycie = (short)(this.bazowaIloscHP + (2 * PomocniczeFunkcje.managerGryScript.hpIdx));
                 RysujHPBar();
                 break;
             case 1: //Attack
-                this.modyfikatorZadawanychObrażeń = PomocniczeFunkcje.WyliczModyfikatorObrazeń(this.modyfikatorZadawanychObrażeń, PomocniczeFunkcje.managerGryScript.atkIdx);
+                this.modyfikatorZadawanychObrażeń = PomocniczeFunkcje.WyliczModyfikatorObrazeń(this.bazoweAtk, PomocniczeFunkcje.managerGryScript.atkIdx);
                 break;
             case 2: //Defence
-                this.modyfikatorOtrzymywanychObrażeń = PomocniczeFunkcje.WyliczModyfikatorObrazeń(this.modyfikatorOtrzymywanychObrażeń, PomocniczeFunkcje.managerGryScript.defIdx, true);
+                this.modyfikatorOtrzymywanychObrażeń = PomocniczeFunkcje.WyliczModyfikatorObrazeń(this.bazowyDef, PomocniczeFunkcje.managerGryScript.defIdx, true);
                 break;
         }
     }

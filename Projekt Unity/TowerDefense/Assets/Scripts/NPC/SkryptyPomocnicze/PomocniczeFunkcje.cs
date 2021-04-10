@@ -1017,8 +1017,12 @@ public static class PomocniczeFunkcje
     //Wylicza wartość modyfikatora zadawanych i otrzymywanych obrażeń
     public static float WyliczModyfikatorObrazeń(float bazowyModyfikator, ushort wartośćIndeksu, bool czyDefence = false)
     {
+        //if(wartośćIndeksu == 0) return bazowyModyfikator;
+        return (czyDefence) ? Mathf.LerpUnclamped(bazowyModyfikator, bazowyModyfikator-0.15f, wartośćIndeksu/500f) : Mathf.LerpUnclamped(bazowyModyfikator, bazowyModyfikator+0.75f, wartośćIndeksu/500f);
+        /*
         float warMnoznika = Mathf.Pow(0.98f, wartośćIndeksu);
         return (czyDefence) ? bazowyModyfikator - (0.002f * warMnoznika) : bazowyModyfikator + (0.002f * warMnoznika); //Do +5% na 37 poziomie
+        */
     }
     public static void UstawTimeScale(float tScale)
     {

@@ -189,7 +189,7 @@ public class StrukturaDrzewa : IteratorForTreeBuildings
                     knpcs.UpgradeMe(1);
                     break;
                 case 3: //UpgradeMe Defence
-                    knpcs.UpgradeMe(1);
+                    knpcs.UpgradeMe(2);
                     break;
             }
         }

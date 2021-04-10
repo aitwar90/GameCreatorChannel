@@ -29,6 +29,8 @@ public abstract class NPCClass : MonoBehaviour
     public AudioSource odgłosyNPC = null;
     [Tooltip("Tag rodzaj do dźwięków jest dokładniejszym określeniem jaki rodzaj powinien zostać odtworzony z bazy dźwięków. Przykład _łuk")]
     public string tagRodzajDoDźwięków;
+    protected float bazoweAtk;
+    protected float bazowyDef;
     [Tooltip("Poziom na którym budynek może zostać odblokowany, lub wróg móc pojawić")]
     public byte poziom = 1;
 
@@ -96,6 +98,8 @@ public abstract class NPCClass : MonoBehaviour
         }
         UstawGłośnośćNPC(PomocniczeFunkcje.muzyka.ZwrócVol);
         PomocniczeFunkcje.muzyka.ustawGłośność += UstawGłośnośćNPC;
+        bazoweAtk = this.modyfikatorZadawanychObrażeń;
+        bazowyDef = this.modyfikatorOtrzymywanychObrażeń;
     }
     void Update()
     {
