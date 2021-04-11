@@ -69,6 +69,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     private GameObject reklamyPanel;
     private GameObject ui_down;
     private GameObject goPanel;
+    private GameObject loader;
     private GameObject samouczekPanel;
     private Button przyciskWznów;
     private Vector3 lastPosCam = Vector3.zero;
@@ -209,6 +210,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         goPanel = uiGry.transform.Find("GameOver Panel").gameObject;
         licznikCzasuDoFali = uiGry.transform.Find("UI_LicznikCzasu/img_licznik/KompTextLicznikCzasu").GetComponent<Text>();
         samouczekPanel = uiGry.transform.Find("SamouczekPanel").gameObject;
+        loader = this.transform.Find("Loader").gameObject;
         statystykiScript = goPanel.transform.Find("Statystyki").GetComponent<StatystykiScript>();
         panelBudowyBudynków = uiGry.transform.Find("PanelPostawBudynek").GetComponent<RectTransform>();
         epokaNizej.interactable = false;
@@ -222,7 +224,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         nastepnyPoziom.interactable = false;
         rekZaWyzszaNagrode.gameObject.SetActive(false);
         WłączWyłączPanel(new string[] {goPanel.name, panelBudowyBudynków.name, uiBudynkiPanel.name, ui_down.name, uiGry.name, optionsMenu.name,
-        reklamyPanel.name, poGraj.name, winTXT.name, loseTXT.name, samouczekPanel.name, "Cretidsy"},
+        reklamyPanel.name, poGraj.name, winTXT.name, loseTXT.name, samouczekPanel.name, "Cretidsy", loader.name},
         false);
         this.tekstCoWygrales.transform.parent.gameObject.SetActive(false);
     }
@@ -260,6 +262,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         {
             ui_down.SetActive(czyWłączyć);
             licznikCzasuDoFali.transform.parent.gameObject.SetActive(czyWłączyć);
+        }
+        else if (loader.name == panel)
+        {
+            loader.SetActive(czyWłączyć);
         }
         else if (goPanel.name == panel)
         {
@@ -325,6 +331,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             {
                 ui_down.SetActive(czyWłączyć);
                 licznikCzasuDoFali.transform.parent.gameObject.SetActive(czyWłączyć);
+            }
+            else if (loader.name == panel[i])
+            {
+                loader.SetActive(czyWłączyć);
             }
             else if (goPanel.name == panel[i])
             {
@@ -666,6 +676,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     ///<summary>Metoda rozpoczyna ładowanie sceny gry.</summary>
     public void OdpalPoziom()
     {
+        if(!loader.activeSelf) WłączWyłączPanel(loader.name, true);
         if (ManagerSamouczekScript.byloZaladowane)
         {
             ManagerSamouczekScript.mssInstance.OpuśćSamouczek(false);
@@ -746,7 +757,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 poziomWEpoce.text = DajMiMaxPoziom(actEpok.ToString()).ToString();
             }
         }
-    }   
+    }
     ///<summary>Sprawdź, czy wpisana wartość wykracza poza zakres odblokowanych epok.</summary>
     public void SprawdźCzyZaWysoko()
     {
@@ -927,7 +938,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         for (ushort i = 0; i < tabOfBuildToChange.Length; i++)
         {
             tab[tabOfBuildToChange[i]].przycisk.gameObject.SetActive(willEnable);
-            if(idsLast == tab[tabOfBuildToChange[i]].indexBudynku)
+            if (idsLast == tab[tabOfBuildToChange[i]].indexBudynku)
             {
                 tab[tabOfBuildToChange[i]].Aktywuj();
             }
@@ -1250,7 +1261,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     ///<summary>Przyśpiesz falę.</summary>
     public void OdpalFalę()
     {
-        if(PomocniczeFunkcje.managerGryScript.czasMiędzyFalami > 5.0f)
+        if (PomocniczeFunkcje.managerGryScript.czasMiędzyFalami > 5.0f)
             PomocniczeFunkcje.managerGryScript.ObslTimerFal(5.0f);
     }
     ///<summary>Metoda rozpoczyna proces ustawiania budynku.</summary>
