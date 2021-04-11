@@ -2148,7 +2148,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &219638873
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24676,6 +24676,10 @@ PrefabInstance:
       propertyPath: "muzykaT\u0142a"
       value: 
       objectReference: {fileID: 1958797334}
+    - target: {fileID: 3463731110811243626, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
+      propertyPath: clipyAudio.Array.data[15].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 82e252f096395fd8bbb6424e1424fd06, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
 --- !u!114 &8539881029061961982 stripped

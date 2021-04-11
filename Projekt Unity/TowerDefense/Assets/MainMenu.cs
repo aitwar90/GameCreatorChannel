@@ -817,6 +817,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     ///<summary>Metoda rozpoczyna ładowanie sceny samouczka.</summary>
     public void OdpalSamouczek()
     {
+        if(!loader.activeSelf) WłączWyłączPanel(loader.name, true);
         PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki = 255;
         PomocniczeFunkcje.managerGryScript.aktualnaEpoka = Epoki.EpokaKamienia;
         if (SceneManager.sceneCount == 1)
