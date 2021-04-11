@@ -7,7 +7,7 @@ TerrainLayer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: LayerTrawaT1Kamien
-  m_DiffuseTexture: {fileID: 2800000, guid: eb88312a833fa5745bc70879b48888b9, type: 3}
+  m_DiffuseTexture: {fileID: 2800000, guid: 2439d9487b52db94f96131eacb2e7445, type: 3}
   m_NormalMapTexture: {fileID: 2800000, guid: 5ada389d1b851354584b721397115faa, type: 3}
   m_MaskMapTexture: {fileID: 0}
   m_TileSize: {x: 2, y: 2}
