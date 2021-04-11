@@ -426,10 +426,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             przyciskWznów.interactable = false;
         menu.SetActive(aktywujeMenu);
         uiGry.SetActive(!aktywujeMenu);
-        OdpalKursor = false;
         menu.transform.parent.GetComponent<Image>().enabled = aktywujeMenu;
         if (aktywujeMenu)
         {
+            OdpalKursor = false;
             PomocniczeFunkcje.UstawTimeScale(0);
             lastPosCam = PomocniczeFunkcje.oCam.transform.position;
             PomocniczeFunkcje.oCam.transform.position = new Vector3(0.0f, 0.0f, -10.0f);

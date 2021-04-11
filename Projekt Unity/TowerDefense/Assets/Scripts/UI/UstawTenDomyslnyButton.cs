@@ -113,7 +113,10 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                         UstawDomyślnyButton();
                     }
                     else if (Input.GetButtonDown("AnulujZaznaczenie"))    //Kliknięty X   -> Ustawia domyślny button dla stanu
+                    {
+                        if(!PomocniczeFunkcje.mainMenu.OdpalKursor) PomocniczeFunkcje.mainMenu.OdpalKursor = true;
                         UstawDomyślnyButton();
+                    }
                     break;
                 case 9: //Bitwa
                     if (Input.GetButtonDown("Cancel"))   //Zaznacz Wróć do MENU
@@ -136,7 +139,10 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                             UstawAktywnyButton(go);
                     }
                     else if (Input.GetButtonDown("AnulujZaznaczenie"))    //Kliknięty X   -> Ustawia domyślny button dla stanu
+                    {
+                        if(!PomocniczeFunkcje.mainMenu.OdpalKursor) PomocniczeFunkcje.mainMenu.OdpalKursor = true;
                         UstawDomyślnyButton();
+                    }
                     break;
                 case 10:    //Samouczek
                     if (Input.GetButtonDown("Cancel"))   //Zaznacz Wróć do MENU
@@ -189,7 +195,7 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                     else if (Input.GetButtonDown("AnulujZaznaczenie"))    //Kliknięty X   -> Ustawia domyślny button dla stanu
                     {
                         GameObject go = PomocniczeFunkcje.mainMenu.ZwróćGOPoNazwie("SamouczekPanel").transform.Find("SamouczekInfoPanel/SamouczekDalej").gameObject;
-                        Debug.Log("go = "+go.name);
+                        if(!PomocniczeFunkcje.mainMenu.OdpalKursor) PomocniczeFunkcje.mainMenu.OdpalKursor = true;
                         if (!go.activeInHierarchy)
                             UstawDomyślnyButton();
                         else
