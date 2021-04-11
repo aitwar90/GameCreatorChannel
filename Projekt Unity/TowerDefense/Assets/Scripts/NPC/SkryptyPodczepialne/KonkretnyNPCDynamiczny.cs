@@ -355,7 +355,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 StartCoroutine(SkasujObject(3.0f));
             }
         }
-        _obiektAtaku.DeactivateObj();
+        if(_obiektAtaku != null) _obiektAtaku.DeactivateObj();
         StartCoroutine(WyłObjTimer());
     }
     ///<summary>Metoda generuje trasę dla wroga. Określa logikę postępowania i rozdziela zadania.</summary>
