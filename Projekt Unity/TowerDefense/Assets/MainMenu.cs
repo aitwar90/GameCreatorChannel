@@ -86,6 +86,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     private short[] ostatniaWartośćPolozeniaPanelu = { 0, 0, 0 }; //Położenie wież, położenie murków, położenie reszty
     private StatystykiScript statystykiScript;
     private RectTransform kursor;
+    private GameObject loader;
     short wartośćPrzesunięciaY = -265;
     #region Getery i setery
     public ushort ZwróćParametryButtonówWPanelu
@@ -237,6 +238,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         goPanel = uiGry.transform.Find("GameOver Panel").gameObject;
         licznikCzasuDoFali = uiGry.transform.Find("UI_LicznikCzasu/img_licznik/KompTextLicznikCzasu").GetComponent<Text>();
         samouczekPanel = uiGry.transform.Find("SamouczekPanel").gameObject;
+        loader = this.transform.Find("Loader").gameObject;
         statystykiScript = goPanel.transform.Find("Statystyki").GetComponent<StatystykiScript>();
         kursor = this.transform.Find("UI_Pointer").GetComponent<RectTransform>();
         //panelBudowyBudynków = uiGry.transform.Find("PanelPostawBudynek").GetComponent<RectTransform>(); //Dla Androida
@@ -252,7 +254,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         nastepnyPoziom.interactable = false;
         rekZaWyzszaNagrode.gameObject.SetActive(false);
         WłączWyłączPanel(new string[] {goPanel.name,/* panelBudowyBudynków.name,*/ uiBudynkiPanel.name, ui_down.name, uiGry.name, optionsMenu.name, //UNITY_ANDROID
-        reklamyPanel.name, poGraj.name, winTXT.name, loseTXT.name, samouczekPanel.name, "Cretidsy"},
+        reklamyPanel.name, poGraj.name, winTXT.name, loseTXT.name, samouczekPanel.name, "Cretidsy", loader.name},
         false);
         this.tekstCoWygrales.transform.parent.gameObject.SetActive(false);
         OdpalKursor = false;
@@ -297,6 +299,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         else if (goPanel.name == panel)
         {
             goPanel.SetActive(czyWłączyć);
+        }
+        else if (loader.name == panel)
+        {
+            loader.SetActive(czyWłączyć);
         }
         else if (uiBudynkiPanel.name == panel)
         {
@@ -361,6 +367,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 ui_down.SetActive(czyWłączyć);
                 licznikCzasuDoFali.transform.parent.gameObject.SetActive(czyWłączyć);
             }
+            else if (loader.name == panel[i])
+            {
+                loader.SetActive(czyWłączyć);
+            }
             else if (goPanel.name == panel[i])
             {
                 goPanel.SetActive(czyWłączyć);
@@ -409,7 +419,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         {
             return uiBudynkiPanel;
         }
-        else if(nazwa == uiGry.name)
+        else if (nazwa == uiGry.name)
         {
             return uiGry;
         }
@@ -572,7 +582,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     private bool CzyAktywnyButtonPozwalajacyNaPrzesuwaniekamery()
     {
-        if(PomocniczeFunkcje.eSystem.currentSelectedGameObject == null)
+        if (PomocniczeFunkcje.eSystem.currentSelectedGameObject == null)
             return true;
         string aktnazwaOb = PomocniczeFunkcje.eSystem.currentSelectedGameObject.name;
         bool f = false;
@@ -770,6 +780,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     ///<summary>Metoda rozpoczyna ładowanie sceny gry.</summary>
     public void OdpalPoziom()
     {
+        if(!loader.activeSelf) loader.SetActive(true);
         if (ManagerSamouczekScript.byloZaladowane)
         {
             ManagerSamouczekScript.mssInstance.OpuśćSamouczek(false);
@@ -1072,7 +1083,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     }
     private void AktDisactButtonówPrzyPanelach(bool value)
     {
-        if(PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki != 255)
+        if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki != 255)
             wróćDoMenu.gameObject.SetActive(value);
         ostatniStawianyBudynekButton.gameObject.SetActive(value);
         if (PomocniczeFunkcje.managerGryScript.zaznaczonyObiekt != null && PomocniczeFunkcje.managerGryScript.zaznaczonyObiekt.GetComponent<KonkretnyNPCStatyczny>().typBudynku == TypBudynku.Akademia)

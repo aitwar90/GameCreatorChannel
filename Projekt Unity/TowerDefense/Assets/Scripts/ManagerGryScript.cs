@@ -421,6 +421,8 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             knpcsBazy.InicjacjaBudynku();
             PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcsBazy, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
             baza.transform.SetParent(PomocniczeFunkcje.spawnBudynki.RodzicBudynków);
+            PomocniczeFunkcje.mainMenu.WłączWyłączPanel("Loader", false);
+            
         }
     }
     private void SprawdźCzyScenaZostałaZaładowana()
