@@ -1169,6 +1169,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         {
             wybranaNagroda = (sbyte)nagroda;
         }
+        PomocniczeFunkcje.managerGryScript.ekwipunekGracza[nagroda].AktualizujNazwe();
         UżyjKlikniętegoPrzedmiotu();
     }
     ///<summary>Metoda ustawia przyciski nagród (Dane Gry) przy starcie poziomu.</summary>

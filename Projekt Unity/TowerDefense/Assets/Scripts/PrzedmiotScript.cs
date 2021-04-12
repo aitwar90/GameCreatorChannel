@@ -18,18 +18,22 @@ public class PrzedmiotScript : MonoBehaviour
         {
             case TypPrzedmiotu.Coiny:
                 if (this.ilośćDanejNagrody > 0) PomocniczeFunkcje.mainMenu.przyciskiNagród[0].GetComponentInChildren<Text>().text = this.ilośćDanejNagrody.ToString();
+                else PomocniczeFunkcje.mainMenu.przyciskiNagród[0].GetComponentInChildren<Text>().text = this.nazwaPrzedmiotu;
                 //nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[0].GetComponentInChildren<Text>().text;
                 break;
             case TypPrzedmiotu.CudOcalenia:
                 if (this.ilośćDanejNagrody > 0) PomocniczeFunkcje.mainMenu.przyciskiNagród[1].GetComponentInChildren<Text>().text = this.ilośćDanejNagrody.ToString();
+                else PomocniczeFunkcje.mainMenu.przyciskiNagród[0].GetComponentInChildren<Text>().text = this.nazwaPrzedmiotu;
                 //nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[1].GetComponentInChildren<Text>().text;
                 break;
             case TypPrzedmiotu.DodatkowaNagroda:
                 if (this.ilośćDanejNagrody > 0) PomocniczeFunkcje.mainMenu.przyciskiNagród[2].GetComponentInChildren<Text>().text = this.ilośćDanejNagrody.ToString();
+                else PomocniczeFunkcje.mainMenu.przyciskiNagród[0].GetComponentInChildren<Text>().text = this.nazwaPrzedmiotu;
                 //nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[2].GetComponentInChildren<Text>().text;
                 break;
             case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
                 if (this.ilośćDanejNagrody > 0) PomocniczeFunkcje.mainMenu.przyciskiNagród[3].GetComponentInChildren<Text>().text = this.ilośćDanejNagrody.ToString();
+                else PomocniczeFunkcje.mainMenu.przyciskiNagród[0].GetComponentInChildren<Text>().text = this.nazwaPrzedmiotu;
                 //nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[3].GetComponentInChildren<Text>().text;
                 break;
         }
