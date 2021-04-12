@@ -664,7 +664,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             }
             for (byte i = 0; i < 4; i++)
             {
-                //this.ekwipunekGracza[i].AktualizujNazwe();
+                this.ekwipunekGracza[i].AktualizujNazwe();
             }
             ManagerSamouczekScript.mssInstance.ZaladujText();
         }
