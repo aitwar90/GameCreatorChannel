@@ -47,16 +47,19 @@ public class PrzedmiotScript : MonoBehaviour
                 case TypPrzedmiotu.Coiny:
                     PomocniczeFunkcje.managerGryScript.UstawIlośćCoinów((short)Random.Range(minParam, maxParam + 1));
                     ilośćDanejNagrody--;
+                    AktualizujNazwe();
                     break;
                 case TypPrzedmiotu.CudOcalenia:
                     if (PomocniczeFunkcje.celWrogów.AktualneŻycie > 0)
                     {
                         PomocniczeFunkcje.managerGryScript.CudOcalenia();
                         ilośćDanejNagrody--;
+                        AktualizujNazwe();
                     }
                     break;
                 case TypPrzedmiotu.DodatkowaNagroda:
                     ilośćDanejNagrody--;
+                    AktualizujNazwe();
                     byte t = DodajNagrode(true);
                     PomocniczeFunkcje.mainMenu.UstawButtonNagrody(t, PomocniczeFunkcje.managerGryScript.ekwipunekGracza[t].ilośćDanejNagrody);
                     break;
@@ -77,6 +80,7 @@ public class PrzedmiotScript : MonoBehaviour
                 }
                 if (czyUzylem) */
                     ilośćDanejNagrody--;
+                    AktualizujNazwe();
                     break;
             }
         }

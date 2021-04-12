@@ -1431,7 +1431,6 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         if (PomocniczeFunkcje.managerGryScript.ekwipunekGracza[nagroda].ilośćDanejNagrody > 0)
         {
-            PomocniczeFunkcje.managerGryScript.ekwipunekGracza[nagroda].AktualizujNazwe();
             wybranaNagroda = (sbyte)nagroda;
         }
         UżyjKlikniętegoPrzedmiotu();
