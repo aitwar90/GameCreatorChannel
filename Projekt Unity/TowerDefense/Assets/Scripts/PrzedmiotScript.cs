@@ -49,16 +49,19 @@ public class PrzedmiotScript : MonoBehaviour
                     //ManagerGryScript.iloscCoinów += (ushort)Random.Range(minParam, maxParam + 1);
                     //PomocniczeFunkcje.mainMenu.UstawTextUI("ilośćCoinów", ManagerGryScript.iloscCoinów.ToString());
                     ilośćDanejNagrody--;
+                    AktualizujNazwe();
                     break;
                 case TypPrzedmiotu.CudOcalenia:
                     if (PomocniczeFunkcje.celWrogów.AktualneŻycie > 0)
                     {
                         PomocniczeFunkcje.managerGryScript.CudOcalenia();
                         ilośćDanejNagrody--;
+                        AktualizujNazwe();
                     }
                     break;
                 case TypPrzedmiotu.DodatkowaNagroda:
                     ilośćDanejNagrody--;
+                    AktualizujNazwe();
                     DodajNagrode();
                     DodajNagrode();
                     break;
@@ -67,6 +70,7 @@ public class PrzedmiotScript : MonoBehaviour
                     {
                         ManagerGryScript.boostDoAtaku += 10;
                         ilośćDanejNagrody--;
+                        AktualizujNazwe();
                     }
                     /*
                     for (byte i = 0; i < 4; i++)
