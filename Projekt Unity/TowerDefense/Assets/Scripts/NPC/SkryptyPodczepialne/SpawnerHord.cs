@@ -202,12 +202,12 @@ public class SpawnerHord : MonoBehaviour
         {
             czyPool = false;
             go = Instantiate(możliwiNPC[npcIdx].gameObject);
-            go.transform.position = OkreślPozucjeZOffsetem(spawnPunkty[j - 1].position, 3.0f);
+            go.transform.position = OkreślPozucjeZOffsetem(spawnPunkty[j - 1].position, 1.5f);
             go.transform.SetParent(rodzicNPC);
         }
         else
         {
-            go.transform.position = OkreślPozucjeZOffsetem(spawnPunkty[j - 1].position, 3.0f);
+            go.transform.position = OkreślPozucjeZOffsetem(spawnPunkty[j - 1].position, 1.5f);
             go.SetActive(true);
         }
         ManagerGryScript.iloscAktywnychWrogów++;

@@ -15,20 +15,24 @@ public class PrzedmiotScript : MonoBehaviour
     public void AktualizujNazwe()
     {
         switch (typPrzedmiotu)
-            {
-                case TypPrzedmiotu.Coiny:
-                    nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[0].GetComponentInChildren<Text>().text;
-                    break;
-                case TypPrzedmiotu.CudOcalenia:
-                    nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[1].GetComponentInChildren<Text>().text;
-                    break;
-                case TypPrzedmiotu.DodatkowaNagroda:
-                    nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[2].GetComponentInChildren<Text>().text;
-                    break;
-                case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
-                    nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[3].GetComponentInChildren<Text>().text;
-                    break;
-            }
+        {
+            case TypPrzedmiotu.Coiny:
+                if (this.ilośćDanejNagrody > 0) PomocniczeFunkcje.mainMenu.przyciskiNagród[0].GetComponentInChildren<Text>().text = this.ilośćDanejNagrody.ToString();
+                //nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[0].GetComponentInChildren<Text>().text;
+                break;
+            case TypPrzedmiotu.CudOcalenia:
+                if (this.ilośćDanejNagrody > 0) PomocniczeFunkcje.mainMenu.przyciskiNagród[1].GetComponentInChildren<Text>().text = this.ilośćDanejNagrody.ToString();
+                //nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[1].GetComponentInChildren<Text>().text;
+                break;
+            case TypPrzedmiotu.DodatkowaNagroda:
+                if (this.ilośćDanejNagrody > 0) PomocniczeFunkcje.mainMenu.przyciskiNagród[2].GetComponentInChildren<Text>().text = this.ilośćDanejNagrody.ToString();
+                //nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[2].GetComponentInChildren<Text>().text;
+                break;
+            case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
+                if (this.ilośćDanejNagrody > 0) PomocniczeFunkcje.mainMenu.przyciskiNagród[3].GetComponentInChildren<Text>().text = this.ilośćDanejNagrody.ToString();
+                //nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[3].GetComponentInChildren<Text>().text;
+                break;
+        }
     }
     public void AktywujPrzedmiot()
     {
@@ -55,7 +59,7 @@ public class PrzedmiotScript : MonoBehaviour
                     DodajNagrode();
                     break;
                 case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
-                    if(ManagerGryScript.boostDoAtaku < 30)
+                    if (ManagerGryScript.boostDoAtaku < 30)
                     {
                         ManagerGryScript.boostDoAtaku += 10;
                         ilośćDanejNagrody--;
@@ -70,7 +74,7 @@ public class PrzedmiotScript : MonoBehaviour
                             czyUzylem = true;
                         }
                     }
-                    */     
+                    */
                     break;
             }
         }
@@ -83,7 +87,7 @@ public class PrzedmiotScript : MonoBehaviour
     {
         byte mP = (byte)(System.Enum.GetValues(typeof(TypPrzedmiotu)).Length);
         byte losowany = (byte)Random.Range(0, mP);
-        PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].ilośćDanejNagrody += 
+        PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].ilośćDanejNagrody +=
         PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].liczbaItemówOtrzymywanych;
         PomocniczeFunkcje.mainMenu.tekstCoWygrales.text = PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].nazwaPrzedmiotu;
         PomocniczeFunkcje.mainMenu.UstawButtonNagrody(losowany, PomocniczeFunkcje.managerGryScript.ekwipunekGracza[losowany].ilośćDanejNagrody);

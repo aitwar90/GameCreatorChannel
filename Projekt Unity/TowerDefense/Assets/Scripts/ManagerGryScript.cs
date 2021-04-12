@@ -568,7 +568,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                                     {
                                         for (ushort k = 0; k < knpcsT.Length; k++)
                                         {
-                                            if(bazaGłówna == null && knpcsT[k].typBudynku == TypBudynku.Reszta)
+                                            if (bazaGłówna == null && knpcsT[k].typBudynku == TypBudynku.Reszta)
                                             {
                                                 bazaGłówna = knpcsT[k];
                                             }
@@ -642,7 +642,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                         {
                             if (PomocniczeFunkcje.managerGryScript.bazy[j].name + "=nazwa" == pFrazy[0])
                             {
-                                if(bazaGłówna != null)
+                                if (bazaGłówna != null)
                                 {
                                     bazaGłówna.nazwa = pFrazy[idx];
                                 }
@@ -651,7 +651,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                             }
                             else if (PomocniczeFunkcje.managerGryScript.bazy[j].name + "=opis" == pFrazy[0])
                             {
-                                if(bazaGłówna != null)
+                                if (bazaGłówna != null)
                                 {
                                     bazaGłówna.opisBudynku = pFrazy[idx];
                                 }
@@ -664,7 +664,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             }
             for (byte i = 0; i < 4; i++)
             {
-                this.ekwipunekGracza[i].AktualizujNazwe();
+                //this.ekwipunekGracza[i].AktualizujNazwe();
             }
             ManagerSamouczekScript.mssInstance.ZaladujText();
         }
@@ -674,13 +674,16 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     public void CudOcalenia()
     {
         //PomocniczeFunkcje.celWrogów.AktualneŻycie = (PomocniczeFunkcje.celWrogów.AktualneŻycie < PomocniczeFunkcje.celWrogów.maksymalneŻycie / 2) ? (short)(PomocniczeFunkcje.celWrogów.maksymalneŻycie / 2.0f) : PomocniczeFunkcje.celWrogów.maksymalneŻycie;
-        KonkretnyNPCDynamiczny[] knpcd = FindObjectsOfType(typeof(KonkretnyNPCDynamiczny)) as KonkretnyNPCDynamiczny[];
-        for (ushort i = 0; i < knpcd.Length; i++)
+        if (iloscAktywnychWrogów > 0)
         {
-            knpcd[i].AktualneŻycie = 0;
-            knpcd[i].NieŻyję = true;
+            KonkretnyNPCDynamiczny[] knpcd = FindObjectsOfType(typeof(KonkretnyNPCDynamiczny)) as KonkretnyNPCDynamiczny[];
+            for (ushort i = 0; i < knpcd.Length; i++)
+            {
+                knpcd[i].AktualneŻycie = 0;
+                knpcd[i].NieŻyję = true;
+            }
+            PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(0);
         }
-        PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(0);
         RozgrywkaPoWalkaPrzełącz();
         /*
         KonkretnyNPCStatyczny[] knpcs = FindObjectsOfType(typeof(KonkretnyNPCStatyczny)) as KonkretnyNPCStatyczny[];
