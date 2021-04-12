@@ -202,11 +202,11 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         get
         {
-            return kursor.gameObject.activeSelf;
+            return kursor.GetComponent<RawImage>().enabled;
         }
         set
         {
-            kursor.gameObject.SetActive(value);
+            kursor.GetComponent<RawImage>().enabled = value;
         }
     }
     #endregion
@@ -929,13 +929,15 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             actY = y;
         }
         kursor.anchoredPosition = new Vector3(actX, actY, 0);
+        PomocniczeFunkcje.spawnBudynki.UstawPosClick(kursor.anchoredPosition);
     }
     ///<summary>Ustaw położenie kursora zgodnie z podanymi parametrami.</summary>
     ///<param name="x">Żądane położenie kursora na osi X.</param>
     ///<param name="y">Żądane położenie kursora na osi Y.</param>
     public void UstawKursorNa(float x, float y)
     {
-        kursor.anchoredPosition = new Vector3(x, y, 0);
+        kursor.anchoredPosition = new Vector3(x, y);
+        PomocniczeFunkcje.spawnBudynki.UstawPosClick(kursor.anchoredPosition);
     }
     ///<summary>Metoda obsługuje przesunięcie panelu z przyciskami budynków w panelu budynków.</summary>
     ///<param name="wartość">Wartość przesunięcia panelu z przyciskami.</param>

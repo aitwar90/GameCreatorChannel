@@ -72,6 +72,10 @@ public class SpawnBudynki : MonoBehaviour
             rodzicBudynkow = go.transform;
         }
     }
+    public void UstawPosClick(Vector3 t)
+    {
+        posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(t, ref kliknieteUI);
+    }
     public void InicjacjaPaneluBudynków()
     {
         sbyte idxActEpoki = (sbyte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka;
@@ -92,6 +96,7 @@ public class SpawnBudynki : MonoBehaviour
         }
         czyBudynekZablokowany = allsbwt.ToArray();
     }
+    /*
     void Update()
     {
         if (aktualnyObiekt != null && PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere())
@@ -99,6 +104,7 @@ public class SpawnBudynki : MonoBehaviour
             posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora, ref kliknieteUI);
         }
     }
+    */
     void LateUpdate()
     {
         if (aktualnyObiekt != null)
@@ -127,6 +133,7 @@ public class SpawnBudynki : MonoBehaviour
             }
             //else
             //{
+                /*
             float rH = Input.GetAxis("StickRHorizontal");
             float rV = Input.GetAxis("StickRVertical");
             if (rV != 0 || offsetPrzyPrzesuwaniuKamery.y != 0)
@@ -159,6 +166,7 @@ public class SpawnBudynki : MonoBehaviour
                 aktualnyObiekt.transform.position = posClick;
                 ostatniaPozycjaKursora = posClick;
             }
+            */
             //}
         }
         /* UNITY_ANDROID
