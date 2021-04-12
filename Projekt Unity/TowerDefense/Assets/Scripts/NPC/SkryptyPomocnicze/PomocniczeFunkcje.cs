@@ -34,7 +34,7 @@ public static class PomocniczeFunkcje
     /*
     Metoda zwraca punkt styku promienia generowanego przez kursor a obiektem natrafiającym na collider
     */
-    public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos, ref bool hitUI)
+    public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos, ref bool hitUI, bool ustawLastPos = false)
     {
         if (oCam == null)
         {
@@ -47,31 +47,40 @@ public static class PomocniczeFunkcje
                 posKursoraCanvas = posK;
         #endif
         #if UNITY_ANDROID || UNITY_IOS */
-        if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
+        if (!ustawLastPos)
         {
-            posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            mainMenu.UstawKursorNa(posK.x, posK.y);
-        }
-        else
-        {
-            if (Input.touchCount > 0)
+            if (Input.mousePresent && !ManagerGryScript.odpalamNaUnityRemote)
             {
-                posK = Input.GetTouch(0).position;
+                posK = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
                 mainMenu.UstawKursorNa(posK.x, posK.y);
             }
             else
             {
+                if (Input.touchCount > 0)
+                {
+                    posK = Input.GetTouch(0).position;
+                    mainMenu.UstawKursorNa(posK.x, posK.y);
+                }
+                else
+                {
+                    return lastPos;
+                }
+            }
+            //#endif
+            if (CzyKliknalemUI())
+            {
+                hitUI = true;
                 return lastPos;
             }
-        }
-        //#endif
-        if (CzyKliknalemUI())
-        {
-            hitUI = true;
-            return lastPos;
+            else
+            {
+                hitUI = false;
+            }
         }
         else
         {
+            posK.x = lastPos.x;
+            posK.y = lastPos.y;
             hitUI = false;
         }
         RaycastHit[] rh = ZwrócHity(ref oCam, posK);
@@ -786,7 +795,7 @@ public static class PomocniczeFunkcje
         for (ushort i = 0; i < spawnBudynki.wszystkieBudynki.Length; i++)
         {
             KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
-            PlayerPrefs.SetInt("BlokadaBudynków_"+knpcs.name, (knpcs.Zablokowany) ? 0 : 1);
+            PlayerPrefs.SetInt("BlokadaBudynków_" + knpcs.name, (knpcs.Zablokowany) ? 0 : 1);
         }
         PlayerPrefs.Save();
         /*UNITY_ANDROID
@@ -905,11 +914,11 @@ public static class PomocniczeFunkcje
             for (int i = 0; i < spawnBudynki.wszystkieBudynki.Length; i++)
             {
                 KonkretnyNPCStatyczny knpcs = spawnBudynki.wszystkieBudynki[i].GetComponent<KonkretnyNPCStatyczny>();
-                if(PlayerPrefs.HasKey("BlokadaBudynków_"+knpcs.name))
+                if (PlayerPrefs.HasKey("BlokadaBudynków_" + knpcs.name))
                 {
-                    int t = PlayerPrefs.GetInt("BlokadaBudynków_"+knpcs.name);
+                    int t = PlayerPrefs.GetInt("BlokadaBudynków_" + knpcs.name);
                     //Zablokowany 0 odblokowany 1
-                    if(t == 1)
+                    if (t == 1)
                     {
                         knpcs.Zablokowany = false;
                     }
@@ -1169,7 +1178,7 @@ public static class PomocniczeFunkcje
     //Wylicza wartość modyfikatora zadawanych i otrzymywanych obrażeń
     public static float WyliczModyfikatorObrazeń(float bazowyModyfikator, ushort wartośćIndeksu, bool czyDefence = false)
     {
-        return (czyDefence) ? Mathf.LerpUnclamped(bazowyModyfikator, bazowyModyfikator - 0.15f, wartośćIndeksu/500f) : Mathf.LerpUnclamped(bazowyModyfikator, bazowyModyfikator + 0.75f, wartośćIndeksu/500f);
+        return (czyDefence) ? Mathf.LerpUnclamped(bazowyModyfikator, bazowyModyfikator - 0.15f, wartośćIndeksu / 500f) : Mathf.LerpUnclamped(bazowyModyfikator, bazowyModyfikator + 0.75f, wartośćIndeksu / 500f);
         /*
         float warMnoznika = Mathf.Pow(0.98f, wartośćIndeksu);
         return (czyDefence) ? bazowyModyfikator - (0.002f * warMnoznika) : bazowyModyfikator + (0.002f * warMnoznika); //Do +5% na 37 poziomie

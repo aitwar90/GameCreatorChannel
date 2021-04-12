@@ -40,6 +40,13 @@ public class MoveCameraScript : MonoBehaviour
             prędkoscPrzesunięciaKamery = value;
         }
     }
+    public int[] ZwrócWielkośćEkranu
+    {
+        get
+        {
+            return new int[] {szerokośćObrazu, wysokśćObrazu};
+        }
+    }
     public bool CzyOdwrocenieKamery
     {
         set

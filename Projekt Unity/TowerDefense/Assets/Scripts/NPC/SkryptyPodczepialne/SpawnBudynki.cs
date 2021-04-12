@@ -72,10 +72,6 @@ public class SpawnBudynki : MonoBehaviour
             rodzicBudynkow = go.transform;
         }
     }
-    public void UstawPosClick(Vector3 t)
-    {
-        posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(t, ref kliknieteUI);
-    }
     public void InicjacjaPaneluBudynków()
     {
         sbyte idxActEpoki = (sbyte)PomocniczeFunkcje.managerGryScript.aktualnaEpoka;
@@ -96,24 +92,15 @@ public class SpawnBudynki : MonoBehaviour
         }
         czyBudynekZablokowany = allsbwt.ToArray();
     }
-    /*
-    void Update()
-    {
-        if (aktualnyObiekt != null && PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere())
-        {
-            posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora, ref kliknieteUI);
-        }
-    }
-    */
     void LateUpdate()
     {
         if (aktualnyObiekt != null)
         {
-            if(PomocniczeFunkcje.mainMenu.OdpalKursor)//Wyłącz kursor
+            if (PomocniczeFunkcje.mainMenu.OdpalKursor)//Wyłącz kursor
             {
                 PomocniczeFunkcje.mainMenu.OdpalKursor = false;
             }
-            if(Input.GetButtonDown("Cancel"))
+            if (Input.GetButtonDown("Cancel"))
             {
                 ResetWybranegoObiektu();
                 return;
@@ -125,7 +112,7 @@ public class SpawnBudynki : MonoBehaviour
                     ZatwierdźBudynekWindows();
                     return;
                 }
-                else if(Input.mousePresent && Input.GetMouseButtonDown(0))
+                else if (Input.mousePresent && Input.GetMouseButtonDown(0))
                 {
                     ZatwierdźBudynekWindows();
                     return;
@@ -133,7 +120,6 @@ public class SpawnBudynki : MonoBehaviour
             }
             //else
             //{
-                /*
             float rH = Input.GetAxis("StickRHorizontal");
             float rV = Input.GetAxis("StickRVertical");
             if (rV != 0 || offsetPrzyPrzesuwaniuKamery.y != 0)
@@ -145,7 +131,7 @@ public class SpawnBudynki : MonoBehaviour
                 }
                 else
                 {
-                    posClick.z += rV * Time.deltaTime * 4;
+                    posClick.z += rV*Time.deltaTime * 4;
                 }
                 //posClick.z += (offsetPrzyPrzesuwaniuKamery.y != 0) ? offsetPrzyPrzesuwaniuKamery.y : rV*Time.deltaTime*4;
             }
@@ -153,7 +139,7 @@ public class SpawnBudynki : MonoBehaviour
             {
                 if (offsetPrzyPrzesuwaniuKamery.x != 0)
                 {
-                    posClick.x += offsetPrzyPrzesuwaniuKamery.x;
+                    posClick.x += offsetPrzyPrzesuwaniuKamery.x;;
                     offsetPrzyPrzesuwaniuKamery.x = 0;
                 }
                 else
@@ -165,8 +151,11 @@ public class SpawnBudynki : MonoBehaviour
             {
                 aktualnyObiekt.transform.position = posClick;
                 ostatniaPozycjaKursora = posClick;
+                if (PomocniczeFunkcje.mainMenu.CzyMogePrzesuwaćKamere())
+                {
+                    posClick = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(ostatniaPozycjaKursora, ref kliknieteUI);
+                }
             }
-            */
             //}
         }
         /* UNITY_ANDROID
@@ -417,13 +406,22 @@ public class SpawnBudynki : MonoBehaviour
         {
             if (!czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].czyZablokowany)
             {
-                PostawBudynek(ref wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku], posClick, Quaternion.identity);
-                ostatniaPozycjaKursora = posClick;
+                bool tmpHitUi = false;
+                Vector3 tmp = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(new Vector3(Screen.width / 2, Screen.height / 2, 0), ref tmpHitUi, true);
+                if (Mathf.Abs(tmp.x - ostatniaPozycjaKursora.x) > 25 || Mathf.Abs(tmp.x - ostatniaPozycjaKursora.x) > 10)
+                {
+                    PostawBudynek(ref wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku], tmp, Quaternion.identity);
+                    ostatniaPozycjaKursora = posClick = tmp;
+                }
+                else
+                {
+                    PostawBudynek(ref wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku], posClick, Quaternion.identity);
+                    ostatniaPozycjaKursora = posClick;
+                }
             }
             else
             {
                 zablokowanyBudynekIndex = (short)aktualnieWybranyIndeksObiektuTabZablokowany;
-                Debug.Log("Dany budynek należy kupić");
             }
         }
     }
