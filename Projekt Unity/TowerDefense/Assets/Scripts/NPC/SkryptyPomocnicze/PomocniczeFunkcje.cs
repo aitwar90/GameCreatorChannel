@@ -27,7 +27,7 @@ public static class PomocniczeFunkcje
     private static RaycastHit[] tabHit = null;                  //Tablica trafień dla promienia
     private static short[] bufferpozycji = new short[2];        //Buffer pozycji wyliczanej dla jednostki przemieszczającej się po scenie gry
     public static sbyte czyKliknąłemUI = -1;
-    public static bool czyTestowe = false;
+    public static bool czyTestowe = true;
     public static byte kameraZostalaPrzesunieta = 2;            //0 - brak ruchu kamery, poprawiona isVisibility, 1 - brak ruchu kamery, niepoprawione isVisibility, 2 - ruch kamery
     #endregion
     #region Obsługa położenia myszy względem ekranu
