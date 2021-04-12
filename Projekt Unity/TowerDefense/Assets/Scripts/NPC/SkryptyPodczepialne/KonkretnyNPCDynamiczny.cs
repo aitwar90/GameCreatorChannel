@@ -318,7 +318,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             PomocniczeFunkcje.managerGryScript.RozgrywkaPoWalkaPrzełącz();
         }
-        if (this.agent != null)
+        if (this.agent != null && this.agent.isOnNavMesh)
             this.agent.isStopped = true;
         WyczyscDaneDynamic();
         UsuńMnieZTablicyWież(true);

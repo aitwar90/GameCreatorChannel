@@ -1358,23 +1358,59 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.managerGryScript.KliknietyPrzycisk();
         buttonSkrzynki[idx].skrzynkaB.interactable = false;
         //Kliknąłem skrzynkę
-        StartCoroutine(PodmieńObrazekSkrzynki(buttonSkrzynki[idx].skrzynkaB.transform.parent.Find("Skrzynka_obrazek").GetComponent<Image>(), (byte)idx));
+        PodmieńObrazekSkrzynki(buttonSkrzynki[idx].skrzynkaB.transform.parent.Find("Skrzynka_obrazek").GetComponent<Image>(), (byte)idx);
     }
     ///
     ///<summary>Funkcja zmienia wartości dla obrazka i go podmienia</summary>
     ///<param name="obrazek">Sprite jaki ma zostać podmieniony.</param>
-    private IEnumerator PodmieńObrazekSkrzynki(Image obrazek, byte idx)
+    private void PodmieńObrazekSkrzynki(Image obrazek, byte idx)
     {
+        //Animation a = obrazek.gameObject.AddComponent<Animation>();
         Animation a = obrazek.GetComponent<Animation>();
-        a.clip = animacjaOtwarciaSkrzynki;
-        a.wrapMode = WrapMode.Once;
-        a.Play();
-        yield return new WaitUntil(() => !a.isPlaying);  //Czekaj na zakończenie animacji
+        if (a.clip == null)
+        {
+            a.clip = animacjaOtwarciaSkrzynki;
+            a.wrapMode = WrapMode.Once;
+        }
+        //a.Rewind(a.clip.name);
+
+        StartCoroutine(OdpalAnimację(a, obrazek));
+    }
+    private IEnumerator OdpalAnimację(Animation animation, Image obrazek)
+    {
+        AnimationState ans = animation[animation.clip.name];
+        float _timeAtLastFrame = 0f;
+        bool isPlaying = true;
+        float _timeAtCurrentFrame = 0F;
+        float deltaTime = 0F;
+        float _progressTime = 0F;
+
+        animation.Play();
+
+        _timeAtLastFrame = Time.realtimeSinceStartup;
+
+        while (isPlaying)
+        {
+            _timeAtCurrentFrame = Time.realtimeSinceStartup;
+            deltaTime = _timeAtCurrentFrame - _timeAtLastFrame;
+            _timeAtLastFrame = _timeAtCurrentFrame;
+
+            _progressTime += deltaTime;
+            ans.normalizedTime = _progressTime / ans.length;
+            animation.Sample();
+
+            if (_progressTime >= ans.length)
+            {
+                isPlaying = false;
+            }
+            yield return new WaitForEndOfFrame();
+        }
         obrazek.sprite = this.otwarteObrazki[1];
         //this.tekstCoWygrales.text = PomocniczeFunkcje.managerGryScript.ekwipunekGracza[idx].nazwaPrzedmiotu;
         this.tekstCoWygrales.transform.parent.gameObject.SetActive(true);
         yield return new WaitForSeconds(3f);
         this.tekstCoWygrales.transform.parent.gameObject.SetActive(false);
+        yield return null;
     }
     private void ResetImagesSkrzynkiImage()
     {
@@ -1395,6 +1431,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         if (PomocniczeFunkcje.managerGryScript.ekwipunekGracza[nagroda].ilośćDanejNagrody > 0)
         {
+            PomocniczeFunkcje.managerGryScript.ekwipunekGracza[nagroda].AktualizujNazwe();
             wybranaNagroda = (sbyte)nagroda;
         }
         UżyjKlikniętegoPrzedmiotu();

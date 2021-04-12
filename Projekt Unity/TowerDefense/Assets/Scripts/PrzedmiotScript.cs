@@ -17,16 +17,24 @@ public class PrzedmiotScript : MonoBehaviour
         switch (typPrzedmiotu)
         {
             case TypPrzedmiotu.Coiny:
-                nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[0].GetComponentInChildren<Text>().text;
+                if (this.ilośćDanejNagrody > 0) PomocniczeFunkcje.mainMenu.przyciskiNagród[0].GetComponentInChildren<Text>().text = this.ilośćDanejNagrody.ToString();
+                else PomocniczeFunkcje.mainMenu.przyciskiNagród[0].GetComponentInChildren<Text>().text = this.nazwaPrzedmiotu;
+                //nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[0].GetComponentInChildren<Text>().text;
                 break;
             case TypPrzedmiotu.CudOcalenia:
-                nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[1].GetComponentInChildren<Text>().text;
+                if (this.ilośćDanejNagrody > 0) PomocniczeFunkcje.mainMenu.przyciskiNagród[1].GetComponentInChildren<Text>().text = this.ilośćDanejNagrody.ToString();
+                PomocniczeFunkcje.mainMenu.przyciskiNagród[1].GetComponentInChildren<Text>().text = this.nazwaPrzedmiotu;
+                //nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[1].GetComponentInChildren<Text>().text;
                 break;
             case TypPrzedmiotu.DodatkowaNagroda:
-                nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[2].GetComponentInChildren<Text>().text;
+                if (this.ilośćDanejNagrody > 0) PomocniczeFunkcje.mainMenu.przyciskiNagród[2].GetComponentInChildren<Text>().text = this.ilośćDanejNagrody.ToString();
+                PomocniczeFunkcje.mainMenu.przyciskiNagród[2].GetComponentInChildren<Text>().text = this.nazwaPrzedmiotu;
+                //nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[2].GetComponentInChildren<Text>().text;
                 break;
             case TypPrzedmiotu.SkrócenieCzasuDoSkrzynki:
-                nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[3].GetComponentInChildren<Text>().text;
+                if (this.ilośćDanejNagrody > 0) PomocniczeFunkcje.mainMenu.przyciskiNagród[3].GetComponentInChildren<Text>().text = this.ilośćDanejNagrody.ToString();
+                PomocniczeFunkcje.mainMenu.przyciskiNagród[3].GetComponentInChildren<Text>().text = this.nazwaPrzedmiotu;
+                //nazwaPrzedmiotu = PomocniczeFunkcje.mainMenu.przyciskiNagród[3].GetComponentInChildren<Text>().text;
                 break;
         }
     }
