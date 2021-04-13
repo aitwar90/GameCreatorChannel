@@ -1568,7 +1568,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 ManagerSamouczekScript.mssInstance.ZmiennaPomocnicza = 10;
             }
         }
-        UstawTenDomyslnyButton.OdpalWczesny();
+        UstawTenDomyslnyButton.UstawDomyślnyButton();
     }
     ///<summary>Metoda rozpoczyna proces ustawiania budynku.</summary>
     public void KliknijPrzyciskPostawBudynek()
