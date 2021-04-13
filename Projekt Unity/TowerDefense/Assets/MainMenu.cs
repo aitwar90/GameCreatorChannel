@@ -240,7 +240,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         samouczekPanel = uiGry.transform.Find("SamouczekPanel").gameObject;
         loader = this.transform.Find("Loader").gameObject;
         statystykiScript = goPanel.transform.Find("Statystyki").GetComponent<StatystykiScript>();
-        kursor = this.transform.Find("UI_Pointer").GetComponent<RectTransform>();
+        kursor = uiGry.transform.Find("UI_Pointer").GetComponent<RectTransform>();
         //panelBudowyBudynków = uiGry.transform.Find("PanelPostawBudynek").GetComponent<RectTransform>(); //Dla Androida
         wartośćPrzesunięciaY = (short)uiBudynkiPanel.transform.Find("Maska/RodzicButtonów").GetComponent<RectTransform>().anchoredPosition.y;
         epokaNizej.interactable = false;
@@ -780,7 +780,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     ///<summary>Metoda rozpoczyna ładowanie sceny gry.</summary>
     public void OdpalPoziom()
     {
-        if(!loader.activeSelf) loader.SetActive(true);
+        if (!loader.activeSelf) loader.SetActive(true);
         if (ManagerSamouczekScript.byloZaladowane)
         {
             ManagerSamouczekScript.mssInstance.OpuśćSamouczek(false);
@@ -817,7 +817,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     ///<summary>Metoda rozpoczyna ładowanie sceny samouczka.</summary>
     public void OdpalSamouczek()
     {
-        if(!loader.activeSelf) WłączWyłączPanel(loader.name, true);
+        if (!loader.activeSelf) WłączWyłączPanel(loader.name, true);
         PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki = 255;
         PomocniczeFunkcje.managerGryScript.aktualnaEpoka = Epoki.EpokaKamienia;
         if (SceneManager.sceneCount == 1)
@@ -1006,6 +1006,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 return;
             WłączWyłączPanel("UI_BudynkiPanel", true);
             WłączWyłączPanel("UI_LicznikCzasu", false);
+            Dezaktywuj_AktywujPrzyciskiPaneluDolnego(false);
             PomocniczeFunkcje.UstawTimeScale(0);
             if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 0)
             {
@@ -1027,6 +1028,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 return;
             WłączWyłączPanel("UI_BudynkiPanel", true);
             WłączWyłączPanel("UI_LicznikCzasu", false);
+            Dezaktywuj_AktywujPrzyciskiPaneluDolnego(false);
             PomocniczeFunkcje.UstawTimeScale(0);
             if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 1)
             {
@@ -1048,6 +1050,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 return;
             WłączWyłączPanel("UI_BudynkiPanel", true);
             WłączWyłączPanel("UI_LicznikCzasu", false);
+            Dezaktywuj_AktywujPrzyciskiPaneluDolnego(false);
             PomocniczeFunkcje.UstawTimeScale(0);
             if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 2)
             {
@@ -1073,6 +1076,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
             WłączWyłączPanel("UI_BudynkiPanel", false);
             WłączWyłączPanel("UI_LicznikCzasu", true);
+            Dezaktywuj_AktywujPrzyciskiPaneluDolnego(true);
             AktDisactButtonówPrzyPanelach(true);
             PomocniczeFunkcje.UstawTimeScale(1);
             lastPanelEnabledBuildings = -1;
@@ -1080,6 +1084,84 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             ManagerSamouczekScript.mssInstance.WyłączVisual();
             UstawTenDomyslnyButton.UstawDomyślnyButton(7);
             OdpalKursor = true;
+        }
+    }
+    private void Dezaktywuj_AktywujPrzyciskiPaneluDolnego(bool act)
+    {
+        if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
+        {
+            Button b = ui_down.transform.Find("kupno_wieza").GetComponent<Button>();
+            if (b.interactable == act) return;
+            b.interactable = act;
+            if(ManagerSamouczekScript.mssInstance.CzyIdxProgresuSamouczakRównyLubWiekszy(7))
+            {
+                ui_down.transform.Find("kupno_mur").GetComponent<Button>().interactable = act;
+            }
+            if (act)
+            {
+                b = ui_down.transform.Find("DaneGry/ButtonIkonyCoinNagroda").GetComponent<Button>();
+                string t = b.GetComponentInChildren<Text>().text;
+                if (t.Length < 3 && t != "0")
+                {
+                    b.interactable = true;
+                }
+                b = ui_down.transform.Find("DaneGry/ButtonDodatkowaNagrodaIkona").GetComponent<Button>();
+                t = b.GetComponentInChildren<Text>().text;
+                if (t.Length < 3 && t != "0")
+                {
+                    b.interactable = true;
+                }
+                b = ui_down.transform.Find("DaneGry/ButtonSkrócenieCzasuSkrzynkiIkona").GetComponent<Button>();
+                t = b.GetComponentInChildren<Text>().text;
+                if (t.Length < 3 && t != "0")
+                {
+                    b.interactable = true;
+                }
+            }
+            else
+            {
+                ui_down.transform.Find("DaneGry/ButtonIkonyCoinNagroda").GetComponent<Button>().interactable = false;
+                ui_down.transform.Find("DaneGry/ButtonDodatkowaNagrodaIkona").GetComponent<Button>().interactable = false;
+                ui_down.transform.Find("DaneGry/ButtonSkrócenieCzasuSkrzynkiIkona").GetComponent<Button>().interactable = false;
+            }
+        }
+        else
+        {
+            Button b = ui_down.transform.Find("kupno_wieza").GetComponent<Button>();
+            if (b.interactable == act) return;
+            //kupno_wieza, kupno_mur, kupno_inne, Fala
+            b.interactable = act;
+            ui_down.transform.Find("kupno_mur").GetComponent<Button>().interactable = act;
+            ui_down.transform.Find("kupno_inne").GetComponent<Button>().interactable = act;
+            ui_down.transform.Find("Fala").GetComponent<Button>().interactable = act;
+
+            if (act)
+            {
+                b = ui_down.transform.Find("DaneGry/ButtonIkonyCoinNagroda").GetComponent<Button>();
+                string t = b.GetComponentInChildren<Text>().text;
+                if (t.Length < 3 && t != "0")
+                {
+                    b.interactable = true;
+                }
+                b = ui_down.transform.Find("DaneGry/ButtonDodatkowaNagrodaIkona").GetComponent<Button>();
+                t = b.GetComponentInChildren<Text>().text;
+                if (t.Length < 3 && t != "0")
+                {
+                    b.interactable = true;
+                }
+                b = ui_down.transform.Find("DaneGry/ButtonSkrócenieCzasuSkrzynkiIkona").GetComponent<Button>();
+                t = b.GetComponentInChildren<Text>().text;
+                if (t.Length < 3 && t != "0")
+                {
+                    b.interactable = true;
+                }
+            }
+            else
+            {
+                ui_down.transform.Find("DaneGry/ButtonIkonyCoinNagroda").GetComponent<Button>().interactable = false;
+                ui_down.transform.Find("DaneGry/ButtonDodatkowaNagrodaIkona").GetComponent<Button>().interactable = false;
+                ui_down.transform.Find("DaneGry/ButtonSkrócenieCzasuSkrzynkiIkona").GetComponent<Button>().interactable = false;
+            }
         }
     }
     private void AktDisactButtonówPrzyPanelach(bool value)

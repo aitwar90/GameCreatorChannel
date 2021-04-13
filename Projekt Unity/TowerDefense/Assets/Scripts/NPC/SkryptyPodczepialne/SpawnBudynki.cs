@@ -406,9 +406,13 @@ public class SpawnBudynki : MonoBehaviour
         {
             if (!czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].czyZablokowany)
             {
-                bool tmpHitUi = false;
-                Vector3 tmp = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(new Vector3(Screen.width / 2, Screen.height / 2, 0), ref tmpHitUi, true);
-                if (Mathf.Abs(tmp.x - ostatniaPozycjaKursora.x) > 25 || Mathf.Abs(tmp.x - ostatniaPozycjaKursora.x) > 10)
+                //bool tmpHitUi = false;
+                //Vector3 tmp = PomocniczeFunkcje.OkreślPozycjęŚwiataKursora(posClick, ref tmpHitUi, true, Screen.width / 2, Screen.height / 2);
+                //Vector3 tmp = PomocniczeFunkcje.oCam.ScreenToWorldPoint( new Vector3(Screen.width / 2, Screen.height / 2, 0));
+                //bazowePolozenieKameryGry = new Vector3(52.0f, 6.5f, 52.0f);   //z - 43
+
+                Vector3 tmp = new Vector3(PomocniczeFunkcje.oCam.transform.position.x, 0.0f, PomocniczeFunkcje.oCam.transform.position.z - 5.0f);
+                if (Mathf.Abs(tmp.x - ostatniaPozycjaKursora.x) > 25 || Mathf.Abs(tmp.z - ostatniaPozycjaKursora.z) > 10)
                 {
                     PostawBudynek(ref wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku], tmp, Quaternion.identity);
                     ostatniaPozycjaKursora = posClick = tmp;

@@ -41,7 +41,7 @@ public class SamouczekKliknijTuVisual : MonoBehaviour
     {
         if (!wylMryg)
         {
-            if (t >= 1)
+            if (t >= .5f)
             {
                 t = .1f;
             }
@@ -49,7 +49,7 @@ public class SamouczekKliknijTuVisual : MonoBehaviour
         }
         else
         {
-            t = 1;
+            t = .5f;
             mryganie = false;
         }
         Color c = image.color;

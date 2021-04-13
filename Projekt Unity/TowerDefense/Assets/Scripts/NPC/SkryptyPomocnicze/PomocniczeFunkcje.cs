@@ -34,7 +34,7 @@ public static class PomocniczeFunkcje
     /*
     Metoda zwraca punkt styku promienia generowanego przez kursor a obiektem natrafiającym na collider
     */
-    public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos, ref bool hitUI, bool ustawLastPos = false)
+    public static Vector3 OkreślPozycjęŚwiataKursora(Vector3 lastPos, ref bool hitUI, bool ustawLastPos = false, int seX = 0, int seY = 0)
     {
         if (oCam == null)
         {
@@ -79,8 +79,8 @@ public static class PomocniczeFunkcje
         }
         else
         {
-            posK.x = lastPos.x;
-            posK.y = lastPos.y;
+            posK.x = seX;
+            posK.y = seY;
             hitUI = false;
         }
         RaycastHit[] rh = ZwrócHity(ref oCam, posK);

@@ -31,6 +31,12 @@ public class ManagerSamouczekScript : MonoBehaviour
             zmiennaPomocnicza = value;
         }
     }
+    public bool CzyIdxProgresuSamouczakRównyLubWiekszy(byte porównanie)
+    {
+        if(porównanie <= idxProgresuSamouczka)
+            return true;
+        return false;
+    }
     // Start is called before the first frame update
     void Awake()
     {
@@ -63,11 +69,6 @@ public class ManagerSamouczekScript : MonoBehaviour
             e2 = mgs.ekwipunekGracza[1].ilośćDanejNagrody;
             e3 = mgs.ekwipunekGracza[2].ilośćDanejNagrody;
             e4 = mgs.ekwipunekGracza[3].ilośćDanejNagrody;
-            skrzynki = new Skrzynka[4];
-            for(byte i = 0; i < 4; i++)
-            {
-                skrzynki[i] = mgs.skrzynki[i];
-            }
             thp = mgs.hpIdx;
             atkIdx = mgs.atkIdx;
             defidx = mgs.defIdx;
@@ -80,6 +81,7 @@ public class ManagerSamouczekScript : MonoBehaviour
         for (byte i = 0; i < mgs.ekwipunekGracza.Length; i++)
         {
             mgs.ekwipunekGracza[i].ilośćDanejNagrody = 0;
+            mgs.ekwipunekGracza[i].AktualizujNazwe();
         }
         mgs.hpIdx = 0;
         mgs.atkIdx = 0;
@@ -417,21 +419,25 @@ public class ManagerSamouczekScript : MonoBehaviour
             ManagerGryScript.iloscCoinów = tmpHajs;
             mgs.skrzynki = skrzynki;
             mgs.ekwipunekGracza[0].ilośćDanejNagrody = e1;
+            mgs.ekwipunekGracza[0].AktualizujNazwe();
             if(e1 > 0)
             {
                 PomocniczeFunkcje.mainMenu.przyciskiNagród[0].interactable = true;
             }
             mgs.ekwipunekGracza[1].ilośćDanejNagrody = e2;
+            mgs.ekwipunekGracza[1].AktualizujNazwe();
             if(e2 > 0)
             {
                 PomocniczeFunkcje.mainMenu.przyciskiNagród[1].interactable = true;
             }
             mgs.ekwipunekGracza[2].ilośćDanejNagrody = e3;
+            mgs.ekwipunekGracza[2].AktualizujNazwe();
             if(e3 > 0)
             {
                 PomocniczeFunkcje.mainMenu.przyciskiNagród[2].interactable = true;
             }
             mgs.ekwipunekGracza[3].ilośćDanejNagrody = e4;
+            mgs.ekwipunekGracza[3].AktualizujNazwe();
             if(e4 > 0)
             {
                 PomocniczeFunkcje.mainMenu.przyciskiNagród[3].interactable = true;
