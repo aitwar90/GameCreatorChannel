@@ -5276,8 +5276,8 @@ MonoBehaviour:
   granicaZ: 0.75
   kosztBadania: 0
   "typAtakuWie\u017Cy": 1
-  blokowany: 1
-  obiektAtaku: {fileID: 7455529891099371364, guid: 9db9c66fa28aa8a4082d135d21bbb249, type: 3}
+  blokowany: 0
+  obiektAtaku: {fileID: 7455529891099371364, guid: 07f75a400bee59a48bae42ba540ad3b5, type: 3}
   efektyFxStart: {fileID: 0}
   efektyFxKoniec: {fileID: 0}
   "offWysoko\u015B\u0107": 2.2

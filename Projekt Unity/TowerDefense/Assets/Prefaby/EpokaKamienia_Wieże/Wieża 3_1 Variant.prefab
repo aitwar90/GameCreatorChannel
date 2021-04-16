@@ -78,9 +78,13 @@ PrefabInstance:
       value: "D\u0119bowa Diva I"
       objectReference: {fileID: 0}
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790, type: 3}
+      propertyPath: blokowany
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790, type: 3}
       propertyPath: obiektAtaku
       value: 
-      objectReference: {fileID: 7455529891099371364, guid: 9db9c66fa28aa8a4082d135d21bbb249, type: 3}
+      objectReference: {fileID: 7455529891099371364, guid: 07f75a400bee59a48bae42ba540ad3b5, type: 3}
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790, type: 3}
       propertyPath: opisBudynku
       value: "D\u0119bowa wie\u017Ca atakuj\u0105ca jeden cel. Dost\u0119pna na samym
@@ -142,6 +146,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: aea2d56c713edca5f90b95ebe947854f, type: 2}
+    - target: {fileID: 4861839329242594746, guid: 09c09c3864100f2979df9494dcdf3790, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5630565500635788703, guid: 09c09c3864100f2979df9494dcdf3790, type: 3}
       propertyPath: m_Radius
       value: 0.5
