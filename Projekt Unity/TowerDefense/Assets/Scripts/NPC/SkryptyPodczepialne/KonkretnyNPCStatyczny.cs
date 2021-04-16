@@ -46,7 +46,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     private MagazynObiektówAtaków[] tabActAtakObj = null;
     private bool instaObjIsActive = false;
     private short bazoweHP = 0;
-    private GameObject dymy;
+    [HideInInspector] public GameObject dymy;
     [HideInInspector, SerializeField] private bool zablokowany = true;
     #endregion
 
@@ -88,13 +88,16 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         UpgradeMe(0);
         UpgradeMe(1);
         UpgradeMe(2);
+        if (this.dymy == null)
+        {
+            if (this.typBudynku != TypBudynku.Mur)
+            {
+                this.dymy = this.transform.GetChild(this.transform.childCount - 1).gameObject;
+                this.dymy.SetActive(false);
+            }
+        }
         this.AktualneŻycie = this.maksymalneŻycie;
         this.nastawienieNPC = NastawienieNPC.Przyjazne;
-        if (this.typBudynku != TypBudynku.Mur)
-        {
-            this.dymy = this.transform.GetChild(this.transform.childCount-1).gameObject;
-            this.dymy.SetActive(false);
-        }
         if (sprite == null)
             sprite = this.transform.Find("HpGreen");
         if (this.odgłosyNPC != null)
@@ -175,7 +178,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                 {
                     ZnajdźNowyCel();
                 }
-                if(obniżaj)
+                if (obniżaj)
                 {
                     this.transform.Translate(new Vector3(0, -Time.deltaTime, 0));
                 }

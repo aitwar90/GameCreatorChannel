@@ -156,6 +156,11 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     break;
 
                 case 0:
+                    if(cel == null && synchronizujęAnimację)
+                    {
+                        czyAtakJestAktywny = false;
+                        synchronizujęAnimację = false;
+                    }
                     if (!synchronizujęAnimację && (!czyAtakJestAktywny || this.typNPC != TypNPC.WalczyNaDystans))
                         PomocniczeFunkcje.ZwykłeAI(this);
                     głównyIndex++;

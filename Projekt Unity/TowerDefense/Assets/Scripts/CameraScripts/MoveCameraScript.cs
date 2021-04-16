@@ -198,7 +198,7 @@ public class MoveCameraScript : MonoBehaviour
         }
         if (scrolwheel != 0)
         {
-            //ZoomingMeNew(scrolwheel, 3.0f);
+            ZoomingMeNew(scrolwheel, 3.0f);
         }
     }
     void ObsłużInputySwitch()

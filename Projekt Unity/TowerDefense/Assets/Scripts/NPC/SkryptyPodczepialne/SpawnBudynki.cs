@@ -273,8 +273,7 @@ public class SpawnBudynki : MonoBehaviour
         //materialWybranegoBudynku = new MaterialyZKolorami[mats.Length];
         for (byte i = 0; i < mats.Length; i++)
         {
-            
-            if(mats[i].name == " Dach" || mats[i].name == "Ciało")
+            if(mats[i].name == "Dach" || mats[i].name == "Ciało")
                 matZCol.Add(new MaterialyZKolorami(mats[i].material, mats[i].material.color));
         }
         materialWybranegoBudynku = matZCol.ToArray();
@@ -283,7 +282,11 @@ public class SpawnBudynki : MonoBehaviour
             PodmieńNaCzerwony();
         }
         knpcs = aktualnyObiekt.GetComponent<KonkretnyNPCStatyczny>();
-
+        if (knpcs.typBudynku != TypBudynku.Mur)
+        {
+            knpcs.dymy = knpcs.transform.GetChild(knpcs.transform.childCount-1).gameObject;
+            knpcs.dymy.SetActive(false);
+        }
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(true);
     }
     private void ZatwierdźBudynekWindows()
@@ -417,7 +420,7 @@ public class SpawnBudynki : MonoBehaviour
                 //bazowePolozenieKameryGry = new Vector3(52.0f, 6.5f, 52.0f);   //z - 43
 
                 Vector3 tmp = new Vector3(PomocniczeFunkcje.oCam.transform.position.x, 0.0f, PomocniczeFunkcje.oCam.transform.position.z - 5.0f);
-                if (Mathf.Abs(tmp.x - ostatniaPozycjaKursora.x) > 25 || Mathf.Abs(tmp.z - ostatniaPozycjaKursora.z) > 10)
+                if (Mathf.Abs(tmp.x - ostatniaPozycjaKursora.x) > 12 || Mathf.Abs(tmp.z - ostatniaPozycjaKursora.z) > 5)
                 {
                     PostawBudynek(ref wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku], tmp, Quaternion.identity);
                     ostatniaPozycjaKursora = posClick = tmp;
