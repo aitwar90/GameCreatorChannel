@@ -121,7 +121,7 @@ namespace UiParticles
             ParticleSystem = _particleSystem;
             m_ParticleSystemRenderer = _particleSystemRenderer;
             //if (EditorApplication.isPlaying){
-                this.gameObject.SetActive(false);
+                //this.gameObject.SetActive(false);
             //}
 
         }
