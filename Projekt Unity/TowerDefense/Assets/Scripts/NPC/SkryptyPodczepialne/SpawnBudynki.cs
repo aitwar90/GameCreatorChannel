@@ -420,7 +420,7 @@ public class SpawnBudynki : MonoBehaviour
                 //bazowePolozenieKameryGry = new Vector3(52.0f, 6.5f, 52.0f);   //z - 43
 
                 Vector3 tmp = new Vector3(PomocniczeFunkcje.oCam.transform.position.x, 0.0f, PomocniczeFunkcje.oCam.transform.position.z - 5.0f);
-                if (Mathf.Abs(tmp.x - ostatniaPozycjaKursora.x) > 12 || Mathf.Abs(tmp.z - ostatniaPozycjaKursora.z) > 5)
+                if (Mathf.Abs(tmp.x - ostatniaPozycjaKursora.x) > 7.5f || Mathf.Abs(tmp.z - ostatniaPozycjaKursora.z) > 4.5f)
                 {
                     PostawBudynek(ref wszystkieBudynki[czyBudynekZablokowany[aktualnieWybranyIndeksObiektuTabZablokowany].indexBudynku], tmp, Quaternion.identity);
                     ostatniaPozycjaKursora = posClick = tmp;

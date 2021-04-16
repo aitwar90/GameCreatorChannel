@@ -129,6 +129,7 @@ MonoBehaviour:
   sprite: {fileID: 0}
   opisBudynku: "To g\u0142\xF3wny budynek gracza"
   iloscWrogowWZasiegu: 0
+  dymy: {fileID: 0}
   zablokowany: 1
 --- !u!135 &671457483241777074
 SphereCollider:
@@ -197,6 +198,10 @@ PrefabInstance:
     - target: {fileID: 4529282608138346, guid: 2d375605610a4e84d8e1d80a70c9340a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198922435788909546, guid: 2d375605610a4e84d8e1d80a70c9340a, type: 3}
+      propertyPath: looping
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d375605610a4e84d8e1d80a70c9340a, type: 3}

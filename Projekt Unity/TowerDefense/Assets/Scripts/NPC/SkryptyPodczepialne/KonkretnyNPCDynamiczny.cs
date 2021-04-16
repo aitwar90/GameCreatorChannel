@@ -316,7 +316,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
             this.rysujPasekŻycia = false;
         }
         PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek -= ResetujŚciezkę;
-        ManagerGryScript.iloscAktywnychWrogów--;
+        if(ManagerGryScript.iloscAktywnychWrogów > 0)
+            ManagerGryScript.iloscAktywnychWrogów--;
         PomocniczeFunkcje.managerGryScript.UstawIlośćCoinów((short)this.ileCoinówZaZabicie);
         PomocniczeFunkcje.managerGryScript.DodajDoWartościStatystyk(4, this.ileCoinówZaZabicie);
         if (ManagerGryScript.iloscAktywnychWrogów == 0)

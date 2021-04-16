@@ -856,8 +856,6 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = true;
             //  Obsługa Particle system
             PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
-            UstawTenDomyslnyButton.ZaktualizujStan(8);
-            UstawTenDomyslnyButton.UstawAktywnyButton(PomocniczeFunkcje.mainMenu.nastepnyPoziom.gameObject);
             // UNITY_ANDROID PomocniczeFunkcje.mainMenu.rekZaWyzszaNagrode.gameObject.SetActive(CzyReklamaZaładowana);
             OdblokujKolejnaSkrzynke();
             short wartośćCoinówWygrana = (short)((((byte)aktualnaEpoka) * aktualnyPoziomEpoki * 20) * 2);
@@ -868,6 +866,8 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("WinTXT", true);
             PomocniczeFunkcje.mainMenu.UstawDaneStatystyk(ref wartościDlaStatystyk);
             MuzykaScript.singleton.WłączWyłączClip(true, "Zwycięstwo");
+            UstawTenDomyslnyButton.ZaktualizujStan(8);
+            UstawTenDomyslnyButton.UstawAktywnyButton(PomocniczeFunkcje.mainMenu.nastepnyPoziom.gameObject);
         }
         else
         {
