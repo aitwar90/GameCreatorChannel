@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641263, b: 0.5748167, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748174, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -19691,7 +19691,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1696522180130032818, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 401.41
       objectReference: {fileID: 0}
     - target: {fileID: 1696522180130032818, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
       propertyPath: m_SizeDelta.y
@@ -19727,7 +19727,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1696522180130032818, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.5
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 1696522180130032818, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -19748,6 +19748,70 @@ PrefabInstance:
     - target: {fileID: 1696522180130032819, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
       propertyPath: m_Name
       value: GlowParticleSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696522180130032822, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
+      propertyPath: prewarm
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696522180130032822, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
+      propertyPath: cullingMode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696522180130032822, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696522180130032822, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
+      propertyPath: scalingMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696522180130032822, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
+      propertyPath: ShapeModule.type
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696522180130032822, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
+      propertyPath: ShapeModule.m_Scale.x
+      value: 335
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696522180130032822, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
+      propertyPath: ShapeModule.m_Scale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696522180130032822, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
+      propertyPath: useRigidbodyForVelocity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696522180130032822, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
+      propertyPath: ShapeModule.m_Rotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696522180130032822, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 67
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696522180130032822, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696522180130032822, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696522180130032822, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696522180130032822, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696522180130032822, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.2589805
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696522180130032822, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95b5f3bcd480edc47b7833d4d737910a, type: 3}
