@@ -26,10 +26,11 @@ public class SamouczekKliknijTuVisual : MonoBehaviour
     {
         if (this.gameObject.activeInHierarchy)
         {
-            Mrygaj(true);
+            //Mrygaj(true);
             this.gameObject.SetActive(false);
         }
     }
+    /*
     void Update()
     {
         if(mryganie)
@@ -37,6 +38,7 @@ public class SamouczekKliknijTuVisual : MonoBehaviour
             Mrygaj();
         }
     }
+    */
     private void Mrygaj(bool wylMryg = false)
     {
         if (!wylMryg)

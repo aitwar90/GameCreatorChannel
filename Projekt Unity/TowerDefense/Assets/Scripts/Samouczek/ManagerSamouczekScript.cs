@@ -5,6 +5,8 @@ using UnityEngine;
 public class ManagerSamouczekScript : MonoBehaviour
 {
     public static ManagerSamouczekScript mssInstance = null;
+    public GameObject particleSystem;
+    public Vector3[] pozycjeInstatiate;
     private SamouczekInfoPanelScript sips = null;
     private SamouczekKliknijTuVisual sktv = null;
     private byte idxProgresuSamouczka = 0;
@@ -18,6 +20,7 @@ public class ManagerSamouczekScript : MonoBehaviour
     private ushort thp = 0, atkIdx = 0, defidx = 0;
     private sbyte zmiennaPomocnicza = -1;
     public static bool byloZaladowane = false;
+    private GameObject particleObj = null;
     private Font fToLoad = null;
     private ushort lastTimer = 0;
     public sbyte ZmiennaPomocnicza
@@ -33,9 +36,13 @@ public class ManagerSamouczekScript : MonoBehaviour
     }
     public bool CzyIdxProgresuSamouczakRównyLubWiekszy(byte porównanie)
     {
-        if(porównanie <= idxProgresuSamouczka)
+        if (porównanie <= idxProgresuSamouczka)
             return true;
         return false;
+    }
+    public byte DanyIdxSamouczka()
+    {
+        return idxProgresuSamouczka;
     }
     // Start is called before the first frame update
     void Awake()
@@ -241,12 +248,19 @@ public class ManagerSamouczekScript : MonoBehaviour
                         WywolajProgress();
                         sprawdzajCzyZaliczone = false;
                         zmiennaPomocnicza = -1;
+
                     }
                     break;
                 case 6:
+                    if (particleObj == null)
+                    {
+                        particleObj = GameObject.Instantiate(particleSystem, pozycjeInstatiate[0], Quaternion.identity);
+                    }
                     //Postaw budynek
                     if (zmiennaPomocnicza == -3)    //-3 postaw budynek
                     {
+                        Destroy(particleObj.gameObject);
+                        particleObj = null;
                         sprawdzajCzyZaliczone = false;
                         zmiennaPomocnicza = -1;
                         WywolajProgress();
@@ -269,7 +283,7 @@ public class ManagerSamouczekScript : MonoBehaviour
                     }
                     break;
                 case 9:
-                    if(zmiennaPomocnicza == 12) //Kliknięte postaw już murek
+                    if (zmiennaPomocnicza == 12) //Kliknięte postaw już murek
                     {
                         sktv.WyłączObiekt();
                         WywolajProgress();
@@ -279,8 +293,15 @@ public class ManagerSamouczekScript : MonoBehaviour
                     break;
                 case 10:
                     //Wyłączenie markera przycisku obrotu
+                    if (particleObj == null)
+                    {
+                        particleObj = GameObject.Instantiate(particleSystem, pozycjeInstatiate[1], Quaternion.identity);
+                        Debug.Log("Postawiłem particle");
+                    }
                     if (zmiennaPomocnicza == -3)
                     {
+                        Destroy(particleObj.gameObject);
+                        particleObj = null;
                         sktv.WyłączObiekt();
                         WywolajProgress();
                         sprawdzajCzyZaliczone = false;
@@ -339,7 +360,7 @@ public class ManagerSamouczekScript : MonoBehaviour
 
             }
         }
-        if (idxProgresuSamouczka == 16 )    //Na jakim etapie timer ma zacząć być odliczany
+        if (idxProgresuSamouczka == 16)    //Na jakim etapie timer ma zacząć być odliczany
         {
             if (symulujManageraUpdate < 3)
                 symulujManageraUpdate++;
@@ -374,14 +395,14 @@ public class ManagerSamouczekScript : MonoBehaviour
                 {
                     for (byte j = 0; j < PomocniczeFunkcje.managerGryScript.fontyJezyków[i].idxJezyka.Length; j++)
                     {
-                        if (PomocniczeFunkcje.managerGryScript.fontyJezyków[i].idxJezyka[j] == jez+1)
+                        if (PomocniczeFunkcje.managerGryScript.fontyJezyków[i].idxJezyka[j] == jez + 1)
                         {
                             fToLoad = PomocniczeFunkcje.managerGryScript.fontyJezyków[i].font;
                             znalazlem = true;
                             break;
                         }
                     }
-                    if(znalazlem)
+                    if (znalazlem)
                         break;
                 }
             }
@@ -402,7 +423,7 @@ public class ManagerSamouczekScript : MonoBehaviour
     public void OpuśćSamouczek(bool res = true)
     {
         ZwróćMiDane();
-        if(res)
+        if (res)
             PomocniczeFunkcje.mainMenu.ResetSceny(false);
         PomocniczeFunkcje.mainMenu.PrzełączUI(true);
         this.sips.gameObject.SetActive(false);
@@ -420,29 +441,29 @@ public class ManagerSamouczekScript : MonoBehaviour
             mgs.skrzynki = skrzynki;
             mgs.ekwipunekGracza[0].ilośćDanejNagrody = e1;
             mgs.ekwipunekGracza[0].AktualizujNazwe();
-            if(e1 > 0)
+            if (e1 > 0)
             {
                 PomocniczeFunkcje.mainMenu.przyciskiNagród[0].interactable = true;
             }
             mgs.ekwipunekGracza[1].ilośćDanejNagrody = e2;
             mgs.ekwipunekGracza[1].AktualizujNazwe();
-            if(e2 > 0)
+            if (e2 > 0)
             {
                 PomocniczeFunkcje.mainMenu.przyciskiNagród[1].interactable = true;
             }
             mgs.ekwipunekGracza[2].ilośćDanejNagrody = e3;
             mgs.ekwipunekGracza[2].AktualizujNazwe();
-            if(e3 > 0)
+            if (e3 > 0)
             {
                 PomocniczeFunkcje.mainMenu.przyciskiNagród[2].interactable = true;
             }
             mgs.ekwipunekGracza[3].ilośćDanejNagrody = e4;
             mgs.ekwipunekGracza[3].AktualizujNazwe();
-            if(e4 > 0)
+            if (e4 > 0)
             {
                 PomocniczeFunkcje.mainMenu.przyciskiNagród[3].interactable = true;
             }
-            for(byte i = 0; i < 4; i++)
+            for (byte i = 0; i < 4; i++)
             {
                 mgs.skrzynki[i] = skrzynki[i];
             }
@@ -471,7 +492,7 @@ public class ManagerSamouczekScript : MonoBehaviour
     ///<param name="i">Sprawdza czy parametr jest zgodny z aktualnym stanem progresu samouczka.</param>
     public bool CzyZgadzaSięIDXGłówny(sbyte i)
     {
-        if(i == idxProgresuSamouczka)
+        if (i == idxProgresuSamouczka)
             return true;
         return false;
     }
