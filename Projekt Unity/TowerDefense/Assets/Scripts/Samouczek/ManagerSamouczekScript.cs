@@ -296,7 +296,6 @@ public class ManagerSamouczekScript : MonoBehaviour
                     if (particleObj == null)
                     {
                         particleObj = GameObject.Instantiate(particleSystem, pozycjeInstatiate[1], Quaternion.identity);
-                        Debug.Log("Postawiłem particle");
                     }
                     if (zmiennaPomocnicza == -3)
                     {

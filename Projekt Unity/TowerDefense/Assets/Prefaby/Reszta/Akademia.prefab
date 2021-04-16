@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4912571127449100517}
   - component: {fileID: 4970022518230726385}
   m_Layer: 0
-  m_Name: Akademia cien
+  m_Name: "Cie\u0144"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -261,6 +261,7 @@ MonoBehaviour:
   opisBudynku: "Budynek pozwalaj\u0105cy na prowadzenie bada\u0144. Zwi\u0119ksza
     parametry innych budynk\xF3w."
   iloscWrogowWZasiegu: 0
+  dymy: {fileID: 0}
   zablokowany: 1
 --- !u!135 &7275247995621654197
 SphereCollider:
@@ -287,7 +288,7 @@ GameObject:
   - component: {fileID: 6271597695041222400}
   - component: {fileID: 4582914530039133503}
   m_Layer: 0
-  m_Name: Akademia cialo
+  m_Name: "Cia\u0142o"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

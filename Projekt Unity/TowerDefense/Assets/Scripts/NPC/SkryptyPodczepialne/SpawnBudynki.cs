@@ -454,15 +454,15 @@ public class SpawnBudynki : MonoBehaviour
             byte t = ManagerSamouczekScript.mssInstance.DanyIdxSamouczka();
             if (t == 6)
             {
-                if (Vector3.Distance(aktualnyObiekt.transform.position, ManagerSamouczekScript.mssInstance.pozycjeInstatiate[0]) > 5f)
+                if (Vector3.Distance(aktualnyObiekt.transform.position, ManagerSamouczekScript.mssInstance.pozycjeInstatiate[0]) > 3f)
                 {
                     PodmieńNaCzerwony();
                     return false;
                 }
             }
-            else if (t == 9)
+            else if (t == 10)
             {
-                if (Vector3.Distance(aktualnyObiekt.transform.position, ManagerSamouczekScript.mssInstance.pozycjeInstatiate[1]) > 5f)
+                if (Vector3.Distance(aktualnyObiekt.transform.position, ManagerSamouczekScript.mssInstance.pozycjeInstatiate[1]) > 3f)
                 {
                     PodmieńNaCzerwony();
                     return false;

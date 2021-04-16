@@ -866,6 +866,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("WinTXT", true);
             PomocniczeFunkcje.mainMenu.UstawDaneStatystyk(ref wartościDlaStatystyk);
             MuzykaScript.singleton.WłączWyłączClip(true, "Zwycięstwo");
+            PomocniczeFunkcje.eSystem.SetSelectedGameObject(null);
             UstawTenDomyslnyButton.ZaktualizujStan(8);
             UstawTenDomyslnyButton.UstawAktywnyButton(PomocniczeFunkcje.mainMenu.nastepnyPoziom.gameObject);
         }
@@ -873,6 +874,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         {
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("LoseTXT", true);
             MuzykaScript.singleton.WłączWyłączClip(true, "Przegrana");
+            PomocniczeFunkcje.eSystem.SetSelectedGameObject(null);
             UstawTenDomyslnyButton.UstawDomyślnyButton(8);
         }
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
