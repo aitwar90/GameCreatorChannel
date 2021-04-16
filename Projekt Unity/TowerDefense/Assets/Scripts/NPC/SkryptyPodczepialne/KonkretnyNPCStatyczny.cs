@@ -92,7 +92,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         this.nastawienieNPC = NastawienieNPC.Przyjazne;
         if (this.typBudynku != TypBudynku.Mur)
         {
-            this.dymy = this.GetComponentInChildren<ParticleSystem>().gameObject;
+            this.dymy = this.transform.GetChild(this.transform.childCount-1).gameObject;
             this.dymy.SetActive(false);
         }
         if (sprite == null)

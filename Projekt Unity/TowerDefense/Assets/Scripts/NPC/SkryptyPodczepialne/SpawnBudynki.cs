@@ -269,11 +269,15 @@ public class SpawnBudynki : MonoBehaviour
     {
         aktualnyObiekt = Instantiate(obiektDoRespawnu, pos, rotation);
         Renderer[] mats = aktualnyObiekt.GetComponentsInChildren<Renderer>();
-        materialWybranegoBudynku = new MaterialyZKolorami[mats.Length];
+        List<MaterialyZKolorami> matZCol = new List<MaterialyZKolorami>();
+        //materialWybranegoBudynku = new MaterialyZKolorami[mats.Length];
         for (byte i = 0; i < mats.Length; i++)
         {
-            materialWybranegoBudynku[i] = new MaterialyZKolorami(mats[i].material, mats[i].material.color);
+            
+            if(mats[i].name == " Dach" || mats[i].name == "Ciało")
+                matZCol.Add(new MaterialyZKolorami(mats[i].material, mats[i].material.color));
         }
+        materialWybranegoBudynku = matZCol.ToArray();
         if (materialWybranegoBudynku != null)
         {
             PodmieńNaCzerwony();
