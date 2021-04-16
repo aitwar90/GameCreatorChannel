@@ -10,6 +10,8 @@ public class OdpalParticle : MonoBehaviour
     {
         eventSystem = PomocniczeFunkcje.eSystem;
         pSystem = this.GetComponentInChildren<ParticleSystem>().gameObject;
+        if(pSystem == null)
+            Debug.Log(this.gameObject.name);
         pSystem.SetActive(false);
     }
 
