@@ -120,14 +120,9 @@ public abstract class NPCClass : MonoBehaviour
     public abstract void UstawPanel(Vector2 pos);
     protected virtual IEnumerator SkasujObject(float time)
     {
-        GameObject go = null;
-        if(PomocniczeFunkcje.spawnBudynki.particleDoZniszczonegoBudynku != null)
-            go = GameObject.Instantiate(PomocniczeFunkcje.spawnBudynki.particleDoZniszczonegoBudynku, this.transform.position, Quaternion.identity);
         yield return new WaitForSeconds(time);
         if (this.odgłosyNPC.isPlaying)
             PomocniczeFunkcje.muzyka.WłączWyłączClip(ref odgłosyNPC, false);
-        if(go != null)
-            Destroy(go);
         Destroy(this.gameObject);
     }
     ///<summary>Zmienia wartość HP obiektu.</summary>

@@ -41,6 +41,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     public byte iloscWrogowWZasiegu = 0;
     private byte idxAct = 0;
     private ushort kosztNaprawy = 0;
+    private bool obniżaj = false;
     private Stack<MagazynObiektówAtaków> instaObjOff = null;
     private MagazynObiektówAtaków[] tabActAtakObj = null;
     private bool instaObjIsActive = false;
@@ -235,11 +236,23 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             if (instaObjOff != null)
                 instaObjOff.Clear();
             StartCoroutine(SkasujObject(2.0f));
+            StartCoroutine(Kasacja());
         }
         if (this.odgłosyNPC != null)
         {
             PomocniczeFunkcje.muzyka.ustawGłośność -= this.UstawGłośnośćNPC;
         }
+    }
+    private IEnumerator Kasacja()
+    {
+        GameObject go = null;
+        if (PomocniczeFunkcje.spawnBudynki.particleDoZniszczonegoBudynku != null)
+        {
+            go = GameObject.Instantiate(PomocniczeFunkcje.spawnBudynki.particleDoZniszczonegoBudynku, this.transform.position, Quaternion.identity);
+        }
+        yield return new WaitForSeconds(3.0f);
+        if (go != null)
+            Destroy(go);
     }
     /*
     void OnDrawGizmosSelected()
