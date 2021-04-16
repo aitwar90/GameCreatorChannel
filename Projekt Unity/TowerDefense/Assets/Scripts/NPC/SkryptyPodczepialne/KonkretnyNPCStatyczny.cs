@@ -175,6 +175,10 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                 {
                     ZnajdźNowyCel();
                 }
+                if(obniżaj)
+                {
+                    this.transform.Translate(new Vector3(0, -Time.deltaTime, 0));
+                }
                 idxAct++;
                 break;
             case 1:
@@ -246,11 +250,13 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     private IEnumerator Kasacja()
     {
         GameObject go = null;
+        obniżaj = true;
         if (PomocniczeFunkcje.spawnBudynki.particleDoZniszczonegoBudynku != null)
         {
             go = GameObject.Instantiate(PomocniczeFunkcje.spawnBudynki.particleDoZniszczonegoBudynku, this.transform.position, Quaternion.identity);
         }
         yield return new WaitForSeconds(3.0f);
+        obniżaj = false;
         if (go != null)
             Destroy(go);
     }

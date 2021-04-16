@@ -232,7 +232,7 @@ MonoBehaviour:
   "maksymalne\u017Bycie": 100
   typNPC: 0
   epokaNPC: 1
-  kosztJednostki: 1
+  kosztJednostki: 100
   "zadawaneObra\u017Cenia": 10
   "zasi\u0119gAtaku": 0
   "szybko\u015B\u0107Ataku": -1
@@ -258,10 +258,10 @@ MonoBehaviour:
   "offWysoko\u015B\u0107": 1.5
   obrazekDoBudynku: {fileID: 21300000, guid: 5c0cd386342b7ae448b0843798140248, type: 3}
   sprite: {fileID: 3113172145578377462}
-  opisBudynku: "Budynek pozwalaj\u0105cy na prowadzenie bada\u0144 zwi\u0119kszaj\u0105cych
+  opisBudynku: "Budynek pozwalaj\u0105cy na prowadzenie bada\u0144. Zwi\u0119ksza
     parametry innych budynk\xF3w."
   iloscWrogowWZasiegu: 0
-  zablokowany: 0
+  zablokowany: 1
 --- !u!135 &7275247995621654197
 SphereCollider:
   m_ObjectHideFlags: 0

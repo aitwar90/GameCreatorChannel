@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: "tagRodzajDoD\u017Awi\u0119k\xF3w"
       value: "_Strza\u0142a"
       objectReference: {fileID: 0}
+    - target: {fileID: 2738474393216621962, guid: 09c09c3864100f2979df9494dcdf3790, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4976646946553750010, guid: cebb04c2c6cef5f49a4d525f4abd828a, type: 3}
     - target: {fileID: 5936720593168581440, guid: 09c09c3864100f2979df9494dcdf3790, type: 3}
       propertyPath: m_Name
       value: "Wie\u017Ca 3_3_1 Variant"
