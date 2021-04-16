@@ -24977,6 +24977,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NiezbedneSkrypty_Mobile
       objectReference: {fileID: 0}
+    - target: {fileID: 3463731109780786868, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
+      propertyPath: aktualnyObiekt
+      value: 
+      objectReference: {fileID: 1110045544307624, guid: 2d375605610a4e84d8e1d80a70c9340a, type: 3}
     - target: {fileID: 3463731109780786869, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
       propertyPath: m_RootOrder
       value: 0
