@@ -14,11 +14,11 @@ PrefabInstance:
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790, type: 3}
       propertyPath: obiektAtaku
       value: 
-      objectReference: {fileID: 7455529891099371364, guid: 07f75a400bee59a48bae42ba540ad3b5, type: 3}
+      objectReference: {fileID: 7455529891099371364, guid: 9db9c66fa28aa8a4082d135d21bbb249, type: 3}
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790, type: 3}
       propertyPath: opisBudynku
-      value: "D\u0119bowa wie\u017Ca atakuj\u0105ca jeden cel dostepna na samym pocz\u0105tu
-        gry."
+      value: "D\u0119bowa wie\u017Ca atakuj\u0105ca jeden cel. Dost\u0119pna na samym
+        pocz\u0105tu gry."
       objectReference: {fileID: 0}
     - target: {fileID: 1110870503441255803, guid: 09c09c3864100f2979df9494dcdf3790, type: 3}
       propertyPath: zablokowany
