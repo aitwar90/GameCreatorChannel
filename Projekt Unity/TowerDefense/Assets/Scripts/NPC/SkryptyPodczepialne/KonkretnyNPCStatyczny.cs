@@ -8,6 +8,7 @@ Klasa obsługuje statyczne NPC
 public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
 {
     #region Zmienne publiczne
+
     public TypBudynku typBudynku;
     [Range(0, 20)]
     public byte odbiteObrażenia = 1;
@@ -44,6 +45,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     private MagazynObiektówAtaków[] tabActAtakObj = null;
     private bool instaObjIsActive = false;
     private short bazoweHP = 0;
+    private GameObject dymy;
     [HideInInspector, SerializeField] private bool zablokowany = true;
     #endregion
 
@@ -87,6 +89,11 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         UpgradeMe(2);
         this.AktualneŻycie = this.maksymalneŻycie;
         this.nastawienieNPC = NastawienieNPC.Przyjazne;
+        if (this.typBudynku != TypBudynku.Mur)
+        {
+            this.dymy = this.GetComponentInChildren<ParticleSystem>().gameObject;
+            this.dymy.SetActive(false);
+        }
         if (sprite == null)
             sprite = this.transform.Find("HpGreen");
         if (this.odgłosyNPC != null)
@@ -128,6 +135,13 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         {
             float actScaleX = (float)this.AktualneŻycie / this.maksymalneŻycie;
             sprite.localScale = new Vector3(actScaleX, 1, 1);
+            if (this.typBudynku != TypBudynku.Mur)
+            {
+                if (actScaleX < 0.5 && !this.dymy.activeSelf)
+                {
+                    this.dymy.SetActive(true);
+                }
+            }
             /*
             Vector3 tempPos = this.transform.position;
             tempPos.y += 1.6f;
@@ -352,7 +366,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     {
                         if (tabActAtakObj[i] == null)
                             break;
-                        if(SprawdźCzyWidocznaPozycja())
+                        if (SprawdźCzyWidocznaPozycja())
                             tabActAtakObj[i].SetActPos(f * 7.5f);
                     }
                 }
@@ -534,6 +548,8 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             PomocniczeFunkcje.managerGryScript.DodajDoWartościStatystyk(3, -kosztNaprawy);
         }
         this.AktualneŻycie = this.maksymalneŻycie;
+        if (this.typBudynku != TypBudynku.Mur)
+            this.dymy.SetActive(false);
         kosztNaprawy = 0;
         RysujHPBar();
         if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)   //Jeśli samouczek

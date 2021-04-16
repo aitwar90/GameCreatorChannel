@@ -22,6 +22,7 @@ public class SpawnBudynki : MonoBehaviour
     public short aktualnieWybranyIndeksObiektuTabZablokowany = -1;
     private bool kliknieteUI = false;
     public Vector2 offsetPrzyPrzesuwaniuKamery;
+    public GameObject particleDoZniszczonegoBudynku;
     private byte aktualnyStanKoloru = 255;  //255 domyślny, 0 - czerwony, 1 - zielony
     #endregion
     #region Getery i Setery
