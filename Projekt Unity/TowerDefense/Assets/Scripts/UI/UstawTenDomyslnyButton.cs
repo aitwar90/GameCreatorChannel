@@ -114,22 +114,36 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                     }
                     else if (Input.GetButtonDown("AnulujZaznaczenie"))    //Kliknięty X   -> Ustawia domyślny button dla stanu
                     {
-                        if(!PomocniczeFunkcje.mainMenu.OdpalKursor) PomocniczeFunkcje.mainMenu.OdpalKursor = true;
+                        if (!PomocniczeFunkcje.mainMenu.OdpalKursor) PomocniczeFunkcje.mainMenu.OdpalKursor = true;
                         UstawDomyślnyButton();
                     }
                     break;
                 case 9: //Bitwa
                     if (Input.GetButtonDown("Cancel"))   //Zaznacz Wróć do MENU
                     {
-                        GameObject goDoZaznaczenia = PomocniczeFunkcje.mainMenu.ZwróćGOPoNazwie("SamouczekPanel").transform.Find("OpuśćSamouczekButton").gameObject;
-                        if (goDoZaznaczenia == PomocniczeFunkcje.eSystem.currentSelectedGameObject)
+                        if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
                         {
-                            OdpalWczesny();
+                            GameObject goDoZaznaczenia = PomocniczeFunkcje.mainMenu.ZwróćGOPoNazwie("SamouczekPanel").transform.Find("OpuśćSamouczekButton").gameObject;
+                            if (goDoZaznaczenia == PomocniczeFunkcje.eSystem.currentSelectedGameObject)
+                            {
+                                UstawDomyślnyButton();
+                            }
+                            else
+                            {
+                                PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
+                                UstawAktywnyButton(goDoZaznaczenia);
+                            }
                         }
                         else
                         {
-                            PomocniczeFunkcje.mainMenu.UstawPanelUI("", Vector2.zero);
-                            UstawAktywnyButton(goDoZaznaczenia);
+                            if(PomocniczeFunkcje.mainMenu.wróćDoMenu.gameObject == PomocniczeFunkcje.eSystem.currentSelectedGameObject)
+                            {
+                                UstawDomyślnyButton();
+                            }
+                            else
+                            {
+                                UstawAktywnyButton(PomocniczeFunkcje.mainMenu.wróćDoMenu.gameObject);
+                            }
                         }
                     }
                     else if (Input.GetButtonDown("PrzyciskY"))
@@ -140,7 +154,7 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                     }
                     else if (Input.GetButtonDown("AnulujZaznaczenie"))    //Kliknięty X   -> Ustawia domyślny button dla stanu
                     {
-                        if(!PomocniczeFunkcje.mainMenu.OdpalKursor) PomocniczeFunkcje.mainMenu.OdpalKursor = true;
+                        if (!PomocniczeFunkcje.mainMenu.OdpalKursor) PomocniczeFunkcje.mainMenu.OdpalKursor = true;
                         UstawDomyślnyButton();
                     }
                     break;
@@ -195,7 +209,7 @@ public class UstawTenDomyslnyButton : MonoBehaviour
                     else if (Input.GetButtonDown("AnulujZaznaczenie"))    //Kliknięty X   -> Ustawia domyślny button dla stanu
                     {
                         GameObject go = PomocniczeFunkcje.mainMenu.ZwróćGOPoNazwie("SamouczekPanel").transform.Find("SamouczekInfoPanel/SamouczekDalej").gameObject;
-                        if(!PomocniczeFunkcje.mainMenu.OdpalKursor) PomocniczeFunkcje.mainMenu.OdpalKursor = true;
+                        if (!PomocniczeFunkcje.mainMenu.OdpalKursor) PomocniczeFunkcje.mainMenu.OdpalKursor = true;
                         if (!go.activeInHierarchy)
                             UstawDomyślnyButton();
                         else

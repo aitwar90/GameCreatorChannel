@@ -9,6 +9,7 @@ public class ManagerSamouczekScript : MonoBehaviour
     public Vector3[] pozycjeInstatiate;
     private SamouczekInfoPanelScript sips = null;
     private SamouczekKliknijTuVisual sktv = null;
+    private ObsłużSamouczkeButtony osb = null;
     private byte idxProgresuSamouczka = 0;
     private byte symulujManageraUpdate = 0;
     private bool sprawdzajCzyZaliczone = false;
@@ -52,8 +53,10 @@ public class ManagerSamouczekScript : MonoBehaviour
             mssInstance = this;
             sips = this.GetComponentInChildren<SamouczekInfoPanelScript>();
             sktv = this.GetComponentInChildren<SamouczekKliknijTuVisual>();
+            osb = this.GetComponentInChildren<ObsłużSamouczkeButtony>();
             sips.gameObject.SetActive(false);
             sktv.gameObject.SetActive(false);
+            osb.WyłączPrzyciski();
             sips.UstawTłoEnabeld(this.GetComponent<UnityEngine.UI.Image>());
         }
         else
@@ -94,6 +97,7 @@ public class ManagerSamouczekScript : MonoBehaviour
         mgs.atkIdx = 0;
         mgs.defIdx = 0;
         sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[0], fToLoad);
+        osb.OdpalPrzyciski(new string[] { "A", "LewyDrążekObrót" });
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel("UI_LicznikCzasu", false);
         lastTimer = (ushort)PomocniczeFunkcje.managerGryScript.czasMiędzyFalami;
         PomocniczeFunkcje.managerGryScript.czasMiędzyFalami = 10f;
@@ -104,29 +108,38 @@ public class ManagerSamouczekScript : MonoBehaviour
         switch (idxProgresuSamouczka)
         {
             case 1: //Gracz przesunął kamerę
+                osb.WyłączPrzyciski();
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[1], fToLoad);
+                osb.OdpalPrzyciski(new string[] { "PrawyDrążekObrót", "PrawyDrążekWciśnij", "B" });
                 break;
             case 2: //Gracz otworzył i zamknął panel budynku
+                osb.WyłączPrzyciski();
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[2], fToLoad);
                 PomocniczeFunkcje.celWrogów.ZmianaHP(20);
+                osb.OdpalPrzyciski(new string[] { "PrawyDrążekWciśnij", "A", "B" });
                 break;
             case 3: //Gracz otrzymał podstawowe informacje o interfejsie
+                osb.WyłączPrzyciski();
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[3], fToLoad);
                 PomocniczeFunkcje.mainMenu.AktywujDezaktywujPrzyciskPaneliBudynku(0, true);
                 break;
             case 4: //Gracz odpalił panel z budynkami wież
+                osb.OdpalPrzyciski(new string[] { "Prawy", "A" });
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[4], fToLoad);
                 UstawIkonkePomocnicza("kupnoWieża", 0, 0);
                 break;
             case 5:
+                osb.WyłączPrzyciski();
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[5], fToLoad);
                 UstawIkonkePomocnicza("stawiajBudynek", 0, 0);
                 break;
             case 6:
+                osb.OdpalPrzyciski(new string[] { "PrawyDrążekObrót", "PrawyDrążekWciśnij" });
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[6], fToLoad);
                 PomocniczeFunkcje.mainMenu.AktywujDezaktywujPrzyciskPaneliBudynku(1, true);
                 break;
             case 7:
+                osb.WyłączPrzyciski();
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[7], fToLoad);
                 UstawIkonkePomocnicza("kupnoMur", 0, 0);
                 break;
@@ -138,10 +151,12 @@ public class ManagerSamouczekScript : MonoBehaviour
                 UstawIkonkePomocnicza("stawiajBudynek", 0, 0);
                 break;
             case 10:
+                osb.OdpalPrzyciski(new string[] { "Lewy", "A" });
                 sprawdzajCzyZaliczone = true;
                 UstawIkonkePomocnicza("rotacjaBudynku", 0, 0);
                 break;
             case 11:
+                osb.WyłączPrzyciski();
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[9], fToLoad);
                 break;
             case 12:    //Rozpoczęcie omawiania nagród
@@ -151,12 +166,14 @@ public class ManagerSamouczekScript : MonoBehaviour
                 PomocniczeFunkcje.mainMenu.UstawButtonNagrody(0, 1);
                 break;
             case 13:    //Cud ocalenia
+                osb.OdpalPrzyciski(new string[] { "Y", "A" });
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[11], fToLoad);
                 UstawIkonkePomocnicza("cudOcalenia", 0, 0);
                 PomocniczeFunkcje.managerGryScript.ekwipunekGracza[1].ilośćDanejNagrody = 1;
                 PomocniczeFunkcje.mainMenu.UstawButtonNagrody(1, 1);
                 break;
             case 14:    //Dodatkowa nagroda
+                osb.WyłączPrzyciski();
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[12], fToLoad);
                 UstawIkonkePomocnicza("dodatkowaNagroda", 0, 0);
                 PomocniczeFunkcje.managerGryScript.ekwipunekGracza[2].ilośćDanejNagrody = 1;
