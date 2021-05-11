@@ -44,6 +44,10 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     private MagazynObiektówAtaków[] tabActAtakObj = null;
     private bool instaObjIsActive = false;
     private short bazowaIloscHP = 0;
+    private bool obniżaj = false;
+    public GameObject dym = null;
+    private GameObject objDym = null;
+    public GameObject kurz = null;
     [HideInInspector, SerializeField] private bool zablokowany = true;
     #endregion
 
@@ -76,6 +80,14 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
     ///<summary>Metoda ustawia niezbędne dane dla stawianego budynku.</summary>
     public void InicjacjaBudynku()
     {
+        if(dym == null)
+        {
+            dym = Resources.Load("Efekty/Dym") as GameObject;
+        }
+        if(kurz == null)
+        {
+            kurz = Resources.Load("Efekty/Kurz") as GameObject;
+        }
         UnityEngine.AI.NavMeshObstacle tmp = null;
         if (!this.gameObject.TryGetComponent<UnityEngine.AI.NavMeshObstacle>(out tmp))
         {
@@ -150,27 +162,48 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                 }
             }
         }
+        if((objDym == null || !objDym.activeSelf) && this.AktualneŻycie < this.maksymalneŻycie/2.0f)
+        {
+            if(dym != null)
+            {
+                Vector3 v3 = this.transform.position;
+                v3.y += offWysokość;
+                objDym = GameObject.Instantiate(dym.gameObject, v3, Quaternion.identity);
+                objDym.transform.SetParent(this.transform);
+            }
+            else
+            {
+                objDym.SetActive(true);
+            }
+        }
     }
     protected override void UpdateMe()
     {
-        switch (idxAct)
+        if (this.AktualneŻycie > 0)
         {
-            case 0:
-                if (cel == null && rootEnemy != null)
-                {
-                    ZnajdźNowyCel();
-                }
-                idxAct++;
-                break;
-            case 1:
-                if (SprawdźCzyWidocznaPozycja() && sprite != null)
-                    sprite.parent.forward = -PomocniczeFunkcje.oCam.transform.forward;
-                idxAct = 0;
-                break;
+            switch (idxAct)
+            {
+                case 0:
+                    if (cel == null && rootEnemy != null)
+                    {
+                        ZnajdźNowyCel();
+                    }
+                    idxAct++;
+                    break;
+                case 1:
+                    if (SprawdźCzyWidocznaPozycja() && sprite != null)
+                        sprite.parent.forward = -PomocniczeFunkcje.oCam.transform.forward;
+                    idxAct = 0;
+                    break;
+            }
+            if (cel != null)
+            {
+                Atakuj();
+            }
         }
-        if (cel != null)
+        else if (obniżaj)
         {
-            Atakuj();
+            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - Time.deltaTime * 2.0f, this.transform.position.z);
         }
     }
     protected override void UsuńJednostkę()
@@ -187,6 +220,12 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         {
             //Podmień obiekt na zgruzowany
             this.AktualneŻycie = -1;
+            obniżaj = true;
+            if(kurz != null)
+            {
+                Transform tr = GameObject.Instantiate(kurz.gameObject, this.transform.position, Quaternion.identity).GetComponent<Transform>();
+                tr.SetParent(this.transform);
+            }
             MuzykaScript.singleton.WłączTymczasowyClip(PomocniczeFunkcje.TagZEpoka("ŚmiercB", this.epokaNPC, this.tagRodzajDoDźwięków), this.transform.position);
             PomocniczeFunkcje.SkasujElementDrzewa(ref PomocniczeFunkcje.korzeńDrzewaPozycji, this);
             Collider[] tablicaKoliderow = this.GetComponents<Collider>();
@@ -352,7 +391,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     {
                         if (tabActAtakObj[i] == null)
                             break;
-                        if(SprawdźCzyWidocznaPozycja())
+                        if (SprawdźCzyWidocznaPozycja())
                             tabActAtakObj[i].SetActPos(f * 7.5f);
                     }
                 }
@@ -537,6 +576,10 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         }
         this.AktualneŻycie = this.maksymalneŻycie;
         kosztNaprawy = 0;
+        if(objDym != null)
+        {
+            objDym.SetActive(false);
+        }
         RysujHPBar();
         if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)   //Jeśli samouczek
         {
