@@ -206,13 +206,13 @@ public abstract class NPCClass : MonoBehaviour
         {
             //if (ReferenceEquals(this.GetType(), typeof(KonkretnyNPCDynamiczny)))
             //{
-            KonkretnyNPCDynamiczny knpcd = (KonkretnyNPCDynamiczny)this;
-            Animator anim = null;
-            anim = knpcd.GetAnimator;
+            //KonkretnyNPCDynamiczny knpcd = (KonkretnyNPCDynamiczny)this;
+            //Animator anim = null;
+            //anim = knpcd.GetAnimator;
 
-            if (anim != null)
-            {
-                anim.SetBool(param, value);
+            //if (anim != null)
+            //{
+                //anim.SetBool(param, value);
                 if (param == "isDeath")
                 {
                     UstawMiWartośćParametru(0, value);
@@ -225,11 +225,13 @@ public abstract class NPCClass : MonoBehaviour
                 {
                     UstawMiWartośćParametru(2, value);
                 }
+                /*
             }
             else
             {
                 Debug.Log("Animator nie został zadałdoany");
             }
+            */
         }
         else
         {

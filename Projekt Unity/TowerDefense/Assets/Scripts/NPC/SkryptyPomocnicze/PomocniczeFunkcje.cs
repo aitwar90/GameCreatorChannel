@@ -626,7 +626,7 @@ public static class PomocniczeFunkcje
             }
             if (cObiekt.AktualneŻycie <= 0)
             {
-                if (pObiekt.cel != celWrogów)
+                if (cObiekt != celWrogów)
                 {
                     pObiekt.cel = PomocniczeFunkcje.WyszukajWDrzewie(ref korzeńDrzewaPozycji, cObiekt.transform.position) as NPCClass;
                     pObiekt.ResetujŚciezkę();
@@ -635,9 +635,10 @@ public static class PomocniczeFunkcje
                     {
                         pObiekt.ObsluzAnimacje("haveTarget", ha);
                     }
+                    pObiekt.ObsluzAnimacje("inRange", false);
                     return false;
                 }
-                else
+                else    //Jeśli jest to główna baza
                 {
                     if (pObiekt.ZwróćMiWartośćParametru(1) == 1)
                     {
@@ -1018,7 +1019,7 @@ public static class PomocniczeFunkcje
     public static float WyliczModyfikatorObrazeń(float bazowyModyfikator, ushort wartośćIndeksu, bool czyDefence = false)
     {
         //if(wartośćIndeksu == 0) return bazowyModyfikator;
-        return (czyDefence) ? Mathf.LerpUnclamped(bazowyModyfikator, bazowyModyfikator-0.15f, wartośćIndeksu/500f) : Mathf.LerpUnclamped(bazowyModyfikator, bazowyModyfikator+0.75f, wartośćIndeksu/500f);
+        return (czyDefence) ? Mathf.LerpUnclamped(bazowyModyfikator, bazowyModyfikator - 0.15f, wartośćIndeksu / 500f) : Mathf.LerpUnclamped(bazowyModyfikator, bazowyModyfikator + 0.75f, wartośćIndeksu / 500f);
         /*
         float warMnoznika = Mathf.Pow(0.98f, wartośćIndeksu);
         return (czyDefence) ? bazowyModyfikator - (0.002f * warMnoznika) : bazowyModyfikator + (0.002f * warMnoznika); //Do +5% na 37 poziomie

@@ -119,11 +119,11 @@ public class KonkretnyNPCDynamiczny : NPCClass
         }
         if (ZwróćMiWartośćParametru(1) == 0)
         {
-            ObsluzAnimacje(ref anima, "haveTarget", false);
+            ObsluzAnimacje(/*ref anima, */"haveTarget", false);
         }
         if (ZwróćMiWartośćParametru(2) == 0)
         {
-            ObsluzAnimacje(ref anima, "inRange", false);
+            ObsluzAnimacje(/*ref anima, */"inRange", false);
         }
         nId = this.name.Split('(').GetValue(0).ToString();
         SetGłównyIndexDiffValue();
@@ -230,13 +230,13 @@ public class KonkretnyNPCDynamiczny : NPCClass
         sbyte toRet = -1;
         switch (i)
         {
-            case 0:
+            case 0: //Is Death
                 toRet = (bufferAnima[i] == true) ? (sbyte)0 : (sbyte)1;
                 break;
-            case 1:
+            case 1: //Have Target
                 toRet = (bufferAnima[i] == true) ? (sbyte)0 : (sbyte)1;
                 break;
-            case 2:
+            case 2: //In Range
                 toRet = (bufferAnima[i] == true) ? (sbyte)0 : (sbyte)1;
                 break;
         }
@@ -246,14 +246,17 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         switch (parametr)
         {
-            case 0:
+            case 0: //Is Death
                 bufferAnima[0] = value;
+                this.anima.SetBool("isDeath", value);
                 break;
-            case 1:
+            case 1: //Have Target
                 bufferAnima[1] = value;
+                this.anima.SetBool("haveTarget", value);
                 break;
-            case 2:
+            case 2: //In Range
                 bufferAnima[2] = value;
+                this.anima.SetBool("inRange", value);
                 break;
         }
     }
@@ -301,7 +304,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     protected override void UsuńJednostkę()
     {
         MuzykaScript.singleton.WłączTymczasowyClip(PomocniczeFunkcje.TagZEpoka("ŚmiercNPC", this.epokaNPC, this.tagRodzajDoDźwięków), this.transform.position);
-        ObsluzAnimacje(ref anima, "isDeath", true);
+        ObsluzAnimacje(/*ref anima, */"isDeath", true);
         this.AktualneŻycie = -1;
 
         if (this.rysujPasekŻycia)
@@ -450,7 +453,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
             //this.GetComponent<SphereCollider>().enabled = true;
             this.agent.isStopped = !enab;
             anima.Rebind();
-            ObsluzAnimacje(ref anima, "isDeath", !enab);
+            ObsluzAnimacje(/*ref anima, */"isDeath", !enab);
             sprite.localScale = new Vector3(1, 1, 1);
             short[] t = PomocniczeFunkcje.ZwrócIndeksyWTablicy(this.transform.position.x, this.transform.position.z);
             actXIdx = t[0];
@@ -471,8 +474,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
         if (!enab)
         {
             sprite.parent.gameObject.SetActive(enab);
-            ObsluzAnimacje(ref anima, "inRange", false);
-            ObsluzAnimacje(ref anima, "haveTarget", false);
+            ObsluzAnimacje(/*ref anima, */"inRange", false);
+            ObsluzAnimacje(/*ref anima, */"haveTarget", false);
             if (this.odgłosyNPC != null)
             {
                 PomocniczeFunkcje.muzyka.ustawGłośność -= this.UstawGłośnośćNPC;
