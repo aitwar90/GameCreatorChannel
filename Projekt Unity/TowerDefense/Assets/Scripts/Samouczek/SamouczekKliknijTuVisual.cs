@@ -5,7 +5,8 @@ public class SamouczekKliknijTuVisual : MonoBehaviour
     public Image image;
     private float t = 0.5f;
     private RectTransform rect;
-    public bool mryganie = false;
+    //public bool mryganie = false;
+    public GameObject pSystemKliknij = null;
     // Start is called before the first frame update
     void Awake()
     {
@@ -18,7 +19,7 @@ public class SamouczekKliknijTuVisual : MonoBehaviour
     {
         if (!this.gameObject.activeInHierarchy)
         {
-            mryganie = true;
+            //mryganie = true;
             this.gameObject.SetActive(true);
         }
     }
@@ -26,10 +27,11 @@ public class SamouczekKliknijTuVisual : MonoBehaviour
     {
         if (this.gameObject.activeInHierarchy)
         {
-            Mrygaj(true);
+            //Mrygaj(true);
             this.gameObject.SetActive(false);
         }
     }
+    /*
     void Update()
     {
         if(mryganie)
@@ -37,6 +39,7 @@ public class SamouczekKliknijTuVisual : MonoBehaviour
             Mrygaj();
         }
     }
+    */
     private void Mrygaj(bool wylMryg = false)
     {
         if (!wylMryg)
@@ -50,7 +53,7 @@ public class SamouczekKliknijTuVisual : MonoBehaviour
         else
         {
             t = 1;
-            mryganie = false;
+            //mryganie = false;
         }
         Color c = image.color;
         c.a = t;
