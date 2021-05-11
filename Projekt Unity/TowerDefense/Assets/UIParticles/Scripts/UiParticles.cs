@@ -121,7 +121,7 @@ namespace UiParticles
             ParticleSystem = _particleSystem;
             m_ParticleSystemRenderer = _particleSystemRenderer;
             //if (EditorApplication.isPlaying){
-                this.gameObject.SetActive(false);
+                //this.gameObject.SetActive(false);
             //}
 
         }
@@ -167,7 +167,7 @@ namespace UiParticles
                         {
                             actTimer = 0.0f;
                             ParticleSystem.Clear();
-                            this.gameObject.SetActive(false);
+                            //this.gameObject.SetActive(false);
                         }
                     }
                     SetVerticesDirty();
@@ -192,7 +192,7 @@ namespace UiParticles
                         {
                             actTimer = 0.0f;
                             ParticleSystem.Clear();
-                            this.gameObject.SetActive(false);
+                            //this.gameObject.SetActive(false);
                         }
                     }
                     SetVerticesDirty();

@@ -377,6 +377,26 @@ public class SpawnBudynki : MonoBehaviour
             ResetWybranegoObiektu();
             return false;
         }
+        if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
+        {
+            byte t = ManagerSamouczekScript.mssInstance.DanyIdxSamouczka();
+            if (t == 6)
+            {
+                if (Vector3.Distance(aktualnyObiekt.transform.position, ManagerSamouczekScript.mssInstance.pozycjeInstatiate[0]) > 3f)
+                {
+                    PodmieńNaCzerwony();
+                    return false;
+                }
+            }
+            else if (t == 10)
+            {
+                if (Vector3.Distance(aktualnyObiekt.transform.position, ManagerSamouczekScript.mssInstance.pozycjeInstatiate[1]) > 3f)
+                {
+                    PodmieńNaCzerwony();
+                    return false;
+                }
+            }
+        }
         if (Mathf.Abs(sugerowanaPozycja.x - najbliższyBudynek.transform.position.x) < najbliższyBudynek.granicaX + knpcs.granicaX &&
         Mathf.Abs(sugerowanaPozycja.z - najbliższyBudynek.transform.position.z) < najbliższyBudynek.granicaZ + knpcs.granicaZ)
         {

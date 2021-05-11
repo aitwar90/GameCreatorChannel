@@ -19,6 +19,8 @@ public class ManagerSamouczekScript : MonoBehaviour
     private sbyte zmiennaPomocnicza = -1;
     public static bool byloZaladowane = false;
     private Font fToLoad = null;
+    public GameObject pSystem;
+    public Vector3[] pozycjeInstatiate;
     public sbyte ZmiennaPomocnicza
     {
         get
@@ -29,6 +31,16 @@ public class ManagerSamouczekScript : MonoBehaviour
         {
             zmiennaPomocnicza = value;
         }
+    }
+    public bool CzyIdxProgresuSamouczakRównyLubWiekszy(byte porównanie)
+    {
+        if (porównanie <= idxProgresuSamouczka)
+            return true;
+        return false;
+    }
+    public byte DanyIdxSamouczka()
+    {
+        return idxProgresuSamouczka;
     }
     // Start is called before the first frame update
     void Awake()
@@ -54,7 +66,6 @@ public class ManagerSamouczekScript : MonoBehaviour
         ManagerGryScript mgs = PomocniczeFunkcje.managerGryScript;
         if (!byloZaladowane)
         {
-            idxProgresuSamouczka = 0;
             symulujManageraUpdate = 0;
             sprawdzajCzyZaliczone = false;
             zmiennaPomocnicza = -1;
@@ -76,6 +87,7 @@ public class ManagerSamouczekScript : MonoBehaviour
             defidx = mgs.defIdx;
             byloZaladowane = true;
             PomocniczeFunkcje.mainMenu.AktywujDezaktywujPrzyciskPaneliBudynku();
+            PomocniczeFunkcje.managerGryScript.czasMiędzyFalami = 10f;
         }
         //Przypisanie nowych danych
         ManagerGryScript.iloscCoinów = 50;
