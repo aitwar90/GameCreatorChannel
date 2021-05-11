@@ -391,6 +391,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             PomocniczeFunkcje.DodajDoDrzewaPozycji(knpcsBazy, ref PomocniczeFunkcje.korzeńDrzewaPozycji);
             baza.transform.SetParent(PomocniczeFunkcje.spawnBudynki.RodzicBudynków);
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("Loader", false);
+            PomocniczeFunkcje.UstawTimeScale(1);
         }
     }
     private void SprawdźCzyScenaZostałaZaładowana()
@@ -813,6 +814,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] { "ui_down", "UI_LicznikCzasu" }, false);
         poziomZakonczony = true;
         iloscAktywnychWrogów = 0;
+        PomocniczeFunkcje.UstawTimeScale(0);
     }
     public void ZmodyfikujIlośćCoinów(short zmianaWartosci)
     {
@@ -856,6 +858,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 aktualnyPoziomEpoki++;
             }
         }
+        PomocniczeFunkcje.UstawTimeScale(1);
         PomocniczeFunkcje.mainMenu.nastepnyPoziom.interactable = false;
         PomocniczeFunkcje.mainMenu.WyłączPanelStatystyk();
         PomocniczeFunkcje.mainMenu.WłączWyłączPanel(new string[] { "GameOver Panel", "WinTXT", "LoseTXT" }, false);
