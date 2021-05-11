@@ -9,7 +9,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     [Header("Podstawowe informacje dla gracza")]
     #region Zmienne publiczne
     [Tooltip("Aktualna ilość monet")]
-    public static int iloscCoinów = 1000000;
+    public static int iloscCoinów = 1000;
     [Tooltip("Aktualna epoka w której gra gracz")]
     public Epoki aktualnaEpoka;
     public byte aktualnyPoziomEpoki = 1;
