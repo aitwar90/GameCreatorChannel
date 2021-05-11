@@ -13389,10 +13389,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plikTekstowySamouczka: {fileID: 4900000, guid: 243abd7c38fc07f42a46edde27204541, type: 3}
-  pSystem: {fileID: 100012, guid: 0a8187effeee2443b9b361d58bfe2ba8, type: 3}
+  partSysStawiajTu: {fileID: 100012, guid: 0a8187effeee2443b9b361d58bfe2ba8, type: 3}
   pozycjeInstatiate:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
+  - {x: 50, y: 0, z: 45}
+  - {x: 50, y: 0, z: 43}
 --- !u!114 &1289656727
 MonoBehaviour:
   m_ObjectHideFlags: 0

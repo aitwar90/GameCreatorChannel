@@ -160,7 +160,7 @@ public class SpawnBudynki : MonoBehaviour
     }
     private void ObsluzTouchPad()
     {
-        if (Input.touchCount == 1 && CzyMogęPostawićBudynek(aktualnyObiekt.transform.position))
+        if (Input.touchCount == 1/* && CzyMogęPostawićBudynek(aktualnyObiekt.transform.position)*/)
         {
             Touch t = Input.GetTouch(0);
             if ((t.phase == TouchPhase.Began || t.phase == TouchPhase.Moved) && t.tapCount == 1)
@@ -377,6 +377,12 @@ public class SpawnBudynki : MonoBehaviour
             ResetWybranegoObiektu();
             return false;
         }
+        if (Mathf.Abs(sugerowanaPozycja.x - najbliższyBudynek.transform.position.x) < najbliższyBudynek.granicaX + knpcs.granicaX &&
+        Mathf.Abs(sugerowanaPozycja.z - najbliższyBudynek.transform.position.z) < najbliższyBudynek.granicaZ + knpcs.granicaZ)
+        {
+            PodmieńNaCzerwony();
+            return false;
+        }
         if (PomocniczeFunkcje.managerGryScript.aktualnyPoziomEpoki == 255)
         {
             byte t = ManagerSamouczekScript.mssInstance.DanyIdxSamouczka();
@@ -397,12 +403,6 @@ public class SpawnBudynki : MonoBehaviour
                 }
             }
         }
-        if (Mathf.Abs(sugerowanaPozycja.x - najbliższyBudynek.transform.position.x) < najbliższyBudynek.granicaX + knpcs.granicaX &&
-        Mathf.Abs(sugerowanaPozycja.z - najbliższyBudynek.transform.position.z) < najbliższyBudynek.granicaZ + knpcs.granicaZ)
-        {
-            PodmieńNaCzerwony();
-            return false;
-        }
         PodmieńNaZielony();
         return true;
     }
@@ -410,11 +410,13 @@ public class SpawnBudynki : MonoBehaviour
     {
         materialWybranegoBudynku = null;
         knpcs = null;
+        aktualnyStanKoloru = 255;
         Destroy(aktualnyObiekt);
         aktualnyObiekt = null;
         aktualnieWybranyIndeksObiektuTabZablokowany = -1;
         PomocniczeFunkcje.mainMenu.UstawPrzyciskObrotu(false);
         PomocniczeFunkcje.mainMenu.DeaktywujPanelBudowyBudynków();
+        ManagerSamouczekScript.mssInstance.WyłączVisual();
     }
     private Vector3 WyrównajSpawn(Vector3 sugerowanePolozenie)
     {

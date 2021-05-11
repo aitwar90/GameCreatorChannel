@@ -19,7 +19,8 @@ public class ManagerSamouczekScript : MonoBehaviour
     private sbyte zmiennaPomocnicza = -1;
     public static bool byloZaladowane = false;
     private Font fToLoad = null;
-    public GameObject pSystem;
+    private GameObject pSystem;
+    public GameObject partSysStawiajTu;
     public Vector3[] pozycjeInstatiate;
     public sbyte ZmiennaPomocnicza
     {
@@ -254,8 +255,14 @@ public class ManagerSamouczekScript : MonoBehaviour
                     break;
                 case 6:
                     //Postaw budynek
+                    if (pSystem == null)
+                    {
+                        pSystem = GameObject.Instantiate(partSysStawiajTu, pozycjeInstatiate[0], Quaternion.identity);
+                    }
                     if (zmiennaPomocnicza == -3)    //-3 postaw budynek
                     {
+                        Destroy(pSystem.gameObject);
+                        pSystem = null;
                         sprawdzajCzyZaliczone = false;
                         zmiennaPomocnicza = -1;
                         WywolajProgress();
@@ -288,8 +295,14 @@ public class ManagerSamouczekScript : MonoBehaviour
                     break;
                 case 10:
                     //Wyłączenie markera przycisku obrotu
+                    if (pSystem == null)
+                    {
+                        pSystem = GameObject.Instantiate(partSysStawiajTu, pozycjeInstatiate[1], Quaternion.identity);
+                    }
                     if (zmiennaPomocnicza == -3)
                     {
+                        Destroy(pSystem.gameObject);
+                        pSystem = null;
                         sktv.WyłączObiekt();
                         WywolajProgress();
                         sprawdzajCzyZaliczone = false;
