@@ -16672,6 +16672,7 @@ GameObject:
   - component: {fileID: 1565554478}
   - component: {fileID: 1565554477}
   - component: {fileID: 1565554481}
+  - component: {fileID: 1565554482}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -16822,6 +16823,18 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a7ddd6e34dd18604da0e9ba0f77b2f8b, type: 3}
   tekstCoWygrales: {fileID: 962791317}
   animacjaOtwarciaSkrzynki: {fileID: 7400000, guid: c90cc731af577578492ba2eeb2c930f6, type: 2}
+--- !u!114 &1565554482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1565554476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2c2205e656d0e4b6ac7517893f69fd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1569856447
 GameObject:
   m_ObjectHideFlags: 0
@@ -22448,6 +22461,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NiezbedneSkrypty_Mobile
       objectReference: {fileID: 0}
+    - target: {fileID: 3463731109780786867, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
+      propertyPath: rodzajReklamy
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3463731109780786869, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -22496,6 +22513,10 @@ PrefabInstance:
       propertyPath: plikJezykowy
       value: 
       objectReference: {fileID: 4900000, guid: 4caed51c1148d9645b2bbbb7a031eac6, type: 3}
+    - target: {fileID: 3463731110551857187, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
+      propertyPath: particleSystems.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3463731110551857187, guid: 627d163d711b7b2398876f39b5ef3e87, type: 3}
       propertyPath: particleSystems.Array.data[0]
       value: 

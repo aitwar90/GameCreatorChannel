@@ -1397,6 +1397,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         if (!ManagerSamouczekScript.byloZaladowane)
             PomocniczeFunkcje.ZapiszDane();
+        PomocniczeFunkcje.managerGryScript.GetComponent<ObsługaReklam>().ResetujReklame();
         Application.Quit();
     }
     public void WlWylToogleOdwrocenieKamery()

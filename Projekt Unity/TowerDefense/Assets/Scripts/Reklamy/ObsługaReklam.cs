@@ -8,10 +8,7 @@ using System;
 public class ObsługaReklam : MonoBehaviour
 {
     // Start is called before the first frame update
-    private RewardBasedVideoAd bazowaReklama;
     string reklamID = "";
-    public RodzajReklamy rodzajReklamy;
-    private BannerView bannerView;
     private InterstitialAd inter;
     private byte status = 0;
     private ushort iloscCoinówRew = 100;
@@ -25,6 +22,7 @@ public class ObsługaReklam : MonoBehaviour
     }
     void Start()
     {
+        MobileAds.SetiOSAppPauseOnBackground(true);
         /*
         List<string> deviceIds = new List<string>();
         deviceIds.Add("");
@@ -35,25 +33,15 @@ public class ObsługaReklam : MonoBehaviour
         MobileAds.SetRequestConfiguration(requestConfiguration);
         */
         MobileAds.Initialize(initStatus => { });
-        this.bazowaReklama = RewardBasedVideoAd.Instance;
+
+        //MobileAds.Initialize(initStatus => { });
+        //this.inter = RewardBasedVideoAd.Instance;
 
         // Called when an ad request has successfully loaded.
-        bazowaReklama.OnAdLoaded += HandleRewardBasedVideoLoaded;
-        // Called when an ad request failed to load.
-        bazowaReklama.OnAdFailedToLoad += HandleRewardBasedVideoFailedToLoad;
-        // Called when an ad is shown.
-        bazowaReklama.OnAdOpening += HandleRewardBasedVideoOpened;
-        // Called when the ad starts to play.
-        bazowaReklama.OnAdStarted += HandleRewardBasedVideoStarted;
-        // Called when the user should be rewarded for watching a video.
-        bazowaReklama.OnAdRewarded += HandleRewardBasedVideoRewarded;
-        // Called when the ad is closed.
-        bazowaReklama.OnAdClosed += HandleRewardBasedVideoClosed;
-        // Called when the ad click caused the user to leave the application.
-        bazowaReklama.OnAdLeavingApplication += HandleRewardBasedVideoLeftApplication;
 
         this.ŻądanieWideo();
-    }    public void OtwórzReklame(byte _status, ushort iloscCoinów = 100)
+    }
+    public void OtwórzReklame(byte _status, ushort iloscCoinów = 100)
     {
         status = _status;
         iloscCoinówRew = iloscCoinów;
@@ -63,33 +51,24 @@ public class ObsługaReklam : MonoBehaviour
     {
         zRek = false;
 #if UNITY_ANDROID
-        AdRequest żądanie;
-        switch (rodzajReklamy)
+        ResetujReklame();
+        reklamID = "ca-app-pub-5582240292289857/2771750725";    //Reklama pełno ekranowa
+        this.inter = new InterstitialAd(reklamID);
+
+        this.inter.OnAdLoaded += (sender, args) => OnAdLoadedEvent.Invoke();
+        this.inter.OnAdFailedToLoad += (sender, args) => OnAdFailedToLoadEvent.Invoke();
+        this.inter.OnAdOpening += (sender, args) => OnAdOpeningEvent.Invoke();
+        this.inter.OnAdClosed += (sender, args) => OnAdClosedEvent.Invoke();
+
+        //AdRequest żądanie = new AdRequest.Builder().Build();;
+        Debug.Log("Ładuję reklamę");
+        this.inter.LoadAd(CreateAdRequest());
+        if (this.inter.IsLoaded())
+            Debug.Log("Reklama została załadowana");
+        else
         {
-            case RodzajReklamy.Baner:
-                if (bannerView != null)
-                    bannerView.Destroy();
-                reklamID = "ca-app-pub-3940256099942544/6300978111";    //Testowy banner
-                bannerView = new BannerView(reklamID, AdSize.Banner, AdPosition.Bottom);
-                żądanie = new AdRequest.Builder().Build();
-                this.bazowaReklama.LoadAd(żądanie, reklamID);
-                break;
-            case RodzajReklamy.Interstitial:
-                if (inter != null)
-                    inter.Destroy();
-                reklamID = "ca-app-pub-3940256099942544/1033173712";    //Testowy banner
-                this.inter = new InterstitialAd(reklamID);
-                żądanie = new AdRequest.Builder().Build();
-                this.bazowaReklama.LoadAd(żądanie, reklamID);
-                break;
-            case RodzajReklamy.RewardedVideo:
-                reklamID = "ca-app-pub-3940256099942544/5224354917";    //Testowe wideo
-                żądanie = new AdRequest.Builder().Build();
-                this.bazowaReklama.LoadAd(żądanie, reklamID);
-                break;
-            case RodzajReklamy.NativeAdvanced:  //Native nie jest wspierane przez unity
-                reklamID = "ca-app-pub-3940256099942544/2247696110";    //Testowe wideo
-                break;
+            Debug.Log("Reklama nie została załadowana");
+            StartCoroutine(CzekajNaZaladowanieReklamy());
         }
 
 #elif UNITY_IOS
@@ -102,12 +81,18 @@ public class ObsługaReklam : MonoBehaviour
 
         // Load the rewarded video ad with the request.
     }
+    private AdRequest CreateAdRequest()
+    {
+        return new AdRequest.Builder()
+            .AddKeyword("unity-admob-sample")
+            .Build();
+    }
     private void ObejrzyjAD()
     {
-        if (bazowaReklama.IsLoaded())
+        if (this.inter.IsLoaded())
         {
             Debug.Log("Wyświetlam reklame");
-            bazowaReklama.Show();
+            this.inter.Show();
             //PomocniczeFunkcje.UstawTimeScale(0);
         }
         else
@@ -116,9 +101,17 @@ public class ObsługaReklam : MonoBehaviour
             StartCoroutine(CzekajNaZaladowanieReklamy());
         }
     }
+    public void ResetujReklame()
+    {
+        Debug.Log("Próbuje resetować reklamę.");
+        if (this.inter != null && this.inter.IsLoaded())
+        {
+            inter.Destroy();
+        }
+    }
     private IEnumerator CzekajNaZaladowanieReklamy()
     {
-        while (!bazowaReklama.IsLoaded())
+        while (!this.inter.IsLoaded())
         {
             Debug.Log("Reklama wciaż niezaładowana");
             yield return null;
@@ -168,7 +161,7 @@ public class ObsługaReklam : MonoBehaviour
                 status = 0;
                 break;
             case 2:
-                if(iloscCoinówRew >= 0 && iloscCoinówRew < 4)
+                if (iloscCoinówRew >= 0 && iloscCoinówRew < 4)
                 {
                     PomocniczeFunkcje.managerGryScript.SkróćCzasSkrzynki((sbyte)iloscCoinówRew);
                 }
@@ -176,6 +169,7 @@ public class ObsługaReklam : MonoBehaviour
                 status = 0;
                 break;
         }
+        ResetujReklame();
         this.ŻądanieWideo();    //Rozpocznij ładowanie kolejnej reklamy
         MonoBehaviour.print("HandleRewardBasedVideoClosed Reklama została zamknięta");
     }

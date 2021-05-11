@@ -685,6 +685,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
             }
             PomocniczeFunkcje.korzeńDrzewaPozycji.ExecuteAll(0);
         }
+        
         RozgrywkaPoWalkaPrzełącz();
         /*
         KonkretnyNPCStatyczny[] knpcs = FindObjectsOfType(typeof(KonkretnyNPCStatyczny)) as KonkretnyNPCStatyczny[];
@@ -773,10 +774,11 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
         }
         if (sukces)
         {
+            /*
             if (particleSystems != null && particleSystems.Length > 0)
             {
                 particleSystems[0].SetActive(true);
-            }
+            }*/
             if (aktualnyPoziomEpoki >= PomocniczeFunkcje.odblokowanyPoziomEpoki)
             {
                 if (aktualnyPoziomEpoki % 100 == 0 && (byte)aktualnaEpoka == PomocniczeFunkcje.odblokowaneEpoki)
