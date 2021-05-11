@@ -8,7 +8,11 @@ using System;
 public class ObsługaReklam : MonoBehaviour
 {
     // Start is called before the first frame update
-    string reklamID = "";
+    const string reklamID = "ca-app-pub-5582240292289857/9156662842";
+    const string AppID = "ca-app-pub-5582240292289857~8418296246";
+    const string testReklamaID = "ca-app-pub-3940256099942544/1033173712";
+    const string testAppId = "ca-app-pub-1104726610780368~6976308057";
+    const string hasło = "soidusainakra";
     private InterstitialAd inter;
     private byte status = 0;
     private ushort iloscCoinówRew = 100;
@@ -22,7 +26,7 @@ public class ObsługaReklam : MonoBehaviour
     }
     void Start()
     {
-        MobileAds.SetiOSAppPauseOnBackground(true);
+        //MobileAds.SetiOSAppPauseOnBackground(true);
         /*
         List<string> deviceIds = new List<string>();
         deviceIds.Add("");
@@ -52,13 +56,13 @@ public class ObsługaReklam : MonoBehaviour
         zRek = false;
 #if UNITY_ANDROID
         ResetujReklame();
-        reklamID = "ca-app-pub-5582240292289857/2771750725";    //Reklama pełno ekranowa
+        //reklamID = "ca-app-pub-5582240292289857/2771750725";    //Reklama pełno ekranowa
         this.inter = new InterstitialAd(reklamID);
 
-        this.inter.OnAdLoaded += (sender, args) => OnAdLoadedEvent.Invoke();
-        this.inter.OnAdFailedToLoad += (sender, args) => OnAdFailedToLoadEvent.Invoke();
-        this.inter.OnAdOpening += (sender, args) => OnAdOpeningEvent.Invoke();
-        this.inter.OnAdClosed += (sender, args) => OnAdClosedEvent.Invoke();
+        this.inter.OnAdLoaded += HandleRewardBasedVideoLoaded;
+        this.inter.OnAdFailedToLoad += HandleRewardBasedVideoFailedToLoad;
+        this.inter.OnAdOpening += HandleRewardBasedVideoOpened;
+        this.inter.OnAdClosed += HandleRewardBasedVideoClosed;
 
         //AdRequest żądanie = new AdRequest.Builder().Build();;
         Debug.Log("Ładuję reklamę");
@@ -93,7 +97,7 @@ public class ObsługaReklam : MonoBehaviour
         {
             Debug.Log("Wyświetlam reklame");
             this.inter.Show();
-            //PomocniczeFunkcje.UstawTimeScale(0);
+            PomocniczeFunkcje.UstawTimeScale(0);
         }
         else
         {
@@ -104,7 +108,7 @@ public class ObsługaReklam : MonoBehaviour
     public void ResetujReklame()
     {
         Debug.Log("Próbuje resetować reklamę.");
-        if (this.inter != null && this.inter.IsLoaded())
+        if (this.inter != null)
         {
             inter.Destroy();
         }
