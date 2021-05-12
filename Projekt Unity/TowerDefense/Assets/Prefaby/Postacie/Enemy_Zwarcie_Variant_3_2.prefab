@@ -60,12 +60,16 @@ PrefabInstance:
       value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 2509490586735411884, guid: 3e28a66aa60db354d98a65332157c488, type: 3}
+      propertyPath: "pr\u0119dko\u015B\u0107"
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2509490586735411884, guid: 3e28a66aa60db354d98a65332157c488, type: 3}
       propertyPath: "maksymalne\u017Bycie"
-      value: 750
+      value: 800
       objectReference: {fileID: 0}
     - target: {fileID: 2509490586735411884, guid: 3e28a66aa60db354d98a65332157c488, type: 3}
       propertyPath: "zadawaneObra\u017Cenia"
-      value: 95
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 2509490586735411884, guid: 3e28a66aa60db354d98a65332157c488, type: 3}
       propertyPath: "ileCoin\xF3wZaZabicie"

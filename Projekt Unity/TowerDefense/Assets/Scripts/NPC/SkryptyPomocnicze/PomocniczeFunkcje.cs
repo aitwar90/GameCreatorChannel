@@ -997,6 +997,24 @@ public static class PomocniczeFunkcje
                 managerGryScript.blokowanieOrientacji = daneO.blokadaOrientacji;
             }
         }
+        else
+        {
+            if (mainMenu != null)
+            {
+                mainMenu.lastIdxJezyka = 1;
+                mainMenu.sliderDźwięku.value = 1;
+                mainMenu.CzyLFPSOn = false;
+                MoveCameraScript.mscInstance.UstawPostProcessing(false);
+                MoveCameraScript.odwrócPrzesuwanie = false;
+                mainMenu.SetToogleOdwrocenieKamery(false);
+                mainMenu.UstawGłośność();
+            }
+            if (managerGryScript != null)
+            {
+                managerGryScript.blokowanieOrientacji = true;
+                managerGryScript.ZmianaJęzyka(1);
+            }
+        }
     }
     public static void KasujZapis()
     {

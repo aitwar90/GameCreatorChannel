@@ -58,6 +58,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     private byte bufferTimerFal = 255;
     private int[] wartościDlaStatystyk = { 0, 0, 0, 0, 0, 0 };
     private List<Stack<ParticleSystem>> particleStack;
+    public Material matPodUI;
     #endregion
     #region Getery i Setery
     public Skrzynka ZwróćSkrzynkeOIndeksie(byte idx)

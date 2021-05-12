@@ -9,14 +9,16 @@ public class ObsługaReklam : MonoBehaviour
 {
     // Start is called before the first frame update
     const string reklamID = "ca-app-pub-5582240292289857/9156662842";
-    const string AppID = "ca-app-pub-5582240292289857~8418296246";
-    const string testReklamaID = "ca-app-pub-3940256099942544/1033173712";
-    const string testAppId = "ca-app-pub-1104726610780368~6976308057";
-    const string hasło = "soidusainakra";
+    //const string AppID = "ca-app-pub-5582240292289857~8418296246";
+    //const string testReklamaID = "ca-app-pub-3940256099942544/1033173712";
+    //const string testAppId = "ca-app-pub-1104726610780368~6976308057";
+    //const string hasło = "soidusainakra";
     private InterstitialAd inter;
     private byte status = 0;
     private ushort iloscCoinówRew = 100;
     private bool zRek = false;
+    Coroutine co;
+    private bool czyCoroutynaDziała = false;
     public bool ZaładowanaReklamaJest
     {
         get
@@ -43,20 +45,30 @@ public class ObsługaReklam : MonoBehaviour
 
         // Called when an ad request has successfully loaded.
 
-        this.ŻądanieWideo();
+        this.ZaładujReklamę();
+        co = StartCoroutine(PrzyStarecieReklama());
+        czyCoroutynaDziała = true;
+    }
+    public void StopCorutPrzyStarcieReklama()
+    {
+        if(czyCoroutynaDziała)
+            StopCoroutine(co);
+    }
+    private IEnumerator PrzyStarecieReklama()
+    {
+        yield return new WaitUntil(() => zRek);
+        czyCoroutynaDziała = false;
+        OtwórzReklamę();
     }
     public void OtwórzReklame(byte _status, ushort iloscCoinów = 100)
     {
         status = _status;
         iloscCoinówRew = iloscCoinów;
-        ObejrzyjAD();
+        OtwórzReklamę();
     }
-    private void ŻądanieWideo()
+    private void ZaładujReklamę()
     {
-        zRek = false;
-#if UNITY_ANDROID
         ResetujReklame();
-        //reklamID = "ca-app-pub-5582240292289857/2771750725";    //Reklama pełno ekranowa
         this.inter = new InterstitialAd(reklamID);
 
         this.inter.OnAdLoaded += HandleRewardBasedVideoLoaded;
@@ -65,25 +77,25 @@ public class ObsługaReklam : MonoBehaviour
         this.inter.OnAdClosed += HandleRewardBasedVideoClosed;
 
         //AdRequest żądanie = new AdRequest.Builder().Build();;
-        Debug.Log("Ładuję reklamę");
-        this.inter.LoadAd(CreateAdRequest());
-        if (this.inter.IsLoaded())
-            Debug.Log("Reklama została załadowana");
+        AdRequest request = new AdRequest.Builder().Build();
+        this.inter.LoadAd(request);
+        StartCoroutine(CzekajNaZaladowanieReklamy());
+    }
+    private void OtwórzReklamę()
+    {
+        if (zRek)
+        {
+            Debug.Log("Otwieram reklamę");
+            zRek = false;
+            PomocniczeFunkcje.UstawTimeScale(0);
+            #if UNITY_ANDROID
+            this.inter.Show();
+            #endif
+        }
         else
         {
-            Debug.Log("Reklama nie została załadowana");
-            StartCoroutine(CzekajNaZaladowanieReklamy());
+            Debug.Log("Reklama jest niezaładowana");
         }
-
-#elif UNITY_IOS
-            string adUnitId = "ca-app-pub-3940256099942544/2934735716"; //Testowy
-#else
-            string adUnitId = "unexpected_platform";
-#endif
-
-        // Create an empty ad request.
-
-        // Load the rewarded video ad with the request.
     }
     private AdRequest CreateAdRequest()
     {
@@ -115,13 +127,16 @@ public class ObsługaReklam : MonoBehaviour
     }
     private IEnumerator CzekajNaZaladowanieReklamy()
     {
+        yield return new WaitUntil(() => this.inter.IsLoaded());
+        Debug.Log("Reklama załadowana");
+        zRek = true;
+        /*
         while (!this.inter.IsLoaded())
         {
             Debug.Log("Reklama wciaż niezaładowana");
             yield return null;
         }
-        ObejrzyjAD();
-
+        */
     }
     public void HandleRewardBasedVideoLoaded(object sender, EventArgs args)
     {
@@ -173,8 +188,8 @@ public class ObsługaReklam : MonoBehaviour
                 status = 0;
                 break;
         }
-        ResetujReklame();
-        this.ŻądanieWideo();    //Rozpocznij ładowanie kolejnej reklamy
+        PomocniczeFunkcje.UstawTimeScale((PomocniczeFunkcje.mainMenu.CzyOdpaloneMenu) ? 0 : 1);
+        ZaładujReklamę();
         MonoBehaviour.print("HandleRewardBasedVideoClosed Reklama została zamknięta");
     }
 

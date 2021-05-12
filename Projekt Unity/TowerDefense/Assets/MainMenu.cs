@@ -587,6 +587,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         if (czyOdpalamPoScenie)
         {
+            PomocniczeFunkcje.managerGryScript.GetComponent<ObsługaReklam>().StopCorutPrzyStarcieReklama();
             WłączWyłączPanel(menu.name, false);
             WłączWyłączPanel(poGraj.name, true);
 
