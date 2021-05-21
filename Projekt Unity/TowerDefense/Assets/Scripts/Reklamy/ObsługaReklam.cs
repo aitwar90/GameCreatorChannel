@@ -143,8 +143,8 @@ public class ObsługaReklam : MonoBehaviour
     public void HandleRewardBasedVideoLoaded(object sender, EventArgs args)
     {
         zRek = true;
-        Debug.Log("1) Załadowano reklamę");
-        MonoBehaviour.print("1) Załadowano reklamę");
+        //Debug.Log("1) Załadowano reklamę");
+        //MonoBehaviour.print("1) Załadowano reklamę");
     }
 
     public void HandleRewardBasedVideoFailedToLoad(object sender, AdFailedToLoadEventArgs args)

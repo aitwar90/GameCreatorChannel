@@ -112,7 +112,7 @@ public class SpawnBudynki : MonoBehaviour
             {
                 aktualnyObiekt.transform.position = posClick;
                 ostatniaPozycjaKursora = posClick;
-                if(Input.mousePresent)
+                if (Input.mousePresent)
                 {
                     PrzesuwanieAktualnegoObiektu();
                 }
@@ -199,7 +199,7 @@ public class SpawnBudynki : MonoBehaviour
             if (ManagerGryScript.iloscCoinów >= koszt)
             {
                 PomocniczeFunkcje.mainMenu.stawiajBudynek.interactable = true;
-                if(ManagerGryScript.iloscCoinów - koszt - koszt > koszt)
+                if (ManagerGryScript.iloscCoinów - koszt - koszt > koszt)
                     f = true;
             }
             else
@@ -388,7 +388,7 @@ public class SpawnBudynki : MonoBehaviour
             byte t = ManagerSamouczekScript.mssInstance.DanyIdxSamouczka();
             if (t == 6)
             {
-                if (Vector3.Distance(aktualnyObiekt.transform.position, ManagerSamouczekScript.mssInstance.pozycjeInstatiate[0]) > 3f)
+                if (Vector3.Distance(sugerowanaPozycja, ManagerSamouczekScript.mssInstance.pozycjeInstatiate[0]) > 3f)
                 {
                     PodmieńNaCzerwony();
                     return false;
@@ -396,7 +396,7 @@ public class SpawnBudynki : MonoBehaviour
             }
             else if (t == 10)
             {
-                if (Vector3.Distance(aktualnyObiekt.transform.position, ManagerSamouczekScript.mssInstance.pozycjeInstatiate[1]) > 3f)
+                if (Vector3.Distance(sugerowanaPozycja, ManagerSamouczekScript.mssInstance.pozycjeInstatiate[1]) > 3f)
                 {
                     PodmieńNaCzerwony();
                     return false;
@@ -421,7 +421,7 @@ public class SpawnBudynki : MonoBehaviour
     private Vector3 WyrównajSpawn(Vector3 sugerowanePolozenie)
     {
         //NOWE
-        /*
+        
         float t = sugerowanePolozenie.x - (byte)sugerowanePolozenie.x;
         if(t < .25f)
             sugerowanePolozenie.x = (byte)sugerowanePolozenie.x;
@@ -436,10 +436,12 @@ public class SpawnBudynki : MonoBehaviour
             sugerowanePolozenie.z = (byte)sugerowanePolozenie.z + 0.5f;
         else
             sugerowanePolozenie.z = (byte)sugerowanePolozenie.z + 1;
-        */
+        
         //STARE
+        /*
         sugerowanePolozenie.x = Mathf.RoundToInt(sugerowanePolozenie.x);
         sugerowanePolozenie.z = Mathf.RoundToInt(sugerowanePolozenie.z);
+        */
         return sugerowanePolozenie;
     }
     public void DestroyBuildings()
@@ -523,7 +525,7 @@ public class SpawnBudynki : MonoBehaviour
     }
     public void OdpalPanelBudowyBudynków()
     {
-        
+
     }
     #region Obsługa Custom Edytora
 #if UNITY_EDITOR

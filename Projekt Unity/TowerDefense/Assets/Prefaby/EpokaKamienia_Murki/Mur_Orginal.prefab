@@ -386,7 +386,7 @@ Transform:
   m_GameObject: {fileID: 5199389168166684428}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 333454932}
   - {fileID: 1135121304}
@@ -425,8 +425,8 @@ MonoBehaviour:
   aktualnyReuseAtaku: 0
   typBudynku: 0
   "odbiteObra\u017Cenia": 15
-  granicaX: 1.5
-  granicaZ: 0.2
+  granicaX: 1
+  granicaZ: 0.22
   kosztBadania: 15000
   "typAtakuWie\u017Cy": 0
   blokowany: 1

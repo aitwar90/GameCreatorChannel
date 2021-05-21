@@ -249,7 +249,7 @@ public static class PomocniczeFunkcje
             return null;
         }
         StrukturaDrzewa aktualnieSprawdzanyNode = korzeń;
-        float minDistance = 10000f;
+        float minDistance = 1000f;
         Component compDoZwrotu = korzeń.komponentGałęzi;
         while (true)
         {

@@ -902,7 +902,9 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             if (lastPanelEnabledBuildings != -1 && lastPanelEnabledBuildings != 2)
             {
                 if (lastPanelEnabledBuildings == 1)
+                {
                     EnDisButtonsOfBuildingsInPanel(ref idxMurów, false);
+                }
                 else if (lastPanelEnabledBuildings == 0)
                     EnDisButtonsOfBuildingsInPanel(ref idxWież, false);
             }
@@ -921,6 +923,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
             WłączWyłączPanel("UI_BudynkiPanel", false);
             WłączWyłączPanel("UI_LicznikCzasu", true);
+            WyczyśćDaneInformatora();
             PomocniczeFunkcje.UstawTimeScale(1);
             lastPanelEnabledBuildings = -1;
             //ostatniZaznaczonyObiektBudowania = -1;
@@ -932,6 +935,8 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     ///<param name="willEnable">Informacja czy przyciski danej tablicy mają zostać włączone lub wyłączone zgodnie z tym parametrem.</param>
     private void EnDisButtonsOfBuildingsInPanel(ref ushort[] tabOfBuildToChange, bool willEnable = false)
     {
+        if(willEnable)
+            WyczyśćDaneInformatora();
         StrukturaBudynkuWTab[] tab = PomocniczeFunkcje.spawnBudynki.ZablokowaneBudynki;
         if (wielkosćButtonu == 0)
         {
@@ -954,6 +959,12 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             iloscButtonow = (byte)(tabOfBuildToChange.Length - 1);
         else
             iloscButtonow = 0;
+    }
+    ///<summary>Czyszczę tablicę po przejściu na inny panel budynków</summary>
+    public void WyczyśćDaneInformatora()
+    {
+        PanelTextuWBudynkach ps = (PanelTextuWBudynkach)panelBudynki;
+        ps.UstawDane(new string[] {"","","","","","","",""});
     }
     ///<summary>Metoda generuje i sortuje tablice przycisków budynków do panelu budynków.</summary>
     public void WygenerujIPosortujTablice() //Tworzy i sortuje tablicę budynków, które gracz może postawić

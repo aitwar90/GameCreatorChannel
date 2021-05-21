@@ -191,7 +191,7 @@ Transform:
   m_GameObject: {fileID: 4771659129934228991}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.7, z: 0.3}
   m_Children:
   - {fileID: 5858373726997050131}
   - {fileID: 4059394276694082263}
@@ -209,11 +209,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 1.775, y: 0.725, z: 1.715}
+  m_Extents: {x: 1.775, y: 0.63, z: 1.715}
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.43, z: 0}
   m_TimeToStationary: 0.5
 --- !u!114 &5155593842723672433
 MonoBehaviour:
@@ -231,7 +231,7 @@ MonoBehaviour:
   "maksymalne\u017Bycie": 100
   typNPC: 0
   epokaNPC: 1
-  kosztJednostki: 1
+  kosztJednostki: 250
   "zadawaneObra\u017Cenia": 10
   "zasi\u0119gAtaku": 0
   "szybko\u015B\u0107Ataku": -1
@@ -246,8 +246,8 @@ MonoBehaviour:
   aktualnyReuseAtaku: 0
   typBudynku: 2
   "odbiteObra\u017Cenia": 0
-  granicaX: 1
-  granicaZ: 1
+  granicaX: 1.32
+  granicaZ: 1.32
   kosztBadania: 500
   "typAtakuWie\u017Cy": 0
   blokowany: 1
@@ -257,9 +257,11 @@ MonoBehaviour:
   "offWysoko\u015B\u0107": 1.5
   obrazekDoBudynku: {fileID: 21300000, guid: 5c0cd386342b7ae448b0843798140248, type: 3}
   sprite: {fileID: 3113172145578377462}
-  opisBudynku: "Budynek pozwalaj\u0105cy na prowadzenie bada\u0144 zwi\u0119kszaj\u0105cych
+  opisBudynku: "Budynek pozwalaj\u0105cy na prowadzenie bada\u0144. Zwi\u0119ksza
     parametry innych budynk\xF3w."
   iloscWrogowWZasiegu: 0
+  dym: {fileID: 0}
+  kurz: {fileID: 0}
   zablokowany: 0
 --- !u!135 &7275247995621654197
 SphereCollider:
@@ -272,8 +274,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 1.93
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.7
+  m_Center: {x: 0, y: 1.02, z: 0}
 --- !u!1 &6137704068107329680
 GameObject:
   m_ObjectHideFlags: 0

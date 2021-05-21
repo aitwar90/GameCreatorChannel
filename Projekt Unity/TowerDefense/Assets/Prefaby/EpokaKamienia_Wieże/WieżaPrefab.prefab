@@ -467,7 +467,7 @@ Transform:
   m_GameObject: {fileID: 5936720593168581440}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.8, z: 0.9}
   m_Children:
   - {fileID: 222044501}
   - {fileID: 5371833120471056942}
@@ -512,8 +512,7 @@ MonoBehaviour:
   kosztBadania: 2500
   "typAtakuWie\u017Cy": 2
   blokowany: 0
-  obiektAtaku: {fileID: 6802195553192024197, guid: b1b921f0f68750a41be28bf2c07630fc,
-    type: 3}
+  obiektAtaku: {fileID: 6802195553192024197, guid: b1b921f0f68750a41be28bf2c07630fc, type: 3}
   efektyFxStart: {fileID: 0}
   efektyFxKoniec: {fileID: 0}
   "offWysoko\u015B\u0107": 2.2
@@ -521,6 +520,8 @@ MonoBehaviour:
   sprite: {fileID: 938875737}
   opisBudynku: "Wie\u017Ca"
   iloscWrogowWZasiegu: 0
+  dym: {fileID: 0}
+  kurz: {fileID: 0}
   zablokowany: 1
 --- !u!208 &1234044047
 NavMeshObstacle:

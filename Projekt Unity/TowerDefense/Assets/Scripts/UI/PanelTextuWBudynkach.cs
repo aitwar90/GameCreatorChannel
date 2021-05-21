@@ -12,7 +12,7 @@ public class PanelTextuWBudynkach : KontenerKomponentów
 
     public override void UstawDane(string[] s)
     {
-        bool wyłączKupIPostaw = false;
+        bool wyłączKupIPostaw = (s[0] != "") ? false : true;
         nazwaObiektu.text = s[0];
         punktyŻyciaObiektu.text = s[1];
         koszt.text = s[2];
@@ -32,25 +32,31 @@ public class PanelTextuWBudynkach : KontenerKomponentów
         {
             wymaganyPoziom.color = Color.white;
         }
-        int t = System.Int32.Parse(s[3]);
-        if (ManagerGryScript.iloscCoinów < t)
+        if (s[3] != "")
         {
-            kosztBadania.color = Color.red;
-            wyłączKupIPostaw = true;
+            int t = System.Int32.Parse(s[3]);
+            if (ManagerGryScript.iloscCoinów < t)
+            {
+                kosztBadania.color = Color.red;
+                wyłączKupIPostaw = true;
+            }
+            else
+            {
+                kosztBadania.color = Color.white;
+            }
         }
-        else
+        if (s[2] != "")
         {
-            kosztBadania.color = Color.white;
-        }
-        t = System.Int32.Parse(s[2]);
-        if (ManagerGryScript.iloscCoinów < t)
-        {
-            koszt.color = Color.red;
-            wyłączKupIPostaw = true;
-        }
-        else
-        {
-            koszt.color = Color.white;
+            int t = System.Int32.Parse(s[2]);
+            if (ManagerGryScript.iloscCoinów < t)
+            {
+                koszt.color = Color.red;
+                wyłączKupIPostaw = true;
+            }
+            else
+            {
+                koszt.color = Color.white;
+            }
         }
         if (wyłączKupIPostaw)
         {

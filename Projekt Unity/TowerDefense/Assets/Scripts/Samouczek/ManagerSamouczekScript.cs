@@ -144,7 +144,7 @@ public class ManagerSamouczekScript : MonoBehaviour
                 break;
             case 10:
                 sprawdzajCzyZaliczone = true;
-                UstawIkonkePomocnicza("rotacjaBudynku", 0, 0);
+                //UstawIkonkePomocnicza("rotacjaBudynku", 0, 0);
                 break;
             case 11:
                 sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[9], fToLoad);
@@ -296,7 +296,7 @@ public class ManagerSamouczekScript : MonoBehaviour
                     break;
                 case 10:
                     //Wyłączenie markera przycisku obrotu
-                    if (pSystem == null)
+                    if (pSystem == null)    //Odpalenie particle system
                     {
                         pSystem = GameObject.Instantiate(partSysStawiajTu, pozycjeInstatiate[1], Quaternion.identity);
                     }
@@ -304,7 +304,7 @@ public class ManagerSamouczekScript : MonoBehaviour
                     {
                         Destroy(pSystem.gameObject);
                         pSystem = null;
-                        sktv.WyłączObiekt();
+                        //sktv.WyłączObiekt();
                         WywolajProgress();
                         sprawdzajCzyZaliczone = false;
                         zmiennaPomocnicza = -1;
