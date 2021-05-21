@@ -157,7 +157,6 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     PanelStatyczny ps = MainMenu.singelton.GetKontenerKomponentówStatic;
                     if (ps != null)
                     {
-                        Debug.Log("Odpalam panel obiektu o nazwie "+this.name);
                         ps.UstawDaneDynamiczne(new byte[] { 0, 1 }, new string[] { this.AktualneŻycie.ToString() + "/" + this.maksymalneŻycie.ToString(), kosztNaprawy.ToString() });
                     }
                 }
@@ -492,7 +491,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             }
             PomocniczeFunkcje.mainMenu.UstawPanelUI("PANEL;" + this.nazwa +
             ";" + this.maksymalneŻycie.ToString() + ";" + this.kosztJednostki.ToString() +
-            ";" + kosztBadaniaS + ";" + this.zadawaneObrażenia +
+            ";" + kosztBadaniaS + ";" + (this.zadawaneObrażenia + ManagerGryScript.boostDoAtaku) +
             p + this.opisBudynku + c,
             Vector2.zero);
         }
