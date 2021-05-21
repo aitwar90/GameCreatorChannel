@@ -97,7 +97,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219, type: 3}
       propertyPath: "maksymalne\u017Bycie"
-      value: 300
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219, type: 3}
       propertyPath: "zadawaneObra\u017Cenia"

@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Collections;
 
 [System.Serializable]
-public class Skrzynka
+public class Skrzynka : MonoBehaviour
 {
     [SerializeField] public DateTime pozostałyCzas;
     public Button button;
@@ -19,6 +20,10 @@ public class Skrzynka
         set
         {
             reuseTime = value;
+            if(value)
+            {
+                if(!PomocniczeFunkcje.managerGryScript.sąReklamyLubSkrzynki) PomocniczeFunkcje.managerGryScript.sąReklamyLubSkrzynki = true;
+            }
         }
     }
     public Skrzynka()
@@ -38,19 +43,37 @@ public class Skrzynka
     {
         if (reuseTime)
         {
-
             if (pozostałyCzas.CompareTo(DateTime.Now) < 0)   //Reuse minęło
             {
                 reuseTime = false;
                 button.interactable = true;
                 buttonReklamy.interactable = false;
                 this.czasReusu.text = "";
+                if (!MainMenu.singelton.odpalReklamy.interactable)
+                {
+                    Debug.Log("Odpalam button reklam w grze");
+                    MainMenu.singelton.odpalReklamy.interactable = true;
+                }
             }
             else
             {
                 if (!buttonReklamy.interactable)
                 {
-                    buttonReklamy.interactable = PomocniczeFunkcje.managerGryScript.CzyReklamaZaładowana;
+                    bool czyZał = PomocniczeFunkcje.managerGryScript.CzyReklamaZaładowana;
+                    buttonReklamy.interactable = czyZał;
+                    if (czyZał)
+                    {
+                        if (!MainMenu.singelton.odpalReklamy.interactable)
+                        {
+                            Debug.Log("Odpalam button reklam w grze");
+                            MainMenu.singelton.odpalReklamy.interactable = true;
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("Czekam na załadowanie reklamy");
+                        StartCoroutine(CzekajAz());
+                    }
                 }
                 this.czasReusu.text = OkreślCzasDoTekstu();
             }
@@ -69,6 +92,7 @@ public class Skrzynka
         pozostałyCzas = DateTime.Now;
         pozostałyCzas = pozostałyCzas.AddHours(2);
         reuseTime = true;
+        if(!PomocniczeFunkcje.managerGryScript.sąReklamyLubSkrzynki) PomocniczeFunkcje.managerGryScript.sąReklamyLubSkrzynki = true;
     }
     private string OkreślCzasDoTekstu()
     {
@@ -77,5 +101,14 @@ public class Skrzynka
         byte hour = (byte)(minuty / 60f);
         minuty -= (byte)(hour * 60);
         return hour.ToString("00") + ":" + minuty.ToString("00");
+    }
+    private IEnumerator CzekajAz()
+    {
+        yield return new WaitUntil(() => PomocniczeFunkcje.managerGryScript.CzyReklamaZaładowana);
+        Debug.Log("Reklama załadowana, odpalam button reklamy z poziomu gry");
+        if (!MainMenu.singelton.odpalReklamy.interactable)
+        {
+            MainMenu.singelton.odpalReklamy.interactable = true;
+        }
     }
 }

@@ -77,11 +77,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219, type: 3}
       propertyPath: "zadawaneObra\u017Cenia"
-      value: 40
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219, type: 3}
       propertyPath: "ileCoin\xF3wZaZabicie"
-      value: 35
+      value: 45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 413ecb2ef19c41a448dfd791ffaff219, type: 3}

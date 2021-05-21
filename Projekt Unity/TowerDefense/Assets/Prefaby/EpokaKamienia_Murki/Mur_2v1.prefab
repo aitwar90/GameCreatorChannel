@@ -19,6 +19,10 @@ PrefabInstance:
       propertyPath: m_Extents.x
       value: 2.015
       objectReference: {fileID: 0}
+    - target: {fileID: 1858827943, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: nazwa
       value: Palisada
@@ -29,7 +33,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: opisBudynku
-      value: "Drewniany p\u0142ot"
+      value: "Palisada jest podstawow\u0105 struktur\u0105 obronn\u0105. Ma ma\u0142\u0105
+        wytrzyma\u0142o\u015B\u0107 i niskie koszty budowy."
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
+      propertyPath: zablokowany
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: kosztBadania
@@ -45,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: "maksymalne\u017Bycie"
-      value: 500
+      value: 450
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: obrazekDoBudynku

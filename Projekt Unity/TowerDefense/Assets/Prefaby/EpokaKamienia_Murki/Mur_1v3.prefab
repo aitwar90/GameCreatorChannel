@@ -61,7 +61,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
       propertyPath: poziom
-      value: 25
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
       propertyPath: kosztBadania
@@ -77,7 +77,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
       propertyPath: "maksymalne\u017Bycie"
-      value: 1000
+      value: 800
       objectReference: {fileID: 0}
     - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
       propertyPath: obrazekDoBudynku

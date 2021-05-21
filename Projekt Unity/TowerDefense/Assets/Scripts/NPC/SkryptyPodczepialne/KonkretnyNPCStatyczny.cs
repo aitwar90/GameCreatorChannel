@@ -157,7 +157,8 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     PanelStatyczny ps = MainMenu.singelton.GetKontenerKomponentówStatic;
                     if (ps != null)
                     {
-                        ps.UstawDaneDynamiczne(new byte[] { 0, 1 }, new string[] { AktualneŻycie.ToString() + "/" + this.maksymalneŻycie.ToString(), kosztNaprawy.ToString() });
+                        Debug.Log("Odpalam panel obiektu o nazwie "+this.name);
+                        ps.UstawDaneDynamiczne(new byte[] { 0, 1 }, new string[] { this.AktualneŻycie.ToString() + "/" + this.maksymalneŻycie.ToString(), kosztNaprawy.ToString() });
                     }
                 }
             }

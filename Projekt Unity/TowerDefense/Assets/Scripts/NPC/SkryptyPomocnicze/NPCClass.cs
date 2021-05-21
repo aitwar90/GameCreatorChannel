@@ -16,7 +16,7 @@ public abstract class NPCClass : MonoBehaviour
     [Tooltip("Koszt danej jednostki")]
     public ushort kosztJednostki = 1;
     [Tooltip("Obrażenia jakie jednostka zadaje w walce")]
-    public byte zadawaneObrażenia = 10;
+    public ushort zadawaneObrażenia = 10;
     [Tooltip("Zasięg ataku jednostki")]
     public byte zasięgAtaku = 0;
     [Tooltip("Czas między kolejnymi tikami ataku npc")]

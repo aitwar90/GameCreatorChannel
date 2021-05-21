@@ -69,11 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2509490586735411884, guid: 3e28a66aa60db354d98a65332157c488, type: 3}
       propertyPath: "zadawaneObra\u017Cenia"
-      value: 150
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 2509490586735411884, guid: 3e28a66aa60db354d98a65332157c488, type: 3}
       propertyPath: "ileCoin\xF3wZaZabicie"
-      value: 55
+      value: 175
       objectReference: {fileID: 0}
     - target: {fileID: 2509490586735411884, guid: 3e28a66aa60db354d98a65332157c488, type: 3}
       propertyPath: "modyfikatorZadawanychObra\u017Ce\u0144"

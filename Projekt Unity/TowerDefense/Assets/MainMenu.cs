@@ -27,6 +27,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     public Button buttonAZycie;
     public Button buttonAAtak;
     public Button buttonAObrona;
+    public Button odpalReklamy; //Przycisk odpalający panel reklam z poziomu gry
     #endregion
     #region Ekwipunek
     [Tooltip("Przyciski nagród powinny być wpięte w tablicę w kolejności zgodnej z taką jak Ekwipunek Gracza w ManagerGryScript.cs")]
@@ -1096,6 +1097,28 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         buttonSkrzynki[idx].skrzynkaB.interactable = false;
         //Kliknąłem skrzynkę
         PodmieńObrazekSkrzynki(buttonSkrzynki[idx].skrzynkaB.transform.parent.Find("Skrzynka_obrazek").GetComponent<Image>(), (byte)idx);
+        Debug.Log("Wyłączam button reklam w grze");
+        SprawdźCzyWszystkieSąNieaktywne();
+    }
+    ///<summary>Metoda sprawdza czy wszystkie przyciski są nieaktywne w panelu reklam i jak tak to dezaktywuje przycisk do odpalania panelu z poziomu gry.</summary>
+    private void SprawdźCzyWszystkieSąNieaktywne()
+    {
+        for (byte i = 0; i < 4; i++)
+        {
+            if (this.buttonSkrzynki[i].reklamSkrzynkaB.interactable || this.buttonSkrzynki[i].skrzynkaB.interactable)
+            {
+                if (!this.odpalReklamy.interactable)
+                {
+                    this.odpalReklamy.interactable = true;
+                }
+                return;
+            }
+        }
+        if (this.odpalReklamy.interactable)
+        {
+            this.odpalReklamy.interactable = false;
+            PomocniczeFunkcje.managerGryScript.sąReklamyLubSkrzynki = false;
+        }
     }
     ///
     ///<summary>Funkcja zmienia wartości dla obrazka i go podmienia</summary>
@@ -1161,6 +1184,13 @@ public class MainMenu : MonoBehaviour, ICzekajAz
     {
         rekZaWyzszaNagrode.gameObject.SetActive(false);
         PomocniczeFunkcje.managerGryScript.KliknietyButtonZwiekszeniaNagrodyPoLvlu();
+    }
+    /// <summary>Metoda odpala panel reklam z poziomu gry. 
+    ///</summary>
+    public void OdpalReklamyZPoziomuGry()
+    {
+        this.PrzełączUI(true);
+        this.WłWyłPanelReklam(true);
     }
     ///<summary>Metoda rozpoczyna proces użycia danej nagrody podanej w parametrze (DaneGry).</summary>
     ///<param name="nagroda">Indeks klikniętej nagrody (0-monety), (1-cud ocalenia), (2-dodatkowa nagroda), (3-skrócenie czasu skrzynki).</param>

@@ -25,7 +25,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1087409314443740609, guid: dd1612c3f583e4248a39f415778f1e92, type: 3}
       propertyPath: "zadawaneObra\u017Cenia"
-      value: 80
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1087409314443740609, guid: dd1612c3f583e4248a39f415778f1e92, type: 3}
       propertyPath: "ileCoin\xF3wZaZabicie"

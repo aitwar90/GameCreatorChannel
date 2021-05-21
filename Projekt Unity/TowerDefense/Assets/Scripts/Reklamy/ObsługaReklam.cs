@@ -39,6 +39,11 @@ public class ObsługaReklam : MonoBehaviour
         MobileAds.SetRequestConfiguration(requestConfiguration);
         */
         MobileAds.Initialize(initStatus => { });
+        RequestConfiguration requestConfiguration = new RequestConfiguration.Builder()
+        .SetTagForChildDirectedTreatment(TagForChildDirectedTreatment.True)
+        .SetMaxAdContentRating(MaxAdContentRating.G)
+        .build();
+        MobileAds.SetRequestConfiguration(requestConfiguration);
 
         //MobileAds.Initialize(initStatus => { });
         //this.inter = RewardBasedVideoAd.Instance;
@@ -51,7 +56,7 @@ public class ObsługaReklam : MonoBehaviour
     }
     public void StopCorutPrzyStarcieReklama()
     {
-        if(czyCoroutynaDziała)
+        if (czyCoroutynaDziała)
             StopCoroutine(co);
     }
     private IEnumerator PrzyStarecieReklama()
@@ -85,12 +90,12 @@ public class ObsługaReklam : MonoBehaviour
     {
         if (zRek)
         {
-            Debug.Log("Otwieram reklamę");
+            //Debug.Log("Otwieram reklamę");
             zRek = false;
             PomocniczeFunkcje.UstawTimeScale(0);
-            #if UNITY_ANDROID
+#if UNITY_ANDROID
             this.inter.Show();
-            #endif
+#endif
         }
         else
         {
@@ -100,26 +105,24 @@ public class ObsługaReklam : MonoBehaviour
     private AdRequest CreateAdRequest()
     {
         return new AdRequest.Builder()
-            .AddKeyword("unity-admob-sample")
+            /*.AddKeyword("unity-admob-sample")*/
             .Build();
     }
     private void ObejrzyjAD()
     {
         if (this.inter.IsLoaded())
         {
-            Debug.Log("Wyświetlam reklame");
+            //Debug.Log("Wyświetlam reklame");
             this.inter.Show();
             PomocniczeFunkcje.UstawTimeScale(0);
         }
         else
         {
-            Debug.Log("Reklama nie została załadowana");
             StartCoroutine(CzekajNaZaladowanieReklamy());
         }
     }
     public void ResetujReklame()
     {
-        Debug.Log("Próbuje resetować reklamę.");
         if (this.inter != null)
         {
             inter.Destroy();
@@ -128,7 +131,6 @@ public class ObsługaReklam : MonoBehaviour
     private IEnumerator CzekajNaZaladowanieReklamy()
     {
         yield return new WaitUntil(() => this.inter.IsLoaded());
-        Debug.Log("Reklama załadowana");
         zRek = true;
         /*
         while (!this.inter.IsLoaded())

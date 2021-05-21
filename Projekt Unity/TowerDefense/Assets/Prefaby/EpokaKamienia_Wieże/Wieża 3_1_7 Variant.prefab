@@ -33,7 +33,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3914470740239900684, guid: 10c10ae0e54846a42a916af699cd51a2, type: 3}
       propertyPath: kosztJednostki
-      value: 250
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 3914470740239900684, guid: 10c10ae0e54846a42a916af699cd51a2, type: 3}
       propertyPath: "szybko\u015B\u0107Ataku"

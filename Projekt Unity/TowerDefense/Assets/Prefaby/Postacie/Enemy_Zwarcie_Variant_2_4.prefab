@@ -69,11 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3693948625847355893, guid: ab793da470ea3bf46a44ce47de295981, type: 3}
       propertyPath: "zadawaneObra\u017Cenia"
-      value: 95
+      value: 235
       objectReference: {fileID: 0}
     - target: {fileID: 3693948625847355893, guid: ab793da470ea3bf46a44ce47de295981, type: 3}
       propertyPath: "ileCoin\xF3wZaZabicie"
-      value: 35
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3824985151822455890, guid: ab793da470ea3bf46a44ce47de295981, type: 3}
       propertyPath: m_Mesh

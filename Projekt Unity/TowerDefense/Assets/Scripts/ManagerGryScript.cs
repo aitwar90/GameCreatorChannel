@@ -58,7 +58,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
     private byte bufferTimerFal = 255;
     private int[] wartościDlaStatystyk = { 0, 0, 0, 0, 0, 0 };
     private List<Stack<ParticleSystem>> particleStack;
-    public Material matPodUI;
+    [HideInInspector]public bool sąReklamyLubSkrzynki = false;
     #endregion
     #region Getery i Setery
     public Skrzynka ZwróćSkrzynkeOIndeksie(byte idx)
@@ -280,7 +280,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 idxOfManagerGryScript++;
                 break;
             case 5:
-                if (MainMenu.singelton.CzyOdpalonyPanelReklam)
+                if (MainMenu.singelton.odpalReklamy.interactable != this.sąReklamyLubSkrzynki || MainMenu.singelton.CzyOdpalonyPanelReklam)
                 {
                     for (byte i = 0; i < 4; i++)
                     {

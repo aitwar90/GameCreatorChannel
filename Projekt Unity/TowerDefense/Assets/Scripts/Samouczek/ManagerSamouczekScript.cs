@@ -89,6 +89,7 @@ public class ManagerSamouczekScript : MonoBehaviour
             byloZaladowane = true;
             PomocniczeFunkcje.mainMenu.AktywujDezaktywujPrzyciskPaneliBudynku();
             PomocniczeFunkcje.managerGryScript.czasMiędzyFalami = 10f;
+            MainMenu.singelton.odpalReklamy.gameObject.SetActive(false);
         }
         //Przypisanie nowych danych
         ManagerGryScript.iloscCoinów = 50;
@@ -430,6 +431,7 @@ public class ManagerSamouczekScript : MonoBehaviour
         this.sktv.gameObject.SetActive(false);
         this.gameObject.SetActive(false);
         PomocniczeFunkcje.mainMenu.wróćDoMenu.interactable = true;
+        MainMenu.singelton.odpalReklamy.gameObject.SetActive(true);
     }
     private void ZwróćMiDane()
     {

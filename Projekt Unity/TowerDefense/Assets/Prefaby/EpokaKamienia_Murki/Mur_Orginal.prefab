@@ -84,8 +84,8 @@ MeshRenderer:
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
@@ -165,8 +165,8 @@ MeshRenderer:
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
@@ -406,8 +406,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb97c6dfecba79b40acc907f00e51742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nazwa: Wzmocniony Kamienny Mur III
-  "maksymalne\u017Bycie": 3500
+  nazwa: Wzmocniony ceglany mur III
+  "maksymalne\u017Bycie": 7500
   typNPC: 0
   epokaNPC: 1
   kosztJednostki: 1000
@@ -436,9 +436,11 @@ MonoBehaviour:
   "offWysoko\u015B\u0107": 1.5
   obrazekDoBudynku: {fileID: 21300000, guid: acd44c0c242d83a4490615e3d9073527, type: 3}
   sprite: {fileID: 1467841094}
-  opisBudynku: "Mur zbudowany ze wzmocnionych cegie\u0142 zapewniaj\u0105cy najlepsz\u0105
+  opisBudynku: "Mur z najlepszej jako\u015Bci cegie\u0142. Zapewnia najlepsz\u0105
     mo\u017Cliw\u0105 ochron\u0119 przy du\u017Cej cenie budowy."
   iloscWrogowWZasiegu: 0
+  dym: {fileID: 0}
+  kurz: {fileID: 0}
   zablokowany: 1
 --- !u!135 &1858827943
 SphereCollider:
@@ -449,7 +451,7 @@ SphereCollider:
   m_GameObject: {fileID: 5199389168166684428}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.45
   m_Center: {x: 0, y: 1.1, z: 0}

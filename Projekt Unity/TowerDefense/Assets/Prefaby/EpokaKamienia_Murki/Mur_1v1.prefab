@@ -21,7 +21,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: poziom
-      value: 50
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: opisBudynku
@@ -38,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: "maksymalne\u017Bycie"
-      value: 1500
+      value: 1350
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: obrazekDoBudynku

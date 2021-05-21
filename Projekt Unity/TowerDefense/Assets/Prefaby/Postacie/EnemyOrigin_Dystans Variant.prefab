@@ -73,15 +73,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219, type: 3}
       propertyPath: "maksymalne\u017Bycie"
-      value: 500
+      value: 750
       objectReference: {fileID: 0}
     - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219, type: 3}
       propertyPath: "zadawaneObra\u017Cenia"
-      value: 75
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219, type: 3}
       propertyPath: "ileCoin\xF3wZaZabicie"
-      value: 60
+      value: 255
       objectReference: {fileID: 0}
     - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219, type: 3}
       propertyPath: "modyfikatorOtrzymywanychObra\u017Ce\u0144"
