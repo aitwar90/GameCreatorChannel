@@ -21,7 +21,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: nazwa
-      value: Kamienny Mur II
+      value: Ceglany mur
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: poziom
@@ -29,8 +29,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: opisBudynku
-      value: "Mur zbudowany wypalanych cegie\u0142 zapewniaj\u0105cy fantastyczn\u0105
-        wytrzyma\u0142o\u015B\u0107 przy du\u017Cym koszcie budowy."
+      value: "Mur z wypalanych cegie\u0142. Zapewnia fantastyczn\u0105 wytrzyma\u0142o\u015B\u0107
+        przy du\u017Cym koszcie budowy."
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: kosztBadania
@@ -42,7 +42,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: kosztJednostki
-      value: 600
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: "maksymalne\u017Bycie"

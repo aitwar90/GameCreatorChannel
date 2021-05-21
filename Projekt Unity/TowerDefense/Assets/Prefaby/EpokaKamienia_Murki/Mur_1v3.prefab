@@ -57,11 +57,17 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: d44c20d34d0084347bf679d9a4b906fa, type: 2}
     - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
       propertyPath: nazwa
-      value: Kamienny Mur I
+      value: Kamienny mur I
       objectReference: {fileID: 0}
     - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
       propertyPath: poziom
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
+      propertyPath: opisBudynku
+      value: "Stos kamieni o wi\u0119kszej wytrzyma\u0142o\u015Bci ni\u017C drewniana
+        palisada. \u015Arednia wytrzyma\u0142o\u015B\u0107 przy zachowaniu niskiej
+        ceny budowy."
       objectReference: {fileID: 0}
     - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
       propertyPath: kosztBadania
@@ -73,7 +79,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
       propertyPath: kosztJednostki
-      value: 250
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
       propertyPath: "maksymalne\u017Bycie"
