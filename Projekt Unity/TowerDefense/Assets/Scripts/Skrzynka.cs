@@ -20,9 +20,9 @@ public class Skrzynka : MonoBehaviour
         set
         {
             reuseTime = value;
-            if(value)
+            if (value)
             {
-                if(!PomocniczeFunkcje.managerGryScript.sąReklamyLubSkrzynki) PomocniczeFunkcje.managerGryScript.sąReklamyLubSkrzynki = true;
+                if (!PomocniczeFunkcje.managerGryScript.sąReklamyLubSkrzynki) PomocniczeFunkcje.managerGryScript.sąReklamyLubSkrzynki = true;
             }
         }
     }
@@ -51,7 +51,6 @@ public class Skrzynka : MonoBehaviour
                 this.czasReusu.text = "";
                 if (!MainMenu.singelton.odpalReklamy.interactable)
                 {
-                    Debug.Log("Odpalam button reklam w grze");
                     MainMenu.singelton.odpalReklamy.interactable = true;
                 }
             }
@@ -61,18 +60,16 @@ public class Skrzynka : MonoBehaviour
                 {
                     bool czyZał = PomocniczeFunkcje.managerGryScript.CzyReklamaZaładowana;
                     buttonReklamy.interactable = czyZał;
-                    if (czyZał)
+                    if (!MainMenu.singelton.odpalReklamy.interactable)
                     {
-                        if (!MainMenu.singelton.odpalReklamy.interactable)
+                        if (czyZał)
                         {
-                            Debug.Log("Odpalam button reklam w grze");
                             MainMenu.singelton.odpalReklamy.interactable = true;
                         }
-                    }
-                    else
-                    {
-                        Debug.Log("Czekam na załadowanie reklamy");
-                        StartCoroutine(CzekajAz());
+                        //else
+                        //{
+                            //StartCoroutine(CzekajAz());
+                        //}
                     }
                 }
                 this.czasReusu.text = OkreślCzasDoTekstu();
@@ -92,7 +89,7 @@ public class Skrzynka : MonoBehaviour
         pozostałyCzas = DateTime.Now;
         pozostałyCzas = pozostałyCzas.AddHours(2);
         reuseTime = true;
-        if(!PomocniczeFunkcje.managerGryScript.sąReklamyLubSkrzynki) PomocniczeFunkcje.managerGryScript.sąReklamyLubSkrzynki = true;
+        if (!PomocniczeFunkcje.managerGryScript.sąReklamyLubSkrzynki) PomocniczeFunkcje.managerGryScript.sąReklamyLubSkrzynki = true;
     }
     private string OkreślCzasDoTekstu()
     {

@@ -228,6 +228,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         reklamyPanel.name, poGraj.name, winTXT.name, loseTXT.name, samouczekPanel.name, "Cretidsy", loader.name},
         false);
         this.tekstCoWygrales.transform.parent.gameObject.SetActive(false);
+        odpalReklamy.interactable = false;
     }
     #region Obsługa paneli UI, Czy mogę przesuwać kamerę (), Pasek HP
     ///<summary>Metoda włącza lub wyłącza panel zgodny z podanymi parametrami.</summary>

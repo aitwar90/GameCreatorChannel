@@ -280,7 +280,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 idxOfManagerGryScript++;
                 break;
             case 5:
-                if (MainMenu.singelton.odpalReklamy.interactable != this.sąReklamyLubSkrzynki || MainMenu.singelton.CzyOdpalonyPanelReklam)
+                if ((!MainMenu.singelton.CzyOdpaloneMenu && MainMenu.singelton.odpalReklamy.interactable != this.sąReklamyLubSkrzynki) || MainMenu.singelton.CzyOdpalonyPanelReklam)
                 {
                     for (byte i = 0; i < 4; i++)
                     {

@@ -205,6 +205,20 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     }
                     głównyIndex++;
                     break;
+                    /*
+                case 3: //Sprawdź navMesh
+                        if(this.agent.velocity.magnitude < 0.25f && Vector3.Distance(this.agent.pathEndPosition, this.transform.position) > this.agent.stoppingDistance)
+                        {
+                            if(cel != null)
+                            {
+                                this.agent.ResetPath();
+                                ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
+                            }
+                        } 
+
+                    głównyIndex++;
+                break;
+                */
                 case 4: //Dodanie do nowych wież
                     if (czyDodawac)
                     {
