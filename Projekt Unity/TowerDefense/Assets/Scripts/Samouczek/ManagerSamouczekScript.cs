@@ -102,6 +102,7 @@ public class ManagerSamouczekScript : MonoBehaviour
         mgs.atkIdx = 0;
         mgs.defIdx = 0;
         sips.ZaladujTekstPanelu(ref zaladujTextKonkretne[0], fToLoad);
+        MainMenu.singelton.wróćDoMenu.interactable = false;
     }
     public void WywolajProgress()
     {
@@ -469,6 +470,7 @@ public class ManagerSamouczekScript : MonoBehaviour
             mgs.defIdx = defidx;
             byloZaladowane = false;
             PomocniczeFunkcje.mainMenu.AktywujDezaktywujPrzyciskPaneliBudynku(255, true);
+            MainMenu.singelton.wróćDoMenu.interactable = true;
         }
     }
     public void ZamknijPanel()
