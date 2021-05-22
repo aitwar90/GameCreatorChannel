@@ -79,7 +79,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
       propertyPath: kosztJednostki
-      value: 125
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2346550299673633537, guid: 1d42afea5416de94e9ebb19aa23b24df, type: 3}
       propertyPath: "maksymalne\u017Bycie"

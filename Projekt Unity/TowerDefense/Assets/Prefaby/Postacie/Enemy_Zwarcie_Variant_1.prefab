@@ -97,11 +97,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219, type: 3}
       propertyPath: "maksymalne\u017Bycie"
-      value: 150
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219, type: 3}
       propertyPath: "zadawaneObra\u017Cenia"
-      value: 25
+      value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 4413915691165636982, guid: 413ecb2ef19c41a448dfd791ffaff219, type: 3}
       propertyPath: "tagRodzajDoD\u017Awi\u0119k\xF3w"

@@ -31,12 +31,12 @@ public class SpawnerHord : MonoBehaviour
             }
             else
             {
-                ostatniaIlośćWFali += (ushort)(3+(aktPozEpoki/10f));
+                ostatniaIlośćWFali += (ushort)(4+(aktPozEpoki/10f));
             }
         }
         else if((byte)e > 1)
         {
-            ostatniaIlośćWFali += (ushort)(3+(aktPozEpoki/10f) + (byte)e);
+            ostatniaIlośćWFali += (ushort)(4+(aktPozEpoki/10f) + (byte)e);
         }
         else
         {
@@ -60,15 +60,15 @@ public class SpawnerHord : MonoBehaviour
                 }
                 else if(poziomEpoki < 9)
                 {
-                    PomocniczeFunkcje.managerGryScript.czasMiędzyFalami = 140f;
+                    PomocniczeFunkcje.managerGryScript.czasMiędzyFalami = 100f;
                     iloscFalNaKoncu = (byte)(2+poziomEpoki/2f);
-                    maxIlośćNaFalę = (ushort)(iloscFalNaKoncu*(ushort)(3+(poziomEpoki/10f)));
+                    maxIlośćNaFalę = (ushort)(iloscFalNaKoncu*(ushort)(4+(poziomEpoki/10f)));
                     ResortTabSpawnerPont();
                 }
                 else
                 {
-                    PomocniczeFunkcje.managerGryScript.czasMiędzyFalami = 120f;
-                    iloscFalNaKoncu = (byte)(4+poziomEpoki/3f);
+                    PomocniczeFunkcje.managerGryScript.czasMiędzyFalami = 90f;
+                    iloscFalNaKoncu = (byte)(5+poziomEpoki/3f);
                     maxIlośćNaFalę = (ushort)(Mathf.CeilToInt(poziomEpoki*0.5f) + 100);
                     ResortTabSpawnerPont();
                 }
@@ -117,19 +117,19 @@ public class SpawnerHord : MonoBehaviour
                     ostatniaIlośćWFali = maxIlośćNaFalę;
                 }
             }
-            if (ostatniaIlośćWFali < 11)
+            if (ostatniaIlośćWFali < 15)
                 iloscPunktówSpawnu = 1;
-            else if (ostatniaIlośćWFali < 21)
+            else if (ostatniaIlośćWFali < 25)
                 iloscPunktówSpawnu = 2;
-            else if (ostatniaIlośćWFali < 31)
+            else if (ostatniaIlośćWFali < 35)
                 iloscPunktówSpawnu = 3;
-            else if (ostatniaIlośćWFali < 41)
+            else if (ostatniaIlośćWFali < 45)
                 iloscPunktówSpawnu = 4;
-            else if (ostatniaIlośćWFali < 51)
+            else if (ostatniaIlośćWFali < 55)
                 iloscPunktówSpawnu = 5;
-            else if (ostatniaIlośćWFali < 61)
+            else if (ostatniaIlośćWFali < 65)
                 iloscPunktówSpawnu = 6;
-            else if (ostatniaIlośćWFali < 71)
+            else if (ostatniaIlośćWFali < 75)
                 iloscPunktówSpawnu = 7;
             else
                 iloscPunktówSpawnu = 8;

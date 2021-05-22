@@ -159,6 +159,10 @@ public abstract class NPCClass : MonoBehaviour
     {
         return 0.2f;
     }
+    public virtual float ZwróćKonkretnąGranicę(byte i)
+    {
+        return 0;
+    }
     protected virtual void UpdateMe()
     {
 

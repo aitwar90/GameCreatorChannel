@@ -507,8 +507,8 @@ MonoBehaviour:
   aktualnyReuseAtaku: 0
   typBudynku: 1
   "odbiteObra\u017Cenia": 1
-  granicaX: 0.5
-  granicaZ: 0.5
+  granicaX: 0.75
+  granicaZ: 0.75
   kosztBadania: 2500
   "typAtakuWie\u017Cy": 2
   blokowany: 0

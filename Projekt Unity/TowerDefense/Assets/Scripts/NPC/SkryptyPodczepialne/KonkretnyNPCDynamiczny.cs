@@ -137,7 +137,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             if (czyAtakJestAktywny && this.typNPC == TypNPC.WalczyNaDystans)
             {
-                if(!czySynchronizuje)
+                if (!czySynchronizuje)
                     Atakuj();
             }
             switch (głównyIndex)
@@ -151,7 +151,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                             _obiektAtaku.DeactivateObj();
                         }
                     }
-                    ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
+                    ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z, cel.ZwróćKonkretnąGranicę(0), cel.ZwróćKonkretnąGranicę(1));
                     głównyIndex++;
                     break;
 
@@ -164,7 +164,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 case 1:
                     if (cel != null && (!czekamNaZatwierdzenieŚcieżki || this.agent.velocity != Vector3.zero))
                     {
-                        ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
+                        ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z, cel.ZwróćKonkretnąGranicę(0), cel.ZwróćKonkretnąGranicę(1));
                     }
                     głównyIndex++;
                     break;
@@ -205,20 +205,20 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     }
                     głównyIndex++;
                     break;
-                    /*
-                case 3: //Sprawdź navMesh
-                        if(this.agent.velocity.magnitude < 0.25f && Vector3.Distance(this.agent.pathEndPosition, this.transform.position) > this.agent.stoppingDistance)
+                /*
+            case 3: //Sprawdź navMesh
+                    if(this.agent.velocity.magnitude < 0.25f && Vector3.Distance(this.agent.pathEndPosition, this.transform.position) > this.agent.stoppingDistance)
+                    {
+                        if(cel != null)
                         {
-                            if(cel != null)
-                            {
-                                this.agent.ResetPath();
-                                ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
-                            }
-                        } 
+                            this.agent.ResetPath();
+                            ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
+                        }
+                    } 
 
-                    głównyIndex++;
-                break;
-                */
+                głównyIndex++;
+            break;
+            */
                 case 4: //Dodanie do nowych wież
                     if (czyDodawac)
                     {
@@ -328,7 +328,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
             this.rysujPasekŻycia = false;
         }
         PomocniczeFunkcje.managerGryScript.wywołajResetŚcieżek -= ResetujŚciezkę;
-        if(ManagerGryScript.iloscAktywnychWrogów > 0)
+        if (ManagerGryScript.iloscAktywnychWrogów > 0)
             ManagerGryScript.iloscAktywnychWrogów--;
         PomocniczeFunkcje.managerGryScript.ZmodyfikujIlośćCoinów(this.ileCoinówZaZabicie);
         //ManagerGryScript.iloscCoinów += this.ileCoinówZaZabicie;
@@ -342,7 +342,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
             PomocniczeFunkcje.mainMenu.WłączWyłączPanel("ui_down", true);
             */
         }
-        if(this.agent != null && this.agent.isOnNavMesh)
+        if (this.agent != null && this.agent.isOnNavMesh)
             this.agent.isStopped = true;
         WyczyscDaneDynamic();
         UsuńMnieZTablicyWież(true);
@@ -373,13 +373,13 @@ public class KonkretnyNPCDynamiczny : NPCClass
                 StartCoroutine(SkasujObject(3.0f));
             }
         }
-        if(_obiektAtaku != null) _obiektAtaku.DeactivateObj();
+        if (_obiektAtaku != null) _obiektAtaku.DeactivateObj();
         StartCoroutine(WyłObjTimer());
     }
     ///<summary>Metoda generuje trasę dla wroga. Określa logikę postępowania i rozdziela zadania.</summary>
     ///<param name="x">Pozycja na osi X zadanego celu, do którego NPC ma dążyć.</param>
     ///<param name="z">Pozycja na osi Z zadanego celu, do którego NPC ma dążyć.</param>
-    private void ObsłużNavMeshAgent(float x, float z)
+    private void ObsłużNavMeshAgent(float x, float z, float offX = 0, float offZ = 0)
     {
         //https://www.binpress.com/unity-3d-ai-navmesh-navigation/
         //Logika nav mesha
@@ -387,7 +387,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             if (this.agent.velocity == Vector3.zero && !this.agent.isStopped)
             {
-                GenerujŚcieżke(x, z);
+                GenerujŚcieżke(x, z, offX, offZ);
                 return;
             }
         }
@@ -395,12 +395,12 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             if (głównyIndex == -1)
             {
-                GenerujŚcieżke(x, z);
+                GenerujŚcieżke(x, z, offX, offZ);
             }
             else if (!czekamNaZatwierdzenieŚcieżki)
             {
                 czekamNaZatwierdzenieŚcieżki = true;
-                StartCoroutine(WyliczŚciezkę(UnityEngine.Random.Range(0f, 0.5f), x, z));
+                StartCoroutine(WyliczŚciezkę(UnityEngine.Random.Range(0f, 0.5f), x, z, offX, offZ));
             }
         }
     }
@@ -414,19 +414,41 @@ public class KonkretnyNPCDynamiczny : NPCClass
     ///<param name="f">Czas w sec, po których ma zostać wygenerowana nowa ścieżka dla NPC.</param>
     ///<param name="x">Pozycja na osi X zadanego celu, do którego NPC ma dążyć.</param>
     ///<param name="z">Pozycja na osi Z zadanego celu, do którego NPC ma dążyć.</param>
-    private IEnumerator WyliczŚciezkę(float f, float x, float z)
+    private IEnumerator WyliczŚciezkę(float f, float x, float z, float offX = 0, float offZ = 0)
     {
         yield return new WaitForSeconds(f);
-        GenerujŚcieżke(x, z);
+        GenerujŚcieżke(x, z, offX, offZ);
     }
     ///<summary>Metoda generuje trasę dla wroga.</summary>
     ///<param name="x">Pozycja na osi X zadanego celu, do którego NPC ma dążyć.</param>
     ///<param name="z">Pozycja na osi Z zadanego celu, do którego NPC ma dążyć.</param>
-    private void GenerujŚcieżke(float x, float z)
+    private void GenerujŚcieżke(float x, float z, float offsetX = 0, float offsetZ = 0)
     {
         if (ścieżka == null)
             ścieżka = new NavMeshPath();
-        bool czyOdnalzazłemŚcieżkę = agent.CalculatePath(new Vector3(x, 0, z), ścieżka);
+        bool czyOdnalzazłemŚcieżkę = agent.CalculatePath(new Vector3(PomocniczeFunkcje.celWrogów.transform.position.x, 0f, PomocniczeFunkcje.celWrogów.transform.position.z), ścieżka);
+        if (!czyOdnalzazłemŚcieżkę || ścieżka.status != NavMeshPathStatus.PathComplete)
+        {
+            if (offsetX < offsetZ)
+            {   
+                if (x > this.transform.position.x) x -= offsetX;
+                else x += offsetX;
+                z = Random.Range(z - offsetX/2.0f, z + offsetX/2.0f);
+            }
+            else
+            {
+                if (z > this.transform.position.z) z -= offsetZ;
+                else z += offsetZ;
+                x = Random.Range(x - offsetZ, x + offsetZ);
+            }
+            //GameObject go = new GameObject(this.name);
+            //go.transform.position = new Vector3(x, 1, z);
+            czyOdnalzazłemŚcieżkę = agent.CalculatePath(new Vector3(x, 0, z), ścieżka);
+        }
+        else
+        {
+            cel = PomocniczeFunkcje.celWrogów;
+        }
         if (ścieżka.status == NavMeshPathStatus.PathComplete)
         {
             agent.SetPath(ścieżka);
@@ -447,7 +469,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         else
         {
             cel = WyszukajNajbliższyObiekt() as KonkretnyNPCStatyczny;
-            //ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z);
+            //ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z, offsetX, offsetZ);
         }
     }
     ///<summary>Resetuje ścieżkę agenta navMesh jednostki.</summary>
@@ -510,7 +532,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private void DodajNavMeshAgent()
     {
         agent = this.gameObject.AddComponent<NavMeshAgent>();
-        agent.stoppingDistance = (zasięgAtaku == 0) ? 1f : zasięgAtaku;
+        agent.stoppingDistance = (zasięgAtaku <= 1) ? 0.08f : zasięgAtaku;
         agent.speed = prędkość;
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.LowQualityObstacleAvoidance;
         agent.avoidancePriority = 99;
@@ -527,17 +549,17 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         if (aktualnyReuseAtaku < szybkośćAtaku)
         {
-            if(czyAtakJestAktywny)
+            if (czyAtakJestAktywny)
             {
-                aktualnyReuseAtaku += (this.typNPC == TypNPC.WalczyNaDystans) ? Time.deltaTime : Time.deltaTime*5.0f;
+                aktualnyReuseAtaku += (this.typNPC == TypNPC.WalczyNaDystans) ? Time.deltaTime : Time.deltaTime * 5.0f;
             }
             else
             {
-                if(aktualnyReuseAtaku == 0 && this.typNPC == TypNPC.WalczyNaDystans)
+                if (aktualnyReuseAtaku == 0 && this.typNPC == TypNPC.WalczyNaDystans)
                 {
                     this.anima.Play("Atak1_Ruch_Rzut", -1, 0f);
                 }
-                aktualnyReuseAtaku += Time.deltaTime*5.0f;
+                aktualnyReuseAtaku += Time.deltaTime * 5.0f;
             }
             float f = szybkośćAtaku - aktualnyReuseAtaku;
             if (f <= .25f)   //Jeśli strzela to się zaczyna
@@ -583,7 +605,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
                     }
                     else if (typNPC == TypNPC.WalczyNaDystans && SprawdźCzyWidocznaPozycja())
                     {
-                        
+
                         _obiektAtaku.SetActPos(f * 4.5f, (typNPC == TypNPC.WalczyNaDystans) ? true : false);
                         //_obiektAtaku.transform.position = Vector3.Lerp(cel.transform.position, posRęki.position, f);
                     }
@@ -628,6 +650,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         }
         else
         {
+            //Debug.Log("Wyszukany najbliższy obiekt to "+knpcs.gameObject.name);
             return (KonkretnyNPCStatyczny)knpcs;
         }
     }

@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: obrazekDoBudynku
       value: 
       objectReference: {fileID: 21300000, guid: f02c4057d1dadc643b1c279f2101923b, type: 3}
+    - target: {fileID: 1858827944, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
+      propertyPath: "odbiteObra\u017Cenia"
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3514205880011835021, guid: c2b6a5871752d79708d4ec3a7686bc86, type: 3}
       propertyPath: m_RootOrder
       value: 0

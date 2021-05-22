@@ -407,7 +407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nazwa: Wzmocniony ceglany mur III
-  "maksymalne\u017Bycie": 7500
+  "maksymalne\u017Bycie": 8500
   typNPC: 0
   epokaNPC: 1
   kosztJednostki: 1000
@@ -425,8 +425,8 @@ MonoBehaviour:
   aktualnyReuseAtaku: 0
   typBudynku: 0
   "odbiteObra\u017Cenia": 15
-  granicaX: 0.98
-  granicaZ: 0.03
+  granicaX: 0.9
+  granicaZ: 0.14
   kosztBadania: 15000
   "typAtakuWie\u017Cy": 0
   blokowany: 1
@@ -466,8 +466,8 @@ NavMeshObstacle:
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 2, y: 0.97, z: 0.15}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_MoveThreshold: 0.05
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.93, z: 0}
   m_TimeToStationary: 0.5

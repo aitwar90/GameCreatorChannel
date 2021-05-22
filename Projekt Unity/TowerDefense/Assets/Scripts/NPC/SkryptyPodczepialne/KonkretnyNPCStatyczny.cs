@@ -76,7 +76,13 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
         }
     }
     #endregion
-
+    public override float ZwróćKonkretnąGranicę(byte i)
+    {
+        if(i == 0)
+            return granicaX+0.46f;
+        else
+            return granicaZ+0.46f;
+    }
     ///<summary>Metoda ustawia niezbędne dane dla stawianego budynku.</summary>
     public void InicjacjaBudynku()
     {
@@ -115,6 +121,8 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             tabActAtakObj = new MagazynObiektówAtaków[1];
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.02f, this.transform.position.z);
         RysujHPBar();
+        this.gameObject.name = this.gameObject.name+PomocniczeFunkcje.tempNazwa;
+        PomocniczeFunkcje.tempNazwa++;
     }
     ///<summary>Metoda odtwarza dźwięk stawianego budynku.</summary>
     public void MetodaDoOdpaleniaPoWyczekaniu()

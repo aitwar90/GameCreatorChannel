@@ -28,6 +28,7 @@ public static class PomocniczeFunkcje
     private static short[] bufferpozycji = new short[2];        //Buffer pozycji wyliczanej dla jednostki przemieszczającej się po scenie gry
     public static sbyte czyKliknąłemUI = -1;
     public static byte kameraZostalaPrzesunieta = 2;            //0 - brak ruchu kamery, poprawiona isVisibility, 1 - brak ruchu kamery, niepoprawione isVisibility, 2 - ruch kamery
+    public static byte tempNazwa = 0;
     #endregion
     #region Obsługa położenia myszy względem ekranu
     /*
@@ -540,10 +541,12 @@ public static class PomocniczeFunkcje
                     if (aktualnieSprawdzanyNode.MxMz != null)
                     {
                         aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.MxMz;
+                        //Debug.Log("Przechodze lewy dolny");
                     }
                     else
                     {
                         aktualnieSprawdzanyNode.MxMz = new StrukturaDrzewa(_component);
+                        //Debug.Log("Dodaje do lewy dolny");
                         break;
                     }
                 }
@@ -551,10 +554,12 @@ public static class PomocniczeFunkcje
                 {
                     if (aktualnieSprawdzanyNode.PxMz != null)
                     {
+                        //Debug.Log("Przechodze prawy dolny");
                         aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.PxMz;
                     }
                     else
                     {
+                        //Debug.Log("Dodaje do prawy dolny");
                         aktualnieSprawdzanyNode.PxMz = new StrukturaDrzewa(_component);
                         break;
                     }
@@ -563,10 +568,12 @@ public static class PomocniczeFunkcje
                 {
                     if (aktualnieSprawdzanyNode.PxPz != null)
                     {
+                        //Debug.Log("Przechodze prawy górny");
                         aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.PxPz;
                     }
                     else
                     {
+                        //Debug.Log("Dodaje do prawy górny");
                         aktualnieSprawdzanyNode.PxPz = new StrukturaDrzewa(_component);
                         break;
                     }
@@ -575,10 +582,12 @@ public static class PomocniczeFunkcje
                 {
                     if (aktualnieSprawdzanyNode.MxPz != null)
                     {
+                        //Debug.Log("Przechodzę lewy górny");
                         aktualnieSprawdzanyNode = aktualnieSprawdzanyNode.MxPz;
                     }
                     else
                     {
+                        //Debug.Log("Dodaje do lewy górny");
                         aktualnieSprawdzanyNode.MxPz = new StrukturaDrzewa(_component);
                         break;
                     }
@@ -648,7 +657,7 @@ public static class PomocniczeFunkcje
             else
             {
                 float gObiektuAtakowanego = cObiekt.PobierzGranice();
-                float d = Vector3.Distance(pObiekt.transform.position, cObiekt.transform.position) - 0.25f - gObiektuAtakowanego;
+                float d = Vector3.Distance(pObiekt.transform.position, cObiekt.transform.position) - 0.8f - gObiektuAtakowanego;
                 if (d <= pObiekt.zasięgAtaku)
                 {
                     //Atakuj
