@@ -252,7 +252,7 @@ public class ManagerGryScript : MonoBehaviour, ICzekajAz
                 if (this.czyScenaZostałaZaładowana)
                 {
                     bool czyLFala = PomocniczeFunkcje.spawnerHord.CzyOstatniaFala();
-                    if (aktualnyPoziomEpoki == 255 && !poziomZakonczony && czyLFala && iloscAktywnychWrogów <= 0)
+                    if (aktualnyPoziomEpoki == 255 && !poziomZakonczony && czyLFala && (iloscAktywnychWrogów <= 0 || knpcsBazy.AktualneŻycie <= 1000))
                     {
                         if (ManagerSamouczekScript.mssInstance.CzyZgadzaSięIDXGłówny(16))
                         {

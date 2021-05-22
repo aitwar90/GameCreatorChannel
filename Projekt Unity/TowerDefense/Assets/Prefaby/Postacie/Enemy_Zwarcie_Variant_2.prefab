@@ -83,5 +83,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Postac2
       objectReference: {fileID: 0}
+    - target: {fileID: 5073467174398103726, guid: dd1612c3f583e4248a39f415778f1e92, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd1612c3f583e4248a39f415778f1e92, type: 3}
