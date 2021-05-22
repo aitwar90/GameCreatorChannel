@@ -421,7 +421,7 @@ public class SpawnBudynki : MonoBehaviour
     private Vector3 WyrównajSpawn(Vector3 sugerowanePolozenie)
     {
         //NOWE
-        
+        /*
         float t = sugerowanePolozenie.x - (byte)sugerowanePolozenie.x;
         if(t < .25f)
             sugerowanePolozenie.x = (byte)sugerowanePolozenie.x;
@@ -436,12 +436,12 @@ public class SpawnBudynki : MonoBehaviour
             sugerowanePolozenie.z = (byte)sugerowanePolozenie.z + 0.5f;
         else
             sugerowanePolozenie.z = (byte)sugerowanePolozenie.z + 1;
-        
+        */
         //STARE
-        /*
+        
         sugerowanePolozenie.x = Mathf.RoundToInt(sugerowanePolozenie.x);
         sugerowanePolozenie.z = Mathf.RoundToInt(sugerowanePolozenie.z);
-        */
+        
         return sugerowanePolozenie;
     }
     public void DestroyBuildings()

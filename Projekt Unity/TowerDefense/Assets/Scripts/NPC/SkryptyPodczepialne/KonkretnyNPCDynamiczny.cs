@@ -515,8 +515,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.LowQualityObstacleAvoidance;
         agent.avoidancePriority = 99;
         agent.autoTraverseOffMeshLink = false;
-        this.agent.radius = 0.15f;
-        this.agent.height = 0.3f;
+        this.agent.radius = 0.06f;
+        this.agent.height = 0.4f;
     }
     public override void Atakuj()
     {
