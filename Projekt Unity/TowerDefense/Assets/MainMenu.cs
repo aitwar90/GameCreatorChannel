@@ -868,6 +868,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 else if (lastPanelEnabledBuildings == 2)
                     EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
             }
+            else
+            {
+                this.ui_down.transform.Find("Fala").GetComponent<Button>().interactable = false;
+            }
             EnDisButtonsOfBuildingsInPanel(ref idxWież, true);
             lastPanelEnabledBuildings = 0;
             //ostatniZaznaczonyObiektBudowania = -1;
@@ -886,6 +890,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                     EnDisButtonsOfBuildingsInPanel(ref idxWież, false);
                 else if (lastPanelEnabledBuildings == 2)
                     EnDisButtonsOfBuildingsInPanel(ref idxInne, false);
+            }
+            else
+            {
+                this.ui_down.transform.Find("Fala").GetComponent<Button>().interactable = false;
             }
             EnDisButtonsOfBuildingsInPanel(ref idxMurów, true);
             lastPanelEnabledBuildings = 1;
@@ -908,6 +916,10 @@ public class MainMenu : MonoBehaviour, ICzekajAz
                 else if (lastPanelEnabledBuildings == 0)
                     EnDisButtonsOfBuildingsInPanel(ref idxWież, false);
             }
+            else
+            {
+                this.ui_down.transform.Find("Fala").GetComponent<Button>().interactable = false;
+            }
             EnDisButtonsOfBuildingsInPanel(ref idxInne, true);
             lastPanelEnabledBuildings = 2;
             //ostatniZaznaczonyObiektBudowania = -1;
@@ -924,6 +936,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
             WłączWyłączPanel("UI_BudynkiPanel", false);
             WłączWyłączPanel("UI_LicznikCzasu", true);
             WyczyśćDaneInformatora();
+            this.ui_down.transform.Find("Fala").GetComponent<Button>().interactable = true;
             PomocniczeFunkcje.UstawTimeScale(1);
             lastPanelEnabledBuildings = -1;
             //ostatniZaznaczonyObiektBudowania = -1;
@@ -947,7 +960,7 @@ public class MainMenu : MonoBehaviour, ICzekajAz
         for (ushort i = 0; i < tabOfBuildToChange.Length; i++)
         {
             tab[tabOfBuildToChange[i]].przycisk.gameObject.SetActive(willEnable);
-            if (idsLast == tab[tabOfBuildToChange[i]].indexBudynku)
+            if (willEnable && idsLast == tab[tabOfBuildToChange[i]].indexBudynku)
             {
                 tab[tabOfBuildToChange[i]].Aktywuj();
             }

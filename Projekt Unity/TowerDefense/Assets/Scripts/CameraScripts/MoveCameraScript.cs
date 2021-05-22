@@ -246,7 +246,7 @@ public class MoveCameraScript : MonoBehaviour
             if (dotyk.phase == TouchPhase.Moved) //Jeśli wykrywa przesunięcie palcem po ekranie
             {
                 Vector2 dPos = dotyk.deltaPosition * this.prędkoscPrzesunięciaKamery;
-                Vector3 tmp = new Vector3(this.transform.position.x - dPos.x, this.transform.position.y, (odwrócPrzesuwanie) ? this.transform.position.z - dPos.y : this.transform.position.z + dPos.y);
+                Vector3 tmp = new Vector3((odwrócPrzesuwanie) ? this.transform.position.x - dPos.x : this.transform.position.x + dPos.x, this.transform.position.y, (odwrócPrzesuwanie) ? this.transform.position.z - dPos.y : this.transform.position.z + dPos.y);
                 if (SprawdźCzyMogęPrzesunąćKamerę(tmp))
                 {
                     tmp.y = (ostatniaPozycjaKamery.y > 2.0) ? ostatniaPozycjaKamery.y : bazowePolozenieKameryGry.y;
