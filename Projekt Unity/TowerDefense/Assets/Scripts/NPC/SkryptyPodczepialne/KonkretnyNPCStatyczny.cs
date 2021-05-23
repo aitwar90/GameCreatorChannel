@@ -508,7 +508,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             bool czyOdbl = false;
             if (this.AktualneŻycie < this.maksymalneŻycie && ManagerGryScript.iloscCoinów >= this.kosztNaprawy)
                 czyOdbl = true;
-            string s = "STATYCZNY;" + czyOdbl.ToString() + ";" + this.nazwa + ";" + this.AktualneŻycie.ToString() + "/" + this.maksymalneŻycie.ToString() + ";" + kosztNaprawy.ToString() + ";" + zadawaneObrażenia.ToString() + ";" + opisBudynku + ";" + "0";
+            string s = "STATYCZNY;" + czyOdbl.ToString() + ";" + this.nazwa + ";" + this.AktualneŻycie.ToString() + ";" + kosztNaprawy.ToString() + ";" + zadawaneObrażenia.ToString() + ";" + opisBudynku + ";" + "0";
             PomocniczeFunkcje.mainMenu.UstawPanelUI(s, pos, this);
             if (this.typBudynku == TypBudynku.Akademia)
             {
