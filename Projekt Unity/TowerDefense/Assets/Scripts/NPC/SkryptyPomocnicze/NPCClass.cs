@@ -147,6 +147,10 @@ public abstract class NPCClass : MonoBehaviour
             RysujHPBar();
         }
     }
+    public virtual void UstawWieżeCelMożliwy(KonkretnyNPCStatyczny knpcs)
+    {
+
+    }
     ///<summary>Wywołanie metody obsługuje atak jednostki.</summary>
     public abstract void Atakuj();
     ///<summary>Odbija obrażenia w atakującego.</summary>

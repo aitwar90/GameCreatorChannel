@@ -242,6 +242,10 @@ public class SpawnBudynki : MonoBehaviour
     }
     public void ZatwierdźBudynekAndroid()
     {
+        if (TypBudynku.Mur == knpcs.typBudynku)
+        {
+            posClick = WyrównajSpawn(posClick);
+        }
         HelperZatwierdzenieBudynku();
     }
     private void PrzesuwanieAktualnegoObiektu()

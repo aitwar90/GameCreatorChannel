@@ -425,7 +425,7 @@ MonoBehaviour:
   aktualnyReuseAtaku: 0
   typBudynku: 0
   "odbiteObra\u017Cenia": 15
-  granicaX: 0.9
+  granicaX: 0.95
   granicaZ: 0.14
   kosztBadania: 15000
   "typAtakuWie\u017Cy": 0

@@ -39,6 +39,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
     private bool czekamNaZatwierdzenieŚcieżki = false;
     private bool czyAtakJestAktywny = false;
     private bool czySynchronizuje = false;
+    public KonkretnyNPCStatyczny wieżaZadającaObrażenia = null;
     #endregion
 
     #region Zmienne chronione
@@ -157,7 +158,9 @@ public class KonkretnyNPCDynamiczny : NPCClass
 
                 case 0:
                     if (!czySynchronizuje && (!czyAtakJestAktywny || this.typNPC != TypNPC.WalczyNaDystans))
-                        PomocniczeFunkcje.ZwykłeAI(this);
+                    {
+                        bool f = PomocniczeFunkcje.ZwykłeAI(this);
+                    }
                     głównyIndex++;
                     break;
 
@@ -426,7 +429,8 @@ public class KonkretnyNPCDynamiczny : NPCClass
     {
         if (ścieżka == null)
             ścieżka = new NavMeshPath();
-        bool czyOdnalzazłemŚcieżkę = agent.CalculatePath(new Vector3(PomocniczeFunkcje.celWrogów.transform.position.x, 0f, PomocniczeFunkcje.celWrogów.transform.position.z), ścieżka);
+        bool c = (wieżaZadającaObrażenia != null && UnityEngine.Random.Range(0, 10) < 5) ? true : false; 
+        bool czyOdnalzazłemŚcieżkę = agent.CalculatePath((!c) ? new Vector3(PomocniczeFunkcje.celWrogów.transform.position.x, 0f, PomocniczeFunkcje.celWrogów.transform.position.z) : new Vector3(wieżaZadającaObrażenia.transform.position.x, 0, wieżaZadającaObrażenia.transform.position.z), ścieżka);
         if (!czyOdnalzazłemŚcieżkę || ścieżka.status != NavMeshPathStatus.PathComplete)
         {
             if (offsetX < offsetZ)
@@ -447,7 +451,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         }
         else
         {
-            cel = PomocniczeFunkcje.celWrogów;
+            cel = (wieżaZadającaObrażenia == null) ? PomocniczeFunkcje.celWrogów : wieżaZadającaObrażenia;
         }
         if (ścieżka.status == NavMeshPathStatus.PathComplete)
         {
@@ -674,6 +678,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
         {
             for (byte i = 0; i < PomocniczeFunkcje.tablicaWież[x, z].Count; i++)
             {
+                if(wieżaZadającaObrażenia == null) wieżaZadającaObrażenia = PomocniczeFunkcje.tablicaWież[x, z][i].wieża;
                 PomocniczeFunkcje.tablicaWież[x, z][i].wieża.DodajDoWrogów(this);
             }
         }
@@ -765,6 +770,11 @@ public class KonkretnyNPCDynamiczny : NPCClass
     public void SetGłównyIndexDiffValue()
     {
         głównyIndex = (sbyte)Random.Range(-5, -1);
+    }
+    public override void UstawWieżeCelMożliwy(KonkretnyNPCStatyczny knpcs)
+    {
+        if(wieżaZadającaObrażenia == null)
+            wieżaZadającaObrażenia = knpcs;
     }
     ///<summary>Ustawia wartości dla NPC po ponownym odpaleniu.</summary>
     public void UstawWartościPoPoolowaniu()

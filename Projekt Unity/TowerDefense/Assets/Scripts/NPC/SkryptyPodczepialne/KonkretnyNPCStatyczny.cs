@@ -121,6 +121,8 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             tabActAtakObj = new MagazynObiektówAtaków[1];
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.02f, this.transform.position.z);
         RysujHPBar();
+        this.name = this.name+PomocniczeFunkcje.tempName.ToString();
+        PomocniczeFunkcje.tempName++;
     }
     ///<summary>Metoda odtwarza dźwięk stawianego budynku.</summary>
     public void MetodaDoOdpaleniaPoWyczekaniu()
@@ -419,6 +421,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             {
                 case TypAtakuWieży.jedenTarget: //Jeden Target
                     cel.ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń + ManagerGryScript.boostDoAtaku)));
+                    cel.UstawWieżeCelMożliwy(this);
                     if (cel.NieŻyję)
                     {
                         //Debug.Log("No to jedziemy");
@@ -434,6 +437,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                     {
                         NPCClass klasa = tabZasięgu[i].GetComponent<NPCClass>();
                         klasa.ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń + ManagerGryScript.boostDoAtaku)));
+                        klasa.UstawWieżeCelMożliwy(this);
                     }
                     if (cel.NieŻyję)
                     {
@@ -449,6 +453,7 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
                         for (byte i = 0; i < wrogowieWZasiegu.Length; i++)
                         {
                             wrogowieWZasiegu[i].ZmianaHP((short)(Mathf.CeilToInt(zadawaneObrażenia * modyfikatorZadawanychObrażeń + ManagerGryScript.boostDoAtaku)));
+                            wrogowieWZasiegu[i].UstawWieżeCelMożliwy(this);
                         }
                         /*
                         if (cel.NieŻyję)

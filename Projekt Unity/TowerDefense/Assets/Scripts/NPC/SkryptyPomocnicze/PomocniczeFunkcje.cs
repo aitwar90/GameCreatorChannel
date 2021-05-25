@@ -28,6 +28,7 @@ public static class PomocniczeFunkcje
     private static short[] bufferpozycji = new short[2];        //Buffer pozycji wyliczanej dla jednostki przemieszczającej się po scenie gry
     public static sbyte czyKliknąłemUI = -1;
     public static byte kameraZostalaPrzesunieta = 2;            //0 - brak ruchu kamery, poprawiona isVisibility, 1 - brak ruchu kamery, niepoprawione isVisibility, 2 - ruch kamery
+    public static byte tempName = 0;
     #endregion
     #region Obsługa położenia myszy względem ekranu
     /*
@@ -248,9 +249,21 @@ public static class PomocniczeFunkcje
 #endif
             return null;
         }
-        StrukturaDrzewa aktualnieSprawdzanyNode = korzeń;
-        float minDistance = 1000f;
-        Component compDoZwrotu = korzeń.komponentGałęzi;
+        //StrukturaDrzewa aktualnieSprawdzanyNode = korzeń;
+        //float minDistance = 1000f;
+        //Component compDoZwrotu = korzeń.komponentGałęzi;
+        sbyte t = -1;
+        if (pozycjaWyszukiwującego.x < korzeńDrzewaPozycji.pozycjaGałęzi.x && pozycjaWyszukiwującego.z < korzeńDrzewaPozycji.pozycjaGałęzi.z)
+            t = 0;
+        else if (pozycjaWyszukiwującego.x < korzeńDrzewaPozycji.pozycjaGałęzi.x && pozycjaWyszukiwującego.z >= korzeńDrzewaPozycji.pozycjaGałęzi.z)
+            t = 1;
+        else if (pozycjaWyszukiwującego.x >= korzeńDrzewaPozycji.pozycjaGałęzi.x && pozycjaWyszukiwującego.z < korzeńDrzewaPozycji.pozycjaGałęzi.z)
+            t = 2;
+        else if (pozycjaWyszukiwującego.x >= korzeńDrzewaPozycji.pozycjaGałęzi.x && pozycjaWyszukiwującego.z >= korzeńDrzewaPozycji.pozycjaGałęzi.z)
+            t = 3;
+        /*StrukturaDrzewa sd =*/ return PrzeszukajWszystkieBudynki(t, pozycjaWyszukiwującego.x, pozycjaWyszukiwującego.z).komponentGałęzi;
+        /*
+        //Nowe wyszukiwanie
         while (true)
         {
             float deltaX = aktualnieSprawdzanyNode.pozycjaGałęzi.x - pozycjaWyszukiwującego.x;
@@ -312,7 +325,98 @@ public static class PomocniczeFunkcje
                 }
             }
         }
-        return compDoZwrotu;
+        */
+        //return compDoZwrotu;
+    }
+    public static StrukturaDrzewa PrzeszukajWszystkieBudynki(sbyte ćwiartka, float celPosX, float celPosZ)
+    {
+        StrukturaDrzewa aktSprawdzany = PomocniczeFunkcje.korzeńDrzewaPozycji;
+            StrukturaDrzewa sd = korzeńDrzewaPozycji;
+            float tempF = 1000f;
+            PomocnikPrzeszukiwaniaDrzewa(ref sd, null, ref tempF, celPosX, celPosZ, ćwiartka);
+        return sd;
+    }
+    private static void PomocnikPrzeszukiwaniaDrzewa(ref StrukturaDrzewa aktNajbliższy, StrukturaDrzewa aktSprawdzany, ref float dystansDoNajbliższego, float celX, float celZ, sbyte anulowanyKierunek = -1)
+    {
+        if (aktSprawdzany == null)
+        {
+            aktSprawdzany = aktNajbliższy;
+            dystansDoNajbliższego = Vector3.Distance(aktNajbliższy.pozycjaGałęzi, new Vector3(celX, 0, celZ));
+        }
+        else
+        {
+            float tenDystans = Vector3.Distance(aktSprawdzany.pozycjaGałęzi, new Vector3(celX, 0, celZ));
+            //Debug.Log("Dystans między postacią a mną aktSprawdzany "+aktSprawdzany.komponentGałęzi.gameObject.name+" = "+tenDystans+" || gdzie porównuje maxDist "+dystansDoNajbliższego);
+            if (tenDystans < dystansDoNajbliższego)
+            {
+                aktNajbliższy = aktSprawdzany;
+                dystansDoNajbliższego = tenDystans;
+            }
+        }
+        if (anulowanyKierunek == 0)  //Anulowany kierunek PxPz
+        {
+            if (aktSprawdzany.MxMz != null)
+            {
+                PomocnikPrzeszukiwaniaDrzewa(ref aktNajbliższy, aktSprawdzany.MxMz, ref dystansDoNajbliższego, celX, celZ, anulowanyKierunek);
+            }
+            if (aktSprawdzany.MxPz != null)
+            {
+                PomocnikPrzeszukiwaniaDrzewa(ref aktNajbliższy, aktSprawdzany.MxPz, ref dystansDoNajbliższego, celX, celZ, anulowanyKierunek);
+            }
+            if (aktSprawdzany.PxMz != null)
+            {
+                PomocnikPrzeszukiwaniaDrzewa(ref aktNajbliższy, aktSprawdzany.PxMz, ref dystansDoNajbliższego, celX, celZ, anulowanyKierunek);
+            }
+
+        }
+        else if (anulowanyKierunek == 1)  //Anulowany kierunek PxMz
+        {
+            if (aktSprawdzany.MxPz != null)
+            {
+                PomocnikPrzeszukiwaniaDrzewa(ref aktNajbliższy, aktSprawdzany.MxPz, ref dystansDoNajbliższego, celX, celZ, anulowanyKierunek);
+            }
+            if (aktSprawdzany.MxMz != null)
+            {
+                PomocnikPrzeszukiwaniaDrzewa(ref aktNajbliższy, aktSprawdzany.MxMz, ref dystansDoNajbliższego, celX, celZ, anulowanyKierunek);
+            }
+            if (aktSprawdzany.PxPz != null)
+            {
+                PomocnikPrzeszukiwaniaDrzewa(ref aktNajbliższy, aktSprawdzany.PxPz, ref dystansDoNajbliższego, celX, celZ, anulowanyKierunek);
+            }
+
+        }
+        else if (anulowanyKierunek == 2)  //Anulowany kierunek MxPz
+        {
+            if (aktSprawdzany.PxMz != null)
+            {
+                PomocnikPrzeszukiwaniaDrzewa(ref aktNajbliższy, aktSprawdzany.PxMz, ref dystansDoNajbliższego, celX, celZ, anulowanyKierunek);
+            }
+            if (aktSprawdzany.MxMz != null)
+            {
+                PomocnikPrzeszukiwaniaDrzewa(ref aktNajbliższy, aktSprawdzany.MxMz, ref dystansDoNajbliższego, celX, celZ, anulowanyKierunek);
+            }
+            if (aktSprawdzany.PxPz != null)
+            {
+                PomocnikPrzeszukiwaniaDrzewa(ref aktNajbliższy, aktSprawdzany.PxPz, ref dystansDoNajbliższego, celX, celZ, anulowanyKierunek);
+            }
+
+        }
+        else if (anulowanyKierunek == 3)  //Anulowany kierunek MxMz
+        {
+            if (aktSprawdzany.PxPz != null)
+            {
+                PomocnikPrzeszukiwaniaDrzewa(ref aktNajbliższy, aktSprawdzany.PxPz, ref dystansDoNajbliższego, celX, celZ, anulowanyKierunek);
+            }
+            if (aktSprawdzany.MxPz != null)
+            {
+                PomocnikPrzeszukiwaniaDrzewa(ref aktNajbliższy, aktSprawdzany.MxPz, ref dystansDoNajbliższego, celX, celZ, anulowanyKierunek);
+            }
+            if (aktSprawdzany.PxMz != null)
+            {
+                PomocnikPrzeszukiwaniaDrzewa(ref aktNajbliższy, aktSprawdzany.PxMz, ref dystansDoNajbliższego, celX, celZ, anulowanyKierunek);
+            }
+
+        }
     }
     /*
     Metoda kasuje element drzewa wysłany jako parametr (wywołuje się podczas kiedy budynek gracza jest niszczony)

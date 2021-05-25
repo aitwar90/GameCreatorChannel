@@ -320,6 +320,7 @@ public class MagazynWZasięguWieży
         if (ReferenceEquals(npc.GetType(), typeof(KonkretnyNPCDynamiczny)))
         {
             KonkretnyNPCDynamiczny nKnpcd = (KonkretnyNPCDynamiczny)npc;
+            nKnpcd.wieżaZadającaObrażenia = null;
             if (this.nPCDynamiczny == nKnpcd)
             {
                 if (this.parent == null) //To jest root

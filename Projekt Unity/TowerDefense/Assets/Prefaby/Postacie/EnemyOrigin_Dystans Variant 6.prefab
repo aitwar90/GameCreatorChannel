@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyOrigin_Dystans Variant 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1607423460581608338, guid: 413ecb2ef19c41a448dfd791ffaff219, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2091191617949585704, guid: 413ecb2ef19c41a448dfd791ffaff219, type: 3}
       propertyPath: m_RootOrder
       value: 0
