@@ -245,15 +245,18 @@ public class SpawnBudynki : MonoBehaviour
         if (TypBudynku.Mur == knpcs.typBudynku)
         {
             posClick = WyrównajSpawn(posClick);
+            aktualnyObiekt.transform.position = posClick;
         }
         HelperZatwierdzenieBudynku();
     }
     private void PrzesuwanieAktualnegoObiektu()
     {
+        /*
         if (TypBudynku.Mur == knpcs.typBudynku)
         {
             posClick = WyrównajSpawn(posClick);
         }
+        */
         PomocniczeFunkcje.mainMenu.UstawPosPanelBudowyBudynków(posCursor);
     }
     private void HelperZatwierdzenieBudynku()
@@ -427,20 +430,20 @@ public class SpawnBudynki : MonoBehaviour
         //NOWE
         float t = sugerowanePolozenie.x - (byte)sugerowanePolozenie.x;
         //Debug.Log("t = "+t);
-        if(t < .25f)
+        if (t < .25f)
             sugerowanePolozenie.x = (byte)sugerowanePolozenie.x;
-        else if(t < .75f)
+        else if (t < .75f)
             sugerowanePolozenie.x = (byte)sugerowanePolozenie.x + 0.5f;
         else
             sugerowanePolozenie.x = (byte)sugerowanePolozenie.x + 1;
         t = sugerowanePolozenie.z - (byte)sugerowanePolozenie.z;
-        if(t < .25f)
+        if (t < .25f)
             sugerowanePolozenie.z = (byte)sugerowanePolozenie.z;
-        else if(t < .75f)
+        else if (t < .75f)
             sugerowanePolozenie.z = (byte)sugerowanePolozenie.z + 0.5f;
         else
             sugerowanePolozenie.z = (byte)sugerowanePolozenie.z + 1;
-        
+
         //Debug.Log("Sugerowane położenie = "+sugerowanePolozenie);
         //STARE
         /*

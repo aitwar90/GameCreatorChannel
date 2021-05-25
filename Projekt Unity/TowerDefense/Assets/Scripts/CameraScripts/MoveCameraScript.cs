@@ -48,6 +48,7 @@ public class MoveCameraScript : MonoBehaviour
         if (mscInstance == null)
         {
             mscInstance = this;
+            //this.GetComponent<Camera>().depthTextureMode = DepthTextureMode.None;
             if (volume == null)
                 volume = GameObject.Find("Volume");
 #if UNITY_ANDROID || UNITY_IOS
