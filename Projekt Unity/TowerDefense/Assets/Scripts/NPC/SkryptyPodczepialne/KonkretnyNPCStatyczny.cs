@@ -121,8 +121,6 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             tabActAtakObj = new MagazynObiektówAtaków[1];
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.02f, this.transform.position.z);
         RysujHPBar();
-        this.name = this.name+PomocniczeFunkcje.tempName.ToString();
-        PomocniczeFunkcje.tempName++;
     }
     ///<summary>Metoda odtwarza dźwięk stawianego budynku.</summary>
     public void MetodaDoOdpaleniaPoWyczekaniu()
