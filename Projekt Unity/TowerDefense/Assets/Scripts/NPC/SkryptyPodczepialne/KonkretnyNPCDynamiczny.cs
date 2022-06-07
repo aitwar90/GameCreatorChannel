@@ -456,7 +456,6 @@ public class KonkretnyNPCDynamiczny : NPCClass
         if (ścieżka.status == NavMeshPathStatus.PathComplete)
         {
             agent.SetPath(ścieżka);
-            czekamNaZatwierdzenieŚcieżki = false;
             /*
             GameObject goo = new GameObject("waypoints");
             for(ushort i = 0; i < ścieżka.corners.Length; i++)
@@ -475,6 +474,7 @@ public class KonkretnyNPCDynamiczny : NPCClass
             cel = WyszukajNajbliższyObiekt() as KonkretnyNPCStatyczny;
             //ObsłużNavMeshAgent(cel.transform.position.x, cel.transform.position.z, offsetX, offsetZ);
         }
+        czekamNaZatwierdzenieŚcieżki = false;
     }
     ///<summary>Resetuje ścieżkę agenta navMesh jednostki.</summary>
     public void ResetujŚcieżki()

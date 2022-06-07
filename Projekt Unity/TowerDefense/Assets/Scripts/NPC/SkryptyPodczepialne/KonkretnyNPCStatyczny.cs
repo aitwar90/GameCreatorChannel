@@ -190,7 +190,11 @@ public class KonkretnyNPCStatyczny : NPCClass, ICzekajAz
             switch (idxAct)
             {
                 case 0:
-                    if (cel == null && rootEnemy != null)
+                    if(cel != null && rootEnemy == null)
+                    {
+                        cel = null;
+                    }
+                    else if (cel == null && rootEnemy != null)
                     {
                         ZnajdźNowyCel();
                     }

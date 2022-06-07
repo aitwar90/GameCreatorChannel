@@ -315,7 +315,7 @@ public class MoveCameraScript : MonoBehaviour
     public void UstawPostProcessing(bool c, bool czyPrzezOpcje = false)
     {
         volume.SetActive(c);
-        this.GetComponent<UnityEngine.Rendering.PostProcessing.PostProcessLayer>().enabled = c;
+        //this.GetComponent<UnityEngine.Rendering.PostProcessing.PostProcessLayer>().enabled = c;
         if (!czyPrzezOpcje)
             PomocniczeFunkcje.mainMenu.CzyPostProcesing = c;
     }

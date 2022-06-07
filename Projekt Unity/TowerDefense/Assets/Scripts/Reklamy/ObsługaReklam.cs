@@ -8,12 +8,14 @@ using System;
 public class ObsługaReklam : MonoBehaviour
 {
     // Start is called before the first frame update
-    const string reklamID = "ca-app-pub-5582240292289857/9156662842";
+    const string reklamID = "ca-app-pub-5582240292289857/7475585942";
     //const string AppID = "ca-app-pub-5582240292289857~8418296246";
-    //const string testReklamaID = "ca-app-pub-3940256099942544/1033173712";
+    //const string reklamID = "ca-app-pub-3940256099942544/8691691433";   //test
+    const string reklamaOpen = "ca-app-pub-5582240292289857/9607290843";
     //const string testAppId = "ca-app-pub-1104726610780368~6976308057";
     //const string hasło = "soidusainakra";
     private InterstitialAd inter;
+    private GoogleMobileAds.Api.
     private byte status = 0;
     private ushort iloscCoinówRew = 100;
     private bool zRek = false;
